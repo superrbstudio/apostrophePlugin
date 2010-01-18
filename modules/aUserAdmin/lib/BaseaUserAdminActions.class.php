@@ -15,6 +15,6 @@
  * @author     Alex Gilbert <alex@punkave.com>
  * @version    SVN: $Id: BaseaUserAdminActions.class.php 7634 2008-02-27 18:01:40Z fabien $
  */
-class BaseaUserAdminActions extends autopkUserAdminActions
+class BaseaUserAdminActions extends autoaUserAdminActions
 {
 }

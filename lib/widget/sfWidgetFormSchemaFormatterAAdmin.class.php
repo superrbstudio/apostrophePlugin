@@ -1,6 +1,6 @@
 <?php
 
-class sfWidgetFormSchemaFormatterPkAdmin extends sfWidgetFormSchemaFormatter 
+class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter 
 {
   protected
     $rowFormat = "<div class=\"a-form-row\">\n  %label%\n  <div class=\"a-form-field\">%field%</div> <div class='a-form-error'>%error%</div>\n %help%%hidden_fields%\n</div>\n",
