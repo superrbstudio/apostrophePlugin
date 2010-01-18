@@ -1,0 +1,143 @@
+<?php
+
+class aRouting
+{
+  static public function listenToRoutingLoadConfigurationEvent(sfEvent $event)
+  {
+    $r = $event->getSubject();
+    if (sfConfig::get('app_a_routes_register', true) && in_array('a', sfConfig::get('sf_enabled_modules')))
+    {
+      // 0.13: By default we'll use /cms for pages to avoid compatibility problems with
+      // the default routing of other modules. But see the routing.yml of the cmstest
+      // project for a better way to do this so your CMS pages (the point of your site!)
+      // don't have to be locked down in a subfolder
+      // 0.14: rename this rule a_page and require its use
+      $r->prependRoute('a_page', 
+        new sfRoute('/cms/:slug', 
+          array('module' => 'a', 'action' => 'show'),
+          array('slug' => '.*')));
+    }
+  }
+  // TODO:
+
+   // We must extend the cache to better suit our purposes. The cache should
+   // look like this:
+
+   // $key => array('url' => $url, 'engine' => $engine)
+
+   // If $engine is null the URL is already complete. If it isn't, 
+   // we prepend the matching page at this point.
+
+   // The route classes must stop prepending on their own. 
+
+   // On a cache miss, we actually have a route object. So we can check for the
+   // interface to determine how to deal with their direct output, calling
+   // the same method that is used above to prepend the engine page.
+
+   // Cache collisions seem like a problem here but they're not because
+   // the generate_ cache and the parse_ cache are decoupled. So don't have
+   // to worry about the fact that several engine routes and a normal route 
+   // all return /.
+
+   /**
+    * @see sfPatternRouting. I copied this rather than subclassing it because
+    * otherwise I can't do anything based on the params just before
+    * fixGeneratedUrl is called. I could undo fixGeneratedUrl and then
+    * redo it, but that's a bug waiting to happen, and I do that sort of
+    * rewriting too much already. TBB
+    */
+   public function generate($name, $params = array(), $absolute = false)
+   {
+     // fetch from cache
+     if (!is_null($this->cache))
+     {
+       $cacheKey = 'generate_'.$name.'_'.md5(serialize(array_merge($this->defaultParameters, $params))).'_'.md5(serialize($this->options['context']));
+       if ($this->options['lookup_cache_dedicated_keys'] && $url = $this->cache->get('symfony.routing.data.'.$cacheKey))
+       {
+         return $this->fixGeneratedEngineUrl($url, $absolute, $params);
+       }
+       elseif (isset($this->cacheData[$cacheKey]))
+       {
+         return $this->fixGeneratedUrl($this->cacheData[$cacheKey], $absolute);
+       }
+     }
+
+     if ($name)
+     {
+       // named route
+       if (!isset($this->routes[$name]))
+       {
+         throw new sfConfigurationException(sprintf('The route "%s" does not exist.', $name));
+       }
+
+       $route = $this->routes[$name];
+
+       if (is_string($route))
+       {
+         $route = $this->loadRoute($name);
+       }
+       $route->setDefaultParameters($this->defaultParameters);
+     }
+     else
+     {
+       // find a matching route
+       if (false === $route = $this->getRouteThatMatchesParameters($params, $this->options['context']))
+       {
+         throw new sfConfigurationException(sprintf('Unable to find a matching route to generate url for params "%s".', is_object($params) ? 'Object('.get_class($params).')' : str_replace("\n", '', var_export($params, true))));
+       }
+     }
+
+     $url = $route->generate($params, $this->options['context'], $absolute);
+
+     // store in cache
+     if (!is_null($this->cache))
+     {
+       if ($this->options['lookup_cache_dedicated_keys'])
+       {
+         $this->cache->set('symfony.routing.data.'.$cacheKey, $url);
+       }
+       else
+       {
+         $this->cacheChanged = true;
+         $this->cacheData[$cacheKey] = $url;
+       }
+     }
+
+     return $this->fixGeneratedUrl($url, $absolute);
+   }
+
+   /**
+    * @see sfPatternRouting
+    */
+   public function generate($name, $params = array(), $absolute = false)
+   {
+     // Fetch the standard result, potentially from the cache (which is why we
+     // can't do this in the route class - the route never gets instantiated
+     // if we hit the cache). 
+     $result = parent::generate($name, $params, $absolute);
+
+     // For ordinary sfRoutes, we're done. For aRoute or
+     // aDoctrineRoute, though, we need to insert the 
+     // page URL at this point
+
+     if (isset($params['class']))
+     {
+       // Written to avoid dependency on a specific list of class names so that 
+       // you can have your own sfRoute subclasses. Implementing the 
+       // aRouteClass interface is just an assertion that your routing class
+       // needs engine pages prepended to its output
+
+       if (in_array('aRouteClass', class_implements($params['class'])))
+       {
+         return $this->fixEngineUrl($result);
+       }
+     }
+     return $result;
+   }
+
+   public function fixEngineUrl($url)
+   {
+
+   }
+  
+}

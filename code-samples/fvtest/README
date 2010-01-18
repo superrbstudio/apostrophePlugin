@@ -1,0 +1,20 @@
+This is just a quick demo of a slot type that uses a Symfony 1.2 form with 
+validation. If you bring this into your actual project you'll need to copy 
+Fvtest.class.php from lib/forms to lib/forms of your application, adjust
+your schema as described below, and copy fvtest to your application's
+modules folder.
+
+(Note that you can also deploy slot types as Symfony plugins.)
+
+Symfony doesn't actually search lib/forms inside a module folder like 
+this one. But I don't expect you to activate this module as-is
+anyway (it works, but has no practical purpose). It's just a code sample.
+
+The schema.yml settings required are:
+
+fvtestSlot:
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'fvtest'

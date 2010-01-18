@@ -1,0 +1,1568 @@
+## READ THIS FIRST ##
+
+Did you download this plugin from the Symfony plugins site? Depending on your needs, you're probably doing it the hard way. Please read the "Installation" section!
+
+## Before You Begin ##
+
+This is a beta release of a. Although the
+CMS already works quite well and we have released production sites
+based on it, certain aspects are still maturing. 
+
+We strongly recommend that you follow the instructions in this
+document which permit you to check out or copy a complete project from svn 
+rather than wrestling with the pear package dependencies yourself. You can check
+out our cmstest project directly as a sandbox, or copy it with our
+svnforeigncopy script to start your own version-controlled project.
+*This is how we start new sites of our own*, so you will get maximum
+support following this approach.
+
+## Overview ##
+
+apostrophePlugin is the core of a suite of plugins that make up the [Apostrophe Content Management System](http://www.apostrophenow.com/). The philosophy of Apostrophe is that editing should be done "in context" whenever possible.
+
+apostrophePlugin is heavily inspired by and borrows a little code and numerous ideas from sfSimpleCMSPlugin. The changes here are dramatic enough that a separate plugin makes more sense, but we felt it important to acknowledge this up front. sfSimpleCMSPlugin allowed users to double-click text frames and edit them in place. We have expanded this idea to allow for a number of content slots to be edited without leaving the page.
+
+Standard features of apostrophePlugin include version control for all content slots, locking pages for authenticated users only, and in-context addition/deletion/reordering/retitling of pages. When a user is logged in with appropriate privileges the breadcrumb trail and sub-navigation areas become editing tools, neatly extending the metaphors they already implement rather than requiring a second interface solely for editing purposes.
+
+apostrophePlugin also introduces "areas," or vertical columns, which users with editing privileges are able to create more than one slot. This makes it easy to interleave text with multimedia and other custom slot types without the need to develop a custom PHP template for every page.
+
+## Supported Browsers ##
+
+Editing works 100% in Firefox, Safari and Internet Explorer 7+. 
+Editing is expressly not supported in Internet Explorer 6. Of course,
+browsing the site as a user works just fine in Internet Explorer 6.
+
+## Requirements ##
+
+apostrophePlugin requires the following. Note that virtually all of the
+requirements are included in the cmstest project which you can easily
+check out or copy from svn as described below. We *strongly recommend*
+starting out in this way.
+
+### System Requirements ###
+
+The following must be installed on your system:
+
+* PHP 5.2.4 or better, with a PDO driver for MySQL
+* MySQL (tested), SQLite (tested), or another relational database supported by PDO and Doctrine
+* For the media features: netpbm (recommended), or GD support in PHP
+* Optional, for PDF slots: ghostscript
+
+See apostrophePlugin/README and apostrophePlugin/README for more
+information about installing netpbm and ghostscript. A few truly excellent hosting 
+companies may already have these in place. If you have a Virtual Private Server
+(and you should, shared hosting is very insecure), you can most likely install
+netpbm and ghostscript with a few simple commands like `sudo apt-get install netpbm`
+and `sudo apt-get install ghotscript`.
+
+If you are choosing a Linux distribution, we recommend Ubuntu. Ubuntu includes a sufficiently modern version of PHP right out of the box. If you are using Red Hat Enterprise Linux or CentOS, you will need to upgrade PHP to version 5.2.x on your own. This is unfortunate and Red Hat really ought to get a move on and fix it.
+
+### PHP Libraries ###
+
+* Symfony 1.2, 1.3 or 1.4 (provided with cmstest)
+* sfJqueryReloadedPlugin (provided with cmstest)
+* sfDoctrineGuardPlugin (provided with cmstest)
+* apostrophePlugin (provided with cmstest)
+* Doctrine (standard with Symfony 1.2)
+* The Zend framework, for search (provided with cmstest)
+
+Note that all of the components "provided with cmstest" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
+
+Most users will also want apostrophePlugin and apostrophePlugin, which are also included in cmstest.
+
+Optional: apostrophePlugin is compatible with sfShibbolethPlugin (the 1.2 trunk version) and sfDoctrineApplyPlugin.
+
+Mac users can most easily meet the PHP requirements by installing
+the latest version of [MAMP](http://www.mamp.info/). Note that MAMP's PHP 
+must be your command line version of PHP, not Apple's default install of PHP. 
+To fix that, add this line to the `.profile` file in your home directory:
+
+    export PATH="/Applications/MAMP/Library/bin:/Applications/MAMP/bin/php5/bin:$PATH"
+
+Of course your production server will ultimately need to meet the same requirements with regard to PHP and PDO.
+
+The use of Microsoft Windows as a hosting environment has not been tested but may work reasonably well now that netpbm is no longer mandatory for media slots.
+
+## Installation ##
+
+For the time being, we recommend that you check out our
+sample project via Subversion. You don't need to be an svn expert
+to use this command:
+
+FOR SYMFONY 1.4 (recommended for new projects):
+
+		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/sandbox/trunk cmstest
+
+FOR SYMFONY 1.3 (recommended only if you are stuck with other 1.2 code that isn't fully 1.4-ready yet):
+
+		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/sandbox/branches/1.3 cmstest
+
+FOR SYMFONY 1.2 (*not recommended for new projects*):
+
+    svn co http://svn.symfony-project.com/plugins/apostrophePlugin/cmstest cmstest
+
+Better yet, copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the cmstest project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
+
+This will give you all of the necessary plugins and the ability to
+`svn update` the whole shebang with one command.
+
+Next light up the folder `cmstest/web` as a virtualhost named `cmstest` via MAMP, `httpd.conf` or whatever your testing environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
+
+Now create the `config/databases.yml` file, which must contain
+database settings appropriate to *your* system. Copy the file
+`config/databases.yml.sample` as a starting point:
+
+    cp config/databases.yml.sample config/databases.yml
+
+If you are testing with MAMP the default settings
+(username root, password root, database name cmstest) may work
+just fine for you. If you are testing on a staging server you will
+need to change these credentials.
+
+Also create your `properties.ini` file:
+
+    cp config/properties.ini.sample config/properties.ini
+
+In Symfony `properties.ini` contains information about hosts that a project can be synced to, in addition
+to the name of the project. The sample properties.ini file just defines the name of the project. You'll
+add information there when and if you choose to sync the project to a production server via project:deploy.
+See the Symfony documentation for more information about that technique.
+
+At this point you're ready to use the checkout of Symfony's 1.2.x branch
+that is included in the project. If you want to use a different installation
+of Symfony, such as a shared install for many sites (note that only 1.2.x is likely to work), copy 
+config/require-core.php.example to config/require-core.php and edit the 
+paths in that file. 
+
+Next, cd to the `cmstest` folder and run these commands:
+
+(For Symfony 1.3 and 1.4)
+
+		./symfony doctrine:build --all
+		./symfony doctrine:data-load
+	
+(For Symfony 1.2)
+
+    ./symfony doctrine:build-all-reload
+
+This will create a sample database from the fixtures files.
+
+Now set the permissions of data folders so that they are writable by the web 
+server. Note that svn does NOT store permissions so you can NOT assume they are
+already correct:
+
+./symfony project:permissions
+
+Our apostrophePlugin extends project:permissions for you to include the
+data/writable folder in addition to the standard web/uploads, cache and log folders. Handy, isn't it?
+
+If you prefer you can do this manually:
+
+		chmod -R 777 data/a_writable
+		chmod -R 777 web/uploads
+		chmod -R 777 cache
+		chmod -R 777 log
+
+More subtle permissions are possible. However be aware that most
+"shared hosting" environments are inherently insecure for a variety
+of reasons. Before criticizing the "777 approach," be sure
+to [read this article on shared hosting and Symfony](http://trac.symfony-project.org/wiki/SharedHostingNotSecure).
+
+Next, build the site's search index for the first time (yes, search is included). It doesn't live in
+the database so it needs to be done separately. After this, you won't
+need to run this command again unless you are deploying to a new
+environment such as a staging or production server:
+
+./symfony aToolkit:rebuild-search-index --env=dev
+
+(You can specify staging or prod instead to build the search indexes
+for environments by those names.)
+
+You can now log in as `admin` with the password `admin` to see how the
+site behaves when you're logged in. Start adding subpages, editing
+slots, adding slots to the multiple-slot content area... have a ball with it.
+
+OPTIONAL: by default pages are reindexed for search purposes at the time
+edits are made. For performance reasons you might be happier deferring
+this to a cron job that runs every few minutes. If you want to take this
+approach, set up a cron job like this:
+
+0,10,20,30,40,50 * * * * /path/to/your/project/symfony a:update-lucene --env=env
+
+Note the `--env` option. There is a separate index for each
+environment. On a development workstation, specify `--env=env`. In
+a production environment you might specify `--env=prod`.
+
+Then turn on the feature in app.yml:
+
+all:
+  a:
+    defer_search_updates: true
+
+This speeds up editing a bit. But if you don't like cron, you don't have to enable it.
+
+You can also change the word count of search summaries:
+
+		all:
+		  a:
+		    search_summary_wordcount: 50
+
+That's the easy way to configure the CMS. The notes that follow assume you're doing it the hard way, without starting from the cmstest project.
+
+* * *
+
+Install the above plug-ins in your Symfony 1.2 project. We strongly encourage you to do so using svn externals. If you are using that approach you will need to be sure to create the necessary symbolic links from your projects web/ folder to to the web/ folders of the plugins that have one. For best results use
+a relative path:
+
+    cd web
+    ln -s ../plugins/apostrophePlugin/web apostrophePlugin
+    # Similar for other plugins required
+
+The search features of the plugin rely on Zend Search, so you must
+install the Zend framework. 
+[The latest version of the minimal Zend framework is sufficient.](http://framework.zend.com/download/latest) If you choose to install this system-wide
+where all PHP code can easily find it with a `require` statement, great.
+If you prefer to install it in your Symfony project's
+`lib/vendor` folder, you'll need to modify your `ProjectConfiguration` class
+to ensure that `require` statements can easily find files there:
+
+    class ProjectConfiguration extends sfProjectConfiguration
+    {
+      public function setup()
+      {
+        // We do this here because we chose to put Zend in lib/vendor/Zend.
+        // If it is installed system-wide then this isn't necessary to
+        // enable Zend Search
+        set_include_path(
+          sfConfig::get('sf_lib_dir') .
+            '/vendor' . PATH_SEPARATOR . get_include_path());
+        // for compatibility / remove and enable only the plugins you want
+        $this->enableAllPluginsExcept(array('sfPropelPlugin', 'sfCompat10Plugin'));
+      }
+    }
+
+Create an application in your project. Then create a
+module folder named a as a home for your page templates
+and layouts (and possibly other customizations):
+
+    mkdir -p apps/frontend/modules/a/templates
+
+The CMS provides convenient login and logout links. By default these
+are mapped to sfGuardAuth's signin and signout actions. If you are
+using sfShibbolethPlugin to extend sfDoctrineGuardPlugin, you'll
+want to change these actions in apps/frontend/config/app.yml:
+
+    all:
+      sfShibboleth:
+        domain: duke.edu
+      a:
+        actions_logout: "sfShibbolethAuth/logout"
+        actions_login: "sfShibbolethAuth/login"
+
+You can also log in by going directly to `/login`. If you don't want to display the login link
+(for instance, because your site is edited only you), just shut that feature off:
+
+    all:
+      a:
+        login_link: false
+
+You will also need to enable the a modules in 
+your application's `settings.yml` file. Of course you may need
+other modules as well based on your application's needs:
+
+    enabled_modules:        [a, aText, aRichText, sfGuardAuth]
+
+a edits rich text content via the FCK editor. A recent version of FCK is
+included in downloads of apostrophePlugin, which is among the requirements already stated
+above. However you'll need to enable FCK in your settings.yml file, as follows:
+
+    all:
+      rich_text_fck_js_dir:   apostrophePlugin/js/fckeditor
+
+Load the fixtures for the "stub" site. Every site begins with a home
+page with all other pages being added as descendants of the home page:
+
+    ./symfony doctrine:build-all-load
+
+By default a will establish routes which map your modules and 
+actions to:
+
+    /cms/modulename/actionname
+
+And check all other URLs to see whether they match a slug (i.e. a path)
+in the CMS, offering up that page via the a/show action if so.
+
+If this is not what you want, you will need to shut off the built-in
+routes via app.yml and write your own:
+
+    a_routes_register: false
+
+In any case, it is up to you to provide a route for the homepage of
+your site. If you want the homepage to be the root page of the CMS,
+just use this route in your routing.yml file:
+
+    homepage:
+      url:   /
+        param: { module: a, action: show, slug: / }
+
+### Enhanced Form Controls ###
+
+To get the benefit of the progressively enhanced form controls
+featured in our admin tools, you'll need to add apostrophePlugin's
+aControls.js to your view.yml file:
+
+    default:
+      ... Other things ...
+      javascripts:    [/apostrophePlugin/js/aControls.js]
+
+### Title Prefix ###
+
+By default, the title element of each page will contain the title of that page.
+In many cases you'll wish to specify a prefix for the title as well.
+
+You can do so by setting `app_a_title_prefix` in `app.yml`. This option supports
+optional internationalization:
+
+    all:
+      a:
+        # You can do it this way...
+        title_prefix:
+          en: 'Our Company : '
+          fr: 'French Prefix : '
+        # OR this way for a single-culture site
+        title_prefix: 'Our Company'      
+
+## Routing Rules ##
+
+For compatibility reasons, by default your CMS pages will appear in the /cms "folder"
+of your site. That is, the "home page" is `http://yoursite.com/cms`. Administrative
+actions of the CMS can then use the default Symfony routing rules. The home page URL ("/") is not overridden
+by default and still goes wherever you'd like it to go in your application.
+
+Of course, this probably isn't what most people want in practice. You can easily
+customize it via your `routing.yml` file so that URLs are presumed to be CMS pages if they do 
+not expressly match a routing rule. And it's not hard to create a catch-all "folder" to contain URLs mapped to Symfony actions rather than CMS pages.
+
+These rules are used by our `cmstest` project. Note that the routing rule for pages must be named `a_page` so that the plugin can use it explicitly to generate short paths to pages, even in the presence of the default rule which would otherwise match first:
+
+    # This default routing rule handles all non-CMS actions that are not
+    # explicitly routed by another rule
+
+    default:
+      url:   /admin/:module/:action/*
+
+    # A homepage rule is expected by a and various other plugins,
+    # so be sure to have one
+
+    homepage:
+      url:  /
+      param: { module: a, action: show, slug: / }
+
+    # Put any additional routing rules for other modules and actions HERE,
+    # before the catch-all rule that routes URLs to the
+    # CMS by default.
+
+    # Must be the last rule, and must have this name
+
+    a_page:
+      url:   /:slug
+      param: { module: a, action: show }
+      requirements: { slug: .* }
+
+When using this technique you will also need to turn off the default routing rules of the CMS
+as we've done in the `cmstest` project:
+
+    all:
+      a:
+        routes_register: false
+
+Thanks to Stephen Ostrow for his analysis of this issue.
+
+## Customizing Your CMS Site ##
+
+You now have a CMS site. Access your Symfony site's URL to see the
+home page. 
+
+Click "log in" and log in as the sfDoctrineGuard superuser 
+(admin/admin) to see
+the editing controls.
+
+### Managing Pages ###
+
+When a user has appropriate privileges on a page, they are able to make
+the following changes via the breadcrumb trail, which becomes an
+interactive site management tool when logged in:
+
+* Rename the page by clicking on the page title
+* Add a child page beneath the current page
+* Open the page management settings dialog via the "gear" icon
+for less frequent changes
+
+Note that the breadcrumb trail appears on the home page only when
+logged in with editing privileges. On sub-pages the breadcrumb
+trail always appears.
+
+a emphasizes "turning off" pages as the preferred way
+of "almost" deleting them because it is not permanent.
+Anonymous users, and users who do not
+have editing privileges on the page, will see the usual 404 Not Found error.
+But users with editing privileges will see the page with its title
+"struck through" and will be able to undelete the page if they desire.
+You can also delete a page permanently via the small X in the lower right
+corner of the management dialog. Most of the time that's a shortsighted
+thing to do but it is useful when you create an unnecessary
+page by accident.
+
+The side navigation column also offers an editing tool: users with
+editing privileges can change the order of child pages listed there
+by dragging and dropping them. (If a page has no children, the side
+navigation displays its peers instead, including itself.)
+
+### Editing Content: Editing Slots ###
+
+What about the actual content of the page? The editable content
+of a page is stored in "CMS slots" (not the same thing as Symfony slots).
+CMS slots can be of several types:
+
+* Plaintext slots (single line or multiline)
+* Rich text slots (edited via FCK)
+* Custom slots (of any type, implemented as described later)
+
+Once you have logged in, you'll see each editable slot outlined
+with a box. If the slot is currently empty, there will also be a 
+hint to double-click the slot to begin editing it. Double-click it to
+edit it with the appropriate editor (an input, textarea or rich
+text edit control). Click "Save" to save your changes.
+
+Every slot also offers version control. The arrow-in-a-circle icon
+accesses a dropdown list of all changes that have been made to that slot,
+labeled by date, time and author and including a short summary of the change
+to help you remember what's different about that version. Pick any version and 
+click "Preview" to redisplay that version of the slot. To revert to an old version,
+copying it to create a new version of the slot, click "Revert." Click
+"Cancel" if you decide not to switch versions.
+
+### Editing Content: Editing Areas ###
+
+In addition to single slots, apostrophePlugin also supports
+"areas." Areas are vertical columns containing more than one slot.
+Editing users are able to add and remove slots from an area at any time, 
+selecting from a list of slots approved for use in that area. The slots
+can also be reordered via up and down arrow buttons (used here instead
+of drag and drop to avoid possible browser bugs when dragging and dropping 
+complex HTML, and because drag and drop is not actually much fun to use
+when a column spans multiple pages).
+
+The usefulness of areas may not be entirely clear when only 
+plaintext and rich text slots are in use on a site. Their usefulness
+can be better understood when custom slot types that implement
+multimedia or connect to your project-specific resources come into play.
+You want to be able to interleave these with blocks of text without
+creating a new custom page template for each one. Areas give you that
+capability.
+
+## Creating and Managing Page Templates and Layouts ##
+
+Where do slots appear in a page? And how do you insert them? 
+
+Slots can be inserted in two places: in your site's <tt>layout.php</tt>
+file, which decorates all pages, and in page template files, which can
+be assigned to individual pages. 
+
+### How to Customize the Layout ###
+
+By default, the CMS will use the
+<tt>layout.php</tt> file bundled with it. If you wish, you can turn this
+off via app.yml:
+
+    all:
+      a:
+        use_bundled_layout: false
+
+CMS pages will then use your application's default layout. One strategy
+is to copy our <tt>layout.php</tt> to your application's template folder
+and customize it there after turning off use_bundled_layout.
+
+### Turning Off the Home Page Tab ###
+
+By default a generates navigation tabs for the direct
+children of the home page, and for the home page itself. If you don't
+want a tab for the home page itself, just change this setting
+in `app.yml`:
+
+    all:
+      a:
+        home_as_tab: false
+
+### Reordering Children of the Home Page ###
+
+a offers drag-and-drop reordering of the children of
+any page via the navigation links on the left-hand side. But the home
+page, by default, doesn't display those links. So how can you reorder
+its children?
+
+One way is to add the subnav component back into your
+local copy of homeTemplate.php:
+
+    <?php include_component('a', 'subnav') # Left Side Navigation ?>
+
+To avoid wrecking the layout of your home page, you could choose to 
+insert it only when an admin is logged in:
+
+    <?php if ($sf_user->hasCredential('cms_admin')): ?>
+      <?php include_component('a', 'subnav') # Left Side Navigation ?>
+    <?php endif ?>
+
+On our "TODO" list: allow the left side navigation controls to be collapsed
+by default for more convenient use on pages with a layout that doesn't
+really accommodate them.
+
+### How to Customize the Page Templates ###
+
+The layout is a good place for global elements that should appear on
+every page. But elements specific to certain types of pages are better
+kept in page templates. These are standard Symfony template files with
+a special naming convention.
+
+Page template files live in the templates folder of the a module. 
+We provide these templates "out of the box:"
+
+* homeTemplate.php
+* defaultTemplate.php
+
+homeTemplate.php is used by our default home page, and defaultTemplate.php
+is the default template if no other template is chosen.
+
+You can change the template used by a page by using the
+template dropdown in the breadcrumb trail. This does not delete
+the slots used by the previous template, so you can switch back
+without losing your work.
+
+How do you create your own template files? *Don't* alter the templates
+folder of the plugin. As always with Symfony modules, you chould 
+instead create your own a/templates folder within your
+application's modules folder:
+
+    mkdir -p apps/frontend/modules/a/templates 
+
+Now you can copy homeTemplate.php and defaultTemplate.php to this folder,
+or just start over from scratch. You can also copy _login.php if you don't
+like the way we present the login and logout options. The same applies
+to _tabs.php and _subnav.php. We *do not recommend* altering the rest of the templates unless 
+you have a clear understanding of their purpose and function and are
+willing to make ongoing changes when new releases are made. In general,
+if you can use CSS to match the behavior of our HTML to your needs,
+that will be more forwards-compatible with new releases of the CMS.
+
+If you add additional template files, you'll need to adjust
+the `app_a_templates` setting in `app.yml` so that your
+new templates also appear in the dropdown menu:
+
+    all:
+      a:
+        templates:
+          home:
+            Home Page
+          default:
+            Default Page
+          mytemplate:
+            My Template
+
+### Inserting Slots in Layouts and Templates ###
+
+Of course, creating layouts and templates does you little good if you
+can't insert user-edited content into them. This is where the 
+CMS slot helpers come in.
+
+Here's how to insert a slot into a layout or page template:
+
+    <?php # Once at the top of the file ?>
+    <?php use_helper('a') ?>
+    
+    <?php # Anywhere you want a particular slot ?>
+    <?php a_slot('body', 'aRichText') ?>
+
+Notice that two arguments are passed to the <tt>a_slot</tt>
+helper. The first argument is the name of the slot, which distinguishes
+it from other slots on the same page. *Slot names should contain only
+characters that are allowed in HTML ID and NAME attributes*. We recommend
+that you use only letters, digits, underscores and dashes in slot names.
+The slot name will never be seen by the user. It is a useful label
+such as `body` or `sidebar` or `subtitle`.
+
+The second argument is the type of the slot. "Out of the box," 
+apostrophePlugin offers two slot types:
+
+* aRichText
+* aText
+
+You can add additional slot types of your own and release and
+distribute them as plugins as explained later in this document.
+
+The special slot name `title` is reserved for the title of the page
+and is always of the type `aText`. 
+While you don't need to provide an additional editing interface
+for the title, you might want to insert it as an `h1` somewhere in your
+page layout or template as a design element:
+
+    <h1>
+        <?php a_slot('title', 'aText',
+          array('tool' => 'basic')) ?>
+    </h1>
+
+The behavior of most slot types can be influenced by passing 
+options to them from the template or layout. 
+You can also pass an array of options as a third argument
+to the helper, like this:
+
+    <h2>
+        <?php a_slot('subtitle', 'aRichText',
+          array('tool' => 'basic')) ?>
+    </h2>
+
+Here we create a subtitle area on the page which is editable, but only
+with the limited palette of options provided in FCK's `basic` toolbar.
+This works because the `aRichText` slot implementation calls
+the `textarea_tag` helper, passing the options array along. (These
+options are also available to the slot implementation at the time
+the slot is saved, which will be discussed in more detail later.)
+
+Incidentally, you can create your own custom toolbars for FCK as part
+of your FCK configuration. See the FCK documentation. Note that this
+does not actually prevent the user from submitting other HTML, often
+by copying and pasting from Microsoft Word, etc. We plan to include
+connectors to an HTML tidying package in a future release of the CMS to reduce
+the severity of this problem.
+
+In addition to passing familiar options along to the 
+`input_tag` and `textarea_tag` helper functions, you can
+also pass the `multiline` option when inserting a slot 
+of the type `aText`. When `multiline` is true, the
+plaintext slot is rendered with `textarea_tag` rather than
+`input_tag`.
+
+### Inserting Areas: Unlimited Slots in a Vertical Column ###
+
+Slots are great on their own. But when you want to mix paragraphs of text with
+elements inserted by custom slots, it is necessary to create a separate
+template file for every page. This is tedious and requires the
+involvement of an HTML-savvy person on a regular basis.
+
+Fortunately apostrophePlugin also offers "areas." An
+area is a continuous vertical column containing multiple slots which
+can be managed on the fly without the need for template changes. 
+
+You insert an area by calling a_include_area($name) rather than
+a_include_slot($name):
+
+    <?php a_include_area("sidebar") ?>
+
+When you insert an area you are presented with a slightly different
+editing interface. At first there are no editable slots in the area.
+Click "Insert Slot" to add the first one. You can now edit that
+first slot and save it.
+
+Add more slots and you'll find that you are also able to delete them
+and reorder them at will.
+
+By default new slots appear at the top of an area. If you don't like this,
+you can change it for your entire site via `app.yml`:
+
+		all:
+		  a:
+		    new_slots_top: false
+
+An area has just one version control button for the entire area. This
+is because creating, deleting, and reordering slots are themselves
+actions that can be undone through version control.
+
+In a project with many custom slot types, you may find it is 
+inappropriate to use certain slot types in certain areas. You can
+specify a list of allowed slot types like this:
+
+    <?php a_include_area("sidebar",
+      array("allowed_types" => array("aText", "myCustomType"))) ?>
+
+Notice that the second argument to `a_include_area` is an
+associative array of options. The `allowed_types` option allows us to
+specify a list of slot types that are allowed in this particular area.
+
+In addition, you can pass options to the slots of each type, much as
+you would when inserting a single slot:
+
+    a_include_area("sidebar",
+      array("allowed_types" => array("aText", "myCustomType"),
+        "type_options" => array(
+          "aText" => array("multiline" => 1))));
+
+Here the `multiline` option specifies that all 
+`aText` slots in the area should have the
+`multiline` option set.
+
+### Inserting the Breadcrumb Trail and Side Navigation ###
+
+Your layout, or possibly your page templates if you wish to handle
+it differently on some pages, will need to insert the breadcrumb
+trail and side navigation elements on some or all pages.
+
+The breadcrumb trail is inserted into a page template or layout
+by the following code:
+
+    <?php include_component('a', 'breadcrumb') ?>
+
+Sometimes, such as on the home page, you do not want to display the breadcrumb 
+trail at all, when the user is not logged in. But you still need it when you 
+are are logged in so that you can manage the page. You can handle
+this situation like so:
+
+    <?php if (aTools::getCurrentPage()->userHasPrivilege('edit')): ?>
+      <?php include_component('a', 'breadcrumb') ?>
+    ?>
+
+The side navigation column ("subnavigation") is inserted similarly:
+
+    <?php include_component('a', 'subnav') ?>
+
+## Global Slots ##
+
+Most of the time, you want the content of a slot to be specific to a page.
+After all, if the content was the same on every page, you wouldn't need
+more than one page.
+
+However, it is sometimes useful to have editable content that appears
+on more than one page. For instance, an editable page footer or page 
+subtitle might be consistent throughout the site, or at least throughout
+a portion of the site.
+
+You can do this by adding a "global slot" to your page template or layout.
+Just set the `global` option to `true` when inserting the slot:
+
+    <h4>
+        <?php a_slot('footer', 'aRichText',
+          array('toolbar' => 'basic', 'global' => true)) ?>
+    </h4>
+
+The content of the resulting slot is shared by all pages that include
+it with the `global` option.
+
+Note that global slots can be edited only by users with editing
+privileges throughout the site. Otherwise users with control only over
+a subpage could edit a footer displayed on all pages.
+
+Have a need for a slot that is shared by some pages, but not all pages?
+Just name the slot appropriately. For instance, the slot name
+`chemistry-blurb` might be suitable for all pages in the
+chemistry department of an educational institution's website.
+
+## Overriding the Stylesheets ##
+
+By default, `apostrophePlugin` provides two stylesheets which are
+automatically added to your pages. There's a lot happening there,
+particularly with regard to the editing interface, and we recommend
+that you keep these and override them as needed in a separate
+stylesheet of your own. However, you can turn them off if you wish
+in `app.yml`:
+
+    all:
+      a:
+        use_bundled_stylesheet: false
+
+If you do keep our stylesheets and further override them, you'll
+want to specify `position: last` for the stylesheets that should
+override them.
+
+## Access Control ##
+
+By default, a a site follows these security rules:
+
+* Anyone can view any page without being authenticated.
+* Any authenticated (logged-in) user can edit any page,
+and add and delete pages.
+
+This is often sufficient for simple sites. But a can
+also handle more complex security needs.
+
+### Requiring Login to Access All Pages ###
+
+To require that the user log in before they view any page
+in the CMS, use the following setting in `app.yml`:
+
+    all:
+      a:
+        view_login_required: true
+
+### Requiring Login to Access Some Pages ###
+
+To require the user to log in before accessing a particular page,
+just navigate to that page as a user with editing privileges
+and click on the "lock" icon. 
+
+By default, locked pages are only accessible to logged-in users. Of course, on some sites this is too permissive, especially when users are allowed to create their own accounts without further approval. In such situations you can set up different credentials to access the pages. To require the `view_locked` credential to view locked pages, use the following app.yml setting:
+
+		all:
+		  a:
+		    view_locked_sufficient_credentials: view_locked
+
+Then grant the `view_locked` permission to the appropriate sfGuard groups, and you'll be able to distinguish user-created accounts from invited guests.
+
+### Requiring Special Credentials to Edit Pages ###
+
+Editing rights can be controlled in several ways:
+
+1) Any user with the `cms_admin` credential can always
+edit, regardless of all other settings. Note that the
+sfGuard "superadmin" user always has all credentials.
+
+2) Any user with `edit_sufficient_credentials` can always edit
+pages (but not add or delete them) anywhere on the site. For instance, 
+if you add such users to the `executive_editors` sfGuardGroup and grant that 
+group the `executive_editors` permission, then you can give them
+full editing privileges with these settings:
+
+    all:
+      a:
+        edit_sufficient_credentials: executive_editors
+
+Similarly, any user with `manage_sufficient_credentials` can always
+add or delete pages anywhere on the site, in addition to editing content. So 
+a more complete setting for a typical setup would be:
+
+    all:
+      a:
+        edit_sufficient_credentials: executive_editors
+        manage_sufficient_credentials: executive_editors
+
+3) Any user who is a member of the group specified by
+`app_a_edit_group` can *potentially* be made an
+editor in particular parts of the site. If
+`app_a_edit_group` is not set, all users are
+potential editors: 
+
+    all:
+      a:
+        edit_group: editors
+
+Similarly, any user who is a member of the group specified by
+`app_a_manage_group` can potentially be given the ability to add
+and delete pages in a particular part of the site. So a 
+common setup might be:
+
+    all:
+      a:
+        edit_group: editors
+        manage_group: editors
+
+Why is this feature useful? Two reasons: because checking their membership
+in one group is faster than checking their access privileges in the
+entire chain of ancestor pages, and because when an administrator is
+managing the list of users permitted to edit a page the list of users in the
+editors group is much easier to read than a list of all users (especially
+in a large system with many non-editing users).
+
+4) Editing privileges for any specific page and its descendants
+can be granted to any member of the group specified by 
+`app_a_edit_group` (if that option is set), or to
+any user if `app_a_edit_group` is not set.
+When a user with the `cms_admin` credential clicks on the "lock" icon, 
+they are given the option of assigning editors for that page. 
+The same principle applies to "managing" (adding and deleting)
+pages, with the group being indicated by 
+your `app_a_manage_group` setting.
+
+Note that the pulldown list of possible editors can be quite long
+if there are thousands of people with accounts on your site! This
+is why we recommend setting up groups as described above.
+
+### PublishingPages, by Choice and By Default ###
+
+a offers a "published/unpublished" toggle under "manage page settings."
+Pages that are unpublished are completely invisible to users who do not
+have at least the candidate credentials to be an editor; a user without appropriate privileges
+gets a 404 not found error just as if the page did not exist. In most cases
+you should use this in preference to actually deleting the page because the
+content is still available if you choose to bring it back later.
+
+By default all new a pages are in the "published" state.
+If you need to approach the matter more conservatively, you can easily
+change this with the following `app.yml` setting:
+
+    all:
+      a:
+        default_on: false
+
+### Refreshing Slots ###
+
+Most slots are self-contained: they contain all of the information needed to render them, with no references to an external site. However, for efficiency reasons, some slots do contain metadata such as static image URLs pointing to an external site and do not attempt to refresh that data on every single page load. Our media slots are a good example of this.
+
+Such slots always contain enough information to update themselves in response to the a:refresh task:
+
+		./symfony a:refresh --env=prod --application=frontend
+
+It's a good idea to run that task every day or so via a cron job if you are using our CMS with our media plugin and its supporting slots. 
+
+For performance reasons this task only looks at the latest version of each slot. If you are carrying out a one-time transition such as moving from development to production and you know that all of your frontend controller URLs have changed as a result, you can use the `--allversions` option to specify that older versions of slots should be refreshed as well:
+
+		./symfony a:refresh --env=prod --application=frontend --allversions
+
+If you are implementing custom slot types that have a need to participate in the refresh task (see below for more information about custom slot types), just implement a public `refreshSlot` method in those slot classes. This method takes no arguments and returns nothing. 
+
+IMPORTANT: command line Symfony tasks have no idea what the hostname of the site is, which is a problem for tasks like a:refresh. If you are using this task with our media slots, you will need to tell Symfony what the hostname of your site is, or what the hostname of the media plugin site is (if they are different). In most cases the CMS site and the media plugin site are one and the same.
+
+As far as our plugins are concerned, the simplest way to tell Symfony the hostname of the site is to set:
+
+all:
+  cli:
+    host: www.mysite.com
+
+(You can specify different settings for different environments of course.)
+
+If you want to specify the location of the media server only, you can do that this way:
+
+all:
+  aMedia:
+    client_site: media.mysite.com
+
+(See the media plugin README for more information about setting up a media server on a separate site.)
+
+## Creating Custom Slot Types ##
+
+You are not limited to the two slot types provided with
+apostrophePlugin! Anyone can create new slot types by taking
+advantage of normal Symfony features: modules, components,
+actions, templates and Doctrine model classes.
+
+Let's look at `aText` to understand how this works.
+
+The `aText` slot type is implemented as follows:
+
+1) *The model class.* Every slot must be stored in the database. 
+All slot types have a model class which inherits from 
+`aSlot`. The `aText` model class is
+`aTextSlot`.
+
+This is done using a feature of Doctrine called
+*column aggregation inheritance*. Column aggregation inheritance
+allows you to gain the benefits of object-oriented inheritance
+while still storing all of the slot types in the same database table.
+Doctrine manages this automatically for you.
+
+The relevant portion of `config/doctrine/schema.yml` for
+`aText` looks like this:
+
+    aTextSlot:
+      inheritance:
+        extends: aSlot
+        type: column_aggregation
+        keyField: type
+        keyValue: 'aText'
+
+The `extends` keyword specifies the class we are inheriting from, while
+the `keyValue` field must contain the name of the type. Doctrine uses
+this to figure out what class of object to create when loading a 
+record from the `a_slot` table. The slot type name is
+recorded in the `type` column. You don't need to worry
+about the details, but for more information about them,
+see the excellent Doctrine documentation.
+
+*Note that the keyValue setting does not include the word Slot.*
+
+*Yes, you can have custom columns in the database for your type.*
+A plaintext slot doesn't need them because the `value` column works
+well for storing its contents. But you can add whatever columns
+suit your purposes. For example, a `aContextYoutube` slot type might
+have a model class schema like this:
+
+    aContextYoutubeSlot:
+      inheritance:
+        extends: aSlot
+        type: column_aggregation
+        keyField: type
+        keyValue: 'aYoutube'
+      columns:
+        youtube_url: string(300)
+        youtube_auto_repeat: boolean
+
+Note that I have prefixed the extra columns with `youtube_`. This is
+required if you intend to release your slot type as a plugin because
+collisions between column names intended for use in different slot types
+can cause problems for other users. If your slot type is strictly for
+use in your own project, then you can get by without a prefix. It would
+be nice if Doctrine did this automatically so that the field names
+of subclasses were never really in conflict, but so far it does not.
+
+(You may be able to work around this issue with less typing by using 
+Doctrine's "name: phpname as sqlname" syntax. But I have not yet tested this
+to see how it interacts with column aggregation inheritance. 
+TODO: find out! If you try it, let me know.)
+
+Any columns that you add to your custom slot type are automatically
+included in the definition of `a_slot` when the
+SQL for your database is generated by the `doctrine:build-all`
+or `doctrine:build-sql` task.
+
+2) *The module.* Every slot type is implemented by a Symfony module of
+the same name. The `aText` slot type is implemented by the
+`aText` module. Create your own modules for your own
+custom slot types. However, you'll set up your actions, components and
+templates in a specific way as described below.
+
+3) *The components class.* The `aText` slot type's
+component clas is called `aTextComponents`. Unlike 
+typical components classes it inherits from
+`aBaseComponents`:
+
+    class aTextComponents extends aBaseComponents
+
+This class typically contains two components, although the
+base class versions inherited from aBaseComponents are
+sometimes sufficient to do the job, depending on the behavior you want:
+
+* The `normalView` component. The `normalView` component displays
+your slot as a normal user, not a user with editing privileges,
+would see it. The default implementation simply outputs the
+contents of of the `value` column of the slot as HTML, which works for
+both `aRichText` and `aText` (the latter stores
+its "plaintext" pre-escaped to be displayed as HTML).
+
+If you choose to change this behavior, you'll need to code the 
+`execute` method like so. Note the use of the
+`$this->setup()` method, which automatically sets up 
+the slot object for you as well as various other conveniences:
+
+    public function executeNormalView()
+    {
+      // Sets up $this->slot, $this->name, $this->id, etc. automatically
+      $this->setup();
+      // Examine options with $this->getOption('optionname'), set
+      // various member variables for convenience in the partial, etc.  
+    }
+
+The corresponding partial, `_normalView.php`, could look like this:
+
+    <?php if (!strlen($value)): ?>
+      <?php if ($editable): ?>
+        Double-click to edit.
+      <?php endif ?>
+    <?php else: ?>
+    <?php echo $value ?>
+    <?php endif ?>
+
+Even though this is the non-editing view (displayed even to editors until
+they double-click), the `editable` parameter is set as a convenience so that 
+you can determine that the user does have editing privileges.
+
+* The `editView` component. The `editView` component displays your
+slot with appropriate editing controls. You can use Symfony 1.2+-style
+form classes, but you are not required to. 
+
+The `executeEditView` method for `aText' looks like this:
+
+    public function executeEditView()
+    {
+      $this->setup();
+      $this->multiline = $this->getOption('multiline');
+      // The rest of the options array is passed as HTML
+      // options to the helper function, but this
+      // should not be
+      unset($this->options['multiline']);
+    }
+
+And the corresponding template, `_editView.php`, looks like this:
+
+    <?php if ($multiline): ?>
+      <?php echo textarea_tag("value",
+        $value,
+        array_merge(array("id" => "$id-value"), $options)) ?>
+    <?php else: ?>
+      <?php echo input_tag("value",
+        $value,
+        array_merge(array("id" => "$id-value"), $options)) ?>
+    <?php endif ?>
+
+Note the use of the `$id` variable. This variable is guaranteed to
+make an ID unique among all of the slot editing forms that may be
+present on the page at any given time. Be sure to take advantage
+of `$id` rather than second-guessing the process by inserting
+`$name` and `$permid` yourself.
+
+A Symfony 1.2+ forms-based implementation of the 
+executeEditView method looks like this. Note that we don't
+always have to create a new form object! When the user's first
+attempt to fill out the form results in a validation error,
+the form object is automatically restored to `$this->form`.
+When you output that form object again, the validation errors
+are displayed just as they would be if you were using
+ordinary action templates. Neat and tidy.
+
+Since Symfony generates form fields with ID attributes,
+it is necessary to set the form's name format in a way that
+will not conflict with other slot editing forms hidden in
+the page. This is the purpose of the `setId()` call below.
+Don't worry, you'll see the form class code that
+implements that method in a moment.
+
+    public function executeEditView()
+    {
+      $this->setup();
+      // If there is already a form object reuse it! It contains
+      // validation errors from the user's first attempt to submit it.
+      if (!isset($this->form))
+      {
+        $this->form = new FvtestForm();
+
+        // Be sure to show the current value. 
+
+        $this->form->setDefault('count', $this->slot->value);
+
+        // Necessary to prevent HTML id collisions between multiple slots
+        // on the same page (see the setId method of the FvtestForm class)
+        $this->form->setId($this->id);
+      }
+    }
+
+You'll note that we explicitly call `setDefault` to redisplay the
+current value of the slot. This raises an interesting question: if
+we were taking full advantage of column aggregation inheritance
+by using the Doctrine form that Symfony auto-generates for our
+slot model class, could we skip this step and also avoid the
+need to create our own form class?
+
+Unfortunately, as of this writing the answer is no. Doctrine
+column aggregation inheritance is a beautiful thing, but it doesn't
+currently generate good forms. That's because the forms generated
+for the subclasses contain *all* of the fields for *all* of the
+subclasses. Obviousy, that's not desirable. So build your own
+form classes to edit your custom slot types... like this one:
+
+    class FvtestForm extends sfForm
+    {
+      public function configure()
+      {
+        $this->setWidgets(array(
+          "count" => new sfWidgetFormInput(array())
+        ));
+        $this->setValidators(array(
+          "count" => new sfValidatorInteger(array(
+            'min' => 10, 'max' => 20, 'required' => true))));
+        $this->widgetSchema->setFormFormatterName('table');
+      }
+      public function setId($id)
+      {
+        $this->widgetSchema->setNameFormat("Fvtest-$id" . "[%s]");
+      }
+    }
+
+Note the `setId()` method which takes care of ensuring that each form
+field has an ID attribute that is unique throughout the document.
+
+The corresponding `_editView.php` template is as follows
+(very simple indeed):
+
+    <table>
+    <?php echo $form ?>
+    </table>
+
+But how does the form get bound and saved? That's the topic of
+the next section.
+
+4) *The actions class.* The `aText` slot type's action
+class is called `aTextActions`. Unlike most action classes,
+it inherits from `aBaseActions`, like so:
+
+    class aTextActions extends aBaseActions
+
+Our `aTextActions` class must contain at least
+one action, the edit action. This action is invoked when the user clicks
+"save" after editing the slot. 
+
+The `aBaseActions` class provides two private methods that
+help you code `executeEdit` correctly: 
+
+* `editSetup`, which locates the appropriate options for the slot and loads 
+or creates a slot object.
+* `editSave`, which does the hard work of managing version
+control while saving the slot. 
+
+Call `$this->editSetup()` at the beginning of your `executeEdit` method,
+and *return the result* of `$this->editSave()` at the end. If the user's
+input is unacceptable and you want them to try again, 
+*return the result* of a call to `$this->editRetry()` instead.
+
+In between, all you have to do is look at the appropriate 
+request parameters provided by your `_editView.php` template and
+set the appropriate fields of `$this->slot`. You can store your data in 
+`$this->slot->value` if a variable-length string suits all of your needs
+(as it often does, especially with PHP's `serialize()` and unserialize()`).
+Or you can use the custom fields you defined when designing the schema
+for your model class. This has the advantage that you can more easily
+look for that information via database queries later. 
+
+For instance, for the Youtube slot mentioned earlier:
+
+    public function executeEdit(sfRequest $request)
+    {
+      $this->editSetup();
+      $url = $this->getRequestParameter('url');
+      $autorepeat = $this->getRequestParameter('auto_repeat');
+      $this->slot->youtube_url = $url;
+      $this->slot->youtube_autorepeat = $autorepeat;
+      // Note that we must return the result!
+      return $this->editSave();
+    }
+
+The Symfony 1.2+ forms approach is similar. Note that we once
+again take advantage of the `setId()` method we added to our
+form class earlier. We also need to take the unique ID of the
+slot form into account when calling `bind()`:
+
+    public function executeEdit(sfRequest $request)
+    {
+      $this->editSetup();
+      $this->form = new FvtestForm();
+      $this->form->setId($this->id);
+      $this->form->bind($request->getParameter("Fvtest-" . $this->id));
+      if ($this->form->isValid())
+      {
+        $this->slot->value = $this->form->getValue('count');
+        return $this->editSave();
+      }
+      else
+      {
+        // Automatically passes $this->form on to the 
+        // next iteration of the edit form so that
+        // validation errors can be seen
+        return $this->editRetry();
+      }
+    }
+
+To simplify validation, `$this->form` is automatically
+provided to the `editView` component when you call `editRetry()`, 
+
+### Beyond edit: Additional Actions ###
+
+Note that your actions class may contain other actions if you wish. Typically
+these are AJAX actions and other auxiliary actions that share the work
+of editing the slot object. 
+
+You may also have actions that perform AJAX updates of the normal, non-editing
+view of the slot.
+
+In these cases, you may need to be able to retrieve the slot again and
+refresh a portion of your display. For actions that modify the slot,
+you can just call `this->editSetup()` to get all of the necessary parameters
+and initialize `$this->slot`. But what about actions that don't modify
+the slot but nevertheless need to access its contents? Such actions
+can call `$this->setup()` instead. The `setup()` method is equivalent
+to `editSetup()`, except that it allows access by users who do not have
+editing privileges unless you expressly pass the value `true` for the
+`$editing` parameter. (It does check for view access.)
+
+### Custom Validation ###
+
+Sometimes `$this->form` isn't enough to meet your needs. You might
+have more than one Symfony 1.2+ form in the slot (although you should
+look at `embedForm()` and `mergeForm()` first before you say that). 
+Or you might not be using Symfony 1.2+-style forms at all.
+
+Fortunately there's a way to pass validation messages from the 
+`executeEdit` action to the next iteration of the `editView` component:
+
+    // Set it in the action
+    $this->validationData['custom'] = 'My error message';
+
+    // Grab it in the component
+    $this->error = $this->getValidationData('custom');
+
+    // ... And display it in the template
+    <?php if ($error): ?>
+      <h2><?php echo $this->error ?></h2>
+    <?php endif ?>
+
+Note that `$this->validationData['form']` is used internally
+to store `$this->form`, if it exists in the action. So we suggest
+that you use other names for your validation data fields.
+
+### Overriding the Outline Box and Double-Click Behavior ###
+
+By default, when a user with editing privileges is viewing a slot,
+the slot has an outline box and can be double-clicked to display
+the editing view. 
+
+This works well for many slot types but might not be appropriate
+for yours. If you wish to implement a different behavior for switching to
+the editor, such as an "Edit" button, just add this method to
+your slot's model class:
+
+    public function isOutlineEditable()
+    {
+      return false;
+    }
+
+This will turn off the "double-click to edit" behavior and outline box.
+
+You can replace this with the following or similar in your
+`_normalView.php` template:
+
+<?php if ($editable): ?>
+  <?php echo button_to_function('Edit', $showEditorJS) ?>
+<?php endif ?>
+
+Note that `$showEditorJS` comes preloaded with ready-to-run JavaScript code 
+to hide the normal view and display the editing view. 
+
+You can also turn off the outline box for a particular insertion of a slot
+by padding the `outline_editable` option to the slot helper with 
+a value of `false`. Explicit settings for this option override 
+what is returned by the `isOutlineEditable` module.
+
+### Overriding the default view for a new slot ###
+
+By default, when a user adds a new slot to an area the user must then click the
+edit button before making changes to the slot.  To take the user straight to
+the editView of your slot override $editDefault in your slots model.  For an
+example refer to PluginaTextSlot.class.php.
+
+### When You Don't Want an Inline Editor ###
+
+Most of the time, inline editors are great. But sometimes you might be
+happier with a full-page interface which eventually redirects back
+to a when the work is done. In such cases you'll want to 
+display a link to that editor in the normal view template when the user
+has editing privileges. To make that work, just link to your
+standalone editor page like this:
+
+    <?php if ($editable): ?>
+      <?php echo link_to("Edit This", "http://my/editor/page") ?>
+    <?php endif ?>
+
+Then, when the editing is complete, your editor will need to return
+the information to a by redirecting the browser
+or POSTing a form to a URL constructed like this:
+
+    url_for("yourSlotModuleName/edit?" . http_build_query(
+      array(
+        "name" => $name,
+        "slug" => $slug,
+        "permid" => $permid,
+        "noajax" => 1)))
+
+The easiest way to accomplish this is to pass the complete edit-action
+URL as a parameter when linking to your external editor. This code
+demonstrates how we do it for our own aContextMediaSlot, which
+integrates with apostrophePlugin without the need for any 
+CMS-specific code in apostrophePlugin:
+
+    <?php if ($editable): ?>
+      <?php echo link_to('Choose media',
+        sfConfig::get('app_media_site', false) . "aMedia/select?" .
+          http_build_query(
+            array("multiple" => true,
+            "after" => url_for("aMedia/edit?" .
+              http_build_query(
+                array(
+                  "name" => $name,
+                  "slug" => $slug,
+                  "permid" => $permid,
+                  "noajax" => 1))))),
+        array('class' => 'a-context-button')) ?>
+    <?php endif ?>
+
+Note the use of the `noajax` parameter. This suppresses the 
+usual "refresh the slot without refreshing the whole page" behavior,
+which is not appropriate after we've already left the page to
+display an external editing page. When `noajax` is set,
+the user is redirected to the updated page instead. This is
+described in more detail in the next section.
+
+If you want your slot to work as a global slot, you'll also need
+to be sure to pass the slug of the actual page as a parameter
+of your `after` URL. As part of a call to `http_build_query` it
+looks like this:
+
+    "actual_slug" => aTools::getRealPage()->getSlug()
+
+You'll also want to turn off the "double-click to edit" behavior that
+would otherwise open the inline editor, as explained in the
+previous section.
+
+### When You Don't Want AJAX ###
+
+Normally a displays the updated contents of the slot without
+refreshing the entire page. If this is unsuitable for your purposes,
+as will be the case if you are not using an inline editor,
+then just include a <tt>noajax</tt> parameter in the request received by
+your edit action, with a value of 1. The edit action will then 
+redirect to the updated page rather than attempting to refresh
+only the updated slot. 
+
+## Adding New Global Admin Buttons to the Top Bar ##
+
+When a user with admin privileges is logged in, a bar appears at the top of each page offering links to useful facilities such as the sfGuardUser admin module. Other plugins such as `apostrophePlugin` extend this button bar with additional links. You can add links of your own.
+
+First provide a static method in a class belonging to your own plugin or application-level code which invokes `aTools::addGlobalButtons` to add one or more buttons to the bar:
+
+    class aMediaCMSSlotsTools
+    {
+      // You too can do this in a plugin dependent on a, see 
+      // the provided stylesheetfor how to correctly specify an icon to go 
+      // with your button. See theapostrophePluginConfiguration class for the 
+      // registration of the event listener.
+      static public function getGlobalButtons()
+      {
+        aTools::addGlobalButtons(array(
+          new aGlobalButton('Media', 'aMedia/index', 'a-media')));
+      }
+    }
+
+The first argument to the `aGlobalButton` constructor is the label of the button. The second
+is the action (in your own code, typically). And the third is a CMS class to be added to the button,
+which is typically used to supply your own icon and a left offset for the image to
+reside in.
+
+Now, in your plugin or project's `config/config.php` or in the initialize method of your plugin or project's configuration class, make the following call to register interest in the event:
+
+    // Register an event so we can add our buttons to the set of global 
+    // CMS back end admin buttons that appear when the apostrophe is clicked. 
+    $this->dispatcher->connect('a.getGlobalButtons', 
+      array('aMediaCMSSlotsTools', 'getGlobalButtons'));
+
+The bar at the top of each page will now feature your additional button or buttons.
+
+*Note:* you should not add large numbers of buttons to the bar. Usually no more than one per plugin is advisable. It's important that the bar remain manageable and convenient for site admins.
+
+## Engines: Grafting Symfony Modules Into the CMS Page Tree ##
+
+Suitably coded Symfony modules can now be grafted into the page tree at any point in a flexible way that allows admins to switch any page from operating as a normal template page to operating as an engine page, with all URLs beginning with that page slug remapped to the actions of the engine module. When the engine page is moved within the site, all of the virtual "pages" associated with the actions of the module move as well.
+
+*Currently a particular engine can only be placed at a single location in the site.* This is a consequence of the way routing rules are cached in Symfony. We are working to overcome this limitation. However, engine pages are still quite useful with this limitation, as they allow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
+
+Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute class.
+
+This is a very powerful way to integrate non-CMS pages into your site. The media browser of apostrophePlugin will soon be rewritten to take advantage of it.
+
+Engines should always be used when you find yourself wishing to create a tree of "virtual pages" beginning at a point somewhere within the CMS page tree. 
+
+To create a a engine, begin by creating an ordinary Symfony module. Feel free to test its functionality normally at this point. Then change the parent class from `sfActions` to `aEngineActions`. 
+
+NOTE: if your actions class has a `preExecute` method, be sure to call `parent::preExecute` from that method. Otherwise it will not work as an engine.
+
+Now, create routes for all of the actions of your module, or a catch-all route for all of them. Make sure you give these routes the `aRoute` class in `routing.yml`. The following are sample routes for a module called `enginetest`:
+
+    # Engine rules must precede any catch-all rules
+
+    enginetest_index:
+      url:  /
+      param: { module: enginetest, action: index }
+      class: aRoute
+
+    enginetest_foo:
+      url:  /foo
+      param: { module: enginetest, action: foo }
+      class: aRoute
+
+    enginetest_bar:
+      url:  /bar
+      param: { module: enginetest, action: bar }
+      class: aRoute
+
+    enginetest_baz:
+      url:  /baz
+      param: { module: enginetest, action: baz }
+      class: aRoute
+
+You can also use more complex rules to avoid writing a separate rule for each action, exactly as you would for a normal Symfony module. This example could replace the `foo`, `bar`, and `baz` rules above:
+
+    enginetest_action:
+      url: /:action
+      param: { module: enginetest }
+      class: aRoute
+
+You can also use Doctrine routes. Configure them as you normally would, but set the class name to aDoctrineRoute:
+
+		a_event_show:
+		  url:     /:slug
+		  param:   { module: aEvent, action: show }
+		  options: { model: Event, type: object }
+		  class:   aDoctrineRoute
+		  requirements: { slug: '[\w-]+' }
+
+
+In general, you may use all of the usual features available to Symfony routes.
+
+Note that the URLs for these rules are very short and appear to be at the root of the site. `aRoute` will automatically remap these routes based on the portion of the URL that follows the slug of the "engine page" in question. 
+
+That is, if an engine page is located here:
+
+    /test1
+
+And the user requests the following URL:
+
+/test1/foo
+
+The `aRoute` class will automatically locate the engine page in the stem of the URL, remove the slug from the beginning of the URL, and match the remaining part:
+
+    /foo
+
+To the appropriate rule.
+
+As a special case, when the engine page is accessed with no additional components in the URL, `aRoute` will match it to the rule with the URL `/`. 
+
+Note that as a natural consequence of this design, engine pages cannot have subpages in the CMS. In general, it is appropriate to use engines only when you wish to implement "virtual pages" below the level of the CMS page. If you simply wish to customize the behavior of just part of a page, a custom page template or custom slot will better suit your needs.
+
+Once you have established your routes, you can create subnavigation between the actions of your module by writing normal `link_to` and `url_for` calls:
+
+    echo link_to('Bar', 'enginetest/bar')
+    
+To make the user interface aware of your engine, add the following to `app.yml`:
+
+    all:
+      a:
+        engines:
+          '': 'Template-Based'
+          enginetest: 'Engine Test'
+  
+Substitute the name of your module for `enginetest`. Be sure to keep the "template-based" entry in place, as otherwise normal CMS pages are not permitted on your site.
+
+Linking to the "index" action of an engine page is as simple as linking to any other page on the site. But what if you need to generate a link to a specific engine action from an unrelated page? For instance, what if you wish to link to a particular employee's profile within an engine page that contains a directory of staffers? 
+
+Just call `link_to` exactly as you did before:
+
+    echo link_to('Bar', 'enginetest/bar')
+    
+If the current page is not an engine page matching the route in question, the a routing system will find the first engine page in the site that does match the route, and generate a link to that engine page. 
+
+Note: if there is currently no engine page for the given engine, this will throw an exception and generate a 500 error. This makes sense: trying to generate a link to an engine page that doesn't exist is a lot like trying to use a route that doesn't exist. You can test to make sure the engine page exists like this:
+
+<?php if (aPageTable::getFirstEnginePage('enginetest')): ?>
+  <?php echo link_to('Bar', 'enginetest/bar') ?>
+<?php endif ?>
+
+Thissystem  works very well as long as there is only one engine page per engine in the site, and therefore no ambiguity about where the link should go. Currently engine support is limited to one engine page per engine in any case. However, we are working on this limitation and hope to soon offer a way to specify a particular engine page as a destination for the link. This will be useful in situations where you wish to instantiate the same engine more than once, possibly with page-specific settings. However, note that you can already have any number of "subpages" of your engine page using engine routes as described above. You can write a complete database-driven sub-application in an engine, with many sub-"pages." The only thing you currently can't do is insert that engine into two completely distinct portions of your CMS page tree.
+
+After executing a `symfony cc`, you will begin to see your new engine module as a choice in the new "Page Engine" dropdown menu in the page settings form. Select your engine and save your changes. The page will refresh and display your engine.  
+
+Note that engine pages can be moved about the site using the normal drag and drop interface.
+
+You can create your own subnavigation within your engine page. We suggest overriding appropriate portions of your page layout via Symfony slots.
+
+## Internationalization ##
+
+Internationalization is supported at a basic level: separate versions
+of content are served depending on the result of calling getCulture()
+for the current user. When you edit, you are editing the version of
+the content for your current culture. The user's culture defaults, as
+usual, to the sf_default_culture settings.yml setting. The search index also 
+distinguishes between cultures. Webmasters who make use of internationalization will want
+to add a "culture switcher" to their sites so that a user interface is
+available to make these features visible. Thanks to Quentin
+Dugauthier for his assistance in debugging these features.
+
+## Support ##
+
+You can obtain support for a via the [a Google group](http://groups.google.com/group/a). 
+
+Also be sure to [follow our Twitter account](http://twitter.com/apostrophenow).
+
+And be sure to [visit the Apostrophe Now site](http://www.apostrophenow.com/).
+
+Apostrophe is our CMS product based on the open-source a plugin.

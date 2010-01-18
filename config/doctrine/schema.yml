@@ -1,0 +1,235 @@
+# Borrows extensively from sfSimpleCMS. TBB
+
+# For all tables: use INNODB, which gives us better
+# foreign key handling and support for transactions
+options:
+  type: INNODB
+
+aPage:
+  tableName: a_page
+  actAs:
+    - Timestampable
+    - NestedSet
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    slug:
+      type: string(255)
+      unique: true
+    template:
+      type: string(100)
+    # Not currently used
+    is_published: boolean
+    view_is_secure: boolean
+    # For historical reasons this means "unpublished"
+    archived: boolean
+    author_id:
+      type: integer(4)
+    deleter_id:
+      type: integer(4)
+    engine:
+      type: string(255)
+  indexes:
+    slugindex:
+      fields: [slug]
+    engineindex:
+      fields: [engine]
+  relations:
+    Author:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+    Deleter:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+
+aArea:
+  tableName: a_area
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    page_id:
+      type: integer(4)
+    name:
+      type: string(100)
+    culture:
+      type: string(7)
+    latest_version:
+      type: integer(4)
+  indexes:
+    page_index:
+      fields: [page_id] 
+  relations:
+    Page:
+      type: one
+      class: aPage
+      foreign: id
+      onDelete: cascade
+      local: page_id
+      foreignAlias: Areas
+
+aAreaVersion:
+  tableName: a_area_version
+  actAs:
+    - Timestampable
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    area_id: 
+      type: integer(4)
+    version:
+      type: integer(4)
+    author_id:
+      type: integer(4)
+    diff:
+      type: string(200)
+  indexes:
+    area_index:
+      fields: [area_id] 
+  relations:
+    Area:
+      type: one
+      class: aArea
+      foreign: id
+      onDelete: cascade
+      local: area_id
+      foreignAlias: AreaVersions
+    Author:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+      # Note that this means history display code must allow for the
+      # possibility of deleted users
+      onDelete: SET NULL
+
+aAreaVersionSlot:
+  tableName: a_area_version_slot
+  columns:
+    slot_id:  
+      type: integer(4)
+    area_version_id:  
+      type: integer(4)
+    # Permanently unique id of this subslot within this area
+    permid:
+      type: integer(4)
+      # Handy in fixtures
+      default: 1
+    # Current visual ordering within this area on this page.
+    rank:
+      type: integer(4)
+      default: 1
+  indexes:
+    area_version_index:
+      fields: [area_version_id]
+  relations:
+    AreaVersion:
+      type: one
+      class: aAreaVersion
+      foreign: id
+      onDelete: cascade
+      local: area_version_id
+      foreignAlias: AreaVersionSlots
+    Slot:
+      type: one
+      class: aSlot
+      foreign: id
+      onDelete: cascade
+      local: slot_id
+      foreignAlias: AreaVersionSlots
+
+# Slots are always stored and rendered as HTML.
+# However, templates can specify specific editor options 
+# when rendering them (e.g. the use of a particular FCK toolbar).
+
+aSlot:
+  tableName: a_slot
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    # If type is aRichText, then there
+    # MUST BE a aRichText module and a aContextRichTextSlot 
+    # class with Doctrine column aggregation inheritance from aContextSlot
+    # (although it doesn't actually have to define new columns if it's
+    # happy storing its data entirely in the value string). 
+    type:
+      type: string(100)
+    value:
+      type: clob
+
+aTextSlot:
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aText'
+
+aRichTextSlot:
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aRichText'
+
+aRawHTMLSlot:
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aRawHTML'
+
+aAccess:
+  tableName: a_access
+  columns:
+    page_id: integer(4)
+    # currently just edit or view
+    privilege: string(100)
+    user_id: integer(4)
+  relations:
+    User:
+      class: sfGuardUser
+      foreign: id
+      local: user_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+  indexes:
+    pageindex:
+      fields: [page_id]
+
+aLuceneUpdate:
+  tableName: a_lucene_update
+  columns:
+    page_id:
+      type: integer(4)
+    culture:
+      type: string(7)
+  indexes:
+    page_and_culture_index:
+      fields: [page_id, culture]
+  relations:
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      onDelete: cascade
+
