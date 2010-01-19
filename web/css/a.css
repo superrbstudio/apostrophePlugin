@@ -1420,3 +1420,55 @@ text-decoration: line-through;
 {
 	width: 480px;
 }
+
+#a-login-form-container
+{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	padding: 0;
+	background: #fff;
+	border: 1px solid #999;
+	z-index:999;
+	display: none;
+	-moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
+	box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+}
+
+#a-signin-form .a-form-row
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	position: relative;
+	margin: 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+	float: left;
+	display: inline;
+	width: auto;
+	clear:none;
+	position: relative;
+	margin-right: 5px;
+}
+
+#a-signin-form input.a-submit {
+border:none;
+color:#fff;
+font-family:Arial,Sans-serif;
+font-size:12px;
+padding:0;
+margin: 0;
+text-transform: capitalize;
+width: auto;
+}
+
+#a-signin-form .a-form-row.submit .cancel
+{
+	margin-left: 5px;
+}

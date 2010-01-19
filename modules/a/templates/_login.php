@@ -20,7 +20,12 @@
 <?php else: ?>
   <?php // You can easily turn off the 'Log In' link via app.yml ?>
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
-    <li><?php echo link_to("Log In", sfConfig::get('app_a_actions_login', 'sfGuardAuth/signin'), array('class' => 'a-btn', )) ?></li>
+    <li>
+			<?php echo jq_link_to_function('Login', "$('#a-login-form-container').fadeIn(); $('#signin_username').focus(); $('.a-page-overlay').fadeIn('fast');", array('class' => 'a-btn','id' => 'a-login-button')) ?>	
+			<div id="a-login-form-container">
+				<?php include_component('a','signinForm') ?>
+			</div>
+		</li>
   <?php endif ?>
 <?php endif ?>
 </ul>

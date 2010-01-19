@@ -143,6 +143,7 @@ class BaseaComponents extends aBaseComponents
       }
     }
   }
+
   public function executeNavigation(sfRequest $request)
   {
     // What page are we starting from?
@@ -193,4 +194,16 @@ class BaseaComponents extends aBaseComponents
     }
     
   }
+
+	/**
+	 * Executes signinForm action
+	 *
+	 * @param sfRequest $request A request object
+	 */
+	public function executeSigninForm(sfWebRequest $request)
+	{
+		$class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin'); 
+	  $this->form = new $class();
+	}
+
 }

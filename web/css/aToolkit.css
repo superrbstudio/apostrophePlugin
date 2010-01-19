@@ -1142,8 +1142,9 @@ width: 180px;
 {
 float: left;
 display: inline;
-margin: 0 10px;
-color: #41a122;
+margin: 5px 0;
+color: #900;
+font-size: 11px;
 }
     
 #a-signin-form label
@@ -1155,7 +1156,6 @@ color: #41a122;
 #a-signin-form input,
 #a-signin-form a
 {
-margin: 0px 10px 5px 10px;
 clear: both;
 float: left;
 }
@@ -1173,7 +1173,6 @@ float: left;
 #a-signin-form input[type="password"]
 {
 	width: 155px;
-	margin-bottom: 10px;
 }
     
 #a-signin-form a
@@ -1314,4 +1313,33 @@ text-indent: -999px;
 overflow: hidden;
 width: 19px;
 margin-left: 5px;
+}
+
+/* aBlogPlugin Styles - For some reason I couldn't find any styles anywhere so I am starting some here */
+
+#a-blog-main
+{
+	float: left;
+	width: 100%;
+	display: inline;
+	position: relative;	
+}
+
+#a-blog-main .a-blog-post-title,
+#a-blog-main .a-blog-post-meta,
+#a-blog-main .a-blog-post-tags,
+#a-blog-main .a-blog-post-media,
+#a-blog-main .a-blog-post-body
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+#a-blog-main .a-blog-post-body p
+{
+	margin-bottom: 10px;
 }

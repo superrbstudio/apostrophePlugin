@@ -40,11 +40,12 @@ display: inline;
 float: left;
 }
 
-.a-media-subnav
+#a-subnav.a-media-subnav
 {
 width: 178px;
 margin-bottom: 20px;
 float: left;
+position: relative;
 }
 
 .a-media-subnav .a-search-form
@@ -193,8 +194,13 @@ background-position: bottom right;
 float: left;
 display: inline;
 position: relative;
-width: 50%;
+width: 340px;
 margin-bottom: 20px;
+}
+
+.a-media-item.even
+{
+	margin-right: 40px;
 }
 
 .a-media-item-meta
