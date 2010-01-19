@@ -1,4 +1,4 @@
-<?php use_helper('Jquery') ?>
+<?php use_helper('jQuery') ?>
 
 <div id="a-signin">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="a-signin-form" <?php echo ($form->hasErrors())? 'class="has-errors"':''; ?>>
