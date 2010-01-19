@@ -48,7 +48,7 @@ class aZendSearch
 
      foreach ($hits as $hit)
      {
-       $ids[$hit->a] = $hit;
+       $ids[$hit->primarykey] = $hit;
      }
      return $ids;
    }
