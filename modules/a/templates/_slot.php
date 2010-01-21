@@ -26,7 +26,7 @@
       <?php // creating a gratuitous collection of hidden form widgets that are never edited, let's ?> 
       <?php // attach the necessary context fields to the URL just like Doctrine forms do. ?>
       <?php // We force a query string for compatibility with our simple admin routing rule ?>
-      <?php echo json_encode(url_for("$type/edit") . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug, 'real-slug' => $realSlug))) ?>, 
+      <?php echo json_encode(url_for($type . 'Slot/edit') . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug, 'real-slug' => $realSlug))) ?>, 
       $('#a-slot-form-<?php echo $id ?>').serialize(), 
       function(data) {
         $('#a-slot-content-<?php echo $id ?>').html(data)

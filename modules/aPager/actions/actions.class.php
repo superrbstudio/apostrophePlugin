@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BaseaPagerActions.class.php';
-
 /**
  * aPager actions.
  * 

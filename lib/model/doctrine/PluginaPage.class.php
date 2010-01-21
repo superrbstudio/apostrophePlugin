@@ -280,7 +280,7 @@ abstract class PluginaPage extends BaseaPage
       $permidAndRank = $this->getNextPermidAndRank($name, $newFirst);
       if (!($new instanceof aSlot))
       {
-        // It's a class name, make one
+        // It's a type name, make one
         $new = $this->createSlot($new);
       }
       else

@@ -3,7 +3,7 @@
   //
   // You'll typically override this for your custom slot by writing your own 
   // executeNormalView method in your own slot module's components class 
-   // which extends aBaseComponents, and providing an
+   // which extends BaseaSlotComponents, and providing an
   // _editView.php template in that module. Be sure to call 
   // parent::executeNormalView() in that method.
   //

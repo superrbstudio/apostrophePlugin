@@ -4,7 +4,7 @@
   //
   // You will virtually always override this by writing your own
   // executeEditView method in your own slot module's components class
-  // which extends aBaseComponents, and providing an
+  // which extends BaseaSlotComponents, and providing an
   // _editView.php template in that module. Be sure to call 
   // parent::executeEditView() in that method
   //
