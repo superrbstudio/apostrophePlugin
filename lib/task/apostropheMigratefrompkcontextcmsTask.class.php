@@ -82,7 +82,9 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     // ./symfony apostrophe:pkcontextcms-migrate-slots
 
     $contentRules = array(
-      // We merged the plugins
+      // We merged most of the plugins, but watch out for the two we didn't merge
+      '/pkBlogPlugin/' => 'apostropheBlogPlugin',
+      '/pkFormBuilderPlugin/' => 'apostropheFormBuilderPlugin',
       '/pk(\w+)Plugin/' => 'apostrophePlugin',
       // Case varies
       '/pkContextCMS/i' => 'a',
@@ -98,7 +100,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     );
 
     $pathRules = array(
-      // Merge files in project /lib that were initially generated as
+      // First rename the plugins we didn't merge
+      '/\/([^\/]*?)pkBlogPlugin([^\/]*)$/' => '/$1apostropheBlogPlugin$2',
+      '/\/([^\/]*?)pkFormBuilderPlugin([^\/]*)$/' => '/$1apostropheFormBuilderPlugin$2',
+      // Now merge files in project /lib that were initially generated as
       // local overrides of the various pk plugins
       '/\.\/lib\/model\/doctrine\/pk\w+Plugin\/(.+)/' => './lib/model/doctrine/apostrophePlugin/$1',
       // OMG succinct!
