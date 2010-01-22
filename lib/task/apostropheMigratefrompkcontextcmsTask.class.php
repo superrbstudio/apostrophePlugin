@@ -234,20 +234,18 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       echo($file . ' (' . $sofar . ' of ' . $total . ")\n");
       if (!is_dir($file))
       {
-        // We are interested in files, not directories. Since we need to ensure
-        // the existence of parent folders for deep moves, we'll get a lot of
-        // 'already exists' errors if we worry about directories. Empty directories
-        // are not interesting in the folders we're renaming
         $content = file_get_contents($file);
         $content = preg_replace(array_keys($contentRules), array_values($contentRules), $content);
         file_put_contents($file, $content);
-        $name = $file;
-        $name = preg_replace(array_keys($pathRules), array_values($pathRules), $name);
-        if ($name !== $file)
-        {
-          echo("Renaming $file to $name\n");
-          $this->rename($file, $name);
-        }
+      }
+      $name = $file;
+      $name = preg_replace(array_keys($pathRules), array_values($pathRules), $name);
+      if ($name !== $file)
+      {
+        echo("Renaming $file to $name\n");
+        // If it's a directory, we don't get upset if it already exists due to
+        // a child file having already been moved with creation of parent dirs
+        $this->rename($file, $name, is_dir($file));
       }
     }
     
@@ -295,8 +293,13 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
   }
   
-  public function rename($from, $to)
+  public function rename($from, $to, $canExist = false)
   {
+    if ($canExist && file_exists($to))
+    {
+      // Already created by the move of a child file, that's OK
+      return;
+    }
     if (file_exists(dirname($from) . '/.svn'))
     {
       system('svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
