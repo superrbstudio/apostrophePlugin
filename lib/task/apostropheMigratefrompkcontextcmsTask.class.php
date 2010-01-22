@@ -153,8 +153,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $appYamls = glob('apps/*/config/app.yml');
     $yaml = new sfYaml();
     $types = array(
-      'aText' => 'Plain Text',
-      'aRichText' => 'Rich Text');
+      'pkContextCMSText' => 'Plain Text',
+      'pkContextCMSRichText' => 'Rich Text');
     foreach ($appYamls as $appYaml)
     {
       $data = $yaml->load(file_get_contents($appYaml));
