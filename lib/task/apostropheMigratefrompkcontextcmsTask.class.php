@@ -293,7 +293,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       system('svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
       if ($result != 0)
       {
-        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n");
+        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n\nNOTE: you must have at least svn 1.5. If you get errors about\nthe --parents option, upgrade svn.\n");
       }
     }
     else
