@@ -193,10 +193,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $extensions = array_flip($extensions);
 
     $files = $this->getFiles('');
-    $total = count($files);
+    // Filter out files we shouldn't touch
+    $nfiles = array();
     foreach ($files as $file)
     {
-      $sofar++;
       $ignore = false;
       foreach ($ignored as $rule)
       {
@@ -207,6 +207,17 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
           break;
         }
       }
+      if ($ignore)
+      {
+        continue;
+      }
+      $nfiles[] = $file;
+    }
+    $files = $nfiles;
+
+    $total = count($files);
+    foreach ($files as $file)
+    {
       // Leave inappropriate file extensions alone, in particular leave binary files etc. alone.
       // But do rename directories
       $ext = pathinfo($file, PATHINFO_EXTENSION);
