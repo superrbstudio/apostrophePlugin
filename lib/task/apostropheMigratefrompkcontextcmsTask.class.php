@@ -156,13 +156,19 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     
     foreach ($slotTypes as $type)
     {
+      // Rename any overrides or implementations of slot modules at the app level
       $modules = glob("apps/*/modules/$type");
       foreach ($modules as $module)
       {
-        $this->rename($module, $module . 'Slot');
+        echo("Would rename $module\n");
+        // $this->rename($module, $module . 'Slot');
       }
-      replaceInFiles("apps/*/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
-      replaceInFiles("apps/*/config/settings.yml", "/$type(?!Slot)/", $type . 'Slot');
+      // Rename within the implementation PHP files
+      $this->replaceInFiles("apps/*/modules/$type/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
+      // Rename within settings.yml to enable the module. We DON'T rename in
+      // app.yml, where we are still using slot type names without a
+      // Slot suffix, which would be superfluous there
+      $this->replaceInFiles("apps/*/config/settings.yml", "/$type(?!Slot)/", $type . 'Slot');
     }
     
     exit(0);
@@ -269,7 +275,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
   }
   
-  static public function rename($from, $to)
+  public function rename($from, $to)
   {
     if (file_exists(dirname($from) . '/.svn'))
     {
@@ -285,6 +291,18 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       {
         die("Unable to rename $from to $to\n");
       }
+    }
+  }
+  
+  // search is a regexp
+  public function replaceInFiles($glob, $search, $replace)
+  {
+    $files = glob($glob);
+    foreach ($files as $file)
+    {
+      $content = file_get_contents($file);
+      echo("Would replace in $file\n");
+      // file_put_contents($file, preg_replace($search, $replace, $content));
     }
   }
 }
