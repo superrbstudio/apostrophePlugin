@@ -121,7 +121,11 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $ignored = array(
       '/^\.\/lib\/vendor\//',
       '/^\.\/plugins\//',
-      '/^\.\/web\/uploads\//'
+      '/^\.\/web\/uploads\//',
+      // We need to leave the contents of pk_writable/a_writable alone, but
+      // the folder itself does need renaming
+      '/^\.\/web\/pk_writable\/.+/',
+      '/^\.\/web\/a_writable\/.+/',
     );
 
     // Don't modify inappropriate files
@@ -279,12 +283,12 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
   
   static public function rename($from, $to)
   {
-    if (file_exists('.svn'))
+    if (file_exists(dirname($from) . '/.svn'))
     {
       system('svn mv ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
       if ($result != 0)
       {
-        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in your project's root dir. Is this an unhappy svn checkout?\n");
+        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n");
       }
     }
     else
