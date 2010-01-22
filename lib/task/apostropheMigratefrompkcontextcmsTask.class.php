@@ -139,7 +139,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       './symfony cc',
       './symfony doctrine:build --all-classes',
       './symfony cc',
-      './symfony plugin:publish:assets',
+      './symfony plugin:publish-assets',
       './symfony apostrophe:migrate-data-from-pkcontextcms'
     );
 

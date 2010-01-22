@@ -72,6 +72,8 @@ EOF;
     echo("If you have other folders in data/pk_writable you may want to move them to
 data/a_writable. Due to interactions with svn this is not automatic. In 
 our projects we use svn ignore rules to protect the contents of the
-data/*_writable folder.n");
+data/*_writable folder. This is primarily an issue on servers other than your
+development machine, where you run this task separately. On your development
+machine pk_writable is renamed to a_writable automatically.\n");
   }
 }
