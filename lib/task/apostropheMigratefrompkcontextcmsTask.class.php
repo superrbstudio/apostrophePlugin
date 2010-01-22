@@ -149,19 +149,30 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
 
     // Rename the slot modules and certain references to them
-
-    $slots = array('')
-
-    $slotTypes = array_keys(sfConfig::get('app_pkContextCMS_slot_types', array('pkContextCMSText' => 'dummy', 'pkContextCMSRichText' => dummy)));
-    
-    foreach ($slotTypes as $type)
+    // We want to look at all applications here not just frontend
+    $appYamls = glob('apps/*/config/app.yml');
+    $yaml = new sfYaml();
+    $types = array(
+      'aText' => 'Plain Text',
+      'aRichText' => 'Rich Text');
+    foreach ($appYamls as $appYaml)
     {
+      $data = $yaml->load(file_get_contents($appYaml));
+      foreach ($data as $heading)
+      {
+        $types = array_merge($types, $heading['pkContextCMS']['slot_types']);
+      }
+    }
+    $types = array_keys($types);
+    foreach ($types as $type)
+    {
+      echo("Type under consideration is $type\n");
       // Rename any overrides or implementations of slot modules at the app level
       $modules = glob("apps/*/modules/$type");
       foreach ($modules as $module)
       {
-        echo("Would rename $module\n");
-        // $this->rename($module, $module . 'Slot');
+        echo("Renaming $module\n");
+        $this->rename($module, $module . 'Slot');
       }
       // Rename within the implementation PHP files
       $this->replaceInFiles("apps/*/modules/$type/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
@@ -170,8 +181,6 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       // Slot suffix, which would be superfluous there
       $this->replaceInFiles("apps/*/config/settings.yml", "/$type(?!Slot)/", $type . 'Slot');
     }
-    
-    exit(0);
     
     // Now we can use isset() to check whether something is on the list in an efficient manner
     $extensions = array_flip($extensions);
@@ -301,8 +310,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     foreach ($files as $file)
     {
       $content = file_get_contents($file);
-      echo("Would replace in $file\n");
-      // file_put_contents($file, preg_replace($search, $replace, $content));
+      file_put_contents($file, preg_replace($search, $replace, $content));
     }
   }
 }
