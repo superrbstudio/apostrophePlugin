@@ -166,7 +166,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $types = array_keys($types);
     foreach ($types as $type)
     {
-      echo("Type under consideration is $type\n");
+      echo("Slot type under consideration is $type\n");
       // Rename any overrides or implementations of slot modules at the app level
       $modules = glob("apps/*/modules/$type");
       foreach ($modules as $module)
@@ -310,6 +310,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     foreach ($files as $file)
     {
       $content = file_get_contents($file);
+      echo("Searching for: $search replacing with: $replace\n");
       file_put_contents($file, preg_replace($search, $replace, $content));
     }
   }
