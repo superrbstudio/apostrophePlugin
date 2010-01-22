@@ -153,11 +153,16 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       'pk_media_item' => 'a_media_item'
     );
 
+    if (!file_exists('config/ProjectConfiguration.class.php'))
+    {
+      die("You must cd to your project's root directory before running this task.\n");
+    }
+
     // First we have to find slot implementation modules and rename them to follow
     // the new convention: the component class name ends in 'Slot'. If we do this first
     // the simpler regexps that follow can take care of the rest
 
-    $normalViews = get_files('-type f | grep modules.*normalView');
+    $normalViews = $this->getFiles('-type f | grep modules.*normalView');
 
     foreach ($normalViews as $normalView)
     {
