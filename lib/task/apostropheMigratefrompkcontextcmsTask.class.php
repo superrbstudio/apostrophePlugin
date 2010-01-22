@@ -82,8 +82,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     // ./symfony apostrophe:pkcontextcms-migrate-slots
 
     $contentRules = array(
-      '/pkContextCMSPlugin/' => 'apostrophePlugin',
-      '/pk(\w+)Plugin/' => 'apostrophe$1Plugin',
+      // We merged the plugins
+      '/pk(\w+)Plugin/' => 'apostrophePlugin',
       // Case varies
       '/pkContextCMS/i' => 'a',
       '/pk_context_cms/' => 'a',
@@ -97,10 +97,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       '/PkAdmin/' => 'AAdmin'
     );
 
-    // I was generating the below from the above but it got too weird
     $pathRules = array(
-      '/\/([^\/]*?)pkContextCMSPlugin([^\/]*)$/' => '/$1apostrophePlugin$2',
-      '/\/([^\/]*?)pk(\w+)Plugin([^\/]*)$/' => '/$1apostrophe$2Plugin$3',
+      // Merge files in project /lib that were initially generated as
+      // local overrides of the various pk plugins
+      '/\.\/lib\/model\/doctrine\/pk\w+Plugin\/(.+)/' => './lib/model/doctrine/apostrophePlugin/$1',
       // OMG succinct!
       '/\/([^\/]*?)pkContextCMS([^\/]*)$/' => '/$1a$2',
       '/\/([^\/]*?)Basepk([^\/]*)$/' => '/$1Basea$2',
@@ -167,8 +167,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     foreach ($types as $type)
     {
       echo("Slot type under consideration is $type\n");
-      // Rename within the implementation PHP files
-      $this->replaceInFiles("apps/*/modules/$type/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
+      // Rename within the implementation PHP files. That includes action classes,
+      // component classes and templates (which frequently have include_component and
+      // include_partial calls that will otherwise fail)
+      $this->replaceInFiles("apps/*/modules/$type/*/*.php", "/$type(?!Slot)/", $type . 'Slot');
       // Rename any overrides or implementations of slot modules at the app level
       $modules = glob("apps/*/modules/$type");
       foreach ($modules as $module)

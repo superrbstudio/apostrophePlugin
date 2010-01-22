@@ -23,7 +23,7 @@
     $item->embed) ?>
 
   <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>" <?php echo ($first)? 'style="display:list-item;"':''; ?>>
-		<?php include_partial('aSlideshow/slideshowItem', array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
+		<?php include_partial('aSlideshowSlot/slideshowItem', array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
 	</li>
 <?php $first = false; $n++; endforeach ?>
 </ul>

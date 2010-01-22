@@ -30,5 +30,5 @@
   <?php end_slot() ?>
 <?php endif ?>
 
-<?php include_component('aSlideshow', 'slideshow', array('items' => $items, 'id' => $id, 'options' => $options)) ?>
+<?php include_component('aSlideshowSlot', 'slideshow', array('items' => $items, 'id' => $id, 'options' => $options)) ?>
 
