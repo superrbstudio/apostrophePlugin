@@ -148,37 +148,25 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       die("You must cd to your project's root directory before running this task.\n");
     }
 
-    // First we have to find slot implementation modules and rename them to follow
-    // the new convention: the component class name ends in 'Slot'. If we do this first
-    // the simpler regexps that follow can take care of the rest
+    // Rename the slot modules and certain references to them
 
-    $normalViews = $this->getFiles('-type f | grep apps.*modules.*normalView');
+    $slots = array('')
 
-    foreach ($normalViews as $normalView)
+    $slotTypes = array_keys(sfConfig::get('app_pkContextCMS_slot_types', array('pkContextCMSText' => 'dummy', 'pkContextCMSRichText' => dummy)));
+    
+    foreach ($slotTypes as $type)
     {
-      if (preg_match('/(\w+)\/templates/', $normalView, $matches))
+      $modules = glob("apps/*/modules/$type");
+      foreach ($modules as $module)
       {
-        $module = $matches[1];
-        echo("Slot Module: $module\n");
-        $new = $module . 'Slot';
-        // These rules must run first to avoid chicken and egg renaming problems.
-        // Make sure we leave the existing model class name (which ends in Slot) alone
-        // Thank heaven for negative lookahead!
-        
-        $modulePathRules['/\/([^\/]*?)' . $module . '(?!Slot)([^\/]*)$/'] = '/$1' . $new . '$2';
-        $moduleContentRules["/$module(?!Slot)/"] = $new;
-
-        echo("Created rules to rename slot module $module\n");
+        $this->rename($module, $module . 'Slot');
       }
+      replaceInFiles("apps/*/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
+      replaceInFiles("apps/*/config/settings.yml", "/$type(?!Slot)/", $type . 'Slot');
     }
+    
     exit(0);
     
-    // Without this pkContextCMSBlog gets renamed before pkContextCMSBlogEvent
-    // with disastrous consequences
-
-    uksort($modulePathRules, 'apostropheMigratefrompkcontextcmsTask::longestFirst');
-    uksort($moduleContentRules, 'apostropheMigratefrompkcontextcmsTask::longestFirst');
-
     // Now we can use isset() to check whether something is on the list in an efficient manner
     $extensions = array_flip($extensions);
 
@@ -225,17 +213,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       if (!is_dir($file))
       {
         $content = file_get_contents($file);
-        // Careful: add Slot to slot names only inside slot modules and settings.yml.
-        // Otherwise we mess up unrelated things
-        if (preg_match('/settings\.yml$/', $file) || (preg_match(array_keys($modulePathRules), $file)))
-        {
-          $content = preg_replace(array_keys($moduleContentRules), array_values($moduleContentRules), $content);
-        }
         $content = preg_replace(array_keys($contentRules), array_values($contentRules), $content);
         file_put_contents($file, $content);
       }
       $name = $file;
-      $name = preg_replace(array_keys($modulePathRules), array_values($modulePathRules), $name);
       $name = preg_replace(array_keys($pathRules), array_values($pathRules), $name);
       if ($name !== $file)
       {
