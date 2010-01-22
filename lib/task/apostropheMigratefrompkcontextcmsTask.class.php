@@ -43,8 +43,8 @@ kept as simple as possible it has only been tested in MySQL.
 
 This involves regular expressions that make some moderately big changes, 
 including changing references to words beginning in 'pk' to begin with 'a'. If 
-you are using the 'pk' prefix for things unrelated to our code you may have some 
-cleanup to do after running this task.
+you are using the 'pk' prefix for things unrelated to our code you may have 
+some cleanup to do after running this task.
 
 If your project's root folder is an svn checkout, this task will automatically 
 use 'svn mv' rather than PHP's 'rename' when renaming files and folders.
@@ -119,9 +119,9 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     // use the CMS, they can run this script again within those folders
 
     $ignored = array(
-      '/^\/lib\/vendor\/',
-      '/^\/plugins\/',
-      '/^\/web\/uploads\/'
+      '/^\.\/lib\/vendor\//',
+      '/^\.\/plugins\//',
+      '/^\.\/web\/uploads\//'
     );
 
     // Don't modify inappropriate files
@@ -134,6 +134,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       './symfony doctrine:build --all-classes',
       './symfony cc',
       './symfony publish:assets',
+      './symfony apostrophe:migrate-data-from-pkcontextcms',
       './symfony apostrophe:rebuild-search-indexes'
     );
 
@@ -162,7 +163,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     // the new convention: the component class name ends in 'Slot'. If we do this first
     // the simpler regexps that follow can take care of the rest
 
-    $normalViews = $this->getFiles('-type f | grep modules.*normalView');
+    $normalViews = $this->getFiles('-type f | grep apps.*modules.*normalView');
 
     foreach ($normalViews as $normalView)
     {
@@ -187,29 +188,25 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     // Now we can use isset() to check whether something is on the list in an efficient manner
     $extensions = array_flip($extensions);
 
-    $files = $this->getFiles($type);
+    $files = $this->getFiles('');
     $total = count($files);
     foreach ($files as $file)
     {
       $sofar++;
       $ignore = false;
-      foreach ($ignored as $ignore)
+      foreach ($ignored as $rule)
       {
-        if (preg_match($ignore, $file))
+        if (preg_match($rule, $file))
         {
           // Leave vendor, plugins, etc. alone
           $ignore = true;
           break;
         }
       }
-      if ($ignore)
-      {
-        continue;
-      }
       // Leave inappropriate file extensions alone, in particular leave binary files etc. alone.
       // But do rename directories
       $ext = pathinfo($file, PATHINFO_EXTENSION);
-      if (strlen($ext) && (!isset($extensions[$ext])))
+      if ((!is_dir($file)) && (!isset($extensions[$ext])))
       {
         continue;
       }
@@ -246,18 +243,6 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       }
     }
 
-    // We need to use PDO here because Doctrine is more than a little confused when
-    // we've renamed the codebase but not the tables
-    
-    echo("Renaming slots in database\n");
-    $conn = Doctrine_Manager::connect()->getDbh();
-    $conn->query('UPDATE pk_context_cms_slot SET type = REPLACE(type, "pkContextCMS", "a")');
-    
-    echo("Renaming tables in database\n");
-    foreach ($tables as $old => $new)
-    {
-      $conn->query("RENAME TABLE $old TO $new");
-    }
     
     echo("Done!\n\n");
     echo("YOU SHOULD TEST THOROUGHLY before you deploy or commit as many changes have been made.\n");
