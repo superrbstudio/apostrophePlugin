@@ -234,16 +234,20 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       echo($file . ' (' . $sofar . ' of ' . $total . ")\n");
       if (!is_dir($file))
       {
+        // We are interested in files, not directories. Since we need to ensure
+        // the existence of parent folders for deep moves, we'll get a lot of
+        // 'already exists' errors if we worry about directories. Empty directories
+        // are not interesting in the folders we're renaming
         $content = file_get_contents($file);
         $content = preg_replace(array_keys($contentRules), array_values($contentRules), $content);
         file_put_contents($file, $content);
-      }
-      $name = $file;
-      $name = preg_replace(array_keys($pathRules), array_values($pathRules), $name);
-      if ($name !== $file)
-      {
-        echo("Renaming $file to $name\n");
-        $this->rename($file, $name);
+        $name = $file;
+        $name = preg_replace(array_keys($pathRules), array_values($pathRules), $name);
+        if ($name !== $file)
+        {
+          echo("Renaming $file to $name\n");
+          $this->rename($file, $name);
+        }
       }
     }
     
@@ -303,10 +307,24 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
     else
     {
+      $this->ensureDir($to);
       if (!rename($from, $to))
       {
         die("Unable to rename $from to $to\n");
       }
+    }
+  }
+  
+  public function ensureDir($file)
+  {
+    while (true)
+    {
+      $file = dirname(__FILE__);
+      if (file_exists($file))
+      {
+        return;
+      }
+      system("mkdir -p " . escapeshellarg($file));
     }
   }
   
