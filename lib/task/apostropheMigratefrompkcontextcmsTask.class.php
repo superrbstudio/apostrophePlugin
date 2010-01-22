@@ -290,7 +290,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
   {
     if (file_exists(dirname($from) . '/.svn'))
     {
-      system('svn mv ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
+      system('svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
       if ($result != 0)
       {
         die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n");
