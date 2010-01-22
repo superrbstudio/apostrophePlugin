@@ -167,6 +167,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     foreach ($types as $type)
     {
       echo("Slot type under consideration is $type\n");
+      // Rename within the implementation PHP files
+      $this->replaceInFiles("apps/*/modules/$type/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
       // Rename any overrides or implementations of slot modules at the app level
       $modules = glob("apps/*/modules/$type");
       foreach ($modules as $module)
@@ -174,8 +176,6 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
         echo("Renaming $module\n");
         $this->rename($module, $module . 'Slot');
       }
-      // Rename within the implementation PHP files
-      $this->replaceInFiles("apps/*/modules/$type/actions/*.php", "/$type(?!Slot)/", $type . 'Slot');
       // Rename within settings.yml to enable the module. We DON'T rename in
       // app.yml, where we are still using slot type names without a
       // Slot suffix, which would be superfluous there
