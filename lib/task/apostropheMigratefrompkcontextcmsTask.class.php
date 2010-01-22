@@ -32,25 +32,32 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
-    if (!$this->askConfirmation("pkContextCMS to Apostrophe Migration Task
-This task will rename all references to the old pkContextCMS tables, classes, CSS classes and
-IDs, etc. throughout your project. The lib/vendor and plugins folders will not be touched. 
-Tables in your database will be renamed and slot type names in the database will be changed.
+    echo("
+pkContextCMS to Apostrophe Migration Task
+    
+This task will rename all references to the old pkContextCMS tables, classes, 
+CSS classes and IDs, etc. throughout your project. The lib/vendor and plugins 
+folders will not be touched. Tables in your database will be renamed and slot 
+type names in the database will be changed. While the SQL for this has been
+kept as simple as possible it has only been tested in MySQL.
 
-This involves regular expressions that make some moderately big changes, including changing
-references to words beginning in 'pk' to begin with 'a'. If you are using the 'pk' prefix
-for things unrelated to our code you may have some cleanup to do after running this task.
+This involves regular expressions that make some moderately big changes, 
+including changing references to words beginning in 'pk' to begin with 'a'. If 
+you are using the 'pk' prefix for things unrelated to our code you may have some 
+cleanup to do after running this task.
 
-If your project's root folder is an svn checkout, this task will automatically use
-'svn mv' rather than PHP's 'rename' when renaming files and folders.
+If your project's root folder is an svn checkout, this task will automatically 
+use 'svn mv' rather than PHP's 'rename' when renaming files and folders.
 
 BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
 
-Are you sure you are ready to do this?",
-      'LARGE_QUESTION',
+");
+    if (!$this->askConfirmation(
+"Are you sure you are ready to migrate your project? [y/N]",
+      'QUESTION_LARGE',
       false))
     {
-        die("Operation CANCELLED. No changes made.\n");
+      die("Operation CANCELLED. No changes made.\n");
     }
 
     // pkContextCMS-to-Apostrophe project upgrade script
