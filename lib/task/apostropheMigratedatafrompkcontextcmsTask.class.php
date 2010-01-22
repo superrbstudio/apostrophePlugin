@@ -41,13 +41,30 @@ EOF;
     $conn->query('UPDATE pk_context_cms_slot SET type = REPLACE(type, "pkContextCMS", "a")');
     
     echo("Renaming tables in database\n");
+
+    $tables = array(
+      'pk_context_cms_slot' => 'a_slot',
+      'pk_context_cms_area_version_slot' => 'a_area_version_slot',
+      'pk_context_cms_area_version' => 'a_area_version',
+      'pk_context_cms_area' => 'a_area',
+      'pk_context_cms_page' => 'a_page',
+      'pk_blog_category' => 'a_blog_category',
+      'pk_blog_event_version' => 'a_blog_event_version',
+      'pk_blog_item' => 'a_blog_item',
+      'pk_blog_item_version' => 'a_blog_item_version',
+      'pk_blog_post_version' => 'a_blog_post_version',
+      'pk_context_cms_access' => 'a_access',
+      'pk_context_cms_lucene_update' => 'a_lucene_update',
+      'pk_media_item' => 'a_media_item'
+    );
+
     foreach ($tables as $old => $new)
     {
       $conn->query("RENAME TABLE $old TO $new");
     }
     
     echo("Rebuilding search indexes\n");
-    system("./symfony apostrophe:rebuild-search-indexes", $result);
+    system("./symfony apostrophe:rebuild-search-index", $result);
     if ($result != 0)
     {
       die("Unable to rebuild search indexes\n");

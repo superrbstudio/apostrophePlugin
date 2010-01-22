@@ -68,7 +68,7 @@ class aTrace
       $count++;
       if ($count > $ignoreCount)
       {
-        $result .= "Class: " . (isset($element['class']) ? $element['class'] : 'NONE') . " function: " . $element['function'] . " line: " . $lastLine . "\n";
+        $result .= "Class: " . (isset($element['class']) ? $element['class'] : 'NONE') . " function: " . $element['function'] . " line: " . $lastLine . " File: " . (isset($element['file']) ? $element['file'] : 'NONE') . "\n";
       }
       if (isset($element['line']))
       {

@@ -139,25 +139,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       './symfony cc',
       './symfony doctrine:build --all-classes',
       './symfony cc',
-      './symfony publish:assets',
-      './symfony apostrophe:migrate-data-from-pkcontextcms',
-      './symfony apostrophe:rebuild-search-indexes'
-    );
-
-    $tables = array(
-      'pk_context_cms_slot' => 'a_slot',
-      'pk_context_cms_area_version_slot' => 'a_area_version_slot',
-      'pk_context_cms_area_version' => 'a_area_version',
-      'pk_context_cms_area' => 'a_area',
-      'pk_context_cms_page' => 'a_page',
-      'pk_blog_category' => 'a_blog_category',
-      'pk_blog_event_version' => 'a_blog_event_version',
-      'pk_blog_item' => 'a_blog_item',
-      'pk_blog_item_version' => 'a_blog_item_version',
-      'pk_blog_post_version' => 'a_blog_post_version',
-      'pk_context_cms_access' => 'a_access',
-      'pk_context_cms_lucene_update' => 'a_lucene_update',
-      'pk_media_item' => 'a_media_item'
+      './symfony plugin:publish:assets',
+      './symfony apostrophe:migrate-data-from-pkcontextcms'
     );
 
     if (!file_exists('config/ProjectConfiguration.class.php'))
@@ -176,8 +159,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       if (preg_match('/(\w+)\/templates/', $normalView, $matches))
       {
         $module = $matches[1];
+        echo("Slot Module: $module\n");
         $new = $module . 'Slot';
-        $temp = $module . 'PKTEMP';
         // These rules must run first to avoid chicken and egg renaming problems.
         // Make sure we leave the existing model class name (which ends in Slot) alone
         // Thank heaven for negative lookahead!
@@ -188,7 +171,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
         echo("Created rules to rename slot module $module\n");
       }
     }
-
+    exit(0);
+    
     // Without this pkContextCMSBlog gets renamed before pkContextCMSBlogEvent
     // with disastrous consequences
 
@@ -241,7 +225,12 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       if (!is_dir($file))
       {
         $content = file_get_contents($file);
-        $content = preg_replace(array_keys($moduleContentRules), array_values($moduleContentRules), $content);
+        // Careful: add Slot to slot names only inside slot modules and settings.yml.
+        // Otherwise we mess up unrelated things
+        if (preg_match('/settings\.yml$/', $file) || (preg_match(array_keys($modulePathRules), $file)))
+        {
+          $content = preg_replace(array_keys($moduleContentRules), array_values($moduleContentRules), $content);
+        }
         $content = preg_replace(array_keys($contentRules), array_values($contentRules), $content);
         file_put_contents($file, $content);
       }

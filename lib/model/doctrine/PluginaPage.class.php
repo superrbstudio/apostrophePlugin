@@ -349,6 +349,7 @@ abstract class PluginaPage extends BaseaPage
 
   public function createSlot($type)
   {
+    aTrace::printTrace();
     $class = $type . "Slot";
     $slot = new $class;
     $slot->type = $type;
