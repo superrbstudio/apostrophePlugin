@@ -121,6 +121,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $ignored = array(
       '/^\.\/lib\/vendor\//',
       '/^\.\/plugins\//',
+      // Leave plugin symlink contents alone
+      '/^\.\/web\/\w+Plugin\//',
       '/^\.\/web\/uploads\//',
       // We need to leave the contents of pk_writable/a_writable alone, but
       // the folder itself does need renaming
@@ -175,9 +177,13 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       {
         $module = $matches[1];
         $new = $module . 'Slot';
-        // These rules must run first to avoid chicken and egg renaming problems
-        $modulePathRules['/\/([^\/]*?)' . $module . '([^\/]*)$/'] = '/$1' . $new . '$2';
-        $moduleContentRules["/$module/"] = $new;
+        $temp = $module . 'PKTEMP';
+        // These rules must run first to avoid chicken and egg renaming problems.
+        // Make sure we leave the existing model class name (which ends in Slot) alone
+        // Thank heaven for negative lookahead!
+        
+        $modulePathRules['/\/([^\/]*?)' . $module . '(?!Slot)([^\/]*)$/'] = '/$1' . $new . '$2';
+        $moduleContentRules["/$module(?!Slot)/"] = $new;
 
         echo("Created rules to rename slot module $module\n");
       }
@@ -218,6 +224,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $total = count($files);
     foreach ($files as $file)
     {
+      $sofar++;
       // Leave inappropriate file extensions alone, in particular leave binary files etc. alone.
       // But do rename directories
       $ext = pathinfo($file, PATHINFO_EXTENSION);
