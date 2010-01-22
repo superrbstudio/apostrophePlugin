@@ -32,9 +32,26 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
-    // add your code here
-    
-    // TODO: prompt the user first to confirm that they want to do this drastic thing
+    if (!$this->askConfirmation("pkContextCMS to Apostrophe Migration Task
+This task will rename all references to the old pkContextCMS tables, classes, CSS classes and
+IDs, etc. throughout your project. The lib/vendor and plugins folders will not be touched. 
+Tables in your database will be renamed and slot type names in the database will be changed.
+
+This involves regular expressions that make some moderately big changes, including changing
+references to words beginning in 'pk' to begin with 'a'. If you are using the 'pk' prefix
+for things unrelated to our code you may have some cleanup to do after running this task.
+
+If your project's root folder is an svn checkout, this task will automatically use
+'svn mv' rather than PHP's 'rename' when renaming files and folders.
+
+BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
+
+Are you sure you are ready to do this?",
+      'LARGE_QUESTION',
+      false))
+    {
+        die("Operation CANCELLED. No changes made.\n");
+    }
 
     // pkContextCMS-to-Apostrophe project upgrade script
 
@@ -229,6 +246,9 @@ EOF;
     {
       $conn->query("RENAME TABLE $old TO $new");
     }
+    
+    echo("Done!\n\n");
+    echo("YOU SHOULD TEST THOROUGHLY before you deploy or commit as many changes have been made.\n");
   }
   
   public function getFiles($type)
