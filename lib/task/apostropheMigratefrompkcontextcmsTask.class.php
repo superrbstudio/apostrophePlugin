@@ -302,7 +302,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
   
   public function rename($from, $to, $canExist = false)
   {
-    if (is_dir($from) && isset[$this->renamed[$from]])
+    if (is_dir($from) && isset($this->renamed[$from]))
     {
       // Without this we're allowed to svn mv the same directory twice (under the same
       // 'from' name, that is), breaking whatever
