@@ -26,8 +26,8 @@ a_permission_admin:
     with_wildcard_routes: true
 
 # This needs to be consistent across sites so our 
-# pkToolkit:deploy task can contact it
-pk_sync:
-  url: /pksync/:action
+# apostrophe:deploy task can contact it
+a_sync:
+  url: /async/:action
   param:
-    module: pkSync
+    module: aSync
