@@ -128,8 +128,9 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     $ignored = array(
       '/^\.\/lib\/vendor\//',
       '/^\.\/plugins\//',
-      // Leave plugin symlink contents alone
-      '/^\.\/web\/\w+Plugin\//',
+      // Leave plugin symlinks and their "contents" alone
+      // (we will do plugin:publish-assets later)
+      '/^\.\/web\/\w+Plugin/',
       '/^\.\/web\/uploads\//',
       // We need to leave the contents of pk_writable/a_writable alone, but
       // the folder itself does need renaming
@@ -155,6 +156,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       die("You must cd to your project's root directory before running this task.\n");
     }
 
+    // Remove 
+    
     // Rename the slot modules and certain references to them
     // We want to look at all applications here not just frontend
     $appYamls = glob('apps/*/config/app.yml');
