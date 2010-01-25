@@ -96,7 +96,9 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       '/setPk/' => 'setA',
       '/_pk/' => '_a',
       '/\bpk/' => 'a',
-      '/PkAdmin/' => 'AAdmin'
+      '/PkAdmin/' => 'AAdmin',
+      '/aBaseActions/' => 'BaseaSlotActions',
+      '/aBaseComponents/' => 'BaseaSlotComponents'
     );
 
     $pathRules = array(
