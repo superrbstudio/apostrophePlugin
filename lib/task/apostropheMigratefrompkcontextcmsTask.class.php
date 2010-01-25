@@ -182,7 +182,9 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       // include_partial calls that will otherwise fail)
       $this->replaceInFiles("apps/*/modules/$type/*/*.php", "/$type(?!Slot)/", $type . 'Slot');
       // Rename any overrides or implementations of slot modules at the app level
-      $modules = glob("apps/*/modules/$type");
+      // Careful, use the ./ so we match the paths used below and can detect
+      // double renames
+      $modules = glob("./apps/*/modules/$type");
       foreach ($modules as $module)
       {
         echo("Renaming $module\n");
