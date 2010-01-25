@@ -295,8 +295,20 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
   }
   
+  protected $renamed;
+  
   public function rename($from, $to, $canExist = false)
   {
+    if (is_dir($from) && isset[$this->renamed[$from]])
+    {
+      // Without this we're allowed to svn mv the same directory twice (under the same
+      // 'from' name, that is), breaking whatever
+      // is in progress with the first move. The old directory name is still hanging around
+      // only because svn never deletes directories except during svn update 
+      echo("Already renamed $from\n");
+      return;
+    }
+    $this->renamed[$from] = true;
     echo("Renaming $from to $to canExist is: $canExist ");
     if ($canExist && file_exists($to))
     {
