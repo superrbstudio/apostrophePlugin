@@ -24,3 +24,10 @@ a_permission_admin:
     prefix_path:         admin/permission
     column:              id
     with_wildcard_routes: true
+
+# This needs to be consistent across sites so our 
+# pkToolkit:deploy task can contact it
+pk_sync:
+  url: /pksync/:action
+  param:
+    module: pkSync
