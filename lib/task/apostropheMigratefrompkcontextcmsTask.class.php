@@ -297,14 +297,18 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
   
   public function rename($from, $to, $canExist = false)
   {
+    echo("Renaming $from to $to canExist is: $canExist ");
     if ($canExist && file_exists($to))
     {
       // Already created by the move of a child file, that's OK
+      echo("Already exists\n");
       return;
     }
     if (file_exists(dirname($from) . '/.svn'))
     {
-      system('svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to), $result);
+      $cmd = 'svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to);
+      echo("$cmd\n");
+      system($cmd, $result);
       if ($result != 0)
       {
         die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n\nNOTE: you must have at least svn 1.5. If you get errors about\nthe --parents option, upgrade svn.\n");
@@ -312,6 +316,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     }
     else
     {
+      echo("Direct rename\n");
       $this->ensureDir($to);
       if (!rename($from, $to))
       {
