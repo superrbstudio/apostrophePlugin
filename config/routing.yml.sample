@@ -1,0 +1,16 @@
+# Special case for the home page
+
+homepage:
+  url:  /
+  param: { module: a, action: show, slug: / }
+
+# The non-CMS actions of your project, and the admin actions of the CMS
+a_action:
+  url:   /cms/:module/:action
+
+# Must be the LAST rule
+a_page:
+  url:   /:slug
+  param: { module: a, action: show }
+  requirements: { slug: .* }
+
