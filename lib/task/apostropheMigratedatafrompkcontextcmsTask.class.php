@@ -20,10 +20,21 @@ class apostropheMigratedatafrompkcontextcmsTask extends sfBaseTask
     $this->name             = 'migrate-data-from-pkcontextcms';
     $this->briefDescription = 'migrate pkContextCMS data to Apostrophe';
     $this->detailedDescription = <<<EOF
-The [apostrophe:migrate-data-from-pkcontextcms|INFO] task does things.
+The [apostrophe:migrate-data-from-pkcontextcms|INFO] task migrates CMS-related tables and slots
+to the new Apostrophe naming convention. It also rebuilds the search index since the naming
+convention used inside the Zend indexes has also changed.
+
 Call it with:
 
-  [php symfony apostrophe:migrate-data-from-pkcontextcms|INFO]
+  [php symfony apostrophe:migrate-data-from-pkcontextcms --env=staging|INFO]
+  
+Be certain to specify the right environment for the system you are running it on.
+
+Note: on ONE development machine, you will run the migrate-from-pkcontextcms task. That
+task will run this task as a subtask. Verify success and commit the project, then sync
+or svn update your code to other servers and development machines. On those machines,
+run this task (migrate-data-from-pkcontextcms) directly to migrate just your data. There 
+is no need to migrate the source code more than once!
 EOF;
   }
 
