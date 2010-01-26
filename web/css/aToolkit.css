@@ -202,7 +202,7 @@ width: 20px;
 background-image: url(/apostrophePlugin/images/a-icon-feed.png);
 }
 
-.icon.a-blog .a-b,
+.icon.a-blog-btn .a-b,
 .icon.a-blogpost .a-b
 {
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
