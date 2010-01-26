@@ -50,7 +50,7 @@ EOF;
     }
     else
     {
-      $indexes = sfConfig::get('app_apostrophe_indexes', array());
+      $indexes = sfConfig::get('app_aToolkit_indexes', array());
     }
     foreach ($indexes as $index)
     {
