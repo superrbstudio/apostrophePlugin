@@ -147,8 +147,7 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       './symfony cc',
       './symfony doctrine:build --all-classes',
       './symfony cc',
-      './symfony plugin:publish-assets',
-      './symfony apostrophe:migrate-data-from-pkcontextcms'
+      './symfony plugin:publish-assets'
     );
 
     if (!file_exists('config/ProjectConfiguration.class.php'))
@@ -269,8 +268,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       }
     }
 
-    
     echo("Done!\n\n");
+    echo("NOW YOU MUST RUN:\n\n");
+    echo("./symfony apostrophe:migrate-data-from-pkcontextcms --env=APPROPRIATE_ENVIRONMENT\n\n");
+    echo("On your dev box that would most likely be dev.\n");
     echo("YOU SHOULD TEST THOROUGHLY before you deploy or commit as many changes have been made.\n");
   }
   

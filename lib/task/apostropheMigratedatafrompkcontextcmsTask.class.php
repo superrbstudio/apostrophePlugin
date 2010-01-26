@@ -85,7 +85,7 @@ EOF;
         }
       }
     echo("Rebuilding search index\n");
-    system("./symfony apostrophe:rebuild-search-index", $result);
+    system("./symfony apostrophe:rebuild-search-index --env=" . sfContext::getInstance()->getConfiguration()->getEnvironment(), $result);
     if ($result != 0)
     {
       die("Unable to rebuild search indexes\n");
