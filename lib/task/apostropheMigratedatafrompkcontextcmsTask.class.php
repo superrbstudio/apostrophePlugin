@@ -38,8 +38,13 @@ EOF;
     
     echo("Renaming slots in database\n");
     $conn = Doctrine_Manager::connection()->getDbh();
-    $conn->query('UPDATE pk_context_cms_slot SET type = REPLACE(type, "pkContextCMS", "a")');
-    
+    try
+    {
+      $conn->query('UPDATE pk_context_cms_slot SET type = REPLACE(type, "pkContextCMS", "a")');
+    } catch (Exception $e)
+    {
+      echo("Unable to update pk_context_cms_slot table, assuming you already ran this task\n partially before\n");
+    }
     echo("Renaming tables in database\n");
 
     $tables = array(
@@ -58,20 +63,25 @@ EOF;
       'pk_media_item' => 'a_media_item'
     );
 
-    foreach ($tables as $old => $new)
-    {
-      $conn->query("RENAME TABLE $old TO $new");
-    }
-    
-    echo("Rebuilding search indexes\n");
+      foreach ($tables as $old => $new)
+      {
+        try
+        {
+          $conn->query("RENAME TABLE $old TO $new");
+        } catch (Exception $e)
+        {
+          echo("Rename of $old failed, that's normal if you don't use that table's plugin or you have run this script before.\n");
+        }
+      }
+    echo("Rebuilding search index\n");
     system("./symfony apostrophe:rebuild-search-index", $result);
     if ($result != 0)
     {
       die("Unable to rebuild search indexes\n");
     }
-    echo("If you have other folders in data/pk_writable you may want to move them to
-data/a_writable. Due to interactions with svn this is not automatic. In 
-our projects we use svn ignore rules to protect the contents of the
+    echo("If you have folders in data/pk_writable other than tmp and the zend search indexes 
+you may want to move them to data/a_writable. Due to interactions with svn this is not
+automatic. In our projects we use svn ignore rules to protect the contents of the
 data/*_writable folder. This is primarily an issue on servers other than your
 development machine, where you run this task separately. On your development
 machine pk_writable is renamed to a_writable automatically.\n");

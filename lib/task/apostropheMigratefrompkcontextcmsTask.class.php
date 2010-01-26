@@ -324,8 +324,6 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       echo("Already exists\n");
       return;
     }
-    echo("Is it a directory: ");
-    echo(is_dir($from) . "\n");
     if ((is_dir($from) && file_exists($from . '/.svn')) || ((!is_dir($from)) && file_exists(dirname($from) . '/.svn')))
     {
       $cmd = 'svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to);
