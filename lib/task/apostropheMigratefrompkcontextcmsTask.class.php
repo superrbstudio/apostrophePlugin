@@ -170,7 +170,10 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       $data = $yaml->load(file_get_contents($appYaml));
       foreach ($data as $heading)
       {
-        $types = array_merge($types, $heading['pkContextCMS']['slot_types']);
+        if (isset($heading['pkContextCMS']['slot_types']))
+        {
+          $types = array_merge($types, $heading['pkContextCMS']['slot_types']);
+        }
       }
     }
     $types = array_keys($types);
@@ -321,14 +324,14 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       echo("Already exists\n");
       return;
     }
-    if (file_exists(dirname($from) . '/.svn'))
+    if ((is_dir($from) && file_exists(dirname($from) . '/.svn')) || file_exists($from . '/.svn'))
     {
       $cmd = 'svn mv --parents ' . escapeshellarg($from) . ' ' . escapeshellarg($to);
       echo("$cmd\n");
       system($cmd, $result);
       if ($result != 0)
       {
-        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in the parent directory of $from. Is this an unhappy svn checkout?\n\nNOTE: you must have at least svn 1.5. If you get errors about\nthe --parents option, upgrade svn.\n");
+        die("Unable to rename $from to $to via svn mv, even though you have a .svn file in that folder (or its parent folder, if this is not a directory). Is this an unhappy svn checkout?\n\nNOTE: you must have at least svn 1.5. If you get errors about\nthe --parents option, upgrade svn.\n");
       }
     }
     else
