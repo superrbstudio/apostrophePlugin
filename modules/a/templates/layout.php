@@ -45,7 +45,6 @@
         <?php else: ?>
           <?php a_slot("logo", 'aImage', array("global" => true, "width" => 125, "flexHeight" => true, "resizeType" => "s", "link" => "/", "defaultImage" => "/apostrophePlugin/images/cmstest-sample-logo.png")) ?>
         <?php endif ?>
-    		<?php a_slot('header', 'aRichText', array("global" => true)) ?>
       </div>
     <?php endif ?>
 

@@ -12,7 +12,7 @@
 
 	  <ul id="a-breadcrumb-rename-controls" class="a-form-controls a-breadcrumb-controls rename" style="display:none;">
 			<li>
-				<input type="submit" value="Rename" class="a-submit" />
+				<input id="a-breadcrumb-rename-submit" type="submit" value="Rename" class="a-submit" />
 			</li>
 	  	<li>
 				<?php echo jq_link_to_function("cancel", '', array('class' => 'a-btn icon a-cancel event-default')) ?>
@@ -29,6 +29,7 @@
 
 			var renameControls = $('#a-breadcrumb-rename-controls');
 			var renameSpacer = $('#a-breadcrumb-rename-title-spacer');
+			var renameSubmitBtn = $('#a-breadcrumb-rename-submit');
 			var renameInput = $('#a-breadcrumb-rename-title');
 			var renameInputWidth = checkInputWidth(renameSpacer.width());		
 			renameInput.css('width', renameInputWidth);		
@@ -49,10 +50,24 @@
 			renameInput.focus(function(){
 				renameControls.fadeIn();
 				renameInput.select();
+				$(this).stopTime();
 			})
 
 			renameInput.blur(function(){
-				renameControls.hide();
+				$(this).oneTime(250, "hide", function() {
+					renameControls.hide();
+				});
+				// Tried to capture the click on the submit and cancel the hide
+				// $(document).mousedown(function(e){
+				// 	target = $(e.target);
+				// 	if (!target.hasClass('a-submit')) {
+				// 		renameControls.hide();						
+				// 	}
+				// })				
+			})
+			
+			renameSubmitBtn.click(function(){
+				renameInput.focus();
 			})
 
 			renameInput.keydown(function(e){

@@ -29,7 +29,7 @@ aPage:
                 permid: 1
                 Slot:
                   type: aRichText 
-                  value: 'Welcome aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>. You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.'
+                  value: '<h2>Welcome to aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> <p>You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.</p>'
     children:
       about:
         slug: "/about"
@@ -61,7 +61,7 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: 'Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>. It is open source &amp; super easy to use!'
+                      value: '<h2>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> It is open source, robust, &amp; super easy to use!'
       media:
         slug: "/media"
         template: default
@@ -110,4 +110,4 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: 'For more informaton or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a>'
+                      value: '<h2>For more informaton or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a></h2>'
