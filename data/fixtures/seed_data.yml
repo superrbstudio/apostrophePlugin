@@ -29,7 +29,7 @@ aPage:
                 permid: 1
                 Slot:
                   type: aRichText 
-                  value: "Welcome to the home page of your a site. You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button."
+                  value: 'Welcome aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>. You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.'
     children:
       about:
         slug: "/about"
@@ -61,4 +61,53 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: "This page is a child of the home page, so it appears as a tab."
+                      value: 'Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>. It is open source &amp; super easy to use!'
+      media:
+        slug: "/media"
+        template: default
+        is_published: true
+        Areas:
+          media_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              media_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  media_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Media"
+      contact:
+        slug: "/contact"
+        template: default
+        is_published: true
+        Areas:
+          contact_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              contact_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Contact"
+          contact_en_body:
+            name: body 
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              contact_en_body_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_en_body_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aRichText 
+                      value: 'For more informaton or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe CMS</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a>'
