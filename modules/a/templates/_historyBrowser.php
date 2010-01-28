@@ -17,9 +17,10 @@
 			<tfoot>
 			<?php if (1): ?>
 			  <tr>
-				  <td colspan="4">
+				  <td colspan="3">
 				    <a href="#" class="a-history-browser-view-more">View More Revisions <img src="/apostrophePlugin/images/a-icon-loader-ani.gif" class="spinner" /></a>
-            </td>
+          </td>
+					<td class="number-of-revisions"></td>
 			  </tr>
 			<?php endif ?>
 			</tfoot>
