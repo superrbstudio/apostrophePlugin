@@ -91,7 +91,7 @@ echo("after\n");
     }
 
     echo("Rebuilding search index\n");
-		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $this->getOption('env');
+		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];
     system($cmd, $result);
     if ($result != 0)
     {
