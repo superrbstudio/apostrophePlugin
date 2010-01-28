@@ -47,15 +47,6 @@ EOF;
     // We need to use PDO here because Doctrine is more than a little confused when
     // we've renamed the codebase but not the tables
     
-    echo("Renaming slots in database\n");
-    $conn = Doctrine_Manager::connection()->getDbh();
-    try
-    {
-      $conn->query('UPDATE pk_context_cms_slot SET type = REPLACE(type, "pkContextCMS", "a")');
-    } catch (Exception $e)
-    {
-      echo("Unable to update pk_context_cms_slot table, assuming you already ran this task\n partially before\n");
-    }
     echo("Renaming tables in database\n");
 
     $tables = array(
@@ -74,18 +65,34 @@ EOF;
       'pk_media_item' => 'a_media_item'
     );
 
-      foreach ($tables as $old => $new)
+  $conn = Doctrine_Manager::connection()->getDbh();
+
+    foreach ($tables as $old => $new)
+    {
+      try
       {
-        try
-        {
-          $conn->query("RENAME TABLE $old TO $new");
-        } catch (Exception $e)
-        {
-          echo("Rename of $old failed, that's normal if you don't use that table's plugin or you have run this script before.\n");
-        }
+	echo("before\n");
+        $conn->query("RENAME TABLE $old TO $new");
+echo("after\n");
+      } catch (Exception $e)
+      {
+        echo("Rename of $old failed, that's normal if you don't use that table's plugin or you have run this script before.\n");
       }
+    }
+    echo("Renaming slots and engines in database\n");
+
+    try
+    {
+      $conn->query('UPDATE a_slot SET type = REPLACE(type, "pkContextCMS", "a")');
+      $conn->query('UPDATE a_page SET engine = REPLACE(engine, "pk", "a")');
+    } catch (Exception $e)
+    {
+      echo("Warning: unable to update a_slot or a_page table\n");
+    }
+
     echo("Rebuilding search index\n");
-    system("./symfony apostrophe:rebuild-search-index --env=" . sfContext::getInstance()->getConfiguration()->getEnvironment(), $result);
+		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $this->getOption('env');
+    system($cmd, $result);
     if ($result != 0)
     {
       die("Unable to rebuild search indexes\n");
