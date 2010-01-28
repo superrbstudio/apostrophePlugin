@@ -34,6 +34,11 @@ class BaseaActions extends sfActions
 
     return 'Template';
   }
+
+	public function executeError404(sfWebRequest $request)
+	{
+
+	}
   
   protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit|manage')
   {
