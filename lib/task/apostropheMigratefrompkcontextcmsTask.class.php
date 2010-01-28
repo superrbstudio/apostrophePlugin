@@ -97,6 +97,11 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       '/_pk/' => '_a',
       '/\bpk/' => 'a',
       '/PkAdmin/' => 'AAdmin',
+      '/getPk/' => 'getA',
+      '/setPk/' => 'setA',
+      '/getpk/' => 'geta',
+      '/setpk/' => 'seta',
+      '/executePk/' => 'executeA',
       '/aBaseActions/' => 'BaseaSlotActions',
       '/aBaseComponents/' => 'BaseaSlotComponents'
     );
