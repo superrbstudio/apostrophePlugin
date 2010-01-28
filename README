@@ -1434,17 +1434,17 @@ The bar at the top of each page will now feature your additional button or butto
 
 Suitably coded Symfony modules can now be grafted into the page tree at any point in a flexible way that allows admins to switch any page from operating as a normal template page to operating as an engine page, with all URLs beginning with that page slug remapped to the actions of the engine module. When the engine page is moved within the site, all of the virtual "pages" associated with the actions of the module move as well.
 
-*Currently a particular engine can only be placed at a single location in the site.* This is a consequence of the way routing rules are cached in Symfony. We are working to overcome this limitation. However, engine pages are still quite useful with this limitation, as they allow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
+*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they stillallow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
 
-Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute class.
+Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute and aDoctrineRoute classes.
 
-This is a very powerful way to integrate non-CMS pages into your site. The media browser of apostrophePlugin will soon be rewritten to take advantage of it.
+This is a very powerful way to integrate non-CMS pages into your site. The media browser of apostrophePlugin will soon be rewritten to take advantage of it, and the apostropheBlogPlugin already does.
 
 Engines should always be used when you find yourself wishing to create a tree of "virtual pages" beginning at a point somewhere within the CMS page tree. 
 
 To create a a engine, begin by creating an ordinary Symfony module. Feel free to test its functionality normally at this point. Then change the parent class from `sfActions` to `aEngineActions`. 
 
-NOTE: if your actions class has a `preExecute` method, be sure to call `parent::preExecute` from that method. Otherwise it will not work as an engine.
+NOTE: if your actions class has a `preExecute` method of its own, be sure to call `parent::preExecute` from that method. Otherwise it will not work as an engine.
 
 Now, create routes for all of the actions of your module, or a catch-all route for all of them. Make sure you give these routes the `aRoute` class in `routing.yml`. The following are sample routes for a module called `enginetest`:
 
@@ -1533,13 +1533,34 @@ If the current page is not an engine page matching the route in question, the a 
 
 Note: if there is currently no engine page for the given engine, this will throw an exception and generate a 500 error. This makes sense: trying to generate a link to an engine page that doesn't exist is a lot like trying to use a route that doesn't exist. You can test to make sure the engine page exists like this:
 
-<?php if (aPageTable::getFirstEnginePage('enginetest')): ?>
-  <?php echo link_to('Bar', 'enginetest/bar') ?>
-<?php endif ?>
+		<?php if (aPageTable::getFirstEnginePage('enginetest')): ?>
+		  <?php echo link_to('Bar', 'enginetest/bar') ?>
+		<?php endif ?>
 
-Thissystem  works very well as long as there is only one engine page per engine in the site, and therefore no ambiguity about where the link should go. Currently engine support is limited to one engine page per engine in any case. However, we are working on this limitation and hope to soon offer a way to specify a particular engine page as a destination for the link. This will be useful in situations where you wish to instantiate the same engine more than once, possibly with page-specific settings. However, note that you can already have any number of "subpages" of your engine page using engine routes as described above. You can write a complete database-driven sub-application in an engine, with many sub-"pages." The only thing you currently can't do is insert that engine into two completely distinct portions of your CMS page tree.
+### Which Engine Page Does My Link Point To? ###
 
-After executing a `symfony cc`, you will begin to see your new engine module as a choice in the new "Page Engine" dropdown menu in the page settings form. Select your engine and save your changes. The page will refresh and display your engine.  
+There are three simple rules:
+
+1. When there is only one engine page on the site for a particular engine module 'blog', links always target that page by default. For many purposes, this is all you need.
+
+2. When the page for which the link is being generated (the current CMS page) is an engine page for 'blog', links generated on that page will point back to that page by default, even if other engine pages for that engine module do exist. If the current page is not an engine page for the engine in question, the first matching engine page found in the database is used by default.
+
+3. When you wish to target a specific engine page with link_to and url_for calls, you call `aRouteTools::pushTargetEnginePage($page)` to specify that page. For instance:
+
+		<?php $page = aPageTable::retrieveBySlug('/janes-blog') ?>
+		<?php aRouteTools::pushTargetEnginePage($page) ?>
+		<?php echo link_to('Jane's Blog', 'blog/index') ?>
+		<?php aRouteTools::popTargetEnginePage('blog') ?>
+
+Now all aRoute and aDoctrineRoute-based URLs generated between the `push` and `pop` calls will target the "Jane's Blog" page. URLs generated after the `pop` call revert to the usual behavior. Since you may find yourself writing partials and components that are included in other pages, it is advisable to always `pop` after `push`ing a different engine page in order to avoid side effects.
+
+Again, you must not enable the Symfony routing cache if you wish to include multiple engine pages for the same engine in your site. The routing cache is turned off by default in both Symfony 1.3 and 1.4. If you have upgraded an older project you may need to manually shut it off in `apps/frontend/config/routing.yml`.
+
+"If I have separate engine pages for Jane's blog and Bob's blog, both using the blog engine, how do I distinguish them?" That part is easy. Just use the `id` of the engine page as a foreign key in your own Doctrine table and keep the details that distinguish them in that table.
+
+### Testing Your Engine ###
+
+After executing `symfony cc`, you will begin to see your new engine module as a choice in the new "Page Engine" dropdown menu in the page settings form. Select your engine and save your changes. The page will refresh and display your engine.  
 
 Note that engine pages can be moved about the site using the normal drag and drop interface.
 

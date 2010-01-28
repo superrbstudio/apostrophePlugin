@@ -1,7 +1,7 @@
 <?php
 
 // A helper class containing methods to be called from subclasses of sfRoute that are
-// intended for use with a engines. Keeping this code here minimizes duplication
+// intended for use with apostrophe engines. Keeping this code here minimizes duplication
 // and avoids the need for frequent changes to multiple classes when this code is modified.
 // This is poor man's multiple inheritance. See aRoute and aDoctrineRoute
 
@@ -43,6 +43,58 @@ class aRouteTools
     return $remainder;
   }
   
+  protected static $targetEnginePages = array();
+
+  /**
+   *
+   * THIS METHOD WILL NOT WORK RELIABLY UNLESS THE ROUTING CACHE IS TURNED **OFF**.
+   *
+   * The routing cache defaults to off in new Symfony 1.3 and 1.4 projects because
+   * it has found to hurt performance in most cases, sometimes quite severely. We do 
+   * not currently enable it on any of our projects.
+   * 
+   * The routing cache does not take the desired engine page into account, so it will
+   * return URLs targeting the wrong page. If you must use the routing cache,
+   * design your projects to avoid the use of multiple engine pages for the
+   * same engine module.
+   *
+   * This method sets a specific target engine page for any url_for, link_to, etc. 
+   * calls invoking an engine route. If you have only one instance of a given engine 
+   * in your site, you don't need to call this method. A link generated within that 
+   * engine page will target the same engine page, and a link generated from anywhere 
+   * else will target the first engine page for that engine module name found in 
+   * the database. If you have more than one engine page for the same engine module 
+   * name, and you care which one the link points to, call this method to specify 
+   * that page. 
+   *
+   * A stack of target engine pages is maintained for each engine module name.
+   * This allows you to push a new engine page at the top of a partial or component
+   * that potentially targets a different engine page than the template that
+   * invoked it, and then pop that engine page at the end to ensure that any links
+   * generated later in the calling template still target the original engine page.
+   *
+   * @param  aPage $page The target engine page for engine routes 
+   *
+   */
+  
+  static public function pushTargetEnginePage(aPage $page)
+  {
+    self::$targetEnginePages[$page->engine][] = $page;
+  }
+
+  /**
+   * Pops the most recent target engine page for the specified engine name.
+   * See aRouteTools::pushTargetEnginePage for more information.
+   *
+   * @param  aPage $page The target engine page for engine routes 
+   *
+   */
+
+  static public function popTargetEnginePage($engine)
+  {
+    array_pop(self::$targetEnginePages[$page->engine]);
+  }
+  
   /**
    * Prepends the current CMS page to the URL.
    *
@@ -55,14 +107,23 @@ class aRouteTools
   static public function addPageToUrl(sfRoute $route, $url, $absolute)
   {
     $defaults = $route->getDefaults();
-    $page = aTools::getCurrentPage();
-    if ((!$page) || ($page->engine !== $defaults['module']))
+    $currentPage = aTools::getCurrentPage();
+    $engine = $defaults['module'];
+    if (isset(self::$targetEnginePages[$engine]) && count(self::$targetEnginePages[$engine]))
+    {
+      $page = end(self::$targetEnginePages[$engine]);
+    }
+    elseif ((!$currentPage) || ($currentPage->engine !== $defaults['module']))
     {
       $page = aPageTable::getFirstEnginePage($defaults['module']);
-      if (!$page)
-      {
-        throw new sfException('Attempt to generate aRoute URL for module ' . $defaults['module'] . ' with no matching engine page on the site');
-      }
+    }
+    else
+    {
+      $page = $currentPage;
+    }
+    if (!$page)
+    {
+      throw new sfException('Attempt to generate aRoute URL for module ' . $defaults['module'] . ' with no matching engine page on the site');
     }
     // A route URL of / for an engine route maps to the page itself, without a trailing /
     if ($url === '/')

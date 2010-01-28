@@ -2,8 +2,6 @@
 
 // Used by engine pages
 
-// NOT YET: implements aRouteClass
-
 class aRoute extends sfRoute 
 {
   public function __construct($pattern, array $defaults = array(), array $requirements = array(), array $options = array())
