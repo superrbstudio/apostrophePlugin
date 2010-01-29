@@ -505,4 +505,18 @@ class aTools
       return true;
     }
   }
+  
+  static public function getVariantsForSlotType($type)
+  {
+    $variants = sfConfig::get('app_a_slot_variants');
+    if (!is_array($variants))
+    {
+      return array();
+    }
+    if (!isset($variants[$type]))
+    {
+      return array();
+    }
+    return $variants[$type];
+  }
 }

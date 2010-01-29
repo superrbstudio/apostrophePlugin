@@ -82,4 +82,26 @@ abstract class PluginaSlot extends BaseaSlot
   {
     return $this->isNew() && $this->editDefault;
   }
+  
+  public function getVariantAsCSSClass()
+  {
+    if (is_null($this->variant))
+    {
+      return '';
+    }
+    if (!strlen($this->variant))
+    {
+      return '';
+    }
+    $variants = sfConfig::get('app_a_slot_variants');
+    if (!isset($variants))
+    {
+      return '';
+    }
+    if (!isset($variants[$this->type][$this->variant]))
+    {
+      return '';
+    }
+    return $this->variant;
+  }
 }

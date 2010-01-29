@@ -60,6 +60,7 @@
 		// CANCEL
 		$('#a-slot-form-cancel-<?php echo $name ?>-<?php echo $permid ?>').click(function(){
   		$(normalView).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
+  		$(normalView).children('.a-controls-item variant').fadeIn();
   		$(normalView).children('.a-slot-content').children('.a-slot-form').hide();
   		$(this).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
  			$(this).parents('.a-area.singleton').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
@@ -78,6 +79,25 @@
 		editBtn.parent().addClass('editing-now');
 	<?php endif; ?>
 
-  });
+  });  
   </script>
+<?php endif ?>
+
+<?php if ($sf_request->isXmlHttpRequest()): ?>
+  <?php // Changing the variant only refreshes the content, not the outer wrapper and controls. However, ?>
+  <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
+  <?php $variants = aTools::getVariantsForSlotType($type) ?>
+  <?php if (count($variants)): ?>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var outerWrapper = $('#a-slot-<?php echo $name ?>-<?php echo $permid ?>');
+        <?php foreach ($variants as $variant => $data): ?>
+          <?php if ($slot->variant !== $variant): ?>
+            outerWrapper.removeClass(<?php echo json_encode($variant) ?>);
+          <?php else: ?>
+            outerWrapper.addClass(<?php echo json_encode($variant) ?>);
+          <?php endif ?>
+        <?php endforeach ?>
+      });
+  <?php endif ?>
 <?php endif ?>

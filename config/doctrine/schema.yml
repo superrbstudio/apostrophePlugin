@@ -158,14 +158,25 @@ aSlot:
       type: integer(4)
       primary: true
       autoincrement: true
+      
     # If type is aRichText, then there
-    # MUST BE a aRichText module and a aContextRichTextSlot 
-    # class with Doctrine column aggregation inheritance from aContextSlot
+    # MUST BE an aRichTextSlot module and an aRichTextSlot 
+    # class with Doctrine column aggregation inheritance from aSlot
     # (although it doesn't actually have to define new columns if it's
-    # happy storing its data entirely in the value string). 
+    # happy storing its data entirely in the value string, typically via serialize()).
     type:
       type: string(100)
+      
+    # When not null, and present in app_a_slot_variants['type']['variants'], this is set
+    # as a CSS class on the outermost wrapper of the slot. Also, any options specified
+    # in app_a_slot_variants['type']['variants'][$variant]['options'] are passed
+    # to the slot, allowing behavior to be influenced in other slot-dependent ways
+    variant:
+      type: string(100)
+      
+    # Most slots just use this to store their data, often via PHP's serialize() function
     value:
+      # Allows much larger data than string
       type: clob
 
 aTextSlot:

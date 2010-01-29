@@ -337,16 +337,49 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
   }
 
-//  Part of an AJAX implementation of slot saving which we
-//  don't seem to be able to trust yet due to FCK issues
-//  public function executeAfterEdit(sfRequest $request)
-//  {
-//    $page = aPageTable::retrieveByIdWithSlots(
-//      $request->getParameter('id'));
-//    $this->flunkUnless($page);
-//    aTools::setCurrentPage($page);
-//    $this->name = $this->getRequestParameter('name');
-//  }
+  // TODO: refactor. This should probably move into BaseaSlotActions and share more code with executeEdit
+  
+  public function executeSetVariant(sfRequest $request)
+  {
+    $page = $this->retrievePageForEditingByIdParameter();
+    aTools::setCurrentPage($page);
+    $this->name = $this->getRequestParameter('name');
+    $this->permid = $this->getRequestParameter('permid');
+    $page->newAreaVersion($this->name, 'variant', 
+      array('permid' => $this->permid, 'variant' => $this->getRequestParameter('variant')));
+    $page = aPageTable::retrieveByIdWithSlots(
+      $request->getParameter('id'));
+    $this->flunkUnless($page);
+    
+    // Borrowed from BaseaSlotActions::executeEdit
+    // Refetch the page to reflect these changes before we
+    // rerender the slot
+    aTools::setCurrentPage(
+      aPageTable::retrieveByIdWithSlots($page->id));
+    $slot = $page->getSlot($this->name, $this->permid);
+    
+    // This was stored when the slot's editing view was rendered. If it
+    // isn't present we must refuse to play for security reasons.
+    $user = $this->getUser();
+    $pageid = $page->id;
+    $name = $this->name;
+    $permid = $this->permid;
+    $lookingFor = "slot-options-$pageid-$name-$permid";
+    if ($user->hasAttribute($lookingFor, 'a'))
+    {
+      $this->options = $user->getAttribute(
+        $lookingFor, false, "a");
+    }
+    $this->forward404Unless($this->options !== false);
+    
+    return $this->renderPartial("a/ajaxUpdateSlot",
+      array("name" => $this->name, 
+        "type" => $slot->type, 
+        "permid" => $this->permid, 
+        "options" => $this->options,
+        "editorOpen" => false,
+        "validationData" => array()));
+  }
 
   public function executeRevert(sfRequest $request)
   {

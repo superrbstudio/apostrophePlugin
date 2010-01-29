@@ -89,7 +89,7 @@ class BaseaSlotActions extends sfActions
       $this->name, 
       $this->newSlot ? 'add' : 'update', 
       array('permid' => $this->permid, 'slot' => $this->slot));
-    if  ($this->getRequestParameter('noajax'))
+    if ($this->getRequestParameter('noajax'))
     {
       return $this->redirectToPage();
     }

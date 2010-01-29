@@ -18,7 +18,9 @@
 		editBtn.click(function(event){
 			$(this).parent().addClass('editing-now');
 			$(editSlot).children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide content
+			$(editSlot).children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide content
 			$(editSlot).children('.a-slot-content').children('.a-slot-form').fadeIn();							// Show form
+			$(editSlot).children('.a-controls-item variant').hide();
 			aUI($(this).parents('.a-slot').attr('id'));
 			return false;
 		});

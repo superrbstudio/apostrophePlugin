@@ -349,6 +349,7 @@ abstract class PluginaPage extends BaseaPage
 
   public function createSlot($type)
   {
+    aTrace::traceLog();
     $class = $type . "Slot";
     $slot = new $class;
     $slot->type = $type;
@@ -980,6 +981,24 @@ abstract class PluginaPage extends BaseaPage
         $diff .= '<strong>' . aString::limitCharacters($fullDiff['onlyin2'][0], 20) . '</strong>';
       }
       $newSlots[$params['permid']] = $params['slot']; 
+    }
+    elseif ($action === 'variant')
+    {
+      $newSlot = $newSlots[$params['permid']]->copy();
+      if (!$newSlot)
+      {
+        throw new sfException('Slot does not exist');
+      }
+      $variants = sfConfig::get('app_a_slot_variants');
+      if (!isset($variants[$newSlot->type][$params['variant']]))
+      {
+        throw new sfException('Variant not defined for this slot type');
+      }
+      $newSlot->variant = $params['variant'];
+      // Must have an id before we can make an AreaVersionSlot referencing it
+      $newSlot->save();
+      $newSlots[$params['permid']] = $newSlot;
+      $diff = $newSlot->variant;
     }
     elseif ($action === 'add')
     {

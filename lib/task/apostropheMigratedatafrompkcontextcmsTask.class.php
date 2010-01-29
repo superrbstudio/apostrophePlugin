@@ -84,12 +84,27 @@ echo("after\n");
     try
     {
       $conn->query('UPDATE a_slot SET type = REPLACE(type, "pkContextCMS", "a")');
+    } catch (Exception $e)
+    {
+      echo("Warning: unable to reset slot types in a_slot table\n");
+    }
+
+    try
+    {
       $conn->query('UPDATE a_page SET engine = REPLACE(engine, "pk", "a")');
     } catch (Exception $e)
     {
-      echo("Warning: unable to update a_slot or a_page table\n");
+      echo("Warning: unable to rename engines in a_page table\n");
     }
 
+    try
+    {
+      $conn->query('ALTER TABLE a_slot ADD variant varchar(100)');
+    } catch (Exception $e)
+    {
+      echo("Warning: unable to add variant column to a_slot table\n");
+    }
+    
     echo("Rebuilding search index\n");
 		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];
     system($cmd, $result);
