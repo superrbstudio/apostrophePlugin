@@ -3,7 +3,7 @@
   <li class="a-controls-item variant">
     <ul>
       <?php foreach ($variants[$slot->type] as $variant => $settings): ?>
-        <?php if ($variant === $slot->variant): ?>
+        <?php if ($variant === $slot->getEffectiveVariant()): ?>
           <li class="current">
             <?php echo $settings['label'] ?>
           </li>

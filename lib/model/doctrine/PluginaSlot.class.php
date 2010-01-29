@@ -83,25 +83,30 @@ abstract class PluginaSlot extends BaseaSlot
     return $this->isNew() && $this->editDefault;
   }
   
-  public function getVariantAsCSSClass()
+  public function getEffectiveVariant()
   {
-    if (is_null($this->variant))
-    {
-      return '';
-    }
-    if (!strlen($this->variant))
-    {
-      return '';
-    }
     $variants = sfConfig::get('app_a_slot_variants');
     if (!isset($variants))
     {
+      // No variants, no class
       return '';
     }
-    if (!isset($variants[$this->type][$this->variant]))
+    // Treat null and an empty string the same
+    $variant = $this->variant . '';
+    // If the variant is not defined (and the empty string will not be),
+    // and there is at least one variant, return the first one as the default.
+    // If there are no variants return an empty string
+    if (!isset($variants[$this->type][$variant]))
     {
+      if (count($variants[$this->type]))
+      {
+        // Return the first variant for the type, if any, when the variant is bogus
+        $keys = array_keys($variants[$this->type]);
+        return $keys[0];
+      }
       return '';
     }
+    // If the variant is valid, return it as the CSS class
     return $this->variant;
   }
 }

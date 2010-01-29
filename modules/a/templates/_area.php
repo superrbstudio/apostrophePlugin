@@ -112,7 +112,7 @@
  <?php end_slot() ?>
 
  <?php // Wraps an individual slot, with its controls ?>
-	<div class="a-slot <?php echo $slot->getVariantAsCSSClass() ?> <?php echo $slot->type ?> <?php echo $outlineEditableClass ?>" id="a-slot-<?php echo $name ?>-<?php echo $permid ?>">
+	<div class="a-slot <?php echo $slot->getEffectiveVariant() ?> <?php echo $slot->type ?> <?php echo $outlineEditableClass ?>" id="a-slot-<?php echo $name ?>-<?php echo $permid ?>">
     <?php // John shouldn't we suppress this entirely if !$editable? ?>
     <?php // Controls for that individual slot ?>
     <?php if ($editable): ?>
