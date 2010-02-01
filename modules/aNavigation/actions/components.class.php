@@ -9,8 +9,8 @@ class aNavigationComponents extends sfComponents
     $this->root = isset($this->root)? $this->root : '/';
     $this->active = isset($this->active)? $this->active : $this->root;
     
-    
-    $this->navigation = new aNavigationAccordion($this->root, $this->active, $this->options);
+    $this->maxDepth = isset($this->maxDepth)? $this->maxDepth : 999;
+    $this->navigation = new aNavigationAccordion($this->root, $this->active);
     $this->nav = $this->navigation->getNav();
     
     $this->nest = 0;

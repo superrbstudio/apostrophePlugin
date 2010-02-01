@@ -3,8 +3,8 @@
 
 <li class="<?php echo $item['class']?>" id="a-tab-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
-<?php if(isset($item['children'])): ?>
-<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'name' => $name, 'nest' => $nest+1)) ?>
+<?php if(isset($item['children']) && $nest < $maxDepth): ?>
+<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1)) ?>
 <?php endif ?>
 </li>
 <?php endforeach ?>

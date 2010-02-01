@@ -11,7 +11,7 @@ class aNavigationAccordion extends aNavigation
     $this->traverse($this->nav);
   }
   
-  public function traverse(&$tree, $lvl = 0)
+  public function traverse(&$tree)
   {
     foreach($tree as $pos => &$node)
     {
@@ -44,8 +44,8 @@ class aNavigationAccordion extends aNavigation
         unset($node['children']);
       }
       
-      if(isset($node['children']) && count($node['children']) &&  $lvl < $this->maxDepth)
-        $this->traverse($node['children'], $lvl+1);
+      if( isset($node['children']) && count($node['children']) )
+        $this->traverse($node['children']);
       if($node['archived'] == true)
       {
         $node['class'] = $node['class'] . ' archived';
