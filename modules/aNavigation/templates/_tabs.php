@@ -1,5 +1,2 @@
-<ul>
-<?php foreach($nav as $pos => $item): ?>
-<li><?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
-<?php endforeach ?>
-</ul>
+<?php include_partial('aNavigation/accordion', 
+  array('nav' => $nav, 'maxDepth' => $depth, 'nest' => 0, 'draggable' => false, 'name' => $name)) ?>

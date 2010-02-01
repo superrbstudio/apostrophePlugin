@@ -8,16 +8,19 @@ class aNavigationTabs extends aNavigation
     $this->rootInfo = parent::$hash[$this->root];
     $this->activeInfo = parent::$hash[$this->active];
     $this->nav = $this->rootInfo['children'];
+    $this->depth = $this->options['depth'];
     $this->traverse($this->nav);
   }
   
-  public function traverse(&$tree)
+  public function traverse(&$tree, $depth=1)
   {
     foreach($tree as &$node)
     {
       $node['class'] = $this->cssClass;
       if($node['id'] == $this->activeInfo['id'])
         $node['class'] = $node['class'].' current';
+      if(isset($node['children']) && $depth < $this->depth)
+        $this->traverse($node['children'], $depth + 1);
     }
   }
   
