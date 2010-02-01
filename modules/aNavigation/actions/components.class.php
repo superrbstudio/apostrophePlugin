@@ -4,13 +4,13 @@
 class aNavigationComponents extends sfComponents
 {
   
-  public function executeAccordian()
+  public function executeAccordion()
   {
     $this->root = isset($this->root)? $this->root : '/';
     $this->active = isset($this->active)? $this->active : $this->root;
     
     
-    $this->navigation = new aNavigationAccordian($this->root, $this->active, $this->options);
+    $this->navigation = new aNavigationAccordion($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();
     
     $this->nest = 0;

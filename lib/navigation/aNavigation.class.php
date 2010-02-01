@@ -38,17 +38,16 @@ abstract class aNavigation
     } 
   }
   
-  public function __construct($root, $active, $options = array())
+  public function __construct($root, $active)
   {
     $this->user = sfContext::getInstance()->getUser();
     $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'a'));
     
-    $this->initializeTree();
-    $subTree = self::$hash[$root];
-
     $this->root = $root;
     $this->active = $active;
     
+    $this->initializeTree();
+
     $this->buildNavigation();
   }
   
