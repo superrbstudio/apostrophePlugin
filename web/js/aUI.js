@@ -192,6 +192,12 @@ function aUI(target, instance)
 		
 	});
 
+	
+	// Disabled Buttons
+	$('a.a-disabled').unbind("click").click(function(event){
+		event.preventDefault();
+	}).attr('onclick','');
+
 	//
 	// Cross Browser Opacity Settings
 	//

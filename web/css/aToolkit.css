@@ -123,6 +123,14 @@ font-size: 12px;
 cursor: pointer;
 }
 
+.a-btn.a-disabled,
+.a-btn.a-disabled *
+{
+	background-color: #ddd !important;
+	color: #eee !important;
+	cursor: default !important;
+}
+
 .a-btn:hover,
 .a-btn:hover span,
 .a-btn.icon:hover
