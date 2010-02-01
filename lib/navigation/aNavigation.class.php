@@ -2,85 +2,64 @@
 
 abstract class aNavigation
 {
-  protected $user = null;
-  protected $rootPage;
-  protected $activePage;
-  protected $type = null;
-  protected $livingOnly = true;
-  protected $items = array();
-  protected $template = "navigation";
   
-  protected $baseItem;
-    
+  public static $tree = null;
+  public static $hash = null;
+  
   protected abstract function buildNavigation();
   
-  public function __construct(aPage $rootPage, aPage $activePage, $options = array())
+  
+  public function initializeTree()
+  {
+    if(!isset(self::$tree))
+    {
+      $root = aPageTable::retrieveBySlugWithTitles('/');
+      
+      $rootInfo['id'] = $root['id'];
+      $rootInfo['lft'] = $root['lft'];
+      $rootInfo['rgt'] = $root['rgt'];
+      $rootInfo['title'] = $root['title'];
+      $rootInfo['slug'] = $root['slug'];
+      
+      $tree = $root->getTreeInfo(false);
+      $rootInfo['children'] = $tree;
+      self::$tree = array($rootInfo);
+      self::createHashTable(self::$tree);
+    }
+  }
+  
+  public function createHashTable($tree)
+  {
+    foreach ( $tree as $node )
+    {
+      self::$hash[$node['slug']] = $node;
+      if(isset($node['children']))
+        $this->createHashTable($node['children']);
+    } 
+  }
+  
+  public function __construct($root, $active, $options = array())
   {
     $this->user = sfContext::getInstance()->getUser();
-    $this->livingOnly = ($this->user->getAttribute('show-archived', false, 'a')) ? false : true;
-
-    $this->rootPage = $rootPage;
-    $this->activePage = $activePage;
+    $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'a'));
     
-    $this->setOptions($options);
+    $this->initializeTree();
+    $subTree = self::$hash[$root];
 
+    $this->root = $root;
+    $this->active = $active;
+    
     $this->buildNavigation();
   }
-      
-  /**
-   * Builds a navigation object with options for its position in the page tree.
-   *
-   * @param $pages array The entire page tree.
-   * @param $pageInfo array Information about the page we want to create an object from.
-   * @param $pos int The pages position inside the current level of the page tree.
-   * @return aNavigationItem object
-   */
-  public function buildNavigationItem($pages, $pageInfo, $pos)
+  
+  public static function isAncestor($node1, $node2)
   {
-    return new aNavigationItem($pageInfo, aTools::urlForPage($pageInfo['slug']), array(
-      'first' => (($pos == 0) ? true : false),
-      'last' => (($pos == count($pages) - 1) ? true : false),
-      'current' => (($this->activePage->getSlug() == $pageInfo['slug']) ? true : false)
-    ));
+    return $node1['lft'] < $node2['lft'] && $node1['rgt'] > $node2['rgt'];
   }
   
-  protected function setItems($items)
+  public static function isChild($node1, $node2)
   {
-    $this->items = $items;
-  }
-  
-  public function getItems()
-  {
-    return $this->items;
-  }
-  
-  /**
-   * Returns whether or not to display archived pages.
-   * Admins can enable the ability to view archived pages in the CMS.
-   */
-  public function getLivingOnly()
-  {
-    return $this->livingOnly;
+    return $node1['lft'] > $node2['lft'] && $node1['rgt'] < $node2['rgt'] && $node1['lvl'] - $node2['lvl'] == 1;
   }
 
-  public function getOptions()
-  {
-    return $this->options; 
-  }
-  
-  public function getOption($name, $default = null)
-  {
-    return (isset($this->options[$name])) ? $this->options[$name] : $default;
-  }
-  
-  public function setOptions($options = array())
-  {
-    $this->options = $options;
-  }
-  
-  public function setOption($name, $option)
-  {
-    $this->options[$name] = $option;
-  }
-  
 }
