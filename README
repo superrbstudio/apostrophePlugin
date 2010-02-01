@@ -1578,6 +1578,45 @@ to add a "culture switcher" to their sites so that a user interface is
 available to make these features visible. Thanks to Quentin
 Dugauthier for his assistance in debugging these features.
 
+## Custom navigation in templates ##
+
+Apostrophe supports three types of navigation components, these can be found in the aNavigation module.  Including these navigation elements is as easy as including a component in your template.  The three types of navigation elements are:  an accordian tree, a tabbed menu, and a breadcrumb.  The navigation element once used will no longer require any additional SQL queries no matter how many navigation elements are included on a template.
+
+
+### Accordian Navigation ###
+
+An accordian navigation can be easily included in your template by doing the following.
+
+include_component('aNavigation', 'accordian', array('root' => '/', 'active' => $page->slug, 'name' => 'normal'))
+
+Parameters
+root (required) - This is the slug of the root page that the menu should start at
+active (required) - The page to build the navigation down to, will also recieve a css class of current
+name (required) - the unique name of the navigation element for your template.
+
+### Tabbed Navigation ###
+
+The tabbed navigation provides a navigation element that displays all of the children of a page.
+
+include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'tabs'))
+
+Parameters
+root (required) - This is the parent slug of the tabs that are displayed.
+active (required) - This is the page that if in the navigation will recieve a current css class of current
+name (required) - the unique name of the navigation element for your template.
+
+
+### Breadcrumb ###
+
+include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'bread'))
+
+Parameters
+root (required) - This is the root slug of the page the breadcrumb should begin with
+active (required) - This is the last element that the navigation should descend to
+dellimiter (optional) - The delimitter to use between items, defaults to " > "
+name (required) - the unique name of the navigation element for your template.
+
+
 ## Support ##
 
 You can obtain support for a via the [a Google group](http://groups.google.com/group/a). 
