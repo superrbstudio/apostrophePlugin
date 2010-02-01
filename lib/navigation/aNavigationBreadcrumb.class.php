@@ -2,6 +2,7 @@
 
 class aNavigationBreadcrumb extends aNavigation
 {
+  protected $cssClass = 'a-breadcrumb-nav-item'; 
   public function buildNavigation()
   {
     $this->rootInfo = parent::$hash[$this->root];
@@ -15,6 +16,7 @@ class aNavigationBreadcrumb extends aNavigation
   {
     foreach($tree as &$node)
     {
+      $node['class'] = $this->cssClass;
       if(self::isAncestor($node, $this->activeInfo))
       {
         $this->nav[] = $node;
@@ -22,6 +24,7 @@ class aNavigationBreadcrumb extends aNavigation
       }
       else if($node['id'] == $this->activeInfo['id'])
       {
+        $node['class'] = $node['class']. " current";
         $this->nav[] = $node;
       }
     }
