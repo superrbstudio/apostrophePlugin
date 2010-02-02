@@ -38,6 +38,7 @@ class aNavigationComponents extends sfComponents
     
     $this->navigation = new aNavigationTabs($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();
+    $this->draggable = $page->userHasPrivilege('edit');
   }
   
 }
