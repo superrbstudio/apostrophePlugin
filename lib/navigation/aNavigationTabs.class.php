@@ -14,9 +14,11 @@ class aNavigationTabs extends aNavigation
   
   public function traverse(&$tree, $depth=1)
   {
-    foreach($tree as &$node)
+    foreach($tree as $key => &$node)
     {
       $node['class'] = $this->cssClass;
+       if($key == 0) $node['class'] = $node['class']. ' first';
+       if($key == count($tree)-1) $node['class'] = $node['class']. ' last';
       if($node['id'] == $this->activeInfo['id'])
         $node['class'] = $node['class'].' current';
       if(isset($node['children']) && $depth < $this->depth)
