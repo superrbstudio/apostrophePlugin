@@ -2,6 +2,9 @@
 
 <?php slot('body_class') ?>a-home<?php end_slot() ?>
 
+<?php // Breadcrumb is removed for the home page template because it is redundant ?>
+<?php slot('a-breadcrumb', '') ?>
+
 <?php // Subnav is removed for the home page template because it is redundant ?>
 <?php slot('a-subnav', '') ?>
 

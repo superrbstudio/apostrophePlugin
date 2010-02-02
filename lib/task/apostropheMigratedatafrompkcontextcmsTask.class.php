@@ -118,23 +118,29 @@ echo("after\n");
         $items = $mediaSlot->getArrayValue();
         if (isset($items[0]) && isset($items[0]->id))
         {
-          $order = aArray::getIds($items);
-          $this->slot->unlink('MediaItems');
-          $this->slot->link('MediaItems', $order);
-          $this->slot->setArrayValue(array('order' => $order));
-          $this->slot->save();
+          $order = array();
+          foreach ($items as $item)
+          {
+            // aArray::getids has trouble with StdClass objects for some reason
+            $order[] = $item->id;
+          }
+          $mediaSlot->unlink('MediaItems');
+          $mediaSlot->link('MediaItems', $order);
+          $mediaSlot->setArrayValue(array('order' => $order));
+          $mediaSlot->save();
         }
       }
       else
       {
-        if (strlen($this->slot->value))
+        if (strlen($mediaSlot->value))
         {
-          $item = unserialize($this->slot->value);
+          $item = unserialize($mediaSlot->value);
           if (isset($item->id))
           {
-            $this->slot->unlink('MediaItems');
-            $this->slot->link('MediaItems', array($item->id));
-            $this->slot->save();
+            $mediaSlot->unlink('MediaItems');
+            $mediaSlot->link('MediaItems', array($item->id));
+            $mediaSlot->setValue(null);
+            $mediaSlot->save();
           }
         }
       }

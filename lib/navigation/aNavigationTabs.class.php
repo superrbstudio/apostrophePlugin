@@ -2,20 +2,32 @@
 
 class aNavigationTabs extends aNavigation
 {
-  /**
-   * @return array of aContextNavigationItem objects
-   */
+  protected $cssClass = 'a-tab-nav-item'; 
   public function buildNavigation()
   {
-    $children = $this->rootPage->getChildrenInfo($this->getLivingOnly());
-    $items = array();
-    $n = 0;
-    
-    foreach ($children as $pageInfo)
+    $this->rootInfo = parent::$hash[$this->root];
+    $this->activeInfo = parent::$hash[$this->active];
+    $this->nav = $this->rootInfo['children'];
+    $this->depth = $this->options['depth'];
+    $this->traverse($this->nav);
+  }
+  
+  public function traverse(&$tree, $depth=1)
+  {
+    foreach($tree as $key => &$node)
     {
-      $items[] = $this->buildNavigationItem($children, $pageInfo, $n++);
+      $node['class'] = $this->cssClass;
+       if($key == 0) $node['class'] = $node['class']. ' first';
+       if($key == count($tree)-1) $node['class'] = $node['class']. ' last';
+      if($node['id'] == $this->activeInfo['id'])
+        $node['class'] = $node['class'].' current';
+      if(isset($node['children']) && $depth < $this->depth)
+        $this->traverse($node['children'], $depth + 1);
     }
-
-    $this->setItems($items);
+  }
+  
+  public function getNav()
+  {
+    return $this->nav;
   }
 }

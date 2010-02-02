@@ -54,6 +54,12 @@
 		  <?php include_component('a', 'tabs') # Top Level Navigation ?>
 		<?php endif ?>
 
+		<?php if (has_slot('a-breadcrumb')): ?>
+				<?php include_slot('a-breadcrumb') ?>
+		<?php else: ?>
+				<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'component', 'seperator' => ' /')) # Top Level Navigation ?>
+		<?php endif ?>
+
     <?php if (has_slot('a-subnav')): ?>
       <?php include_slot('a-subnav') ?>
     <?php elseif ($page): ?>

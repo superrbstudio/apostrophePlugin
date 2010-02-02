@@ -322,11 +322,15 @@ display: block;
 	width: 100%;
 }
 
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
 .a-slot.aRichText h3,
 .a-slot.aRichText h4,
 .a-slot.aRichText h5,
 .a-slot.aRichText h6,
-.a-slot.aRichText p
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
 {
 float: left;
 width: 100%;

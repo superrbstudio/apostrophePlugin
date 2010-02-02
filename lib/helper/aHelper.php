@@ -172,15 +172,28 @@ function _a_navcolumn_body($page)
   {
     $childrenInfo = $page->getPeerInfo($livingOnly);
   }
+	$n = 1;
   foreach ($childrenInfo as $childInfo)
   {
     $class = "peer_item";
+
     if ($childInfo['id'] == $page->id)
     {
       $class = "self_item";
     }
+
+		if ($n == 1)
+		{
+			$class .= ' first';
+		}
+
+		if ($n == count($childrenInfo))
+		{
+			$class .= ' last';
+		}
+
     // Specific format to please jQuery.sortable
-    $result .= "<li id=\"a-navcolumn_" . $childInfo['id'] . "\" class=\"$class\">\n";
+    $result .= "<li id=\"a-navcolumn-item-" . $childInfo['id'] . "\" class=\"a-navcolumn-item $class\">\n";
     $title = $childInfo['title'];
     if ($childInfo['archived'])
     {
@@ -188,6 +201,7 @@ function _a_navcolumn_body($page)
     }
     $result .= $sortHandle.link_to($title, aTools::urlForPage($childInfo['slug']));
     $result .= "</li>\n";
+		$n++;
   }
   $result .= "</ul>\n";
   if ($admin)

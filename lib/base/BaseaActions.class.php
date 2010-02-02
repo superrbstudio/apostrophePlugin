@@ -244,9 +244,6 @@ class BaseaActions extends sfActions
         $template = $rule['template'];
       }
       $page->template = $template;
-      // Unpublished pages don't show up in the breadcrumb trail,
-      // and we don't have a UI for it yet anyway.
-      $page->is_published = true;
       // Must save the page BEFORE we call setTitle, which has the side effect of
       // refreshing the page object
       $page->save();

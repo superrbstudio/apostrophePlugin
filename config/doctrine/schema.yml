@@ -20,8 +20,7 @@ aPage:
       unique: true
     template:
       type: string(100)
-    # Not currently used
-    is_published: boolean
+    # Must log in to see. (Sometimes with particular credentials, see documentation)
     view_is_secure: boolean
     # For historical reasons this means "unpublished"
     archived: boolean
