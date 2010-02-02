@@ -151,7 +151,6 @@ class aPageSettingsForm extends aPageForm
       if($this->getValue('cascade_archived'))
       {
         $q->set('archived', '?', $object->getArchived());
-        $q->set('is_published', '?', $object->getIsPublished());
       }
       if($this->getValue('cascade_view_is_secure'))
       {

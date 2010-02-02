@@ -2,7 +2,6 @@ aPage:
   home:
     slug: "/"
     template: home
-    is_published: true
     Areas:
       home_en_title:
         name: title
@@ -34,7 +33,6 @@ aPage:
       about:
         slug: "/about"
         template: default
-        is_published: true
         Areas:
           about_en_title:
             name: title
@@ -65,7 +63,6 @@ aPage:
       media:
         slug: "/media"
         template: default
-        is_published: true
         Areas:
           media_en_title:
             name: title
@@ -83,7 +80,6 @@ aPage:
       contact:
         slug: "/contact"
         template: default
-        is_published: true
         Areas:
           contact_en_title:
             name: title
