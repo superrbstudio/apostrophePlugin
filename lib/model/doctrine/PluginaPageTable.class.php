@@ -148,6 +148,10 @@ class PluginaPageTable extends Doctrine_Table
   // queries such as the implementation of the a:refresh task and will not 
   // work as expected for page rendering purposes. Normally you never fetch all culture slots
   // at once
+  
+  // Also brings in related media objects since the assumption is that you are actually
+  // rendering a page. See queryWithTitles and, better yet, the getChildrenInfo() method
+  // and its relatives for efficient ways to find out information about other pages quickly
 
   static public function queryWithSlots($version = false, $culture = null)
   {
@@ -178,6 +182,7 @@ class PluginaPageTable extends Doctrine_Table
     }
     return $query->leftJoin('v.AreaVersionSlots avs')->
       leftJoin('avs.Slot s')->
+      leftJoin('s.MediaItems m')->
       orderBy('avs.rank asc');
   }
   

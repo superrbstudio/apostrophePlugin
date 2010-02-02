@@ -10,24 +10,7 @@
 
 <?php slot("a-slot-controls-$name-$permid") ?>
 	<li class="a-controls-item choose-image">
-  <?php echo link_to('Choose image',
-    sfConfig::get('app_aMedia_client_site', false) . "/media/select?" .
-      http_build_query(
-        array_merge(
-          $constraints,
-          array(
-          "aMediaId" => $itemId,
-          "type" => "image",
-          "label" => "Select an Image",
-          "after" => url_for("aImageSlot/edit") . "?" .
-            http_build_query(
-              array(
-                "slot" => $name, 
-                "slug" => $slug, 
-                "actual_slug" => aTools::getRealPage()->getSlug(),
-                "permid" => $permid,
-                "noajax" => 1)), true))),
-    array('class' => 'a-btn icon a-media')) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 <?php end_slot() ?>
 <?php endif ?>
@@ -37,7 +20,7 @@
   <?php $item = new stdclass() ?>
   <?php $item->title = '' ?>
   <?php $item->description = '' ?>
-  <?php $item->embed = "<img src='$defaultImage' />" ?>
+  <?php $embed = "<img src='$defaultImage' />" ?>
 <?php endif ?>
 <?php if ($item): ?>
   <ul>
@@ -49,9 +32,7 @@
           $dimensions['height'],
           $dimensions['resizeType'],
           $dimensions['format']),
-        $item->embed) ?>
-    <?php else: ?>
-      <?php $embed = $item->embed ?>
+        $embed) ?>
     <?php endif ?>
     <?php if ($link): ?>
       <?php $embed = "<a href=\"$link\">$embed</a>" ?>

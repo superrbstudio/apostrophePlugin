@@ -13,24 +13,8 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
   <?php slot("a-slot-controls-$name-$permid") ?>
   	<li class="a-controls-item choose-image">
-    <?php echo link_to('Image',
-      sfConfig::get('app_aMedia_client_site', false) . "/media/select?" .
-        http_build_query(
-          array_merge(
-            $constraints,
-            array(
-            "aMediaId" => $itemId,
-            "type" => "image",
-            "label" => "Select an Image",
-            "after" => url_for("aButtonSlot/image") . "?" .
-              http_build_query(
-                array(
-                  "slot" => $name, 
-                  "slug" => $slug, 
-                  "actual_slug" => aTools::getRealPage()->getSlug(),
-                  "permid" => $permid,
-                  "noajax" => 1)), true))),
-      array('class' => 'a-btn icon a-media')) ?>
+  	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+
   	</li>
 
     <?php include_partial('a/simpleEditButton',
@@ -47,7 +31,7 @@
         $dimensions['height'],
         $dimensions['resizeType'],
         $dimensions['format']),
-      $item->embed) ?>
+        $embed) ?>
     <?php if ($link): ?>
       <?php $embed = "<a class=\"a-button-link\" href=\"$link\">$embed</a>" ?>
     <?php endif ?>

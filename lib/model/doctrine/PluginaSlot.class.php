@@ -109,4 +109,38 @@ abstract class PluginaSlot extends BaseaSlot
     // If the variant is valid, return it as the CSS class
     return $this->variant;
   }
+  
+  // We don't want to copy most of the references, but we do need
+  // copies of the refClass objects for associated media. Otherwise
+  // there is no meaningful version control for media slots. We can
+  // create the copies implicitly by building up a new MediaItems list.
+  
+  public function copy($deep = false)
+  {
+    // We ignore the deep parameter (it's part of the signature of the method in
+    // the base class), instead copying what is appropriate (links to media items) and not
+    // things that are not our responsibility (actual media items)
+    
+    $new = parent::copy();
+    // This could perhaps be a little faster - right now we're pulling in the
+    // actual MediaItem objects, all we really need is their IDs. That's one join
+    // more than strictly necessary
+    $mediaItems = $this->MediaItems;
+    $ids = array();
+    foreach ($mediaItems as $mediaItem)
+    {
+      $ids[] = $mediaItem->id;
+    }
+    $new->link('MediaItems', $ids);
+    return $new;
+  }
+  
+  // Doctrine_Collection::contains doesn't really take a primary key as an argument as
+  // you'd expect. Fortunately getPrimaryKeys is available
+  
+  public function containsMediaItemId($id)
+  {
+    $idMap = array_flip($this->MediaItems->getPrimaryKeys());
+    return isset($idMap[$id]);
+  }
 }

@@ -7,15 +7,13 @@ class aButtonSlotActions extends BaseaSlotActions
   {
     $this->logMessage("====== in aImageSlotActions::executeImage", "info");
     $this->editSetup();
-    $item = aMediaAPI::getSelectedItem($request, "image");
-    if ($item === false)
+    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
+    if ((!$item) || ($item->type !== 'image'))
     {
-      // Cancellation or error
       return $this->redirectToPage();
-    } 
-    $value = $this->slot->getArrayValue();
-    $value['image'] = $item;
-    $this->slot->setArrayValue($value);
+    }
+    $this->slot->unlink('MediaItems');
+    $this->slot->link('MediaItems', array($item->id));
     $this->editSave();
   }
   

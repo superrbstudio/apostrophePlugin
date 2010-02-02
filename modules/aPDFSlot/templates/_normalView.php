@@ -10,24 +10,7 @@
 
 <?php slot("a-slot-controls-$name-$permid") ?>
 	<li class="a-controls-item choose-pdf">
-  <?php echo link_to('Choose PDF',
-    sfConfig::get('app_aMedia_client_site', false) . "/media/select?" .
-      http_build_query(
-        array_merge(
-          $constraints,
-          array(
-          "aMediaId" => $itemId,
-          "type" => "pdf",
-          "label" => "Select a PDF Document",
-          "after" => url_for("aPDFSlot/edit") . "?" .
-            http_build_query(
-              array(
-                "slot" => $name, 
-                "slug" => $slug, 
-                "actual_slug" => aTools::getRealPage()->getSlug(),
-                "permid" => $permid,
-                "noajax" => 1)), true))),
-    array('class' => 'a-btn icon a-pdf')) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => 'Choose PDF', 'label' => 'Select a PDF File', 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 <?php end_slot() ?>
 
@@ -36,18 +19,19 @@
 <?php if ($item): ?>
   <ul>
     <li class="a-context-pdf">
-      <a href="<?php echo $item->original ?>">
-        <?php // JOHN: make the PDF-ness visible here, perhaps as a semiopaque overlay ?>
-        <?php // of the Adobe PDF icon ?>
-        <?php $embed = str_replace(
+      <?php // Thumbnail image as a link to the original PDF ?>
+      <?php echo link_to(str_replace(
           array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
           array($dimensions['width'], 
             $dimensions['height'],
             $dimensions['resizeType'],
             $dimensions['format']),
-          $item->embed) ?>
-        <?php echo $embed ?>
-      </a>
+          $embed), 
+        "aMedia/original?" .
+          http_build_query(
+            array(
+              "slug" => $item->getSlug(),
+              "format" => $item->getFormat()))) ?>
     </li>
     <?php if ($title): ?>
       <li class="a-pdf-title"><?php echo $item->title ?></li>
