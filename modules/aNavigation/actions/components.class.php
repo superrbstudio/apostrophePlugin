@@ -34,6 +34,7 @@ class aNavigationComponents extends sfComponents
     $this->active = isset($this->active)? $this->active : $this->root;
     
     $this->options = array('depth' => isset($this->depth)? $this->depth : 1);
+    $this->depth = $this->options['depth'];
     
     $this->navigation = new aNavigationTabs($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();

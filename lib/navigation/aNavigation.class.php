@@ -24,17 +24,18 @@ abstract class aNavigation
       $tree = $root->getTreeInfo(false);
       $rootInfo['children'] = $tree;
       self::$tree = array($rootInfo);
-      self::createHashTable(self::$tree);
+      self::createHashTable(self::$tree, $rootInfo);
     }
   }
   
-  public function createHashTable($tree)
+  public function createHashTable($tree, $parent)
   {
     foreach ( $tree as $node )
     {
+      $node['parent'] = $parent;
       self::$hash[$node['slug']] = $node;
       if(isset($node['children']))
-        $this->createHashTable($node['children']);
+        $this->createHashTable($node['children'], $node);
     } 
   }
   

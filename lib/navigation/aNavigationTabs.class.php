@@ -7,8 +7,16 @@ class aNavigationTabs extends aNavigation
   {
     $this->rootInfo = parent::$hash[$this->root];
     $this->activeInfo = parent::$hash[$this->active];
-    $this->nav = $this->rootInfo['children'];
     $this->depth = $this->options['depth'];
+    
+    if(isset($this->rootInfo['children']))
+    {
+      $this->nav = $this->rootInfo['children'];
+    }
+    else
+    {
+      $this->nav = $this->rootInfo['parent']['children'];
+    }
     $this->traverse($this->nav);
   }
   
@@ -23,6 +31,8 @@ class aNavigationTabs extends aNavigation
         $node['class'] = $node['class'].' current';
       if(isset($node['children']) && $depth < $this->depth)
         $this->traverse($node['children'], $depth + 1);
+      else
+        unset($node['children']);
     }
   }
   

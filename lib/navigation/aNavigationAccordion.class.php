@@ -7,7 +7,14 @@ class aNavigationAccordion extends aNavigation
   {
     $this->rootInfo = parent::$hash[$this->root];
     $this->activeInfo = parent::$hash[$this->active];
-    $this->nav = $this->rootInfo['children'];
+    if(isset($this->rootInfo['children']))
+    {
+      $this->nav = $this->rootInfo['children'];
+    }
+    else
+    {
+      $this->nav = $this->rootInfo['parent']['children'];
+    }
     $this->traverse($this->nav);
   }
   
