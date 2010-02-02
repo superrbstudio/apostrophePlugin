@@ -160,7 +160,7 @@ class PluginaPageTable extends Doctrine_Table
       $culture = aTools::getUserCulture();
     }
     $query = Doctrine_Query::Create()->
-      select("p.*, a.*, v.*, avs.*, s.*")->
+      select("p.*, a.*, v.*, avs.*, s.*, m.*")->
       from("aPage p");
     if ($culture === 'all')
     {

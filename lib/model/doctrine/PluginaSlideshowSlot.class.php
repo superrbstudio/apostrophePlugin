@@ -29,38 +29,6 @@ abstract class PluginaSlideshowSlot extends BaseaSlideshowSlot
     return $text;
   }
   
-  public function refreshSlot()
-  {
-    $slot = $this;
-    if (!strlen($slot->value))
-    {
-      // Not yet set
-      return;
-    }
-    $items = unserialize($slot->value);
-    $api = new aMediaAPI();
-    $ids = array();
-    foreach ($items as $item)
-    {
-      $ids[] = $item->id;
-    }
-    $results = $api->getItems($ids);
-    if ($results === false)
-    {
-      echo("Warning: no valid response for slot " . $slot->id . ", leaving it alone on this pass\n");
-      return;
-    }
-    if (!is_array($results))
-    {
-      throw new sfException('Result should have been array or false, received something else');
-    }
-    // Some of the items may be gone, accept the new list
-    $slot->value = serialize($results);
-    if (count($results) < count($items))
-    {
-      echo("Some images in slideshow have been removed, removing them from slot " . $slot->id . "\n");
-    }
-    $slot->save();
-  }
-  
+  // We don't need refreshSlot anymore thanks to ON DELETE CASCADE
+  // and the new simplified non-API-driven setup
 }

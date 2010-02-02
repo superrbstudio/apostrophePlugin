@@ -743,6 +743,8 @@ class aMediaActions extends sfActions
   protected $user = false;
   private function validateAPIKey()
   {
+    // Media API is no longer used internally and defaults to off in apostrophePlugin
+    $this->forward404Unless(sfConfig::get('app_a_media_apienabled', false));
     if (!$this->hasRequestParameter('apikey'))
     {
       if (!aMediaTools::getOption("apipublic"))

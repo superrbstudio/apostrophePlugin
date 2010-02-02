@@ -105,6 +105,41 @@ echo("after\n");
       echo("Warning: unable to add variant column to a_slot table\n");
     }
     
+    echo("Migrating media slots\n");
+    $count = 0;
+    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
+    $total = count($mediaSlots);
+    foreach ($mediaSlots as $mediaSlot)
+    {
+      $count++;
+      echo("Migrating slot $count of $total\n");
+      if ($mediaSlot->type === 'aSlideshow')
+      {
+        $items = $mediaSlot->getArrayValue();
+        if (isset($items[0]) && isset($items[0]->id))
+        {
+          $order = aArray::getIds($items);
+          $this->slot->unlink('MediaItems');
+          $this->slot->link('MediaItems', $order);
+          $this->slot->setArrayValue(array('order' => $order));
+          $this->slot->save();
+        }
+      }
+      else
+      {
+        if (strlen($this->slot->value))
+        {
+          $item = unserialize($this->slot->value);
+          if (isset($item->id))
+          {
+            $this->slot->unlink('MediaItems');
+            $this->slot->link('MediaItems', array($item->id));
+            $this->slot->save();
+          }
+        }
+      }
+    }
+    
     echo("Rebuilding search index\n");
 		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];
     system($cmd, $result);
