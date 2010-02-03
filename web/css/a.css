@@ -1,25 +1,62 @@
 @charset "utf-8";
 
 /*
- *  Table Of Sections
- *
- *  1. Reset
- *  2. Basic Elements
- *  3. Generic Classes
- *  4. Buttons
- *  5. Button Icons
- *  6. Area and Slot Controls
- *  7. Sidebar
- *  8. Footer
- *  9. Navigation
- * 10. Forms
- * 11. Modules
- * 12. Print styles
- *
- */
+	
+	*  Table Of Sections
+	*
+	*** Base Styles
+	*  1. Reset  - do NOT modify!
+	*  2. Basic Elements
+	*  3. Generic Classes
+	*  4. Basic Global Layout
+	*  5. Site Built With Apostrophe
 
-/*  1. Reset  - do NOT modify!
- *	Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+	*** aUI - Interface Related Styles
+	*  6. aUI Buttons
+	*  7. aUI Button Icons
+	*  8. aUI Breadcrumb - Rename Page / Add Page
+	*  9. aUI Area and Slot Controls
+	* 10. aUI Pager Navigation
+
+	*** Components Styles
+	* 11. Global Toolbar
+	* 12. Page Settings Panel
+	* 13. History Browser
+	* 14. Areas and Slots
+	* 15. Apostrophe Login Form
+	* 16. Apostrophe Signin Form
+	* 17. Tabbed Navigation Styles 
+	* 18. Site Search
+	* 19. Search Results
+	* 20. Apostrophe Feedback Form
+	
+	*** Media Engine Styles
+	* 21. Media Engine
+	* 22. Media Engine - Video Search
+
+	*** Blog Engine Styles
+	* 23. Blog Engine
+
+	*** Shared Component / Engine Styles
+	* 24. Shared Subnav
+	* 25. Shared Tag Sidebar
+	* 26. Shared Tag Suggestions
+
+	*** pkAdmin Generator Styles
+	* 27. Admin Generator
+	* 28. Admin Generator - Filters
+
+	*** Always Override Styles
+	* 29. Bundled Templates
+	* 30. aUI & Admin Colors - Default
+	
+*/
+
+
+
+
+/* 1. Reset  - do NOT modify!
+ * Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------*/
 
 html, body, div, span, applet, object, iframe,
@@ -128,6 +165,12 @@ h1, h2, h3, h4, h5, h6
 	line-height: 1.2;
 }
 
+p
+{
+	line-height: 1.4;
+}
+
+
 
 
 
@@ -196,7 +239,78 @@ text-indent: -9999px;
 }
 
 
-/* 4. Buttons
+
+
+/* 4. Basic Global Layout
+-------------------------------------*/
+
+#a-wrapper
+{
+width: 960px;
+margin: 0 auto;
+}
+
+#a-header,
+#a-content
+{
+float: left;
+display: inline;
+position: relative;
+clear: both;
+width: 100%;
+}
+
+#a-area-footer
+{
+	position: relative;
+	display: inline;
+	clear: both;
+}
+
+.a-logged-in-as
+{
+padding-right: 10px;
+line-height: 20px;
+}
+
+.a-logged-in-as span
+{
+color: #666;
+}
+
+
+
+
+/* 5. Site Built With Apostrophe
+-------------------------------------*/
+
+.a-attribution
+{
+float:left;
+display:inline;
+line-height:10px;
+padding-bottom:6px;
+padding-left:20px;
+color:#666;
+font-size:11px;
+background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left;
+}
+
+.a-attribution a
+{
+color:#0000ff;
+text-decoration:none;
+}
+
+.a-attribution a:hover
+{
+text-decoration:underline;
+}
+
+
+
+
+/* 6. aUI Buttons
 -------------------------------------*/
 
 .a-btn
@@ -330,7 +444,9 @@ text-indent:0 !important;
 }
 
 
-/* 5. Button Icons
+
+
+/* 7. aUI Button Icons
 -------------------------------------*/
 
 .icon.a-feed .a-b
@@ -723,8 +839,6 @@ width: auto !important;
 border: none !important;
 }
 
-/* Button Slot Styles */
-
 .a-button a 
 {
 	position: relative;
@@ -748,326 +862,6 @@ border: none !important;
 color: #888;
 }
 
-/* 6. Area and Slot Controls
--------------------------------------*/
-
-ul.a-controls
-{
-float: left;
-visibility: hidden;
-margin: 0 !important;
-}
-
-ul.a-controls li
-{ /* All buttons on the site are wrapped in a list. This LI often contains (constrains) the .a-i element  */
-float: left;
-display: inline;
-position: relative;
-margin: 0 1px 0 0 !important;
-width: auto;
-height: auto;
-border: none;
-}
-
-ul.a-controls li a
-{ /* Make sure anchor is above .a-i element */
-z-index: 1;
-margin-bottom: 1px;
-}
-
-ul.a-controls .a-controls-item.cancel
-{ /* Hide All Cancel Buttons */
-display: none;
-}
-
-ul.a-controls.a-area-controls
-{ /* Area Controls - Sit ABOVE all slots */
-position: relative;
-z-index: 899;
-float: left;
-width: 100%;
-padding-bottom: 10px;
-}
-
-.a-area.singleton ul.a-controls.a-area-controls
-{ /* Singleton Area Controls */
-position: absolute;
-top: 0;
-left: 0;
-}
-
-.browsing-history ul.a-controls.a-area-controls
-{ /* Change z-index of Area controls when we are browsing history */
-z-index: 999;
-}
-
-.a-area.browsing-history ul.a-controls.a-slot-controls,
-ul.a-controls ul.a-controls-item.history
-{
-z-index: 899;
-}
-
-ul.a-controls.a-slot-controls,
-ul.a-controls.a-media-edit-links,
-ul.a-controls.a-media-multiple-list-controls
-{ /* Slot Controls - Sit ON TOP of associated slot */
-position: absolute;
-z-index: 799;
-top: 0;
-left: 0;
-}
-
-ul.a-controls ul.a-controls-item
-{ /* Control Subsets */
-position: relative;
-}
-
-ul.a-area-controls li .a-area-options,
-ul.a-controls .a-history-options
-{
-display: none;
-}
-
-.editing-now a.a-btn .a-b,
-.browsing-history a.a-btn.a-history .a-b
-{
-color: #000 !important;
-cursor: default !important;
-}
-
-.a-area.previewing-history a.a-btn.a-history .a-b
-{
-background-color: transparent !important;
-color: #fff !important;
-cursor: pointer !important;
-}
-
-.a-area.previewing-history .a-slots .a-controls
-{
-display: none !important;
-}
-.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
-{
-display: block !important;
-}
-
-
-
-
-/* #. Login Form
--------------------------------------*/
-
-#a-login-form
-{
-width: 220px;
-height: 400px;
-background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
-position: absolute;
-top: 50%;
-left: 50%;
-margin-left: -110px;
-margin-top: -200px;
-font-size: 16px;
-text-transform: lowercase;
-}
-
-#a-login-form table
-{
-width: 100%;
-margin-bottom: 10px;
-}
-
-#a-login-form h1
-{
-color: #fff;
-margin: 15px 0 5px 0;
-}
-
-#a-login-form th,
-#a-login-form td
-{
-width: 100%;
-float: left;
-display: inline;
-clear: both;
-padding-left: 20px;
-}
-
-#a-login-form td input
-{
-width: 175px;
-border: 0px;
-font-size: 12px;
-padding: 3px 2px;
-margin: 2px 0 8px;
-font-family: arial;
-}
-
-#a-login-form .remember th,
-#a-login-form .remember td
-{
-width: 80px;
-clear: none;
-}
-#a-login-form .remember td
-{
-padding: 0;
-}
-
-#a-login-form .remember td input
-{
-width: auto;
-margin: 2px;
-}
-
-#a-login-form .a-controls
-{
-width: 178px;
-margin: 0 22px
-}
-
-#a-login-form .a-controls li
-{
-float: right;
-}
-
-#a-login-form .a-controls li.last
-{
-float: left;
-}
-
-#a-login-form .a-reset-password
-{
-font-size: 11px;
-color: #333;
-}
-
-#a-login-form .a-reset-password:hover
-{
-color: #fff;
-}
-
-/* == */
-/* == TAG SUGGESTIONS */
-/* == */
-
-div.tag-suggestions
-{
-position: relative;
-display: inline;
-float: left;
-clear: both;
-width: 100%;
-padding-top: 8px;
-margin: 0;
-z-index: 9999;
-font-size: 11px;
-}
-
-.tubes-tags div.tag-suggestions,
-.a_admin_form_field_tags div.tag-suggestions
-{
-	width: 360px;
-	top: -9px;
-}
-
-#a-media-edit-form div.tag-suggestions
-{
-	width: 216px;
-	top: -9px;
-	left: 120px;
-}
-
-#a-admin-form div.tag-suggestions {
-left:0px;
-top:-9px;
-width:360px;
-}
-
-div.tag-suggestions .tag-spacer
-{
-	display: none;
-}
-
-div.tag-suggestions ul
-{
-position: relative;
-float: left;
-width: 100%;
-font-size: 11px;
-text-indent: 3px;
-z-index: 999;
-}
-
-div.tag-suggestions li
-{
-float: left;
-clear: both;
-width: 100%;
-margin: 0;
-visibility: hidden;
-}
-	
-div.tag-suggestions li a
-{
-float: left;
-display: block;
-visibility: visible;
-background: #fff;
-padding: 2px;
-width: 100%;
-border-left: 1px solid #666;
-border-right: 1px solid #666;
-}
-
-div.tag-suggestions li a.first
-{
-border-top: 1px solid #666;
-}
-
-div.tag-suggestions li a.last
-{
-border-bottom: 1px solid #666;
-}
-
-div.tag-suggestions li a:hover
-{
-background-color: #000;
-color: #fff !important;
-text-decoration:none;
-}
-
-
-/* == */
-/* == Multi-Select Drop Down / Button Thinger */
-/* == */
-.a-multiple-select-list,
-.a-multiple-select-list li
-{
-	position: relative;
-	float: left;
-	display: block;
-	width: 100%;
-}
-
-.a-multiple-select-list li
-{
-	line-height: 20px;
-	margin: 2px 0;
-}
-
-.a-media-pdf-icon-overlay
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 35px;
-	width: 35px;
-	text-indent: -9999px;
-	overflow: hidden;
-	background: url(/apostrophePlugin/images/a-media-pdf-btn-small.png) no-repeat top left;
-}
-
 .a-rss-feed
 {
 	display: block;
@@ -1076,692 +870,12 @@ text-decoration:none;
 	background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat;	
 }
 
-.a-search-form input.a-search-field
-{
-position: absolute;
-top: 0;
-left: 6px;
-font: 12px Arial, Helvetica, Sans-serif;
-border: 0 none;
-padding: 3px;
-width: 210px;
-background: transparent;
-}
-
-.a-search-form input.submit
-{
-position: absolute;
-top: 0;
-right: 0;
-height: 20px;
-width: 29px;
-display: block;
-border: none !important;
-z-index: 2;
-padding: 0;
-text-indent: -9999px;
-background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
-}
-
-/* [START] standard signin ==================================================================== */
-
-#a-signin
-{
-float: left;
-overflow:hidden;
-margin: 20px;
-width: 180px;
-}
-    
-#a-signin-top
-{
-float: left;
-width: 180px;
-height: 10px;
-}
-    
-#a-signin-bottom
-{
-float: left;
-width: 180px;
-height: 10px;
-}
-    
-#a-signin-form
-{
-float: left;
-width: 180px;
-}
-
-#a-signin-form .error_list
-{
-float: left;
-display: inline;
-margin: 5px 0;
-color: #900;
-font-size: 11px;
-}
-    
-#a-signin-form label
-{
-	font-size: 16px;
-}
-
-#a-signin-form label,
-#a-signin-form input,
-#a-signin-form a
-{
-clear: both;
-float: left;
-}
-
-#a-signin-form input
-{
-	font-size: 12px;
-	font-family: Arial, Sans-serif;
-	border: 1px solid #999;
-	padding: 3px 2px;
-	color: #333;
-}
-
-#a-signin-form input[type="text"],
-#a-signin-form input[type="password"]
-{
-	width: 155px;
-}
-    
-#a-signin-form a
-{
-color: #000;
-text-decoration: none;
-}
-    
-#a-signin-form a:hover
-{
-color: #666;
-}
-
-/* [END] standard signin ==================================================================== */
-
-
-/* == */
-/* == a_pager_navigation - Styles for the aPager == */
-/* == */
-
-.a_pager_navigation
-{
-float: left;
-display: inline;
-overflow: hidden;
-margin: 10px 0;
-font-size: 11px;
-width: 100%;
-}
-
-.a_pager_navigation a,
-.a_pager_navigation span
-{
-display: inline;
-float: left;
-height: 20px;
-line-height: 20px;
-}
-
-.a_pager_navigation .a_page_navigation_number
-{
-padding: 0 6px;
-}
-
-.a_pager_navigation span.a_page_navigation_number.a_pager_navigation_disabled
-{
-background-color: #e2e2e2;
-}
-
-.a_pager_navigation a.a_page_navigation_number:hover
-{
-color: #000;
-background-color: #e2e2e2;
-}
-
-.a_pager_navigation .a_pager_navigation_image
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
-display: inline;
-float: left;
-width: 22px;
-height: 20px;
-text-indent: -9999px;
-}
-
-.a_pager_navigation a.a_pager_navigation_image.disabled
-{
-cursor: default;
-}
-
-.a_pager_navigation a.a_pager_navigation_first
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
-}
-
-.a_pager_navigation a.a_pager_navigation_first:hover
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
-}
-.a_pager_navigation a.a_pager_navigation_previous
-{
-background-position: -22px 0;
-width: 19px;
-margin-right: 5px;
-}
-.a_pager_navigation a.a_pager_navigation_previous:hover
-{
-background-position: -22px -40px !important;
-}
-.a_pager_navigation a.a_pager_navigation_next
-{
-background-position: -41px 0;
-width: 19px;
-margin-left: 5px;
-}
-.a_pager_navigation a.a_pager_navigation_next:hover
-{
-background-position: -41px -60px;
-}
-.a_pager_navigation a.a_pager_navigation_last
-{
-background-position: -60px 0;
-}
-.a_pager_navigation a.a_pager_navigation_last:hover
-{
-background-position: -60px -80px;
-}
-
-.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
-text-indent: -999px;
-overflow: hidden;
-width: 22px;
-}
-
-.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
-text-indent: -999px;
-overflow: hidden;
-width: 19px;
-margin-right: 5px;
-}
-
-.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -60px -80px;
-text-indent: -999px;
-overflow: hidden;
-width: 22px;
-}
-
-.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
-{
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
-text-indent: -999px;
-overflow: hidden;
-width: 19px;
-margin-left: 5px;
-}
 
 
 
-
-/* ### Start [ a.css ]  ### */
-
-/* #. Areas and Slots
+/* 8. aUI Breadcrumb - Rename Page / Add Page
+ **** To be deprecated when we develop new Global Toolbar functionality - 2/3/2010
 -------------------------------------*/
-
-.a-area
-{ /* An Area is the outer most wrapper for a collection of Slots */
-position: relative;
-float: left;
-width: 100%;
-margin: 10px 0;
-/*	z-index:599;*/
-}
-
-.a-slots
-{ /* Slots Container wraps all Slots in an Area*/
-position: relative;
-float: left;
-width: 100%;
-}
-
-.a-slot
-{ /* Individual Slots */
-position: relative;
-float: left;
-width: 100%;
-min-height: 20px;
-margin-bottom: 10px;
-font-size: 12px;
-display: inline;
-}
-
-.a-slot-form
-{/* Creates space for buttons to sit on top of forms when logged-in-editing */
-	padding-top: 22px !important;
-	float: left;
-	width: 100%;
-}
-
-/* Rich Text Slot Styles */
-
-.a-slot.aRichText h1,
-.a-slot.aRichText h2,
-.a-slot.aRichText h3,
-.a-slot.aRichText h4,
-.a-slot.aRichText h5,
-.a-slot.aRichText h6,
-.a-slot.aRichText p,
-.a-slot.aRichText ul,
-.a-slot.aRichText ol
-{
-float: left;
-width: 100%;
-clear: both;
-margin: 0 0 10px 0;
-}
-
-.a-slot.aRichText b,
-.a-slot.aRichText strong
-{
-font-weight: bold;
-}
-
-.a-slot.aRichText h3
-{
-font-size: 150%;
-}
-
-.a-slot.aRichText h4
-{
-font-size: 125%;
-}
-
-.a-slot.aRichText h5
-{
-font-size: 90%;
-}
-
-.a-slot.aRichText h6
-{
-font-size: 90%;
-}
-
-.a-slot.aRichText ol
-{
-list-style: inside decimal;
-}
-
-.a-slot.aRichText ul
-{
-list-style: inside disc;
-}
-
-.a-slot.aRichText table
-{
-	border: 1px solid #ccc;
-	border-bottom: none;
-	border-right: none;
-}
-
-.a-slot.aRichText table th,
-.a-slot.aRichText table td
-{
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	padding: 3px;
-	line-height: 1.2;
-}
-
-.a-slot.aRichText.a-edit-view .a-controls
-{
-display: none;
-}
-
-.a-slot.aRichText.a-edit-view:hover
-{
-color: #888;
-}
-
-.a-slot.aRichText.a-edit-view:hover .a-controls
-{
-display: block;
-}
-
-/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
-/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
-.a-slot-is-editable.aRichText .a-slot-content-container,
-.a-slot-is-editable.aText .a-slot-content-container,
-.a-slot-is-editable.aBlogPost .a-slot-content-container,
-.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
-.a-slot-is-editable.aBlogEvent .a-slot-content-container,
-.a-slot-is-editable.aRawHTML .a-slot-content-container
-{
-	padding: 22px 0 0 0 !important;
-}
-
-.a-slot.aTextSlot,
-.a-slot.aRawHTML
-{
-width: 100%;
-}
-
-.a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
-{
-	float: left;
-	width: 99%;
-	border: 1px solid #333;
-	padding: 2px;
-	height: 200px;
-	font: 12px/1.2 Monospace;
-	background: #efefef;
-}
-
-/* Slideshow Slot Styles */
-
-.a-slot.aSlideshow
-{
-margin-top: 24px; /* Space for the Arrow Controls*/
-margin-bottom: 40px;
-}
-
-.a-slot.aSlideshow .a-slideshow-description,
-.a-slot.aPDF .a-pdf-description
-{
-	font-size: 11px;
-	margin: 5px 0;
-}
-
-.a-slot.aSlideshow ul.a-slideshow-controls
-{/* frontend visible slideshow controls */
-position: absolute;
-top: -24px;
-right: 0;
-float: left;
-display: inline;
-margin-right: 1px;
-width: auto;
-height: auto;
-height: 20px;
-border: none;
-}
-
-.a-slot.aSlideshow ul.a-slideshow-controls li
-{
-float: left;
-}
-
-.a-slot.aSlideshow ul.a-slideshow-controls a
-{
-z-index: 1;
-}
-
-.a-slot.aSlideshow .a-slideshow-item
-{
-display: none;
-float: left;
-clear: both;
-line-height:0 !important; /*rb: this fixes the bit of whitespace after the img*/
-}
-
-ul.a-controls li.last,
-ul.a-slideshow-controls li.last,
-ul.a-controls.a-area-controls li.last
-{ /* .last option has no margin */
-	margin: 0 !important;
-}
-
-
-/* #. History Browser
--------------------------------------*/
-
-.a-history-browser
-{/*This positions history vertically inside the browser */
-position: absolute;
-top: 0px; /* This changes with history button offset*/
-left: 50%;
-margin-left: -480px;
-float: left;
-width: 960px;
-clear: both;
-z-index: 999;
-overflow: hidden;
-display: none;
-border: 1px solid #333;
-}
-
-.a-history-browser h3
-{
-font-size: 16px;
-color: #666;
-float: left;
-/*	width: 100%;*/
-width: 100%;
-margin: 0;
-padding: 10px;
-clear: both;
-background-color: #fff;
-}
-
-a.a-history-browser-view-more
-{
-float: left;
-display: inline;
-padding: 8px;
-line-height: 20px;
-position: relative;
-}
-
-a.a-history-browser-view-more .spinner
-{
-	position: absolute;
-	top: 50%;
-	margin-top: -8px;
-	right: -16px;
-	display: none;
-}
-
-a.a-history-browser-all:hover
-{
-background-color: #ddd;
-}
-
-.a-history-browser-crop
-{/*This CAN make history a scrollable box, sets width to be width of site */
-width: 100%;
-margin: 0;
-border-top: 1px solid #ddd;
-float: left;
-clear: both;
-}
-
-.a-history-browser table
-{
-width: 100%;
-table-layout: fixed;
-border-bottom: 1px solid #ddd;
-font-size: 11px;
-color: #333;
-background-color: #fff;
-}
-
-.a-history-browser thead th
-{
-font-weight: bold;
-padding: 8px 4px;
-border-bottom: 1px solid #ddd;
-}
-
-.a-history-browser tbody tr:hover
-{
-background-color: #e2e2e2;
-}
-
-.a-history-browser tbody td
-{
-overflow: hidden;
-white-space: nowrap;
-height: 30px;
-vertical-align: middle;
-padding: 0 4px;
-}
-
-.a-history-browser tfoot td
-{
-border-top: 1px solid #ddd;
-/*	padding: 8px 4px;*/
-}
-
-/* This was commented out in the partial at some point - 1/7/2010 */
-/*.a-history-browser .id
-{
-width: 10%;
-}
-*/
-
-.a-history-browser .date
-{
-width: 15%;
-}
-
-.a-history-browser .editor
-{
-width: 15%;
-}
-
-.a-history-browser .preview
-{
-/*width: 60%;*/
-width: 70%;
-}
-
-.a-history-preview-notice
-{
-display: none;
-position: absolute;
-top: 0px;
-left: 0px;
-width: 100%;
-z-index: 999;
-background: #fff;
-color: #d4c;
-border-bottom: 1px solid #ddd;
-}
-
-.a-history-preview-notice div
-{
-float: left;
-margin: 10px;
-}
-
-.a-history-options
-{
-float: left;
-display: inline;
-padding-left: 1px;
-}
-
-
-/* == */
-/* == SLOT STYLES == */
-/* == */
-
-
-
-/* == */
-/* == Global Toolbar */
-/* == */
-
-#a-global-toolbar
-{
-position: relative;
-display: inline;
-float: left;
-width: 100%;
-border-bottom: 1px solid #ddd;
-padding: 5px 0 2px 0;
-margin-bottom: 5px;
-clear: both;
-z-index: 999;
-background:#fff;
-}
-
-#a-global-toolbar li
-{
-display: inline;
-float: left;
-position: relative;
-/*height: 24px;*/
-}
-
-#a-global-toolbar #the-apostrophe
-{
-float: left;
-height: 20px;
-width: 20px;
-text-indent: -9999px;
-background: #ac9 url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat;
-overflow: hidden;
-margin: 2px;
-}
-
-#a-global-toolbar #the-apostrophe.open
-{
-	background-color:#000;
-}
-
-#a-global-toolbar #the-apostrophe:hover,
-#a-global-toolbar #the-apostrophe.open:hover
-{
-	background-color: #666;
-}
-
-#a-global-toolbar .a-global-toolbar-buttons
-{
-display: none;
-float: left;
-margin-right: 5px;
-}
-
-#a-global-toolbar .a-login
-{
-	float: right;
-	display: inline;
-	margin-right:5px;
-	line-height: 20px;
-}
-
-#a-global-toolbar #a-logged-in-as
-{
-	float: left;
-	line-height: 20px;
-	padding-right: 5px;
-}
-
-#a-global-toolbar #a-logged-in-as a
-{
-	text-decoration: underline;
-}
-
-#a-global-toolbar #a-logged-in-as a:hover
-{
-	color: #000;
-}
-
-
-#a-global-toolbar .a-global-toolbar-breadcrumb
-/* == */
-/* Apostrophe BREADCRUMB =========================== */
-/* == */
 
 #a-breadcrumb
 {
@@ -1883,7 +997,7 @@ line-height: 20px;
 #a-breadcrumb .epc-form-cancel
 {
 color: #333;
-text-transform: lowercase; /* LOL @ Rick */
+text-transform: lowercase;
 }
 
 #a-breadcrumb .epc-form-cancel:hover
@@ -2058,9 +1172,328 @@ vertical-align: baseline;
 }
 
 
-/* == */
-/* Apostrophe #a-page-settings =========================== */
-/* == */
+
+
+/* 9. aUI Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+float: left;
+visibility: hidden;
+margin: 0 !important;
+}
+
+ul.a-controls li
+{ /* All buttons on the site are wrapped in a list. This LI often contains (constrains) the .a-i element  */
+float: left;
+display: inline;
+position: relative;
+margin: 0 1px 0 0 !important;
+width: auto;
+height: auto;
+border: none;
+}
+
+ul.a-controls li a
+{ /* Make sure anchor is above .a-i element */
+z-index: 1;
+margin-bottom: 1px;
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{ /* Area Controls - Sit ABOVE all slots */
+position: relative;
+z-index: 899;
+float: left;
+width: 100%;
+padding-bottom: 10px;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{ /* Singleton Area Controls */
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.browsing-history ul.a-controls.a-area-controls
+{ /* Change z-index of Area controls when we are browsing history */
+z-index: 999;
+}
+
+.a-area.browsing-history ul.a-controls.a-slot-controls,
+ul.a-controls ul.a-controls-item.history
+{
+z-index: 899;
+}
+
+ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-area-controls li .a-area-options,
+ul.a-controls .a-history-options
+{
+display: none;
+}
+
+.editing-now a.a-btn .a-b,
+.browsing-history a.a-btn.a-history .a-b
+{
+color: #000 !important;
+cursor: default !important;
+}
+
+.a-area.previewing-history a.a-btn.a-history .a-b
+{
+background-color: transparent !important;
+color: #fff !important;
+cursor: pointer !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+
+
+
+
+/* 10. aUI Pager Navigation
+-------------------------------------*/
+
+.a_pager_navigation
+{
+float: left;
+display: inline;
+overflow: hidden;
+margin: 10px 0;
+font-size: 11px;
+width: 100%;
+}
+
+.a_pager_navigation a,
+.a_pager_navigation span
+{
+display: inline;
+float: left;
+height: 20px;
+line-height: 20px;
+}
+
+.a_pager_navigation .a_page_navigation_number
+{
+padding: 0 6px;
+}
+
+.a_pager_navigation span.a_page_navigation_number.a_pager_navigation_disabled
+{
+background-color: #e2e2e2;
+}
+
+.a_pager_navigation a.a_page_navigation_number:hover
+{
+color: #000;
+background-color: #e2e2e2;
+}
+
+.a_pager_navigation .a_pager_navigation_image
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+display: inline;
+float: left;
+width: 22px;
+height: 20px;
+text-indent: -9999px;
+}
+
+.a_pager_navigation a.a_pager_navigation_image.disabled
+{
+cursor: default;
+}
+
+.a_pager_navigation a.a_pager_navigation_first
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+}
+
+.a_pager_navigation a.a_pager_navigation_first:hover
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+}
+.a_pager_navigation a.a_pager_navigation_previous
+{
+background-position: -22px 0;
+width: 19px;
+margin-right: 5px;
+}
+.a_pager_navigation a.a_pager_navigation_previous:hover
+{
+background-position: -22px -40px !important;
+}
+.a_pager_navigation a.a_pager_navigation_next
+{
+background-position: -41px 0;
+width: 19px;
+margin-left: 5px;
+}
+.a_pager_navigation a.a_pager_navigation_next:hover
+{
+background-position: -41px -60px;
+}
+.a_pager_navigation a.a_pager_navigation_last
+{
+background-position: -60px 0;
+}
+.a_pager_navigation a.a_pager_navigation_last:hover
+{
+background-position: -60px -80px;
+}
+
+.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+}
+
+.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-right: 5px;
+}
+
+.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -60px -80px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+}
+
+.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-left: 5px;
+}
+
+
+
+
+/* 11. aUI Global Toolbar
+-------------------------------------*/
+
+#a-global-toolbar
+{
+position: relative;
+display: inline;
+float: left;
+width: 100%;
+border-bottom: 1px solid #ddd;
+padding: 5px 0 2px 0;
+margin-bottom: 5px;
+clear: both;
+z-index: 999;
+background:#fff;
+}
+
+#a-global-toolbar li
+{
+display: inline;
+float: left;
+position: relative;
+/*height: 24px;*/
+}
+
+#a-global-toolbar #the-apostrophe
+{
+float: left;
+height: 20px;
+width: 20px;
+text-indent: -9999px;
+background: #ac9 url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat;
+overflow: hidden;
+margin: 2px;
+}
+
+#a-global-toolbar #the-apostrophe.open
+{
+	background-color:#000;
+}
+
+#a-global-toolbar #the-apostrophe:hover,
+#a-global-toolbar #the-apostrophe.open:hover
+{
+	background-color: #666;
+}
+
+#a-global-toolbar .a-global-toolbar-buttons
+{
+display: none;
+float: left;
+margin-right: 5px;
+}
+
+#a-global-toolbar .a-login
+{
+	float: right;
+	display: inline;
+	margin-right:5px;
+	line-height: 20px;
+}
+
+#a-global-toolbar #a-logged-in-as
+{
+	float: left;
+	line-height: 20px;
+	padding-right: 5px;
+}
+
+#a-global-toolbar #a-logged-in-as a
+{
+	text-decoration: underline;
+}
+
+#a-global-toolbar #a-logged-in-as a:hover
+{
+	color: #000;
+}
+
+
+
+
+
+/* 12. Page Settings Panel
+-------------------------------------*/
 
 #a-global-toolbar li.a-page-settings-container,
 #a-global-toolbar li.a-personal-settings-container
@@ -2344,9 +1777,607 @@ a.a-multiple-select-remove:hover span
 background-position: 0 -20px;
 }
 
-/* == */
-/* == a_tab_navigation == */
-/* == */
+
+
+
+/* 13. History Browser
+-------------------------------------*/
+
+.a-history-browser
+{ /*This positions history vertically inside the browser */
+position: absolute;
+top: 0px; /* This changes with history button offset*/
+left: 50%;
+margin-left: -480px;
+float: left;
+width: 960px;
+clear: both;
+z-index: 999;
+overflow: hidden;
+display: none;
+border: 1px solid #333;
+}
+
+.a-history-browser h3
+{
+font-size: 16px;
+color: #666;
+float: left;
+/*	width: 100%;*/
+width: 100%;
+margin: 0;
+padding: 10px;
+clear: both;
+background-color: #fff;
+}
+
+a.a-history-browser-view-more
+{
+float: left;
+display: inline;
+padding: 8px;
+line-height: 20px;
+position: relative;
+}
+
+a.a-history-browser-view-more .spinner
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: -16px;
+	display: none;
+}
+
+a.a-history-browser-all:hover
+{
+background-color: #ddd;
+}
+
+.a-history-browser-crop
+{ /*This CAN make history a scrollable box, sets width to be width of site */
+width: 100%;
+margin: 0;
+border-top: 1px solid #ddd;
+float: left;
+clear: both;
+}
+
+.a-history-browser table
+{
+width: 100%;
+table-layout: fixed;
+border-bottom: 1px solid #ddd;
+font-size: 11px;
+color: #333;
+background-color: #fff;
+}
+
+.a-history-browser thead th
+{
+font-weight: bold;
+padding: 8px 4px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-browser tbody tr:hover
+{
+background-color: #e2e2e2;
+}
+
+.a-history-browser tbody td
+{
+overflow: hidden;
+white-space: nowrap;
+height: 30px;
+vertical-align: middle;
+padding: 0 4px;
+}
+
+.a-history-browser tfoot td
+{
+border-top: 1px solid #ddd;
+/*	padding: 8px 4px;*/
+}
+
+/* This was commented out in the partial at some point - 1/7/2010 */
+/*.a-history-browser .id
+{
+width: 10%;
+}
+*/
+
+.a-history-browser .date
+{
+width: 15%;
+}
+
+.a-history-browser .editor
+{
+width: 15%;
+}
+
+.a-history-browser .preview
+{
+/*width: 60%;*/
+width: 70%;
+}
+
+.a-history-preview-notice
+{
+display: none;
+position: absolute;
+top: 0px;
+left: 0px;
+width: 100%;
+z-index: 999;
+background: #fff;
+color: #d4c;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-preview-notice div
+{
+float: left;
+margin: 10px;
+}
+
+.a-history-options
+{
+float: left;
+display: inline;
+padding-left: 1px;
+}
+
+
+
+
+
+/* 14. Areas and Slots
+-------------------------------------*/
+
+.a-area
+{ /* An Area is the outer most wrapper for a collection of Slots */
+position: relative;
+float: left;
+width: 100%;
+margin: 10px 0;
+/*	z-index:599;*/
+}
+
+.a-slots
+{ /* Slots Container wraps all Slots in an Area*/
+position: relative;
+float: left;
+width: 100%;
+}
+
+.a-slot
+{ /* Individual Slots */
+position: relative;
+float: left;
+width: 100%;
+min-height: 20px;
+margin-bottom: 10px;
+font-size: 12px;
+display: inline;
+}
+
+.a-slot-form
+{/* Creates space for buttons to sit on top of forms when logged-in-editing */
+	padding-top: 22px !important;
+	float: left;
+	width: 100%;
+}
+
+/* Rich Text Slot Styles */
+
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
+.a-slot.aRichText h3,
+.a-slot.aRichText h4,
+.a-slot.aRichText h5,
+.a-slot.aRichText h6,
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aRichText b,
+.a-slot.aRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aRichText table th,
+.a-slot.aRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
+/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
+.a-slot-is-editable.aRichText .a-slot-content-container,
+.a-slot-is-editable.aText .a-slot-content-container,
+.a-slot-is-editable.aBlogPost .a-slot-content-container,
+.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
+.a-slot-is-editable.aBlogEvent .a-slot-content-container,
+.a-slot-is-editable.aRawHTML .a-slot-content-container
+{
+	padding: 22px 0 0 0 !important;
+}
+
+.a-slot.aTextSlot,
+.a-slot.aRawHTML
+{
+width: 100%;
+}
+
+.a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
+{
+	float: left;
+	width: 99%;
+	border: 1px solid #333;
+	padding: 2px;
+	height: 200px;
+	font: 12px/1.2 Monospace;
+	background: #efefef;
+}
+
+/* Slideshow Slot Styles */
+
+.a-slot.aSlideshow
+{
+margin-top: 24px; /* Space for the Arrow Controls*/
+margin-bottom: 40px;
+}
+
+.a-slot.aSlideshow .a-slideshow-description,
+.a-slot.aPDF .a-pdf-description
+{
+	font-size: 11px;
+	margin: 5px 0;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls
+{/* frontend visible slideshow controls */
+position: absolute;
+top: -24px;
+right: 0;
+float: left;
+display: inline;
+margin-right: 1px;
+width: auto;
+height: auto;
+height: 20px;
+border: none;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls li
+{
+float: left;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls a
+{
+z-index: 1;
+}
+
+.a-slot.aSlideshow .a-slideshow-item
+{
+display: none;
+float: left;
+clear: both;
+line-height:0 !important; /*rb: this fixes the bit of whitespace after the img*/
+}
+
+ul.a-controls li.last,
+ul.a-slideshow-controls li.last,
+ul.a-controls.a-area-controls li.last
+{ /* .last option has no margin */
+	margin: 0 !important;
+}
+
+
+
+
+
+/* 15. Apostrophe Login Form
+ **** This floats in the upper right corner when we use a login button
+-------------------------------------*/
+
+#a-login-form-container
+{
+position: absolute;
+top: 5px;
+right: 5px;
+padding: 0;
+background: #fff;
+border: 1px solid #999;
+z-index:999;
+display: none;
+-moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+-webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+-opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+-khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
+box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+}
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover
+{
+color: #fff;
+}
+
+
+
+
+/* 16. Apostrophe Signin Form
+ **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
+-------------------------------------*/
+
+#a-signin
+{
+float: left;
+overflow:hidden;
+margin: 20px;
+width: 180px;
+}
+    
+#a-signin-top
+{
+float: left;
+width: 180px;
+height: 10px;
+}
+    
+#a-signin-bottom
+{
+float: left;
+width: 180px;
+height: 10px;
+}
+    
+#a-signin-form
+{
+float: left;
+width: 180px;
+}
+
+#a-signin-form .error_list
+{
+float: left;
+display: inline;
+margin: 5px 0;
+color: #900;
+font-size: 11px;
+}
+    
+#a-signin-form label
+{
+	font-size: 16px;
+}
+
+#a-signin-form label,
+#a-signin-form input,
+#a-signin-form a
+{
+clear: both;
+float: left;
+}
+
+#a-signin-form input
+{
+	font-size: 12px;
+	font-family: Arial, Sans-serif;
+	border: 1px solid #999;
+	padding: 3px 2px;
+	color: #333;
+}
+
+#a-signin-form input[type="text"],
+#a-signin-form input[type="password"]
+{
+	width: 155px;
+}
+    
+#a-signin-form a
+{
+color: #000;
+text-decoration: none;
+}
+    
+#a-signin-form a:hover
+{
+color: #666;
+}
+
+#a-signin-form .a-form-row
+{
+float: left;
+width: 100%;
+clear: both;
+position: relative;
+margin: 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+float: left;
+display: inline;
+width: auto;
+clear:none;
+position: relative;
+margin-right: 5px;
+}
+
+#a-signin-form input.a-submit {
+border:none;
+color:#fff;
+font-family:Arial,Sans-serif;
+font-size:12px;
+margin: 0;
+text-transform: capitalize;
+width: auto;
+}
+
+#a-signin-form .a-form-row.submit .cancel
+{
+margin-left: 5px;
+}
+
+
+
+
+
+/* 17. Tabbed Navigation Styles 
+ **** To Be Deprecated when all sites switch to Navigation Component - 2/3/2010
+-------------------------------------*/
+
 #a-tab-navigation
 {
 	float: left;
@@ -2391,7 +2422,12 @@ background-position: 0 -20px;
 	color:#000;
 }
 
-/* [START] a SEARCH ==================================================================== */
+
+
+
+
+/* 18. Site Search
+-------------------------------------*/
 
 #a-search
 {
@@ -2411,14 +2447,19 @@ float: right;
 display: inline;
 }
 
-.a-search-form
-{
+.a-search-form,
+.a-search-form span.a-search-field
+{ /* Removed background image in favor of border radius 2/3/2010 */
 position: relative;
-background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;
-width: 240px;
+width: 238px;
 height: 20px;
+background: #fff;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+/*background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;*/
 }
-
 
 .a-search-form input.submit:hover
 {
@@ -2426,24 +2467,23 @@ background-position: 0 -20px;
 cursor: pointer;
 }
 
-
-/* == SEARCH BOX == */
-
-.a-search-form
-{
-position: relative;
-height: 20px;
-width: 240px;
-}
-
 .a-search-form span.a-search-field
 {
 position: absolute;
 top: 0;
 left: 0;
-background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;
-width: 240px;
-height: 20px;
+}
+
+.a-search-form input.a-search-field
+{
+position: absolute;
+top: 0;
+left: 6px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px;
+width: 210px;
+background: transparent;
 }
 
 .a-search-form span.a-search-field input
@@ -2488,7 +2528,28 @@ background-position: 0 -20px;
 cursor: pointer;
 }
 
-/* Search Results*/
+.a-search-form input.submit
+{
+position: absolute;
+top: 0;
+right: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+padding: 0;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+
+
+
+
+/* 19. Search Results
+-------------------------------------*/
+
 #a-search-results-container,
 .a-search-results,
 .result-title,
@@ -2515,10 +2576,12 @@ margin-bottom: 15px;
 color: #666;
 }
 
-/* [END] a SEARCH ==================================================================== */
 
 
-/* [START] a-feedback-form ==================================================================== */
+
+
+/* 20. Apostrophe Feedback Form
+-------------------------------------*/
 
 #feedback-form-container
 {
@@ -2564,188 +2627,11 @@ text-transform: capitalize;
 text-align: right;
 }
 
-/* == */
-/* ==  PK-SUBNAV ==================================================================== */
-/* == */
-
-#a-subnav
-{
-}
-
-#a-subnav .a-search-form
-{
-margin-bottom: 20px;
-float: left;
-display:inline;
-}
-
-#a-subnav .a-search-form
-{
-background: url(/apostrophePlugin/images/a-search-bg-180.png) no-repeat 0 0;
-width: 180px;
-}
-
-#a-subnav .a-search-form .a-search-field
-{
-width: 150px;
-}
-
-#a-subnav .a-navcolumn li
-{
-position: relative;
-line-height: 20px;
-margin-bottom: 5px;
-}
-
-#a-subnav .a-navcolumn li .a-drag
-{
-float: right;
-position: relative;
-margin-left: 10px;
-cursor:move;
-}
-
-.a-archived-page
-{ /* aUI(); Makes Unpublished pages 50% Opacity */
-text-decoration: line-through;
-}
-
-/* == */
-/* ==  attribution footer ==================================================================== */
-/* == */
-
-.a-attribution
-{
-	float:left;
-	display:inline;
-	line-height:10px;
-	padding-bottom:6px;
-	padding-left:20px;
-	color:#666;
-	font-size:11px;
-	background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left;
-}
-
-.a-attribution a
-{
-	color:#0000ff;
-	text-decoration:none;
-}
-
-.a-attribution a:hover
-{
-	text-decoration:underline;
-}
-
-/* == */
-/* ==  style for bundled layout.php ==================================================================== */
-/* == */
-
-#a-wrapper
-{
-	width: 960px;
-	margin: 0 auto;
-}
-
-#a-header,
-#a-content
-{
-	float: left;
-	display: inline;
-	position: relative;
-	clear: both;
-	width: 100%;
-}
-
-#a-subnav
-{
-	width: 200px;
-	margin: 0 40px 0 0;
-	float:left;
-	display:inline;
-	position:relative;
-}
-
-.a-logged-in-as
-{
-	padding-right: 10px;
-	line-height: 20px;
-}
-
-.a-logged-in-as span
-{
-	color: #666;
-}
-
-/* Home Template */
-
-/* Default Template */
-
-.a-default #a-content
-{
-	clear: none;
-	float: left;
-	width: auto;
-}
-
-.a-default #a-area-body
-{
-	width: 480px;
-}
-
-#a-login-form-container
-{
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	padding: 0;
-	background: #fff;
-	border: 1px solid #999;
-	z-index:999;
-	display: none;
-	-moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
-	-webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
-	-opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
-	-khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
-	box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
-}
-
-#a-signin-form .a-form-row
-{
-	float: left;
-	width: 100%;
-	clear: both;
-	position: relative;
-	margin: 10px;
-}
-
-#a-signin-form .a-form-row.submit li
-{
-	float: left;
-	display: inline;
-	width: auto;
-	clear:none;
-	position: relative;
-	margin-right: 5px;
-}
-
-#a-signin-form input.a-submit {
-border:none;
-color:#fff;
-font-family:Arial,Sans-serif;
-font-size:12px;
-margin: 0;
-text-transform: capitalize;
-width: auto;
-}
-
-#a-signin-form .a-form-row.submit .cancel
-{
-	margin-left: 5px;
-}
 
 
-/* 23. Media Library
+
+
+/* 21. Media Engine
 -------------------------------------*/
 
 #a-media-wrapper
@@ -2787,19 +2673,14 @@ float: left;
 
 #a-subnav.a-media-subnav
 {
-width: 178px;
-margin-bottom: 20px;
-float: left;
-position: relative;
+
 }
 
-.a-media-subnav .a-search-form
+#a-subnav.a-media-subnav .a-search-form
 {
-background-image: url(/apostrophePlugin/images/a-search-bg-180.png);
-width: 180px;
 }
 
-.a-media-subnav .a-search-form .a-search-field
+#a-subnav.a-media-subnav .a-search-form .a-search-field
 {
 width: 150px;
 }
@@ -2834,14 +2715,17 @@ background-position: bottom left;
 .a-search-video
 {
 width: 222px;
-border: none;
-/*background: none;*/
 font-family: Arial, sans-serif;
 font-size: 12px;
-padding: 3px 9px;
+padding: 0 3px;
 float: left;
 clear: both;
-margin: 0 0 5px 0;
+margin: 5px 0;
+background: #fff;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
 }
 
 .a-search-field
@@ -2911,7 +2795,6 @@ width: 100%;
 float: left;
 width: 100%;
 clear: both;
-/*	display:inline;*/
 }
 
 .a-media-subnav .a-media-filters .a-media-filter-option a
@@ -2986,7 +2869,6 @@ font: 11px Arial, Sans-serif;
 /*margin-right: 20px;*/
 }
 
-
 .a-media-item-title h3 a
 {
 text-decoration: none;
@@ -2998,8 +2880,7 @@ font-size: 18px;
 margin-bottom: 10px;
 float: left;
 display: inline;
-/*	border-bottom: 1px solid #ddd;*/
-	padding-bottom:10px;
+padding-bottom:10px;
 }
 
 #a-media-selection-list
@@ -3279,6 +3160,18 @@ height: 100%;
 background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
 }
 
+.a-media-pdf-icon-overlay
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 35px;
+	width: 35px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background: url(/apostrophePlugin/images/a-media-pdf-btn-small.png) no-repeat top left;
+}
+
 .a-media-thumb-link img
 {
 position: relative;
@@ -3302,7 +3195,12 @@ background-color: #fff;
 cursor: default !important;
 }
 
-/* [START] aMedia video search styles ==========================*/
+
+
+
+
+/* 22. Media Engine - Video Search
+-------------------------------------*/
 
 #a-media-video-search-results,
 #a-media-plugin-search-results
@@ -3358,7 +3256,10 @@ padding-bottom: 10px;
 }
 
 
-/* #. Blog
+
+
+
+/* 23. Blog Engine
 -------------------------------------*/
 
 #a-blog-main
@@ -3389,7 +3290,72 @@ padding-bottom: 10px;
 }
 
 
-/* #. Shared Tag Sidebar
+
+
+
+/* 24. Shared Subnav
+-------------------------------------*/
+
+#a-subnav
+{
+	width: 200px;
+	margin: 0 40px 0 0;
+	float:left;
+	display:inline;
+	position:relative;
+}
+
+#a-subnav .subnav-wrapper
+{
+	width: 180px;
+	margin: 10px;
+	float: left;
+	display: inline;
+	position: relative;
+	clear: both;
+}
+
+#a-subnav .a-search-form
+{
+margin-bottom: 20px;
+float: left;
+display:inline;
+}
+
+#a-subnav .a-search-form
+{
+width: 178px;
+}
+
+#a-subnav .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+#a-subnav .a-navcolumn li
+{
+position: relative;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+#a-subnav .a-navcolumn li .a-drag
+{
+float: right;
+position: relative;
+margin-left: 10px;
+cursor:move;
+}
+
+.a-archived-page
+{ /* aUI(); Makes Unpublished pages 50% Opacity */
+text-decoration: line-through;
+}
+
+
+
+
+/* 25. Shared Tag Sidebar
 -------------------------------------*/
 
 .a-tag-sidebar
@@ -3454,7 +3420,7 @@ color: #ccc;
 .a-tag-sidebar .a-tag-sidebar-title.all-tags
 {
 color: #333;
-background: #fff url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px 0 no-repeat;
+background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px 0 no-repeat;
 cursor: pointer;
 text-indent: 16px;
 line-height: 20px;
@@ -3484,18 +3450,835 @@ display: none;
 }
 
 
-/* #. Basic Layout
+
+
+/* 26. Shared Tag Suggestions
 -------------------------------------*/
 
-#a-area-footer
+div.tag-suggestions
 {
-	position: relative;
-	display: inline;
-	clear: both;
+position: relative;
+display: inline;
+float: left;
+clear: both;
+width: 100%;
+padding-top: 8px;
+margin: 0;
+z-index: 9999;
+font-size: 11px;
+}
+
+.tubes-tags div.tag-suggestions,
+.a_admin_form_field_tags div.tag-suggestions
+{
+	width: 360px;
+	top: -9px;
+}
+
+#a-media-edit-form div.tag-suggestions
+{
+	width: 216px;
+	top: -9px;
+	left: 120px;
+}
+
+#a-admin-form div.tag-suggestions {
+left:0px;
+top:-9px;
+width:360px;
+}
+
+div.tag-suggestions .tag-spacer
+{
+	display: none;
+}
+
+div.tag-suggestions ul
+{
+position: relative;
+float: left;
+width: 100%;
+font-size: 11px;
+text-indent: 3px;
+z-index: 999;
+}
+
+div.tag-suggestions li
+{
+float: left;
+clear: both;
+width: 100%;
+margin: 0;
+visibility: hidden;
+}
+	
+div.tag-suggestions li a
+{
+float: left;
+display: block;
+visibility: visible;
+background: #fff;
+padding: 2px;
+width: 100%;
+border-left: 1px solid #666;
+border-right: 1px solid #666;
+}
+
+div.tag-suggestions li a.first
+{
+border-top: 1px solid #666;
+}
+
+div.tag-suggestions li a.last
+{
+border-bottom: 1px solid #666;
+}
+
+div.tag-suggestions li a:hover
+{
+background-color: #000;
+color: #fff !important;
+text-decoration:none;
 }
 
 
-/* #. Admin Colors - Default
+
+
+
+/* 27. Admin Generator
+-------------------------------------*/
+
+#a-admin-container
+{
+font: 12px/1.25 Arial, sans-serif;
+position: relative;
+float: left;
+}
+
+#a-admin-container a img,
+#a-admin-container a:link img,
+#a-admin-container a:visited img
+{
+border: none;
+}
+
+#a-admin-container a:link, 
+#a-admin-container a:visited
+{
+color: #ac3;
+text-decoration: none;
+}
+
+#a-admin-container a:hover
+{
+color: #333;
+}
+
+#a-admin-container td
+{
+margin: 0;
+vertical-align: top;
+}
+
+#a-admin-container p
+{
+}
+
+#a-admin-container #a-admin-bar
+{
+float: left;
+display: inline;
+width: 100%;
+margin: 0 0 20px 0;
+position: relative;
+}
+
+#a-admin-container #a-admin-bar,
+#a-admin-container #a-admin-bar a,
+#a-admin-container #a-admin-bar h2
+{
+color: #13A0BC;
+line-height: 24px;
+}
+
+#a-admin-container #a-admin-bar h2
+{
+}
+
+#a-admin-container #a-admin-bar h2.a-admin-title
+{
+color: #555;
+font-size: 24px;
+line-height: 24px;
+float: left;
+top: 0;
+text-transform: capitalize;
+}
+
+#a-admin-container #a-admin-content
+{
+float: left;
+display: inline;
+margin: 0;
+width: 720px;
+}
+
+#a-admin-container #a-admin-content #a-admin-list-actions
+{
+	width:100%;
+	padding-bottom:20px;
+	margin-bottom:20px;
+	border-bottom:1px solid #ddd;
+}
+
+#a-admin-container .notice
+{
+color: #555;
+font-size: 18px;
+line-height: 18px;
+margin-bottom: 20px;
+}
+
+#a-admin-container fieldset h2
+{
+padding: 10px 0 0;
+margin: 0 0 10px 0;
+color: #333;
+background-color: transparent;
+font-size: 14px;
+text-transform: capitalize;
+border-top: 1px #ddd solid;
+}
+
+#a-admin-container input, 
+#a-admin-container textarea, 
+#a-admin-container select
+{
+padding: 3px;
+font-family: Arial, sans-serif;
+font-size: 11px;
+border: 1px solid #ddd;
+vertical-align: middle;
+width: 358px;
+}
+
+#a-admin-container .a-admin-text input
+{
+	float: left;
+	clear: both;
+}
+
+#a-admin-container input.a-admin-batch-checkbox
+{
+width: auto;
+}
+
+#a-admin-container select
+{
+width: auto;
+}
+
+#a-admin-container .a-admin-batch-actions-choice select
+{
+float: left;
+margin-right: 10px;
+}
+
+#a-admin-container .save-ok
+{
+margin-bottom: 10px;
+border: 1px solid #73B65A;
+}
+
+#a-admin-container .save-ok h2
+{
+margin: 0 !important;
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
+}
+
+#a-admin-container .form-row,
+#a-admin-container .a-form-row
+{
+position: relative;
+padding: 10px 10px 10px 120px;
+/*overflow: hidden;*/
+float: left;
+clear: both;
+min-width:590px;
+width: 590px;
+}
+
+#a-admin-container .a-form-row,
+#a-admin-container .a-form-row td
+{
+margin-bottom: 10px;
+/*width: 100%;*/
+float: left;
+clear: both;
+position: relative;
+}
+
+#a-admin-container .a-form-row .content,
+#a-admin-container .form-row .content
+{
+padding-left: 9em;
+}
+
+#a-admin-container .a-form-row label,
+#a-admin-container .form-row label
+{
+float: left;
+text-align: left;
+width: 120px;
+color: #666;
+font-weight: normal !important;
+text-transform: capitalize;
+position: absolute !important;
+top: 10px;
+left: 0;
+line-height: 20px;
+display: block;
+}
+
+#a-admin-container .a-form-row .checkbox_list label,
+#a-admin-container .form-row .checkbox_list label
+{
+position: absolute;
+display: inline;
+top: 0;
+left: 20px;
+float: left;
+width: auto !important;
+}
+
+#a-admin-container .a-form-row .checkbox_list li,
+#a-admin-container .form-row .checkbox_list li
+{
+float: left;
+display: inline;
+width: 100%;
+position: relative;
+}
+
+#a-admin-container .a-form-row .a-help
+{
+display: block;
+clear: both;
+width: 500px;
+margin: 10px 0 20px 0;
+font-size: 11px;
+color: #999;
+}
+
+#a-admin-container #a-admin-footer
+{
+width: 720px;
+float: right;
+line-height: 1.5;
+margin: 20px 0;
+}
+
+#a-admin-container label.required
+{
+color: #333 !important;
+font-weight: bold !important;
+}
+
+#a-admin-container .form-errors
+{
+margin-bottom: 10px;
+border: 1px solid #f33;
+background-color: #ffc;
+}
+
+#a-admin-container .form-errors h2
+{
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #f33 url(../images/error.png) no-repeat 5px 2px;
+}
+
+#a-admin-container .form-errors dl
+{
+padding: 5px;
+}
+
+#a-admin-container .form-errors dt
+{
+font-weight: bold;
+float: left;
+padding-right: 5px;
+}
+
+#a-admin-container .form-errors dd
+{
+margin: 0;
+}
+
+#a-admin-container .form-error
+{
+color: #f33;
+}
+
+#a-admin-container fieldset
+{
+margin-bottom: 3px;
+background-color: #fff;
+border: none;
+}
+
+#a-admin-container ul.a-admin-td-actions
+{
+list-style-type: none;
+}
+
+#a-admin-container ul.a-admin-td-actions li
+{
+list-style-type: none;
+display: block;
+float: left;
+width: auto;
+margin: 0 1px 5px 0;
+}
+
+#a-admin-container ul.a-admin-actions
+{
+float:left;
+display:inline;
+width:100%;
+margin: 10px 0;
+list-style-type: none;
+border-top: 1px solid #e2e2e2;
+padding-top: 20px;
+}
+
+#a-admin-container ul.a-admin-actions a
+{
+color: #333;
+}
+
+#a-admin-container ul.a-admin-actions li
+{
+list-style-type: none;
+display: inline;
+float: left;
+margin-right:1px !important;
+}
+
+#a-admin-container.sfGuardUser a.icon.a-add .a-b
+{
+	background-image: url(/apostrophePlugin/images/a-icon-users.png);
+}
+
+#a-admin-container ul.a-admin-actions li.a-admin-batch-actions-choice
+{
+float: left;
+}
+
+#a-admin-container ul.a-admin-actions input
+{
+padding: 2px;
+color: #333;
+font-size: 11px;
+font-family: Arial, sans-serif;
+border: 0px;
+border-right: 4px solid #999;
+background-color: #ffc;
+cursor: hand;
+cursor: pointer;
+width: auto;
+}
+
+#a-admin-container .a-admin-default-action
+{
+background-color: #fc6 !important;
+font-weight: bold !important;
+}
+
+.a-admin-form-container,
+#a-admin-form,
+#a-admin-batch-form,
+#a-admin-container .a-admin-list
+{
+float: left;
+clear: both;
+width: 100%;
+border-bottom: 0px;
+border-right: 0px;
+}
+
+.a-admin-form-container .a-admin-form-container
+{
+	margin-top: 40px;
+	margin-left: -120px;
+	
+}
+
+#a-admin-container .a-admin-list-table
+{
+width: 100%;
+}
+
+#a-admin-list-batch-actions
+{
+width: 20px;
+}
+
+#a-admin-list-batch-actions *
+{
+display: block;
+}
+
+#a-admin-list-th-actions
+{
+width: 100px;
+}
+
+#a-admin-container .a-admin-list thead th
+{
+font-size: 18px;
+padding: 6px 3px;
+text-align: left;
+border-bottom: 1px solid #e2e2e2;
+line-height: 24px;
+vertical-align: middle;
+}
+
+#a-admin-container .a-admin-list thead th *
+{
+float: left;
+}
+
+#a-admin-container .a-admin-list tfoot th
+{
+padding: 3px 6px;
+border-top: 1px solid #e2e2e2;
+background-color: #f4f4f4;
+}
+
+#a-admin-container .a-admin-list th a
+{
+color: #333;
+}
+
+#a-admin-container .a-admin-list td
+{
+padding: 6px 3px;
+border: none;
+}
+
+#a-admin-container .a-admin-filter li
+{
+list-style-type: none;
+}
+
+#a-admin-container .a-admin-row td
+{
+border-bottom: 1px solid #e2e2e2;
+}
+
+#a-admin-container .a-admin-row.last td
+{
+border: none;
+}
+
+#a-admin-container .a-admin-row-1 td
+{
+border-top: 1px solid #e2e2e2;
+}
+
+#a-admin-container .a-admin-edit-help
+{
+color: #aaa;
+}
+
+#a-admin-container select.a-admin-multiple, 
+#a-admin-container select.a-admin-multiple-selected
+{
+width: 12em;
+}
+
+#a-admin-container ul.a-admin-checklist li
+{
+list-style: none;
+list-style-position: outside !important;
+line-height: 1.5em;
+}
+
+#a-admin-container ul.a-admin-checklist li label
+{
+display: inline;
+float: none;
+}
+
+#a-admin-subnav
+{`
+display: block;
+position: relative;
+float: left;
+width: 200px;
+margin-right: 40px;
+min-height: 500px;
+}
+
+#a-admin-subnav ul, 
+#a-admin-subnav li
+{
+display: block;
+float: left;
+width: 100%;
+}
+
+#a-admin-subnav li
+{
+margin: 0;
+}
+
+.a-admin-actions input
+{
+border: 1px solid #ccc !important;
+padding: 3px;
+background: #fff !important;
+font-size: 12px !important;
+vertical-align: baseline !important;
+}
+
+.a-admin-actions input:hover
+{
+border-color: #666 !important;
+}
+
+.a-admin-date select
+{
+}
+
+.a-admin-list-results
+{
+float: right;
+font-size: 14px;
+color: #333;
+height: 20px;
+line-height: 20px;
+margin: 10px 0;
+width: 100px;
+}
+
+#a-admin-bar
+{
+width: 100%;
+margin: 0;
+float: left;
+display: inline;
+clear: both;
+height: 41px; /* this _should_ fix a safari height bug */
+}
+
+#a-admin-bar .a-admin-controls
+{
+margin-left: 10px;
+float: left;
+}
+
+#a-admin-bar .a-admin-controls li
+{
+float: left;
+display: inline;
+line-height: 30px;
+margin: 0 10px 0 0;
+}
+
+#a-admin-bar .a-admin-bg img
+{
+width: 100%;
+height: 11px;
+}
+
+
+.specialbox .content-container.editing
+{
+padding-top: 10px;
+background: url(/apostrophePlugin/images/a-special-caution.png) top left repeat-x !important;
+}
+
+.caution
+{
+float: left;
+margin-bottom: 40px;
+color: #333;
+padding: 16px 0 10px;
+border: 1px solid #e2e2e2;
+background: url(/apostrophePlugin/images/a-special-caution.png) top left repeat-x;
+}
+
+.caution-padding
+{
+display: block;
+float: left;
+margin: 0 10px;
+clear: both;
+}
+
+/* JQ Date Picker Fix */
+#ui-datepicker-div
+{
+z-index: 9999;
+}
+
+.ui-datepicker-trigger
+{/* This seems like a temporary solution, the datepicker markup sucks */
+position: relative;
+top: 6px;
+left: 3px;
+}
+
+.ui-datepicker-trigger:hover
+{
+cursor: pointer;
+}
+
+
+.a-admin-controls
+{
+position: relative;
+float: left;
+width: 720px !important;
+border-bottom: 0;
+}
+
+
+#a-admin-container .a-admin-flashes
+{/* We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice */
+color: #EF9920;
+float: left;
+clear: both;
+width: 100%;
+margin: 0 0 20px 0;
+padding-bottom: 10px;
+border-bottom: 1px solid #ddd;
+font-size: 14px;
+line-height: 20px;
+text-indent: 24px;
+background: transparent url(/apostrophePlugin/images/a-icon-error.png) no-repeat scroll left top;
+}
+
+#a-admin-container form .a-form-row .error_list
+{
+width: 100%;
+float: left;
+margin: 0;
+font-size: 11px;
+}
+
+#a-admin-container form .a-form-row .error_list li
+{
+padding-left: 24px;
+line-height: 20px;
+}
+
+#a-admin-container form .form-row .error_list
+{
+display: block;
+font-size: 11px;
+}
+
+#a-admin-container form .error_list li
+{
+height: 20px;
+line-height: 24px;
+padding-left: 20px;
+background: url(/apostrophePlugin/images/a-icon-error.png) top left no-repeat;
+list-style: none;
+list-style-position: outside;
+}
+
+
+
+
+/* 28. Admin Generator - Filters
+-------------------------------------*/
+
+#a-admin-container #a-admin-filters-container
+{
+display: none;
+float: left;
+clear: both;
+
+width: 100%;
+margin-bottom: 24px;
+color: #333;
+border: 1px solid #e2e2e2;
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form
+{
+padding: 10px;
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row
+{
+	padding:0;
+	margin:0;
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+{
+	width:120px;
+	float:left;
+	display:inline;
+
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label label
+{
+float:left;
+display:inline;
+
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+{
+	float:left;
+	display:inline;
+	margin:0 0 0 120px;
+}
+
+#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+{
+	position: relative;
+	display: block;
+	float: left;
+}
+
+
+
+
+
+/* 29. Bundled Templates
+-------------------------------------*/
+
+/* -- Default Template -- */
+
+.a-default #a-content
+{
+clear: none;
+float: left;
+width: auto;
+}
+
+.a-default #a-area-body
+{
+width: 480px;
+}
+
+
+
+
+
+/* 30. aUI & Admin Colors - Default
 -------------------------------------*/
 .a-i,
 .editing-now a.a-btn .a-b,
@@ -3513,6 +4296,9 @@ border-color: #ac3;
 { /* Text Color */
 	color:#ac3;
 }
+
+
+
 
 /* #. CSS Separator
 -------------------------------------*/

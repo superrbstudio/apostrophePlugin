@@ -5,9 +5,9 @@
 <?php else: ?> 
 [?php slot('body_class') ?]a-admin [?php echo $sf_params->get('action'); ?] [?php end_slot() ?]
 
-[?php use_stylesheet('/apostrophePlugin/css/aToolkit.css', 'first') ?]
+[?php // use_stylesheet('/apostrophePlugin/css/aToolkit.css', 'first') // Merged into a.css 2/3/2010 ?]
+[?php // use_stylesheet('/apostrophePlugin/css/aAdmin.css', 'first') // Merged into a.css 2/3/2010 ?]
 [?php use_stylesheet('/apostrophePlugin/css/a.css', 'first') ?]
-[?php use_stylesheet('/apostrophePlugin/css/aAdmin.css', 'first') #Admin Styles ?]
 
 [?php use_javascript('/apostrophePlugin/js/aControls.js') ?]
 [?php use_javascript('/apostrophePlugin/js/aUI.js') ?]

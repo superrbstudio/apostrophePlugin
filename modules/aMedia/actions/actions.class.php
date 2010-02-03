@@ -6,22 +6,16 @@ class aMediaActions extends sfActions
 	public function preExecute()
 	{
 
+ 		//$this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
+   	$this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
+    $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
+    $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
+    $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
+
     if(sfConfig::get('app_aMedia_use_bundled_layout', true))
     {
       $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'layout.php').'/layout');
     }
-
-    if (sfConfig::get('app_aMedia_use_bundled_stylesheet', true))
-    {
-      $this->getResponse()->addStylesheet('/apostrophePlugin/css/aMedia.css', 'last');
-    }
-	
-		// apostrophePlugin needs aToolkit CSS / JS to Function properly/
-	      $this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first');
-	      $this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
-	      $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
-	      $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
-	      $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 
     aTools::setAllowSlotEditing(false);
 
