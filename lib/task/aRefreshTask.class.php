@@ -21,7 +21,7 @@ class aRefreshTask extends sfBaseTask
     $this->name             = 'refresh';
     $this->briefDescription = 'Refresh metadata in all slots that require it';
     $this->detailedDescription = <<<EOF
-The [a:refresh|INFO] task gives every slot an opportunity to update any cached metadata
+The [apostrophe:refresh|INFO] task gives every slot an opportunity to update any cached metadata
 it may be retaining. In particular, the media slots query the media server to update all media URLs
 they currently contain. For efficiency reasons, media slots contain direct URLs pointing to scaled
 and/or original images, PDFs and videos. If you switch frontend controllers from frontend_dev.php

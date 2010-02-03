@@ -48,6 +48,10 @@ aPage:
       type: one
 
 aArea:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_area
   columns:
     id:
@@ -75,6 +79,10 @@ aArea:
       foreignAlias: Areas
 
 aAreaVersion:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_area_version
   actAs:
     - Timestampable
@@ -112,6 +120,10 @@ aAreaVersion:
       onDelete: SET NULL
 
 aAreaVersionSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_area_version_slot
   columns:
     slot_id:  
@@ -151,6 +163,10 @@ aAreaVersionSlot:
 # when rendering them (e.g. the use of a particular FCK toolbar).
 
 aSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_slot
   columns:
     id:
@@ -179,6 +195,10 @@ aSlot:
       type: clob
 
 aTextSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -186,6 +206,10 @@ aTextSlot:
     keyValue: 'aText'
 
 aRichTextSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -193,6 +217,10 @@ aRichTextSlot:
     keyValue: 'aRichText'
 
 aRawHTMLSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -226,6 +254,10 @@ aAccess:
       fields: [page_id]
 
 aLuceneUpdate:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_lucene_update
   columns:
     page_id:
@@ -244,6 +276,10 @@ aLuceneUpdate:
       onDelete: cascade
 
 aImageSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -251,6 +287,10 @@ aImageSlot:
     keyValue: 'aImage'
 
 aButtonSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -258,6 +298,10 @@ aButtonSlot:
     keyValue: 'aButton'
 
 aSlideshowSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -265,6 +309,10 @@ aSlideshowSlot:
     keyValue: 'aSlideshow'
 
 aVideoSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -272,6 +320,10 @@ aVideoSlot:
     keyValue: 'aVideo'
 
 aMediaBrowserSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation
@@ -279,6 +331,10 @@ aMediaBrowserSlot:
     keyValue: 'aMediaBrowser'
 
 aPDFSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
   inheritance:
     extends: aSlot
     type: column_aggregation

@@ -20,7 +20,7 @@ class repairtreeTask extends sfBaseTask
     $this->name             = 'repair-tree';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [repair-tree|INFO] task rebuilds the Doctrine nested set tree of your site
+The [apostrohe:repair-tree|INFO] task rebuilds the Doctrine nested set tree of your site
 based on the slugs of your pages. This will always work even if the nested set has
 somehow become corrupted. The order of pages at the same level will NOT be
 preserved, however parent-child relationships will be preserved, and you can
