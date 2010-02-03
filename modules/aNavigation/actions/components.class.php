@@ -16,6 +16,7 @@ class aNavigationComponents extends sfComponents
     $this->nest = 0;
     $page = aPageTable::retrieveBySlug($this->root);
     $this->draggable = $page->userHasPrivilege('edit');
+    $this->drag_icon = isset($this->drag_icon)? $this->drag_icon : false;
   }
   
   public function executeBreadcrumb()
@@ -37,6 +38,7 @@ class aNavigationComponents extends sfComponents
     $this->depth = $this->options['depth'];
     
     $this->draggable = isset($this->draggable)? $this->draggable : false;
+    $this->drag_icon = isset($this->drag_icon)? $this->drag_icon : false;
     $this->navigation = new aNavigationTabs($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();
     

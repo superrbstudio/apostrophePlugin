@@ -627,9 +627,7 @@ cursor:move;
 
 .icon.a-drag .a-b
 {
-background-image: url(/apostrophePlugin/images/a-icon-drag.png);
-background-position: center center;
-background-repeat: no-repeat;
+background: url(/apostrophePlugin/images/a-icon-drag.png) 0 0 no-repeat;
 text-indent: -9999px;
 width: 20px;
 height: 20px;
@@ -649,6 +647,7 @@ display: block;
 .icon.a-drag:hover .a-b
 {
 background-color: #888;
+background-position: 0 -20px;
 }
 
 .icon.a-events .a-b
@@ -2910,7 +2909,7 @@ background: none;
 
 .a-media-selection-list-item.over .a-media-selected-item-drag-overlay
 {
-background: url(/apostrophePlugin/images/a-icon-drag.png) center center no-repeat;
+background: url(/apostrophePlugin/images/a-icon-drag-simple.png) center center no-repeat;
 z-index: 299;
 }
 
@@ -3332,19 +3331,36 @@ width: 178px;
 width: 150px;
 }
 
-#a-subnav .a-navcolumn li
+#a-subnav #a-tab-navigation-subnav-0 li
 {
+float: left;
+width: 100%;
+clear: both;
 position: relative;
 line-height: 20px;
 margin-bottom: 5px;
 }
 
-#a-subnav .a-navcolumn li .a-drag
+#a-subnav #a-tab-navigation-subnav-0 li.last
 {
-float: right;
+	margin-bottom: 0;
+}
+
+#a-subnav #a-tab-navigation-subnav-0 li a
+{
+/*float: right;
 position: relative;
 margin-left: 10px;
 cursor:move;
+*/
+}
+
+#a-subnav #a-tab-navigation-subnav-0 li a
+{
+	float: left;
+	width: 155px;
+	height: 100%;
+	padding: 0 20px 0 5px;
 }
 
 .a-archived-page
