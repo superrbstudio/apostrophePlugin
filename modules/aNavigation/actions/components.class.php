@@ -36,9 +36,10 @@ class aNavigationComponents extends sfComponents
     $this->options = array('depth' => isset($this->depth)? $this->depth : 1);
     $this->depth = $this->options['depth'];
     
+    $this->draggable = isset($this->draggable)? $this->draggable : false;
     $this->navigation = new aNavigationTabs($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();
-    $this->draggable = false;
+    
   }
   
 }
