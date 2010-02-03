@@ -4,14 +4,14 @@ Did you download this plugin from the Symfony plugins site? Depending on your ne
 
 ## Before You Begin ##
 
-This is a beta release of a. Although the
+This is a beta release of Apostrophe. Although the
 CMS already works quite well and we have released production sites
 based on it, certain aspects are still maturing. 
 
 We strongly recommend that you follow the instructions in this
 document which permit you to check out or copy a complete project from svn 
 rather than wrestling with the pear package dependencies yourself. You can check
-out our cmstest project directly as a sandbox, or copy it with our
+out our asandbox project directly to experiment, or copy it with our
 svnforeigncopy script to start your own version-controlled project.
 *This is how we start new sites of our own*, so you will get maximum
 support following this approach.
@@ -89,24 +89,14 @@ For the time being, we recommend that you check out our
 sample project via Subversion. You don't need to be an svn expert
 to use this command:
 
-FOR SYMFONY 1.4 (recommended for new projects):
+svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/trunk asandbox
 
-		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/sandbox/trunk cmstest
-
-FOR SYMFONY 1.3 (recommended only if you are stuck with other 1.2 code that isn't fully 1.4-ready yet):
-
-		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/sandbox/branches/1.3 cmstest
-
-FOR SYMFONY 1.2 (*not recommended for new projects*):
-
-    svn co http://svn.symfony-project.com/plugins/apostrophePlugin/cmstest cmstest
-
-Better yet, copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the cmstest project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
+Better yet, copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the asandbox project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
 
 This will give you all of the necessary plugins and the ability to
 `svn update` the whole shebang with one command.
 
-Next light up the folder `cmstest/web` as a virtualhost named `cmstest` via MAMP, `httpd.conf` or whatever your testing environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
+Next light up the folder `asandbox/web` as a virtualhost named `asandbox` via MAMP, `httpd.conf` or whatever your testing environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
 
 Now create the `config/databases.yml` file, which must contain
 database settings appropriate to *your* system. Copy the file
@@ -136,15 +126,9 @@ paths in that file.
 
 Next, cd to the `cmstest` folder and run these commands:
 
-(For Symfony 1.3 and 1.4)
-
 		./symfony doctrine:build --all
 		./symfony doctrine:data-load
 	
-(For Symfony 1.2)
-
-    ./symfony doctrine:build-all-reload
-
 This will create a sample database from the fixtures files.
 
 Now set the permissions of data folders so that they are writable by the web 
@@ -173,7 +157,7 @@ the database so it needs to be done separately. After this, you won't
 need to run this command again unless you are deploying to a new
 environment such as a staging or production server:
 
-./symfony aToolkit:rebuild-search-index --env=dev
+./symfony apostrophe:rebuild-search-index --env=dev
 
 (You can specify staging or prod instead to build the search indexes
 for environments by those names.)
@@ -187,7 +171,7 @@ edits are made. For performance reasons you might be happier deferring
 this to a cron job that runs every few minutes. If you want to take this
 approach, set up a cron job like this:
 
-0,10,20,30,40,50 * * * * /path/to/your/project/symfony a:update-lucene --env=env
+0,10,20,30,40,50 * * * * /path/to/your/project/symfony apostrophe:update-lucene --env=env
 
 Note the `--env` option. There is a separate index for each
 environment. On a development workstation, specify `--env=env`. In
@@ -207,11 +191,11 @@ You can also change the word count of search summaries:
 		  a:
 		    search_summary_wordcount: 50
 
-That's the easy way to configure the CMS. The notes that follow assume you're doing it the hard way, without starting from the cmstest project.
+That's the easy way to configure the CMS. The notes that follow assume you're doing it the hard way, without starting from the asandbox project.
 
 * * *
 
-Install the above plug-ins in your Symfony 1.2 project. We strongly encourage you to do so using svn externals. If you are using that approach you will need to be sure to create the necessary symbolic links from your projects web/ folder to to the web/ folders of the plugins that have one. For best results use
+Install the above plug-ins in your Symfony 1.3/1.4 project. We strongly encourage you to do so using svn externals. If you are using that approach you will need to be sure to create the necessary symbolic links from your projects web/ folder to to the web/ folders of the plugins that have one. For best results use
 a relative path:
 
     cd web
@@ -270,11 +254,28 @@ You will also need to enable the a modules in
 your application's `settings.yml` file. Of course you may need
 other modules as well based on your application's needs:
 
-    enabled_modules:        [a, aText, aRichText, sfGuardAuth]
+    enabled_modules:
+      - a
+      - aNavigation
+      - aMedia
+      - aRichTextSlot
+      - aTextSlot
+      - aRawHTMLSlot
+      - aSlideshowSlot
+      - aVideoSlot
+      - aImageSlot
+      - aButtonSlot
+      - aPDFSlot
+      - sfGuardAuth
+      - aUserAdmin
+      - aGroupAdmin
+      - aPermissionAdmin
+      - sfGuardPermission
+      - taggableComplete
+      - default
 
-a edits rich text content via the FCK editor. A recent version of FCK is
-included in downloads of apostrophePlugin, which is among the requirements already stated
-above. However you'll need to enable FCK in your settings.yml file, as follows:
+Apostrophe edits rich text content via the FCK editor. A recent version of FCK is
+included with the plugin. However you'll need to enable FCK in your settings.yml file, as follows:
 
     all:
       rich_text_fck_js_dir:   apostrophePlugin/js/fckeditor
@@ -282,28 +283,50 @@ above. However you'll need to enable FCK in your settings.yml file, as follows:
 Load the fixtures for the "stub" site. Every site begins with a home
 page with all other pages being added as descendants of the home page:
 
-    ./symfony doctrine:build-all-load
+    ./symfony doctrine:build --all
+    ./symfony doctrine:data-load
 
-By default a will establish routes which map your modules and 
-actions to:
+## Routing Rules ##
 
-    /cms/modulename/actionname
+By default Apostrophe will map CMS pages to URLs beginning with `/cms`:
 
-And check all other URLs to see whether they match a slug (i.e. a path)
-in the CMS, offering up that page via the a/show action if so.
+    /cms/pagename
 
-If this is not what you want, you will need to shut off the built-in
-routes via app.yml and write your own:
+And leave all other URLs alone. This is appropriate if the CMS is a minor part of your site. If the CMS is the main purpose of your site, shut off the automatic registration of the route above:
 
-    a_routes_register: false
+    a:
+      routes_register: false
 
-In any case, it is up to you to provide a route for the homepage of
-your site. If you want the homepage to be the root page of the CMS,
-just use this route in your routing.yml file:
+And register these as the LAST rules in your application's `routing.yml` file instead:
 
-    homepage:
-      url:   /
-        param: { module: a, action: show, slug: / }
+		# A default rule that gets us to actions outside of the CMS.
+		# Note that you can't have CMS pages with a slug beginning with /admin
+		# on a site that uses this particular rule. You could use a 
+		# different prefix. Or you could provide rules for every
+		# module, or even for every action. This is just the simplest way.
+
+		default:
+		  url:   /admin/:module/:action/*
+
+		# A homepage rule is expected by a and various other plugins,
+		# so be sure to have one
+
+		homepage:
+		  url:  /
+		  param: { module: a, action: show, slug: / }
+
+		# Put any routing rules for other modules and actions HERE,
+		# before the catch-all rule that routes URLs to the
+		# CMS by default.
+
+		# Must be the last rule
+
+		a_page:
+			url:   /:slug
+			param: { module: a, action: show }
+			requirements: { slug: .* }
+
+Thanks to Stephen Ostrow for his help with these rules.
 
 ### Enhanced Form Controls ###
 
@@ -331,52 +354,6 @@ optional internationalization:
           fr: 'French Prefix : '
         # OR this way for a single-culture site
         title_prefix: 'Our Company'      
-
-## Routing Rules ##
-
-For compatibility reasons, by default your CMS pages will appear in the /cms "folder"
-of your site. That is, the "home page" is `http://yoursite.com/cms`. Administrative
-actions of the CMS can then use the default Symfony routing rules. The home page URL ("/") is not overridden
-by default and still goes wherever you'd like it to go in your application.
-
-Of course, this probably isn't what most people want in practice. You can easily
-customize it via your `routing.yml` file so that URLs are presumed to be CMS pages if they do 
-not expressly match a routing rule. And it's not hard to create a catch-all "folder" to contain URLs mapped to Symfony actions rather than CMS pages.
-
-These rules are used by our `cmstest` project. Note that the routing rule for pages must be named `a_page` so that the plugin can use it explicitly to generate short paths to pages, even in the presence of the default rule which would otherwise match first:
-
-    # This default routing rule handles all non-CMS actions that are not
-    # explicitly routed by another rule
-
-    default:
-      url:   /admin/:module/:action/*
-
-    # A homepage rule is expected by a and various other plugins,
-    # so be sure to have one
-
-    homepage:
-      url:  /
-      param: { module: a, action: show, slug: / }
-
-    # Put any additional routing rules for other modules and actions HERE,
-    # before the catch-all rule that routes URLs to the
-    # CMS by default.
-
-    # Must be the last rule, and must have this name
-
-    a_page:
-      url:   /:slug
-      param: { module: a, action: show }
-      requirements: { slug: .* }
-
-When using this technique you will also need to turn off the default routing rules of the CMS
-as we've done in the `cmstest` project:
-
-    all:
-      a:
-        routes_register: false
-
-Thanks to Stephen Ostrow for his analysis of this issue.
 
 ## Customizing Your CMS Site ##
 
@@ -591,10 +568,14 @@ The slot name will never be seen by the user. It is a useful label
 such as `body` or `sidebar` or `subtitle`.
 
 The second argument is the type of the slot. "Out of the box," 
-apostrophePlugin offers two slot types:
+apostrophePlugin offers a useful array of slot types:
 
-* aRichText
-* aText
+* aImage
+* aSlideshow
+* aButton
+* aVideo
+* aPDF
+* aRawHTML
 
 You can add additional slot types of your own and release and
 distribute them as plugins as explained later in this document.
@@ -926,12 +907,22 @@ all:
 
 ## Creating Custom Slot Types ##
 
-You are not limited to the two slot types provided with
+You are not limited to the slot types provided with
 apostrophePlugin! Anyone can create new slot types by taking
 advantage of normal Symfony features: modules, components,
 actions, templates and Doctrine model classes.
 
-Let's look at `aText` to understand how this works.
+You can speed this process enormously by using the `apostrophe:generate-slot-type` task:
+
+		./symfony apostrophe:generate-slot-type --application=frontend --type=mynewtypename
+
+This task generates all of the scaffolding for a new, working slot type. The above example generates the necessary module, model class and form class in the `frontend` application of the project. You can also generate the scaffolding in an existing or new Symfony plugin:
+
+		./symfony apostrophe:generate-slot-type --plugin=mynewplugin --type=mynewtypename
+
+We recommend the latter as it is easier to reuse your slot type in another project this way.
+
+Of course, to understand how to customize the behavior of your new slot type, you need to know how slot types work. So let's dig into the `aText` slot to understand this better.
 
 The `aText` slot type is implemented as follows:
 
@@ -1613,16 +1604,14 @@ include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => 
 Parameters
 root (required) - This is the root slug of the page the breadcrumb should begin with
 active (required) - This is the last element that the navigation should descend to
-dellimiter (optional) - The delimitter to use between items, defaults to " > "
+separator (optional) - The separator to use between items, defaults to " > "
 name (required) - the unique name of the navigation element for your template.
 
 
 ## Support ##
 
-You can obtain support for a via the [a Google group](http://groups.google.com/group/a). 
+You can obtain support for Apostrophe via the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). 
 
 Also be sure to [follow our Twitter account](http://twitter.com/apostrophenow).
 
 And be sure to [visit the Apostrophe Now site](http://www.apostrophenow.com/).
-
-Apostrophe is our CMS product based on the open-source a plugin.

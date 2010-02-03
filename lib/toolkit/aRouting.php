@@ -8,8 +8,8 @@ class aRouting extends sfPatternRouting
     if (sfConfig::get('app_a_routes_register', true) && in_array('a', sfConfig::get('sf_enabled_modules')))
     {
       // 0.13: By default we'll use /cms for pages to avoid compatibility problems with
-      // the default routing of other modules. But see the routing.yml of the cmstest
-      // project for a better way to do this so your CMS pages (the point of your site!)
+      // the default routing of other modules. But see the routing.yml of the asandbox
+      // project for a better way to do this so your CMS pages (often the point of your site!)
       // don't have to be locked down in a subfolder
       // 0.14: rename this rule a_page and require its use
       $r->prependRoute('a_page', 

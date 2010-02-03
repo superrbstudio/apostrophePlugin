@@ -148,8 +148,14 @@ class aTools
     {
       $slotTypes = array_merge(
         array(
-          'aText' => 'Plain Text',
-          'aRichText' => 'Rich Text'),
+           'aText' => 'Plain Text',
+           'aRichText' => 'Rich Text',
+           'aImage' => 'Image',
+           'aSlideshow' => 'Slideshow',
+           'aButton' => 'Button',
+           'aVideo' => 'Video',
+           'aPDF' => 'PDF',
+           'aRawHTML' => 'Raw HTML'),
         sfConfig::get('app_a_slot_types', array()));
       if (isset($options['allowed_types']))
       {
