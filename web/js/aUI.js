@@ -202,7 +202,7 @@ function aUI(target, instance)
 	// Cross Browser Opacity Settings
 	//
 	aUIOpacity()
-	$('.a-page-overlay').fadeTo(0,.85); // Modal Box Overlay
+	$('.a-page-overlay').fadeTo(0,.85).hide(); // Modal Box Overlay
 	$('.a-archived-page').fadeTo(0,.5); // Archived Page Labels
 	//
 	//

@@ -63,7 +63,7 @@
     <?php if (has_slot('a-subnav')): ?>
       <?php include_slot('a-subnav') ?>
     <?php elseif ($page): ?>
-		  <?php include_component('a', 'subnav') # Subnavigation ?>
+		  <?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
 		<?php endif ?>
 
 		<div id="a-content">

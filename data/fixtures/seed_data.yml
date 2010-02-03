@@ -60,23 +60,6 @@ aPage:
                     Slot:
                       type: aRichText 
                       value: '<h2>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> It is open source, robust, &amp; super easy to use!'
-      media:
-        slug: "/media"
-        template: default
-        Areas:
-          media_en_title:
-            name: title
-            culture: en
-            latest_version: 1
-            AreaVersions:
-              media_en_title_version_1:
-                version: 1
-                AreaVersionSlots:
-                  media_en_title_version_1_permid_1:
-                    permid: 1
-                    Slot:
-                      type: aText 
-                      value: "Media"
       contact:
         slug: "/contact"
         template: default

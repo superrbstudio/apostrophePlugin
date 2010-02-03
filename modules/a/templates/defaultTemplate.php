@@ -1,9 +1,16 @@
 <?php use_helper('a') ?>
-
+<?php $page = aTools::getCurrentPage() ?>
 <?php slot('body_class') ?>a-default<?php end_slot() ?>
 
+<?php if (0): ?>
+	<?php if (!$page->hasChildren()): ?>
+		<?php slot('a-subnav','') ?>
+		<?php slot('body_class') ?>a-default no-sidebar<?php end_slot() ?>	
+	<?php endif ?>	
+<?php endif ?>
+
 <?php a_area('body', array(
-	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML'),
+	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML', 'aText'),
   'type_options' => array(
 		'aRichText' => array('tool' => 'Main'), 	
 		'aImage' => array('width' => 598, 'flexHeight' => true, 'resizeType' => 's'),
@@ -14,7 +21,7 @@
 	))) ?>
 	
 <?php a_area('sidebar', array(
-	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML'),
+	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML', 'aText'),
   'type_options' => array(
 		'aRichText' => array('tool' => 'Sidebar'),
 		'aImage' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),

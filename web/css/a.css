@@ -1,25 +1,1528 @@
+@charset "utf-8";
+
+/*
+ *  Table Of Sections
+ *
+ *  1. Reset
+ *  2. Basic Elements
+ *  3. Generic Classes
+ *  4. Buttons
+ *  5. Button Icons
+ *  6. Area and Slot Controls
+ *  7. Sidebar
+ *  8. Footer
+ *  9. Navigation
+ * 10. Forms
+ * 11. Modules
+ * 12. Print styles
+ *
+ */
+
+/*  1. Reset  - do NOT modify!
+ *	Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+-------------------------------------*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td
+{
+margin: 0;
+padding: 0;
+border: 0;
+outline: 0;
+font-weight: inherit;
+font-style: inherit;
+font-size: 100%;
+font-family: inherit;
+vertical-align: baseline;
+}
+
+*
+{
+/* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
+margin: 0;
+padding: 0;
+font-weight: normal;
+}
+/* TBB: in IE6 (and maybe IE7?), an explicit setting for
+ * vertical-align: breaks <img align="left">. Strange
+ * but true. align="left" is an anachronism but 
+ * Study Abroad is using it courtesy of FCK's image editor
+ */
+img
+{
+margin: 0;
+padding: 0;
+border: 0;
+outline: 0;
+font-weight: inherit;
+font-style: inherit;
+font-size: 100%;
+font-family: inherit;
+/* vertical-align: baseline; */
+}
+/* remember to define focus styles! */
+:focus { outline: 0; }
+
+/* remember to highlight inserts somehow! */
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+
+body
+{
+line-height: 1;
+color: black;
+background: white;
+}
+
+ol, ul { list-style: none; }
+
+/* tables still need 'cellspacing="0"' in the markup */
+table
+{
+border-collapse: separate;
+border-spacing: 0;
+}
+
+caption, th, td
+{
+text-align: left;
+font-weight: normal;
+}
+
+blockquote:before, 
+blockquote:after,
+q:before, 
+q:after
+{
+content: "";
+}
+
+blockquote, 
+q
+{
+quotes: "" "";
+}
+
+
+
+
+/* 2. Basic Elements
+-------------------------------------*/
+html, body { height: 100%; }
+
+body
+{
+font: 12px/1.4 arial, sans-serif;
+color: #333;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	line-height: 1.2;
+}
+
+
+
+
+/* 3. Generic Classes
+-------------------------------------*/
+
+.dropshadow
+{ /* This is just for fun right now */
+-moz-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
+-opera-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
+-khtml-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);	
+box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.a-overlay
+{
+	position:absolute;
+	top:0;
+	left:0;
+	display:none;
+	float:left;
+	background-color:#fff;
+	height:100%;
+	width:100%;
+	z-index:999;
+}
+
+.a-page-overlay
+{
+z-index: 998;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+height: 100%;
+width: 100%;
+display: none;
+background-color: #fff;
+}
+
+.a-chad
+{
+position: absolute;
+z-index: 2;
+top: -13px;
+display: block;
+background: url(/apostrophePlugin/images/a-icon-page-settings-arrow.png) top left no-repeat;
+width: 20px;
+height: 13px;
+}
+
+.a-spinner
+{
+float: left;
+display: inline;
+clear: none;
+height: 20px;
+width: 20px;
+border: 0;
+margin: 0;
+padding: 0;
+background: url(/apostrophePlugin/images/a-icon-loader-ani.gif) center center no-repeat;
+text-indent: -9999px;
+}
+
+
+/* 4. Buttons
+-------------------------------------*/
+
+.a-btn
+{
+position: relative;
+float: left;
+display: inline;
+color: #fff !important;
+background-color: transparent;
+text-decoration: none !important;
+font-size: 12px;
+cursor: pointer;
+}
+
+.a-btn.a-disabled,
+.a-btn.a-disabled *
+{
+	background-color: #ddd !important;
+	color: #eee !important;
+	cursor: default !important;
+}
+
+.a-btn:hover,
+.a-btn:hover span,
+.a-btn.icon:hover
+{
+background-color: #888;
+text-decoration: none !important;
+}
+
+.a-i
+{ /* background color for buttons */
+position:absolute;
+top: 0;
+left: 0;
+z-index: 0;
+width: 100%;
+height: 100%;
+display: block;
+float: left;
+margin: 0;
+}
+
+#a-login-form .a-i
+{
+background-color: #666;
+}
+
+.a-b
+{
+	font-family: arial, sans-serif;
+	font-size: 12px;
+}
+
+.a-btn .a-b
+{
+position: relative;
+float: left;
+display: inline;
+z-index: 2;
+color: #fff;
+padding: 0 4px;
+white-space: nowrap;
+text-transform: capitalize;
+height: 20px;
+line-height: 20px;
+}
+
+.a-btn.icon .a-b
+{
+padding: 0 4px 0 20px;
+background-position: top left;
+background-repeat: no-repeat;
+}
+
+.a-btn.big .a-b
+{
+	font-size:18px;
+	height:24px;
+	line-height:24px;
+	background-position: center left;
+}
+
+.a-btn.icon-only .a-b
+{
+padding: 0 0 0 20px;
+background-position: top left;
+background-repeat: no-repeat;
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+}
+
+.a-btn.nobg .a-i,
+.a-btn.nobg .a-i,
+.a-btn.nobg:hover span,
+.a-btn.nobg:hover,
+.a-btn.nobg:hover span,
+.a-btn.nobg:hover
+{ /* Some Slots need to override the background color stuff to look good*/
+	background-color: transparent !important;
+}
+
+/* Awesome flagging button styles */
+.a-btn.a-flag-btn:hover
+{
+	z-index:9999;
+}
+
+.a-btn .a-flag-btn-label
+{
+display:none;
+line-height:20px;
+padding: 0 4px;
+position:absolute;
+right:20px;
+top:0;
+white-space:nowrap;
+text-indent:0 !important;
+}
+
+.a-btn .a-flag-btn-label .a-l
+{
+	position: relative;
+	z-index: 199;
+}
+
+.a-btn.expanded .a-flag-btn-label
+{
+	display: block;
+}
+
+
+/* 5. Button Icons
+-------------------------------------*/
+
+.icon.a-feed .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-feed.png);
+}
+
+.icon.a-blog-btn .a-b,
+.icon.a-blogpost .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-blog.png);
+}
+
+.icon.a-video .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-video.png);
+}
+
+.icon.a-image .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-photo.png);
+}
+
+.icon.a-slideshow .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-slideshow.png);
+}
+
+.icon.a-richtext .a-b,
+.icon.a-text .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-text.png);
+}
+
+.icon.a-add .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-add.png);
+}
+
+.icon.a-history .a-b,
+.icon.a-history-revert .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-history.png);
+}
+
+.a-cancel .a-b
+{
+background-color: #bbb;
+background-image: url(/apostrophePlugin/images/a-icon-cancel.png);
+}
+
+.a-cancel:hover .a-b
+{
+background-color: #000;
+}
+
+.icon.a-settings .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-settings.png);
+}
+
+.icon.a-templates .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-templates.png);
+}
+
+.icon.a-users .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-users.png);
+}
+
+.icon.a-media .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-media.png);
+}
+
+.icon.a-reorganize .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-sitemap.png);
+}
+
+.icon.a-button .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-button.png);
+}
+
+.icon.a-pdf .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-pdf.png);
+}
+
+.icon.a-rawhtml .a-b
+{
+	background-image: url(/apostrophePlugin/images/a-icon-rawhtml.png);
+/*padding: 0 4px;*/
+}
+
+.icon.a-download .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-download.png);
+}
+
+.icon.a-publish .a-b,
+.icon.a-edit .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-edit.png);
+}
+
+.icon.a-arrow-up .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+}
+
+.icon.a-arrow-down .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+}
+
+.icon.a-arrow-left .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+}
+
+.icon.a-arrow-right .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+}
+
+.icon.a-arrow-left:hover .a-b,
+.icon.a-arrow-right:hover .a-b
+{
+background-position: 0 -20px !important;
+}
+
+.icon.a-delete .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-trash.png);
+}
+
+.icon.a-calendar .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-event.png);
+}
+
+.icon.a-close .a-b
+{
+background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
+float: left;
+height: 20px;
+line-height: 20px;
+overflow: hidden;
+padding: 0;
+text-indent: -9999px;
+width: 20px;
+}
+
+.icon.a-close:hover .a-b
+{
+background-position: bottom;
+}
+
+.icon.a-drag
+{
+cursor:move;
+}
+
+.icon.a-drag .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-drag.png);
+background-position: center center;
+background-repeat: no-repeat;
+text-indent: -9999px;
+width: 20px;
+height: 20px;
+padding: 0;
+position: relative;
+}
+
+.icon.a-drag .a-b,
+.icon.a-drag .a-i
+{
+height: 20px;
+width: 20px;
+float: left;
+display: block;
+}
+
+.icon.a-drag:hover .a-b
+{
+background-color: #888;
+}
+
+.icon.a-events .a-b
+{
+background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
+}
+
+.icon.a-events.day-1 .a-b
+{
+	background-position: 0 0px;
+}
+
+.icon.a-events.day-2 .a-b
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-events.day-3 .a-b
+{
+	background-position: 0 -40px;
+}
+
+.icon.a-events.day-4 .a-b
+{
+	background-position: 0 -60px;
+}
+
+.icon.a-events.day-5 .a-b
+{
+	background-position: 0 -80px;
+}
+
+.icon.a-events.day-6 .a-b
+{
+	background-position: 0 -100px;
+}
+
+.icon.a-events.day-7 .a-b
+{
+	background-position: 0 -120px;
+}
+
+.icon.a-events.day-8 .a-b
+{
+	background-position: 0 -140px;
+}
+
+.icon.a-events.day-9 .a-b
+{
+	background-position: 0 -160px;
+}
+
+.icon.a-events.day-10 .a-b
+{
+	background-position: 0 -180px;
+}
+
+.icon.a-events.day-11 .a-b
+{
+	background-position: 0 -200px;
+}
+
+.icon.a-events.day-12 .a-b
+{
+	background-position: 0 -220px;
+}
+
+.icon.a-events.day-13 .a-b
+{
+	background-position: 0 -240px;
+}
+
+.icon.a-events.day-14 .a-b
+{
+	background-position: 0 -260px;
+}
+
+.icon.a-events.day-15 .a-b
+{
+	background-position: 0 -280px;
+}
+
+.icon.a-events.day-16 .a-b
+{
+	background-position: 0 -300px;
+}
+
+.icon.a-events.day-17 .a-b
+{
+	background-position: 0 -320px;
+}
+
+.icon.a-events.day-18 .a-b
+{
+	background-position: 0 -340px;
+}
+
+.icon.a-events.day-19 .a-b
+{
+	background-position: 0 -360px;
+}
+
+.icon.a-events.day-20 .a-b
+{
+	background-position: 0 -380px;
+}
+
+.icon.a-events.day-21 .a-b
+{
+	background-position: 0 -400px;
+}
+
+.icon.a-events.day-22 .a-b
+{
+	background-position: 0 -420px;
+}
+
+.icon.a-events.day-23 .a-b
+{
+	background-position: 0 -440px;
+}
+
+.icon.a-events.day-24 .a-b
+{
+	background-position: 0 -460px;
+}
+
+.icon.a-events.day-25 .a-b
+{
+	background-position: 0 -480px;
+}
+
+.icon.a-events.day-26 .a-b
+{
+	background-position: 0 -500px;
+}
+
+.icon.a-events.day-27 .a-b
+{
+	background-position: 0 -520px;
+}
+
+.icon.a-events.day-28 .a-b
+{
+	background-position: 0 -540px;
+}
+
+.icon.a-events.day-29 .a-b
+{
+	background-position: 0 -560px;
+}
+
+.icon.a-events.day-30 .a-b
+{
+	background-position: 0 -580px;
+}
+
+.icon.a-events.day-31 .a-b
+{
+	background-position: 0 -600px;
+}
+
+input.a-submit
+{ /* Format ALL Submit Buttons */
+float: left;
+position: relative;
+height: 20px;
+border: 0;
+background: none transparent;
+color: #fff;
+font: 12px/1 arial, sans-serif;
+padding: 2px;
+z-index: 2;
+width: auto !important;
+}
+
+input.a-submit:hover
+{
+background-color: #999;
+cursor: pointer;
+}
+
+input[type="checkbox"],
+input.a-checkbox,
+input.a-radio
+{
+width: auto !important;
+border: none !important;
+}
+
+/* Button Slot Styles */
+
+.a-button a 
+{
+	position: relative;
+	float: left;
+	clear: both;
+}
+
+.a-button a .button-hover-overlay
+{ /* This is not used for now. Overlay is turned off in favor of a simple opacity toggle */
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #000;
+}
+
+.a-default-value
+{
+color: #888;
+}
+
+/* 6. Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+float: left;
+visibility: hidden;
+margin: 0 !important;
+}
+
+ul.a-controls li
+{ /* All buttons on the site are wrapped in a list. This LI often contains (constrains) the .a-i element  */
+float: left;
+display: inline;
+position: relative;
+margin: 0 1px 0 0 !important;
+width: auto;
+height: auto;
+border: none;
+}
+
+ul.a-controls li a
+{ /* Make sure anchor is above .a-i element */
+z-index: 1;
+margin-bottom: 1px;
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{ /* Area Controls - Sit ABOVE all slots */
+position: relative;
+z-index: 899;
+float: left;
+width: 100%;
+padding-bottom: 10px;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{ /* Singleton Area Controls */
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.browsing-history ul.a-controls.a-area-controls
+{ /* Change z-index of Area controls when we are browsing history */
+z-index: 999;
+}
+
+.a-area.browsing-history ul.a-controls.a-slot-controls,
+ul.a-controls ul.a-controls-item.history
+{
+z-index: 899;
+}
+
+ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-area-controls li .a-area-options,
+ul.a-controls .a-history-options
+{
+display: none;
+}
+
+.editing-now a.a-btn .a-b,
+.browsing-history a.a-btn.a-history .a-b
+{
+color: #000 !important;
+cursor: default !important;
+}
+
+.a-area.previewing-history a.a-btn.a-history .a-b
+{
+background-color: transparent !important;
+color: #fff !important;
+cursor: pointer !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+
+
+
+/* #. Login Form
+-------------------------------------*/
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover
+{
+color: #fff;
+}
+
 /* == */
-/* == Apostrophe UI Controls == */
+/* == TAG SUGGESTIONS */
 /* == */
 
-.a-area
+div.tag-suggestions
 {
-/*	z-index:599;*/
+position: relative;
+display: inline;
+float: left;
+clear: both;
+width: 100%;
+padding-top: 8px;
+margin: 0;
+z-index: 9999;
+font-size: 11px;
+}
+
+.tubes-tags div.tag-suggestions,
+.a_admin_form_field_tags div.tag-suggestions
+{
+	width: 360px;
+	top: -9px;
+}
+
+#a-media-edit-form div.tag-suggestions
+{
+	width: 216px;
+	top: -9px;
+	left: 120px;
+}
+
+#a-admin-form div.tag-suggestions {
+left:0px;
+top:-9px;
+width:360px;
+}
+
+div.tag-suggestions .tag-spacer
+{
+	display: none;
+}
+
+div.tag-suggestions ul
+{
+position: relative;
+float: left;
+width: 100%;
+font-size: 11px;
+text-indent: 3px;
+z-index: 999;
+}
+
+div.tag-suggestions li
+{
+float: left;
+clear: both;
+width: 100%;
+margin: 0;
+visibility: hidden;
+}
+	
+div.tag-suggestions li a
+{
+float: left;
+display: block;
+visibility: visible;
+background: #fff;
+padding: 2px;
+width: 100%;
+border-left: 1px solid #666;
+border-right: 1px solid #666;
+}
+
+div.tag-suggestions li a.first
+{
+border-top: 1px solid #666;
+}
+
+div.tag-suggestions li a.last
+{
+border-bottom: 1px solid #666;
+}
+
+div.tag-suggestions li a:hover
+{
+background-color: #000;
+color: #fff !important;
+text-decoration:none;
+}
+
+
+/* == */
+/* == Multi-Select Drop Down / Button Thinger */
+/* == */
+.a-multiple-select-list,
+.a-multiple-select-list li
+{
+	position: relative;
+	float: left;
+	display: block;
+	width: 100%;
+}
+
+.a-multiple-select-list li
+{
+	line-height: 20px;
+	margin: 2px 0;
+}
+
+.a-media-pdf-icon-overlay
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 35px;
+	width: 35px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background: url(/apostrophePlugin/images/a-media-pdf-btn-small.png) no-repeat top left;
+}
+
+.a-rss-feed
+{
+	display: block;
+	float: left;
+	padding-left: 20px;
+	background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat;	
+}
+
+.a-search-form input.a-search-field
+{
+position: absolute;
+top: 0;
+left: 6px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form input.submit
+{
+position: absolute;
+top: 0;
+right: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+padding: 0;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+/* [START] standard signin ==================================================================== */
+
+#a-signin
+{
+float: left;
+overflow:hidden;
+margin: 20px;
+width: 180px;
+}
+    
+#a-signin-top
+{
+float: left;
+width: 180px;
+height: 10px;
+}
+    
+#a-signin-bottom
+{
+float: left;
+width: 180px;
+height: 10px;
+}
+    
+#a-signin-form
+{
+float: left;
+width: 180px;
+}
+
+#a-signin-form .error_list
+{
+float: left;
+display: inline;
+margin: 5px 0;
+color: #900;
+font-size: 11px;
+}
+    
+#a-signin-form label
+{
+	font-size: 16px;
+}
+
+#a-signin-form label,
+#a-signin-form input,
+#a-signin-form a
+{
+clear: both;
+float: left;
+}
+
+#a-signin-form input
+{
+	font-size: 12px;
+	font-family: Arial, Sans-serif;
+	border: 1px solid #999;
+	padding: 3px 2px;
+	color: #333;
+}
+
+#a-signin-form input[type="text"],
+#a-signin-form input[type="password"]
+{
+	width: 155px;
+}
+    
+#a-signin-form a
+{
+color: #000;
+text-decoration: none;
+}
+    
+#a-signin-form a:hover
+{
+color: #666;
+}
+
+/* [END] standard signin ==================================================================== */
+
+
+/* == */
+/* == a_pager_navigation - Styles for the aPager == */
+/* == */
+
+.a_pager_navigation
+{
+float: left;
+display: inline;
+overflow: hidden;
+margin: 10px 0;
+font-size: 11px;
+width: 100%;
+}
+
+.a_pager_navigation a,
+.a_pager_navigation span
+{
+display: inline;
+float: left;
+height: 20px;
+line-height: 20px;
+}
+
+.a_pager_navigation .a_page_navigation_number
+{
+padding: 0 6px;
+}
+
+.a_pager_navigation span.a_page_navigation_number.a_pager_navigation_disabled
+{
+background-color: #e2e2e2;
+}
+
+.a_pager_navigation a.a_page_navigation_number:hover
+{
+color: #000;
+background-color: #e2e2e2;
+}
+
+.a_pager_navigation .a_pager_navigation_image
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+display: inline;
+float: left;
+width: 22px;
+height: 20px;
+text-indent: -9999px;
+}
+
+.a_pager_navigation a.a_pager_navigation_image.disabled
+{
+cursor: default;
+}
+
+.a_pager_navigation a.a_pager_navigation_first
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+}
+
+.a_pager_navigation a.a_pager_navigation_first:hover
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+}
+.a_pager_navigation a.a_pager_navigation_previous
+{
+background-position: -22px 0;
+width: 19px;
+margin-right: 5px;
+}
+.a_pager_navigation a.a_pager_navigation_previous:hover
+{
+background-position: -22px -40px !important;
+}
+.a_pager_navigation a.a_pager_navigation_next
+{
+background-position: -41px 0;
+width: 19px;
+margin-left: 5px;
+}
+.a_pager_navigation a.a_pager_navigation_next:hover
+{
+background-position: -41px -60px;
+}
+.a_pager_navigation a.a_pager_navigation_last
+{
+background-position: -60px 0;
+}
+.a_pager_navigation a.a_pager_navigation_last:hover
+{
+background-position: -60px -80px;
+}
+
+.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+}
+
+.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-right: 5px;
+}
+
+.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -60px -80px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+}
+
+.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-left: 5px;
+}
+
+
+
+
+/* ### Start [ a.css ]  ### */
+
+/* #. Areas and Slots
+-------------------------------------*/
+
+.a-area
+{ /* An Area is the outer most wrapper for a collection of Slots */
 position: relative;
 float: left;
 width: 100%;
 margin: 10px 0;
+/*	z-index:599;*/
 }
 
 .a-slots
-{
+{ /* Slots Container wraps all Slots in an Area*/
 position: relative;
 float: left;
 width: 100%;
 }
 
+.a-slot
+{ /* Individual Slots */
+position: relative;
+float: left;
+width: 100%;
+min-height: 20px;
+margin-bottom: 10px;
+font-size: 12px;
+display: inline;
+}
 
-/* Area History Table */
+.a-slot-form
+{/* Creates space for buttons to sit on top of forms when logged-in-editing */
+	padding-top: 22px !important;
+	float: left;
+	width: 100%;
+}
+
+/* Rich Text Slot Styles */
+
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
+.a-slot.aRichText h3,
+.a-slot.aRichText h4,
+.a-slot.aRichText h5,
+.a-slot.aRichText h6,
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aRichText b,
+.a-slot.aRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aRichText table th,
+.a-slot.aRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
+/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
+.a-slot-is-editable.aRichText .a-slot-content-container,
+.a-slot-is-editable.aText .a-slot-content-container,
+.a-slot-is-editable.aBlogPost .a-slot-content-container,
+.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
+.a-slot-is-editable.aBlogEvent .a-slot-content-container,
+.a-slot-is-editable.aRawHTML .a-slot-content-container
+{
+	padding: 22px 0 0 0 !important;
+}
+
+.a-slot.aTextSlot,
+.a-slot.aRawHTML
+{
+width: 100%;
+}
+
+.a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
+{
+	float: left;
+	width: 99%;
+	border: 1px solid #333;
+	padding: 2px;
+	height: 200px;
+	font: 12px/1.2 Monospace;
+	background: #efefef;
+}
+
+/* Slideshow Slot Styles */
+
+.a-slot.aSlideshow
+{
+margin-top: 24px; /* Space for the Arrow Controls*/
+margin-bottom: 40px;
+}
+
+.a-slot.aSlideshow .a-slideshow-description,
+.a-slot.aPDF .a-pdf-description
+{
+	font-size: 11px;
+	margin: 5px 0;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls
+{/* frontend visible slideshow controls */
+position: absolute;
+top: -24px;
+right: 0;
+float: left;
+display: inline;
+margin-right: 1px;
+width: auto;
+height: auto;
+height: 20px;
+border: none;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls li
+{
+float: left;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls a
+{
+z-index: 1;
+}
+
+.a-slot.aSlideshow .a-slideshow-item
+{
+display: none;
+float: left;
+clear: both;
+line-height:0 !important; /*rb: this fixes the bit of whitespace after the img*/
+}
+
+ul.a-controls li.last,
+ul.a-slideshow-controls li.last,
+ul.a-controls.a-area-controls li.last
+{ /* .last option has no margin */
+	margin: 0 !important;
+}
+
+
+/* #. History Browser
+-------------------------------------*/
 
 .a-history-browser
 {/*This positions history vertically inside the browser */
@@ -33,7 +1536,7 @@ clear: both;
 z-index: 999;
 overflow: hidden;
 display: none;
-border: 1px solid #ac3;
+border: 1px solid #333;
 }
 
 .a-history-browser h3
@@ -52,8 +1555,6 @@ background-color: #fff;
 a.a-history-browser-view-more
 {
 float: left;
-/*width: 100%;*/
-/*height: 100%;*/
 display: inline;
 padding: 8px;
 line-height: 20px;
@@ -126,6 +1627,7 @@ border-top: 1px solid #ddd;
 width: 10%;
 }
 */
+
 .a-history-browser .date
 {
 width: 15%;
@@ -161,248 +1663,19 @@ float: left;
 margin: 10px;
 }
 
-.a-page-overlay /*This will inherently have issues with IE7 that will need to be resolved later. */
+.a-history-options
 {
-z-index: 998;
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-height: 100%;
-width: 100%;
-display: none;
-background-color: #fff;
+float: left;
+display: inline;
+padding-left: 1px;
 }
+
+
 /* == */
 /* == SLOT STYLES == */
 /* == */
 
-.a-slot
-{/* .a-slot is the class for ALL Slots */
-position: relative;
-float: left;
-width: 100%;
-min-height: 20px;
-margin-bottom: 10px;
-font-size: 12px;
-display: inline;
-}
 
-
-/* a-messages ?? The idea that a message, help, or something needs to be communicated about a slot */
-.a-messages
-{
-}
-
-.a-messages .background .a-i
-{
-display: none;
-}
-
-/* Temporarily Hide a-messages for slot types that aren't using them */
-.aVideo .a-messages,
-.aSlideshow .a-messages,
-.aImage .a-messages,
-.aText .a-messages,
-.aRawHTML .a-messages
-{
-display: none;
-}
-
-/* Rich Text Slots Use the .a-messages structure */
-.aRichText .a-slot-messages
-{/*This is the double-click-to-edit thing */
-	float: left;
-display: none;
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-height: 100%;
-width: 100%;
-z-index: 1;
-cursor: pointer;
-}
-
-.aRichText .a-slot-messages li
-{
-height: 20px;
-width: 200px;
-position: absolute;
-top: 50%;
-left: 50%;
-margin-top: -10px;
-margin-left: -100px;
-line-height: 20px;
-text-align: center;
-font-size: 12px;
-color: #fff;
-}
-
-
-.aRichText .a-slot-messages .background
-{/* Content Fade-Out Overlay */
-position: absolute;
-top: 0;
-right: 0;
-left: 0;
-bottom: 0;
-background: #fff;
-margin: 0;
-padding: 0;
-height: auto;
-width: auto;
-}
-
-.aRichText .a-slot-messages .message
-{
-position: relative;
-z-index: 1;
-}
-
-.aRichText b,
-.aRichText strong
-{
-font-weight: bold;
-}
-
-.aRichText h3
-{
-font-size: 150%;
-}
-
-.aRichText h4
-{
-font-size: 125%;
-}
-
-.aRichText h5
-{
-font-size: 90%;
-}
-
-.aRichText h6
-{
-font-size: 90%;
-}
-
-.aRichText ol
-{
-list-style: inside decimal;
-}
-
-.aRichText ul
-{
-list-style: inside disc;
-}
-
-.a-slot-is-editable.aRichText:hover .a-slot-messages
-{
-display: block;
-}
-
-/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
-/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
-.a-slot-is-editable.aRichText .a-slot-content-container,
-.a-slot-is-editable.aText .a-slot-content-container,
-.a-slot-is-editable.aBlogPost .a-slot-content-container,
-.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
-.a-slot-is-editable.aBlogEvent .a-slot-content-container,
-.a-slot-is-editable.aRawHTML .a-slot-content-container
-{
-	padding: 22px 0 0 0 !important;
-}
-
-.a-slot-form
-{/* Creates space for buttons to sit on top of forms when logged-in-editing */
-	padding-top: 22px !important;
-	float: left;
-	width: 100%;
-}
-
-.a-slot.aRichText h1,
-.a-slot.aRichText h2,
-.a-slot.aRichText h3,
-.a-slot.aRichText h4,
-.a-slot.aRichText h5,
-.a-slot.aRichText h6,
-.a-slot.aRichText p,
-.a-slot.aRichText ul,
-.a-slot.aRichText ol
-{
-float: left;
-width: 100%;
-clear: both;
-margin: 0 0 10px 0;
-}
-
-.a-slot.aRichText table
-{
-	border: 1px solid #ccc;
-	border-bottom: none;
-	border-right: none;
-}
-
-.a-slot.aRichText table th,
-.a-slot.aRichText table td
-{
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	padding: 3px;
-	line-height: 1.2;
-}
-
-.a-slot.aRichText.a-edit-view
-{
-}
-
-.a-slot.aRichText.a-edit-view .a-controls
-{
-display: none;
-}
-
-.a-slot.aRichText.a-edit-view:hover
-{
-color: #888;
-}
-
-.a-slot.aRichText.a-edit-view:hover .a-controls,
-.a-slot.aRichText.a-edit-view:hover .a-messages
-{
-display: block;
-}
-
-.aTextSlot,
-.aRawHTMLSlot
-{
-width: 100%;
-}
-
-textarea.aRawHTMLSlotTextarea
-{
-	float: left;
-	width: 99%;
-	border: 1px solid #333;
-	padding: 2px;
-	height: 200px;
-	font: 12px/1.2 Monospace;
-	background: #efefef;
-}
-
-.aSlideshow
-{
-margin-top: 24px; /* Space for the Arrow Controls*/
-	margin-bottom: 40px;
-}
-
-.aSlideshow .a-slideshow-description,
-.aPDF .a-pdf-description
-{
-	font-size: 11px;
-	margin: 5px 0;
-}
 
 /* == */
 /* == Global Toolbar */
@@ -850,11 +2123,6 @@ font-size: 16px;
 #a-personal-settings-heading
 {
 	margin: 0 0 10px;
-}
-
-#a-personal-settings-heading span
-{
-	color:#ac3;
 }
 
 #a-page-settings h3
@@ -1475,3 +2743,776 @@ width: auto;
 {
 	margin-left: 5px;
 }
+
+
+/* 23. Media Library
+-------------------------------------*/
+
+#a-media-wrapper
+{
+width: 960px;
+margin: 40px auto;
+}
+
+#a-media-wrapper h1
+{
+margin: 40px 0;
+width: 118px;
+height: 200px;
+text-indent: -9999px;
+background: url(../images/apostrophePlugin-logo.png) top left;
+}
+
+#a-media-plugin
+{
+float: left;
+width: 100%;
+display: inline;
+position: relative;
+}
+
+.a-media .a-area .a-controls
+{
+display: none;
+}
+
+.a-media-subnav,
+.a-media-library,
+.a-media-toolbar,
+.a-media-footer
+{
+display: inline;
+float: left;
+}
+
+#a-subnav.a-media-subnav
+{
+width: 178px;
+margin-bottom: 20px;
+float: left;
+position: relative;
+}
+
+.a-media-subnav .a-search-form
+{
+background-image: url(/apostrophePlugin/images/a-search-bg-180.png);
+width: 180px;
+}
+
+.a-media-subnav .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+.a-search-form input.submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+a#a-media-search-remove
+{
+float: left;
+display: none;
+position: absolute;
+top: 0;
+right: 0;
+width: 20px;
+height: 20px;
+text-indent: -9999;
+background: url(/apostrophePlugin/images/a-icon-close.png) top left no-repeat;
+color: #fff;
+overflow: hidden;
+text-indent: -9999px !important;
+}
+
+a#a-media-search-remove:hover
+{
+background-position: bottom left;
+}
+
+.a-search-video
+{
+width: 222px;
+border: none;
+/*background: none;*/
+font-family: Arial, sans-serif;
+font-size: 12px;
+padding: 3px 9px;
+float: left;
+clear: both;
+margin: 0 0 5px 0;
+}
+
+.a-search-field
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.a-media-row
+{
+float: left;
+display: inline;
+margin-bottom: 60px;
+width: 100%;
+}
+
+.a-media-toolbar,
+.a-media-library
+{
+width: 720px;
+float: right;
+margin-bottom: 20px;
+/*overflow: hidden;*/
+}
+
+.a-media-toolbar
+{
+padding-bottom: 20px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-media h3
+{
+font-size: 18px;
+}
+
+.a-media-toolbar h3
+{
+margin-bottom: 10px;
+}
+
+.a-media-footer
+{
+width: 720px;
+float: right;
+margin: 20px 0;
+}
+
+.a-media-toolbar .a-media-controls,
+.a-media-toolbar .a-media-slideshow-controls
+{
+clear: both;
+}
+
+.a-media-subnav .a-media-filters
+{
+color: #000;
+text-decoration: none;
+float: left;
+clear: both;
+width: 100%;
+}
+
+.a-media-subnav .a-media-filters .a-media-filter-option
+{
+float: left;
+width: 100%;
+clear: both;
+/*	display:inline;*/
+}
+
+.a-media-subnav .a-media-filters .a-media-filter-option a
+{
+float: left;
+clear: both;
+line-height: 20px;
+height: 20px;
+}
+
+.a-media-subnav .a-media-filters .a-media-filter-option .selected
+{
+padding-right: 20px;
+background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
+text-decoration: underline;
+}
+
+.a-media-subnav .a-media-filters .a-media-filter-option a.selected:hover
+{
+background-position: bottom right;
+}
+
+.a-media-item
+{
+float: left;
+display: inline;
+position: relative;
+width: 340px;
+margin-bottom: 20px;
+}
+
+.a-media-item.even
+{
+	margin-right: 40px;
+}
+
+.a-media-item-meta
+{
+margin: 0 0 10px 0;
+}
+
+.a-media-item-thumbnail,
+.a-media-item-title,
+.a-media-item-description,
+.a-media-item-meta
+{
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+position: relative;
+}
+
+.a-media-item-link span
+{
+float: left;
+width: 98px;
+line-height: 22px;
+}
+
+.a-media-item-link input
+{
+float: right;
+width: 214px;
+border: 1px solid #666;
+padding: 2px 3px;
+font: 11px Arial, Sans-serif;
+}
+
+.a-media-item.even
+{
+/*margin-right: 20px;*/
+}
+
+
+.a-media-item-title h3 a
+{
+text-decoration: none;
+font-size: 18px;
+}
+
+.a-media-select
+{
+margin-bottom: 10px;
+float: left;
+display: inline;
+/*	border-bottom: 1px solid #ddd;*/
+	padding-bottom:10px;
+}
+
+#a-media-selection-list
+{
+float: left;
+margin: 10px 0;
+}
+
+.a-media-selection-list-item
+{
+float: left;
+margin: 0 16px 16px 0;
+cursor: move;
+position: relative;
+}
+
+.a-media-selection-list-item .a-media-selected-item-drag-overlay,
+.a-media-selection-list-item .a-media-selected-item-overlay
+{
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: none;
+}
+
+.a-media-selection-list-item.over .a-media-selected-item-drag-overlay
+{
+background: url(/apostrophePlugin/images/a-icon-drag.png) center center no-repeat;
+z-index: 299;
+}
+
+.a-media-selection-list-item.over .a-media-selected-item-overlay
+{
+background-color: #000;
+z-index: 199;
+}
+
+.a-media-selection-list-item img
+{
+float: left;
+}
+
+.a-media #a-media-edit-form,
+.a-media .a-media-item-edit-form
+{
+float: left;
+display: inline;
+position: relative;
+margin-bottom: 30px;
+width: 100%;
+}
+
+
+.a-media #a-media-edit-form .a-media-item,
+.a-media .a-media-item-edit-form .a-media-item
+{
+width: 100%;
+border-bottom: 1px solid #ddd;
+margin-bottom: 30px;
+}
+
+.a-media #a-media-upload-form .form-row,
+.a-media #a-media-edit-form .form-row
+{
+margin-bottom: 10px;
+clear: both;
+float: left;
+width: 100%;
+}
+
+.a-media #a-media-upload-form .form-row.help,
+.a-media #a-media-edit-form .form-row.help
+{
+font-size: 11px;
+color: #999;
+}
+
+.a-media #a-media-upload-form .form-row.permissions .radio_list,
+.a-media #a-media-edit-form .form-row.permissions .radio_list
+{
+float: left;
+display: inline;
+position: relative;
+}
+
+.a-media #a-media-upload-form .form-row.permissions .radio_list li,
+.a-media #a-media-edit-form .form-row.permissions .radio_list li
+{
+float: left;
+display: inline;
+position: relative;
+width: 120px;
+}
+
+.a-media #a-media-upload-form .form-row.permissions .radio_list li label,
+.a-media #a-media-edit-form .form-row.permissions .radio_list li label
+{
+position: absolute;
+top: 0;
+left: 25px;
+}
+
+.a-media #a-media-upload-form .form-row.permissions .radio_list li input,
+.a-media #a-media-edit-form .form-row.permissions .radio_list li input
+{
+float: left;
+}
+
+.a-media #a-media-upload-form .form-row label,
+.a-media #a-media-edit-form .form-row label
+{
+float: left;
+width: 120px;
+}
+
+.a-media #a-media-upload-form .form-row input,
+.a-media #a-media-edit-form .form-row input,
+.a-media #a-media-upload-form .form-row select,
+.a-media #a-media-edit-form .form-row select,
+.a-media #a-media-upload-form .form-row textarea,
+.a-media #a-media-edit-form .form-row textarea
+{
+float: left;
+width: 214px;
+border: 1px solid #666;
+padding: 2px 3px;
+font: 12px Arial, Sans-serif;
+}
+
+.a-media #a-media-upload-form .form-row input
+{
+width: auto;
+}
+
+.a-media #a-media-edit-form .form-row input[type="radio"],
+.a-media #a-media-edit-form .form-row input[type="checkbox"]
+{
+width: auto;
+border: auto;
+}
+
+.a-media #a-media-edit-form .form-row.image
+{
+position: relative;
+}
+
+.a-media #a-media-edit-form .form-row.image input
+{
+position: absolute;
+top: 10px;
+left: 10px;
+}
+
+.a-media .a-media-upload-controls,
+.a-media .a-media-upload-form-footer,
+.a-media .a-media-edit-controls,
+.a-media .a-media-edit-footer
+{
+clear: both;
+float: left;
+margin-bottom: 10px;
+}
+
+.a-media ul.a-controls.a-media-upload-form-footer a.a-cancel,
+.a-media ul.a-controls.a-media-edit-footer a.a-cancel
+{
+display: block;
+}
+
+.a-media #a-media-upload-form .form-row.newfile .a-btn.a-close
+{
+float: left;
+}
+
+.a-media #a-media-edit-form .form-row.description,
+.a-media .a-media-item-edit-form .form-row.description
+{
+width: 343px;
+}
+
+#a-media-video-search-heading,
+#a-media-video-add-by-url-heading,
+#a-media-video-add-by-embed-heading,
+#a-media-video-search-form,
+#a-media-video-add-by-url-form,
+#a-media-video-add-by-embed-form,
+#a-media-video-search-results-container
+{
+display: none;
+position: relative;
+clear: both;
+}
+
+#a-media-video-search-form
+{
+float: left;
+}
+
+#a-media-video-search-form.a-search-form input.a-search-field
+{
+float: left;
+position: relative;
+width: 220px;
+height: 20px;
+margin-bottom: 10px;
+}
+
+#a-media-video-search-form .form-row.submit
+{
+position: absolute;
+top: 0;
+left: 240px;
+width: 100px;
+padding: 0;
+}
+
+#a-media-video-add-by-url-form .form-row
+{
+padding: 0;
+margin: 0;
+float: left;
+clear: both;
+}
+
+#a-media-video-add-by-url-form .form-row.example
+{
+position: relative;
+float: left;
+width: 100%;
+}
+
+.form-row.example p
+{
+font-size: 11px;
+color: #999;
+padding: 5px 0 15px 0;
+}
+
+#editing-disabled
+{
+display: none;
+}
+
+.a-media-video-heading
+{
+float: left;
+clear: both;
+display: inline;
+position: relative;
+font-size: 14px;
+}
+
+
+.a-media-thumb-link
+{
+position: relative;
+float: left;
+}
+
+.a-media-play-btn
+{
+position: absolute;
+z-index: 10;
+width: 100%;
+height: 100%;
+background: url(/apostrophePlugin/images/a-media-play-btn.png) no-repeat 50% 50%;
+}
+
+.a-media-pdf-btn
+{
+position: absolute;
+z-index: 10;
+width: 100%;
+height: 100%;
+background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
+}
+
+.a-media-thumb-link img
+{
+position: relative;
+z-index: 0;
+}
+
+.a-media-item-content li
+{
+position: relative;
+}
+
+.a-media .a-media-selected-overlay
+{
+position: absolute;
+z-index: 699;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+background-color: #fff;
+cursor: default !important;
+}
+
+/* [START] aMedia video search styles ==========================*/
+
+#a-media-video-search-results,
+#a-media-plugin-search-results
+{
+width: 720px;
+float: left;
+}
+
+#a-media-video-search-results li
+{
+float: left;
+/*width: 240px;
+height: 200px;*/
+}
+
+#a-media-video-search-results li a
+{
+display: block;
+}
+
+#a-media-video-search-pagination li
+{
+display: inline;
+margin-right: 20px;
+}
+
+.a-media-search-select
+{
+display: none;
+}
+
+#a-media-video-search-results li
+{
+padding: 10px 0;
+margin: 0 20px 0 0;
+float: left;
+}
+
+#a-media-video-search-results li.right-side
+{
+margin-right: 0;
+}
+
+#a-media-video-search-results a
+{
+margin-bottom: 10px;
+}
+
+#a-media-search-loading
+{
+padding-top: 10px;
+padding-bottom: 10px;
+}
+
+
+/* #. Blog
+-------------------------------------*/
+
+#a-blog-main
+{
+	float: left;
+	width: 100%;
+	display: inline;
+	position: relative;	
+}
+
+#a-blog-main .a-blog-post-title,
+#a-blog-main .a-blog-post-meta,
+#a-blog-main .a-blog-post-tags,
+#a-blog-main .a-blog-post-media,
+#a-blog-main .a-blog-post-body
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+#a-blog-main .a-blog-post-body p
+{
+	margin-bottom: 10px;
+}
+
+
+/* #. Shared Tag Sidebar
+-------------------------------------*/
+
+.a-tag-sidebar
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 20px 0 0 0;
+}
+
+.a-tag-sidebar h3,
+.a-tag-sidebar ul
+{
+float: left;
+width: 100%;
+clear: both;
+}
+
+.a-tag-sidebar ul
+{
+list-style: none;
+list-style-position: outside !important;
+}
+
+.a-tag-sidebar ul li
+{
+margin: 0;
+}
+
+.a-tag-sidebar ul li.selected
+{
+position: relative;
+float: left;
+width: 100%;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+.a-tag-sidebar ul li.selected .a-tag-sidebar-tag
+{
+display: inline;
+float: left;
+}
+
+.a-tag-sidebar ul.a-tag-sidebar-list
+{
+float: left;
+width: 100%;
+margin-bottom: 20px;
+}
+ 
+.a-tag-sidebar ul.a-tag-sidebar-list li
+{
+margin: 0 0 5px 0;
+}
+
+.a-tag-sidebar .a-tag-sidebar-tag-count
+{
+color: #ccc;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title.all-tags
+{
+color: #333;
+background: #fff url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px 0 no-repeat;
+cursor: pointer;
+text-indent: 16px;
+line-height: 20px;
+width: 100%;
+position: relative;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open
+{
+background-position: -6px -20px;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.over
+{
+color: #666;
+background-position: -6px -40px;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open
+{
+background-position: -6px -60px;
+}
+
+.a-tag-sidebar-list.all-tags
+{
+display: none;
+}
+
+
+/* #. Basic Layout
+-------------------------------------*/
+
+#a-area-footer
+{
+	position: relative;
+	display: inline;
+	clear: both;
+}
+
+
+/* #. Admin Colors - Default
+-------------------------------------*/
+.a-i,
+.editing-now a.a-btn .a-b,
+.browsing-history a.a-btn.a-history .a-b
+{ /* Background Color */
+background-color: #ac3;
+}
+
+.a-history-browser
+{ /* Border Color */
+border-color: #ac3;	
+}
+
+#a-personal-settings-heading span
+{ /* Text Color */
+	color:#ac3;
+}
+
+/* #. CSS Separator
+-------------------------------------*/
