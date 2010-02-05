@@ -1,5 +1,6 @@
 <?php use_helper('a') ?>
-
+<?php $page = aTools::getCurrentPage() ?>
+	
 <div id="a-subnav" class="subnav">
 	<div class="subnav-wrapper">
 		<?php // echo a_navcolumn(false) ?>

@@ -10,7 +10,7 @@
 			<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1)) ?>
 			<?php endif ?>
 
-			<?php if ($drag_icon): ?>
+			<?php if (isset($drag_icon) && $draggable): ?>
 			<span class="a-btn icon a-drag a-controls"></span>
 			<?php endif ?>
 
