@@ -8,23 +8,26 @@ class aMediaRouting
     
     if (aMediaTools::getOption("routes_register") && in_array('aMedia', sfConfig::get('sf_enabled_modules')))
     {
-      // NEW IN 0.5: media_items is now a subfolder of /uploads by default
-      // because /uploads is world-writable by default in Symfony projects,
-      // which removes configuration steps
+      // Since the media plugin is now an engine, we need our own
+      // catch-all rule for administrative URLs in the media area.
+      // Prepending it first means it matches last
+      $r->prependRoute('a_media_other', new aRoute('/:action', array(
+        'module' => 'aMedia'
+      )));
 
-      $r->prependRoute('a_media_image_show', new sfRoute('/media/view/:slug', array(
+      $r->prependRoute('a_media_image_show', new aRoute('/view/:slug', array(
         'module' => 'aMedia',
         'action' => 'show'
       ), array('slug' => '^[\w\-]+$')));
-      
+
       // Allow permalinks for PDF originals
       $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
-        'module' => 'aMedia',
+        'module' => 'aMediaBackend',
         'action' => 'original'
       ), array('slug' => '^[\w\-]+$', 'format' => '^(jpg|png|gif|pdf)$')));
       
       $r->prependRoute('a_media_image', new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
-        'module' => 'aMedia',
+        'module' => 'aMediaBackend',
         'action' => 'image'
       ), array(
         'slug' => '^[\w\-]+$',
@@ -36,67 +39,67 @@ class aMediaRouting
       
       // What we want:
       // /media   <-- everything
-      // /media/image   <-- media of type image
-      // /media/video   <-- media of type video
+      // /image   <-- media of type image
+      // /video   <-- media of type video
       // /tag/tagname <-- media with this tag
-      // /media/image/tag/tagname <-- images with this tag 
-      // /media/video/tag/tagname <-- video with this tag
+      // /image/tag/tagname <-- images with this tag 
+      // /video/tag/tagname <-- video with this tag
       // /media?search=blah blah blah  <-- searches are full of
       //                                   dirty URL-unfriendly characters and
       //                                   are traditionally query strings.
       
-      $r->prependRoute('a_media_index', new sfRoute('/media', array(
+      $r->prependRoute('a_media_index', new aRoute('/', array(
         'module' => 'aMedia', 
         'action' => 'index'
       )));
       
-      $r->prependRoute('a_media_index_type', new sfRoute('/media/:type', array(
+      $r->prependRoute('a_media_index_type', new aRoute('/:type', array(
         'module' => 'aMedia',
         'action' => 'index'
       ), array('type' => '(image|video)')));
       
-      $r->prependRoute('a_media_index_tag', new sfRoute('/media/tag/:tag', array(
+      $r->prependRoute('a_media_index_category', new aRoute('/category/:category', array(
+        'module' => 'aMedia',
+        'action' => 'index'
+      ), array('category' => '.*')));
+      
+      $r->prependRoute('a_media_index_tag', new aRoute('/tag/:tag', array(
         'module' => 'aMedia',
         'action' => 'index'
       ), array('tag' => '.*')));
-            
-      $r->prependRoute('a_media_index_type_tag', new sfRoute('/media/:type/tag/:tag', array(
-        'module' => 'aMedia',
-        'action' => 'index'
-      ), array('type' => '(image|video)', 'tag' => '.*')));
-      
-      // APIs
-      $r->prependRoute('a_media_select', new sfRoute('/media/select', array(
+
+      $r->prependRoute('a_media_select', new aRoute('/select', array(
+        'class' => 'aRoute',
         'module' => 'aMedia',
         'action' => 'select'
       )));
       
-      $r->prependRoute('a_media_info', new sfRoute('/media/info', array(
-        'module' => 'aMedia',
+      $r->prependRoute('a_media_info', new sfRoute('/info', array(
+        'module' => 'aMediaBackend',
         'action' => 'info'
       )));
       
-      $r->prependRoute('a_media_tags', new sfRoute('/media/tags', array(
-        'module' => 'aMedia',
+      $r->prependRoute('a_media_tags', new sfRoute('/tags', array(
+        'module' => 'aMediaBackend',
         'action' => 'tags'
       )));
       
-      $r->prependRoute('a_media_upload_images', new sfRoute('/media/uploadImages', array(
+      $r->prependRoute('a_media_upload_images', new aRoute('/uploadImages', array(
         'module' => 'aMedia',
         'action' => 'uploadImages'
       )));
       
-      $r->prependRoute('a_media_edit_images', new sfRoute('/media/editImages', array(
+      $r->prependRoute('a_media_edit_images', new aRoute('/editImages', array(
         'module' => 'aMedia',
         'action' => 'editImages'
       )));
       
-      $r->prependRoute('a_media_new_video', new sfRoute('/media/newVideo', array(
+      $r->prependRoute('a_media_new_video', new aRoute('/newVideo', array(
         'module' => 'aMedia',
         'action' => 'newVideo'
       )));
       
-      $r->prependRoute('a_media_edit_video', new sfRoute('/media/editVideo', array(
+      $r->prependRoute('a_media_edit_video', new aRoute('/editVideo', array(
         'module' => 'aMedia',
         'action' => 'editVideo'
       )));

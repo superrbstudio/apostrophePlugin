@@ -12,9 +12,6 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
   public function setup()
   {
     parent::setup();
-    unset($this['shows_list']);
-    unset($this['a_media_item_list']);
-    unset($this['a_media_show_list']);
     unset($this['created_at']);
     unset($this['updated_at']);
     unset($this['owner_id']);

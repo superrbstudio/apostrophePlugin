@@ -1,0 +1,35 @@
+100% API free (you can enable the API for use by other projects etc. but it's off by default and our slots never use it etc.)
+Migration code added to the apostrophe:migrate-data-from-pkcontextcms task to handle this change. It's safe to run on a previously migrated site
+Tomorrow I'll try to turn the media plugin into an engine if I can do it swiftly. If not I'll merge with this and then look at that as a separate project
+
+--This line, and those below, will be ignored--
+
+_M   .
+M    lib/helper/aHelper.php
+M    lib/navigation/aNavigationBreadcrumb.class.php
+M    lib/navigation/aNavigationTabs.class.php
+D    lib/navigation/aNavigationItem.php
+M    lib/navigation/aNavigation.class.php
+D    lib/navigation/aNavigationTree.class.php
+A  + lib/navigation/aNavigationAccordion.class.php
+M    lib/task/apostropheMigratedatafrompkcontextcmsTask.class.php
+M    lib/form/aPageSettingsForm.class.php
+D    lib/filter/base
+M    lib/base/BaseaActions.class.php
+M    modules/a/templates/layout.php
+M    modules/a/templates/homeTemplate.php
+A  + modules/aNavigation
+A  + modules/aNavigation/actions
+A  + modules/aNavigation/actions/components.class.php
+A  + modules/aNavigation/templates
+A  + modules/aNavigation/templates/_accordion.php
+A  + modules/aNavigation/templates/_breadcrumb.php
+A  + modules/aNavigation/templates/_tabs.php
+M    data/fixtures/seed_data.yml
+A  + web/images/a-icon-arrow-left-thin.png
+M    web/css/a.css
+M    web/css/aToolkit.css
+M    web/js/aUI.js
+M    web/js/fckeditor/fckconfig.js
+M    README
+M    config/doctrine/schema.yml

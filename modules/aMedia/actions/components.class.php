@@ -25,6 +25,12 @@ class aMediaComponents extends sfComponents
       $this->selectedTag = $tag;
       $params['tag'] = $tag;
     }
+    $categorySlug = aMediaTools::getSearchParameter('category');
+    if (strlen($categorySlug))
+    {
+      $this->selectedCategory = Doctrine::getTable('aMediaCategory')->findOneBySlug($categorySlug);
+      $params['category'] = $categorySlug;
+    }
     $search = aMediaTools::getSearchParameter('search');
     if (strlen($search))
     {
@@ -55,6 +61,7 @@ class aMediaComponents extends sfComponents
     $this->type = aMediaTools::getSearchParameter('type');
     $this->tag = aMediaTools::getSearchParameter('tag');
     $this->search = aMediaTools::getSearchParameter('search');
+    $this->categorySlug = aMediaTools::getSearchParameter('category');
     $this->crumbs = array();
     // I tried calling I18N here but that requires enabling
     // I18N for every project which the I18N helper does not...
@@ -75,17 +82,23 @@ class aMediaComponents extends sfComponents
         "label" => $this->type,
         "link" => aUrl::addParams("aMedia/index", array("type" => $this->type)));
     }
+    if ($this->categorySlug)
+    {
+      $this->crumbs[] = array(
+        "label" => $this->category,
+        "link" => aUrl::addParams("aMedia/index", array('type' => $this->type, "category" => $this->categorySlug)));
+    }
     if ($this->tag)
     {
       $this->crumbs[] = array(
         "label" => htmlspecialchars($this->tag),
-        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, "tag" => $this->tag))); 
+        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag))); 
     }
     if ($this->search)
     {
       $this->crumbs[] = array(
         "label" => htmlspecialchars($this->search),
-        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, "tag" => $this->tag, "search" => $this->search)));
+        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag, "search" => $this->search)));
     }
     if (isset($this->item))
     {

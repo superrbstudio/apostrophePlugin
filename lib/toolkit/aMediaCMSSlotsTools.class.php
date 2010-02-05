@@ -7,12 +7,13 @@ class aMediaCMSSlotsTools
   // apostrophePluginConfiguration class for the registration of the event listener.
   static public function getGlobalButtons()
   {
+    $mediaEnginePage = aPageTable::retrieveBySlug('/admin/media');
     // Only if we have suitable credentials
     $user = sfContext::getInstance()->getUser();
     if ($user->hasCredential('media_admin') || $user->hasCredential('media_upload'))
     {
       aTools::addGlobalButtons(array(
-        new aGlobalButton('Media', 'aMedia/index', 'a-media')));
+        new aGlobalButton('Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
     }
   }
 }

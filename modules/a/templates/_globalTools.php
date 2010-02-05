@@ -21,20 +21,26 @@ These are mostly links to independent modules.
 
   <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
 
-  	<?php //The Apostrophe ?>
+  	<?php // The Apostrophe ?>
   	<li class="a-global-toolbar-apostrophe">
   		<?php echo jq_link_to_function('Apostrophe Now','',array('id' => 'the-apostrophe', )) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
   			<?php $buttons = aTools::getGlobalButtons() ?>
   			<?php foreach ($buttons as $button): ?>
+  			  <?php if ($button->getTargetEnginePage()): ?>
+  			    <?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
+  			  <?php endif ?>
   			  <li><?php echo link_to($button->getLabel(), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
   			<?php endforeach ?>
   			<li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel', )) ?></li>					
   		</ul>
   	</li>
 
-  	<?php //Breadcrumb ?>
-  	<?php if (aTools::getCurrentPage()): ?>
+  	<?php // Breadcrumb ?>
+  	<?php $page = aTools::getCurrentPage() ?>
+  	<?php // If this is an admin page don't try to present navigation relative to it ?>
+    <?php $page = $page->admin ? null : $page ?>
+  	<?php if ($page): ?>
 	  	<li class="a-global-toolbar-breadcrumb">
 	  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
 	  	</li>
@@ -101,3 +107,4 @@ These are mostly links to independent modules.
 <?php endif ?>
 
 <div class="a-page-overlay"></div>
+

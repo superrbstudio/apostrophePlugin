@@ -330,7 +330,11 @@ class PluginaPageTable extends Doctrine_Table
   
   // Used when generating an engine link from a page other than the engine page itself.
   // Many engines are only placed in one location per site, so this is often reasonable.
-  // Cache this for acceptable performance
+  // Cache this for acceptable performance. Admin pages match first to ensure that the
+  // Apostrophe menu always goes to the right place. If you have a public version of the same
+  // engine and you want to link to it via link_to(), target it explicitly, see
+  // aRouteTools::pushTargetEnginePage()
+  
   static public function getFirstEnginePage($engine)
   {
     if (isset(self::$engineCacheFirstEnginePages[$engine]))

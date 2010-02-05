@@ -42,6 +42,7 @@
 <li class="a-media-item-dimensions a-media-item-meta"><span>Original Dimensions:</span> <?php echo $mediaItem->getWidth(); ?>x<?php echo $mediaItem->getHeight(); ?></li>
 <li class="a-media-item-createdat a-media-item-meta"><span>Uploaded:</span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
 <li class="a-media-item-credit a-media-item-meta"><span>Credit:</span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
+<li class="a-media-categories a-media-item-meta"><span>Categories:</span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
 <li class="a-media-item-tags a-media-item-meta"><span>Tags:</span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
 
 <?php if ($mediaItem->getType() === 'pdf'): ?>

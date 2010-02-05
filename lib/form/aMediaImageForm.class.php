@@ -53,6 +53,7 @@ class aMediaImageForm extends aMediaItemForm
     $this->widgetSchema->setNameFormat('a_media_item[%s]');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
     
+    $this->widgetSchema->setLabel('media_categories_list', 'Categories');
   }
   
   public function updateObject($values = null)

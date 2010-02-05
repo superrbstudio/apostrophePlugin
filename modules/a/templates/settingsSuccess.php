@@ -29,11 +29,6 @@
 			    <?php echo $form['slug']->renderError() ?>
 			  </div>
 			<?php endif ?>
-			<div class="a-form-row engine">
-			  <label>Page Engine</label>
-			  <?php echo $form['engine']->render(array('onClick' => 'aUpdateEngineAndTemplate()')) ?>
-			  <?php echo $form['engine']->renderError() ?>
-			</div>
 			<div class="a-form-row template" id="a-page-template">
 			  <label>Page Template</label>
 			  <?php echo $form['template'] ?>
@@ -75,6 +70,17 @@
 			</div>
   </div>
 	
+	<div class="a-form-row engine">
+	  <label>Page Engine</label>
+	  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
+	  <?php echo $form['engine']->renderError() ?>
+	</div>
+	<div id="a_settings_engine_settings">
+	  <?php if (isset($engineSettingsPartial)): ?>
+	    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
+    <?php endif ?>
+	</div>
+	
 	<ul id="a-page-settings-footer" class="a-controls a-page-settings-form-controls">
 		<li>
 		  <input type="submit" name="submit" value="Save Changes" class="a-submit" id="a-page-settings-submit" />
@@ -105,13 +111,19 @@
 <script type="text/javascript" charset="utf-8">
 	function aUpdateEngineAndTemplate()
 	{
-	  if (!$('#a_settings_settings_engine').val().length)
+	  var val = $('#a_settings_settings_engine').val();
+	  if (!val.length)
 	  {
 	    $('#a_settings_settings_template').show();
+	    $('#a_settings_engine_settings').html('');
 	  }
 	  else
 	  {
 	    $('#a_settings_settings_template').hide();
+	    <?php // AJAX replace engine settings form as needed ?>
+	    $.get(<?php echo json_encode(url_for('a/engineSettings')) ?>, { id: <?php echo $page->id ?>, engine: val }, function(data) {
+  	    $('#a_settings_engine_settings').html(data);
+	    });
 	  }
 	}
 	aUpdateEngineAndTemplate();

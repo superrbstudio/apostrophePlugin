@@ -1378,15 +1378,15 @@ only the updated slot.
 
 ## Adding New Global Admin Buttons to the Top Bar ##
 
-When a user with admin privileges is logged in, a bar appears at the top of each page offering links to useful facilities such as the sfGuardUser admin module. Other plugins such as `apostrophePlugin` extend this button bar with additional links. You can add links of your own.
+When a user with editing privileges is logged in and visiting a page for which they have such privileges, a bar appears at the top of each page offering links to appropriate administrative features. Admins will see a button offering access to the sfGuardUser admin module. Editors in general will have access to the media module. You can add links of your own.
 
 First provide a static method in a class belonging to your own plugin or application-level code which invokes `aTools::addGlobalButtons` to add one or more buttons to the bar:
 
     class aMediaCMSSlotsTools
     {
-      // You too can do this in a plugin dependent on a, see 
-      // the provided stylesheetfor how to correctly specify an icon to go 
-      // with your button. See theapostrophePluginConfiguration class for the 
+      // You too can do this in a plugin dependent on apostrophePlugin, see 
+      // the provided stylesheet for how to correctly specify an icon to go 
+      // with your button. See the apostrophePluginConfiguration class for the 
       // registration of the event listener.
       static public function getGlobalButtons()
       {
@@ -1399,6 +1399,22 @@ The first argument to the `aGlobalButton` constructor is the label of the button
 is the action (in your own code, typically). And the third is a CMS class to be added to the button,
 which is typically used to supply your own icon and a left offset for the image to
 reside in.
+
+If your own plugin, like our media system, implements its administrative page as an apostrophe CMS engine page under `/admin` and also might have engine pages elsewhere on the site, you'll want to make sure your button targets the "official" version. You can do that by providing the right engine page as a fourth argument to the aGlobalButton constructor:
+
+		static public function getGlobalButtons()
+		{
+		  $mediaEnginePage = aPageTable::retrieveBySlug('/admin/media');
+		  // Only if we have suitable credentials
+		  $user = sfContext::getInstance()->getUser();
+		  if ($user->hasCredential('media_admin') || $user->hasCredential('media_upload'))
+		  {
+		    aTools::addGlobalButtons(array(
+		      new aGlobalButton('Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
+		  }
+		}
+
+For more information see "Engines: Grafting Symfony Modules Into the CMS Page Tree" below.
 
 Now, in your plugin or project's `config/config.php` or in the initialize method of your plugin or project's configuration class, make the following call to register interest in the event:
 
@@ -1415,7 +1431,7 @@ The bar at the top of each page will now feature your additional button or butto
 
 Suitably coded Symfony modules can now be grafted into the page tree at any point in a flexible way that allows admins to switch any page from operating as a normal template page to operating as an engine page, with all URLs beginning with that page slug remapped to the actions of the engine module. When the engine page is moved within the site, all of the virtual "pages" associated with the actions of the module move as well.
 
-*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they stillallow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
+*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they still allow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
 
 Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute and aDoctrineRoute classes.
 

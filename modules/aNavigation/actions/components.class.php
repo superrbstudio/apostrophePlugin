@@ -23,7 +23,7 @@ class aNavigationComponents extends sfComponents
     $this->root = isset($this->root)? $this->root : '/';
     $this->active = isset($this->active)? $this->active : $this->root;
     
-    $this->seperator = isset($this->seperator)? $this->seperator : ' > ';
+    $this->separator = isset($this->separator)? $this->separator : ' > ';
     $this->navigation = new aNavigationBreadcrumb($this->root, $this->active, $this->options);
     $this->nav = $this->navigation->getNav();
   }

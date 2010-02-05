@@ -72,6 +72,8 @@
       <?php echo $form['view_is_secure']->renderRow() ?>
     </div>
 
+    <div class="form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
+
     <div class="form-row about-tags">
     Tags should be separated by commas. Example: student life, chemistry, laboratory
     </div>

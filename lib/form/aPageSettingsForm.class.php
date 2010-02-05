@@ -9,6 +9,21 @@ class aPageSettingsForm extends aPageForm
 {
   public function configure()
   {
+    // We must explicitly limit the fields because otherwise tables with foreign key relationships
+    // to the pages table will extend the form whether it's appropriate or not. If you want to do
+    // those things on behalf of an engine used in some pages, define a form class called
+    // enginemodulenameEngineForm. It will automatically be instantiated with the engine page
+    // as an argument to the constructor, and rendered beneath the main page settings form.
+    // On submit, it will be bound to the parameter name that begins its name format and, if valid,
+    // saved consecutively after the main page settings form. The form will be rendered via
+    // the _renderPageSettingsForm partial in your engine module, which must exist, although it
+    // can be as simple as echo $form. (Your form is passed to the partial as $form.)
+    // 
+    // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
+    // to one-to-many relations in embedded forms.
+    
+    $this->useFields(array('slug', 'template', 'engine', 'archived', 'view_is_secure'));
+    
     unset(
       $this['author_id'],
       $this['deleter_id'],
