@@ -242,25 +242,33 @@ machine pk_writable is renamed to a_writable automatically.\n");
     
     $home = aPageTable::retrieveBySlug('/');
     
-    $admin = new aPage();
-    $admin->setSlug('/admin');
-    $admin->setAdmin(true);
-    $admin->getNode()->insertAsFirstChildOf($home);
-    $admin->save();
-    $admin->setEngine('aAdmin');
-    // Must save the page BEFORE we call setTitle, which has the side effect of
-    // refreshing the page object
-    $admin->setTitle('Admin');
+    $admin = aPageTable::retrieveBySlug('/admin');
+
+    if (!$admin)
+    {
+      $admin = new aPage();
+      $admin->setSlug('/admin');
+      $admin->setAdmin(true);
+      $admin->getNode()->insertAsFirstChildOf($home);
+      $admin->save();
+      $admin->setEngine('aAdmin');
+      // Must save the page BEFORE we call setTitle, which has the side effect of
+      // refreshing the page object
+      $admin->setTitle('Admin');
+    }
     
-    $page = new aPage();
-    $page->setSlug('/admin/media');
-    $page->setAdmin(true);
-    $page->getNode()->insertAsLastChildOf($admin);
-    $page->setEngine('aMedia');
-    $page->save();
-    // Must save the page BEFORE we call setTitle, which has the side effect of
-    // refreshing the page object
-    $page->setTitle('Media');  
-    
+    $page = aPageTable::retrieveBySlug('/admin/media');
+    if (!$page)
+    {
+      $page = new aPage();
+      $page->setSlug('/admin/media');
+      $page->setAdmin(true);
+      $page->getNode()->insertAsLastChildOf($admin);
+      $page->setEngine('aMedia');
+      $page->save();
+      // Must save the page BEFORE we call setTitle, which has the side effect of
+      // refreshing the page object
+      $page->setTitle('Media');  
+    }
   }
 }
