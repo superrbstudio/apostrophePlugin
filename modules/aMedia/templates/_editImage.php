@@ -46,6 +46,7 @@
 		
 		<div class="form-row credit"><?php echo $form['credit']->renderRow() ?></div>
 
+    <div class="form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
     <div class="form-row tags help">
     Tags should be separated by commas. Example: student life, chemistry, laboratory
     </div>

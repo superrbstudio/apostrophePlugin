@@ -379,7 +379,7 @@ Note that the breadcrumb trail appears on the home page only when
 logged in with editing privileges. On sub-pages the breadcrumb
 trail always appears.
 
-a emphasizes "turning off" pages as the preferred way
+Apostrophe emphasizes "turning off" pages as the preferred way
 of "almost" deleting them because it is not permanent.
 Anonymous users, and users who do not
 have editing privileges on the page, will see the usual 404 Not Found error.
@@ -403,6 +403,8 @@ CMS slots can be of several types:
 
 * Plaintext slots (single line or multiline)
 * Rich text slots (edited via FCK)
+* Raw HTML slots (best avoided in good designs, but useful when you must paste raw embed codes)
+* Media slots (image, slideshow, video, PDF, button)
 * Custom slots (of any type, implemented as described later)
 
 Once you have logged in, you'll see each editable slot outlined
@@ -873,37 +875,15 @@ change this with the following `app.yml` setting:
 
 ### Refreshing Slots ###
 
-Most slots are self-contained: they contain all of the information needed to render them, with no references to an external site. However, for efficiency reasons, some slots do contain metadata such as static image URLs pointing to an external site and do not attempt to refresh that data on every single page load. Our media slots are a good example of this.
+As of 02/02/2010 this is no longer necessary for any of our internal slot types. However, if your custom slot types contain metadata that should be refreshed nightly, you might wish to take advantage of the `apostrophe:refresh` task, which updates all current slots by calling their `refreshSlot()` method:
 
-Such slots always contain enough information to update themselves in response to the a:refresh task:
+		./symfony apostrophe:refresh --env=prod --application=frontend
 
-		./symfony a:refresh --env=prod --application=frontend
+Again, currently our own media slots do not require the use of this task. Thanks to architectural improvements deleting an item from the media plugin immediately updates the related slots. In future we may implement a handshake with YouTube via this task to check whether video slots are still pointing to valid videos.
 
-It's a good idea to run that task every day or so via a cron job if you are using our CMS with our media plugin and its supporting slots. 
+For performance reasons this task only looks at the latest version of each slot. You can use the `--allversions` option to specify that older versions of slots should be refreshed as well:
 
-For performance reasons this task only looks at the latest version of each slot. If you are carrying out a one-time transition such as moving from development to production and you know that all of your frontend controller URLs have changed as a result, you can use the `--allversions` option to specify that older versions of slots should be refreshed as well:
-
-		./symfony a:refresh --env=prod --application=frontend --allversions
-
-If you are implementing custom slot types that have a need to participate in the refresh task (see below for more information about custom slot types), just implement a public `refreshSlot` method in those slot classes. This method takes no arguments and returns nothing. 
-
-IMPORTANT: command line Symfony tasks have no idea what the hostname of the site is, which is a problem for tasks like a:refresh. If you are using this task with our media slots, you will need to tell Symfony what the hostname of your site is, or what the hostname of the media plugin site is (if they are different). In most cases the CMS site and the media plugin site are one and the same.
-
-As far as our plugins are concerned, the simplest way to tell Symfony the hostname of the site is to set:
-
-all:
-  cli:
-    host: www.mysite.com
-
-(You can specify different settings for different environments of course.)
-
-If you want to specify the location of the media server only, you can do that this way:
-
-all:
-  aMedia:
-    client_site: media.mysite.com
-
-(See the media plugin README for more information about setting up a media server on a separate site.)
+		./symfony apostrophe:refresh --env=prod --application=frontend --allversions
 
 ## Creating Custom Slot Types ##
 
@@ -960,10 +940,10 @@ see the excellent Doctrine documentation.
 *Yes, you can have custom columns in the database for your type.*
 A plaintext slot doesn't need them because the `value` column works
 well for storing its contents. But you can add whatever columns
-suit your purposes. For example, a `aContextYoutube` slot type might
+suit your purposes. For example, a `aYoutube` slot type might
 have a model class schema like this:
 
-    aContextYoutubeSlot:
+    aYoutubeSlot:
       inheritance:
         extends: aSlot
         type: column_aggregation
@@ -1338,25 +1318,28 @@ or POSTing a form to a URL constructed like this:
         "noajax" => 1)))
 
 The easiest way to accomplish this is to pass the complete edit-action
-URL as a parameter when linking to your external editor. This code
-demonstrates how we do it for our own aContextMediaSlot, which
-integrates with apostrophePlugin without the need for any 
-CMS-specific code in apostrophePlugin:
+URL as a parameter when linking to your external editor. See modules/aImageSlot/templates/_normalView.php and modules/aImageSlot/templates/_choose.php for an example of how we do this for our own media slots:
 
-    <?php if ($editable): ?>
-      <?php echo link_to('Choose media',
-        sfConfig::get('app_media_site', false) . "aMedia/select?" .
-          http_build_query(
-            array("multiple" => true,
-            "after" => url_for("aMedia/edit?" .
-              http_build_query(
-                array(
-                  "name" => $name,
-                  "slug" => $slug,
-                  "permid" => $permid,
-                  "noajax" => 1))))),
-        array('class' => 'a-context-button')) ?>
-    <?php endif ?>
+		<?php $after = url_for($action) . "?" .
+		  http_build_query(
+		    array(
+		      "slot" => $name, 
+		      "slug" => $slug, 
+		      "actual_slug" => aTools::getRealPage()->getSlug(),
+		      "permid" => $permid,
+		      "noajax" => 1)) ?>
+		<?php echo link_to($buttonLabel,
+		  'aMedia/select',
+		  array('query_string' =>
+		    http_build_query(
+		      array_merge(
+		        $constraints,
+		        array(
+		        "aMediaId" => $itemId,
+		        "type" => $type,
+		        "label" => $label,
+		        "after" => $after))),
+		      'class' => $class)) ?>
 
 Note the use of the `noajax` parameter. This suppresses the 
 usual "refresh the slot without refreshing the whole page" behavior,
@@ -1388,15 +1371,15 @@ only the updated slot.
 
 ## Adding New Global Admin Buttons to the Top Bar ##
 
-When a user with admin privileges is logged in, a bar appears at the top of each page offering links to useful facilities such as the sfGuardUser admin module. Other plugins such as `apostrophePlugin` extend this button bar with additional links. You can add links of your own.
+When a user with editing privileges is logged in and visiting a page for which they have such privileges, a bar appears at the top of each page offering links to appropriate administrative features. Admins will see a button offering access to the sfGuardUser admin module. Editors in general will have access to the media module. You can add links of your own.
 
 First provide a static method in a class belonging to your own plugin or application-level code which invokes `aTools::addGlobalButtons` to add one or more buttons to the bar:
 
     class aMediaCMSSlotsTools
     {
-      // You too can do this in a plugin dependent on a, see 
-      // the provided stylesheetfor how to correctly specify an icon to go 
-      // with your button. See theapostrophePluginConfiguration class for the 
+      // You too can do this in a plugin dependent on apostrophePlugin, see 
+      // the provided stylesheet for how to correctly specify an icon to go 
+      // with your button. See the apostrophePluginConfiguration class for the 
       // registration of the event listener.
       static public function getGlobalButtons()
       {
@@ -1409,6 +1392,22 @@ The first argument to the `aGlobalButton` constructor is the label of the button
 is the action (in your own code, typically). And the third is a CMS class to be added to the button,
 which is typically used to supply your own icon and a left offset for the image to
 reside in.
+
+If your own plugin, like our media system, implements its administrative page as an apostrophe CMS engine page under `/admin` and also might have engine pages elsewhere on the site, you'll want to make sure your button targets the "official" version. You can do that by providing the right engine page as a fourth argument to the aGlobalButton constructor:
+
+		static public function getGlobalButtons()
+		{
+		  $mediaEnginePage = aPageTable::retrieveBySlug('/admin/media');
+		  // Only if we have suitable credentials
+		  $user = sfContext::getInstance()->getUser();
+		  if ($user->hasCredential('media_admin') || $user->hasCredential('media_upload'))
+		  {
+		    aTools::addGlobalButtons(array(
+		      new aGlobalButton('Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
+		  }
+		}
+
+For more information see "Engines: Grafting Symfony Modules Into the CMS Page Tree" below.
 
 Now, in your plugin or project's `config/config.php` or in the initialize method of your plugin or project's configuration class, make the following call to register interest in the event:
 
@@ -1425,7 +1424,7 @@ The bar at the top of each page will now feature your additional button or butto
 
 Suitably coded Symfony modules can now be grafted into the page tree at any point in a flexible way that allows admins to switch any page from operating as a normal template page to operating as an engine page, with all URLs beginning with that page slug remapped to the actions of the engine module. When the engine page is moved within the site, all of the virtual "pages" associated with the actions of the module move as well.
 
-*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they stillallow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
+*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they still allow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
 
 Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute and aDoctrineRoute classes.
 
@@ -1606,9 +1605,6 @@ root (required) - This is the root slug of the page the breadcrumb should begin 
 active (required) - This is the last element that the navigation should descend to
 separator (optional) - The separator to use between items, defaults to " > "
 name (required) - the unique name of the navigation element for your template.
-
-
-## Support ##
 
 You can obtain support for Apostrophe via the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). 
 

@@ -10,12 +10,6 @@ image:
 show:
   is_secure: false
 
-original:
-  is_secure: false
-
-info:
-  is_secure: false
-
 tags:
   is_secure: false
   

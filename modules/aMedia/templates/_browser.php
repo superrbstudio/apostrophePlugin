@@ -1,3 +1,9 @@
+<?php // Entire media browser goes into what would otherwise be the regular apostrophe subnav ?>
+<?php slot('a-subnav') ?>
+
+<?php // Media is now an engine, so there's a page ?>
+<?php $page = aTools::getCurrentPage() ?>
+
 <?php // For backwards compatibility reasons it is best to implement these as before and after partials ?>
 <?php // rather than a wrapper partial. If we use a wrapper that passes on each variable individually to an inner partial, ?>
 <?php // it will break as new variables are added. If we had used a single $params array as the only variable ?>
@@ -23,19 +29,38 @@
 
 	  	<h3>Media Types</h3>
 
-		  <ul class="a-media-filter-options">
-				<?php $type = isset($type) ? $type : '' ?>
-				<li class="a-media-filter-option">
-					<?php echo link_to('Image', aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
-				</li>
-				<li class="a-media-filter-option">
-					<?php echo link_to('Video', aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
-				</li>
-				<li class="a-media-filter-option">
-					<?php echo link_to('PDF', aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
-				</li>
-		  </ul>
+    <?php // If an engine page is locked down to one category, don't show a category browser. ?>
+    <?php // Also don't bother if all categories are empty ?>
+    <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
+    <?php if (count($categoriesInfo)): ?>
+    	<h3>Categories</h3>
+      <div class="a-category-sidebar">
+   		  <?php if (isset($selectedCategory)): ?>
+   				<h4 class="a-category-sidebar-title selected-category">Selected Category</h4>  
+   	    	<ul class="a-category-sidebar-selected-categories">
+   	        <li class="selected">
+   						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
+   	        </li>
+   	    	</ul>
+        <?php endif ?>
 
+       	<ul class="a-category-sidebar-list">
+         	<?php foreach ($categoriesInfo as $categoryInfo): ?>
+   	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
+   	      <?php endforeach ?>
+       	</ul>    
+      </div>
+    <?php endif ?>
+    
+    <?php if ($sf_user->hasCredential('media_admin')): ?>
+    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
+    	<?php // not an individual media item or engine page. ?>
+    	<?php // See the _editCategories partial ?>
+    	<?php echo jq_link_to_remote('Edit Categories', array('url' => url_for('aMedia/editCategories'), 'update' => 'a-media-edit-categories'), array('class' => 'a-btn', 'id' => 'a-media-edit-categories-button')) ?>
+    	<?php // AJAX goodness warps into our universe here ?>
+      <div id="a-media-edit-categories"></div>
+    <?php endif ?>
+    
 			<div class="a-tag-sidebar">
 
 			 <?php if (isset($selectedTag)): ?>
@@ -112,3 +137,6 @@
 </script>
 
 <?php include_partial('aMedia/browserAfter') ?>
+
+<?php end_slot() ?>
+

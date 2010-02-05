@@ -148,6 +148,10 @@ class PluginaPageTable extends Doctrine_Table
   // queries such as the implementation of the a:refresh task and will not 
   // work as expected for page rendering purposes. Normally you never fetch all culture slots
   // at once
+  
+  // Also brings in related media objects since the assumption is that you are actually
+  // rendering a page. See queryWithTitles and, better yet, the getChildrenInfo() method
+  // and its relatives for efficient ways to find out information about other pages quickly
 
   static public function queryWithSlots($version = false, $culture = null)
   {
@@ -156,7 +160,7 @@ class PluginaPageTable extends Doctrine_Table
       $culture = aTools::getUserCulture();
     }
     $query = Doctrine_Query::Create()->
-      select("p.*, a.*, v.*, avs.*, s.*")->
+      select("p.*, a.*, v.*, avs.*, s.*, m.*")->
       from("aPage p");
     if ($culture === 'all')
     {
@@ -178,6 +182,7 @@ class PluginaPageTable extends Doctrine_Table
     }
     return $query->leftJoin('v.AreaVersionSlots avs')->
       leftJoin('avs.Slot s')->
+      leftJoin('s.MediaItems m')->
       orderBy('avs.rank asc');
   }
   
@@ -325,7 +330,11 @@ class PluginaPageTable extends Doctrine_Table
   
   // Used when generating an engine link from a page other than the engine page itself.
   // Many engines are only placed in one location per site, so this is often reasonable.
-  // Cache this for acceptable performance
+  // Cache this for acceptable performance. Admin pages match first to ensure that the
+  // Apostrophe menu always goes to the right place. If you have a public version of the same
+  // engine and you want to link to it via link_to(), target it explicitly, see
+  // aRouteTools::pushTargetEnginePage()
+  
   static public function getFirstEnginePage($engine)
   {
     if (isset(self::$engineCacheFirstEnginePages[$engine]))

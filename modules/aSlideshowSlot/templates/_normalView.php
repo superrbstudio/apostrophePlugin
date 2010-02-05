@@ -9,23 +9,25 @@
   <?php slot("a-slot-controls-$name-$permid") ?>
     <li class="a-controls-item choose-images">
     <?php echo link_to('Choose images',
-      sfConfig::get('app_aMedia_client_site', false) . "/media/select?" .
-        http_build_query(
-          array_merge(
-            $options['constraints'],
-            array("multiple" => true,
-            "aMediaIds" => implode(",", $itemIds),
-            "type" => "image",
-            "label" => "Create a Slideshow",
-            "after" => url_for("aSlideshowSlot/edit") . "?" . 
-              http_build_query(
-                array(
-                  "slot" => $name, 
-                  "slug" => $slug, 
-                  "permid" => $permid,
-                  "actual_slug" => aTools::getRealPage()->getSlug(),
-                  "noajax" => 1)), true))),
-      array('class' => 'a-btn icon a-media')) ?>
+      'aMedia/select',
+      array(
+        'query_string' => 
+          http_build_query(
+            array_merge(
+              $options['constraints'],
+              array("multiple" => true,
+              "aMediaIds" => implode(",", $itemIds),
+              "type" => "image",
+              "label" => "Create a Slideshow",
+              "after" => url_for("aSlideshowSlot/edit") . "?" . 
+                http_build_query(
+                  array(
+                    "slot" => $name, 
+                    "slug" => $slug, 
+                    "permid" => $permid,
+                    "actual_slug" => aTools::getRealPage()->getSlug(),
+                    "noajax" => 1))))),
+        'class' => 'a-btn icon a-media')) ?>
     </li>
   <?php end_slot() ?>
 <?php endif ?>

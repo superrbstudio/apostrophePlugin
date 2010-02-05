@@ -243,6 +243,10 @@ abstract class PluginaPage extends BaseaPage
         {
           $slot = $areaVersionSlot->Slot;
           $this->slotCache[$this->culture][$area->name][$areaVersionSlot->permid] = $slot;
+          // foreach ($slot->MediaItems as $mediaItem)
+          // {
+          //   echo($mediaItem->id . ',');
+          // }
         }
       }
     }
@@ -481,6 +485,11 @@ abstract class PluginaPage extends BaseaPage
       $dead = array();
       foreach ($children as $child)
       {
+        if ($child->admin)
+        {
+          // Never show admin pages in navigation
+          continue;
+        }
         if ($child->archived)
         {
           $dead[] = $child;
@@ -532,7 +541,9 @@ abstract class PluginaPage extends BaseaPage
     if (!isset($this->ancestorsInfo))
     {
       $id = $this->id;
-      $this->ancestorsInfo = $this->getPagesInfo(false, '( p.lft < ' . $this->lft . ' AND p.rgt > ' . $this->rgt . ' )');
+      // Since our presence on an admin page implies we know about it, it's OK to include
+      // admin pages in the breadcrumb. It's not OK in other navigation
+      $this->ancestorsInfo = $this->getPagesInfo(false, '( p.lft < ' . $this->lft . ' AND p.rgt > ' . $this->rgt . ' )', true);
     }
     return $this->ancestorsInfo;
   }
@@ -817,7 +828,7 @@ abstract class PluginaPage extends BaseaPage
   // This is the low level query method used to implement the above. You won't call this directly
   // unless you're implementing a new type of query for related pages
   
-  protected function getPagesInfo($livingOnly = true, $where)
+  protected function getPagesInfo($livingOnly = true, $where, $admin = false)
   {
     // Raw PDO for performance
     $connection = Doctrine_Manager::connection();
@@ -835,6 +846,11 @@ abstract class PluginaPage extends BaseaPage
       // = FALSE is not SQL92 correct. IS FALSE is. And so it works in SQLite. Learn something
       // new every day. 
       $whereClauses[] = '(p.archived IS FALSE OR p.archived IS NULL)';
+    }
+    // admin pages are almost never visible in navigation
+    if (!$admin)
+    {
+      $whereClauses[] = '(p.admin IS FALSE)';
     }
     // Pay attention to the current culture. Thanks to virtualize
     $whereClauses[] =  '(a.culture = ' . $connection->quote($this->getCulture()) . ')';
@@ -1289,4 +1305,32 @@ abstract class PluginaPage extends BaseaPage
     return $peers;
   }
   
+  public function getMediaCategoriesInfo()
+  {
+    // Returns an array of info about media categories that are appropriate to display in the
+    // media browser for the current engine page. They are sorted in alphabetical order by name,
+    // with a media item count included as well
+    
+    // TODO: I can probably cut this down to fewer queries
+    
+    // Only related categories, unless this engine has none, in which case we return all categories
+    $categories = Doctrine::getTable('aMediaCategory')->createQuery('mc')->innerJoin('mc.Pages p WITH p.id = ?', $this->id)->orderBy('mc.name ASC')->execute();
+    if (!count($categories))
+    {
+      return Doctrine::getTable('aMediaCategory')->findAllAlphaInfo();
+    }
+    $ids = aArray::getIds($categories);
+    $qresults = Doctrine_Query::create()->from('aMediaCategory mc')->select('mc.name, mc.slug, COUNT(mi.id) as mc_count')->whereIn('mc.id', $ids)->innerJoin('mc.MediaItems mi')->groupBy('mc.id')->orderBy('mc.name asc')->fetchArray();
+    $info = array();
+    foreach ($qresults as $qresult)
+    {
+      $info[] = array('name' => $qresult['name'], 'slug' => $qresult['slug'], 'count' => $qresult['mc_count']);
+    }
+    if (count($categories) == 1)
+    {
+      // Selecting amongst just one category is not interesting
+      return array();
+    }
+    return $info;
+  } 
 }

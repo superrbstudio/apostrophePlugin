@@ -5,8 +5,6 @@
  */
 abstract class PluginaPDFSlot extends BaseaPDFSlot
 {
-  public function refreshSlot()
-  {
-    return aImageSlot::refreshImageSlot($this);
-  }
+  // We don't need refreshSlot anymore thanks to ON DELETE CASCADE
+  // and the new simplified non-API-driven setup
 }

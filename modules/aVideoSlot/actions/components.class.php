@@ -11,25 +11,32 @@ class aVideoSlotComponents extends BaseaSlotComponents
   public function executeNormalView()
   {
     $this->setup();
-    $this->options['constraints'] = $this->getOption('constraints', array());
-    $this->options['width'] = $this->getOption('width', 320);
-    $this->options['height'] = $this->getOption('height', 240);
-    $this->options['resizeType'] = $this->getOption('resizeType', 's');
-    $this->options['flexHeight'] = $this->getOption('flexHeight');
-    $this->options['title'] = $this->getOption('title');
-    $this->options['description'] = $this->getOption('description');
-    $this->options['credit'] = $this->getOption('credit');
-		
+    $this->constraints = $this->getOption('constraints', array());
+    $this->width = $this->getOption('width', 320);
+    $this->height = $this->getOption('height', 240);
+    $this->resizeType = $this->getOption('resizeType', 's');
+    $this->flexHeight = $this->getOption('flexHeight');
+    $this->defaultImage = $this->getOption('defaultImage');
+    $this->title = $this->getOption('title');
+    $this->description = $this->getOption('description');
     // Behave well if it's not set yet!
-    if (strlen($this->slot->value))
-    {
-      $this->item = unserialize($this->slot->value);
-      $this->itemId = $this->item->id;
-    }
-    else
+    if (!count($this->slot->MediaItems))
     {
       $this->item = false;
       $this->itemId = false;
+    }
+    else
+    {
+      $this->item = $this->slot->MediaItems[0];
+      $this->itemId = $this->item->id;
+      $this->dimensions = aDimensions::constrain(
+        $this->item->width, 
+        $this->item->height,
+        $this->item->format, 
+        array("width" => $this->width,
+          "height" => $this->flexHeight ? false : $this->height,
+          "resizeType" => $this->resizeType));
+      $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
   }
 }

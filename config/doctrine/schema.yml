@@ -1,7 +1,6 @@
-# Borrows extensively from sfSimpleCMS. TBB
-
 # For all tables: use INNODB, which gives us better
 # foreign key handling and support for transactions
+
 options:
   type: INNODB
 
@@ -22,8 +21,16 @@ aPage:
       type: string(100)
     # Must log in to see. (Sometimes with particular credentials, see documentation)
     view_is_secure: boolean
-    # For historical reasons this means "unpublished"
+    # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
     archived: boolean
+    # 'admin' pages are hidden from all normal navigation. They are linked to directly from
+    # the apostrophe menu as needed. This is useful when functionality implemented as an engine
+    # is sometimes user-accessible (sites in which the media area is directly browsable as a tab)
+    # and sometimes not (sites in which the media area is exclusively for site editors).
+    # These pages are never returned by getChildren() or the getXYZInfo() methods.
+    admin: 
+      type: boolean
+      default: false
     author_id:
       type: integer(4)
     deleter_id:
@@ -193,6 +200,12 @@ aSlot:
     value:
       # Allows much larger data than string
       type: clob
+  relations:
+    MediaItems:
+      class: aMediaItem
+      foreign: media_item_id
+      local: slot_id
+      refClass: aSlotMediaItem
 
 aTextSlot:
   options:
@@ -411,7 +424,7 @@ aMediaItem:
       type: boolean
       notnull: true
       default: false
-
+      
   relations:
     Owner:
       class: sfGuardUser
@@ -420,4 +433,110 @@ aMediaItem:
       type: one
       onDelete: set null
       foreignAlias: MediaItems
+    Slots:
+      class: aSlot
+      local: media_item_id
+      foreign: slot_id
+      refClass: aSlotMediaItem
+              
+# A simple relationship between slots and media. Since media are so universal
+# to all of our sites it makes sense to define this relationship in the database 
+# and join with it routinely. The details of the relationship, including
+# rank within a slideshow, are still serialized data in the media slots.
+# Here we just keep what we must have to achieve data integrity and good query performance.
 
+aSlotMediaItem:
+  tableName: a_slot_media_item
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    media_item_id:
+      type: integer(4)
+      primary: true
+    slot_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaItem:
+      local: media_item_id
+      onDelete: CASCADE
+    aSlot:
+      local: slot_id
+      onDelete: CASCADE
+      
+aMediaCategory:
+  tableName: a_media_category
+  actAs:
+    Timestampable: ~
+    Sluggable: ~
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      unique: true
+    description:
+      type: string
+  relations:
+    MediaItems:
+      class: aMediaItem
+      local: media_category_id
+      foreign: media_item_id
+      foreignAlias: MediaCategories
+      refClass: aMediaItemCategory
+    # Used to implement media engine pages dedicated to displaying one or more
+    # specific categories
+    Pages:
+      class: aPage
+      local: media_category_id
+      foreign: page_id
+      foreignAlias: MediaCategories
+      refClass: aMediaPageCategory
+
+
+aMediaItemCategory:
+  tableName: a_media_item_category
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    media_item_id:
+      type: integer(4)
+      primary: true
+    media_category_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaItem:
+      local: media_item_id
+      onDelete: CASCADE
+    aMediaCategory:
+      local: media_category_id
+      onDelete: CASCADE
+
+aMediaPageCategory:
+  tableName: a_media_page_category
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    page_id:
+      type: integer(4)
+      primary: true
+    media_category_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaCategory:
+      local: media_category_id
+      onDelete: CASCADE
+    aPage:
+      local: page_id
+      onDelete: CASCADE
+      

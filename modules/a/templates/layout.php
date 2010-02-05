@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<?php use_helper('a') ?>
 	<?php $page = aTools::getCurrentPage() ?>
-
+	<?php // If this is an admin page don't try to present navigation relative to it ?>
+  <?php $page = $page->admin ? null : $page ?>
 <head>
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
@@ -56,7 +57,7 @@
 
 		<?php if (has_slot('a-breadcrumb')): ?>
 				<?php include_slot('a-breadcrumb') ?>
-		<?php else: ?>
+		<?php elseif ($page): ?>
 				<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
 		<?php endif ?>
 

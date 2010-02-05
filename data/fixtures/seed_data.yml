@@ -60,6 +60,49 @@ aPage:
                     Slot:
                       type: aRichText 
                       value: '<h2>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> It is open source, robust, &amp; super easy to use!'
+      admin:
+        # By convention this page is the parent of all admin pages. Admin pages are
+        # hidden from all normal navigation
+        slug: "/admin"
+        template: default
+        admin: true
+        Areas:
+          media_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              contact_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Admin"
+        children:          
+          media:
+            slug: "/admin/media"
+            template: default
+            engine: aMedia
+            # The default media engine page is not visible to logged-out users. You can
+            # introduce other instances of it that are
+            admin: true
+            Areas:
+              media_en_title:
+                name: title
+                culture: en
+                latest_version: 1
+                AreaVersions:
+                  contact_en_title_version_1:
+                    version: 1
+                    AreaVersionSlots:
+                      contact_en_title_version_1_permid_1:
+                        permid: 1
+                        Slot:
+                          type: aText 
+                          value: "Media"
+        
       contact:
         slug: "/contact"
         template: default

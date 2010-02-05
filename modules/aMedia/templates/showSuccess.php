@@ -28,13 +28,14 @@
 	<li class="a-media-item-dimensions a-media-item-meta"><span>Original Dimensions:</span> <?php echo $mediaItem->getWidth(); ?>x<?php echo $mediaItem->getHeight(); ?></li>
   <li class="a-media-createdat a-media-item-meta"><span>Uploaded:</span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
   <li class="a-media-credit a-media-item-meta"><span>Credit:</span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
+  <li class="a-media-categories a-media-item-meta"><span>Categories:</span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
   <li class="a-media-tags a-media-item-meta"><span>Tags:</span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
 	<li class="a-media-item-download">
 		<?php if ($mediaItem->getType() !== 'video'): ?>
         <?php // download link ?>
         <?php echo link_to(
           "Download Original<span></span>",
-          "aMedia/original?" .
+          "aMediaBackend/original?" .
             http_build_query(
               array(
                 "slug" => $mediaItem->getSlug(),

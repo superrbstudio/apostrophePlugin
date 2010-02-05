@@ -18,13 +18,24 @@ class aSlideshowSlotComponents extends BaseaSlotComponents
     // Behave well if it's not set yet!
     if (strlen($this->slot->value))
     {
-      $this->items = unserialize($this->slot->value);
-      $this->itemIds = array();
+      $items = $this->slot->MediaItems;
+      $data = $this->slot->getArrayValue();
+      $order = $data['order'];
+      $itemsById = aArray::listToHashById($items);
+      $this->items = array();
+      foreach ($order as $id)
+      {
+        if (isset($itemsById[$id]))
+        {
+          $this->items[] = $itemsById[$id];
+        }
+      }
+      $this->itemIds = aArray::getIds($this->items);
       foreach ($this->items as $item)
       {
         $this->itemIds[] = $item->id;
       }
-      if($this->getOption('random', false))
+      if ($this->getOption('random', false))
       {
         shuffle($this->items);
       }

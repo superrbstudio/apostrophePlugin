@@ -21,9 +21,14 @@ class aImageSlotComponents extends BaseaSlotComponents
     $this->title = $this->getOption('title');
     $this->description = $this->getOption('description');
     // Behave well if it's not set yet!
-    if (strlen($this->slot->value))
+    if (!count($this->slot->MediaItems))
     {
-      $this->item = unserialize($this->slot->value);
+      $this->item = false;
+      $this->itemId = false;
+    }
+    else
+    {
+      $this->item = $this->slot->MediaItems[0];
       $this->itemId = $this->item->id;
       $this->dimensions = aDimensions::constrain(
         $this->item->width, 
@@ -32,11 +37,7 @@ class aImageSlotComponents extends BaseaSlotComponents
         array("width" => $this->width,
           "height" => $this->flexHeight ? false : $this->height,
           "resizeType" => $this->resizeType));
-    }
-    else
-    {
-      $this->item = false;
-      $this->itemId = false;
+      $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
   }
 }

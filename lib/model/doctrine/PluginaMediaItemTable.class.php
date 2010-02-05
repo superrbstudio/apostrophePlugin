@@ -124,6 +124,14 @@ class PluginaMediaItemTable extends Doctrine_Table
     {
       $query->andWhere("aMediaItem.type = ?", array($params['type']));
     }
+    if (isset($params['allowed_categories']))
+    {
+      $query->innerJoin('aMediaItem.MediaCategories mc1 WITH mc1.id IN (' . implode(',', aArray::getIds($params['allowed_categories'])) . ')');
+    }
+    if (isset($params['category']))
+    {
+      $query->innerJoin('aMediaItem.MediaCategories mc2 WITH mc2.slug = ?', array($params['category']));
+    }
     if (isset($params['search']))
     {
       $query = Doctrine::getTable('aMediaItem')->addSearchQuery($query, $params['search']);

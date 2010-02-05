@@ -171,4 +171,26 @@ class aMediaTools
     }
   }
   
+  // Implementation conveniences shared by the engine and backend media actions classes
+  
+  // All actions using this method will accept either a slug or an id,
+  // for convenience
+  static public function getItem(sfActions $actions)
+  {
+    if ($actions->hasRequestParameter('slug'))
+    {
+      $slug = preg_replace("/[^\w\-]/", "", $actions->getRequestParameter('slug'));
+      $item = Doctrine_Query::create()->
+        from('aMediaItem')->
+        where('slug = ?', array($slug))->
+        fetchOne();
+    }
+    else
+    {
+      $id = $actions->getRequestParameter('id');
+      $item = Doctrine::getTable('aMediaItem')->find($id);
+    }  
+    $actions->forward404Unless($item);
+    return $item;
+  }
 }

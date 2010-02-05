@@ -420,17 +420,60 @@ class BaseaActions extends sfActions
     }
     
     $this->form = new aPageSettingsForm($this->page);
+
+    $mainFormValid = false;
+    
+    $engine = $this->page->engine;
+    
     if ($request->hasParameter('settings'))
     {
-      $this->form->bind($request->getParameter("settings"));
+      $settings = $request->getParameter('settings');
+      $engine = $settings['engine'];
+      $this->form->bind($settings);
       if ($this->form->isValid())
       {
-        $this->logMessage("YY settings is valid");
-        $this->form->save();
-        // Oops must be case correct in production
-        return 'Redirect';
+        $mainFormValid = true;
       }
     }
+
+    // Don't look at $this->page->engine which may have just changed. Instead look
+    // at what was actually submitted and validated as the new engine name
+    if ($engine)
+    {
+      $engineFormClass = $engine . 'EngineForm';
+      if (class_exists($engineFormClass))
+      {
+        // Used for the initial render. We also ajax re-render this bit when they pick a
+        // different engine from the dropdown, see below
+        $this->engineForm = new $engineFormClass($this->page);
+        $this->engineSettingsPartial = $engine . '/settings';
+      }
+    }
+    
+    if ($mainFormValid && (!isset($this->engineForm)))
+    {
+      $this->form->save();
+      return 'Redirect';
+    }
+    
+    
+    if ($request->hasParameter('enginesettings') && isset($this->engineForm))
+    {
+      $this->engineForm->bind($request->getParameter("enginesettings"));
+      if ($this->engineForm->isValid())
+      {
+        if ($mainFormValid)
+        {
+          // Yes, this does save the same object twice in some cases, but Symfony
+          // embedded forms are an unreliable alternative with many issues and
+          // no proper documentation as yet
+          $this->form->save();
+          $this->engineForm->save();
+          return 'Redirect';
+        }
+      }
+    }
+    
     // This might make more sense in some kind of read-only form control.
     // TODO: cache the first call that the form makes so this doesn't
     // cause more db traffic.
@@ -438,6 +481,31 @@ class BaseaActions extends sfActions
     $this->admin = array();
     $this->addPrivilegeLists('edit');
     $this->addPrivilegeLists('manage');
+  }
+  
+  public function executeEngineSettings(sfWebRequest $request)
+  {
+    $this->page = $this->retrievePageForEditingByIdParameter();
+    
+    // Output the form for a different engine in response to an AJAX call. This allows
+    // the user to see an immediate change in that form when the engine dropdown is changed
+    // to a different setting. Note that this means your engine forms must tolerate situations
+    // in which they are not actually the selected engine for the page yet and should not
+    // actually do anything until they are actually saved
+    
+    $engine = $request->getParameter('engine');
+    // Don't let them inspect for the existence of weird class names that might make the
+    // autoloader do unsafe things
+    $this->forward404Unless(preg_match('/^\w*/', $engine));
+    if (strlen($engine))
+    {
+      $engineFormClass = $engine . 'EngineForm';
+      if (class_exists($engineFormClass))
+      {
+        $form = new $engineFormClass($this->page);
+        return $this->renderPartial($engine . '/settings', array('form' => $form));
+      }
+    }    
   }
 
   protected function addPrivilegeLists($privilege)

@@ -202,7 +202,7 @@ EOM
   {
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
 
-    return "aMedia/image?" . http_build_query(
+    return "aMediaBackend/image?" . http_build_query(
       array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
         "resizeType" => $options['resizeType'], "format" => $options['format']));
   }
