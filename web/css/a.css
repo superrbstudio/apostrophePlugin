@@ -2122,6 +2122,14 @@ float: left;
 z-index: 1;
 }
 
+.a-slideshow
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+}
+
 .a-slideshow .a-slideshow-item
 {
 display: none;
@@ -3265,12 +3273,19 @@ padding-bottom: 10px;
 /* 23. Blog Engine
 -------------------------------------*/
 
-#a-blog-main
+#a-blog-main,
+#a-blog-main .a-blog-post
 {
 	float: left;
 	width: 100%;
 	display: inline;
 	position: relative;	
+}
+
+#a-blog-main .a-blog-post
+{
+
+	margin: 0 0 20px 0;
 }
 
 #a-blog-main .a-blog-post-title,
@@ -3322,6 +3337,46 @@ padding-bottom: 10px;
 	width: auto;
 	padding: 0 5px;
 }
+
+
+#a-blog-main .a-blog-post-tags
+{
+	float: left;
+	width: 100%;
+}
+
+#a-blog-main .a-blog-post-tags li
+{
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+/* 23 & 1/2. Events Engine
+-------------------------------------*/
+
+.a-blog-events #a-blog-main .a-blog-post-meta
+{
+	font-size: 14px;
+	margin: 0;
+}
+.a-blog-events #a-blog-main .a-blog-post-meta li
+{
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+.a-blog-events #a-blog-main .a-blog-post-meta .a-calendar-day
+{
+	color: #999;
+}
+
+.a-blog-events #a-blog-main .a-blog-post-meta .a-calendar-date
+{
+	color: #000;
+}
+
+
+
 
 
 /* 24. 	 Subnav
