@@ -2122,7 +2122,7 @@ float: left;
 z-index: 1;
 }
 
-.a-slot.aSlideshow .a-slideshow-item
+.a-slideshow .a-slideshow-item
 {
 display: none;
 float: left;
