@@ -850,7 +850,7 @@ abstract class PluginaPage extends BaseaPage
     // admin pages are almost never visible in navigation
     if (!$admin)
     {
-      $whereClauses[] = '(p.admin IS FALSE)';
+      $whereClauses[] = '(p.admin IS FALSE OR p.admin IS NULL)';
     }
     // Pay attention to the current culture. Thanks to virtualize
     $whereClauses[] =  '(a.culture = ' . $connection->quote($this->getCulture()) . ')';
