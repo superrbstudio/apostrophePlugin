@@ -2661,7 +2661,7 @@ position: relative;
 display: none;
 }
 
-.a-media-subnav,
+#a-subnav.media,
 .a-media-library,
 .a-media-toolbar,
 .a-media-footer
@@ -2670,16 +2670,16 @@ display: inline;
 float: left;
 }
 
-#a-subnav.a-media-subnav
+#a-subnav.media
 {
 
 }
 
-#a-subnav.a-media-subnav .a-search-form
+#a-subnav.media .a-search-form
 {
 }
 
-#a-subnav.a-media-subnav .a-search-form .a-search-field
+#a-subnav.media .a-search-form .a-search-field
 {
 width: 150px;
 }
@@ -2780,7 +2780,7 @@ margin: 20px 0;
 clear: both;
 }
 
-.a-media-subnav .a-media-filters
+#a-subnav.media .a-media-filters
 {
 color: #000;
 text-decoration: none;
@@ -2789,29 +2789,33 @@ clear: both;
 width: 100%;
 }
 
-.a-media-subnav .a-media-filters .a-media-filter-option
+#a-subnav.media .a-media-filters .a-media-filter-option,
+#a-subnav.blog .a-blog-filter .a-blog-filter-option
 {
 float: left;
 width: 100%;
 clear: both;
 }
 
-.a-media-subnav .a-media-filters .a-media-filter-option a
+#a-subnav.media .a-media-filters .a-media-filter-option a,
+#a-subnav.blog .a-blog-filter .a-blog-filter-option a,
 {
 float: left;
 clear: both;
 line-height: 20px;
 height: 20px;
+width: auto;
 }
 
-.a-media-subnav .a-media-filters .a-media-filter-option .selected
+#a-subnav.media .a-media-filters .a-media-filter-option a.selected,
+#a-subnav.blog .a-blog-filter .a-blog-filter-option a.selected
 {
 padding-right: 20px;
 background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
-text-decoration: underline;
 }
 
-.a-media-subnav .a-media-filters .a-media-filter-option a.selected:hover
+#a-subnav.media .a-media-filters .a-media-filter-option a.selected:hover,
+#a-subnav.blog .a-blog-filter .a-blog-filter-option a.selected:hover
 {
 background-position: bottom right;
 }
@@ -3289,10 +3293,38 @@ padding-bottom: 10px;
 }
 
 
+#a-subnav.blog h4
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+	position: relative;
+	font-size: 14px;
+}
+
+#a-subnav.blog .a-blog-filter-options
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+	position: relative;
+	line-height: 20px;
+}
+
+#a-subnav.media .a-media-filter-options a,
+#a-subnav.blog .a-blog-filter-options a
+{
+	float: left;
+	clear: both;
+	display: inline;
+	width: auto;
+	padding: 0 5px;
+}
 
 
-
-/* 24. Shared Subnav
+/* 24. 	 Subnav
 -------------------------------------*/
 
 #a-subnav
@@ -3304,7 +3336,7 @@ padding-bottom: 10px;
 	position:relative;
 }
 
-#a-subnav .subnav-wrapper
+#a-subnav .a-subnav-wrapper
 {
 	width: 180px;
 	margin: 10px;
@@ -3368,7 +3400,15 @@ cursor:move;
 text-decoration: line-through;
 }
 
-
+#a-subnav hr
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: inline;
+	margin: 10px 0;
+	width: 100%;
+}
 
 
 /* 25. Shared Tag Sidebar

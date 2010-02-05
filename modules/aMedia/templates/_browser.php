@@ -8,8 +8,8 @@
 
 <?php use_helper('Url') ?>
 
-<div id="a-subnav" class="a-media-subnav subnav">
-	<div class="subnav-wrapper">
+<div id="a-subnav" class="media">
+	<div class="a-subnav-wrapper">
 		
   	<h3>Find in Media</h3>
 
