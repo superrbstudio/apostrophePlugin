@@ -222,6 +222,14 @@ function aUI(target, instance)
 	aOverrides();
 }
 
+function aUIUnButton()
+{
+	$.each($('.a-btn'), function() { // inject extra markup for link styles
+		txt = $(this).children('span.a-b').text();
+		$(this).html(txt);
+   });
+}
+
 function aUIOpacity(uiOpacity)
 {
 	if (typeof uiOpacity == 'undefined') // If Not Set, use Default Value

@@ -260,6 +260,12 @@ clear: both;
 width: 100%;
 }
 
+#a-content
+{
+	clear: none;
+	width: 720px;
+}
+
 #a-area-footer
 {
 	position: relative;
@@ -2765,16 +2771,6 @@ padding-bottom: 20px;
 border-bottom: 1px solid #ddd;
 }
 
-.a-media h3
-{
-font-size: 18px;
-}
-
-.a-media-toolbar h3
-{
-margin-bottom: 10px;
-}
-
 .a-media-footer
 {
 width: 720px;
@@ -2786,46 +2782,6 @@ margin: 20px 0;
 .a-media-toolbar .a-media-slideshow-controls
 {
 clear: both;
-}
-
-#a-subnav.media .a-media-filters
-{
-color: #000;
-text-decoration: none;
-float: left;
-clear: both;
-width: 100%;
-}
-
-#a-subnav.media .a-media-filters .a-media-filter-option,
-#a-subnav.blog .a-blog-filter .a-blog-filter-option
-{
-float: left;
-width: 100%;
-clear: both;
-}
-
-#a-subnav.media .a-media-filters .a-media-filter-option a,
-#a-subnav.blog .a-blog-filter .a-blog-filter-option a,
-{
-float: left;
-clear: both;
-line-height: 20px;
-height: 20px;
-width: auto;
-}
-
-#a-subnav.media .a-media-filters .a-media-filter-option a.selected,
-#a-subnav.blog .a-blog-filter .a-blog-filter-option a.selected
-{
-padding-right: 20px;
-background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
-}
-
-#a-subnav.media .a-media-filters .a-media-filter-option a.selected:hover,
-#a-subnav.blog .a-blog-filter .a-blog-filter-option a.selected:hover
-{
-background-position: bottom right;
 }
 
 .a-media-item
@@ -3403,7 +3359,7 @@ padding-bottom: 10px;
 
 #a-subnav .a-search-form
 {
-margin-bottom: 20px;
+margin: 10px 0;
 float: left;
 display:inline;
 }
@@ -3416,6 +3372,51 @@ width: 178px;
 #a-subnav .a-search-form .a-search-field
 {
 width: 150px;
+}
+
+#a-subnav .a-subnav-section
+{
+color: #000;
+text-decoration: none;
+float: left;
+clear: both;
+width: 100%;
+margin: 0 0 10px 0;
+}
+
+#a-subnav .a-subnav-section h4
+{
+float: left;
+width: 100%;
+clear: both;
+margin-bottom: 5px;
+}
+
+#a-subnav .a-filter-options .a-filter-option a 
+{
+float: left;
+width: 100%;
+clear: both;
+}
+
+#a-subnav .a-filter-options .a-filter-option a
+{
+float: left;
+clear: both;
+line-height: 20px;
+height: 20px;
+width: auto;
+}
+
+#a-subnav .a-filter-options .a-filter-option a.selected
+{
+padding-right: 20px;
+background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
+}
+
+#a-subnav .a-filter-options .a-filter-option a.selected:hover
+{
+background-position: bottom right;
 }
 
 #a-subnav #a-tab-navigation-subnav-0 li
@@ -3464,6 +3465,9 @@ text-decoration: line-through;
 	margin: 10px 0;
 	width: 100%;
 }
+
+
+
 
 
 /* 25. Shared Tag Sidebar
@@ -3525,7 +3529,13 @@ margin: 0 0 5px 0;
 
 .a-tag-sidebar .a-tag-sidebar-tag-count
 {
-color: #ccc;
+color: #fff;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title
+{
+	float: left;
+	width: 100%;
 }
 
 .a-tag-sidebar .a-tag-sidebar-title.all-tags
@@ -3559,6 +3569,7 @@ background-position: -6px -60px;
 {
 display: none;
 }
+
 
 
 

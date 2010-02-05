@@ -16,8 +16,8 @@
 
 <div id="a-subnav" class="media">
 	<div class="a-subnav-wrapper">
-		
-  	<h3>Find in Media</h3>
+
+  	<h4>Find in Media</h4>
 
 	  <form method="POST" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
 	    <?php echo isset($search) ? link_to('Clear Search', aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => 'Clear Search', )) : '' ?>
@@ -25,31 +25,46 @@
 	    <input width="29" type="image" height="20" title="Click to Search" alt="Search" src="/apostrophePlugin/images/a-special-blank.gif" value="Submit" class="a-search-submit submit" id="a-media-search-submit" />
 	  </form>
 
-		<div class="a-media-filters">
+		<div class='a-subnav-section types'>
+	  	<h4>Media Types</h4>
 
-	  	<h3>Media Types</h3>
+		  <ul class="a-filter-options type">
+				<?php $type = isset($type) ? $type : '' ?>
+				<li class="a-filter-option">
+					<?php echo link_to('Image', aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
+				</li>
+				<li class="a-filter-option">
+					<?php echo link_to('Video', aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
+				</li>
+				<li class="a-filter-option">
+					<?php echo link_to('PDF', aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
+				</li>
+		  </ul>
+		</div>
 
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
     <?php // Also don't bother if all categories are empty ?>
     <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
     <?php if (count($categoriesInfo)): ?>
-    	<h3>Categories</h3>
-      <div class="a-category-sidebar">
-   		  <?php if (isset($selectedCategory)): ?>
-   				<h4 class="a-category-sidebar-title selected-category">Selected Category</h4>  
-   	    	<ul class="a-category-sidebar-selected-categories">
-   	        <li class="selected">
-   						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
-   	        </li>
-   	    	</ul>
-        <?php endif ?>
 
-       	<ul class="a-category-sidebar-list">
-         	<?php foreach ($categoriesInfo as $categoryInfo): ?>
-   	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
-   	      <?php endforeach ?>
-       	</ul>    
-      </div>
+		<div class='a-subnav-section categories'>
+   		<h4>Categories</h4>
+
+  		  <?php if (isset($selectedCategory)): ?>
+  				<h4 class="a-category-sidebar-title selected-category">Selected Category</h4>  
+  	    	<ul class="a-category-sidebar-selected-categories">
+  	        <li class="selected">
+  						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
+  	        </li>
+  	    	</ul>
+       <?php endif ?>
+
+      	<ul class="a-category-sidebar-list">
+        	<?php foreach ($categoriesInfo as $categoryInfo): ?>
+  	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
+  	      <?php endforeach ?>
+      	</ul>    
+     </div>
     <?php endif ?>
     
     <?php if ($sf_user->hasCredential('media_admin')): ?>
@@ -61,34 +76,32 @@
       <div id="a-media-edit-categories"></div>
     <?php endif ?>
     
-			<div class="a-tag-sidebar">
+		<div class='a-subnav-section tags'>
 
-			 <?php if (isset($selectedTag)): ?>
-					<h4 class="a-tag-sidebar-title selected-tag">Selected Tag</h4>  
-		    	<ul class="a-tag-sidebar-selected-tags">
-		        <li class="selected">
-							<?php echo link_to(htmlspecialchars($selectedTag), aUrl::addParams($current, array("tag" => false)), array('class' => 'selected',)) ?>
-		        </li>
-		    	</ul>
-	      <?php endif ?>
-    	
-				<h3 class="a-tag-sidebar-title popular">Popular Tags</h3>
-	    	<ul class="a-tag-sidebar-list popular">
-	      	<?php foreach ($popularTags as $tag => $count): ?>
-		        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
-		      <?php endforeach ?>
+		 <?php if (isset($selectedTag)): ?>
+				<h4 class="a-tag-sidebar-title selected-tag">Selected Tag</h4>  
+	    	<ul class="a-tag-sidebar-selected-tags">
+	        <li class="selected">
+						<?php echo link_to(htmlspecialchars($selectedTag), aUrl::addParams($current, array("tag" => false)), array('class' => 'selected',)) ?>
+	        </li>
 	    	</ul>
+      <?php endif ?>
+   	
+			<h4 class="a-tag-sidebar-title popular">Popular Tags</h4>
+    	<ul class="a-tag-sidebar-list popular">
+      	<?php foreach ($popularTags as $tag => $count): ?>
+	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
+	      <?php endforeach ?>
+    	</ul>
 
-	    	<h3 class="a-tag-sidebar-title all-tags">All Tags</h3>
-		    <ul class="a-tag-sidebar-list all-tags">
-		      <?php foreach ($allTags as $tag => $count): ?>
-		        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
-		      <?php endforeach ?>
-		    </ul>
+    	<h4 class="a-tag-sidebar-title all-tags">All Tags</h4>
+	    <ul class="a-tag-sidebar-list all-tags">
+	      <?php foreach ($allTags as $tag => $count): ?>
+	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
+	      <?php endforeach ?>
+	    </ul>
 
-	  	</div>
-
- 		</div>
+  	</div>
 
 	</div>
 </div>
