@@ -195,15 +195,38 @@ class aArray
     {
       return array();
     }
-    
-    if ($array[0] instanceof Object)
+  
+    // is_object covers stdClass objects. instanceof Object doesn't. Yes this is weird.
+    if (is_object($array[0]))
     {
-      return self::getResultsForMethod($array, 'getId');      
+      if (isset($array[0]->id))
+      {
+        return self::getResultsForProperty($array, 'id');
+      }
+      else
+      {
+        return self::getResultsForMethod($array, 'getId');      
+      }
     }
     else
     {
       return self::getResultsForKey($array, 'id');      
     }
+  }
+
+  /**
+   * Given an array of objects and a property name, return an array consisting
+   * of the results obtained by fetching that property on each object
+   */
+  public static function getResultsForProperty($array, $property)
+  {
+    $results = array();
+    foreach ($array as $item)
+    {
+      $results[] = $item->{$property};
+    }
+    
+    return $results;
   }
 
   /**

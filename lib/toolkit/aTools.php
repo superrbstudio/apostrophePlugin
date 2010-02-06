@@ -86,9 +86,18 @@ class aTools
   {
     self::$currentPage = $page;
   }
+  
   static public function getCurrentPage()
   {
     return self::$currentPage;
+  }
+
+  // Similar to getCurrentPage, but returns null if the current page is an admin page,
+  // and therefore not suitable for normal navigation like the breadcrumb and subnav
+  static public function getCurrentNonAdminPage()
+  {
+    $page = self::getCurrentPage();
+    return $page ? ($page->admin ? null : $page) : null;
   }
 
   static public function globalSetup($options)

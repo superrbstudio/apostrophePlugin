@@ -187,4 +187,15 @@ class PluginaMediaItemTable extends Doctrine_Table
     return TagTable::getAllTagNameWithCount($q, 
       array("model" => "aMediaItem"));
   }
+  
+  // Retrieves media items matching the supplied array of ids, in the same order as the ids
+  // (a simple whereIn does not do this). We must use an explicit select when using
+  // aDoctrine::orderByList.
+  
+  public function findByIdsInOrder($ids)
+  {
+    $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
+    // Don't forget to put them in order!
+    return aDoctrine::orderByList($q, $ids)->execute();
+  }
 }

@@ -9,7 +9,16 @@ class aDoctrine
   
   // Note that you are still responsible for adding a whereIn clause, if you
   // want to limit the results to this list of ids. If you don't, any extra objects
-  // will be returned at the end
+  // will be returned at the end.
+  
+  // YOU NEED TO HAVE AN EXPLICIT SELECT CLAUSE, if you don't the select clause added by this
+  // method will override the default 'select everything' behavior and you will
+  // get back nothing! I get burned by this myself.
+  
+  // Example: 
+  //
+  // $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*'->whereIn('m.id', $ids);
+  // $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
   
   static public function orderByList($query, $ids)
   {
@@ -26,5 +35,7 @@ class aDoctrine
     $select .= " END) AS id_order";
     $query->addSelect($select);
     $query->orderBy("id_order ASC");
+    // Now it's a little more chainable
+    return $query;
   }
 }

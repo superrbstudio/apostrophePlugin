@@ -36,11 +36,8 @@ These are mostly links to independent modules.
   		</ul>
   	</li>
 
-  	<?php // Breadcrumb ?>
-  	<?php $page = aTools::getCurrentPage() ?>
-  	<?php // If this is an admin page don't try to present navigation relative to it ?>
-    <?php $page = $page->admin ? null : $page ?>
-  	<?php if ($page): ?>
+  	<?php // Administrative breadcrumb ?>
+  	<?php if ($page && (!$page->admin)): ?>
 	  	<li class="a-global-toolbar-breadcrumb">
 	  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
 	  	</li>

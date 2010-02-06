@@ -154,7 +154,7 @@ EOM
     }
     else
     {
-      throw new Exception("Unknown media type in getEmbedCode: " . $this->getType());
+      throw new Exception("Unknown media type in getEmbedCode: " . $this->getType() . " id is " . $this->id . " is new? " . $this->isNew());
     }
   }
   protected function youtubeUrlToEmbeddedUrl($url)
