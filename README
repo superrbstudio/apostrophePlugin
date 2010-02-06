@@ -1537,12 +1537,15 @@ There are three simple rules:
 
 3. When you wish to target a specific engine page with link_to and url_for calls, you call `aRouteTools::pushTargetEnginePage($page)` to specify that page. For instance:
 
-		<?php $page = aPageTable::retrieveBySlug('/janes-blog') ?>
-		<?php aRouteTools::pushTargetEnginePage($page) ?>
+		<?php aRouteTools::pushTargetEnginePage('/janes-blog') ?>
 		<?php echo link_to('Jane's Blog', 'blog/index') ?>
 		<?php aRouteTools::popTargetEnginePage('blog') ?>
 
-Now all aRoute and aDoctrineRoute-based URLs generated between the `push` and `pop` calls will target the "Jane's Blog" page. URLs generated after the `pop` call revert to the usual behavior. Since you may find yourself writing partials and components that are included in other pages, it is advisable to always `pop` after `push`ing a different engine page in order to avoid side effects.
+For convenience, you may pass either a page slug (like `/janes-blog`) or an `aPage` object to the `aRouteTools::pushTargetEnginePage` method.
+
+Now all aRoute and aDoctrineRoute-based URLs generated between the `push` and `pop` calls  that use the `blog` module will target the "Jane's Blog" page. URLs generated after the `pop` call revert to the usual behavior. 
+
+Since you may find yourself writing partials and components that are included in other pages, it is advisable to always `pop` after `push`ing a different engine page in order to avoid side effects.
 
 Again, you must not enable the Symfony routing cache if you wish to include multiple engine pages for the same engine in your site. The routing cache is turned off by default in both Symfony 1.3 and 1.4. If you have upgraded an older project you may need to manually shut it off in `apps/frontend/config/routing.yml`.
 

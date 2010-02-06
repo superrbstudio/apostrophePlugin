@@ -1,3 +1,5 @@
+<?php // Make sure we target the administrative media engine page and not a public instance ?>
+<?php aRouteTools::pushTargetEnginePage('/admin/media') ?>
 <?php $after = url_for($action) . "?" .
   http_build_query(
     array(
@@ -18,3 +20,4 @@
         "label" => $label,
         "after" => $after))),
       'class' => $class)) ?>
+<?php aRouteTools::popTargetEnginePage('aMedia') ?>

@@ -73,12 +73,19 @@ class aRouteTools
    * invoked it, and then pop that engine page at the end to ensure that any links
    * generated later in the calling template still target the original engine page.
    *
-   * @param  aPage $page The target engine page for engine routes 
+   * You can pass a page object or, for convenience, a page slug. The latter is useful
+   * when targeting an engine page that is guaranteed to exist, such as /admin/media
+   *
+   * @param  aPage $page|string $page The target engine page for engine routes, or a page slug
    *
    */
   
-  static public function pushTargetEnginePage(aPage $page)
+  static public function pushTargetEnginePage($page)
   {
+    if (!(is_object($page) && ($page instanceof aPage)))
+    {
+      $page = aPageTable::retrieveBySlug($page);
+    }
     self::$targetEnginePages[$page->engine][] = $page;
   }
 
@@ -86,13 +93,13 @@ class aRouteTools
    * Pops the most recent target engine page for the specified engine name.
    * See aRouteTools::pushTargetEnginePage for more information.
    *
-   * @param  aPage $page The target engine page for engine routes 
+   * @param  string $engine The engine name in question
    *
    */
 
   static public function popTargetEnginePage($engine)
   {
-    array_pop(self::$targetEnginePages[$page->engine]);
+    array_pop(self::$targetEnginePages[$engine]);
   }
   
   /**
