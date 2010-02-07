@@ -8,6 +8,15 @@ class aMediaActions extends aEngineActions
 	  // Establish engine context
     parent::preExecute();
     
+    // If this is the admin engine page for media, and you have no media uploading privileges
+    // or page editing privileges, then you have no business being here. If it is not the admin page,
+    // then the site admin has decided to add a public media engine page, and it's fine for anyone 
+    // to be here
+    if (aTools::getCurrentPage()->admin)
+    {
+      $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
+    }
+    
  		//$this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
    	$this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
@@ -545,6 +554,8 @@ class aMediaActions extends aEngineActions
 
   public function executeUploadImages(sfRequest $request)
   {
+    // Belongs at the beginning, not the end
+    $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $this->form = new aMediaUploadImagesForm();
     if ($request->isMethod('post'))
     {
@@ -595,7 +606,6 @@ class aMediaActions extends aEngineActions
         return 'Redirect';
       }
     }
-    $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
   }
 
   public function executeEditImages(sfRequest $request)

@@ -31,3 +31,15 @@ a_sync:
   url: /async/:action
   param:
     module: aSync
+    
+# Right now the admin engine isn't terribly exciting,
+# it just redirects away from the /admin page that belongs to it.
+# Longer URLs starting with /admin are left alone as they often belong
+# to non-engine modules like the users module
+a_admin:
+  url: /
+  class: aRoute
+  param:
+    module: aAdmin
+    action: index
+    

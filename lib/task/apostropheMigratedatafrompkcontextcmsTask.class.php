@@ -250,8 +250,8 @@ machine pk_writable is renamed to a_writable automatically.\n");
       $admin->setSlug('/admin');
       $admin->setAdmin(true);
       $admin->getNode()->insertAsFirstChildOf($home);
-      $admin->save();
       $admin->setEngine('aAdmin');
+      $admin->save();
       // Must save the page BEFORE we call setTitle, which has the side effect of
       // refreshing the page object
       $admin->setTitle('Admin');
