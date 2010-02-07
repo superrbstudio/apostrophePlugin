@@ -28,7 +28,7 @@
 			
 			<br class="c"/>
       
-			<ul class="a-controls a-media-upload-form-footer">
+			<ul class="a-controls a-media-form-footer">
       	<li><?php echo link_to_function("Upload Photos", "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
       	<li><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
       </ul>
@@ -65,7 +65,7 @@
   $('#a-media-add-photo').click(
     function()
     {
-      var elements = $('#a-media-upload-form-inactive .form-row');
+      var elements = $('#a-media-upload-form-inactive .a-form-row');
       if (elements.length > 0)
       {
         var element = $(elements[0]).remove()[0];
@@ -86,7 +86,7 @@
   function aMediaUploadInitialize()
   {
     $('#a-media-upload-form-inactive').append(
-      $('#a-media-upload-form-subforms .form-row.initially-inactive').remove());
+      $('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
     aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
   }
   aMediaUploadInitialize();

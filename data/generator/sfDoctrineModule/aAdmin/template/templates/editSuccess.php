@@ -4,9 +4,11 @@
 <div id="a-admin-container" class="[?php echo $sf_params->get('module') ?]">
   [?php include_partial('<?php echo $this->getModuleName() ?>/form_bar', array('title' => <?php echo $this->getI18NString('edit.title') ?>)) ?]
 
-  <div id="a-admin-subnav" class="subnav">
+	[?php slot('a-subnav') ?]
+  <div id="a-subnav" class="subnav admin">
  		[?php include_partial('<?php echo $this->getModuleName() ?>/form_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'form' => $form, 'configuration' => $configuration)) ?]
   </div>
+	[?php end_slot() ?]
 
   <div id="a-admin-content" class="main">
 	  [?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]

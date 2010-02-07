@@ -31,7 +31,7 @@
 
   <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editVideo", array("slug" => $slug)))?>">
 
-    <div class="form-row title">
+    <div class="a-form-row title">
       <?php echo $form['title']->renderLabel() ?>
       <?php if (!$sf_params->get('first_pass')): ?>
         <?php echo $form['title']->renderError() ?>
@@ -40,16 +40,16 @@
     </div>
 
     <?php if (isset($form['service_url'])): ?>
-      <div class="form-row service-url">
+      <div class="a-form-row service-url">
         <?php echo $form['service_url']->renderRow() ?>
       </div>
     <?php endif ?>
 
     <?php if (isset($form['embed'])): ?>
-      <div class="form-row embed">
+      <div class="a-form-row embed">
         <?php echo $form['embed']->renderRow() ?>
       </div>
-      <div class="form-row thumbnail">
+      <div class="a-form-row thumbnail">
         <?php echo $form['thumbnail']->renderLabel() ?>
         <?php if (!$sf_params->get('first_pass')): ?>
           <?php echo $form['thumbnail']->renderError() ?>
@@ -58,27 +58,27 @@
       </div>
     <?php endif ?>
 
-    <div class="form-row description">
+    <div class="a-form-row description">
       <?php echo $form['description']->renderLabel() ?>
       <?php echo $form['description']->renderError() ?>
       <?php echo $form['description']->render() ?>
     </div>
 
-    <div class="form-row credit">
+    <div class="a-form-row credit">
       <?php echo $form['credit']->renderRow() ?>
     </div>
 
-    <div class="form-row permissions">
+    <div class="a-form-row permissions">
       <?php echo $form['view_is_secure']->renderRow() ?>
     </div>
 
-    <div class="form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
+    <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
 
-    <div class="form-row about-tags">
+    <div class="a-form-row about-tags">
     Tags should be separated by commas. Example: student life, chemistry, laboratory
     </div>
 
-    <div class="form-row tags">
+    <div class="a-form-row tags">
       <?php echo $form['tags']->renderRow(array("id" => "a-media-video-tags")) ?>
     </div>
 

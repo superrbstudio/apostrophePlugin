@@ -1,5 +1,4 @@
-<?php include_partial('a/simpleEditButton',
-  array('name' => $name, 'permid' => $permid)) ?>
+<?php include_partial('a/simpleEditButton', array('name' => $name, 'permid' => $permid)) ?>
 
 <ul id="a-mediabrowser-<?php echo $id ?>" class="a-mediabrowser">
 <?php $first = true; $n=0; foreach ($items as $item): ?>

@@ -1,42 +1,6 @@
 function aUI(target, instance)
 {
-
-	//
-	// GLOBAL CONTROLS
-	//
-
-	// Basic Button Setup
-	$('.a-i').remove(); //Clear out to prevent duplicates
-	$.each($('.a-btn'), function() { // inject extra markup for link styles
-		txt = $(this).text();
-		$(this).html("<span class='a-i'></span><span class='a-b'>"+txt+"</span>");
-   });
 	
-	// Submit Buttons
-	$('.a-submit').before("<span class='a-i'></span>"); // Input's cannot contain a-i, a-i goes before it with a wrapper contain input. Input is position absolute on top of a-i
-
-	// Super Cool Flagging Buttons
-	var flagBtn = $('.a-flag-btn');
-	flagBtn.prepend('<div class="a-flag-btn-label"><span class="a-i"></span><span class="a-l"></span></div>');
-	
-	flagBtn.children(".a-flag-btn-label").each(function(){
-		flagText = $(this).parent().children('.a-b').text();
-		$(this).parent().children('.a-b, .a-l').text('');	
-		$(this).children('.a-l').text(flagText);
-	});
-	
-	flagBtn.hover(
-    function () {
-      $(this).addClass('expanded');
-    }, 
-    function () {
-      $(this).removeClass('expanded');
-    }
-  );
-
-	// TARGETING THING I'M TRYING OUT
-	// this is super rough, but the idea is being able to scope the UI initialization for Ajax calls etc.
-
 	if (typeof target == 'undefined') // If Not Set
 	{
 		target = '';
@@ -201,8 +165,7 @@ function aUI(target, instance)
 	//
 	// Cross Browser Opacity Settings
 	//
-	aUIOpacity()
-	$('.a-page-overlay').fadeTo(0,.85).hide(); // Modal Box Overlay
+	// $('.a-page-overlay').fadeTo(0,.85).hide(); // Modal Box Overlay // Keep For IE 
 	$('.a-archived-page').fadeTo(0,.5); // Archived Page Labels
 	//
 	//
@@ -220,24 +183,6 @@ function aUI(target, instance)
 	//
 	
 	aOverrides();
-}
-
-function aUIUnButton()
-{
-	$.each($('.a-btn'), function() { // inject extra markup for link styles
-		txt = $(this).children('span.a-b').text();
-		$(this).html(txt);
-   });
-}
-
-function aUIOpacity(uiOpacity)
-{
-	if (typeof uiOpacity == 'undefined') // If Not Set, use Default Value
-	{
-		uiOpacity = .65;
-	}
-	//Crossbrowser opacity
-	$('.a-i, #the-apostrophe').fadeTo(0,uiOpacity); //Button Background Color
 }
 
 function aOverrides()

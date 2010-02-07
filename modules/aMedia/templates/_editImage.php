@@ -14,7 +14,7 @@
 		<?php $previewAvailable = aValidatorFilePersistent::previewAvailable($form['file']->getValue()) ?>
 		<?php if ($previewAvailable || $item): ?>
 
-		<div class="form-row image">
+		<div class="a-form-row image">
 		<?php if (0): ?>
 		  <?php // Maybe Rick doesn't want this... ?>
 		  <?php echo $form['file']->renderLabel() ?>
@@ -23,13 +23,13 @@
 		<?php echo $form['file']->renderError() ?>
 		<?php echo $form['file']->render() ?>
 		<?php else: ?>
-		<div class="form-row newfile">
+		<div class="a-form-row newfile">
 		<?php echo $form['file']->renderRow() ?>
 		</div>
 		<?php endif ?>
 		</div>
 
-		<div class="form-row title">
+		<div class="a-form-row title">
 		<?php echo $form['title']->renderLabel() ?>
 		<?php if (!$firstPass): ?>
 		  <?php echo $form['title']->renderError() ?>
@@ -38,26 +38,26 @@
 		</div>
 
 		<?php echo $form['id']->render() ?>
-		<div class="form-row description">
+		<div class="a-form-row description">
 			<?php echo $form['description']->renderLabel() ?>
 			<?php echo $form['description']->renderError() ?>
 			<?php echo $form['description']->render() ?>
 		</div>
 		
-		<div class="form-row credit"><?php echo $form['credit']->renderRow() ?></div>
+		<div class="a-form-row credit"><?php echo $form['credit']->renderRow() ?></div>
 
-    <div class="form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
-    <div class="form-row tags help">
+    <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
+    <div class="a-form-row tags help">
     Tags should be separated by commas. Example: student life, chemistry, laboratory
     </div>
 
-		<div class="form-row tags"><?php echo $form['tags']->renderRow() ?></div>
+		<div class="a-form-row tags"><?php echo $form['tags']->renderRow() ?></div>
 
-    <div class="form-row permissions help">
+    <div class="a-form-row permissions help">
 			Hidden Photos can be used in photo slots, but are not displayed in the Media section.
     </div>
 
-		<div class="form-row permissions">
+		<div class="a-form-row permissions">
 
 			<?php echo $form['view_is_secure']->renderLabel() ?>
 			<?php echo $form['view_is_secure']->renderError() ?>
@@ -72,20 +72,20 @@
 		</div>
 
    <?php if ($item): ?>
-    <ul class="a-controls a-media-edit-footer">
+    <ul class="a-controls a-media-form-footer">
 
-     	<li><input type="submit" value="Save" class="a-submit" /></li>
+     	<li class="a-controls-item submit"><input type="submit" value="Save" class="pk-btn a-submit" /></li>
 
        <?php $id = $item->getId() ?>
 
-      <li>
+     	<li class="a-controls-item cancel"><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
+
+      <li class="a-controls-item delete">
 			<?php echo link_to("Delete", "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
-         array("confirm" => "Are you sure you want to delete this item?", "class"=>"a-btn icon a-delete"),
+         array("confirm" => "Are you sure you want to delete this item?", "class"=>"a-btn icon a-delete icon-only", 'title' => 'Delete', ),
          array("target" => "_top")) ?>
 			</li>
-
-     	<li><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
 
    	</ul>
 	</form>

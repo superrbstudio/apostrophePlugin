@@ -18,7 +18,7 @@
 			<input type="submit" name="Save" value="Save" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $name . '-' . $permid ?>" />
 		</li>
 	  <li>
-			<?php echo button_to_function("Cancel", "", array("class" => "a-submit a-cancel", 'id' => 'a-slot-form-cancel-'.$name.'-'.$permid, )) ?>
+			<?php echo button_to_function("Cancel", "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-'.$name.'-'.$permid, )) ?>
 		</li>
 	</ul>
 

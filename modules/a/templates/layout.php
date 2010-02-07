@@ -13,6 +13,10 @@
 	<?php include_javascripts() ?>
   <?php include_stylesheets() ?>
 	<link rel="shortcut icon" href="/favicon.ico" />
+
+	<!--[if lte IE 7]>
+		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
+	<![endif]-->
 		
 </head>
 
@@ -43,7 +47,7 @@
         <?php if (has_slot('a-logo')): ?>
           <?php include_slot('a-logo') ?>
         <?php else: ?>
-          <?php a_slot("logo", 'aImage', array("global" => true, "width" => 125, "flexHeight" => true, "resizeType" => "s", "link" => "/", "defaultImage" => "/apostrophePlugin/images/cmstest-sample-logo.png")) ?>
+          <?php a_slot("logo", 'aButton', array("global" => true, "width" => 360, "flexHeight" => true, "resizeType" => "s", "link" => "/", "defaultImage" => "/apostrophePlugin/images/cmstest-sample-logo.png")) ?>
         <?php endif ?>
       </div>
     <?php endif ?>

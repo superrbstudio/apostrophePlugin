@@ -1,7 +1,7 @@
 <?php $previewable = aValidatorFilePersistent::previewAvailable($form['file']->getValue()) ?>
 <?php $errors = $form['file']->hasError() ?>
 
-<div class="form-row newfile <?php echo(($first || $previewable || $errors) ? "" : "initially-inactive") ?>">
+<div class="a-form-row newfile <?php echo(($first || $previewable || $errors) ? "" : "initially-inactive") ?>">
 	<?php echo $form['file']->renderError() ?>
 	<?php echo $form['file']->render() ?>
 	<?php // If you tamper with this, the next form will be missing a default radio button choice ?>

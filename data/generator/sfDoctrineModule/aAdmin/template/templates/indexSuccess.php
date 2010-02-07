@@ -4,8 +4,9 @@
 <div id="a-admin-container" class="[?php echo $sf_params->get('module') ?]">
 
   [?php include_partial('<?php echo $this->getModuleName() ?>/list_bar', array('filters' => $filters)) ?]
-  	
-	<div id="a-admin-subnav" class="subnav">
+
+	[?php slot('a-subnav') ?]
+	<div id="a-subnav" class="subnav admin">
 		
 		<ul class="a-controls a-admin-action-controls">
 			<?php if ($this->configuration->hasFilterForm()): ?>
@@ -14,6 +15,7 @@
 				<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
 		</ul>
   </div>
+	[?php end_slot() ?]
 
 	<div id="a-admin-content" class="main">
 		<ul id="a-admin-list-actions" class="a-controls a-admin-action-controls">

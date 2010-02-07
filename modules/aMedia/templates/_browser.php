@@ -45,37 +45,56 @@
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
     <?php // Also don't bother if all categories are empty ?>
     <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
-    <?php if (count($categoriesInfo)): ?>
 
 		<div class='a-subnav-section categories'>
+			<div class="subnav-categories-header">
    		<h4>Categories</h4>
 
+	    <?php if ($sf_user->hasCredential('media_admin')): ?>
+	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
+	    	<?php // not an individual media item or engine page. ?>
+	    	<?php // See the _editCategories partial ?>
+	    	<?php echo jq_link_to_remote('Add Category', array(
+					'url' => url_for('aMedia/editCategories'), 
+					'update' => 'a-media-edit-categories'), array(
+						'class' => 'a-btn icon a-add icon-only', 
+						'id' => 'a-media-edit-categories-button',
+						'title' => '+ Add Category', )) ?>
+	    <?php endif ?>
+
+
+			</div>
+
+	    <?php if (!count($categoriesInfo)): ?>
+
+			<span id="a-media-no-categories-message">There are no categories.</span>
+
+			<?php else: ?>
+				
   		  <?php if (isset($selectedCategory)): ?>
-  				<h4 class="a-category-sidebar-title selected-category">Selected Category</h4>  
+  				<h5 class="a-category-sidebar-title selected-category">Selected Category</h%>  
   	    	<ul class="a-category-sidebar-selected-categories">
   	        <li class="selected">
   						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
   	        </li>
   	    	</ul>
-       <?php endif ?>
+				<?php endif ?>
 
-      	<ul class="a-category-sidebar-list">
-        	<?php foreach ($categoriesInfo as $categoryInfo): ?>
-  	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
-  	      <?php endforeach ?>
-      	</ul>    
-     </div>
-    <?php endif ?>
+	      <ul id="a-category-sidebar-list">
+	        <?php foreach ($categoriesInfo as $categoryInfo): ?>
+	  	       <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
+	  	    <?php endforeach ?>
+	      </ul>    
+	    <?php endif ?>
     
     <?php if ($sf_user->hasCredential('media_admin')): ?>
-    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
-    	<?php // not an individual media item or engine page. ?>
-    	<?php // See the _editCategories partial ?>
-    	<?php echo jq_link_to_remote('Edit Categories', array('url' => url_for('aMedia/editCategories'), 'update' => 'a-media-edit-categories'), array('class' => 'a-btn', 'id' => 'a-media-edit-categories-button')) ?>
     	<?php // AJAX goodness warps into our universe here ?>
       <div id="a-media-edit-categories"></div>
     <?php endif ?>
     
+  </div>
+
+
 		<div class='a-subnav-section tags'>
 
 		 <?php if (isset($selectedTag)): ?>

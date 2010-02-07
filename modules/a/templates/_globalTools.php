@@ -32,7 +32,7 @@ These are mostly links to independent modules.
   			  <?php endif ?>
   			  <li><?php echo link_to($button->getLabel(), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
   			<?php endforeach ?>
-  			<li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel', )) ?></li>					
+  			<li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel event-default', )) ?></li>					
   		</ul>
   	</li>
 

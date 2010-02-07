@@ -11,14 +11,12 @@
   <?php // Very short labels so sidebar slots don't have wrap in their controls. ?>
   <?php // That spoils assumptions that are being made elsewhere that they will ?>
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
+
   <?php slot("a-slot-controls-$name-$permid") ?>
   	<li class="a-controls-item choose-image">
   	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
-
   	</li>
-
-    <?php include_partial('a/simpleEditButton',
-      array('name' => $name, 'permid' => $permid, 'label' => 'URL', 'title' => 'Set URL', 'controlsSlot' => false)) ?>
+    <?php include_partial('a/simpleEditButton', array('name' => $name, 'permid' => $permid, 'label' => 'URL', 'title' => 'Set URL', 'controlsSlot' => false)) ?>
   <?php end_slot() ?>
 <?php endif ?>
 
@@ -56,21 +54,10 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
 		$('.a-button a').hover(function(){
 			$(this).children('img').fadeTo(0,.5);
 		},function(){
 			$(this).children('img').fadeTo(0,1);			
 		});
-
-		<?php if (0): ?>
-		// I am saving this one, It's an OVERLAY that we can apply colors to, rather than a simple opacity toggle on hover
-		// $('.a-button a').append('<span class="button-hover-overlay"></span>');
-		// $('.button-hover-overlay').fadeTo(0,.5).hide().parent().hover(function(){
-		// 	$(this).children('span').show();
-		// }, function(){
-		// 	$(this).children('span').hide();
-		// })
-		<?php endif ?>
 	});
 </script>

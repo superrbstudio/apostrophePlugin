@@ -31,39 +31,39 @@
 
   <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editPdf", array("slug" => $slug)))?>">
 
-    <div class="form-row file">
+    <div class="a-form-row file">
       <?php echo $form['file']->renderLabel() ?>
       <?php echo $form['file']->renderError() ?>
       <?php echo $form['file']->render() ?>
     </div>
 
-    <div class="form-row title">
+    <div class="a-form-row title">
       <?php echo $form['title']->renderLabel() ?>
       <?php echo $form['title']->renderError() ?>
       <?php echo $form['title']->render() ?>
     </div>
 
-    <div class="form-row description">
+    <div class="a-form-row description">
       <?php echo $form['description']->renderLabel() ?>
       <?php echo $form['description']->renderError() ?>
       <?php echo $form['description']->render() ?>
     </div>
 
-    <div class="form-row credit">
+    <div class="a-form-row credit">
       <?php echo $form['credit']->renderRow() ?>
     </div>
 
-    <div class="form-row permissions">
+    <div class="a-form-row permissions">
       <?php echo $form['view_is_secure']->renderRow() ?>
     </div>
 
-    <div class="form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
+    <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
 
-    <div class="form-row about-tags">
+    <div class="a-form-row about-tags">
     Tags should be separated by commas. Example: student life, chemistry, laboratory
     </div>
 
-    <div class="form-row tags">
+    <div class="a-form-row tags">
       <?php echo $form['tags']->renderRow(array("id" => "a-media-pdf-tags")) ?>
     </div>
 

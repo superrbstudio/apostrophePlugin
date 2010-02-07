@@ -1,15 +1,16 @@
 <?php if (!isset($controlsSlot)): ?>
   <?php $controlsSlot = true ?>
 <?php endif ?>
+
 <?php if ($controlsSlot): ?>
-<?php slot("a-slot-controls-$name-$permid") ?>
+	<?php slot("a-slot-controls-$name-$permid") ?>
 <?php endif ?>
 
 	<?php include_partial('a/simpleEditButton', array('name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page)) ?>
 	<?php include_partial('a/variant', array('name' => $name, 'permid' => $permid, 'page' => $page, 'slot' => $slot)) ?>
 	
 <?php if ($controlsSlot): ?>
-<?php end_slot() ?>
+	<?php end_slot() ?>
 <?php endif ?>
 
 <?php if (!strlen($value)): ?>

@@ -60,12 +60,12 @@
 
     <form id="a-media-video-add-by-url-form" class="a-media-search-form" method="POST" action="<?php echo url_for("aMedia/editVideo") ?>">
 
-			<div class="form-row a-search-field" style="position:relative">
+			<div class="a-form-row a-search-field" style="position:relative">
         <label for="a-media-video-url"></label>
         <input type="text" id="a-media-video-url" class="a-search-video a-search-form" name="a_media_item[service_url]" value="" />
 			</div>
 
-			<div class="form-row example">
+			<div class="a-form-row example">
         <p>Example: http://www.youtube.com/watch?v=EwTZ2xpQwpA</p>
         <input type="hidden" name="first_pass" value="1" /> 
 			</div>
@@ -82,12 +82,12 @@
 			
 			<form id="a-media-video-add-by-embed-form" class="a-media-search-form" method="POST" action="<?php echo url_for("aMedia/editVideo") ?>">
 
-			<div class="form-row a-search-field" style="position:relative">
+			<div class="a-form-row a-search-field" style="position:relative">
         <label for="a-media-video-embed"></label>
         <input type="text" id="a-media-video-embed" class="a-search-video a-search-form" name="a_media_item[embed]" value="" />
 			</div>
 
-			<div class="form-row example">
+			<div class="a-form-row example">
         <p>Example: <?php echo htmlspecialchars('<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="437" height="291" ...</object>') ?></p>
         <input type="hidden" name="first_pass" value="1" /> 
 			</div>
