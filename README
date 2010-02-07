@@ -706,7 +706,7 @@ The side navigation column ("subnavigation") is inserted similarly:
 
     <?php include_component('a', 'subnav') ?>
 
-## Global Slots ##
+## Global Slots and Virtual Pages ##
 
 Most of the time, you want the content of a slot to be specific to a page.
 After all, if the content was the same on every page, you wouldn't need
@@ -717,7 +717,7 @@ on more than one page. For instance, an editable page footer or page
 subtitle might be consistent throughout the site, or at least throughout
 a portion of the site.
 
-You can do this by adding a "global slot" to your page template or layout.
+The quickest way to do this is by adding a "global slot" to your page template or layout.
 Just set the `global` option to `true` when inserting the slot:
 
     <h4>
@@ -728,14 +728,60 @@ Just set the `global` option to `true` when inserting the slot:
 The content of the resulting slot is shared by all pages that include
 it with the `global` option.
 
-Note that global slots can be edited only by users with editing
-privileges throughout the site. Otherwise users with control only over
-a subpage could edit a footer displayed on all pages.
+Note that you can use the `global` flag with areas as well as slots:
 
-Have a need for a slot that is shared by some pages, but not all pages?
-Just name the slot appropriately. For instance, the slot name
-`chemistry-blurb` might be suitable for all pages in the
-chemistry department of an educational institution's website.
+		<?php a_area('footer', array(
+			'allowed_types' => array('aRichText', 'aImage'),
+			'global' => true
+			)) ?>
+
+By default, global slots can be edited only by users with editing
+privileges throughout the site. Otherwise users with control only over
+a subpage could edit a footer displayed on all pages. See below for more information about
+how to override this rule where appropriate.
+
+### Virtual Pages: When Global Slots Are Not Enough ###
+
+Conceptually, all global slots created in this way reside together on a virtual page with the slug `global`. Since there is no leading `/`, this page can never be navigated to. The `global` virtual page resides outside of the site's organizational tree and is used only as a storehouse of shared content.
+
+For headers and footers, this works very well. But if you have a larger amount of shared content, the model begins to break down. Fortunately there's a solution: group your content into separate virtual pages.
+
+When you include a slot this way:
+
+    <h4>
+      <?php a_slot('biography', 'aRichText', array('toolbar' => 'basic', 'slug' => "bio-$id")) ?>
+    </h4>
+
+You are fetching that slot from a separate virtual page with the slug `bio-$id`, where `$id` might identify a particular user in the `sfGuardUser` table. 
+
+Apostrophe will automatically create the needed virtual page object in the database the first time the slot is used. This technique can be used for areas as well.
+
+But why is this better than using `'global' => true`? Two reasons: performance and access control.
+
+### Performance, Global Slots and Virtual Pages ###
+
+Yes, you could manage dynamic content like biographies with just the global flag, if you chose dynamically generated names for your slots and areas. But since Apostrophe loads all current global slots into memory the first time a global slot is requested on a page, the CMS would be forced to load all of your biographies on just about every page of the site. That's clearly not acceptable. For that reason it's important to use a separate virtual page for each individual's biography, etc.
+
+As a rule of thumb, add database IDs to virtual page slugs, not area or slot names.
+
+### Access Control For Global Slots and Virtual Pages ###
+
+By default, only sitewide admins can edit slots included from other virtual pages. This is fine for headers and footers seen throughout the site, but doesn't work well for biography slots. In other words, users should be able to write their own autobiographies.
+
+You can address this problem by passing `'edit' => true` as an option to the slot or area. This overrides the normal slot editing privilege checks, so you should do this only if the user ought to have the privilege according to your own judgment. For instance, you might do something like this:
+
+    <?php $myid = sfContext::getInstance()->getUser()->getGuardUser()->id ?>
+		<h4>
+		  <?php a_slot('biography', 'aRichText', array('toolbar' => 'basic', 'slug' => "bio-$id", 'edit' => $id === $myid)) ?>
+		</h4>
+
+Once again, you can do this with areas as well.
+
+### Including Slots From Other "Normal" Pages ###
+
+It's possible to use the `slug` option to include a slot from another normal, navigable page on the site. However, if you do so, keep in mind that you don't want to create a situation where the same slot is included twice on the page itself.
+
+Also keep in mind that normal pages can be moved around on the site, which will break templates that contain explicit slugs pointing at their old locations. You can avoid this by determining the slug option dynamically, or by using a virtual page instead (no leading / on the slug).
 
 ## Overriding the Stylesheets ##
 

@@ -108,7 +108,7 @@
  <?php // provides for us ?>
 
  <?php slot("a-slot-content-$name-$permid") ?>
-   <?php a_slot_body($name, $slot->type, $permid, array_merge(array("preview" => $preview), $slotOptions), array(), $slot->isOpen()) ?>
+   <?php a_slot_body($name, $slot->type, $permid, array_merge(array('edit' => $editable, 'preview' => $preview), $slotOptions), array(), $slot->isOpen()) ?>
  <?php end_slot() ?>
 
  <?php // Wraps an individual slot, with its controls ?>

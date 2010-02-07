@@ -29,25 +29,7 @@ class BaseaSlotActions extends sfActions
     
     // Used to name value parameters, among other things
     $this->id = $this->name . "-" . $this->permid;
-    if ($editing)
-    {
-      if (!$this->page->userHasPrivilege('edit'))
-      {
-        return $this->redirect(
-          sfConfig::get('secure_module') . '/' .
-          sfConfig::get('secure_action'));
-      }
-    } 
-    else
-    {
-      if (!$this->page->userHasPrivilege('view'))
-      {
-        return $this->redirect(
-          sfConfig::get('login_module') . '/' .
-          sfConfig::get('login_action'));
-      }
-    }
-    
+
     // This was stored when the slot's editing view was rendered. If it
     // isn't present we must refuse to play for security reasons.
     $user = $this->getUser();
@@ -60,6 +42,26 @@ class BaseaSlotActions extends sfActions
       $this->options = $user->getAttribute(
         $lookingFor, false, "a");
     }
+    
+    if ($editing)
+    {
+      if (!($this->getOption('edit') || $this->page->userHasPrivilege('edit')))
+      {
+        return $this->redirect(
+          sfConfig::get('secure_module') . '/' .
+          sfConfig::get('secure_action'));
+      }
+    } 
+    else
+    {
+      if (!($this->getOption('edit') || $this->page->userHasPrivilege('view')))
+      {
+        return $this->redirect(
+          sfConfig::get('login_module') . '/' .
+          sfConfig::get('login_action'));
+      }
+    }
+      
     $this->forward404Unless($this->options !== false);
     // Clever no?
     $this->type = str_replace("SlotActions", "", get_class($this));

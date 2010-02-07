@@ -7,7 +7,11 @@ class aTools
   // We need a separate flag so that even a non-CMS page can
   // restore its state (i.e. set the page back to null)
   static private $global = false;
-  static private $globalCache = false;
+  // We now allow fetching of slots from multiple pages, which can be
+  // normal pages or outside-of-navigation pages like 'global' that are used
+  // solely for this purpose. This allows efficient fetching of only slots that are
+  // relevant to your needs, rather than fetching all 'global' slots at once
+  static private $globalCache = array();
   static private $currentPage = null;
   static private $savedCurrentPage = null;
   static protected $globalButtons = false;
@@ -104,22 +108,37 @@ class aTools
   {
     if (isset($options['global']) && $options['global'])
     {
+      if (!isset($options['slug']))
+      {
+        $options['slug'] = 'global';
+      }
+    }
+    if (isset($options['slug']))
+    {
+      $page = self::getCurrentPage();
+      if ($page->slug === $options['slug'])
+      {
+        // Nothing to do. This can happen if, for instance, a template used on all pages
+        // including the chemistry home page fetches a footer from the chemistry home page
+        return;
+      }
+      $slug = $options['slug'];
       self::$savedCurrentPage = self::getCurrentPage();
       // Caching the global page speeds up pages with two or more global slots
-      if (self::$globalCache !== false)
+      if (isset(self::$globalCache[$slug]))
       {
-        $global = self::$globalCache;
+        $global = self::$globalCache[$slug];
       }
       else
       {        
-        $global = aPageTable::retrieveBySlugWithSlots('global');
+        $global = aPageTable::retrieveBySlugWithSlots($slug);
         if (!$global)
         {
           $global = new aPage();
-          $global->slug = 'global';
+          $global->slug = $slug;
           $global->save();
         }
-        self::$globalCache = $global;
+        self::$globalCache[$slug] = $global;
       }
       self::setCurrentPage($global);
       self::$global = true;
@@ -148,46 +167,42 @@ class aTools
     throw new sfException("Option group $groupName is not defined in app.yml");
   }
 
-  // Cache this information for the duration of the request
-  static public $slotTypesInfo = null;
+  // Oops: we can't cache this list because it's different for various areas on the same page.
   
   static public function getSlotTypesInfo($options)
   {
-    if (!isset(self::$slotTypesInfo))
+    $slotTypes = array_merge(
+      array(
+         'aText' => 'Plain Text',
+         'aRichText' => 'Rich Text',
+         'aImage' => 'Image',
+         'aSlideshow' => 'Slideshow',
+         'aButton' => 'Button',
+         'aVideo' => 'Video',
+         'aPDF' => 'PDF',
+         'aRawHTML' => 'Raw HTML'),
+      sfConfig::get('app_a_slot_types', array()));
+    if (isset($options['allowed_types']))
     {
-      $slotTypes = array_merge(
-        array(
-           'aText' => 'Plain Text',
-           'aRichText' => 'Rich Text',
-           'aImage' => 'Image',
-           'aSlideshow' => 'Slideshow',
-           'aButton' => 'Button',
-           'aVideo' => 'Video',
-           'aPDF' => 'PDF',
-           'aRawHTML' => 'Raw HTML'),
-        sfConfig::get('app_a_slot_types', array()));
-      if (isset($options['allowed_types']))
+      $newSlotTypes = array();
+      foreach($options['allowed_types'] as $type)
       {
-        $newSlotTypes = array();
-        foreach($options['allowed_types'] as $type)
+        if (isset($slotTypes[$type]))
         {
-          if (isset($slotTypes[$type]))
-          {
-            $newSlotTypes[$type] = $slotTypes[$type];
-          }
+          $newSlotTypes[$type] = $slotTypes[$type];
         }
-        $slotTypes = $newSlotTypes;
       }
-      $info = array();
-      
-      foreach ($slotTypes as $type => $label)
-      {
-        $info[$type]['label'] = $label;
-        $info[$type]['class'] = strtolower(preg_replace('/^a(\w)/', 'a-$1', $type));
-      }
-      self::$slotTypesInfo = $info;
+      $slotTypes = $newSlotTypes;
     }
-    return self::$slotTypesInfo;
+    $info = array();
+    
+    foreach ($slotTypes as $type => $label)
+    {
+      $info[$type]['label'] = $label;
+      // We COULD cache this. Would it pay to do so?
+      $info[$type]['class'] = strtolower(preg_replace('/^a(\w)/', 'a-$1', $type));
+    }
+    return $info;
   }
   
   // Includes classes for buttons for adding each slot type

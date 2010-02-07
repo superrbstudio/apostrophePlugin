@@ -257,28 +257,21 @@ class BaseaActions extends sfActions
     // Careful: if we don't build the query our way,
     // we'll get *all* slots as soon as we peek at ->slots,
     // including slots that are not current etc.
-    $page = $this->retrievePageForEditingByIdParameter();
-    $name = $this->getRequestParameter('name');
+    $page = $this->retrievePageForAreaEditing();
     $all = $this->getRequestParameter('all');
-    $this->versions = $page->getAreaVersions($name, false, isset($all)? null : 10);
+    $this->versions = $page->getAreaVersions($this->name, false, isset($all)? null : 10);
     $this->id = $page->id;
-    $this->version = $page->getAreaCurrentVersion($name);
-    $this->name = $name;
+    $this->version = $page->getAreaCurrentVersion($this->name);
     $this->all = $all;
   }
   
   public function executeAddSlot(sfRequest $request)
   {
-    $page = $this->retrievePageForEditingByIdParameter();
+    $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
-    $this->name = $this->getRequestParameter('name');
     $this->type = $this->getRequestParameter('type');
     $options = aTools::getAreaOptions($page->id, $this->name);
 
-    // TODO: validate the user's choice of slot type against the
-    // allowed slots for this area, not just the allowed slots globally.
-    // There is very little harm in this as slots rarely have
-    // security implications, but custom slots someday might.
     if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($options))))
     {
       $this->forward404();
@@ -287,9 +280,8 @@ class BaseaActions extends sfActions
 
   public function executeMoveSlot(sfRequest $request)
   {
-    $page = $this->retrievePageForEditingByIdParameter();
+    $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
-    $this->name = $this->getRequestParameter('name');
     $slots = $page->getArea($this->name);
     $permid = $this->getRequestParameter('permid');
     if (count($slots))
@@ -323,7 +315,7 @@ class BaseaActions extends sfActions
 
   public function executeDeleteSlot(sfRequest $request)
   {
-    $page = $this->retrievePageForEditingByIdParameter();
+    $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
     $this->name = $this->getRequestParameter('name');
     $page->newAreaVersion($this->name, 'delete', 
@@ -338,9 +330,8 @@ class BaseaActions extends sfActions
   
   public function executeSetVariant(sfRequest $request)
   {
-    $page = $this->retrievePageForEditingByIdParameter();
+    $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
-    $this->name = $this->getRequestParameter('name');
     $this->permid = $this->getRequestParameter('permid');
     $page->newAreaVersion($this->name, 'variant', 
       array('permid' => $this->permid, 'variant' => $this->getRequestParameter('variant')));
@@ -395,8 +386,10 @@ class BaseaActions extends sfActions
     $id = $request->getParameter('id');
     $page = aPageTable::retrieveByIdWithSlotsForVersion($id, $version);
     $this->flunkUnless($page);
-    $this->flunkUnless($page->userHasPrivilege('edit|manage'));    
     $this->name = $this->getRequestParameter('name');
+    $name = $this->name;
+    $options = $this->getUser()->getAttribute("area-options-$id-$name");
+    $this->flunkUnless(isset($options['edit']) && $options['edit']);
     if ($subaction == 'revert')
     {
       $page->newAreaVersion($this->name, 'revert');
@@ -405,6 +398,23 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
     $this->cancel = ($subaction == 'cancel');
     $this->revert = ($subaction == 'revert');
+  }
+
+  // Rights to edit an area are determined at rendering time and then cached in the session.
+  // This allows an edit option to be passed to a_slot and a_area which is crucial for the
+  // proper functioning of virtual pages that edit areas related to concepts external to the
+  // CMS, such as user biographies
+  protected function retrievePageForAreaEditing()
+  {
+    $id = $this->getRequestParameter('id');
+    $page = aPageTable::retrieveByIdWithSlots($id);
+    $this->flunkUnless($page);
+    $name = $this->getRequestParameter('name');
+    $options = $this->getUser()->getAttribute("area-options-$id-$name");
+    $this->flunkUnless(isset($options['edit']) && $options['edit']);
+    $this->page = $page;
+    $this->name = $name;
+    return $page;
   }
 
   public function executeSettings(sfRequest $request)

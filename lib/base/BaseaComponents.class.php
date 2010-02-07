@@ -36,7 +36,7 @@ class BaseaComponents extends BaseaSlotComponents
     $homeInfo = $ancestorsInfo[0];
     
     // Show archived tabs only to those who are potential editors.
-    $this->tabs = $this->page->getTabsInfo(!(aTools::isPotentialEditor() &&  $this->getUser()->getAttribute('show-archived', true, 'a')), $homeInfo);
+    $this->tabs = $this->page->getTabsInfo(!(aTools::isPotentialEditor() &&  $this->getUser()->getAttribute('show-archived', true)), $homeInfo);
     if (sfConfig::get('app_a_home_as_tab', true))
     {
       array_unshift($this->tabs, $homeInfo);
@@ -69,9 +69,9 @@ class BaseaComponents extends BaseaSlotComponents
     $name = $this->name;
     if ($this->refresh)
     {
-      if ($user->hasAttribute("area-options-$id-$name", "a"))
+      if ($user->hasAttribute("area-options-$id-$name"))
       {
-        $this->options = $user->getAttribute("area-options-$id-$name", array(), "a");
+        $this->options = $user->getAttribute("area-options-$id-$name", array());
       }
       else
       {
@@ -81,7 +81,20 @@ class BaseaComponents extends BaseaSlotComponents
     }
     else
     {
-      $user->setAttribute("area-options-$id-$name", $this->options, "a");
+      // If this area is naturally editable (we have appropriate privileges), make sure we
+      // set the explicit edit option so that other components and actions can just check
+      // for it rather than redundantly checking page privileges as well
+      if ($this->editable)
+      {
+        $this->options['edit'] = true;
+      }
+      $user->setAttribute("area-options-$id-$name", $this->options);
+    }
+    // Editability override, useful for virtual pages where access control depends on something
+    // external to the CMS
+    if ($this->getOption('edit'))
+    {
+      $this->editable = true;
     }
     $this->infinite = $this->getOption('infinite');
     if (!$this->infinite)

@@ -967,8 +967,12 @@ abstract class PluginaPage extends BaseaPage
     $areaVersion = new aAreaVersion();
     $areaVersion->area_id = $area->id;
     $areaVersion->version = $area->latest_version + 1;
-    $areaVersion->author_id = 
-      sfContext::getInstance()->getUser()->getGuardUser()->getId();
+    // Don't crash on an anon edit, it's odd but you could authorize it with the 'edit' option
+    if (sfContext::getInstance() && sfContext::getInstance()->getUser()->getGuardUser())
+    {
+      $areaVersion->author_id = 
+        sfContext::getInstance()->getUser()->getGuardUser()->getId();
+    }
     if ($action === 'delete')
     {
       if (isset($newSlots[$params['permid']]))

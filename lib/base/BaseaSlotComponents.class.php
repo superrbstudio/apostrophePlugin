@@ -15,13 +15,20 @@ class BaseaSlotComponents extends sfComponents
     {
       $this->slot = $this->page->createSlot($this->type);
     }
-    if (aTools::getAllowSlotEditing())
+    if ($this->getOption('edit'))
     {
-      $this->editable = $this->page->userHasPrivilege('edit');
+      $this->editable = true;
     }
     else
     {
-      $this->editable = false;
+      if (aTools::getAllowSlotEditing())
+      {
+        $this->editable = $this->page->userHasPrivilege('edit');
+      }
+      else
+      {
+        $this->editable = false;
+      }
     }
     if ($this->getOption('preview'))
     {
