@@ -109,7 +109,8 @@ aMediaVideoSearchRenderResults();
 
 function aMediaVideoSelected(videoInfo)
 {
-  document.location = <?php echo json_encode(url_for("aMedia/editVideo")) ?> + "?first_pass=1&a_media_item[title]=" + escape(videoInfo['title']) + "&a_media_item[service_url]=http://www.youtube.com/watch?v=" + escape(videoInfo['id']);
+  <?php // TODO: find a cleaner way to implement the CSRF here. ?>
+  document.location = <?php echo json_encode(url_for("aMedia/editVideo")) ?> + "?first_pass=1&a_media_item[title]=" + escape(videoInfo['title']) + "&a_media_item[_csrf_token]=<?php echo md5(sfConfig::get('sf_csrf_secret') . session_id()) ?>&a_media_item[service_url]=http://www.youtube.com/watch?v=" + escape(videoInfo['id']);
 }
 
 aUI();

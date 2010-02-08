@@ -30,6 +30,7 @@
   <?php endif ?>
 
   <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editPdf", array("slug" => $slug)))?>">
+  	<?php echo $form->renderHiddenFields() ?>
 
     <div class="a-form-row file">
       <?php echo $form['file']->renderLabel() ?>

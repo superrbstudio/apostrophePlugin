@@ -1,3 +1,4 @@
+<?php echo $form->renderHiddenFields() ?>
 <?php echo $form['value']->render() ?>
 
 <script type="text/javascript">

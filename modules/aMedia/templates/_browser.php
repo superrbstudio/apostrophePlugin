@@ -21,6 +21,7 @@
 
 	  <form method="POST" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
 	    <?php echo isset($search) ? link_to('Clear Search', aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => 'Clear Search', )) : '' ?>
+	    <?php echo $searchForm->renderHiddenFields() ?>
 	    <?php echo $searchForm['search']->render() ?>
 	    <input width="29" type="image" height="20" title="Click to Search" alt="Search" src="/apostrophePlugin/images/a-special-blank.gif" value="Submit" class="a-search-submit submit" id="a-media-search-submit" />
 	  </form>
@@ -67,7 +68,7 @@
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<span id="a-media-no-categories-message">There are no categories.</span>
+			<span id="a-media-no-categories-message">There are no nonempty categories.</span>
 
 			<?php else: ?>
 				

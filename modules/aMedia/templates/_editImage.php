@@ -88,6 +88,8 @@
 			</li>
 
    	</ul>
+   	<?php echo $form->renderHiddenFields() ?>
+  	
 	</form>
 <?php endif ?>
 				

@@ -11,6 +11,7 @@
 <form method="POST" action="<?php echo url_for('a/create') ?>" id="a-breadcrumb-create-childpage-form" class="a-breadcrumb-form add">
 
 	<?php $form = new aCreateForm($page) ?>
+	<?php echo $form->renderHiddenFields() ?>
 	<?php echo $form['parent']->render(array('id' => 'a-breadcrumb-create-parent', )) ?>
 	<?php echo $form['title']->render(array('id' => 'a-breadcrumb-create-title', )) ?>
 

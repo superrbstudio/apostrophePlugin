@@ -2,6 +2,7 @@
 
 <div id="a-signin">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="a-signin-form" <?php echo ($form->hasErrors())? 'class="has-errors"':''; ?>>
+  	<?php echo $form->renderHiddenFields() ?>
 
 		<div class="a-form-row">
     	<?php echo $form['username']->renderLabel() ?>

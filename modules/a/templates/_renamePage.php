@@ -7,6 +7,8 @@
   <form method="POST" action="<?php echo url_for('a/rename') ?>" id="a-breadcrumb-rename-form" class="epc-form a-breadcrumb-form rename">
 
 	<?php $form = new aRenameForm($page) ?>
+	<?php echo $form->renderHiddenFields() ?>
+	
 	<?php echo $form['id']->render(array('id' => 'a-breadcrumb-rename-id', )) ?>
 	<?php echo $form['title']->render(array('id' => 'a-breadcrumb-rename-title')) ?>
 

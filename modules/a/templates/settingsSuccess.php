@@ -19,7 +19,7 @@
 	<?php // submit tag because that doesn't work in jq_form_remote_tag ?>
   <input type="hidden" name="submit" value="1" />
 
-	<?php echo $form['id'] ?>
+	<?php echo $form->renderHiddenFields() ?>
 
 		<div id="a-page-settings-left">
 			<?php if (isset($form['slug'])): ?>

@@ -12,6 +12,8 @@
     <?php echo $form->renderGlobalErrors() ?>
 
     <form method="POST" action="<?php echo url_for("aMedia/uploadImages") ?>" enctype="multipart/form-data" id="a-media-upload-form">
+      <?php echo $form->renderHiddenFields() ?>
+    	
       <?php // I use this in js code, don't kill it please, style it if you want ?>
       <div id="a-media-upload-form-subforms">
         <?php for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++): ?>

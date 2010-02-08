@@ -24,4 +24,18 @@ class aMediaEditImagesForm extends sfForm
     // $this->widgetSchema->setFormFormatterName('aAdmin');
     
   }
+  
+  // We don't include the form class in the token because we intentionally
+  // switch form classes in midstream. You can't learn the session ID from
+  // the cookie on your local box, so this is sufficient
+  public function getCSRFToken($secret = null)
+  {
+    if (null === $secret)
+    {
+      $secret = self::$CSRFSecret;
+    }
+
+    return md5($secret.session_id());
+  }    
+  
 }

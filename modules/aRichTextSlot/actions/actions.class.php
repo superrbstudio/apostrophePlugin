@@ -8,7 +8,20 @@ class aRichTextSlotActions extends BaseaSlotActions
 
     // Work around FCK's incompatibility with AJAX and bracketed field names
     // (it insists on making the ID bracketed too which won't work for AJAX)
-    $value = array('value' => $this->getRequestParameter('slotform-' . $this->id . '-value'));
+    
+    // Don't forget, there's a CSRF field out there too. We need to grep through
+    // the submitted fields and get all of the relevant ones, reinventing what
+    // PHP's bracket syntax would do for us if FCK were compatible with it
+    
+    $values = $request->getParameterHolder()->getAll();
+    $value = array();
+    foreach ($values as $k => $v)
+    {
+      if (preg_match('/^slotform-' . $this->id . '-(.*)$/', $k, $matches))
+      {
+        $value[$matches[1]] = $v;
+      }
+    }
     
     // HTML is carefully filtered to allow only elements, attributes and styles that
     // make sense in the context of a rich text slot, and you can adjust that.

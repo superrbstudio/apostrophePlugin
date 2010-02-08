@@ -12,7 +12,8 @@
 
 	<div class="a-media-library">				
 		<form method="POST" action="<?php echo url_for("aMedia/editImages") ?>" enctype="multipart/form-data" id="a-media-edit-form">
-	
+		<?php echo $form->renderHiddenFields() ?>
+  
 		<input type="hidden" name="active" value="<?php echo implode(",", $active) ?>" />
 
 		<?php $n = 0 ?>
