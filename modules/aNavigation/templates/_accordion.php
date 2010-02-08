@@ -11,7 +11,7 @@
 			<?php endif ?>
 
 			<?php if (isset($drag_icon) && $draggable): ?>
-			<span class="a-btn icon a-drag a-controls"></span>
+			<span class="a-btn icon a-drag a-controls nobg"></span>
 			<?php endif ?>
 
 		</li>

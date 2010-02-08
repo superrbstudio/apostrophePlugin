@@ -1,12 +1,12 @@
 function aUI(target, instance)
 {
 
-	$.each($('.a-btn, .a-submit, .a-cancel'), function() { // inject extra markup for link styles
+	$('.a-btn, .a-submit, .a-cancel').each(function() { // inject extra markup for link styles
 		var backgroundImage = $(this).css('background-image');
-		if(!$(this).hasClass('nobg'))
-		{
-			if (!$(this).data('a-gradient'))
-			{ 
+
+		if (!$.browser.msie) { // I know we're not supposed to use this.
+			if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
+			{
 				$(this).data('a-gradient', 1); 
 				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 22%, rgba(237,237,237,0.6) 100%	)';
 				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0.22, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
@@ -14,7 +14,8 @@ function aUI(target, instance)
 				$(this).css('background-image', webkitBackgroundImage);			
 			}
 		}
-  });
+		
+	  });
 	
 	if (typeof target == 'undefined') // If Not Set
 	{

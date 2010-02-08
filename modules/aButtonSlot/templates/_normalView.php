@@ -37,7 +37,7 @@
     <?php echo $embed ?>
     </li>
     <?php if (isset($img_title)): ?>
-      <li class="a-button-title"><?php echo $img_title ?></li>
+      <li class="a-button-title"><a class="a-button-link" href="<?php echo $link ?>"><?php echo $img_title ?></a></li>
     <?php endif ?>
     <?php if ($description): ?>
       <li class="a-button-description"><?php echo $item->description ?></li>

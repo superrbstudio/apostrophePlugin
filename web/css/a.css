@@ -394,7 +394,7 @@ border: none;
 .a-btn.a-disabled *
 {
 	background-color: #ddd !important;
-	color: #eee !important;
+	color: #fff !important;
 	cursor: default !important;
 }
 
@@ -468,6 +468,16 @@ text-indent:0 !important;
 .icon.a-feed
 {
 background-image: url(/apostrophePlugin/images/a-icon-feed.png);
+}
+
+.icon.a-unchecked
+{
+background-image: url(/apostrophePlugin/images/a-icon-unchecked.png);
+}
+
+.icon.a-checked
+{
+background-image: url(/apostrophePlugin/images/a-icon-checked.png);	
 }
 
 .icon.a-blog-btn,
@@ -1252,10 +1262,10 @@ ul.a-controls li.addslot-now
 	margin: 0 4px 0 0 !important;
 }
 
-ul.a-controls.a-slot-controls,
+.aSlideshow ul.a-controls.a-slot-controls,
 ul.a-controls.a-media-edit-links,
 ul.a-controls.a-media-multiple-list-controls
-{ /* Slot Controls - Sit ON TOP of associated slot */
+{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
 position: absolute;
 z-index: 799;
 top: 0;
@@ -1273,14 +1283,14 @@ ul.a-controls .a-history-options
 display: none;
 }
 
-.editing-now a.a-btn .a-b,
-.browsing-history a.a-btn.a-history .a-b
+.editing-now a.a-btn,
+.browsing-history a.a-btn.a-history
 {
 color: #000 !important;
 cursor: default !important;
 }
 
-.a-area.previewing-history a.a-btn.a-history .a-b
+.a-area.previewing-history a.a-btn.a-history
 {
 background-color: transparent !important;
 color: #fff !important;
@@ -1296,10 +1306,55 @@ display: none !important;
 display: block !important;
 }
 
+ul.a-controls li.variant.open
+{
+}
 
+ul.a-controls .a-controls-item.variant .a-variant-options-toggle
+{
+	position: relative;
+	z-index: 100;
+}
 
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
+{
+	background-color: #333;
+}
 
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
+{
+	background-color: #999;
+}
 
+ul.a-controls .a-variant-options
+{
+	padding: 30px 6px 2px 5px;
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	float: left;
+	display: none;
+	border: 1px solid #eee;
+	z-index: 1;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+}
+
+ul.a-controls .a-variant-options li,
+ul.a-controls .a-variant-options li.last
+{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 4px 0 !important;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options
+{
+	display: block;
+}
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -2130,10 +2185,49 @@ ul.a-controls.a-area-controls li.last
 	margin: 0 !important;
 }
 
-.a-slot.aButton {
-	
+.a-slot.aButton .a-button, 
+.a-slot.aButton .a-button .a-button-image,
+.a-slot.aButton .a-button .a-button-image .a-button-link,
+.a-slot.aButton .a-button .a-button-title
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;
+	width: 100%;
+	margin: 0;
 }
 
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
+{ /* Built-in aButton Variant */
+position: absolute;
+top: 0;
+left: 0;
+top: 50%;
+left: 0;
+line-height: 20px;
+margin-top: -10px;	
+}
+
+.a-slot.aButton.useTitleAsButtonText .a-button
+{
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a,
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a:hover
+{
+	position: absolute;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	color: #fff;
+}
 
 
 /* 15. Apostrophe Login Form
@@ -3997,7 +4091,7 @@ float: left;
 margin-right:1px !important;
 }
 
-#a-admin-container.sfGuardUser a.icon.a-add .a-b
+#a-admin-container.sfGuardUser a.icon.a-add
 {
 	background-image: url(/apostrophePlugin/images/a-icon-users.png);
 }
