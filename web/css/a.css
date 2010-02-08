@@ -1192,7 +1192,7 @@ ul.a-controls li
 float: left;
 display: inline;
 position: relative;
-margin: 0 1px 1px 0 !important;
+margin: 0 4px 4px 0 !important;
 width: auto;
 height: auto;
 border: none;
@@ -1233,6 +1233,11 @@ z-index: 999;
 ul.a-controls ul.a-controls-item.history
 {
 z-index: 899;
+}
+
+ul.a-controls li.addslot-now
+{
+	margin: 0 4px 0 0 !important;
 }
 
 ul.a-controls.a-slot-controls,
@@ -4409,11 +4414,11 @@ background-color: rgba(153,204,51,0.65);
 .a-submit,
 .a-cancel
 { /* Background Color */
--moz-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
--webkit-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
--opera-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
--khtml-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);	
-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);
+-moz-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
+-webkit-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
+-opera-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
+-khtml-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);	
+box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;

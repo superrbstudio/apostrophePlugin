@@ -7,7 +7,7 @@
 <?php slot('a-cancel') ?>
 <!-- .a-controls.area Cancel Button -->
 <li class="a-controls-item cancel">
-	<a href="#" class="a-btn a-cancel">Cancel</a>					
+	<a href="#" class="a-btn a-cancel" title="Cancel">Cancel</a>					
 </li>
 <?php end_slot() ?>
 
