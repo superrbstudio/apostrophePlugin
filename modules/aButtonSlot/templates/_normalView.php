@@ -47,8 +47,13 @@
   <?php if ($defaultImage): ?>
   	<ul class="a-button default">
       <li class="a-button-image">
-        <?php echo image_tag($defaultImage) ?>
-      <li>
+        <?php // Corner case: they've set the link but are still using the default image ?>
+        <?php if ($link): ?>
+          <?php echo link_to(image_tag($defaultImage), $link) ?>
+        <?php else: ?>
+          <?php echo image_tag($defaultImage) ?>
+        <?php endif ?>
+      </li>
     </ul>
   <?php endif ?>
 <?php endif ?>

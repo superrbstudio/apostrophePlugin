@@ -16,7 +16,7 @@ class aButtonForm extends sfForm
     ));
     $this->setValidators(array(
       'url' => new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
-      'title' => new sfValidatorString()
+      'title' => new sfValidatorString(array('required' => false))
     ));
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
   }
