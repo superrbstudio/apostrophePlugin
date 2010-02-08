@@ -1619,41 +1619,49 @@ Dugauthier for his assistance in debugging these features.
 
 ## Custom navigation in templates ##
 
-Apostrophe supports three types of navigation components, these can be found in the aNavigation module.  Including these navigation elements is as easy as including a component in your template.  The three types of navigation elements are:  an accordian tree, a tabbed menu, and a breadcrumb.  The navigation element once used will no longer require any additional SQL queries no matter how many navigation elements are included on a template.
+Apostrophe supports three types of navigation components. These can be found in the aNavigation module.  Including these navigation elements is as easy as including a component in your template.  The three types of navigation elements are:  
 
+ * An accordion tree
+ * A tabbed or vertical menu of links to child pages
+ * A breadcrumb trail from the home page to the current page.  
 
-### Accordian Navigation ###
+The navigation element, once used, will no longer require any additional SQL queries no matter how many similar navigation elements are included in a template or layout.
 
-An accordian navigation can be easily included in your template by doing the following.
+### Accordion Navigation ###
 
-include_component('aNavigation', 'accordian', array('root' => '/', 'active' => $page->slug, 'name' => 'normal'))
+Accordion-style navigation can be easily included in your template by doing the following. Accordion navigation is a compromise between showing the entire page tree and showing just the breadcrumb. Accordion navigation includes everything that would be included in a breadcrumb trail, plus the peers of all of those pages. This makes it easy to navigate to related pages at any level without being overwhelmed by a comprehensive list of all pages on the site. These links are rendered as nested `ul` elements.
+
+		<?php include_component('aNavigation', 'accordion', array('root' => '/', 'active' => $page->slug, 'name' => 'normal')) ?>
 
 Parameters
-root (required) - This is the slug of the root page that the menu should start at
-active (required) - The page to build the navigation down to, will also recieve a css class of current
-name (required) - the unique name of the navigation element for your template.
+
+ * root (required) - This is the slug of the root page that the menu should start from. Often the home page
+ * active (required) - The page to build the navigation down to, will also recieve a css class of current
+ * name (required) - The unique name of the navigation element for your template. This influences CSS IDs and can be used for styling
 
 ### Tabbed Navigation ###
 
-The tabbed navigation provides a navigation element that displays all of the children of a page.
+The tabbed navigation provides a navigation element that displays all of the children of a page. Note that depending on your CSS you can render it as a vertical menu. For an example, see the "subnav" area of the `asandbox` project; see `a/templates/_subnav.php).
 
-include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'tabs'))
+		<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'tabs')) ?>
 
 Parameters
-root (required) - This is the parent slug of the tabs that are displayed.
-active (required) - This is the page that if in the navigation will recieve a current css class of current
-name (required) - the unique name of the navigation element for your template.
+
+ * root (required) - This is the parent slug of the tabs that are displayed.
+ * active (required) - This is the page that if in the navigation will recieve a current css class of current
+ * name (required) - the unique name of the navigation element for your template.
 
 
 ### Breadcrumb ###
 
-include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'bread'))
+		<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'bread')) ?>
 
 Parameters
-root (required) - This is the root slug of the page the breadcrumb should begin with
-active (required) - This is the last element that the navigation should descend to
-separator (optional) - The separator to use between items, defaults to " > "
-name (required) - the unique name of the navigation element for your template.
+
+ * root (required) - This is the root slug of the page the breadcrumb should begin with. Usually the home page
+ * active (required) - This is the last element that the navigation should descend to. Usually the current page
+ * separator (optional) - The separator to use between items, defaults to " > "
+ * name (required) - the unique name of the navigation element for your template.
 
 You can obtain support for Apostrophe via the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). 
 
