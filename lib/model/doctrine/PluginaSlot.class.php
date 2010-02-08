@@ -98,7 +98,7 @@ abstract class PluginaSlot extends BaseaSlot
     // If there are no variants return an empty string
     if (!isset($variants[$this->type][$variant]))
     {
-      if (count($variants[$this->type]))
+      if (isset($variants[$this->type]) && count($variants[$this->type]))
       {
         // Return the first variant for the type, if any, when the variant is bogus
         $keys = array_keys($variants[$this->type]);

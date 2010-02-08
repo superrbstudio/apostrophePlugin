@@ -107,5 +107,6 @@
           <?php endif ?>
         <?php endforeach ?>
       });
+    </script>
   <?php endif ?>
 <?php endif ?>

@@ -5,3 +5,11 @@
 <?php use_helper('a') ?>
 <?php a_slot_body($name, $type, $permid, 
   $options, $validationData, $editorOpen) ?>
+<?php if (isset($variant)): ?>
+  <script>
+    $('<?php echo "#$name-$permid-variant .active" ?>').hide();
+    $('<?php echo "#$name-$permid-variant .inactive" ?>').show();
+    $('<?php echo "#$name-$permid-variant-$variant-inactive" ?>').hide();
+    $('<?php echo "#$name-$permid-variant-$variant-active" ?>').show();
+  </script>
+<?php endif ?>

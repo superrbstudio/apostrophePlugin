@@ -333,8 +333,9 @@ class BaseaActions extends sfActions
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
     $this->permid = $this->getRequestParameter('permid');
+    $variant = $this->getRequestParameter('variant');
     $page->newAreaVersion($this->name, 'variant', 
-      array('permid' => $this->permid, 'variant' => $this->getRequestParameter('variant')));
+      array('permid' => $this->permid, 'variant' => $variant));
     $page = aPageTable::retrieveByIdWithSlots(
       $request->getParameter('id'));
     $this->flunkUnless($page);
@@ -366,6 +367,7 @@ class BaseaActions extends sfActions
         "permid" => $this->permid, 
         "options" => $this->options,
         "editorOpen" => false,
+        'variant' => $variant,
         "validationData" => array()));
   }
 
