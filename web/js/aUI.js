@@ -1,10 +1,10 @@
 function aUI(target, instance)
 {
 
-	$.each($('.a-btn'), function() { // inject extra markup for link styles
-		txt = $(this).text();
-		$(this).html("<span class='a-i'></span><span class='a-b'>"+txt+"</span>");
-   });
+	// $.each($('.a-btn'), function() { // inject extra markup for link styles
+	// 	txt = $(this).text();
+	// 	$(this).html("<span class='a-i'></span><span class='a-b'>"+txt+"</span>");
+	//    });
 	
 	if (typeof target == 'undefined') // If Not Set
 	{
