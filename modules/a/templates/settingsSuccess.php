@@ -102,7 +102,7 @@
 			<?php if($page->hasChildren()): ?>
 			<?php $childMessage = "This page has children that will also be deleted. "; ?>
 			<?php endif; ?>
-      <?php echo link_to("Delete This Page", "a/delete?id=" . $page->getId(), array("confirm" => $childMessage."Are you sure? This operation can not be undone. Consider archiving the page instead.", 'class' => 'a-btn icon a-delete')) ?>
+      <?php echo link_to("Delete This Page", "a/delete?id=" . $page->getId(), array("confirm" => $childMessage."Are you sure? This operation can not be undone. Consider unpublishing the page instead.", 'class' => 'a-btn icon a-delete')) ?>
     </li>
 		<?php endif ?>
 	</ul>
