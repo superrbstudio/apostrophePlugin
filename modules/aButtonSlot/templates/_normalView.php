@@ -17,6 +17,7 @@
   	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
   	</li>
     <?php include_partial('a/simpleEditButton', array('name' => $name, 'permid' => $permid, 'label' => 'URL', 'title' => 'Set URL', 'controlsSlot' => false)) ?>
+		<?php include_partial('a/variant', array('name' => $name, 'permid' => $permid, 'page' => $page, 'slot' => $slot)) ?>
   <?php end_slot() ?>
 <?php endif ?>
 
@@ -44,7 +45,7 @@
   </ul>
 <?php else: ?>
   <?php if ($defaultImage): ?>
-  <ul class="a-button default">
+  	<ul class="a-button default">
       <li class="a-button-image">
         <?php echo image_tag($defaultImage) ?>
       <li>

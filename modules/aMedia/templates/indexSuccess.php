@@ -11,7 +11,7 @@
 	<?php if (aMediaTools::isSelecting()): ?>
 
     <?php if (isset($label)): ?>
-      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to("cancel", "aMedia/selectCancel", array("class"=>"a-cancel event-default")) ?></h3>
+      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to("cancel", "aMedia/selectCancel", array("class"=>"a-cancel event-default text-only")) ?></h3>
     <?php endif ?>
 
     <?php include_partial('aMedia/describeConstraints') ?>

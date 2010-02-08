@@ -29,19 +29,6 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() { // On page ready indicate selected items
-		aMediaItemsIndicateSelected(<?php echo json_encode($ids) ?>) 
-
-		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
-					
-		$('.a-media-selection-list-item').hover(function(){
-			$(this).addClass('over');
-		},function(){
-			$(this).removeClass('over');			
-		});
-		
-	});
-
 	function aMediaItemsIndicateSelected(ids)
 	{
 
@@ -58,11 +45,8 @@
 			}
 		}
 	
-		$('.a-media-item').each(function(){
-			if ($(this).hasClass('.a-media-selected'))
-			{
-				$(this).children(':first').prepend('<div class="a-media-selected-overlay"></div>');
-			}
+		$('.a-media-item.a-media-selected').each(function(){
+			$(this).children('.a-media-item-thumbnail').prepend('<div class="a-media-selected-overlay"></div>');
 		});
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
@@ -77,6 +61,20 @@
 
 	$('.a-media-thumb-link').click(function(){
 		$(this).addClass('a-media-selected');
+	});
+
+	$(document).ready(function() { // On page ready indicate selected items
+
+		aMediaItemsIndicateSelected(<?php echo json_encode($ids) ?>) 
+
+		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
+			
+		$('.a-media-selection-list-item').hover(function(){
+			$(this).addClass('over');
+		},function(){
+			$(this).removeClass('over');			
+		});
+		
 	});
 
 </script>
