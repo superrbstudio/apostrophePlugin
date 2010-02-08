@@ -1,10 +1,16 @@
 function aUI(target, instance)
 {
 
-	// $.each($('.a-btn'), function() { // inject extra markup for link styles
-	// 	txt = $(this).text();
-	// 	$(this).html("<span class='a-i'></span><span class='a-b'>"+txt+"</span>");
-	//    });
+	$.each($('.a-btn, .a-submit, .a-cancel'), function() { // inject extra markup for link styles
+		var backgroundImage = $(this).css('background-image');
+		if(!$(this).hasClass('nobg'))
+		{
+			mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 22%, rgba(237,237,237,0.6) 100%	)';
+			webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0.22, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
+			$(this).css('background-image', mozBackgroundImage);
+			$(this).css('background-image', webkitBackgroundImage);			
+		}
+  });
 	
 	if (typeof target == 'undefined') // If Not Set
 	{

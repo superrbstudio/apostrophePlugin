@@ -278,6 +278,12 @@ text-decoration:underline;
 	margin: 0;	
 }
 
+.nobg,
+.nobg:hover
+{
+	background-color: transparent !important;
+}
+
 /* 4. Basic Global Layout
 -------------------------------------*/
 
@@ -430,14 +436,6 @@ padding: 0;
 width: 20px;
 }
 
-.a-btn.nobg,
-.a-btn.nobg,
-.a-btn.nobg:hover,
-.a-btn.nobg:hover
-{ /* Some Slots need to override the background color stuff to look good*/
-	background-color: transparent !important;
-}
-
 /* Hovering Flag Buttons - Pop to the top */
 .a-btn.a-flag-btn:hover
 {
@@ -514,7 +512,8 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 .a-cancel
 {
 padding-left: 20px !important;
-background: #999 url(/apostrophePlugin/images/a-icon-cancel.png) top left no-repeat !important;
+background: url(/apostrophePlugin/images/a-icon-cancel.png) top left no-repeat;
+background-color: #999 !important;
 }
 
 .a-cancel:hover
