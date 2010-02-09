@@ -157,7 +157,6 @@ class aImageConverter
     $bytes = fread($in, 4);
     if ($bytes === '%PDF')
     {
-      return false;
       $input = 'gs -sDEVICE=ppm -sOutputFile=- ' .
         ' -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q -';
     }
