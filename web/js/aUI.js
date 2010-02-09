@@ -43,14 +43,14 @@ function aUI(target, instance)
 	
 	if (addSlotButton.hasClass('addslot-now')) // init_a_controls was resetting add slot buttons in some scenarios when we didn't want it to	
 	{ 
-		addSlotButton.prev().css('display','none');
+		addSlotButton.prev().hide();
 	} 
 	else
 	{
-		addSlotButton.siblings('.a-area-options').css('display','none');
+		addSlotButton.siblings('.a-area-options').hide();
 	}
 	
-		//
+	//
 	// INSTANCE CONTROLS
 	//
 
@@ -105,14 +105,11 @@ function aUI(target, instance)
 	});
 	
 	$('a.a-history').unbind("click").click(function(event){
-
 		event.preventDefault();	
-			
 		$('.a-history-browser').hide();
 		$('a.a-history').parents('.a-area').removeClass('browsing-history');
 		$('a.a-history').parents('.a-area').removeClass('previewing-history');
 		$('.a-page-overlay').show();
-		
 		if (!$(this).parents('.a-area').hasClass('browsing-history')) 
 		{
 			//clear history and show the animator
@@ -134,7 +131,6 @@ function aUI(target, instance)
 	});
 	
 	$('a.a-cancel').unbind("click").click(function(event){
-
 		$(this).parents('.a-controls').children().show();
 		$(this).parents('.a-controls').find('.a-area-options').hide();		
 		$(this).parent().hide(); //hide parent <li>
