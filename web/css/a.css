@@ -311,7 +311,7 @@ width: 100%;
 	width: 720px;
 }
 
-#a-area-footer
+.a-area-footer
 {
 	position: relative;
 	display: inline;
@@ -4480,7 +4480,7 @@ float: left;
 width: auto;
 }
 
-.a-default #a-area-body
+.a-default .a-area-body
 {
 width: 480px;
 }
