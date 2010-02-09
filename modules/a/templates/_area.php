@@ -36,7 +36,12 @@
 
 <?php if (!$refresh): ?>
   <?php // Wraps the whole thing, including the area controls ?>
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area">
+  <?php // Existing CSS code often targets the old area IDs, which were a-area-$name. Since ?>
+  <?php // we now have multiple areas with the same name coming from separate virtual pages, ?>
+  <?php // we need the page ID in the DOM ID, which means it can't be used in CSS. Instead we ?>
+  <?php // provide a-area-$name as a class, which should make it easy to change your CSS rules. ?>
+  <?php // It is also possible to explicitly pass an area-class option to an area (or singleton slot). ?>
+  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?>">
     
   <?php // The area controls ?>
   <?php if ($editable): ?>

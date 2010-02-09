@@ -800,6 +800,25 @@ If you do keep our stylesheets and further override them, you'll
 want to specify `position: last` for the stylesheets that should
 override them.
 
+You may want to style individual areas and slots without introducing
+wrapper divs to your templates. To do that, pay attention to the CSS
+classes we output on the outermost wrappers of each area. You'll note
+that standalone slots still have an area wrapper in order to implement
+their editing controls and make it easier to write consistent CSS:
+
+		<div id="a-area-12-body" class="a-area a-area-body">
+
+You may be tempted to use the `id` attribute. *Don't do that.* The id attribute contains the page ID, which differs from page to page and should never be used in CSS. 
+
+Instead, take advantage of the classes on this div:
+
+		.a-area-body
+		{
+		  css rules specific to the area or slot named 'body'
+		}
+
+Note that if you need different behavior on different pages in a way that can't be achieved by adding different slots and using different variants of each slot, you should use a separate template for each type of page.
+
 ## Access Control ##
 
 By default, a a site follows these security rules:
