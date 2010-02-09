@@ -7,9 +7,8 @@
 
 <?php if (isset($variant)): ?>
 	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.active" ?>').toggle();
-		$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive" ?>').toggle();
-	});
+		$(document).ready(function() {
+			$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options" ?>').removeClass('loading');
+		});
   </script>
 <?php endif ?>

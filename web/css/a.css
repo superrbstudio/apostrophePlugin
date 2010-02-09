@@ -1334,15 +1334,15 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
 
 ul.a-controls .a-variant-options
 {
-	padding: 30px 6px 2px 5px;
+	padding: 30px 20px 2px 5px;
 	position: absolute;
+	float: left;
+	display: none;
 	top: -5px;
 	left: -5px;
 	background: #fff;
-	float: left;
-	display: none;
 	border: 1px solid #eee;
-	z-index: 1;
+	z-index: 1;	
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;	
@@ -1359,8 +1359,17 @@ ul.a-controls .a-variant-options li.last
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options
 {
+	width: auto;
 	display: block;
 }
+
+ul.a-controls .a-variant-options.loading
+{
+	background: #fff url('/apostrophePlugin/images/a-icon-loader-ani.gif') 95% 5px no-repeat;
+}
+
+
+
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -4567,7 +4576,8 @@ background-color: #888;
 text-decoration: none !important;
 }
 
-.a-history-browser
+.a-history-browser,
+ul.a-controls .a-variant-options
 { /* Border Color */
 border-color: rgba(153,204,51,0.65);;	
 }

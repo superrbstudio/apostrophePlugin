@@ -17,5 +17,14 @@
         </li>
       <?php endforeach ?>
     </ul>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive a" ?>').click(function(){
+					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options" ?>').addClass('loading');					
+					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.active" ?>').toggle();
+					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive" ?>').toggle();
+				})
+			});	
+		</script>
   </li>
 <?php endif ?>
