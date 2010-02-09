@@ -35,7 +35,9 @@ class aVideoSlotComponents extends BaseaSlotComponents
         $this->item->format, 
         array("width" => $this->width,
           "height" => $this->flexHeight ? false : $this->height,
-          "resizeType" => $this->resizeType));
+          "resizeType" => $this->resizeType,
+          // Upsampling video is OK (and commonplace)
+          'forceScale' => true));
       $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
   }
