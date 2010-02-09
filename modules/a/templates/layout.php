@@ -21,7 +21,7 @@
 </head>
 
 <?php // body_class allows you to set a class for the body element from a template ?>
-<body class="<?php if (has_slot('body_class')): ?><?php include_slot('body_class') ?><?php endif ?>">
+<body class="<?php if (has_slot('body_class')): ?><?php include_slot('body_class') ?><?php endif ?><?php if (($sf_user->isAuthenticated())): ?> logged-in<?php endif ?>">
 
   <?php // Everyone gets this now, but internally it determines which controls you should ?>
   <?php // actually see ?>

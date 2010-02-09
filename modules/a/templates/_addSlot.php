@@ -8,7 +8,7 @@ foreach ($slotTypesInfo as $type => $info) {
 		"url" => "a/addSlot?" . http_build_query(array('name' => $name, 'id' => $id, 'type' => $type, )),
 		"update" => "a-slots-$id-$name",
 		'script' => true,
-		'complete' => 'aUI("#a-area-'.$name.'","add-slot");', 
+		'complete' => 'aUI("#a-area-'.$id.'-'.$name.'","add-slot");', 
 		), 
 		array(
 			'class' => 'a-btn icon ' . $class .' slot', 

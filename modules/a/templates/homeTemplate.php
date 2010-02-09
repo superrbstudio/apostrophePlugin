@@ -9,7 +9,7 @@
 <?php slot('a-subnav', '') ?>
 
 <?php a_area('body', array(
-	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo'),
+	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aRawHTML', 'aText'),	
   'type_options' => array(
 		'aRichText' => array('tool' => 'Main'), 	
 		'aImage' => array('width' => 720, 'flexHeight' => true, 'resizeType' => 's'),
@@ -19,7 +19,7 @@
 	))) ?>
 
 <?php a_area('sidebar', array(
-	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF'),
+	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML', 'aText'),
   'type_options' => array(
 		'aRichText' => array('tool' => 'Sidebar'),
 		'aImage' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),

@@ -23,8 +23,8 @@
   <?php $embed = "<img src='$defaultImage' />" ?>
 <?php endif ?>
 <?php if ($item): ?>
-  <ul>
-    <li class="a-context-image">
+  <ul class="a-media-image">
+    <li class="a-image-embed">
     <?php if (isset($dimensions)): ?>
       <?php $embed = str_replace(
         array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),

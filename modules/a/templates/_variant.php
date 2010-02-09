@@ -1,6 +1,6 @@
 <?php $variants = sfConfig::get('app_a_slot_variants') ?>
 <?php if ((!$slot->isNew()) && isset($variants[$slot->type]) && count($variants[$slot->type])): ?>
-  <li class="a-controls-item variant" id="<?php echo "$pageid-$name-$permid-variant" ?>">
+  <li class="a-controls-item variant" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
 		<?php echo jq_link_to_function('Options', '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant-options-toggle").parent().toggleClass("open")', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
     <ul class="a-variant-options dropshadow">
       <?php foreach ($variants[$slot->type] as $variant => $settings): ?>
