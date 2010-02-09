@@ -681,14 +681,6 @@ class aMediaActions extends aEngineActions
       array('mediaItem' => $item));
   }
 
-  static protected function jsonResponse($status, $result)
-  {
-    header("Content-type: text/plain");
-    echo(json_encode(array("status" => $status, "result" => $result)));
-    // Don't let debug controllers etc decorate it with crap
-    exit(0);
-  }
-  
   public function executeVideoSearch(sfRequest $request)
   {
     $this->form = new aMediaVideoSearchForm();

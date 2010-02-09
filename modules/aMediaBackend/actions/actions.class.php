@@ -70,6 +70,7 @@ class aMediaBackendActions extends sfActions
     // controller, this is still pretty efficient because
     // we don't generate the image again, but there is the
     // PHP interpreter hit to consider, so use those directives!
+    header("Content-length: " . filesize($output));
     header("Content-type: " . aMediaItemTable::$mimeTypes[$format]);
     readfile($output);
       // If I don't bail out manually here I get PHP warnings,
@@ -271,5 +272,13 @@ class aMediaBackendActions extends sfActions
   private function getItem()
   {
     return aMediaTools::getItem($this);
+  }
+  
+  static protected function jsonResponse($status, $result)
+  {
+    header("Content-type: text/plain");
+    echo(json_encode(array("status" => $status, "result" => $result)));
+    // Don't let debug controllers etc decorate it with crap
+    exit(0);
   }
 }

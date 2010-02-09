@@ -15,16 +15,25 @@
         <li id="<?php echo $id ?>-inactive" class="inactive" style="<?php echo (!$active) ? '' : 'display: none' ?>">
           <?php echo jq_link_to_remote($settings['label'], array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn icon a-unchecked',)) ?>
         </li>
+    		<script type="text/javascript" charset="utf-8">
+    			$(document).ready(function() {
+    			  <?php // When the link to activate an inactive variant is clicked... ?>
+    				$('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive a" ?>').click(function() {
+      				<?php // Add the loading class... ?>
+    					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options" ?>').addClass('loading');		
+    					<?php // Hide the active state of whatever variant was active (by brute force)... ?>			
+    					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.active" ?>').hide();
+    					<?php // Show all the inactive states... ?>
+    					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive" ?>').show();
+    					<?php // And then show the one active state that is newly appropriate ?>
+    					$('<?php echo "#a-$pageid-$name-$permid-variant-$variant-active" ?>').show();
+    					<?php // And hide the corresponding inactive state ?>
+    					$('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();
+  				  }
+  				);
+  			});
+    		</script>
       <?php endforeach ?>
     </ul>
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive a" ?>').click(function(){
-					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options" ?>').addClass('loading');					
-					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.active" ?>').toggle();
-					$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options li.inactive" ?>').toggle();
-				})
-			});	
-		</script>
   </li>
 <?php endif ?>
