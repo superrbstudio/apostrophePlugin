@@ -62,7 +62,10 @@
 
 			<div class="a-form-row a-search-field" style="position:relative">
         <label for="a-media-video-url"></label>
-        <input type="text" id="a-media-video-url" class="a-search-video a-search-form" name="a_media_item[service_url]" value="" />
+        <?php // Achieve CSRF compatibility, use the actual form object ?>
+        <?php $form = new aMediaVideoYoutubeForm() ?>
+        <?php echo $form->renderHiddenFields() ?>
+        <?php echo $form['service_url']->render(array('class' => 'a-search-video a-search-form', 'id' => 'a-media-video-url')) ?>
 			</div>
 
 			<div class="a-form-row example">
@@ -84,7 +87,9 @@
 
 			<div class="a-form-row a-search-field" style="position:relative">
         <label for="a-media-video-embed"></label>
-        <input type="text" id="a-media-video-embed" class="a-search-video a-search-form" name="a_media_item[embed]" value="" />
+        <?php $form = new aMediaVideoEmbedForm() ?>
+        <?php echo $form->renderHiddenFields() ?>
+        <?php echo $form['embed']->render(array('class' => 'a-search-video a-search-form', 'id' => 'a-media-video-embed')) ?>
 			</div>
 
 			<div class="a-form-row example">
