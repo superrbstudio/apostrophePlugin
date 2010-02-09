@@ -6,7 +6,7 @@ foreach ($slotTypesInfo as $type => $info) {
   $class = $info['class'];
 	$link = jq_link_to_remote($label, array(
 		"url" => "a/addSlot?" . http_build_query(array('name' => $name, 'id' => $id, 'type' => $type, )),
-		"update" => "a-slots-$name",
+		"update" => "a-slots-$id-$name",
 		'script' => true,
 		'complete' => 'aUI("#a-area-'.$name.'","add-slot");', 
 		), 
