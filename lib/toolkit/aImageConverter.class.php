@@ -157,6 +157,7 @@ class aImageConverter
     $bytes = fread($in, 4);
     if ($bytes === '%PDF')
     {
+      return false;
       $input = 'gs -sDEVICE=ppm -sOutputFile=- ' .
         ' -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q -';
     }
@@ -225,8 +226,20 @@ class aImageConverter
   static private function scaleGd($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
   {
     // gd version for those who can't install netpbm, poor buggers
-    // does not support PDF (if you can install ghostview, you can install netpbm)
-    $in = self::imagecreatefromany($fileIn);
+    // "handles" PDF by rendering a blank white image. We already superimpose a PDF icon,
+    // so this should work well 
+    
+    // (if you can install ghostview, you can install netpbm too, so there's no middle case)
+    
+    if (preg_match('/\.pdf$/i', $fileIn))
+    {
+      $in = imagecreatetruecolor(100, 100);
+      imagefilledrectangle($in, 0, 0, 100, 100, imagecolorallocate($in, 255, 255, 255));
+    } 
+    else
+    {
+      $in = self::imagecreatefromany($fileIn);
+    }
     $top = 0;
     $left = 0;
     $width = imagesx($in);

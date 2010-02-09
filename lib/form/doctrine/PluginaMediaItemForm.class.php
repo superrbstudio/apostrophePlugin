@@ -20,6 +20,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 		$this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
     $this->setWidget('description', new sfWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', )));
 		$this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
+		$this->widgetSchema->setLabel('media_categories_list', 'Categories');
   }
   public function updateObject($values = null)
   {
