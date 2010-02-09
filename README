@@ -855,50 +855,64 @@ Then grant the `view_locked` permission to the appropriate sfGuard groups, and y
 
 ### Requiring Special Credentials to Edit Pages ###
 
-Editing rights can be controlled in several ways:
+Editing rights can be controlled in several ways. It may seem a bit confusing, so keep in mind that the default set of permissions, groups and `app.yml` settings in our sandbox project works well and allows the admin to assign editing and managing privileges anywhere in the CMS page tree as they see fit. Editing privileges allow users to edit a page, while managing privileges allow them to also create and delete pages.
+
+Read on if you believe you may need to override this configuration. You will need to do that if you are not using our sandbox project as a starting point, as the default behavior of the plugin is to allow any logged-in user to edit as they see fit (often quite adequate for small sites without unprivileged user accounts). 
+
+Editing and managing privileges are granted as follows:
 
 1) Any user with the `cms_admin` credential can always
-edit, regardless of all other settings. Note that the
+carry out any action in the CMS, regardless of all other settings. Note that the
 sfGuard "superadmin" user always has all credentials.
 
 2) Any user with `edit_sufficient_credentials` can always edit
-pages (but not add or delete them) anywhere on the site. For instance, 
+pages (but not necessarily add or delete them) anywhere on the site. For instance, 
 if you add such users to the `executive_editors` sfGuardGroup and grant that 
-group the `executive_editors` permission, then you can give them
+group the `edit` permission, then you can give them
 full editing privileges with these settings:
 
     all:
       a:
-        edit_sufficient_credentials: executive_editors
+        edit_sufficient_credentials: edit
+
+*If you do not specify any editing credentials at all, then any logged-in user can edit anywhere.* This is useful for small sites.
 
 Similarly, any user with `manage_sufficient_credentials` can always
 add or delete pages anywhere on the site, in addition to editing content. So 
-a more complete setting for a typical setup would be:
+complete settings might be:
 
     all:
       a:
-        edit_sufficient_credentials: executive_editors
-        manage_sufficient_credentials: executive_editors
+        edit_sufficient_credentials: edit
+        manage_sufficient_credentials: manage
+
+*Note that if you do not specify `manage_sufficient_credentials` any logged-in user can manage pages anywhere.*
+
+For convenience, you can also grant these privileges directly via a group name:
+
+all:
+  a:
+    edit_sufficient_group: executive_editors
+    manage_sufficient_group: executive_editors
 
 3) Any user who is a member of the group specified by
-`app_a_edit_group` can *potentially* be made an
+`app_a_edit_candidate_group` can *potentially* be made an
 editor in particular parts of the site. If
-`app_a_edit_group` is not set, all users are
-potential editors: 
+`app_a_edit_group` is not set, all logged-in users are potential editors.
 
     all:
       a:
-        edit_group: editors
+        edit_candidate_group: editors
 
 Similarly, any user who is a member of the group specified by
-`app_a_manage_group` can potentially be given the ability to add
+`app_a_manage_candidate_group` can potentially be given the ability to add
 and delete pages in a particular part of the site. So a 
 common setup might be:
 
     all:
       a:
-        edit_group: editors
-        manage_group: editors
+        edit_candidate_group: editors
+        manage_candidate_group: editors
 
 Why is this feature useful? Two reasons: because checking their membership
 in one group is faster than checking their access privileges in the
@@ -909,13 +923,13 @@ in a large system with many non-editing users).
 
 4) Editing privileges for any specific page and its descendants
 can be granted to any member of the group specified by 
-`app_a_edit_group` (if that option is set), or to
-any user if `app_a_edit_group` is not set.
-When a user with the `cms_admin` credential clicks on the "lock" icon, 
+`app_a_edit_candidate_group` (if that option is set), or to
+any user if `app_a_edit_candidate_group` is not set.
+When a user with the right to manage a page opens the page settings,
 they are given the option of assigning editors for that page. 
 The same principle applies to "managing" (adding and deleting)
-pages, with the group being indicated by 
-your `app_a_manage_group` setting.
+pages, with the candidate group being indicated by 
+your `app_a_manage_candidate_group` setting.
 
 Note that the pulldown list of possible editors can be quite long
 if there are thousands of people with accounts on your site! This
