@@ -13,11 +13,11 @@
 	'allowed_types' => array('aRichText', 'aImage', 'aButton', 'aSlideshow', 'aVideo', 'aPDF', 'aRawHTML', 'aText'),
   'type_options' => array(
 		'aRichText' => array('tool' => 'Main'), 	
-		'aImage' => array('width' => 598, 'flexHeight' => true, 'resizeType' => 's'),
-		'aButton' => array('width' => 598, 'flexHeight' => true, 'resizeType' => 's'),
-		'aVideo' => array('width' => 598, 'flexHeight' => true, 'resizeType' => 's'),		
-		'aSlideshow' => array("width" => 598, "flexHeight" => true),
-		'aPDF' => array('width' => 598, 'flexHeight' => true, 'resizeType' => 's'),		
+		'aImage' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),
+		'aButton' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),
+		'aVideo' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),		
+		'aSlideshow' => array("width" => 480, "flexHeight" => true),
+		'aPDF' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),		
 	))) ?>
 	
 <?php a_area('sidebar', array(
