@@ -287,13 +287,13 @@ text-decoration:underline;
 .nobg:hover
 {
 	background-color: transparent !important;
-	-moz-box-shadow: 0 0 0 transparent
-	-webkit-box-shadow: 0 0 0 transparent
-	-opera-box-shadow: 0 0 0 transparent
-	-khtml-box-shadow: 0 0 0 transparent
-	box-shadow: 0 0 0 transparent
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
+	-moz-box-shadow: 0 0 0 transparent !important;
+	-webkit-box-shadow: 0 0 0 transparent !important;
+	-opera-box-shadow: 0 0 0 transparent !important;
+	-khtml-box-shadow: 0 0 0 transparent !important;
+	box-shadow: 0 0 0 transparent !important;
+	-moz-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
 }
 
 /* 4. Basic Global Layout
