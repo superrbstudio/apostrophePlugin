@@ -8,8 +8,8 @@ function aUI(target, instance)
 			if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
 			{
 				$(this).data('a-gradient', 1); 
-				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 22%, rgba(237,237,237,0.6) 100%	)';
-				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0.22, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
+				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
+				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
 				$(this).css('background-image', mozBackgroundImage);
 				$(this).css('background-image', webkitBackgroundImage);			
 			}
