@@ -11,5 +11,7 @@
     $('<?php echo "#a-$pageid-$name-$permid-variant .inactive" ?>').show();
     $('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();
     $('<?php echo "#a-$pageid-$name-$permid-variant-$variant-active" ?>').show();
+		console.log('a-1-body-2-variant-extraWide-inactive');
+		console.log('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>');
   </script>
 <?php endif ?>

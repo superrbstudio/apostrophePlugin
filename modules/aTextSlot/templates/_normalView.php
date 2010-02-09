@@ -1,5 +1,4 @@
-<?php include_partial('a/simpleEditButton',
-  array('name' => $name, 'permid' => $permid)) ?>
+<?php include_partial('a/simpleEditButton', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid)) ?>
 
 <?php if (!strlen($value)): ?>
   <?php if ($editable): ?>
