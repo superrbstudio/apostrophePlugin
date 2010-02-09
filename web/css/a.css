@@ -398,14 +398,6 @@ border: none;
 	cursor: default !important;
 }
 
-.a-btn:hover,
-.a-btn:hover span,
-.a-btn.icon:hover
-{
-background-color: #888;
-text-decoration: none !important;
-}
-
 #a-login-form .a-i
 {
 background-color: #666;
@@ -4519,16 +4511,24 @@ background-color: rgba(153,204,51,0.65);
 .a-btn,
 .a-submit,
 .a-cancel
-{ /* Background Color */
--moz-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
--webkit-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
--opera-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
--khtml-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);	
-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.40);
+{ /* Button Styles */
+-moz-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
+-webkit-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
+-opera-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
+-khtml-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);	
+box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
 text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+}
+
+.a-btn:hover,
+.a-btn:hover span,
+.a-btn.icon:hover
+{/*Button Hover Style*/
+background-color: #888;
+text-decoration: none !important;
 }
 
 .a-history-browser
