@@ -6,7 +6,7 @@
 <?php a_slot_body($name, $type, $permid, 
   $options, $validationData, $editorOpen) ?>
 <?php if (isset($variant)): ?>
-  <script>
+	<script type="text/javascript" charset="utf-8">
     $('<?php echo "#a-$pageid-$name-$permid-variant .active" ?>').hide();
     $('<?php echo "#a-$pageid-$name-$permid-variant .inactive" ?>').show();
     $('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();

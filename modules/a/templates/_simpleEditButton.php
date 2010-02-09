@@ -1,3 +1,11 @@
+<?php if (!isset($controlsSlot)): ?>
+  <?php $controlsSlot = true ?>
+<?php endif ?>
+
+<?php if ($controlsSlot): ?>
+	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
+<?php endif ?>
+
 	<li class="a-controls-item edit">
   <?php echo jq_link_to_function(isset($label) ? $label : "edit", "", 
 				array(
@@ -21,3 +29,9 @@
 	})
 	</script>
 	</li>
+	
+<?php if ($controlsSlot): ?>
+	<?php end_slot() ?>
+<?php endif ?>
+
+
