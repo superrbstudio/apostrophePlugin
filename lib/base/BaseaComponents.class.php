@@ -59,6 +59,7 @@ class BaseaComponents extends BaseaSlotComponents
   public function executeArea()
   {
     $this->page = aTools::getCurrentPage();
+    $this->pageid = $this->page->id;
     $this->slots = $this->page->getArea($this->name, $this->addSlot, sfConfig::get('app_a_new_slots_top', true));
     $this->editable = $this->page->userHasPrivilege('edit');
     $user = $this->getUser();

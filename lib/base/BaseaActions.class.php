@@ -363,6 +363,7 @@ class BaseaActions extends sfActions
     
     return $this->renderPartial("a/ajaxUpdateSlot",
       array("name" => $this->name, 
+        "pageid" => $page->id,
         "type" => $slot->type, 
         "permid" => $this->permid, 
         "options" => $this->options,

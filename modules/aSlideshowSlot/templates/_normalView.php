@@ -6,7 +6,7 @@
   <?php // to false causes the edit action to redirect to the newly ?>
   <?php // updated page. ?>
 
-  <?php slot("a-slot-controls-$name-$permid") ?>
+  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
     <li class="a-controls-item choose-images">
     <?php echo link_to('Choose images',
       'aMedia/select',

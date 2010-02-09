@@ -8,7 +8,7 @@
   <?php // Wrap controls in a slot to be inserted in a slightly different ?>
   <?php // context by the _area.php template ?>
 
-<?php slot("a-slot-controls-$name-$permid") ?>
+<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-image">
 	  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>

@@ -116,11 +116,14 @@ class aTools
     if (isset($options['slug']))
     {
       $page = self::getCurrentPage();
-      if ($page->slug === $options['slug'])
+      if ($page)
       {
-        // Nothing to do. This can happen if, for instance, a template used on all pages
-        // including the chemistry home page fetches a footer from the chemistry home page
-        return;
+        if ($page->slug === $options['slug'])
+        {
+          // Nothing to do. This can happen if, for instance, a template used on all pages
+          // including the chemistry home page fetches a footer from the chemistry home page
+          return;
+        }
       }
       $slug = $options['slug'];
       self::$savedCurrentPage = self::getCurrentPage();

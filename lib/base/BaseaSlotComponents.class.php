@@ -45,7 +45,8 @@ class BaseaSlotComponents extends sfComponents
       $user->setAttribute("slot-options-$id-$name-$permid", 
         $this->options, "a");
     }
-    $this->id = $this->name . "-" . $this->permid;
+    $this->pageid = $this->page->id;
+    $this->id = $this->pageid . '-' . $this->name . '-' . $this->permid;
     // The basic slot types, and some custom slot types, are
     // simplified by having this field ready to go
     $this->value = $this->slot->value;

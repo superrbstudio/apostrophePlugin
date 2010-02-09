@@ -8,7 +8,7 @@
   <?php // Wrap controls in a slot to be inserted in a slightly different ?>
   <?php // context by the _area.php template ?>
 
-<?php slot("a-slot-controls-$name-$permid") ?>
+<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-pdf">
 	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => 'Choose PDF', 'label' => 'Select a PDF File', 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>

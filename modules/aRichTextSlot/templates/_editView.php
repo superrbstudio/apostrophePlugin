@@ -2,7 +2,7 @@
 <?php echo $form['value']->render() ?>
 
 <script type="text/javascript">
-a.registerOnSubmit("<?php echo $id ?>", 
+window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
   function(slotId)
   {
     <?php # FCK doesn't do this automatically on an AJAX "form" submit on every major browser ?>

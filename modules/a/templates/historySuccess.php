@@ -101,7 +101,7 @@ $(document).ready(function() {
 	    params.preview,
 	    function(result)
 	    {
-				$('#a-slots-<?php echo $name ?>').html(result);
+				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				$(targetArea).addClass('previewing-history');
 				// cancelBtn.parent().addClass('cancel-history');				
 				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
@@ -120,7 +120,7 @@ $(document).ready(function() {
 		    params.revert,
 		    function(result)
 		    {
-					$('#a-slots-<?php echo $name ?>').html(result);
+					$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 					$('.a-history-options').hide();
 					$(this).parents('.a-controls').find('a.a-cancel').parent().hide();
 					aUI(targetArea, 'history-revert');
@@ -135,7 +135,7 @@ $(document).ready(function() {
 		    params.cancel,
 		    function(result)
 		    {
-		     $('#a-slots-<?php echo $name ?>').html(result);
+		     $('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				 aUI(targetArea, 'history-cancel');
 		  	}
 			);

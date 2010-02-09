@@ -6,7 +6,7 @@
   <?php // to false causes the edit action to redirect to the newly ?>
   <?php // updated page. ?>
 
-  <?php slot("a-slot-controls-$name-$permid") ?>
+  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
     <li class="a-controls-item choose-video">
 	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => 'Choose Video', 'label' => 'Select a Video', 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	  </li>

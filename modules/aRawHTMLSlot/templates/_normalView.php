@@ -1,4 +1,4 @@
-<?php include_partial('a/simpleEditButton', array('name' => $name, 'permid' => $permid)) ?>
+<?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid)) ?>
 
 <?php if (!strlen($value)): ?>
 <ul class="a-raw-html-info">

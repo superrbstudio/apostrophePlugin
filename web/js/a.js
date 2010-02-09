@@ -24,6 +24,6 @@ function aConstructor()
   }
 }
 
-a = new aConstructor();
+window.apostrophe = new aConstructor();
 
 

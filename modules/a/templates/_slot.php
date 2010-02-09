@@ -15,10 +15,10 @@
 
 	<ul class="a-controls a-slot-save-cancel-controls">  
 	  <li>
-			<input type="submit" name="Save" value="Save" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $name . '-' . $permid ?>" />
+			<input type="submit" name="Save" value="Save" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
 		</li>
 	  <li>
-			<?php echo button_to_function("Cancel", "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-'.$name.'-'.$permid, )) ?>
+			<?php echo button_to_function("Cancel", "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
 		</li>
 	</ul>
 
@@ -34,7 +34,7 @@
 	      <?php echo json_encode(url_for($type . 'Slot/edit') . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug, 'real-slug' => $realSlug))) ?>, 
 	      $('#a-slot-form-<?php echo $id ?>').serialize(), 
 	      function(data) {
-	        $('#a-slot-content-<?php echo $id ?>').html(data)
+	        $('#a-slot-content-<?php echo $id ?>').html(data);
 	      }, 
 	      'html'
 	    );
@@ -44,7 +44,7 @@
 <?php endif ?>
 
 <?php if ($editable): ?>
-  <div class="a-slot-content-container <?php echo $outlineEditable ? " a-editable" : "" ?>" id="a-slot-content-container-<?php echo $name ?>-<?php echo $permid ?>" style="display: <?php echo $showEditor ? "none" : "block"?>">
+  <div class="a-slot-content-container <?php echo $outlineEditable ? " a-editable" : "" ?>" id="a-slot-content-container-<?php echo $id ?>" style="display: <?php echo $showEditor ? "none" : "block"?>">
 <?php endif ?>
 
 <?php include_component($normalModule, 
@@ -63,27 +63,27 @@
   <script type="text/javascript">
   $(document).ready(function() {
 
-    var normalView = $('#a-slot-<?php echo $name ?>-<?php echo $permid ?>');
+    var view = $('#a-slot-<?php echo $id ?>');
 
 		// CANCEL
-		$('#a-slot-form-cancel-<?php echo $name ?>-<?php echo $permid ?>').click(function(){
-  		$(normalView).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-  		$(normalView).children('.a-controls-item variant').fadeIn();
-  		$(normalView).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(this).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
- 			$(this).parents('.a-area.singleton').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
+		$('#a-slot-form-cancel-<?php echo $id ?>').click(function(){
+  		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
+  		$(view).children('.a-controls-item variant').fadeIn();
+  		$(view).children('.a-slot-content').children('.a-slot-form').hide();
+  		$(view).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
+ 			$(view).parents('.a-area.singleton').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
   	});
 
 		// SAVE 
-  	$('#a-slot-form-submit-<?php echo $name ?>-<?php echo $permid ?>').click(function(){
+  	$('#a-slot-form-submit-<?php echo $id ?>').click(function(){
   			$(this).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
   			$(this).parents('.a-area.singleton').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
-  			window.a.callOnSubmit('<?php echo $id ?>');
+  			window.apostrophe.callOnSubmit('<?php echo $id ?>');
   			return true;
   	});
 
 	<?php if ($showEditor): ?>
-		var editBtn = $('#a-slot-edit-<?php echo $name ?>-<?php echo $permid ?>');
+		var editBtn = $('#a-slot-edit-<?php echo $id ?>');
 		editBtn.parent().addClass('editing-now');
 	<?php endif; ?>
 
@@ -98,7 +98,7 @@
   <?php if (count($variants)): ?>
     <script type="text/javascript">
       $(document).ready(function() {
-        var outerWrapper = $('#a-slot-<?php echo $name ?>-<?php echo $permid ?>');
+        var outerWrapper = $('#a-slot-<?php echo $id ?>');
         <?php foreach ($variants as $variant => $data): ?>
           <?php if ($slot->variant !== $variant): ?>
             outerWrapper.removeClass(<?php echo json_encode($variant) ?>);

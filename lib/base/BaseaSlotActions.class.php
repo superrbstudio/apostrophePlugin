@@ -28,7 +28,7 @@ class BaseaSlotActions extends sfActions
     $this->user = sfContext::getInstance()->getUser();
     
     // Used to name value parameters, among other things
-    $this->id = $this->name . "-" . $this->permid;
+    $this->id = $this->pageid . '-' . $this->name . '-' . $this->permid;
 
     // This was stored when the slot's editing view was rendered. If it
     // isn't present we must refuse to play for security reasons.
@@ -142,6 +142,7 @@ class BaseaSlotActions extends sfActions
         "permid" => $this->permid, 
         "options" => $this->options,
         "editorOpen" => $editorOpen,
+        "pageid" => $this->page->id,
         "validationData" => $this->validationData));
   }
 

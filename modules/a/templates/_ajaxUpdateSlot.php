@@ -7,9 +7,9 @@
   $options, $validationData, $editorOpen) ?>
 <?php if (isset($variant)): ?>
   <script>
-    $('<?php echo "#$name-$permid-variant .active" ?>').hide();
-    $('<?php echo "#$name-$permid-variant .inactive" ?>').show();
-    $('<?php echo "#$name-$permid-variant-$variant-inactive" ?>').hide();
-    $('<?php echo "#$name-$permid-variant-$variant-active" ?>').show();
+    $('<?php echo "#a-$pageid-$name-$permid-variant .active" ?>').hide();
+    $('<?php echo "#a-$pageid-$name-$permid-variant .inactive" ?>').show();
+    $('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();
+    $('<?php echo "#a-$pageid-$name-$permid-variant-$variant-active" ?>').show();
   </script>
 <?php endif ?>
