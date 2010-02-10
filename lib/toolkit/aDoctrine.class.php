@@ -22,6 +22,12 @@ class aDoctrine
   
   static public function orderByList($query, $ids)
   {
+    // If there are no IDs, then we don't alter the query at all. Otherwise we wind up
+    // with an ELSE clause alone, which is an error in SQL
+    if (!count($ids))
+    {
+      return $query;
+    }
     $col = $query->getRootAlias() . '.id';
     $n = 1;
     $select = "(CASE $col";
