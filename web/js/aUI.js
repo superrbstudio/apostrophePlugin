@@ -1,21 +1,21 @@
 function aUI(target, instance)
 {
 
-	$('.a-btn, .a-submit, .a-cancel').each(function() { // inject extra markup for link styles
-		var backgroundImage = $(this).css('background-image');
+	if (!$.browser.msie) { // I know we're not supposed to use this.
+		$('.a-btn, .a-submit, .a-cancel').each(function() { // inject extra markup for link styles
+			var backgroundImage = $(this).css('background-image');
 
-		if (!$.browser.msie) { // I know we're not supposed to use this.
-			if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
-			{
-				$(this).data('a-gradient', 1); 
-				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
-				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
-				$(this).css('background-image', mozBackgroundImage);
-				$(this).css('background-image', webkitBackgroundImage);			
-			}
-		}
+				if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
+				{
+					$(this).data('a-gradient', 1); 
+					mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
+					webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
+					$(this).css('background-image', mozBackgroundImage);
+					$(this).css('background-image', webkitBackgroundImage);			
+				}
 		
-  });
+	  });
+	}
 	
 	if (typeof target == 'undefined') // If Not Set
 	{
@@ -197,11 +197,19 @@ function aUI(target, instance)
 	aOverrides();
 }
 
-function aIE6()
+function aIE6(authenticated)
 {
 	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
 	$(document).ready(function() {
-		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>You are using IE6 and that is just awful! Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a></h2></div>');
+
+		if (authenticated)
+		{
+			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>You are using IE6 and that is just awful! Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a></h2></div>');	
+		}
+
+		$('input[type="checkbox"]').addClass('checkbox');
+		$('input[type="radio"]').addClass('checkbox');
+		
 	});	
 }
 

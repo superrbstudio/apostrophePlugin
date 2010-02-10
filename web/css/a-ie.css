@@ -27,3 +27,9 @@ border-color: rgb(153,204,51);
 { /* Text Color */
 color: rgb(153,204,51);
 }
+
+input.checkbox,
+input.radio
+{
+	border: none !important;
+}

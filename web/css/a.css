@@ -2442,29 +2442,24 @@ color: #fff;
 #a-signin
 {
 float: left;
+position: relative;
 overflow:hidden;
-margin: 20px;
-width: 180px;
-}
-    
-#a-signin-top
-{
-float: left;
-width: 180px;
-height: 10px;
-}
-    
-#a-signin-bottom
-{
-float: left;
-width: 180px;
-height: 10px;
+display: inline;
+clear: both;
+/*margin: 20px;*/
+/*width: 180px;*/
 }
     
 #a-signin-form
 {
 float: left;
+position: relative;
+overflow:hidden;
+display: inline;
+clear: both;
+float: left;
 width: 180px;
+padding: 20px;
 }
 
 #a-signin-form .error_list

@@ -16,9 +16,9 @@
 
 	<!--[if lt IE 7]>
 		<script type="text/javascript" charset="utf-8">
-			aIE6();
+			aIE6(<?php echo ($sf_user->isAuthenticated())? true:false ?>);
 		</script>
-	<![endif]-->
+	<![endif]-->	
 
 	<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
