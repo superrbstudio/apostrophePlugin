@@ -558,7 +558,8 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 
 .a-cancel
 {
-padding-left: 20px !important;
+color: #fff !important;
+padding: 0 4px 0 20px !important;
 background: url(/apostrophePlugin/images/a-icon-cancel.png) top left no-repeat;
 background-color: #999 !important;
 }
@@ -566,6 +567,7 @@ background-color: #999 !important;
 .a-cancel:hover
 {
 background-color: #333 !important;
+text-decoration: none !important;
 }
 
 .icon-only.a-cancel
@@ -671,6 +673,28 @@ box-shadow:0 0 0 transparent;
 .icon.a-arrow-right:hover
 {
 background-position: 0 -20px !important;
+}
+
+.icon.a-arrow-left.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin.png);	
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-right.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-left.thin:hover,
+.icon.a-arrow-right.thin:hover
+{
+background-position: 0 center !important;
 }
 
 .icon.a-delete
@@ -3216,6 +3240,15 @@ position: relative;
 z-index: 0;
 }
 
+.a-media-item-content
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;
+	width: 100%;
+}
+
 .a-media-item-content li
 {
 position: relative;
@@ -3311,6 +3344,13 @@ cursor: default !important;
 {
 	width: 20px
 }
+
+#media-library-back-button
+{
+	clear: both;
+	margin-bottom: 10px;
+}
+
 
 /* 22. Media Engine - Video Search
 -------------------------------------*/

@@ -15,22 +15,24 @@
   $options['width'], $options['height'], $options['resizeType'], $options['format']) ?>
 
 <?php // This was inside a ul which doesn't make sense ?>
-<h5><?php echo link_to('&larr; Back to Media Library', '@a_media_index')?></h5>
+
+
+<?php echo link_to('Media Library', '@a_media_index', array('class' => 'a-btn big icon a-arrow-left thin', 'id' => 'media-library-back-button', ))?>
+
 <ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
 	<li class="a-media-item-source">
 		<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
-
   	<?php echo $embedCode ?>
 	</li>
 
   <?php // Stored as HTML ?>
 	<li class="a-media-item-title"><h3><?php echo htmlspecialchars($mediaItem->getTitle()) ?></h3></li>
-  <li class="a-media-description"><?php echo $mediaItem->getDescription() ?></li>
+  <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
 	<li class="a-media-item-dimensions a-media-item-meta"><span>Original Dimensions:</span> <?php echo $mediaItem->getWidth(); ?>x<?php echo $mediaItem->getHeight(); ?></li>
-  <li class="a-media-createdat a-media-item-meta"><span>Uploaded:</span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
-  <li class="a-media-credit a-media-item-meta"><span>Credit:</span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
-  <li class="a-media-categories a-media-item-meta"><span>Categories:</span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
-  <li class="a-media-tags a-media-item-meta"><span>Tags:</span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
+  <li class="a-media-item-created-at a-media-item-meta"><span>Uploaded:</span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
+  <li class="a-media-item-credit a-media-item-meta"><span>Credit:</span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
+  <li class="a-media-item-categories a-media-item-meta"><span>Categories:</span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
+  <li class="a-media-item-tags a-media-item-meta"><span>Tags:</span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
 	<li class="a-media-item-download">
 		<?php if ($mediaItem->getType() !== 'video'): ?>
         <?php // download link ?>
@@ -41,7 +43,7 @@
               array(
                 "slug" => $mediaItem->getSlug(),
                 "format" => $mediaItem->getFormat())), 
-                array("class"=>"a-btn download")) ?>
+                array("class"=>"a-btn icon a-download")) ?>
       <?php endif ?>
 	</li>
 </ul>

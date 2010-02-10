@@ -15,7 +15,7 @@ function aUI(target, instance)
 			}
 		}
 		
-	  });
+  });
 	
 	if (typeof target == 'undefined') // If Not Set
 	{
@@ -100,7 +100,7 @@ function aUI(target, instance)
 		$(this).prev('.a-i').hide(); //HIDE SELF BG
 		$(this).siblings('.a-area-options.slot').fadeIn(); //SHOW AREA OPTIONS FOR SLOTS
 		$(this).parent().siblings(':not(.cancel)').hide(); //HIDE OTHER OPTION CHILD LINKS
-		$(this).parent().addClass('addslot-now');
+		$(this).parent().addClass('addslot-now').parents('div.a-area').addClass('addslot-now');
 		$(this).parent().siblings('.a-controls-item.cancel').show().addClass('cancel-addslot'); //SHOW CANCEL BUTTON
 	});
 	
