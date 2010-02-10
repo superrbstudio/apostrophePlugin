@@ -25,7 +25,7 @@
 				<button type="submit" class="a-btn"><?php echo __('sign in') ?></button>
 			</li>
 			<li>
-				<?php echo jq_link_to_function('Cancel', "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel', )) ?>
+				<?php echo jq_link_to_function('Cancel', "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
 			</li>
 		</ul>
 		

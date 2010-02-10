@@ -972,6 +972,7 @@ float: left;
 font-size: 12px;
 line-height: 20px;
 height: 20px;
+display: none;
 }
 
 #a-breadcrumb a
@@ -1602,7 +1603,6 @@ margin: 2px;
 
 #a-global-toolbar .a-global-toolbar-buttons
 {
-display: none;
 float: left;
 margin-right: 5px;
 }
