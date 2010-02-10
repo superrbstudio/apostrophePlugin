@@ -381,6 +381,7 @@ color: #888;
 
 
 
+
 /* 6. aUI Buttons
 -------------------------------------*/
 
@@ -871,10 +872,10 @@ input.a-cancel
 { /* Format ALL Submit Buttons */
 float: left;
 position: relative;
-/*height: 20px;*/
+height: 20px;
 border: 0;
 color: #fff;
-font: 12px/1 arial, sans-serif;
+font: 12px/normal arial, sans-serif;
 padding: 2px;
 z-index: 2;
 width: auto !important;
@@ -2451,17 +2452,6 @@ float: left;
 	width: 155px;
 }
     
-#a-signin-form a
-{
-color: #000;
-text-decoration: none;
-}
-    
-#a-signin-form a:hover
-{
-color: #666;
-}
-
 #a-signin-form .a-form-row
 {
 margin: 10px;
@@ -2475,21 +2465,6 @@ width: auto;
 clear:none;
 position: relative;
 margin-right: 5px;
-}
-
-#a-signin-form input.a-submit {
-border:none;
-color:#fff;
-font-family:Arial,Sans-serif;
-font-size:12px;
-margin: 0;
-text-transform: capitalize;
-width: auto;
-}
-
-#a-signin-form .a-form-row.submit .cancel
-{
-margin-left: 5px;
 }
 
 

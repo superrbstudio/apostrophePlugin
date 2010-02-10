@@ -21,8 +21,12 @@
 		</div>
 		
 		<ul class="a-form-row submit">
-    	<li><input type="submit" value="<?php echo __('sign in') ?>" class="a-submit" /></li>
-			<li><?php echo jq_link_to_function('Cancel', "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'cancel', )) ?></li>
+    	<li>
+				<button type="submit" class="a-btn"><?php echo __('sign in') ?></button>
+			</li>
+			<li>
+				<?php echo jq_link_to_function('Cancel', "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel', )) ?>
+			</li>
 		</ul>
 		
   </form>

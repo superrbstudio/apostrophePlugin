@@ -17,7 +17,7 @@
 
 	<ul class="a-form-controls a-breadcrumb-create-childpage-controls">
 	  <li>
-			<input type="submit" value="Create Page" class="a-submit" />
+			<button type="submit" class="a-btn">Create Page</button>			
 		</li>
 	  <li>
 			<?php echo jq_link_to_function("cancel", 
