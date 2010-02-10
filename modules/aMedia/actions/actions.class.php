@@ -664,6 +664,7 @@ class aMediaActions extends aEngineActions
     $item->delete(); 
     return $this->redirect("aMedia/resume");
   }
+  
   public function executeShow()
   {
     $this->mediaItem = $this->getItem();

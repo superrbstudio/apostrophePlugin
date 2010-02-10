@@ -14,8 +14,9 @@
 <?php $embedCode = $mediaItem->getEmbedCode(
   $options['width'], $options['height'], $options['resizeType'], $options['format']) ?>
 
-<ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
+<?php // This was inside a ul which doesn't make sense ?>
 <h5><?php echo link_to('&larr; Back to Media Library', '@a_media_index')?></h5>
+<ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
 	<li class="a-media-item-source">
 		<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
 
