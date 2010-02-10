@@ -35,7 +35,7 @@ browsing the site as a user works just fine in Internet Explorer 6.
 ## Requirements ##
 
 apostrophePlugin requires the following. Note that virtually all of the
-requirements are included in the cmstest project which you can easily
+requirements are included in the asandbox project which you can easily
 check out or copy from svn as described below. We *strongly recommend*
 starting out in this way.
 
@@ -53,22 +53,22 @@ information about installing netpbm and ghostscript. A few truly excellent hosti
 companies may already have these in place. If you have a Virtual Private Server
 (and you should, shared hosting is very insecure), you can most likely install
 netpbm and ghostscript with a few simple commands like `sudo apt-get install netpbm`
-and `sudo apt-get install ghotscript`.
+and `sudo apt-get install ghostscript`.
 
 If you are choosing a Linux distribution, we recommend Ubuntu. Ubuntu includes a sufficiently modern version of PHP right out of the box. If you are using Red Hat Enterprise Linux or CentOS, you will need to upgrade PHP to version 5.2.x on your own. This is unfortunate and Red Hat really ought to get a move on and fix it.
 
 ### PHP Libraries ###
 
-* Symfony 1.2, 1.3 or 1.4 (provided with cmstest)
-* sfJqueryReloadedPlugin (provided with cmstest)
-* sfDoctrineGuardPlugin (provided with cmstest)
-* apostrophePlugin (provided with cmstest)
+* Symfony 1.2, 1.3 or 1.4 (provided with asandbox)
+* sfJqueryReloadedPlugin (provided with asandbox)
+* sfDoctrineGuardPlugin (provided with asandbox)
+* apostrophePlugin (provided with asandbox)
 * Doctrine (standard with Symfony 1.2)
-* The Zend framework, for search (provided with cmstest)
+* The Zend framework, for search (provided with asandbox)
 
-Note that all of the components "provided with cmstest" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
+Note that all of the components "provided with asandbox" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
 
-Most users will also want apostrophePlugin and apostrophePlugin, which are also included in cmstest.
+Most users will also want apostrophePlugin and apostrophePlugin, which are also included in asandbox.
 
 Optional: apostrophePlugin is compatible with sfShibbolethPlugin (the 1.2 trunk version) and sfDoctrineApplyPlugin.
 
@@ -87,7 +87,7 @@ The use of Microsoft Windows as a hosting environment has not been tested but ma
 
 For the time being, we recommend that you check out our
 sample project via Subversion. You don't need to be an svn expert
-to use this command:
+to use this terminal command:
 
 svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/trunk asandbox
 
@@ -105,7 +105,7 @@ database settings appropriate to *your* system. Copy the file
     cp config/databases.yml.sample config/databases.yml
 
 If you are testing with MAMP the default settings
-(username root, password root, database name cmstest) may work
+(username root, password root, database name asandbox) may work
 just fine for you. If you are testing on a staging server you will
 need to change these credentials.
 
@@ -124,7 +124,7 @@ of Symfony, such as a shared install for many sites (note that only 1.2.x is lik
 config/require-core.php.example to config/require-core.php and edit the 
 paths in that file. 
 
-Next, cd to the `cmstest` folder and run these commands:
+Next, cd to the `asandbox` folder and run these commands:
 
 		./symfony doctrine:build --all
 		./symfony doctrine:data-load

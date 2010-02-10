@@ -132,4 +132,4 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: '<h2>For more informaton or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a></h2>'
+                      value: '<h2>For more information or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a></h2>'
