@@ -679,22 +679,18 @@ height: 20px;
 width: 20px;
 padding: 0;
 margin: 0;
--moz-box-shadow:0 0 0 transparent !important;
--webkit-box-shadow:0 0 0 transparent !important;
--opera-box-shadow:0 0 0 transparent !important;
--khtml-box-shadow:0 0 0 transparent !important;
-box-shadow:0 0 0 transparent !important;
+-moz-box-shadow:0 0 0 transparent;
+-webkit-box-shadow:0 0 0 transparent;
+-opera-box-shadow:0 0 0 transparent;
+-khtml-box-shadow:0 0 0 transparent;
+box-shadow:0 0 0 transparent;
 }
 
 .icon.a-drag:hover
 {
 background-color: #888;
 background-position: 0 -20px;
--moz-box-shadow:0 0 0 transparent !important;
--webkit-box-shadow:0 0 0 transparent !important;
--opera-box-shadow:0 0 0 transparent !important;
--khtml-box-shadow:0 0 0 transparent !important;
-box-shadow:0 0 0 transparent !important;
+
 }
 
 .icon.a-events
@@ -4571,7 +4567,7 @@ box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
-text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 }
 
 .a-btn:hover,
