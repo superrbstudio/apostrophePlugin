@@ -1346,10 +1346,6 @@ display: none !important;
 display: block !important;
 }
 
-ul.a-controls li.variant.open
-{
-}
-
 ul.a-controls .a-controls-item.variant .a-variant-options-toggle
 {
 	position: relative;
