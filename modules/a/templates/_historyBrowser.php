@@ -18,7 +18,7 @@
 			<?php if (1): ?>
 			  <tr>
 				  <td colspan="3">
-				    <a href="#" class="a-history-browser-view-more">View More Revisions <img src="/apostrophePlugin/images/a-icon-loader-ani.gif" class="spinner" /></a>
+				    <a href="#" class="a-history-browser-view-more">View More Revisions <img src="/apostrophePlugin/images/a-icon-loader.gif" class="spinner" /></a>
           </td>
 					<td class="number-of-revisions"></td>
 			  </tr>
@@ -29,7 +29,7 @@
 				<?php if (0): ?>
 				  <td class="id"></td>
 				<?php endif ?>
-				<td class="date"><img src="/apostrophePlugin/images/a-icon-loader-ani.gif"></td>
+				<td class="date"><img src="/apostrophePlugin/images/a-icon-loader.gif"></td>
 				<td class="editor"></td>
 				<td class="preview"></td>
 			</tr>

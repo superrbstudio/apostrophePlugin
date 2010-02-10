@@ -113,7 +113,7 @@ function aUI(target, instance)
 		if (!$(this).parents('.a-area').hasClass('browsing-history')) 
 		{
 			//clear history and show the animator
-			$('.a-history-browser .a-history-items').html('<tr class="a-history-item"><td class="date"><img src="\/apostrophePlugin\/images\/a-icon-loader-ani.gif"><\/td><td class="editor"><\/td><td class="preview"><\/td><\/tr>');
+			$('.a-history-browser .a-history-items').html('<tr class="a-history-item"><td class="date"><img src="\/apostrophePlugin\/images\/a-icon-loader.gif"><\/td><td class="editor"><\/td><td class="preview"><\/td><\/tr>');
 			//tell the area that we're browsing history
 			$(this).parents('.a-area').addClass('browsing-history');
 		}
@@ -195,6 +195,14 @@ function aUI(target, instance)
 	//
 	
 	aOverrides();
+}
+
+function aIE6()
+{
+	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+	$(document).ready(function() {
+		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>You are using IE6 and that is just awful! Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a></h2></div>');
+	});	
 }
 
 function aOverrides()

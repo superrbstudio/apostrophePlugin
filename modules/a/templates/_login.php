@@ -7,7 +7,7 @@
 	<?php echo a_remote_dialog_toggle(
 	  array("id" => "a-personal-settings", 
 	    "label" => $sf_user->getGuardUser()->getUsername(),
-	    "loading" => "/apostrophePlugin/images/a-icon-personal-settings-ani.gif",
+	    "loading" => "/apostrophePlugin/images/a-icon-loader.gif",
 	    "action" => "a/personalSettings",
 	    "chadFrom" => "#a-logged-in-as span",
 			'hideToggle' => true,)) ?></span>

@@ -14,6 +14,12 @@
   <?php include_stylesheets() ?>
 	<link rel="shortcut icon" href="/favicon.ico" />
 
+	<!--[if lt IE 7]>
+		<script type="text/javascript" charset="utf-8">
+			aIE6();
+		</script>
+	<![endif]-->
+
 	<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
 	<![endif]-->

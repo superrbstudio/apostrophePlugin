@@ -401,7 +401,7 @@ class aMediaActions extends aEngineActions
           // This actually has to be shimmed in at a much lower level as an option if
           // gs is not available. We can't just use a fake thumbnail as an 'original' as we
           // do for foreign video because that would break 'download original'
-          // copy(sfConfig::get('sf_root_dir') . '/plugins/apostrophePlugin/web/images/pdficon_large.gif', $previewFile);
+          // copy(sfConfig::get('sf_root_dir') . '/plugins/apostrophePlugin/web/images/a-media-pdf-btn-small.png', $previewFile);
           
           // Everything except the actual copy which can't succeed
           // until the slug is cast in stone

@@ -244,7 +244,7 @@ width: 20px;
 border: 0;
 margin: 0;
 padding: 0;
-background: url(/apostrophePlugin/images/a-icon-loader-ani.gif) center center no-repeat;
+background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
 text-indent: -9999px;
 }
 
@@ -330,9 +330,41 @@ width: 100%;
 	clear: both;
 }
 
+#ie6-warning
+{
+	float: left;
+	width: 100%;
+	background: #f00;
+	color: #fff;
+	position: relative;
+	z-index:9999;
+}
 
+#ie6-warning h2
+{
+	float: left;
+	padding: 5px;
+	font-size: 14px;
+	line-height: 1.2;
+}
 
+#ie6-warning h2 a
+{
+	color: #fff;
+	text-decoration: underline;
+}
 
+#ie6-warning h2 a:hover
+{
+	color: #222;
+}
+
+.ie6 .a-controls,
+.ie6 .a-btn.icon,
+.ie6 .a-global-toolbar-breadcrumb
+{
+	display: none !important;
+}
 
 /* 5. Basic Form Styles
 -------------------------------------*/
@@ -1367,7 +1399,7 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options
 
 ul.a-controls .a-variant-options.loading
 {
-	background: #fff url('/apostrophePlugin/images/a-icon-loader-ani.gif') 95% 5px no-repeat;
+	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
 
@@ -2555,7 +2587,6 @@ border: 1px solid #ccc;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
 border-radius: 10px;
-/*background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;*/
 }
 
 .a-search-form input.submit:hover
