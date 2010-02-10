@@ -643,6 +643,13 @@ class aMediaActions extends aEngineActions
           // to media items they don't own.
           $this->forward404();
         }
+
+        // updateObject doesn't handle one-to-many relations, only save() does, and we
+        // can't do save() in this embedded form, so we need to implement the categories
+        // relation ourselves        
+        $object->unlink('MediaCategories');
+        $object->link('MediaCategories', $values[$key]['media_categories_list']);
+        
         // Everything except the actual copy which can't succeed
         // until the slug is cast in stone
         $file = $values[$key]['file'];
