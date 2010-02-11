@@ -1,76 +1,99 @@
-## READ THIS FIRST ##
-
-Did you download this plugin from the Symfony plugins site? Depending on your needs, you're probably doing it the hard way. Please read the "Installation" section!
+*Did you download this plugin from the Symfony plugins site? Depending on your needs, you may be doing it the hard way.* Please read the "Installation" section for a simpler way to get started with an Apostrophe site.
 
 ## Before You Begin ##
 
-This is a beta release of Apostrophe. Although the
-CMS already works quite well and we have released production sites
-based on it, certain aspects are still maturing. 
+Welcome to the 1.0 stable release of Apostrophe! Although this is our first official stable release, our CMS is already in regular use on a number of production sites. This release reflects the fact that our code has been stable and ready for your professional use for quite some time.
 
 We strongly recommend that you follow the instructions in this
-document which permit you to check out or copy a complete project from svn 
-rather than wrestling with the pear package dependencies yourself. You can check
-out our asandbox project directly to experiment, or copy it with our
-svnforeigncopy script to start your own version-controlled project.
-*This is how we start new sites of our own*, so you will get maximum
-support following this approach.
+document which enable you to check out or copy a complete project from svn. Another good
+option is to download a tarball of our complete sandbox project. *We start our own
+production client sites* using the `svnforeigncopy` tool described here, so you will get
+maximum support by following that approach.
 
 ## Overview ##
 
-apostrophePlugin is the core of a suite of plugins that make up the [Apostrophe Content Management System](http://www.apostrophenow.com/). The philosophy of Apostrophe is that editing should be done "in context" whenever possible.
+This document is arranged into five parts:
 
-apostrophePlugin is heavily inspired by and borrows a little code and numerous ideas from sfSimpleCMSPlugin. The changes here are dramatic enough that a separate plugin makes more sense, but we felt it important to acknowledge this up front. sfSimpleCMSPlugin allowed users to double-click text frames and edit them in place. We have expanded this idea to allow for a number of content slots to be edited without leaving the page.
+* This overview
+* Installation
+* Editor's guide
+* Designer's guide
+* Developer's guide
 
-Standard features of apostrophePlugin include version control for all content slots, locking pages for authenticated users only, and in-context addition/deletion/reordering/retitling of pages. When a user is logged in with appropriate privileges the breadcrumb trail and sub-navigation areas become editing tools, neatly extending the metaphors they already implement rather than requiring a second interface solely for editing purposes.
+The installation section is intended for system administrators with some knowledge of PHP and command line tasks.
 
-apostrophePlugin also introduces "areas," or vertical columns, which users with editing privileges are able to create more than one slot. This makes it easy to interleave text with multimedia and other custom slot types without the need to develop a custom PHP template for every page.
+The editor's guide is suitable for end users who will have administrative responsibilities on the site, such as editing and managing content.
 
-## Supported Browsers ##
+The designer's guide addresses the needs of front-end developers, discussing how to edit and manage stylesheets, page templates and page layouts.
 
-Editing works 100% in Firefox, Safari and Internet Explorer 7+. 
+Finally, the developer's guide explores how to extend Apostrophe with new content slots that go beyond our provided rich text and media features and new "engines" that extend the CMS with full-page content that doesn't always fit neatly into the page metaphor. Most readers will never need to refer to this section.
+
+### Guiding Philosophy ###
+
+[Apostrophe](http://www.apostrophenow.com/) is a content management system. Apostrophe is open source, and built upon the great work of other open source projects. That's why our apostrophePlugin is a plugin for the [Symfony](http://www.symfony-project.org/) web application framework. 
+
+The philosophy of Apostrophe is that editing should be done "in context" as much as possible, keeping confusing modal interfaces to a minimum and always emphasizing good design principles and an intuitive user experience. When we are forced to choose between ease of use and a rarely used feature, we choose ease of use, or make it possible to discover that feature when you truly need it.
+
+Before we decided to write our own CMS, we used sfSimpleCMSPlugin, and although our system is quite different you can see its influence in Apostrophe. We'd like to acknowledge that. 
+
+### Who Should Use Apostrophe Today? ###
+
+Right now Apostrophe is best suited to PHP developers who want to make an intuitive content management system available to their clients. Apostrophe is very easy for your clients to edit, administer and maintain once it is set up. Right now, though, Apostrophe installations does call for some command line skills and a willingness to learn about Symfony. We are working to reduce the learning curve. 
+
+Front-end developers who do not yet have PHP and Symfony skills should consider tackling the [Symfony tutorial](http://www.symfony-project.org/jobeet/1_2/Doctrine/en/) to get up to speed. 
+
+And of course we at [P'unk Avenue](http://www.punkave.com/) are available to develop complete Apostrophe sites for those who see the value in a truly intuitive CMS and do not have the development resources in-house to implement it.
+
+### Apostrophe Features ###
+
+Standard features of Apostrophe include version control for all content slots, locking down pages for authenticated users only, and in-context addition, deletion, reorganization and retitling of pages. When a user is logged in with appropriate privileges intuitive editing tools are added to the usual navigation, neatly extending the metaphors already present rather than requiring a second interface solely for editing purposes.
+
+Apostrophe also introduces "areas," or vertical columns, which users with editing privileges are able to create more than one slot. This makes it easy to interleave text with multimedia and other custom slot types without the need to develop a custom PHP template for every page.
+
+Apostrophe includes support for media management, including a built-in media library that allows you to manage locally stored photos and remotely hosted videos. When media are embedded in pages they are automatically sized to cooperate with the page templates created by the designer.
+
+Rich text editing, of course, is standard equipment. And unlike most systems, Apostrophe intelligently filters content pasted from Word and other programs to ensure there are no design-busting markup conflicts.
+
+### Supported Browsers ###
+
+Editing works 100% in Firefox 2+, Safari 4+, Chrome and Internet Explorer 7+. 
 Editing is expressly not supported in Internet Explorer 6. Of course,
-browsing the site as a user works just fine in Internet Explorer 6.
+browsing the site as a user works just fine in Internet Explorer 6. Although IE 6 cannot support our full editing experience, we recognize the need to support legacy browser use by the general public when visiting the site.
 
-## Requirements ##
+### System Requirements ###
 
 apostrophePlugin requires the following. Note that virtually all of the
 requirements are included in the asandbox project which you can easily
-check out or copy from svn as described below. We *strongly recommend*
-starting out in this way.
-
-### System Requirements ###
+check out from svn, copy from svn to your own repository as described below, or just download as a tarball. 
 
 The following must be installed on your system:
 
 * PHP 5.2.4 or better, with a PDO driver for MySQL
-* MySQL (tested), SQLite (tested), or another relational database supported by PDO and Doctrine
-* For the media features: netpbm (recommended), or GD support in PHP
-* Optional, for PDF slots: ghostscript
+* MySQL (tested), SQLite (tested), or another relational database supported by PDO and Doctrine (a few nonessential features are MySQL-specific)
+* For the media features: GD support in PHP, or the netpbm utilities. netpbm uses much less memory
+* Optional, for previews of PDFs in PDF slots: ghostscript (you must also have netpbm to use this feature)
 
-See apostrophePlugin/README and apostrophePlugin/README for more
-information about installing netpbm and ghostscript. A few truly excellent hosting 
-companies may already have these in place. If you have a Virtual Private Server
+A few truly excellent hosting companies already have netpbm and ghostscript in place. If you have a Virtual Private Server
 (and you should, shared hosting is very insecure), you can most likely install
 netpbm and ghostscript with a few simple commands like `sudo apt-get install netpbm`
 and `sudo apt-get install ghostscript`.
 
 If you are choosing a Linux distribution, we recommend Ubuntu. Ubuntu includes a sufficiently modern version of PHP right out of the box. If you are using Red Hat Enterprise Linux or CentOS, you will need to upgrade PHP to version 5.2.x on your own. This is unfortunate and Red Hat really ought to get a move on and fix it.
 
-### PHP Libraries ###
+#### PHP Libraries ####
 
-* Symfony 1.2, 1.3 or 1.4 (provided with asandbox)
+* Symfony 1.3 or 1.4 (provided with asandbox)
 * sfJqueryReloadedPlugin (provided with asandbox)
 * sfDoctrineGuardPlugin (provided with asandbox)
+* sfDoctrineActAsTaggablePlugin (provided with asandbox)
+* sfSyncContentPlugin (recommended but not required)
 * apostrophePlugin (provided with asandbox)
-* Doctrine (standard with Symfony 1.2)
+* Doctrine (standard with Symfony)
 * The Zend framework, for search (provided with asandbox)
 
-Note that all of the components "provided with asandbox" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
+Note that if you checked out or copied our sandbox project from svn, all of the components "provided with asandbox" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
 
-Most users will also want apostrophePlugin and apostrophePlugin, which are also included in asandbox.
-
-Optional: apostrophePlugin is compatible with sfShibbolethPlugin (the 1.2 trunk version) and sfDoctrineApplyPlugin.
+Optional components of interest: apostrophePlugin is compatible with sfShibbolethPlugin (the 1.2 trunk version) and sfDoctrineApplyPlugin.
 
 Mac users can most easily meet the PHP requirements by installing
 the latest version of [MAMP](http://www.mamp.info/). Note that MAMP's PHP 
@@ -81,22 +104,48 @@ To fix that, add this line to the `.profile` file in your home directory:
 
 Of course your production server will ultimately need to meet the same requirements with regard to PHP and PDO.
 
-The use of Microsoft Windows as a hosting environment has not been tested but may work reasonably well now that netpbm is no longer mandatory for media slots.
+Apple's default version of PHP for Snow Leopard is theoretically capable of working with Apostrophe, but unfortunately Apple chose to ship a very bleeding-edge version and as of this writing they have not updated it to address the many PHP bugs since discovered. As of this writing we recommend the latest in the PHP 5.2.x series, not PHP 5.3.x, due to numerous hard crashes at the PHP level with PHP 5.3.x.
+
+The use of Microsoft Windows as a hosting environment has not yet been fully validated, however our core features do not depend heavily upon Unix-specific functions and utilities.
 
 ## Installation ##
 
+There are two ways to get started with Apostrophe. You can start with our sandbox project, which we heartily recommend, or add the apostrophePlugin to your existing Symfony project. The latter only makes sense for experienced Symfony developers whose sites are already well underway. I'll describe both approaches.
+
+### The Easy Way: Use the Sandbox ###
+
 For the time being, we recommend that you check out our
-sample project via Subversion. You don't need to be an svn expert
-to use this terminal command:
+sample project via Subversion. 
 
-svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/trunk asandbox
+For a first look, use this terminal command:
 
-Better yet, copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the asandbox project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
+		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/branches/1.3 asandbox
+
+That will check out the 1.3 stable branch, which is suitable for use with both Symfony 1.3 and Symfony 1.4.
+
+If you prefer to live dangerously and use our most bleeding-edge code, you can check out the trunk instead:
+
+		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/trunk asandbox
+
+We love it when you do this, because it results in more feedback for us, but you should definitely consider using the stable branch for your client projects.
+
+#### Copying the Sandbox to your Own Repository ####
+
+Checking out the sandbox from svn is a nice way to get started, but you'll soon wonder how to save your own changes when the project is part of our own svn repository. That's why we recommend that you instead 
+copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the asandbox project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
 
 This will give you all of the necessary plugins and the ability to
 `svn update` the whole shebang with one command.
 
-Next light up the folder `asandbox/web` as a virtualhost named `asandbox` via MAMP, `httpd.conf` or whatever your testing environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
+#### Exporting the Sandbox ####
+
+If you don't care about svn and keeping your code up to date with our latest fixes, you can simply export the project with the `svn export` command, which is essentially the same as downloading a tarball of the whole thing:
+
+svn export http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/branches/1.3 asandbox
+
+#### Apache Configuration ####
+
+Once you have fetched the code by your means of choice, you're ready to configure your testing web server to recognize a new website. Light up the folder `asandbox/web` as a virtualhost named `asandbox` via MAMP, `httpd.conf` or whatever your web hosting environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
 
 Now create the `config/databases.yml` file, which must contain
 database settings appropriate to *your* system. Copy the file
@@ -118,9 +167,9 @@ to the name of the project. The sample properties.ini file just defines the name
 add information there when and if you choose to sync the project to a production server via project:deploy.
 See the Symfony documentation for more information about that technique.
 
-At this point you're ready to use the checkout of Symfony's 1.2.x branch
+At this point you're ready to use the checkout of Symfony's 1.4.x stable branch
 that is included in the project. If you want to use a different installation
-of Symfony, such as a shared install for many sites (note that only 1.2.x is likely to work), copy 
+of Symfony, such as a shared install for many sites (note that only 1.3.x and 1.4.x are likely to work), copy 
 config/require-core.php.example to config/require-core.php and edit the 
 paths in that file. 
 
@@ -130,6 +179,12 @@ Next, cd to the `asandbox` folder and run these commands:
 		./symfony doctrine:data-load
 	
 This will create a sample database from the fixtures files.
+
+If you prefer, you can pull down our full demo site as an alternative to the somewhat bland fixtures site:
+
+    ./symfony apostrophe:demo-fixtures
+
+Note that this task will run for quite a while as media files are included in the download. 
 
 Now set the permissions of data folders so that they are writable by the web 
 server. Note that svn does NOT store permissions so you can NOT assume they are
@@ -155,55 +210,38 @@ to [read this article on shared hosting and Symfony](http://trac.symfony-project
 Next, build the site's search index for the first time (yes, search is included). It doesn't live in
 the database so it needs to be done separately. After this, you won't
 need to run this command again unless you are deploying to a new
-environment such as a staging or production server:
+environment such as a staging or production server and don't plan to sync your content with sfSyncContentPlugin:
 
-./symfony apostrophe:rebuild-search-index --env=dev
+		./symfony apostrophe:rebuild-search-index --env=dev
 
 (You can specify staging or prod instead to build the search indexes
 for environments by those names.)
 
-You can now log in as `admin` with the password `admin` to see how the
-site behaves when you're logged in. Start adding subpages, editing
-slots, adding slots to the multiple-slot content area... have a ball with it.
+You can now log in as `admin` with the password `demo` to see how the
+site behaves when you're logged in (if you used the apostrophe:demo-fixtures task, the password will be `demo`). Start adding subpages, editing slots, adding slots to the multiple-slot content area... have a ball with it!
 
-OPTIONAL: by default pages are reindexed for search purposes at the time
-edits are made. For performance reasons you might be happier deferring
-this to a cron job that runs every few minutes. If you want to take this
-approach, set up a cron job like this:
+### The Hard Way: Adding apostrophePlugin To An Existing Site ###
 
-0,10,20,30,40,50 * * * * /path/to/your/project/symfony apostrophe:update-lucene --env=env
+*Those who installed the sandbox can skip over this section.*
 
-Note the `--env` option. There is a separate index for each
-environment. On a development workstation, specify `--env=env`. In
-a production environment you might specify `--env=prod`.
+That's the easy way to install Apostrophe. The notes that follow assume you're doing it the hard way, without starting from the asandbox project.
 
-Then turn on the feature in app.yml:
+Begin by installing the following plugins into your Symfony 1.3/1.4 project:
 
-all:
-  a:
-    defer_search_updates: true
+* sfJqueryReloadedPlugin
+* sfDoctrineGuardPlugin
+* sfDoctrineActAsTaggablePlugin
+* sfSyncContentPlugin (recommended but not required)
+* And of course, [apostrophePlugin](http://www.symfony-project.org/plugins/pkContextCMSPlugin)
 
-This speeds up editing a bit. But if you don't like cron, you don't have to enable it.
+We strongly encourage you to do so using svn externals. If you are using that approach you will need to be sure to create the necessary symbolic links from your projects web/ folder to to the web/ folders of the plugins that have one. For best results use a relative path:
 
-You can also change the word count of search summaries:
-
-		all:
-		  a:
-		    search_summary_wordcount: 50
-
-That's the easy way to configure the CMS. The notes that follow assume you're doing it the hard way, without starting from the asandbox project.
-
-* * *
-
-Install the above plug-ins in your Symfony 1.3/1.4 project. We strongly encourage you to do so using svn externals. If you are using that approach you will need to be sure to create the necessary symbolic links from your projects web/ folder to to the web/ folders of the plugins that have one. For best results use
-a relative path:
-
-    cd web
-    ln -s ../plugins/apostrophePlugin/web apostrophePlugin
-    # Similar for other plugins required
+		cd web
+		ln -s ../plugins/apostrophePlugin/web apostrophePlugin
+		# Similar for other plugins required
 
 The search features of the plugin rely on Zend Search, so you must
-install the Zend framework. 
+also install the Zend framework. 
 [The latest version of the minimal Zend framework is sufficient.](http://framework.zend.com/download/latest) If you choose to install this system-wide
 where all PHP code can easily find it with a `require` statement, great.
 If you prefer to install it in your Symfony project's
@@ -221,12 +259,12 @@ to ensure that `require` statements can easily find files there:
           sfConfig::get('sf_lib_dir') .
             '/vendor' . PATH_SEPARATOR . get_include_path());
         // for compatibility / remove and enable only the plugins you want
-        $this->enableAllPluginsExcept(array('sfPropelPlugin', 'sfCompat10Plugin'));
+        $this->enableAllPluginsExcept(array('sfPropelPlugin'));
       }
     }
 
 Create an application in your project. Then create a
-module folder named a as a home for your page templates
+module folder named `a` as a home for your page templates
 and layouts (and possibly other customizations):
 
     mkdir -p apps/frontend/modules/a/templates
@@ -255,24 +293,28 @@ your application's `settings.yml` file. Of course you may need
 other modules as well based on your application's needs:
 
     enabled_modules:
-      - a
-      - aNavigation
-      - aMedia
-      - aRichTextSlot
-      - aTextSlot
-      - aRawHTMLSlot
-      - aSlideshowSlot
-      - aVideoSlot
-      - aImageSlot
-      - aButtonSlot
-      - aPDFSlot
-      - sfGuardAuth
-      - aUserAdmin
-      - aGroupAdmin
-      - aPermissionAdmin
-      - sfGuardPermission
-      - taggableComplete
-      - default
+	    - a
+	    - aSync
+	    - aNavigation
+	    - aMedia
+	    - aMediaBackend
+	    - aRichTextSlot
+	    - aTextSlot
+	    - aRawHTMLSlot
+	    - aSlideshowSlot
+	    - aVideoSlot
+	    - aImageSlot
+	    - aButtonSlot
+	    - aPDFSlot
+	    - sfGuardAuth
+	    - aUserAdmin
+	    - aGroupAdmin
+	    - aPermissionAdmin
+	    - sfGuardPermission
+	    - taggableComplete
+	    - aNavigation
+	    - default
+	    - aAdmin
 
 Apostrophe edits rich text content via the FCK editor. A recent version of FCK is
 included with the plugin. However you'll need to enable FCK in your settings.yml file, as follows:
@@ -280,13 +322,36 @@ included with the plugin. However you'll need to enable FCK in your settings.yml
     all:
       rich_text_fck_js_dir:   apostrophePlugin/js/fckeditor
 
-Load the fixtures for the "stub" site. Every site begins with a home
+Now, load the fixtures for a basic site. Every site begins with a home
 page with all other pages being added as descendants of the home page:
 
     ./symfony doctrine:build --all
     ./symfony doctrine:data-load
 
-## Routing Rules ##
+#### .htaccess Rules For Media ####
+
+The media module of Apostrophe uses carefully designed URLs to allow images to be
+served as static files after they are generated for the first time. This
+is done at the Apache level to maximize performance: PHP (and therefore
+Symfony) don't have to get involved at all after the first time an image
+is rendered at a particular size.
+
+The following special .htaccess rules are required to enable this. These
+should be copied to your .htaccess file after the 
+`RewriteBase /` rule, if you are using one, but before any other rules. 
+
+    ###### BEGIN special handling for the media module's cached scaled images
+    # If it exists, just deliver it
+    RewriteCond %{REQUEST_URI} ^/uploads/media_items/.+$
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .* - [L]
+    # If it doesn't exist, render it via the front end controller
+    RewriteCond %{REQUEST_URI} ^/uploads/media_items/.+$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+    ###### END special handling for the media module's cached scaled images
+
+#### Routing Rules ####
 
 By default Apostrophe will map CMS pages to URLs beginning with `/cms`:
 
@@ -328,7 +393,7 @@ And register these as the LAST rules in your application's `routing.yml` file in
 
 Thanks to Stephen Ostrow for his help with these rules.
 
-### Enhanced Form Controls ###
+#### Enhanced Form Controls ####
 
 To get the benefit of the progressively enhanced form controls
 featured in our admin tools, you'll need to add apostrophePlugin's
@@ -337,6 +402,106 @@ aControls.js to your view.yml file:
     default:
       ... Other things ...
       javascripts:    [/apostrophePlugin/js/aControls.js]
+
+## Editor's Guide ##
+
+This section is devoted to users who will participate in editing, maintaining and administering the content of the site. All of these tasks are performed through your web browser. No command line skills are required.
+
+Access your new Apostrophe site's URL to see the home page. 
+
+Click "log in" and log in as the admin user (username admin, password demo)
+to see the editing controls. Notice that editing controls are added to the normal experience of the site. This greatly reduces the learning curve for editors.
+
+### Managing Pages ###
+
+When a user has appropriate privileges on a page, they are able to make
+the following changes via a simple "breadcrumb trail" that appears at the top of the page:
+
+* Rename the page by clicking on the page title
+* Add a child page beneath the current page
+* Open the page management settings dialog via the "gear" icon
+for less frequent changes
+
+Apostrophe emphasizes "unpublishing" pages as the preferred way
+of "almost" deleting them because it is not permanent. Anonymous users, and users who do not
+have editing privileges on the page, will see the usual 404 Not Found error.
+But users with suitable editing privileges will see the page with its title
+"struck through" and will be able to undelete the page if they desire. This prevents the loss of content.
+
+You can also delete a page permanently via the small X in the lower right
+corner of the page settings dialog. Most of the time that's a shortsighted
+thing to do, but it is useful when you create an unnecessary page by accident.
+
+The side navigation column also offers an editing tool: users with
+editing privileges can change the order of child pages listed there
+by dragging and dropping them. (If a page has no children, the side
+navigation displays its peers instead, including itself.) You can do the same thing with the tabs at the top of the page. Also check out the "Reorganize" button, which is discussed in more detail later.
+
+### Editing Slots ###
+
+What about the actual content of the page? The editable content
+of a page is stored in "slots" (_note to developers: not the same thing as Symfony slots_).
+
+CMS slots can be of several types:
+
+* Plaintext slots (single line or multiline)
+* Rich text slots (edited via FCK)
+* Raw HTML slots (best avoided in good designs, but useful when you must paste raw embed codes)
+* Media slots (image, slideshow, video, PDF, button)
+* Custom slots (of any type, implemented as described later)
+
+Once you have logged in, you'll note that each editable slot has an "Edit" button or, in the case of the media slots, "Select Image" and similar buttons. 
+
+Every slot also offers version control. The arrow-in-a-circle icon
+accesses a dropdown list of all changes that have been made to that slot,
+labeled by date, time and author and including a short summary of the change
+to help you remember what's different about that version. Pick any version to preview it. Click "Save as current version" to permanently revert to that version. 
+
+### Editing Areas ###
+
+In addition to single slots, apostrophePlugin also supports
+"areas." Areas are vertical columns containing more than one slot.
+Editing users are able to add and remove slots from an area at any time, 
+selecting from a list of slots approved for use in that area. The slots
+can also be reordered via up and down arrow buttons (used here instead
+of drag and drop to avoid possible browser bugs when dragging and dropping 
+complex HTML, and because drag and drop is not actually much fun to use
+when a column spans multiple pages).
+
+The usefulness of areas becomes clear when rich text slots are interleaved with media slots. Media slots provide a robust way to manage photos and videos without wrecking the layout of the site. You can upload photos and select and embed videos freely without worrying about their size and format.
+
+### Editing Media ###
+
+Click "Add Slot," then "Image," then "Select Image." You will be taken to the media area of the site.
+
+Here you can select any of the images that have already been uploaded to the site, or upload new images. This media repository provides a clean way to keep track of the media you have available.
+
+You can do much the same thing with video. YouTube is tightly integrated with Apostrophe, and you can easily search YouTube from within the media interface. You can also paste embed codes from other sites and add thumbnail images for those videos manually.
+
+You can organize media with categories and tags. Add new categories using the "Manage Categories" button at the left, in the media browser area. 
+
+It's possible to add a media page to the public-facing part of the site that displays only media in certain categories. To do that, go to the home page, add a new page and give it a title that relates to a media category. When the new page appears, click the gear icon. When the page settings dialog appears, select "Media" from the "Page Engine" menu.
+
+Once you select Media, a category selector will appear. Pick the appropriate category, then click Save. Note that you can select more than one category.
+
+The page will now refresh and display a media browser that anyone on your site can use to see media in that category, most recent first, with all of the browsing features that are standard in the media area.
+
+### Reorganizing the Site ###
+
+Apostrophe offers drag-and-drop reordering of the children of
+any page via the navigation links on the left-hand side. You can also reorder the tabs at the top of any page by dragging and dropping.
+
+However, there are times when you want to do something less linear, like moving a page up or down in the page tree.
+
+To do that, click on the "Reorganize" button at the top of any page. This will take you to the reorganize tool, a page where you can drag and drop pages to any position in the page tree for quick and painless reorganization of the site.
+
+This tool is only available to site administrators such as the `admin` user.
+
+## Designer's Guide ##
+
+This section explains how to go about customizing the appearance and behavior of the site without writing new code (apart from simple calls to insert slots and otherwise use PHP as a templating language). It is intended to be read by front end developers.
+
+Some familiarity with Symfony is expected. You will need to edit files like `apps/frontend/config/app.yml` to adjust settings, and you will be creating `.php` files although full PHP programming skills are not required. 
 
 ### Title Prefix ###
 
@@ -355,92 +520,11 @@ optional internationalization:
         # OR this way for a single-culture site
         title_prefix: 'Our Company'      
 
-## Customizing Your CMS Site ##
+Note that all changes to `app.yml` should be followed by a `symfony cc` command:
 
-You now have a CMS site. Access your Symfony site's URL to see the
-home page. 
+		./symfony cc
 
-Click "log in" and log in as the sfDoctrineGuard superuser 
-(admin/admin) to see
-the editing controls.
-
-### Managing Pages ###
-
-When a user has appropriate privileges on a page, they are able to make
-the following changes via the breadcrumb trail, which becomes an
-interactive site management tool when logged in:
-
-* Rename the page by clicking on the page title
-* Add a child page beneath the current page
-* Open the page management settings dialog via the "gear" icon
-for less frequent changes
-
-Note that the breadcrumb trail appears on the home page only when
-logged in with editing privileges. On sub-pages the breadcrumb
-trail always appears.
-
-Apostrophe emphasizes "turning off" pages as the preferred way
-of "almost" deleting them because it is not permanent.
-Anonymous users, and users who do not
-have editing privileges on the page, will see the usual 404 Not Found error.
-But users with editing privileges will see the page with its title
-"struck through" and will be able to undelete the page if they desire.
-You can also delete a page permanently via the small X in the lower right
-corner of the management dialog. Most of the time that's a shortsighted
-thing to do but it is useful when you create an unnecessary
-page by accident.
-
-The side navigation column also offers an editing tool: users with
-editing privileges can change the order of child pages listed there
-by dragging and dropping them. (If a page has no children, the side
-navigation displays its peers instead, including itself.)
-
-### Editing Content: Editing Slots ###
-
-What about the actual content of the page? The editable content
-of a page is stored in "CMS slots" (not the same thing as Symfony slots).
-CMS slots can be of several types:
-
-* Plaintext slots (single line or multiline)
-* Rich text slots (edited via FCK)
-* Raw HTML slots (best avoided in good designs, but useful when you must paste raw embed codes)
-* Media slots (image, slideshow, video, PDF, button)
-* Custom slots (of any type, implemented as described later)
-
-Once you have logged in, you'll see each editable slot outlined
-with a box. If the slot is currently empty, there will also be a 
-hint to double-click the slot to begin editing it. Double-click it to
-edit it with the appropriate editor (an input, textarea or rich
-text edit control). Click "Save" to save your changes.
-
-Every slot also offers version control. The arrow-in-a-circle icon
-accesses a dropdown list of all changes that have been made to that slot,
-labeled by date, time and author and including a short summary of the change
-to help you remember what's different about that version. Pick any version and 
-click "Preview" to redisplay that version of the slot. To revert to an old version,
-copying it to create a new version of the slot, click "Revert." Click
-"Cancel" if you decide not to switch versions.
-
-### Editing Content: Editing Areas ###
-
-In addition to single slots, apostrophePlugin also supports
-"areas." Areas are vertical columns containing more than one slot.
-Editing users are able to add and remove slots from an area at any time, 
-selecting from a list of slots approved for use in that area. The slots
-can also be reordered via up and down arrow buttons (used here instead
-of drag and drop to avoid possible browser bugs when dragging and dropping 
-complex HTML, and because drag and drop is not actually much fun to use
-when a column spans multiple pages).
-
-The usefulness of areas may not be entirely clear when only 
-plaintext and rich text slots are in use on a site. Their usefulness
-can be better understood when custom slot types that implement
-multimedia or connect to your project-specific resources come into play.
-You want to be able to interleave these with blocks of text without
-creating a new custom page template for each one. Areas give you that
-capability.
-
-## Creating and Managing Page Templates and Layouts ##
+### Creating and Managing Page Templates and Layouts ###
 
 Where do slots appear in a page? And how do you insert them? 
 
@@ -461,40 +545,6 @@ off via app.yml:
 CMS pages will then use your application's default layout. One strategy
 is to copy our <tt>layout.php</tt> to your application's template folder
 and customize it there after turning off use_bundled_layout.
-
-### Turning Off the Home Page Tab ###
-
-By default a generates navigation tabs for the direct
-children of the home page, and for the home page itself. If you don't
-want a tab for the home page itself, just change this setting
-in `app.yml`:
-
-    all:
-      a:
-        home_as_tab: false
-
-### Reordering Children of the Home Page ###
-
-a offers drag-and-drop reordering of the children of
-any page via the navigation links on the left-hand side. But the home
-page, by default, doesn't display those links. So how can you reorder
-its children?
-
-One way is to add the subnav component back into your
-local copy of homeTemplate.php:
-
-    <?php include_component('a', 'subnav') # Left Side Navigation ?>
-
-To avoid wrecking the layout of your home page, you could choose to 
-insert it only when an admin is logged in:
-
-    <?php if ($sf_user->hasCredential('cms_admin')): ?>
-      <?php include_component('a', 'subnav') # Left Side Navigation ?>
-    <?php endif ?>
-
-On our "TODO" list: allow the left side navigation controls to be collapsed
-by default for more convenient use on pages with a layout that doesn't
-really accommodate them.
 
 ### How to Customize the Page Templates ###
 
@@ -546,6 +596,52 @@ new templates also appear in the dropdown menu:
             Default Page
           mytemplate:
             My Template
+
+### Custom Navigation in Templates and Layouts ###
+
+Apostrophe supports three types of navigation components. These can be found in the aNavigation module.  Including these navigation elements is as easy as including a component in your template or in `layout.php`.  The three types of navigation elements are:  
+
+ * An accordion tree
+ * A tabbed or vertical menu of links to child pages
+ * A breadcrumb trail from the home page to the current page.  
+
+The navigation element, once used, will no longer require any additional SQL queries no matter how many similar navigation elements are included in a template or layout.
+
+#### Accordion Navigation ####
+
+Accordion-style navigation can be easily included in your template by doing the following. Accordion navigation is a compromise between showing the entire page tree and showing just the breadcrumb. Accordion navigation includes everything that would be included in a breadcrumb trail, plus the peers of all of those pages. This makes it easy to navigate to related pages at any level without being overwhelmed by a comprehensive list of all pages on the site. These links are rendered as nested `ul` elements.
+
+		<?php include_component('aNavigation', 'accordion', array('root' => '/', 'active' => $page->slug, 'name' => 'normal')) ?>
+
+Parameters
+
+ * root (required) - This is the slug of the root page that the menu should start from. Often the home page
+ * active (required) - The page to build the navigation down to, will also recieve a css class of current
+ * name (required) - The unique name of the navigation element for your template. This influences CSS IDs and can be used for styling
+
+#### Tabbed Navigation ####
+
+The tabbed navigation provides a navigation element that displays all of the children of a page. Note that depending on your CSS you can render it as a vertical menu. For an example, see the "subnav" area of the `asandbox` project; see `a/templates/_subnav.php).
+
+		<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'tabs')) ?>
+
+Parameters
+
+ * root (required) - This is the parent slug of the tabs that are displayed.
+ * active (required) - This is the page that if in the navigation will recieve a current css class of current
+ * name (required) - the unique name of the navigation element for your template.
+
+
+#### Breadcrumb ####
+
+		<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'bread')) ?>
+
+Parameters
+
+ * root (required) - This is the root slug of the page the breadcrumb should begin with. Usually the home page
+ * active (required) - This is the last element that the navigation should descend to. Usually the current page
+ * separator (optional) - The separator to use between items, defaults to " > "
+ * name (required) - the unique name of the navigation element for your template.
 
 ### Inserting Slots in Layouts and Templates ###
 
@@ -617,7 +713,7 @@ by copying and pasting from Microsoft Word, etc. We plan to include
 connectors to an HTML tidying package in a future release of the CMS to reduce
 the severity of this problem.
 
-In addition to passing familiar options along to the 
+In addition to passing a familiar options along to the 
 `input_tag` and `textarea_tag` helper functions, you can
 also pass the `multiline` option when inserting a slot 
 of the type `aText`. When `multiline` is true, the
@@ -935,7 +1031,7 @@ Note that the pulldown list of possible editors can be quite long
 if there are thousands of people with accounts on your site! This
 is why we recommend setting up groups as described above.
 
-### PublishingPages, by Choice and By Default ###
+### Publishing Pages, by Choice and By Default ###
 
 a offers a "published/unpublished" toggle under "manage page settings."
 Pages that are unpublished are completely invisible to users who do not
@@ -952,17 +1048,33 @@ change this with the following `app.yml` setting:
       a:
         default_on: false
 
-### Refreshing Slots ###
+### Deferring Search Engine Updates ###
 
-As of 02/02/2010 this is no longer necessary for any of our internal slot types. However, if your custom slot types contain metadata that should be refreshed nightly, you might wish to take advantage of the `apostrophe:refresh` task, which updates all current slots by calling their `refreshSlot()` method:
+By default pages are reindexed for search purposes at the time
+edits are made. This makes installation simple, but for performance reasons 
+you might be happier deferring
+this to a cron job that runs every few minutes. If you want to take this
+approach, set up a cron job like this:
 
-		./symfony apostrophe:refresh --env=prod --application=frontend
+				0,10,20,30,40,50 * * * * /path/to/your/project/symfony apostrophe:update-lucene --env=env
 
-Again, currently our own media slots do not require the use of this task. Thanks to architectural improvements deleting an item from the media plugin immediately updates the related slots. In future we may implement a handshake with YouTube via this task to check whether video slots are still pointing to valid videos.
+				Note the `--env` option. There is a separate index for each
+				environment. On a development workstation, specify `--env=env`. In
+				a production environment you might specify `--env=prod`.
 
-For performance reasons this task only looks at the latest version of each slot. You can use the `--allversions` option to specify that older versions of slots should be refreshed as well:
+				Then turn on the feature in app.yml:
 
-		./symfony apostrophe:refresh --env=prod --application=frontend --allversions
+				all:
+				  a:
+				    defer_search_updates: true
+
+				This speeds up editing a bit. But if you don't like cron, you don't have to enable it.
+
+				You can also change the word count of search summaries:
+
+						all:
+						  a:
+						    search_summary_wordcount: 50
 
 ## Creating Custom Slot Types ##
 
@@ -1650,51 +1762,17 @@ to add a "culture switcher" to their sites so that a user interface is
 available to make these features visible. Thanks to Quentin
 Dugauthier for his assistance in debugging these features.
 
-## Custom navigation in templates ##
+### Refreshing Slots ###
 
-Apostrophe supports three types of navigation components. These can be found in the aNavigation module.  Including these navigation elements is as easy as including a component in your template.  The three types of navigation elements are:  
+As of 02/02/2010 this is no longer necessary for any of our internal slot types. However, if your custom slot types contain metadata that should be refreshed nightly, you might wish to take advantage of the `apostrophe:refresh` task, which updates all current slots by calling their `refreshSlot()` method:
 
- * An accordion tree
- * A tabbed or vertical menu of links to child pages
- * A breadcrumb trail from the home page to the current page.  
+		./symfony apostrophe:refresh --env=prod --application=frontend
 
-The navigation element, once used, will no longer require any additional SQL queries no matter how many similar navigation elements are included in a template or layout.
+Again, currently our own media slots do not require the use of this task. Thanks to architectural improvements deleting an item from the media plugin immediately updates the related slots. In future we may implement a handshake with YouTube via this task to check whether video slots are still pointing to valid videos.
 
-### Accordion Navigation ###
+For performance reasons this task only looks at the latest version of each slot. You can use the `--allversions` option to specify that older versions of slots should be refreshed as well:
 
-Accordion-style navigation can be easily included in your template by doing the following. Accordion navigation is a compromise between showing the entire page tree and showing just the breadcrumb. Accordion navigation includes everything that would be included in a breadcrumb trail, plus the peers of all of those pages. This makes it easy to navigate to related pages at any level without being overwhelmed by a comprehensive list of all pages on the site. These links are rendered as nested `ul` elements.
-
-		<?php include_component('aNavigation', 'accordion', array('root' => '/', 'active' => $page->slug, 'name' => 'normal')) ?>
-
-Parameters
-
- * root (required) - This is the slug of the root page that the menu should start from. Often the home page
- * active (required) - The page to build the navigation down to, will also recieve a css class of current
- * name (required) - The unique name of the navigation element for your template. This influences CSS IDs and can be used for styling
-
-### Tabbed Navigation ###
-
-The tabbed navigation provides a navigation element that displays all of the children of a page. Note that depending on your CSS you can render it as a vertical menu. For an example, see the "subnav" area of the `asandbox` project; see `a/templates/_subnav.php).
-
-		<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'tabs')) ?>
-
-Parameters
-
- * root (required) - This is the parent slug of the tabs that are displayed.
- * active (required) - This is the page that if in the navigation will recieve a current css class of current
- * name (required) - the unique name of the navigation element for your template.
-
-
-### Breadcrumb ###
-
-		<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'bread')) ?>
-
-Parameters
-
- * root (required) - This is the root slug of the page the breadcrumb should begin with. Usually the home page
- * active (required) - This is the last element that the navigation should descend to. Usually the current page
- * separator (optional) - The separator to use between items, defaults to " > "
- * name (required) - the unique name of the navigation element for your template.
+		./symfony apostrophe:refresh --env=prod --application=frontend --allversions
 
 You can obtain support for Apostrophe via the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). 
 
