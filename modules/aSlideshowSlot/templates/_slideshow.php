@@ -31,7 +31,18 @@
 <?php if (count($items) > 1): ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
+      <?php // Clear any interval timer left running by a previous slot variant ?>
+      if (window.aSlideshowIntervalTimeouts !== undefined)
+      {
+        if (window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>'])
+        {
+          clearTimeout(window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>']);
+        } 
+      }
+      else
+      {
+        window.aSlideshowIntervalTimeouts = {};
+      }
 			var position = 0;
 			var img_count = <?php echo count($items)-1 ?>;
 			var slideshowItems = $('#a-slideshow-<?php echo $id ?> .a-slideshow-item');
@@ -39,7 +50,6 @@
 			$('#a-slideshow-item-<?php echo $id ?>-'+position).show();
 
 			var intervalEnabled = <?php echo ($options['interval'])? 1:0; ?>;
-		
 		slideshowItems.attr('title', 'Click For Next Image');
 	
 		$('#a-slideshow-<?php echo $id ?>').bind('showImage', function(e, num){
@@ -115,6 +125,7 @@
 	    if (intervalEnabled)
 	    {
 	  	  intervalTimeout = setTimeout(next, <?php echo $options['interval'] ?> * 1000);
+	  	  window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>'] = intervalTimeout;
 	  	}
 	  }
 	  interval();

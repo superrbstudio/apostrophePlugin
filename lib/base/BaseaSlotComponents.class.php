@@ -45,6 +45,19 @@ class BaseaSlotComponents extends sfComponents
       $user->setAttribute("slot-options-$id-$name-$permid", 
         $this->options, "a");
     }
+    
+    if ($this->slot->variant)
+    {
+      // Allow slot variants to adjust slot options. This shouldn't be used to radically
+      // change the slot, just as an adjunct to CSS, styling things in ways CSS can't
+      $variants = sfConfig::get('app_a_slot_variants');
+
+      if (isset($variants[$this->slot->type][$this->slot->variant]['options']))
+      {
+        $this->options = array_merge($this->options, $variants[$this->slot->type][$this->slot->variant]['options']);
+      }
+    }
+    
     $this->pageid = $this->page->id;
     $this->id = $this->pageid . '-' . $this->name . '-' . $this->permid;
     // The basic slot types, and some custom slot types, are
