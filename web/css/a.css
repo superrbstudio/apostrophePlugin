@@ -990,6 +990,11 @@ margin: 10px 0;
 	top: 0;
 }
 
+#a-breadcrumb.home-page
+{
+	left: 21px;
+}
+
 #a-breadcrumb a
 {
 color: #333;
@@ -1274,8 +1279,24 @@ line-height: 20px;
 vertical-align: baseline;
 }
 
-
-
+#a-breadcrumb-create-childpage-max-message
+{
+	float: left;
+	display: block;
+	position: relative;
+	white-space: nowrap;
+	text-transform: capitalize;
+	height: 20px;
+	font-size: 11px;	
+	line-height: 20px;
+	padding: 0 4px 0 20px;
+	margin-left: 1px;
+	color: #eee;
+	background: #444 url(/apostrophePlugin/images/a-icon-arrow-left-thin.png) top left no-repeat !important;
+	background-color: #444 !important;
+	z-index:999;
+	display: none;
+}
 
 /* 9. aUI Area and Slot Controls
 -------------------------------------*/

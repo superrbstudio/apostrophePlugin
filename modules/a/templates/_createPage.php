@@ -35,3 +35,27 @@
 	</script>
 
 </form>
+
+<?php // Disable Add Page Button if we have reached our max depth, max peers, or if it is an engine page ?>
+<?php $maxPageLevels = (sfConfig::get('app_a_max_page_levels'))? sfConfig::get('app_a_max_page_levels') : 0; ?>
+<?php $maxChildPages = (sfConfig::get('app_a_max_children_per_page'))? sfConfig::get('app_a_max_children_per_page') : 0; ?>
+<?php if (($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine())): ?>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+
+			var renameButton = $('#a-breadcrumb-create-childpage-button');
+
+			renameButton.addClass('a-disabled')
+			.after('<span id="a-breadcrumb-create-childpage-max-message"><?php echo (sfConfig::get("app_a_max_page_limit_message"))? sfConfig::get("app_a_max_page_limit_message") : "Cannot create pages here." ?></span>')
+			.mousedown(function(){
+				var message = $('#a-breadcrumb-create-childpage-max-message');
+				message.show();
+				message.oneTime(1050, function(){
+					message.fadeOut('slow');
+				});
+			}).text('Add Page Disabled');
+			
+			aUI('#a-breadcrumb');
+		});
+	</script>
+<?php endif ?>
