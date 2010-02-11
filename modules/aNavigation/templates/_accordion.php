@@ -7,11 +7,11 @@
 			<?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
 
 			<?php if(isset($item['children']) && $nest < $maxDepth): ?>
-			<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1)) ?>
+				<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon)) ?>
 			<?php endif ?>
 
-			<?php if ($drag_icon && $draggable): ?>
-			<span class="a-btn icon a-drag a-controls nobg"></span>
+			<?php if ($dragIcon && $draggable): ?>
+				<span class="a-btn icon a-drag a-controls nobg"></span>
 			<?php endif ?>
 
 		</li>

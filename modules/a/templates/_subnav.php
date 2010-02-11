@@ -5,6 +5,6 @@
 	<div class="a-subnav-wrapper">
 		<?php // echo a_navcolumn(false) ?>
 		<?php $drag = $page->userHasPrivilege('manage') ?>
-		<?php include_component('aNavigation', 'tabs', array('root' => $page->slug, 'active' => $page->slug, 'name' => 'subnav', 'draggable' => $drag, 'drag_icon' => $drag)) # Top Level Navigation ?>
+		<?php include_component('aNavigation', 'tabs', array('root' => $page->slug, 'active' => $page->slug, 'name' => 'subnav', 'draggable' => $drag, 'dragIcon' => $drag)) # Top Level Navigation ?>
 	</div>
 </div>
