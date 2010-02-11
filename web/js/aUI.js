@@ -167,6 +167,11 @@ function aUI(target, instance)
 		}
 		
 	});
+	
+	$('a.a-variant-options-toggle').click(function(){
+		$(this).parents('.a-slots').children().css('z-index','699');
+		$(this).parents('.a-slot').css('z-index','799');	
+	});
 
 	
 	// Disabled Buttons
