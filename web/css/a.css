@@ -183,6 +183,10 @@ object
 	clear: both;
 }
 
+
+
+
+
 /* 3. Generic Classes
 -------------------------------------*/
 
@@ -1347,6 +1351,13 @@ ul.a-controls li a
 
 }
 
+ul.a-controls li.last,
+ul.a-slideshow-controls li.last,
+ul.a-controls.a-area-controls li.last
+{ /* .last option has no margin */
+	margin: 0 0 2px 0 !important;
+}
+
 ul.a-controls .a-controls-item.cancel
 { /* Hide All Cancel Buttons */
 display: none;
@@ -1430,6 +1441,8 @@ display: none !important;
 display: block !important;
 }
 
+/* Variants Controls */
+
 ul.a-controls .a-controls-item.variant .a-variant-options-toggle
 {
 	position: relative;
@@ -1483,6 +1496,7 @@ ul.a-controls .a-variant-options.loading
 {
 	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
+
 
 
 
@@ -2273,7 +2287,7 @@ width: 100%;
 	background: #efefef;
 }
 
-/* Slideshow Slot Styles */
+/* aSlideshow Slot Styles */
 
 .a-slot.aSlideshow
 {
@@ -2289,7 +2303,7 @@ margin-bottom: 40px;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls
-{/* frontend visible slideshow controls */
+{/* Slideshow Controls */
 position: absolute;
 top: -24px;
 right: 0;
@@ -2325,15 +2339,12 @@ z-index: 1;
 display: none;
 float: left;
 clear: both;
-line-height:0 !important; /*rb: this fixes the bit of whitespace after the img*/
+line-height:0 !important; /* RB: fixes the bit of whitespace after img */
 }
 
-ul.a-controls li.last,
-ul.a-slideshow-controls li.last,
-ul.a-controls.a-area-controls li.last
-{ /* .last option has no margin */
-	margin: 0 0 2px 0 !important;
-}
+
+
+/* aButton Slot Styles */
 
 .a-slot.aButton .a-button, 
 .a-slot.aButton .a-button .a-button-image,
@@ -2348,8 +2359,10 @@ ul.a-controls.a-area-controls li.last
 	margin: 0;
 }
 
+/* aButton Slot Bundled Variant Style */
+
 .a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
-{ /* Built-in aButton Variant */
+{ 
 position: absolute;
 top: 0;
 left: 0;
@@ -2357,13 +2370,6 @@ top: 50%;
 left: 0;
 line-height: 20px;
 margin-top: -10px;	
-}
-
-.a-slot.aButton.useTitleAsButtonText .a-button
-{
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
 }
 
 .a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a,
