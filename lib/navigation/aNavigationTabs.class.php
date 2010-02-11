@@ -33,6 +33,12 @@ class aNavigationTabs extends aNavigation
         $this->traverse($node['children'], $depth + 1);
       else
         unset($node['children']);
+		  if($node['archived'] == true)
+      {
+        $node['class'] = $node['class'] . ' archived';
+        if($this->livingOnly)
+          unset($tree[$key]);
+      }
     }
   }
   
