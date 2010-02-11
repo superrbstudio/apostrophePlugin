@@ -84,7 +84,7 @@ These are mostly links to independent modules.
 				$('.a-page-overlay').hide();				
 			}
 		})
-		<?php if ($page->getSlug() == '/'): ?>
+		<?php if ($page && ($page->getSlug() == '/')): ?>
 		$('#a-breadcrumb').addClass('home-page');
 		<?php endif ?>
 	});
