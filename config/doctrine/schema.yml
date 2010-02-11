@@ -540,3 +540,26 @@ aMediaPageCategory:
       local: page_id
       onDelete: CASCADE
       
+aFeedSlot:
+  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+  # and slots often use serialization into the value column... the Doctrine forms are not
+  # of much use here and they clutter the project
+  options:
+    symfony:
+      form:   false
+      filter: false
+
+  # columns:
+  #
+  # You can add columns here. However, if you do not need foreign key relationships it is
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+  # their names must be unique across all slots in your project, so use a unique prefix 
+  # for your company.
+    
+  # This is how we are able to retrieve slots of various types with a single query from
+  # a single table
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aFeed'

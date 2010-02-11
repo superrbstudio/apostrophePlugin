@@ -178,6 +178,7 @@ class aTools
       array(
          'aText' => 'Plain Text',
          'aRichText' => 'Rich Text',
+         'aFeed' => 'RSS Feed',
          'aImage' => 'Image',
          'aSlideshow' => 'Slideshow',
          'aButton' => 'Button',
