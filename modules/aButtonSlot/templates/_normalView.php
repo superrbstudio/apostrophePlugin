@@ -59,14 +59,21 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		var btn = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>');
+
 		var btnImg = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> li.a-button-image a img');
-		var btnTitle = btn.children('a.a-button-link');
-		btn.hover(function(){
+		var btnTitle = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> a.a-button-link');		
+
+		btnImg.hover(function(){
 			btnImg.fadeTo(0,.5);
 		},function(){
 			btnImg.fadeTo(0,1);			
 		});
+
+		btnTitle.hover(function(){
+			btnImg.fadeTo(0,.5);
+		},function(){
+			btnImg.fadeTo(0,1);			
+		});		
 		
 	});
 </script>
