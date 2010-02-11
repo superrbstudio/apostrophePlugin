@@ -26,6 +26,6 @@
 		'aFeed' => array(),
 		'aImage' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),
 		'aButton' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),
-		'aSlideshow' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),
+		'aSlideshow' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's', 'title' => true, ),
 		'aPDF' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),		
 	))) ?>

@@ -227,17 +227,6 @@ background: rgb(255,255,255);
 background: rgba(255,255,255,0.5);
 }
 
-.a-chad
-{
-/*position: absolute;
-z-index: 2;
-top: -13px;
-display: block;
-background: url(/apostrophePlugin/images/a-icon-page-settings-arrow.png) top left no-repeat;
-width: 20px;
-height: 13px;*/
-}
-
 .a-spinner
 {
 float: left;
@@ -299,6 +288,11 @@ text-decoration:underline;
 	-moz-border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;
 }
+
+
+
+
+
 
 /* 4. Basic Global Layout
 -------------------------------------*/
@@ -369,6 +363,11 @@ width: 100%;
 {
 	display: none !important;
 }
+
+
+
+
+
 
 /* 5. Basic Form Styles
 -------------------------------------*/
@@ -441,6 +440,7 @@ color: #888;
 
 
 
+
 /* 6. aUI Buttons
 -------------------------------------*/
 
@@ -500,9 +500,9 @@ padding: 0;
 width: 20px;
 }
 
-/* Hovering Flag Buttons - Pop to the top */
+
 .a-btn.a-flag-btn:hover
-{
+{ /* Hovering Flag Buttons - Pop to the top */
 	z-index:9999;
 }
 
@@ -522,6 +522,9 @@ text-indent:0 !important;
 {
 	display: block;
 }
+
+
+
 
 
 
@@ -709,7 +712,7 @@ background-position: 0 -20px !important;
 
 .icon.a-arrow-left.thin
 {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin.png);	
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);	
 width: auto;
 padding: 0 4px 0 20px;
 text-indent: 0;
@@ -992,6 +995,8 @@ color: #888;
 
 
 
+
+
 /* 8. aUI Breadcrumb - Rename Page / Add Page
  **** To be deprecated when we develop new Global Toolbar functionality - 2/3/2010
 -------------------------------------*/
@@ -1254,36 +1259,6 @@ background-position: 0 -20px;
 	display: inline;
 }
 
-.a-login a.a-personal-settings-button
-{
-/*float: left;
-display: inline;
-height: 20px;
-width: 20px;
-line-height: 20px;
-margin: 0;
-overflow: hidden;
-text-indent: -9999px;
-background: #666 url(/apostrophePlugin/images/a-icon-settings.png) top left no-repeat;
-position: relative;
-*/}
-
-.a-login a.a-personal-settings-button:hover
-{
-/*background-color:#333;*/
-}
-
-.a-login a.a-personal-settings-button.close
-{
-/*display: none;*/
-/*background-color: #333;*/
-}
-
-.a-login a.a-personal-settings-button.close:hover
-{
-/*	background-color: #666;*/
-}
-
 .a-login .a-personal-settings-loading
 {
 float:right;
@@ -1319,11 +1294,17 @@ vertical-align: baseline;
 	padding: 0 4px 0 20px;
 	margin-left: 1px;
 	color: #eee;
-	background: #444 url(/apostrophePlugin/images/a-icon-arrow-left-thin.png) top left no-repeat !important;
+	background: #444 url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png) top left no-repeat !important;
 	background-color: #444 !important;
 	z-index:999;
 	display: none;
 }
+
+
+
+
+
+
 
 /* 9. aUI Area and Slot Controls
 -------------------------------------*/
@@ -1502,6 +1483,7 @@ ul.a-controls .a-variant-options.loading
 
 
 
+
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -1630,6 +1612,9 @@ margin-left: 5px;
 
 
 
+
+
+
 /* 11. aUI Global Toolbar
 -------------------------------------*/
 
@@ -1710,6 +1695,12 @@ margin-right: 5px;
 {
 	background-color: #333;
 }
+
+
+
+
+
+
 
 /* 12. Page Settings Panel
 -------------------------------------*/
@@ -1974,6 +1965,9 @@ background-position: 0 -20px;
 
 
 
+
+
+
 /* 13. History Browser
 -------------------------------------*/
 
@@ -2122,6 +2116,9 @@ float: left;
 display: inline;
 padding-left: 1px;
 }
+
+
+
 
 
 
@@ -2342,6 +2339,69 @@ clear: both;
 line-height:0 !important; /* RB: fixes the bit of whitespace after img */
 }
 
+.a-slideshow .a-slideshow-item .a-slideshow-image,
+.a-slideshow .a-slideshow-item .a-slideshow-title,
+.a-slideshow .a-slideshow-item .a-slideshow-description
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: block;
+}
+
+/* aSlideshow Slot Bundled Variant Style - Compact */
+
+.a-slot.aSlideshow.compact
+{
+	margin-top: 0;
+}
+
+.a-slot.aSlideshow.compact ul.a-slideshow-controls
+{
+	position:absolute;
+	top: auto;
+	left: auto;
+	bottom:0;
+	right:0;
+	margin: 0;
+	background: rgba(0, 0, 0, 0.35);
+	width:100%;
+	z-index:999;
+	min-height: 30px;
+	height: auto;
+}
+
+.a-slot.aSlideshow.compact ul.a-slideshow-controls li
+{
+	height: 30px;
+	width: 30px;
+	margin: 0 5px;	
+}
+
+.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-previous
+{
+	background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-alt.png);
+	position: absolute;
+	top: 0;
+	right: 35px;
+}
+
+.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-next
+{
+	background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin-alt.png);
+	float: right;
+}
+
+.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-next:hover,
+.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-previous:hover
+{
+background-position: 0 -30px !important;
+}
+
+.a-slot.aSlideshow.compact .a-slideshow-title
+{
+	float: left;
+}
 
 
 /* aButton Slot Styles */
