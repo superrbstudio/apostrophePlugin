@@ -1436,7 +1436,8 @@ ul.a-controls .a-variant-options
 	z-index: 1;	
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	border-radius: 5px;	
+	border-radius: 5px;
+	list-style: none;
 }
 
 ul.a-controls .a-variant-options li,
@@ -1446,6 +1447,7 @@ ul.a-controls .a-variant-options li.last
 	float: left;
 	clear: both;
 	margin: 0 0 4px 0 !important;
+	list-style: none;	
 }
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options

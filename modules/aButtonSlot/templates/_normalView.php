@@ -21,7 +21,7 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-  <ul class="a-button">
+  <ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button">
     <li class="a-button-image">
     <?php $embed = str_replace(
       array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
@@ -44,7 +44,7 @@
   </ul>
 <?php else: ?>
   <?php if ($defaultImage): ?>
-  	<ul class="a-button default">
+  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
         <?php if ($link): ?>
@@ -59,10 +59,14 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$('.a-button a').hover(function(){
-			$(this).children('img').fadeTo(0,.5);
+		var btn = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>');
+		var btnImg = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> li.a-button-image a img');
+		var btnTitle = btn.children('a.a-button-link');
+		btn.hover(function(){
+			btnImg.fadeTo(0,.5);
 		},function(){
-			$(this).children('img').fadeTo(0,1);			
+			btnImg.fadeTo(0,1);			
 		});
+		
 	});
 </script>
