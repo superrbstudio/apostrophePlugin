@@ -411,6 +411,15 @@ color: #888;
 }
 
 
+/* Tom's Form Multi-Select*/
+.a-multiple-select-list
+{
+	float: left;
+	clear: both;
+	display: block;
+	position: relative;
+	width: 100%;
+}
 
 
 
@@ -1460,6 +1469,8 @@ ul.a-controls .a-variant-options.loading
 {
 	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
+
+
 
 
 
@@ -3003,6 +3014,12 @@ font: 11px Arial, Sans-serif;
 {
 text-decoration: none;
 font-size: 18px;
+}
+
+#a_media_item_media_categories_list .a-multiple-select-list
+{
+	width: 214px;
+	margin: 10px 0 0 120px;
 }
 
 .a-media-select
