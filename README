@@ -1,32 +1,33 @@
-*Did you download this plugin from the Symfony plugins site? Depending on your needs, you may be doing it the hard way.* Please read the "Installation" section for a simpler way to get started with an Apostrophe site.
-
 ## Before You Begin ##
 
 Welcome to the 1.0 stable release of Apostrophe! Although this is our first official stable release, our CMS is already in regular use on a number of production sites. This release reflects the fact that our code has been stable and ready for your professional use for quite some time.
 
 We strongly recommend that you follow the instructions in this
 document which enable you to check out or copy a complete project from svn. Another good
-option is to download a tarball of our complete sandbox project. *We start our own
+option is to download a tarball of our complete sandbox project from [apostrophenow.com](http://www.apostrophenow.com/). *We start our own
 production client sites* using the `svnforeigncopy` tool described here, so you will get
 maximum support by following that approach.
 
 ## Overview ##
 
-This document is arranged into five parts:
+This document has four major sections:
 
-* This overview
 * Installation
 * Editor's guide
 * Designer's guide
 * Developer's guide
 
-The installation section is intended for system administrators with some knowledge of PHP and command line tasks.
+These are intended to be read consecutively, except for the installation section which is not appropriate if you are not installing Apostrophe yourself. Stop reading when you know what you need to know!
 
-The editor's guide is suitable for end users who will have administrative responsibilities on the site, such as editing and managing content.
+The installation section is intended for developers and system administrators with some knowledge of PHP and command line tasks.
+
+The editor's guide is suitable for end users who will have administrative responsibilities on the site, such as editing and managing content. No programming skills required.
 
 The designer's guide addresses the needs of front-end developers, discussing how to edit and manage stylesheets, page templates and page layouts.
 
 Finally, the developer's guide explores how to extend Apostrophe with new content slots that go beyond our provided rich text and media features and new "engines" that extend the CMS with full-page content that doesn't always fit neatly into the page metaphor. Most readers will never need to refer to this section.
+
+See the end of this document for information about community and professional support, the Apostrophe community and how to participate in further development.
 
 ### Guiding Philosophy ###
 
@@ -40,7 +41,7 @@ Before we decided to write our own CMS, we used sfSimpleCMSPlugin, and although 
 
 Right now Apostrophe is best suited to PHP developers who want to make an intuitive content management system available to their clients. Apostrophe is very easy for your clients to edit, administer and maintain once it is set up. Right now, though, Apostrophe installations does call for some command line skills and a willingness to learn about Symfony. We are working to reduce the learning curve. 
 
-Front-end developers who do not yet have PHP and Symfony skills should consider tackling the [Symfony tutorial](http://www.symfony-project.org/jobeet/1_2/Doctrine/en/) to get up to speed. 
+Front-end developers who do not yet have PHP and Symfony skills but wish to set up an Apostrophe site by themselves should consider tackling the [Symfony tutorial](http://www.symfony-project.org/jobeet/1_4/Doctrine/en/) to get up to speed. It's not necessary to complete the entire tutorial, but it helps to have at least a passing familiarity with Symfony.
 
 And of course we at [P'unk Avenue](http://www.punkave.com/) are available to develop complete Apostrophe sites for those who see the value in a truly intuitive CMS and do not have the development resources in-house to implement it.
 
@@ -68,7 +69,7 @@ check out from svn, copy from svn to your own repository as described below, or 
 
 The following must be installed on your system:
 
-* PHP 5.2.4 or better, with a PDO driver for MySQL
+* PHP 5.2.4 or better, with a PDO driver for MySQL (PHP 5.3.x works but is still rather buggy as of this writing; this refers to PHP's bugs, not ours)
 * MySQL (tested), SQLite (tested), or another relational database supported by PDO and Doctrine (a few nonessential features are MySQL-specific)
 * For the media features: GD support in PHP, or the netpbm utilities. netpbm uses much less memory
 * Optional, for previews of PDFs in PDF slots: ghostscript (you must also have netpbm to use this feature)
@@ -82,14 +83,23 @@ If you are choosing a Linux distribution, we recommend Ubuntu. Ubuntu includes a
 
 #### PHP Libraries ####
 
-* Symfony 1.3 or 1.4 (provided with asandbox)
-* sfJqueryReloadedPlugin (provided with asandbox)
-* sfDoctrineGuardPlugin (provided with asandbox)
-* sfDoctrineActAsTaggablePlugin (provided with asandbox)
-* sfSyncContentPlugin (recommended but not required)
-* apostrophePlugin (provided with asandbox)
-* Doctrine (standard with Symfony)
-* The Zend framework, for search (provided with asandbox)
+** All of these are included in the sandbox project, no need to install them. ** We list them here for developers who want to know what we're relying on.
+
+* Doctrine
+* The Zend framework, for search
+* Symfony 1.3 or 1.4
+
+#### Symfony Plugins ####
+
+** All of these are included in the sandbox project, no need to install them. ** We list them here for developers who want to know what we're relying on.
+
+* sfSyncContentPlugin
+* sfJqueryReloadedPlugin
+* sfDoctrineGuardPlugin
+* sfWebBrowserPlugin
+* sfFeed2Plugin
+* sfDoctrineActAsTaggablePlugin
+* apostrophePlugin
 
 Note that if you checked out or copied our sandbox project from svn, all of the components "provided with asandbox" are provided as svn externals, which means they update automatically when you type `svn update`. Wherever possible we've pinned these to stable branches, not development versions.
 
@@ -112,12 +122,15 @@ The use of Microsoft Windows as a hosting environment has not yet been fully val
 
 There are two ways to get started with Apostrophe. You can start with our sandbox project, which we heartily recommend, or add the apostrophePlugin to your existing Symfony project. The latter only makes sense for experienced Symfony developers whose sites are already well underway. I'll describe both approaches.
 
-### The Easy Way: Use the Sandbox ###
+### Ways to Download the Apostrophe Sandbox Project ###
 
-For the time being, we recommend that you check out our
-sample project via Subversion. 
+#### Download The Tarball ####
 
-For a first look, use this terminal command:
+The easiest way is to just [download a tarball of the sandbox project.](http://www.apostrophenow.com/downloads/asandbox-stable.tar.gz) This tarball is updated nightly from the stable branch of our sandbox. This is a great way to get started, but note that you won't be able to get security and stability fixes just by typing `svn update` this way.
+
+#### Check It Out From Subversion ####
+
+Alternatively you can check it out with subversion:
 
 		svn co http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/branches/1.3 asandbox
 
@@ -129,23 +142,23 @@ If you prefer to live dangerously and use our most bleeding-edge code, you can c
 
 We love it when you do this, because it results in more feedback for us, but you should definitely consider using the stable branch for your client projects.
 
-#### Copying the Sandbox to your Own Repository ####
+#### Our Favorite: Copying the Sandbox to Your Own Repository ####
 
 Checking out the sandbox from svn is a nice way to get started, but you'll soon wonder how to save your own changes when the project is part of our own svn repository. That's why we recommend that you instead 
-copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the asandbox project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal.
+copy it to your own repository with [svnforeigncopy](https://sourceforge.net/projects/svnforeigncopy/) each time you want to start a new site. That's what we do. With `svnforeigncopy` you get a copy of the asandbox project in your own svn repository, with the `svn:ignore` and `svn:externals` properties completely intact. You don't get the project history, but since 99% of the code is in the externally referenced plugins and libraries, that's really not a big deal. The important thing is that you are still connected to the latest bug-fix updates for our plugin.
 
 This will give you all of the necessary plugins and the ability to
 `svn update` the whole shebang with one command.
 
-#### Exporting the Sandbox ####
+### Apache Configuration ###
 
-If you don't care about svn and keeping your code up to date with our latest fixes, you can simply export the project with the `svn export` command, which is essentially the same as downloading a tarball of the whole thing:
+Once you have fetched the code by your means of choice, you're ready to configure your testing web server to recognize a new website. Light up the folder `asandbox/web` as a virtualhost named `asandbox` via MAMP, `httpd.conf` or whatever your web hosting environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache. Make sure the directives in `web/.htaccess` will be honored by your server.
 
-svn export http://svn.symfony-project.com/plugins/apostrophePlugin/asandbox/branches/1.3 asandbox
+(Confused about this MAMP stuff? Wondering how you can test websites on your own computer? You really need to pick up [MAMP](http://www.mamp.info/) if you are on a Mac. Windows and Linux users should consider using [XAMPP](http://www.apachefriends.org/en/xampp.html). These are all-in-one packages with PHP, MySQL, Apache and everything else you need to test real websites on your own computer.)
 
-#### Apache Configuration ####
+### Symfony Configuration ###
 
-Once you have fetched the code by your means of choice, you're ready to configure your testing web server to recognize a new website. Light up the folder `asandbox/web` as a virtualhost named `asandbox` via MAMP, `httpd.conf` or whatever your web hosting environment requires. As with any Symfony project you'll want to allow full Apache overrides in this folder. See `config/vhost.sample` for tips on virtual host configuration for Apache.
+Yes, this is a preconfigured sandbox project, but you do have to adjust a few things to reflect reality on your own computer.
 
 Now create the `config/databases.yml` file, which must contain
 database settings appropriate to *your* system. Copy the file
@@ -164,13 +177,11 @@ Also create your `properties.ini` file:
 
 In Symfony `properties.ini` contains information about hosts that a project can be synced to, in addition
 to the name of the project. The sample properties.ini file just defines the name of the project. You'll
-add information there when and if you choose to sync the project to a production server via project:deploy.
-See the Symfony documentation for more information about that technique.
+add information there when and if you choose to sync the project to a production server via `project:deploy` or our enhanced version, `apostrophe:deploy`. See the Symfony documentation for more information about that technique.
 
 At this point you're ready to use the checkout of Symfony's 1.4.x stable branch
 that is included in the project. If you want to use a different installation
-of Symfony, such as a shared install for many sites (note that only 1.3.x and 1.4.x are likely to work), copy 
-config/require-core.php.example to config/require-core.php and edit the 
+of Symfony, such as a shared install for many sites (note that only 1.3.x and 1.4.x are likely to work), copy config/require-core.php.example to config/require-core.php and edit the 
 paths in that file. 
 
 Next, cd to the `asandbox` folder and run these commands:
@@ -190,7 +201,7 @@ Now set the permissions of data folders so that they are writable by the web
 server. Note that svn does NOT store permissions so you can NOT assume they are
 already correct:
 
-./symfony project:permissions
+		./symfony project:permissions
 
 Our apostrophePlugin extends project:permissions for you to include the
 data/writable folder in addition to the standard web/uploads, cache and log folders. Handy, isn't it?
@@ -204,7 +215,7 @@ If you prefer you can do this manually:
 
 More subtle permissions are possible. However be aware that most
 "shared hosting" environments are inherently insecure for a variety
-of reasons. Before criticizing the "777 approach," be sure
+of reasons. Production Symfony sites should run on a virtual machine of their own, or share a VM only with other sites written by you. So before criticizing the "777 approach," be sure
 to [read this article on shared hosting and Symfony](http://trac.symfony-project.org/wiki/SharedHostingNotSecure).
 
 Next, build the site's search index for the first time (yes, search is included). It doesn't live in
@@ -214,23 +225,25 @@ environment such as a staging or production server and don't plan to sync your c
 
 		./symfony apostrophe:rebuild-search-index --env=dev
 
-(You can specify staging or prod instead to build the search indexes
-for environments by those names.)
+(You can specify `staging` or `prod` instead to build the search indexes
+for environments by those names. You'll want that later when working on a production server.)
 
 You can now log in as `admin` with the password `demo` to see how the
 site behaves when you're logged in (if you used the apostrophe:demo-fixtures task, the password will be `demo`). Start adding subpages, editing slots, adding slots to the multiple-slot content area... have a ball with it!
 
 ### The Hard Way: Adding apostrophePlugin To An Existing Site ###
 
-*Those who installed the sandbox can skip over this section.*
+*Those who installed the sandbox just now can skip right over this section.*
 
-That's the easy way to install Apostrophe. The notes that follow assume you're doing it the hard way, without starting from the asandbox project.
+Installing the sandbox is the easy way to install Apostrophe. The notes that follow assume you're doing it the hard way, without starting from the asandbox project.
 
-Begin by installing the following plugins into your Symfony 1.3/1.4 project:
+Begin by installing the following Symfony plugins into your Symfony 1.3/1.4 project:
 
 * sfJqueryReloadedPlugin
 * sfDoctrineGuardPlugin
 * sfDoctrineActAsTaggablePlugin
+* sfWebBrowserPlugin
+* sfFeed2Plugin
 * sfSyncContentPlugin (recommended but not required)
 * And of course, [apostrophePlugin](http://www.symfony-project.org/plugins/pkContextCMSPlugin)
 
@@ -306,6 +319,7 @@ other modules as well based on your application's needs:
 	    - aImageSlot
 	    - aButtonSlot
 	    - aPDFSlot
+	    - aFeedSlot
 	    - sfGuardAuth
 	    - aUserAdmin
 	    - aGroupAdmin
@@ -403,6 +417,8 @@ aControls.js to your view.yml file:
       ... Other things ...
       javascripts:    [/apostrophePlugin/js/aControls.js]
 
+We're done installing Apostrophe! On to the editor's guide, which briefly explains how to edit content with Apostrophe- briefly because it is so much more fun to simply use it.
+
 ## Editor's Guide ##
 
 This section is devoted to users who will participate in editing, maintaining and administering the content of the site. All of these tasks are performed through your web browser. No command line skills are required.
@@ -446,9 +462,10 @@ CMS slots can be of several types:
 
 * Plaintext slots (single line or multiline)
 * Rich text slots (edited via FCK)
+* Feed slots (RSS or Atom feeds, such as Twitter feeds, inserted into a page)
 * Raw HTML slots (best avoided in good designs, but useful when you must paste raw embed codes)
 * Media slots (image, slideshow, video, PDF, button)
-* Custom slots (of any type, implemented as described later)
+* Custom slots (of any type, implemented as described in the developer's guide section)
 
 Once you have logged in, you'll note that each editable slot has an "Edit" button or, in the case of the media slots, "Select Image" and similar buttons. 
 
@@ -469,6 +486,10 @@ complex HTML, and because drag and drop is not actually much fun to use
 when a column spans multiple pages).
 
 The usefulness of areas becomes clear when rich text slots are interleaved with media slots. Media slots provide a robust way to manage photos and videos without wrecking the layout of the site. You can upload photos and select and embed videos freely without worrying about their size and format.
+
+### Revising History ###
+
+Did you make a mistake? Not a problem! Both slots and areas allow you to roll back to any previous edit. Just click "History," preview versions by clicking on them, and click "Save As Current Revision" when you find the version you want.
 
 ### Editing Media ###
 
@@ -499,7 +520,7 @@ This tool is only available to site administrators such as the `admin` user.
 
 ## Designer's Guide ##
 
-This section explains how to go about customizing the appearance and behavior of the site without writing new code (apart from simple calls to insert slots and otherwise use PHP as a templating language). It is intended to be read by front end developers.
+This section explains how to go about customizing the appearance and behavior of the site without writing new code (apart from simple calls to insert slots and otherwise use PHP as a templating language). It is intended to be read by front end designers (also known as front end developers).
 
 Some familiarity with Symfony is expected. You will need to edit files like `apps/frontend/config/app.yml` to adjust settings, and you will be creating `.php` files although full PHP programming skills are not required. 
 
@@ -668,57 +689,238 @@ such as `body` or `sidebar` or `subtitle`.
 The second argument is the type of the slot. "Out of the box," 
 apostrophePlugin offers a useful array of slot types:
 
-* aImage
-* aSlideshow
-* aButton
-* aVideo
-* aPDF
-* aRawHTML
+* aText (plaintext)
+* aRichText (allows WYSIWYG formatting)
+* aFeed (brings any RSS or Atom feed into the page)
+* aImage (still images from the media repository)
+* aSlideshow (a series of images from the media repository)
+* aButton (an image from the media repository, and an editor-configurable link)
+* aVideo (video from YouTube and other providers)
+* aPDF (PDF documents from the media repository)
+* aRawHTML (Unfiltered HTML code)
+
+The use of these slots is largely self-explanatory and we encourage you to play with the demo and try them out. 
 
 You can add additional slot types of your own and release and
-distribute them as plugins as explained later in this document.
+distribute them as plugins as explained in the developers' section in this document.
 
-The special slot name `title` is reserved for the title of the page
-and is always of the type `aText`. 
-While you don't need to provide an additional editing interface
-for the title, you might want to insert it as an `h1` somewhere in your
+#### aText Slots ####
+
+aText slots contain only plaintext (actually, valid HTML text, which can include valid HTML and UTF-8 entities). URLs are automatically rendered as links, email addresses are rendered as obfuscated `mailto:` links, and newlines are rendered as line breaks. 
+
+Note that the special slot name `title` is reserved for the title of the page
+and is always of the type `aText`.  While you don't really need to provide an additional editing interface for the title, you might also want to insert it as an `h1` somewhere in your
 page layout or template as a design element:
 
     <h1>
-        <?php a_slot('title', 'aText',
-          array('tool' => 'basic')) ?>
+        <?php a_slot('title', 'aText') ?>
     </h1>
 
-The behavior of most slot types can be influenced by passing 
-options to them from the template or layout. 
-You can also pass an array of options as a third argument
+The behavior of most slot types can be influenced by passing options to them from the template or layout. You do this by passing an array of options as a third argument
 to the helper, like this:
+
+		<h1>
+		    <?php a_slot('aboutus', 'aText', 'multiline' => true) ?>
+		</h1>
+
+The `multiline` option specifies that a plaintext slot should permit multiple-line text input.
+
+#### aRichText Slots ####
+
+Here is a simple example of a rich text slot:
+
+    <?php a_slot('ourproducts', 'aRichText') ?>
+
+The rich text slot allows users to edit content using a rich text editor. The HTML they enter is filtered for correctness and to ensure it does not damage your design. Read on for more information about ways to adjust these filters.
+
+The `tool` option is one of the most useful options for use with rich text slots:
 
     <h2>
         <?php a_slot('subtitle', 'aRichText',
           array('tool' => 'basic')) ?>
     </h2>
 
-Here we create a subtitle area on the page which is editable, but only
-with the limited palette of options provided in FCK's `basic` toolbar.
-This works because the `aRichText` slot implementation calls
-the `textarea_tag` helper, passing the options array along. (These
-options are also available to the slot implementation at the time
-the slot is saved, which will be discussed in more detail later.)
+Here we create a subtitle rich text slot on the page which is editable, but only
+with the limited palette of options provided in FCK's `basic` toolbar (bold, italic and links).
 
-Incidentally, you can create your own custom toolbars for FCK as part
-of your FCK configuration. See the FCK documentation. Note that this
-does not actually prevent the user from submitting other HTML, often
-by copying and pasting from Microsoft Word, etc. We plan to include
-connectors to an HTML tidying package in a future release of the CMS to reduce
-the severity of this problem.
+Note that you can create your own custom toolbars for the FCK rich text editor. Add these to `web/js/fckextraconfig.js` and they will be found automatically. Here is an example:
 
-In addition to passing a familiar options along to the 
-`input_tag` and `textarea_tag` helper functions, you can
-also pass the `multiline` option when inserting a slot 
-of the type `aText`. When `multiline` is true, the
-plaintext slot is rendered with `textarea_tag` rather than
-`input_tag`.
+		FCKConfig.ToolbarSets["Sidebar"] = [
+		    ['Bold','Italic']
+		] ;
+
+For more complete examples of what can be included here, see `apostrophePlugin/web/js/fckeditor/fckconfig.js`. (You do not need to, and should not, duplicate this entire file in `fckextraconfig.js`. Just add and override things as needed.)
+
+Other notable options to `aRichText` slots include:
+
+* allowed-tags is a list of HTML elements to be permitted inside the rich text. By default Apostrophe filters out most HTML elements to prevent pasted content from Microsoft Word and the like from wrecking page layouts. You can pass an array of HTML element names (without angle brackets), or a string like that accepted by the PHP `strip_tags` function. 
+
+This allows us to write a better version of the `subtitle` slot above that filters the HTML to make sure it's suitable to appear inside an `h2` element:
+
+		<h2>
+		    <?php a_slot('subtitle', 'aRichText',
+		      array('tool' => 'basic', 'allowed-tags' => '<b><i><strong><em><a>')) ?>
+		</h2>
+
+Note that we list both the `b` tag and the `strong` tag here. We do this because different browsers submit slightly different rich text. 
+
+The default list of allowed tags is:
+
+`h3, h4, h5, h6, blockquote, p, a, ul, ol, nl, li, b, i, strong, em, strike, code, hr, br, div, table, thead, caption, tbody, tr, th, td, pre`
+
+* allowed-attributes is a list of HTML attributes to be accepted, on a per-element basis. Unlike `strip_tags` Apostrophe's robust, high-performance HTML filter, `aHtml::simplify`, removes all inappropriate HTML attributes. Here is the default list of allowed attributes:
+
+		array(
+		  "a" => array("href", "name", "target"),
+		  "img" => array("src")
+		);
+
+* allowed-styles is a list of CSS style names to be permitted, again on a per-element basis. By default, no styles are permitted in rich text editor content. You can alter this to allow more creative table styling, at the cost that a truly persistent user might manage to wreck the page layout. The format is the same as that used above for allowed attributes.
+
+#### aFeed Slots ####
+
+The aFeed slot allows editors to insert an RSS feed into the page:
+
+		<h2>
+		    <?php a_slot('subtitle', 'aFeed') ?>
+		</h2>
+
+When the user clicks "Edit," they are invited to paste an RSS feed URL. When they click "Save," the five most recent posts in that feed appear. The title of each feed post links to the original article on the site of origin as specified by the feed.
+
+You can change this behavior with the following options. The defaults are shown as examples:
+
+* `'links' => true` determines whether links to the original posts are provided.
+* `'dateFormat' => 'Y m d'` lets you specify your own date and time format (see the PHP date() function). 'Y m d' is not actually our default, as our default is more subtle than can be output with the date function alone (we include the year only when necessary and so on). Our default is very nice, but very American, so feel free to override it.
+* `'markup' => '<strong><em><p><br><ul><li>'` changes the list of HTML elements we let through in markup. We apply our usual aHtml::simplify() method, which is smarter than PHP's `strip_tags` alone.
+* `'interval' => 300` specifies how long we hold on to a feed before we fetch it again. This is important to avoid slowing down your site or getting banned by feed hosts. We rock Symfony's caching classes to implement this. Check out aFeed::getCachedFeed if you're into that sort of thing.
+* `'posts' => 5` determines how many posts are shown.
+
+#### aImage Slots ####
+
+Image slots are used to insert single still images from Apostrophe's built-in media repository:
+
+    <?php a_slot('landscape', 'aImage') ?>
+
+Options are available to control many aspects of image slots:
+
+* `'width' => 440` determines the width of the image, in pixels. Images are never rendered larger than actual size as upsampling always looks awful.
+* `'height' => 330` determines the height of the image, in pixels. It is ignored if `flexHeight' => true is also present.
+* `'resizeType' => 's'` determines the scaling and cropping style. The `s` style scales the image down if needed but never changes the aspect ratio, so the image is surrounded with white bars if necessary (see `flexHeight` for a way to avoid this). The `c` style crops the largest part of the center of the image that matches the requested aspect ratio. 
+* `'flexHeight' => false` determines whether the height of the image is scaled along with the requested width to maintain the aspect ratio of the original. Set this option to `true` to scale the height.
+* `'defaultImage' => false` allows you to specify the URL of an image to be displayed if no image has been selected by the editor yet. Otherwise no image is displayed until an editor chooses one. 
+* `'title' => false` specifies whether the title associated with the image in the media repository should be shown on the page. CSS can be used to display this title in a variety of interesting ways.
+* `'description' => false` specifies whether the rich text description associated with the image in the media repository should be shown on the page.
+* `'link' => false` specifies a URL that the image should link to when clicked upon. Note that in most cases you probably want to use an aButton slot for this sort of thing.
+
+These options suffice for most purposes. There is one more option, `constraints`, which takes an array of constraints that can be used to limit which images the user can select from the media repository. By default no constraints are applied. The possible constraints are:
+
+* 'aspect-width' and 'aspect-height' specify an aspect ratio. The media browser will show only media that match this aspect ratio. Both must be specified. For instance:
+
+		'constraints' => array('aspect-width' => 4, 'aspect-height' => 3)
+
+* 'minimum-width' and 'minimum-height' specify minimum width and height in pixels. Only media meeting these minimum criteria will be shown. You are not required to use both options although it usually makes sense to specify both.
+
+* 'width' and 'height' specify that only images of that **exact** width and/or height should be selectable for this image slot. It is not mandatory to specify both, and if you are using `flexHeight` you might not want to specify a height constraint.
+
+Here are three examples:
+
+This slot will render the image 400 pixels wide. The original must be at least 400 pixels wide. The height will scale along with the width.
+
+    <?php a_slot('landscape', 'aImage', array('width' => 400, 'flexHeight' => true, 'constraints' => array('minimum-width' => 400))) ?>
+
+This slot will be render images at 640x480 pixels. The original must be at least 640 pixels wide. The aspect ratio must be 4x3.
+
+    <?php a_slot('landscape', 'aImage', array('width' => 640, 'height' => 480, 'constraints' => array('minimum-width' => 640, 'aspect-width' => 4, 'aspect-height' => 3))) ?>
+
+This slot will crop the largest portion of the center of the selected image with a 400x200 aspect ratio and scale it to 400x200 pixels. The selected image must be at least 400 pixels wide.
+
+    <?php a_slot('landscape', 'aImage', array('width' => 400, 'height' => 200, 'resizeType' => 'c', 'constraints' => array('minimum-width' => 400))) ?>
+
+#### aSlideshow Slots ####
+
+Slideshow slots allow editors to select one or more images and display them as a slideshow. The exact behavior of the slideshow can be controlled by various options.
+
+Here is a simple example:
+
+		<?php a_slot('travel', 'aSlideshow') ?>
+
+By default users can select any images they wish and add them to the slideshow, and the slideshow will advance when they click on an image. Left and right arrows to move back and forward in the slideshow appear above the image unless turned off by the `arrows` option.
+
+Slideshows with images of varying dimensions can be confusing to look at unless the aspect ratio is the same. Fortunately slideshows support all of the sizing, cropping and constraint options that are available for the aImage slot (see above). We recommend either using `resizeType => 'c'` to crop to a consistent size (and therefore aspect ratio) or using the `aspect-width` and `aspect-height` parameters to the `constraints` option to ensure a consistent aspect ratio.
+
+**In addition to all of the options supported by the aImage slot** (see above), slideshow slots support the following additional options:
+
+* `'random' => false` determines whether the slideshow is shown in the order selected by the editor or in a random order. Set this option to `true` for a random order.
+
+* `'arrows' => true` indicates that arrows to move forward and backward in the slideshow should appear above the image. By default they do appear. You can turn this off by passing `false`.
+
+* `'interval' => false` sets the interval for automatic advance to the next image in the slideshow. By default the slideshow does not advance automatically. For automatic advance every ten seconds pass `'interval' => 10`. Slideshows automatically repeat once they have advanced to the final image. If the user clicks on the slideshow, auto-advance stops, and the user can navigate manually by clicking to advance or using the arrows if present.
+
+* `'credit' => false` determines whether the credit field from the media repository is shown with each image. 
+
+#### aButton Slots ####
+
+Button slots are similar to image slots. However, they also allow the editor to specify a target URL and a plaintext title. When they click on the button, they are taken to the URL.
+
+Here is an example:
+
+    <?php a_slot('logo', 'aButton') ?>
+
+Button slots support all of the options supported by the aImage slot (see above). In particular you might want to specify a default image.
+
+If the title and/or description options are turned on, they are rendered as links to the button's destination URL.
+
+#### aVideo Slots ####
+
+The aVideo slot allows video to be embedded in a page.
+
+Apostrophe's media repository does not store video directly. Instead Apostrophe manages videos hosted on external services such as YouTube, Viddler and Vimeo. YouTube is tightly integrated into Apostrophe, so editors can search YouTube directly from the repository in order to easily add videos. Embed codes for other video services can also be added to the media repository. Either way, Apostrophe wrangles the necessary embed codes and ensures that they render at the desired size.
+
+Here is an example:
+
+		<?php a_slot('screencast', 'aVideo') ?>
+
+** The video slot supports all of the options supported by the image slot** (described above), with the following differences and exceptions:
+
+* The `width` option defaults to 320 pixels.
+* The `height` option defaults to 240 pixels.
+* The `resizeType` option is ignored. As a general rule video hosting services do not permit cropping and choose their own approaches to letterboxing. We recommend using the `flexHeight` option if there is any doubt about the dimensions of the video.
+* The `constraints` option is supported. The constraints will be applied based on the dimensions of the original video (if from YouTube). For videos from other hosting services (pasted as embed codes in the media repository) constraints are based on the dimensions of the thumbnail manually uploaded by the editor.
+* The `link` and `defaultImage` options are not supported.
+
+#### aPDF Slots ####
+
+The aPDF slot allows PDF documents to be embedded in a page. If ghostscript and netpbm are installed on the server, thumbnail previews of the first page are automatically displayed in PDF slots, and clicking on them launches the PDF. If they are not available, a clickable PDF icon is still displayed as a way of launching the PDF.
+
+aPDF slots support the following options, which behave as they do for the aImage slot (described above):
+
+* The `width` option defaults to 170 pixels.
+* The `height` option defaults to 220 pixels.
+* The `flexHeight` option is available to scale the thumbnail based on the page size, although this is only relevant if netpbm and ghostscript are available.
+* The `defaultImage` option is available. The default image appears when no PDF has been selected yet.
+* The `constraints` option is available, and can be used to select only PDFs with a certain aspect ratio, such as 8.5x11 (use the aspect-width and aspect-height parameters). This option should not be used when netpbm and ghostscript are not available as the true size of the PDF is not known in this case.
+
+#### aRawHTML Slots: When You Must Have Raw HTML ####
+
+Honestly, we're not big fans of raw HTML slots. Editors tend to paste code that breaks page layouts on a fairly regular basis. That's why our rich text slots filter it so carefully.
+
+However there are times when you must have the embed code for a mailing list signup form service or similar third-party website feature.
+
+In these situations the aRawHTML slot is useful.
+
+Here is an example:
+
+		<?php a_slot('mailinglist', 'aRawHTML') ?>
+
+This slot displays a multiline text entry form where the editor can paste in HTML code directly. This code is not validated in any way, so you should think carefully before offering this feature to less experienced editors.
+
+There is a way to recover if you paste bad HTML that breaks the page layout. Visit the page with the following appended to the URL:
+
+    ?safemode=1
+
+When this parameter is present in the URL, raw HTML slots will escape their contents so that you see the source code, safely defanged. You can then click "Edit" and make corrections as needed.
+
+That's it for the standard slots included with Apostrophe! Of course there will be more. And you can add more yourself. See the developer's section of this document.
 
 ### Inserting Areas: Unlimited Slots in a Vertical Column ###
 
@@ -778,31 +980,7 @@ Here the `multiline` option specifies that all
 `aText` slots in the area should have the
 `multiline` option set.
 
-### Inserting the Breadcrumb Trail and Side Navigation ###
-
-Your layout, or possibly your page templates if you wish to handle
-it differently on some pages, will need to insert the breadcrumb
-trail and side navigation elements on some or all pages.
-
-The breadcrumb trail is inserted into a page template or layout
-by the following code:
-
-    <?php include_component('a', 'breadcrumb') ?>
-
-Sometimes, such as on the home page, you do not want to display the breadcrumb 
-trail at all, when the user is not logged in. But you still need it when you 
-are are logged in so that you can manage the page. You can handle
-this situation like so:
-
-    <?php if (aTools::getCurrentPage()->userHasPrivilege('edit')): ?>
-      <?php include_component('a', 'breadcrumb') ?>
-    ?>
-
-The side navigation column ("subnavigation") is inserted similarly:
-
-    <?php include_component('a', 'subnav') ?>
-
-## Global Slots and Virtual Pages ##
+### Global Slots and Virtual Pages ###
 
 Most of the time, you want the content of a slot to be specific to a page.
 After all, if the content was the same on every page, you wouldn't need
@@ -836,9 +1014,11 @@ privileges throughout the site. Otherwise users with control only over
 a subpage could edit a footer displayed on all pages. See below for more information about
 how to override this rule where appropriate.
 
-### Virtual Pages: When Global Slots Are Not Enough ###
+#### Virtual Pages: When Global Slots Are Not Enough ####
 
-Conceptually, all global slots created in this way reside together on a virtual page with the slug `global`. Since there is no leading `/`, this page can never be navigated to. The `global` virtual page resides outside of the site's organizational tree and is used only as a storehouse of shared content.
+Global slots will do the job for most situations that front end developers will encounter. If you're not a PHP developer looking to use slots and areas to manage dynamic content related to your own code, it's probably safe to skip this section, although it is sometimes useful to apply these techniques if you would otherwise have hundreds of global slots in your design.
+
+Conceptually, all global slots reside together on a virtual page with the slug `global`. Since there is no leading `/`, this page can never be navigated to. The `global` virtual page resides outside of the site's organizational tree and is used only as a storehouse of shared content.
 
 For headers and footers, this works very well. But if you have a larger amount of shared content, the model begins to break down. Fortunately there's a solution: group your content into separate virtual pages.
 
@@ -854,13 +1034,13 @@ Apostrophe will automatically create the needed virtual page object in the datab
 
 But why is this better than using `'global' => true`? Two reasons: performance and access control.
 
-### Performance, Global Slots and Virtual Pages ###
+#### Performance, Global Slots and Virtual Pages ####
 
 Yes, you could manage dynamic content like biographies with just the global flag, if you chose dynamically generated names for your slots and areas. But since Apostrophe loads all current global slots into memory the first time a global slot is requested on a page, the CMS would be forced to load all of your biographies on just about every page of the site. That's clearly not acceptable. For that reason it's important to use a separate virtual page for each individual's biography, etc.
 
 As a rule of thumb, add database IDs to virtual page slugs, not area or slot names.
 
-### Access Control For Global Slots and Virtual Pages ###
+#### Access Control For Global Slots and Virtual Pages ####
 
 By default, only sitewide admins can edit slots included from other virtual pages. This is fine for headers and footers seen throughout the site, but doesn't work well for biography slots. In other words, users should be able to write their own autobiographies.
 
@@ -873,13 +1053,13 @@ You can address this problem by passing `'edit' => true` as an option to the slo
 
 Once again, you can do this with areas as well.
 
-### Including Slots From Other "Normal" Pages ###
+#### Including Slots From Other "Normal" Pages ####
 
 It's possible to use the `slug` option to include a slot from another normal, navigable page on the site. However, if you do so, keep in mind that you don't want to create a situation where the same slot is included twice on the page itself.
 
 Also keep in mind that normal pages can be moved around on the site, which will break templates that contain explicit slugs pointing at their old locations. You can avoid this by determining the slug option dynamically, or by using a virtual page instead (no leading / on the slug).
 
-## Overriding the Stylesheets ##
+### CSS: Styling Apostrophe ###
 
 By default, `apostrophePlugin` provides two stylesheets which are
 automatically added to your pages. There's a lot happening there,
@@ -894,7 +1074,11 @@ in `app.yml`:
 
 If you do keep our stylesheets and further override them, you'll
 want to specify `position: last` for the stylesheets that should
-override them.
+override them. This is automatically done for the stylesheet
+`web/css/main.css` in our sandbox project, and we recommend you
+make your customizations there.
+
+#### The Golden Rule: Use Classes, Not IDs ####
 
 You may want to style individual areas and slots without introducing
 wrapper divs to your templates. To do that, pay attention to the CSS
@@ -915,15 +1099,15 @@ Instead, take advantage of the classes on this div:
 
 Note that if you need different behavior on different pages in a way that can't be achieved by adding different slots and using different variants of each slot, you should use a separate template for each type of page.
 
-## Access Control ##
+### Access Control: Who Can Edit What? ###
 
-By default, a a site follows these security rules:
+By default, an unconfigured Apostrophe site that was not copied from our sandbox follows these security rules:
 
 * Anyone can view any page without being authenticated.
 * Any authenticated (logged-in) user can edit any page,
 and add and delete pages.
 
-This is often sufficient for simple sites. But a can
+This is often sufficient for simple sites. But Apostrophe can
 also handle more complex security needs.
 
 ### Requiring Login to Access All Pages ###
@@ -986,10 +1170,10 @@ complete settings might be:
 
 For convenience, you can also grant these privileges directly via a group name:
 
-all:
-  a:
-    edit_sufficient_group: executive_editors
-    manage_sufficient_group: executive_editors
+		all:
+		  a:
+		    edit_sufficient_group: executive_editors
+		    manage_sufficient_group: executive_editors
 
 3) Any user who is a member of the group specified by
 `app_a_edit_candidate_group` can *potentially* be made an
@@ -1033,7 +1217,7 @@ is why we recommend setting up groups as described above.
 
 ### Publishing Pages, by Choice and By Default ###
 
-a offers a "published/unpublished" toggle under "manage page settings."
+Apostrophe offers a "published/unpublished" toggle under "manage page settings."
 Pages that are unpublished are completely invisible to users who do not
 have at least the candidate credentials to be an editor; a user without appropriate privileges
 gets a 404 not found error just as if the page did not exist. In most cases
@@ -1048,35 +1232,66 @@ change this with the following `app.yml` setting:
       a:
         default_on: false
 
+### Limiting The Depth of the Page Tree ###
+
+By default, editors can create pages nested as deeply as they wish. This makes sense for a site built by a few skilled people, but when there are many cooks in the kitchen you may want to impose some discipline. You can do that in `app.yml` by setting the `app_a_max_page_levels` option:
+
+    all:
+      a:
+        # Allows tabs, grandchildren, and great-grandchildren
+        max_page_levels: 3
+
+A setting of `3` allows tabs, grandchildren (children of tabs), and great-grandchildren. This is often a good choice. For a very simple site with no breadcrumb trail in the layout, you might want to use `max_page_levels: 1`, which only permits tabs, or `max_page_levels: 2`, which only permits tabs and grandchildren.
+
+### Limiting the Number of Children of Any One Page ###
+
+Similarly, you can limit the number of child pages that any given page can have. This helps to avoid unwieldy side navigation and impose a bit more structure.
+
+Set the `max_children_per_page` option to do this:
+
+		all:
+		  a:
+		    # No page, including the home page, may have more than 8 direct children
+		    max_children_per_page: 8
+
+Note that only the immediate children of a page are counted against this limit.
+
 ### Deferring Search Engine Updates ###
 
 By default pages are reindexed for search purposes at the time
 edits are made. This makes installation simple, but for performance reasons 
-you might be happier deferring
-this to a cron job that runs every few minutes. If you want to take this
+you might be happier deferring this to a cron job that runs every few minutes. If you want to take this
 approach, set up a cron job like this:
 
-				0,10,20,30,40,50 * * * * /path/to/your/project/symfony apostrophe:update-lucene --env=env
+		0,10,20,30,40,50 * * * * /path/to/your/project/symfony apostrophe:update-lucene --env=env
 
-				Note the `--env` option. There is a separate index for each
-				environment. On a development workstation, specify `--env=env`. In
-				a production environment you might specify `--env=prod`.
+Note the `--env` option. There is a separate index for each
+environment. On a development workstation, specify `--env=env`. In
+a production environment you might specify `--env=prod`.
 
-				Then turn on the feature in app.yml:
+Then turn on the feature in app.yml:
 
-				all:
-				  a:
-				    defer_search_updates: true
+		all:
+		  a:
+		    defer_search_updates: true
 
-				This speeds up editing a bit. But if you don't like cron, you don't have to enable it.
+This speeds up editing a bit. But if you don't like cron, you don't have to enable it.
 
-				You can also change the word count of search summaries:
+You can also change the word count of search summaries:
 
-						all:
-						  a:
-						    search_summary_wordcount: 50
+		all:
+		  a:
+		    search_summary_wordcount: 50
 
-## Creating Custom Slot Types ##
+That's it for the front end designer oriented section of the manual. Next we'll move on to information for PHP developers who want to extend Apostrophe with new capabilities and integrate it more tightly into their own websites.
+
+## Developer's Guide ##
+
+At this point you should already be familiar with the preceding material, which covers Apostrophe installation, the end-user experience of managing an Apostrophe site, and front end design issues. The designer's guide in particular is required reading to make good use of the following section, which is devoted to extending Apostrophe in new ways with your own code.
+
+We strongly recommend that you complete the [Symfony tutorial](http://www.symfony-project.org/jobeet/1_4/Doctrine/en/) before attempting to add new features to Apostrophe. We'll assume familiarity with Symfony development in this section.
+
+### Creating Custom Slot Types ###
 
 You are not limited to the slot types provided with
 apostrophePlugin! Anyone can create new slot types by taking
@@ -1091,340 +1306,124 @@ This task generates all of the scaffolding for a new, working slot type. The abo
 
 		./symfony apostrophe:generate-slot-type --plugin=mynewplugin --type=mynewtypename
 
-We recommend the latter as it is easier to reuse your slot type in another project this way.
+We recommend the latter as it is easier to reuse your slot type in another project this way. **Don't put your slot in apostrophePlugin itself**. Make a plugin of your own, or add the slot at the project level. This way you won't have problems later when you update apostrophePlugin.
 
-Of course, to understand how to customize the behavior of your new slot type, you need to know how slot types work. So let's dig into the `aText` slot to understand this better.
+Of course, to understand how to customize the behavior of your new slot type, you need to know how slot types work. So let's dig into the workings of the `aFeed` slot, which was generated with the `apostrophe:generate-slot-type` task and then edited to implement its own features.
 
-The `aText` slot type is implemented as follows:
+1) A module. In this case, the `aFeedSlot` module. This contains actions, components and partials to edit and render the slot within a page.
 
-1) *The model class.* Every slot must be stored in the database. 
-All slot types have a model class which inherits from 
-`aSlot`. The `aText` model class is
-`aTextSlot`.
+2) A form class, such as `aFeedForm`. 
 
-This is done using a feature of Doctrine called
-*column aggregation inheritance*. Column aggregation inheritance
-allows you to gain the benefits of object-oriented inheritance
-while still storing all of the slot types in the same database table.
-Doctrine manages this automatically for you.
+3) A model class, such as `aFeedSlot`, which inherits from the `aSlot` model class via Doctrine's column aggregation inheritance feature. (Yes, we set this up for you when you use the `apostrophe:generate-slot-type` task.)
 
-The relevant portion of `config/doctrine/schema.yml` for
-`aText` looks like this:
+#### Slot Modules, Part I: Edit and Normal Views ####
 
-    aTextSlot:
-      inheritance:
-        extends: aSlot
-        type: column_aggregation
-        keyField: type
-        keyValue: 'aText'
+With a few notable exceptions like our aImage slot, most slots have an "edit view" and a "normal view," rendered by editView and normalView components in the slot's module. The normal view presents the slot as a user will see it when not editing. The edit view displays the same slot as the user will see it after clicking the "Edit" button. For better editing performance, both views are present in the HTML whenever the logged-in user has sufficient privileges to edit the slot.
 
-The `extends` keyword specifies the class we are inheriting from, while
-the `keyValue` field must contain the name of the type. Doctrine uses
-this to figure out what class of object to create when loading a 
-record from the `a_slot` table. The slot type name is
-recorded in the `type` column. You don't need to worry
-about the details, but for more information about them,
-see the excellent Doctrine documentation.
+A simple _editView partial just echoes the form class associated with the slot:
 
-*Note that the keyValue setting does not include the word Slot.*
+  <?php echo $form ?>
 
-*Yes, you can have custom columns in the database for your type.*
-A plaintext slot doesn't need them because the `value` column works
-well for storing its contents. But you can add whatever columns
-suit your purposes. For example, a `aYoutube` slot type might
-have a model class schema like this:
+Of course, you can render the form differently if you wish.
 
-    aYoutubeSlot:
-      inheritance:
-        extends: aSlot
-        type: column_aggregation
-        keyField: type
-        keyValue: 'aYoutube'
-      columns:
-        youtube_url: string(300)
-        youtube_auto_repeat: boolean
+A slot type generated with the `apostrophe:generate-slot-type` task will already contain the necessary supporting code in the `editView` component, in `modules/aFeedSlot/actions/components.class.php`:
 
-Note that I have prefixed the extra columns with `youtube_`. This is
-required if you intend to release your slot type as a plugin because
-collisions between column names intended for use in different slot types
-can cause problems for other users. If your slot type is strictly for
-use in your own project, then you can get by without a prefix. It would
-be nice if Doctrine did this automatically so that the field names
-of subclasses were never really in conflict, but so far it does not.
+		public function executeEditView()
+		{
+		  // Must be at the start of both view components
+		  $this->setup();
+  
+		  // Careful, don't clobber a form object provided to us with validation errors
+		  // from an earlier pass
+		  if (!isset($this->form))
+		  {
+		    $this->form = new aFeedForm($this->id, $this->slot->getArrayValue());
+		  }
+		}
 
-(You may be able to work around this issue with less typing by using 
-Doctrine's "name: phpname as sqlname" syntax. But I have not yet tested this
-to see how it interacts with column aggregation inheritance. 
-TODO: find out! If you try it, let me know.)
+Notice that the form is initialized with two parameters: a unique identifier that distinguishes it from other forms in the page, and a value fetched from the slot. Most slots store their data in the `value` column of the slot table, using `serialize` and `unserialize` to store PHP data in any way they see fit. The `aSlot::getArrayValue` and `aSlot::setArrayValue` methods are conveniences that simplify this for you. `aSlot::getArrayValue` always returns a valid array, even if the slot is new (in which case the array will be empty). And `aSlot::setArrayValue` accepts an array and serializes it into the `value` column. You don't need to worry about any of that... although it is possible for you to implement custom database columns instead using Doctrine column aggregation inheritance as explained below. This is usually not worth the trouble and the database schema changes it causes. However it can be worthwhile if you need foreign key relationships and must avoid extra queries. You can also approach that problem by referencing the id column of the `a_slot` table from a foreign key in a related table, rather than the other way around.
 
-Any columns that you add to your custom slot type are automatically
-included in the definition of `a_slot` when the
-SQL for your database is generated by the `doctrine:build-all`
-or `doctrine:build-sql` task.
+The normal view takes advantage of the information stored in the slot to render it with its normal, non-editing appearance. The feed slot's normal view component fetches the feed, via the web or via an sfFileCache object if it has already been fetched recently, and the normal view partial renders it. 
 
-2) *The module.* Every slot type is implemented by a Symfony module of
-the same name. The `aText` slot type is implemented by the
-`aText` module. Create your own modules for your own
-custom slot types. However, you'll set up your actions, components and
-templates in a specific way as described below.
+Your normal view's implementation is up to you. Try the slot type generator task to see a very simple working example. One thing your normal view must do is provide an edit button at the top of the partial, or provide some other way to edit the slot's settings. The task generates code like this in the `_normalView` partial:
 
-3) *The components class.* The `aText` slot type's
-component clas is called `aTextComponents`. Unlike 
-typical components classes it inherits from
-`aBaseComponents`:
+		<?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
 
-    class aTextComponents extends aBaseComponents
+This code displays the edit button, and also offers a menu of slot variants if any have been configured for this slot type on this particular site.
 
-This class typically contains two components, although the
-base class versions inherited from aBaseComponents are
-sometimes sufficient to do the job, depending on the behavior you want:
+#### Slot Forms ####
 
-* The `normalView` component. The `normalView` component displays
-your slot as a normal user, not a user with editing privileges,
-would see it. The default implementation simply outputs the
-contents of of the `value` column of the slot as HTML, which works for
-both `aRichText` and `aText` (the latter stores
-its "plaintext" pre-escaped to be displayed as HTML).
+Most slots, specifically slots that have an edit button and take advantage of the edit view component, will have a form associated with them. By default this form is automatically echoed by the edit view component, fully initialized and complete with any validation errors from unsuccessful edits.
 
-If you choose to change this behavior, you'll need to code the 
-`execute` method like so. Note the use of the
-`$this->setup()` method, which automatically sets up 
-the slot object for you as well as various other conveniences:
+Here's the `aFeedForm` class:
 
-    public function executeNormalView()
-    {
-      // Sets up $this->slot, $this->name, $this->id, etc. automatically
-      $this->setup();
-      // Examine options with $this->getOption('optionname'), set
-      // various member variables for convenience in the partial, etc.  
-    }
+		class aFeedForm extends sfForm
+		{
+		  // Ensures unique IDs throughout the page
+		  protected $id;
+		  public function __construct($id, $defaults)
+		  {
+		    $this->id = $id;
+		    parent::__construct();
+		    $this->setDefaults($defaults);
+		  }
+		  public function configure()
+		  {
+		    $this->setWidgets(array('url' => new sfWidgetFormInputText(array('label' => 'RSS Feed URL'))));
+		    $this->setValidators(array('url' => new sfValidatorUrl(array('required' => true, 'max_length' => 1024))));
+    
+		    // Ensures unique IDs throughout the page
+		    $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
+		    $this->widgetSchema->setFormFormatterName('aAdmin');
+		  }
+		}
 
-The corresponding partial, `_normalView.php`, could look like this:
+Notice that this form class is **not** a Doctrine form class. Yes, `aFeedSlot` does inherit from `aSlot` via Doctrine column aggregation inheritance. However, Doctrine forms do not distinguish between column aggregation inheritance subclasses and will include all of the columns of all of the subclasses. Also, it's usually best to avoid custom columns and use `setArrayValue` and `getArrayValue` instead, which requires that we set up our own fields in the form class.
 
-    <?php if (!strlen($value)): ?>
-      <?php if ($editable): ?>
-        Double-click to edit.
-      <?php endif ?>
-    <?php else: ?>
-    <?php echo $value ?>
-    <?php endif ?>
+This class is only slightly changed from what the task generated. The `url` field has been added and given a suitable label and a limit of 1024 characters. The name format has been set in the usual way for a slot form and should not be changed (for a rare exception check out aRichTextForm, which must cope with certain limitations of FCK). The form formatter in use here is the Apostrophe form formatter, which produces nicely styled markup, but you may use another or render the form one element at a time in the `_editView` partial.
 
-Even though this is the non-editing view (displayed even to editors until
-they double-click), the `editable` parameter is set as a convenience so that 
-you can determine that the user does have editing privileges.
+#### Slot Components, Part II: Actions ####
 
-* The `editView` component. The `editView` component displays your
-slot with appropriate editing controls. You can use Symfony 1.2+-style
-form classes, but you are not required to. 
+The edit action of your slot's module saves new settings in the form, or reports a validation error and refuses to do so. 
 
-The `executeEditView` method for `aText' looks like this:
+Here's the edit action for aFeedSlot, which is exactly as the `apostrophe:generate-slot-type` task generated it:
 
-    public function executeEditView()
-    {
-      $this->setup();
-      $this->multiline = $this->getOption('multiline');
-      // The rest of the options array is passed as HTML
-      // options to the helper function, but this
-      // should not be
-      unset($this->options['multiline']);
-    }
+		public function executeEdit(sfRequest $request)
+		{
+		  $this->editSetup();
 
-And the corresponding template, `_editView.php`, looks like this:
+		  $value = $this->getRequestParameter('slotform-' . $this->id);
+		  $this->form = new aFeedForm($this->id, array());
+		  $this->form->bind($value);
+		  if ($this->form->isValid())
+		  {
+		    // Serializes all of the values returned by the form into the 'value' column of the slot.
+		    // This is only one of many ways to save data in a slot. You can use custom columns,
+		    // including foreign key relationships (see schema.yml), or save a single text value 
+		    // directly in 'value'. serialize() and unserialize() are very useful here and much
+		    // faster than extra columns
+    
+		    $this->slot->setArrayValue($this->form->getValues());
+		    return $this->editSave();
+		  }
+		  else
+		  {
+		    // Makes $this->form available to the next iteration of the
+		    // edit view so that validation errors can be seen, if any
+		    return $this->editRetry();
+		  }
+		}
 
-    <?php if ($multiline): ?>
-      <?php echo textarea_tag("value",
-        $value,
-        array_merge(array("id" => "$id-value"), $options)) ?>
-    <?php else: ?>
-      <?php echo input_tag("value",
-        $value,
-        array_merge(array("id" => "$id-value"), $options)) ?>
-    <?php endif ?>
+This action begins by calling `$this->editSetup()`, which takes care of determining what slot the action will be working with. The action then fetches the appropriate parameter, binds the form, validates it, and if successful saves the form's data in the slot with `setArrayValue` and calls `$this->editSave()` to save and redisplay the slot. If there is a validation error, `$this->editRetry()` should be called instead.
 
-Note the use of the `$id` variable. This variable is guaranteed to
-make an ID unique among all of the slot editing forms that may be
-present on the page at any given time. Be sure to take advantage
-of `$id` rather than second-guessing the process by inserting
-`$name` and `$permid` yourself.
+Depending on your needs you might not need to modify this action at all. The methods called by this action take care of version control, access control and everything else associated with the slot and let you get on with your job.
 
-A Symfony 1.2+ forms-based implementation of the 
-executeEditView method looks like this. Note that we don't
-always have to create a new form object! When the user's first
-attempt to fill out the form results in a validation error,
-the form object is automatically restored to `$this->form`.
-When you output that form object again, the validation errors
-are displayed just as they would be if you were using
-ordinary action templates. Neat and tidy.
+#### Custom Validation ####
 
-Since Symfony generates form fields with ID attributes,
-it is necessary to set the form's name format in a way that
-will not conflict with other slot editing forms hidden in
-the page. This is the purpose of the `setId()` call below.
-Don't worry, you'll see the form class code that
-implements that method in a moment.
-
-    public function executeEditView()
-    {
-      $this->setup();
-      // If there is already a form object reuse it! It contains
-      // validation errors from the user's first attempt to submit it.
-      if (!isset($this->form))
-      {
-        $this->form = new FvtestForm();
-
-        // Be sure to show the current value. 
-
-        $this->form->setDefault('count', $this->slot->value);
-
-        // Necessary to prevent HTML id collisions between multiple slots
-        // on the same page (see the setId method of the FvtestForm class)
-        $this->form->setId($this->id);
-      }
-    }
-
-You'll note that we explicitly call `setDefault` to redisplay the
-current value of the slot. This raises an interesting question: if
-we were taking full advantage of column aggregation inheritance
-by using the Doctrine form that Symfony auto-generates for our
-slot model class, could we skip this step and also avoid the
-need to create our own form class?
-
-Unfortunately, as of this writing the answer is no. Doctrine
-column aggregation inheritance is a beautiful thing, but it doesn't
-currently generate good forms. That's because the forms generated
-for the subclasses contain *all* of the fields for *all* of the
-subclasses. Obviousy, that's not desirable. So build your own
-form classes to edit your custom slot types... like this one:
-
-    class FvtestForm extends sfForm
-    {
-      public function configure()
-      {
-        $this->setWidgets(array(
-          "count" => new sfWidgetFormInput(array())
-        ));
-        $this->setValidators(array(
-          "count" => new sfValidatorInteger(array(
-            'min' => 10, 'max' => 20, 'required' => true))));
-        $this->widgetSchema->setFormFormatterName('table');
-      }
-      public function setId($id)
-      {
-        $this->widgetSchema->setNameFormat("Fvtest-$id" . "[%s]");
-      }
-    }
-
-Note the `setId()` method which takes care of ensuring that each form
-field has an ID attribute that is unique throughout the document.
-
-The corresponding `_editView.php` template is as follows
-(very simple indeed):
-
-    <table>
-    <?php echo $form ?>
-    </table>
-
-But how does the form get bound and saved? That's the topic of
-the next section.
-
-4) *The actions class.* The `aText` slot type's action
-class is called `aTextActions`. Unlike most action classes,
-it inherits from `aBaseActions`, like so:
-
-    class aTextActions extends aBaseActions
-
-Our `aTextActions` class must contain at least
-one action, the edit action. This action is invoked when the user clicks
-"save" after editing the slot. 
-
-The `aBaseActions` class provides two private methods that
-help you code `executeEdit` correctly: 
-
-* `editSetup`, which locates the appropriate options for the slot and loads 
-or creates a slot object.
-* `editSave`, which does the hard work of managing version
-control while saving the slot. 
-
-Call `$this->editSetup()` at the beginning of your `executeEdit` method,
-and *return the result* of `$this->editSave()` at the end. If the user's
-input is unacceptable and you want them to try again, 
-*return the result* of a call to `$this->editRetry()` instead.
-
-In between, all you have to do is look at the appropriate 
-request parameters provided by your `_editView.php` template and
-set the appropriate fields of `$this->slot`. You can store your data in 
-`$this->slot->value` if a variable-length string suits all of your needs
-(as it often does, especially with PHP's `serialize()` and unserialize()`).
-Or you can use the custom fields you defined when designing the schema
-for your model class. This has the advantage that you can more easily
-look for that information via database queries later. 
-
-For instance, for the Youtube slot mentioned earlier:
-
-    public function executeEdit(sfRequest $request)
-    {
-      $this->editSetup();
-      $url = $this->getRequestParameter('url');
-      $autorepeat = $this->getRequestParameter('auto_repeat');
-      $this->slot->youtube_url = $url;
-      $this->slot->youtube_autorepeat = $autorepeat;
-      // Note that we must return the result!
-      return $this->editSave();
-    }
-
-The Symfony 1.2+ forms approach is similar. Note that we once
-again take advantage of the `setId()` method we added to our
-form class earlier. We also need to take the unique ID of the
-slot form into account when calling `bind()`:
-
-    public function executeEdit(sfRequest $request)
-    {
-      $this->editSetup();
-      $this->form = new FvtestForm();
-      $this->form->setId($this->id);
-      $this->form->bind($request->getParameter("Fvtest-" . $this->id));
-      if ($this->form->isValid())
-      {
-        $this->slot->value = $this->form->getValue('count');
-        return $this->editSave();
-      }
-      else
-      {
-        // Automatically passes $this->form on to the 
-        // next iteration of the edit form so that
-        // validation errors can be seen
-        return $this->editRetry();
-      }
-    }
-
-To simplify validation, `$this->form` is automatically
-provided to the `editView` component when you call `editRetry()`, 
-
-### Beyond edit: Additional Actions ###
-
-Note that your actions class may contain other actions if you wish. Typically
-these are AJAX actions and other auxiliary actions that share the work
-of editing the slot object. 
-
-You may also have actions that perform AJAX updates of the normal, non-editing
-view of the slot.
-
-In these cases, you may need to be able to retrieve the slot again and
-refresh a portion of your display. For actions that modify the slot,
-you can just call `this->editSetup()` to get all of the necessary parameters
-and initialize `$this->slot`. But what about actions that don't modify
-the slot but nevertheless need to access its contents? Such actions
-can call `$this->setup()` instead. The `setup()` method is equivalent
-to `editSetup()`, except that it allows access by users who do not have
-editing privileges unless you expressly pass the value `true` for the
-`$editing` parameter. (It does check for view access.)
-
-### Custom Validation ###
-
-Sometimes `$this->form` isn't enough to meet your needs. You might
-have more than one Symfony 1.2+ form in the slot (although you should
+Sometimes `$this->form` isn't quite enough to meet your needs. You might
+have more than one Symfony form in the slot (although you should
 look at `embedForm()` and `mergeForm()` first before you say that). 
-Or you might not be using Symfony 1.2+-style forms at all.
+Or you might not be using Symfony form classes at all.
 
 Fortunately there's a way to pass validation messages from the 
 `executeEdit` action to the next iteration of the `editView` component:
@@ -1444,123 +1443,84 @@ Note that `$this->validationData['form']` is used internally
 to store `$this->form`, if it exists in the action. So we suggest
 that you use other names for your validation data fields.
 
-### Overriding the Outline Box and Double-Click Behavior ###
+#### Additional Actions ####
 
-By default, when a user with editing privileges is viewing a slot,
-the slot has an outline box and can be double-clicked to display
-the editing view. 
+Things get interesting when you need to edit your slot with additional actions, possibly actions that go to different pages like the "Choose Image" buttons of our media slots.
 
-This works well for many slot types but might not be appropriate
-for yours. If you wish to implement a different behavior for switching to
-the editor, such as an "Edit" button, just add this method to
-your slot's model class:
+You can write your own actions that use `$this->editSetup()`, `$this->editSave()` and `$this->editRetry()`. The tricky part is linking to these actions, from your normalView partial or elsewhere. Here's an example of a possible target for a form submission or redirect that would successfully invoke such an action:
 
-    public function isOutlineEditable()
-    {
-      return false;
-    }
+	  url_for('mySlot/myAction') . "?" .
+	  http_build_query(
+	    array(
+	      "slot" => $name,
+				// The slug of the page where the slot lives.
+				// Could be a virtual page if this is a global slot etc.
+	      "slug" => $page->slug, 
+	      // The actual page we were looking at when we began editing the slot
+	      "actual_slug" => aTools::getRealPage()->getSlug(),
+	      "permid" => $permid,
+	      // Optional: use this if you are redirecting
+	 			// from another page and need the entire page to render
+	      "noajax" => 1))
 
-This will turn off the "double-click to edit" behavior and outline box.
+For a fully worked example, we recommend taking a look at the `aButtonSlot` module, which uses both an edit view with a form (for the title and link) and a separate action that eventually redirects back (for selecting the image).
 
-You can replace this with the following or similar in your
-`_normalView.php` template:
+#### Adding Database Columns #####
 
-<?php if ($editable): ?>
-  <?php echo button_to_function('Edit', $showEditorJS) ?>
-<?php endif ?>
+The `apostrophe:generate-slot-type` task takes care of setting up the model classes for you so that Apostrophe can distinguish between your slot and other slots, even though all of them are stored in the `a_slot` table. 
 
-Note that `$showEditorJS` comes preloaded with ready-to-run JavaScript code 
-to hide the normal view and display the editing view. 
+If you are using `getArrayValue` and `setArrayValue` or otherwise storing your data in the `value` column, you'll never have to worry about this directly.
 
-You can also turn off the outline box for a particular insertion of a slot
-by padding the `outline_editable` option to the slot helper with 
-a value of `false`. Explicit settings for this option override 
-what is returned by the `isOutlineEditable` module.
+However, if you do need to add custom columns, you'll need to know how this looks in `config/doctrine/schema.yml`.
 
-### Overriding the default view for a new slot ###
+Here's how `aFeedSlot` is configured:
+
+		aFeedSlot:
+		  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+		  # and slots often use serialization into the value column... the Doctrine forms are not
+		  # of much use here and they clutter the project
+		  options:
+		    symfony:
+		      form:   false
+		      filter: false
+
+		  # columns:
+		  #
+		  # You can add columns here. However, if you do not need foreign key relationships it is
+		  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+		  # their names must be unique across all slots in your project, so use a unique prefix 
+		  # for your company.
+    
+		  # This is how we are able to retrieve slots of various types with a single query from
+		  # a single table
+		  inheritance:
+		    extends: aSlot
+		    type: column_aggregation
+		    keyField: type
+		    keyValue: 'aFeed'
+
+Take a look at the `inheritance` section. The `extends` keyword specifies the class we are inheriting from, while the `keyValue` field must contain the name of the type. Doctrine uses
+this to figure out what class of object to create when loading a 
+record from the `a_slot` table. The slot type name is
+recorded in the `type` column, already in the `aSlot` class. You don't need to worry
+about the details, but for more information about them,
+see the excellent Doctrine documentation.
+
+*Note that the keyValue setting does not include the word Slot.*
+
+To add extra columns at the database level, uncomment `columns:` and add new columns precisely as you would for any Doctrine model class. You can add new relations as well. 
+
+**YOU MUST PREFIX YOUR CUSTOM COLUMN NAMES WITH A UNIQUE PREFIX** to avoid collisions with other slots. Doctrine does not do this automatically, so please take care to avoid names that may lead to conflicts down the road.
+
+#### Opening the Edit View Automatically For New Slots ####
 
 By default, when a user adds a new slot to an area the user must then click the
 edit button before making changes to the slot.  To take the user straight to
-the editView of your slot override $editDefault in your slots model.  For an
-example refer to PluginaTextSlot.class.php.
+the editView of your slot, override the `getEditDefault` method in your slot's model class to return `true`. 
 
-### When You Don't Want an Inline Editor ###
+If your slot lives in a plugin, the right class to edit is `plugins/myPlugin/lib/model/doctrine/PluginmySlot.class.php`. If your slot lives at the project level, the right file is `lib/model/doctrine/mySlot.class.php`.
 
-Most of the time, inline editors are great. But sometimes you might be
-happier with a full-page interface which eventually redirects back
-to a when the work is done. In such cases you'll want to 
-display a link to that editor in the normal view template when the user
-has editing privileges. To make that work, just link to your
-standalone editor page like this:
-
-    <?php if ($editable): ?>
-      <?php echo link_to("Edit This", "http://my/editor/page") ?>
-    <?php endif ?>
-
-Then, when the editing is complete, your editor will need to return
-the information to a by redirecting the browser
-or POSTing a form to a URL constructed like this:
-
-    url_for("yourSlotModuleName/edit?" . http_build_query(
-      array(
-        "name" => $name,
-        "slug" => $slug,
-        "permid" => $permid,
-        "noajax" => 1)))
-
-The easiest way to accomplish this is to pass the complete edit-action
-URL as a parameter when linking to your external editor. See modules/aImageSlot/templates/_normalView.php and modules/aImageSlot/templates/_choose.php for an example of how we do this for our own media slots:
-
-		<?php $after = url_for($action) . "?" .
-		  http_build_query(
-		    array(
-		      "slot" => $name, 
-		      "slug" => $slug, 
-		      "actual_slug" => aTools::getRealPage()->getSlug(),
-		      "permid" => $permid,
-		      "noajax" => 1)) ?>
-		<?php echo link_to($buttonLabel,
-		  'aMedia/select',
-		  array('query_string' =>
-		    http_build_query(
-		      array_merge(
-		        $constraints,
-		        array(
-		        "aMediaId" => $itemId,
-		        "type" => $type,
-		        "label" => $label,
-		        "after" => $after))),
-		      'class' => $class)) ?>
-
-Note the use of the `noajax` parameter. This suppresses the 
-usual "refresh the slot without refreshing the whole page" behavior,
-which is not appropriate after we've already left the page to
-display an external editing page. When `noajax` is set,
-the user is redirected to the updated page instead. This is
-described in more detail in the next section.
-
-If you want your slot to work as a global slot, you'll also need
-to be sure to pass the slug of the actual page as a parameter
-of your `after` URL. As part of a call to `http_build_query` it
-looks like this:
-
-    "actual_slug" => aTools::getRealPage()->getSlug()
-
-You'll also want to turn off the "double-click to edit" behavior that
-would otherwise open the inline editor, as explained in the
-previous section.
-
-### When You Don't Want AJAX ###
-
-Normally a displays the updated contents of the slot without
-refreshing the entire page. If this is unsuitable for your purposes,
-as will be the case if you are not using an inline editor,
-then just include a <tt>noajax</tt> parameter in the request received by
-your edit action, with a value of 1. The edit action will then 
-redirect to the updated page rather than attempting to refresh
-only the updated slot. 
-
-## Adding New Global Admin Buttons to the Top Bar ##
+### Adding New Global Admin Buttons to the Apostrophe Admin Menu ###
 
 When a user with editing privileges is logged in and visiting a page for which they have such privileges, a bar appears at the top of each page offering links to appropriate administrative features. Admins will see a button offering access to the sfGuardUser admin module. Editors in general will have access to the media module. You can add links of your own.
 
@@ -1584,7 +1544,7 @@ is the action (in your own code, typically). And the third is a CMS class to be 
 which is typically used to supply your own icon and a left offset for the image to
 reside in.
 
-If your own plugin, like our media system, implements its administrative page as an apostrophe CMS engine page under `/admin` and also might have engine pages elsewhere on the site, you'll want to make sure your button targets the "official" version. You can do that by providing the right engine page as a fourth argument to the aGlobalButton constructor:
+If your own plugin, like our media system, implements its administrative page as an apostrophe CMS engine page under `/admin` and also might have public engine pages elsewhere on the site, you'll want to make sure your button targets the "official" version. You can do that by providing the right engine page as a fourth argument to the aGlobalButton constructor:
 
 		static public function getGlobalButtons()
 		{
@@ -1600,7 +1560,7 @@ If your own plugin, like our media system, implements its administrative page as
 
 For more information see "Engines: Grafting Symfony Modules Into the CMS Page Tree" below.
 
-Now, in your plugin or project's `config/config.php` or in the initialize method of your plugin or project's configuration class, make the following call to register interest in the event:
+Now, in the initialize method of your plugin or project's configuration class, make the following call to register interest in the event:
 
     // Register an event so we can add our buttons to the set of global 
     // CMS back end admin buttons that appear when the apostrophe is clicked. 
@@ -1611,17 +1571,17 @@ The bar at the top of each page will now feature your additional button or butto
 
 *Note:* you should not add large numbers of buttons to the bar. Usually no more than one per plugin is advisable. It's important that the bar remain manageable and convenient for site admins.
 
-## Engines: Grafting Symfony Modules Into the CMS Page Tree ##
+### Engines: Grafting Symfony Modules Into the CMS Page Tree ###
 
 Suitably coded Symfony modules can now be grafted into the page tree at any point in a flexible way that allows admins to switch any page from operating as a normal template page to operating as an engine page, with all URLs beginning with that page slug remapped to the actions of the engine module. When the engine page is moved within the site, all of the virtual "pages" associated with the actions of the module move as well.
 
-*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because it causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, they still allow components such as a media plugin or people section to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
+*A single engine module can now be grafted into more than one location on a site.* To take advantage of this feature, you must disable the Symfony routing cache. Disabling the routing cache is the default in Symfony 1.3 and 1.4 because the routing cache causes performance problems rather than performance gains in most cases (and in some cases they are quite severe and unpredictable). However, if you require the Symfony routing cache, you can still use engines as long as you don't install the same engine at two points in the same site. Even without multiple instances, engines still allow components such as a staff directory to be located at the point in the site where the client wishes to put them without the need to edit configuration files.
 
 Engine modules are written using normal actions and templates and otherwise-normal routes of the aRoute and aDoctrineRoute classes.
 
-This is a very powerful way to integrate non-CMS pages into your site. The media browser of apostrophePlugin will soon be rewritten to take advantage of it, and the apostropheBlogPlugin already does.
+This is a very powerful way to integrate non-CMS pages into your site. The media browser of apostrophePlugin already takes advantage of it, and the forthcoming apostropheBlogPlugin will as well.
 
-Engines should always be used when you find yourself wishing to create a tree of "virtual pages" beginning at a point somewhere within the CMS page tree. 
+Engines should always be used when you find yourself wishing to create a tree of dynamic "pages" representing something other than normal CMS pages, beginning at a point somewhere within the CMS page tree. 
 
 To create a a engine, begin by creating an ordinary Symfony module. Feel free to test its functionality normally at this point. Then change the parent class from `sfActions` to `aEngineActions`. 
 
@@ -1718,7 +1678,9 @@ Note: if there is currently no engine page for the given engine, this will throw
 		  <?php echo link_to('Bar', 'enginetest/bar') ?>
 		<?php endif ?>
 
-### Which Engine Page Does My Link Point To? ###
+#### Which Engine Page Does My Link Point To? ####
+
+When there is just one engine page on the site for a particular engine module, things are simple: links to routes for that engine always point to a URL beginning with that page. With multiple instances of the same module, things get trickier. Here's how to sort it out.
 
 There are three simple rules:
 
@@ -1740,9 +1702,9 @@ Since you may find yourself writing partials and components that are included in
 
 Again, you must not enable the Symfony routing cache if you wish to include multiple engine pages for the same engine in your site. The routing cache is turned off by default in both Symfony 1.3 and 1.4. If you have upgraded an older project you may need to manually shut it off in `apps/frontend/config/routing.yml`.
 
-"If I have separate engine pages for Jane's blog and Bob's blog, both using the blog engine, how do I distinguish them?" That part is easy. Just use the `id` of the engine page as a foreign key in your own Doctrine table and keep the details that distinguish them in that table.
+"If I have separate engine pages for Jane's blog and Bob's blog, both using the blog engine, how do I distinguish them?" That part is easy. Just use the `id` of the engine page as a foreign key in your own Doctrine table and keep the details that distinguish them in that table. This is how our media repository associates particular engine pages with particular media categories.
 
-### Testing Your Engine ###
+#### Testing Your Engine ####
 
 After executing `symfony cc`, you will begin to see your new engine module as a choice in the new "Page Engine" dropdown menu in the page settings form. Select your engine and save your changes. The page will refresh and display your engine.  
 
@@ -1750,7 +1712,7 @@ Note that engine pages can be moved about the site using the normal drag and dro
 
 You can create your own subnavigation within your engine page. We suggest overriding appropriate portions of your page layout via Symfony slots.
 
-## Internationalization ##
+### Internationalization ###
 
 Internationalization is supported at a basic level: separate versions
 of content are served depending on the result of calling getCulture()
@@ -1762,9 +1724,11 @@ to add a "culture switcher" to their sites so that a user interface is
 available to make these features visible. Thanks to Quentin
 Dugauthier for his assistance in debugging these features.
 
+The user interface for editors is not yet internationalized. We plan to do this in the future.
+
 ### Refreshing Slots ###
 
-As of 02/02/2010 this is no longer necessary for any of our internal slot types. However, if your custom slot types contain metadata that should be refreshed nightly, you might wish to take advantage of the `apostrophe:refresh` task, which updates all current slots by calling their `refreshSlot()` method:
+This is not necessary for any of our standard slot types. However, if your custom slot types contain metadata that should be refreshed nightly, you might wish to take advantage of the `apostrophe:refresh` task, which updates all current slots by calling their `refreshSlot()` method:
 
 		./symfony apostrophe:refresh --env=prod --application=frontend
 
@@ -1774,8 +1738,18 @@ For performance reasons this task only looks at the latest version of each slot.
 
 		./symfony apostrophe:refresh --env=prod --application=frontend --allversions
 
-You can obtain support for Apostrophe via the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). 
+## Support, Community and News Sources ##
+
+Please be sure to join the [apostrophenow Google group](http://groups.google.com/group/apostrophenow). This is the right place to obtain community support.
+
+Bug tracking, subversion access and a community Wiki are all available at [trac.apostrophenow.org](http://trac.apostrophenow.org).
+
+Professional support for Apostrophe is available from our team here at [P'unk Avenue](http://www.punkave.com/).
 
 Also be sure to [follow our Twitter account](http://twitter.com/apostrophenow).
 
-And be sure to [visit the Apostrophe Now site](http://www.apostrophenow.com/).
+For bleeding-edge development news, subscribe Google Reader or your feed reader of choice to our svn commit notes:
+
+[http://www.apostrophenow.com/svn.rss](http://www.apostrophenow.com/svn.rss)
+
+And of course, be sure to [visit the Apostrophe Now site](http://www.apostrophenow.com/).
