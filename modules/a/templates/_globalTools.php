@@ -9,7 +9,7 @@ These are mostly links to independent modules.
 */
 ?>
 
-<ul id="a-global-toolbar">
+<div id="a-global-toolbar">
   <?php // All logged in users, including guests with no admin abilities, need access to the ?>
   <?php // logout button. But if you have no legitimate admin roles, you shouldn't see the ?>
   <?php // apostrophe or the global buttons ?>
@@ -22,9 +22,13 @@ These are mostly links to independent modules.
   <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
 
   	<?php // The Apostrophe ?>
-  	<li class="a-global-toolbar-apostrophe">
-  		<?php echo jq_link_to_function('Apostrophe Now','',array('id' => 'the-apostrophe', )) ?>
+  	<div class="a-global-toolbar-apostrophe">
+  		<?php echo link_to('Apostrophe Now','/', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
+	
+				<?php if ($page): ?>
+					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle">This Page</a></li>
+				<?php endif ?>
   			<?php $buttons = aTools::getGlobalButtons() ?>
   			<?php foreach ($buttons as $button): ?>
   			  <?php if ($button->getTargetEnginePage()): ?>
@@ -34,70 +38,29 @@ These are mostly links to independent modules.
   			<?php endforeach ?>
 				<?php if (0): ?><li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel event-default', )) ?></li><?php endif ?>
   		</ul>
-  	</li>
+  	</div>
 
-  	<?php // Administrative breadcrumb ?>
-  	<?php if ($page && (!$page->admin)): ?>
-	  	<li class="a-global-toolbar-breadcrumb">
-	  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
-	  	</li>
-  	<?php endif ?>
 
-  	<li class="a-global-toolbar-page-settings a-page-settings-container">
-  		<div id="a-page-settings"></div>
-  	</li>
-
-  	<li class="a-global-toolbar-user-settings a-personal-settings-container">
+  	<div class="a-global-toolbar-user-settings a-personal-settings-container">
 			<div id="a-personal-settings"></div>
-    </li>
+    </div>
 
 	<?php endif ?>
 
 		<?php // Login / Logout ?>
-		<li class="a-global-toolbar-login a-login">
+		<div class="a-global-toolbar-login a-login">
 			<?php include_partial("a/login") ?>
-		</li>
-</ul>
-
-<script type="text/javascript">
-
-	$(document).ready(function(){
-
-		var aposToggle = 0;
-
-	  $('#the-apostrophe').click(function(){
+		</div>
 		
-			if (!aposToggle)
-			{
-				$(this).addClass('open');
-				$('.a-global-toolbar-breadcrumb').hide();
-				$('.a-global-toolbar-buttons').fadeIn();
-				$('.a-global-toolbar-buttons .a-cancel').fadeIn();			
-				$('.a-global-toolbar-buttons .a-cancel').parent().show();
-				aposToggle = 1;
-			}
-			else
-			{
-				closeApostrophe();				
-				aposToggle = 0;
-			}
-
-		});
-  
-		$('.a-global-toolbar-apostrophe .a-cancel').click(function(){
-			closeApostrophe();
-			aposToggle = 0;
-	  });      
-
-		function closeApostrophe()
-		{
-			$('#the-apostrophe').removeClass('open');
-			$('.a-global-toolbar-buttons').hide();			
-			$('.a-global-toolbar-breadcrumb').fadeIn();
-		}
-
-	});
-</script>
+		<?php // Administrative breadcrumb ?>
+  	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>
+		<div class="a-global-toolbar-this-page" id="a-global-toolbar-this-page">
+  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
+  		<div id="a-page-settings"></div>
+		</div>
+  	<?php endif ?>
+  	
+</div>
 
 <?php if (aTools::getCurrentPage()): ?>
 	<?php include_partial('a/historyBrowser', array('page' => $page)) ?>
@@ -105,3 +68,21 @@ These are mostly links to independent modules.
 
 <div class="a-page-overlay"></div>
 
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var thisPageStatus = 0;
+		var thisPage = $('#a-this-page-toggle')
+		$('#a-global-toolbar-this-page').hide();
+		thisPage.click(function(){
+			thisPage.toggleClass('open');
+			$('#a-breadcrumb').addClass('show');
+			$('#a-global-toolbar-this-page').slideToggle();
+			thisPageStatus = (thisPageStatus == 1 ? 0 : 1);
+			if (!thisPageStatus)
+			{
+				$('.a-page-overlay').hide();				
+			}
+		})
+	});
+</script>
