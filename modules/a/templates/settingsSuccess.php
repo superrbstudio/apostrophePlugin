@@ -29,11 +29,6 @@
 			    <?php echo $form['slug']->renderError() ?>
 			  </div>
 			<?php endif ?>
-			<div class="a-form-row template" id="a-page-template">
-			  <label>Page Template</label>
-			  <?php echo $form['template'] ?>
-			  <?php echo $form['template']->renderError() ?>
-			</div>
 			<div class="a-form-row status">
 			  <label>Page Status</label>
 			  	<div class="a-page-settings-status">
@@ -69,6 +64,12 @@
 		      'admin' => $admin['manage'])) ?>
 			</div>
   </div>
+
+	<div class="a-form-row template" id="a-page-template">
+	  <label>Page Template</label>
+	  <?php echo $form['template'] ?>
+	  <?php echo $form['template']->renderError() ?>
+	</div>
 	
 	<div class="a-form-row engine">
 	  <label>Page Engine</label>
@@ -114,12 +115,16 @@
 	  var val = $('#a_settings_settings_engine').val();
 	  if (!val.length)
 	  {
-	    $('#a_settings_settings_template').show();
+	    // $('#a_settings_settings_template').attr('disabled',false); // Symfony doesn't like this.
+			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
 	    $('#a_settings_engine_settings').html('');
 	  }
 	  else
 	  {
-	    $('#a_settings_settings_template').hide();
+			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
+			$('#a_settings_settings_template').before("<div class='a-overlay'></div>")
+			$('#a_settings_settings_template').siblings('div.a-overlay').fadeTo(0,0.5).css('display','block');
+	    // $('#a_settings_settings_template').attr('disabled','disabled'); // Symfony doesn't like this.
 	    <?php // AJAX replace engine settings form as needed ?>
 	    $.get(<?php echo json_encode(url_for('a/engineSettings')) ?>, { id: <?php echo $page->id ?>, engine: val }, function(data) {
   	    $('#a_settings_engine_settings').html(data);

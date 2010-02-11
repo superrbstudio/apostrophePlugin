@@ -403,13 +403,25 @@ padding: 3px;
 margin-left: 120px;
 }
 
-.a-form-row.help,
-.a-form-row .help
+.a-form-row .a-form-field,
+.a-form-row .a-form-error,
+.a-form-row .a-form-help-text
 {
+	position: relative;	
+	float: left;
+	display: inline;
+}
+
+.a-form-row.help,
+.a-form-row .help,
+.a-form-help-text
+{
+float: left;
+clear: both;
+line-height: 20px;
 font-size: 11px;
 color: #888;
 }
-
 
 /* Tom's Form Multi-Select*/
 .a-multiple-select-list
@@ -420,6 +432,8 @@ color: #888;
 	position: relative;
 	width: 100%;
 }
+
+
 
 
 
@@ -1931,6 +1945,17 @@ a.a-multiple-select-remove:hover span
 {
 background-position: 0 -20px;
 }
+
+#a-page-settings #a_settings_engine_settings .a-form-help-text
+{
+	margin: 2px 0 0 120px;
+}
+
+#a-page-settings #a-page-template
+{
+	position: relative;
+}
+
 
 
 
