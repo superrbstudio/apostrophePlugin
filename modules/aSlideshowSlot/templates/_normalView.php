@@ -29,7 +29,11 @@
                     "noajax" => 1))))),
         'class' => 'a-btn icon a-media')) ?>
     </li>
+
+		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
+		
   <?php end_slot() ?>
+
 <?php endif ?>
 
 <?php include_component('aSlideshowSlot', 'slideshow', array('items' => $items, 'id' => $id, 'options' => $options)) ?>

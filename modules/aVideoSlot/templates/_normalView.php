@@ -10,6 +10,7 @@
     <li class="a-controls-item choose-video">
 	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => 'Choose Video', 'label' => 'Select a Video', 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	  </li>
+			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
   <?php end_slot() ?>
 <?php endif ?>
 <?php if ($item): ?>
