@@ -1376,6 +1376,11 @@ ul.a-controls li.addslot-now
 	margin: 0 4px 0 0 !important;
 }
 
+ul.a-controls.a-slot-controls
+{
+	z-index: 799;
+}
+
 .aImage ul.a-controls.a-slot-controls,
 .aSlideshow ul.a-controls.a-slot-controls,
 ul.a-controls.a-media-edit-links,
@@ -3815,7 +3820,7 @@ cursor:move;
 	padding: 0 20px 0 5px;
 }
 
-.a-archived-page
+.a-navigation .archived
 { /* aUI(); Makes Unpublished pages 50% Opacity */
 text-decoration: line-through;
 }

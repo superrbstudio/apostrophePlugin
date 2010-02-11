@@ -178,7 +178,7 @@ function aUI(target, instance)
 	// Cross Browser Opacity Settings
 	//
 	// $('.a-page-overlay').fadeTo(0,.85).hide(); // Modal Box Overlay // Keep For IE 
-	$('.a-archived-page').fadeTo(0,.5); // Archived Page Labels
+	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
 	//
 	//
 	//
