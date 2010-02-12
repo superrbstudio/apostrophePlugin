@@ -3256,6 +3256,11 @@ margin-bottom: 30px;
 width: 50%;
 }
 
+#a-media-plugin .a-form-row.categories .a-form-field
+{
+	float:none;
+}
+
 #a-media-plugin .a-form-row.permissions .radio_list
 {
 float: left;
@@ -3292,6 +3297,11 @@ width: 214px;
 border: 1px solid #666;
 padding: 2px 3px;
 font: 12px Arial, Sans-serif;
+}
+
+#a-media-plugin .a-form-row textarea
+{
+line-height: 1.6;
 }
 
 #a-media-plugin .a-form-row select
@@ -4043,7 +4053,7 @@ font-size: 11px;
 {
 	width: 216px;
 	top: -9px;
-	left: 120px;
+/*	left: 120px;*/ /* This keeps switching back and forth, It needs to makeup its mind! */
 }
 
 #a-admin-form div.tag-suggestions {
