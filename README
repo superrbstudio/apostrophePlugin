@@ -187,6 +187,7 @@ paths in that file.
 Next, cd to the `asandbox` folder and run these commands:
 
     ./symfony cc
+    ./symfony plugin:publish-assets
     ./symfony doctrine:build --all
     ./symfony doctrine:data-load
   
