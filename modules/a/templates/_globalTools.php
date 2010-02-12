@@ -26,7 +26,7 @@ These are mostly links to independent modules.
   		<?php echo link_to('Apostrophe Now','/', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 	
-				<?php if ($page): ?>
+				<?php if ($page && !$page->admin): ?>
 					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle">This Page</a></li>
 				<?php endif ?>
   			<?php $buttons = aTools::getGlobalButtons() ?>
