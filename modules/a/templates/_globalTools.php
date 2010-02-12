@@ -72,7 +72,7 @@ These are mostly links to independent modules.
 <script type="text/javascript">
 	$(document).ready(function() {
 		var thisPageStatus = 0;
-		var thisPage = $('#a-this-page-toggle')
+		var thisPage = $('#a-this-page-toggle');
 		$('#a-global-toolbar-this-page').hide();
 		thisPage.click(function(){
 			thisPage.toggleClass('open');
@@ -83,7 +83,7 @@ These are mostly links to independent modules.
 			{
 				$('.a-page-overlay').hide();				
 			}
-		})
+		});
 		<?php if ($page && ($page->getSlug() == '/')): ?>
 		$('#a-breadcrumb').addClass('home-page');
 		<?php endif ?>
