@@ -14,7 +14,10 @@ class aMediaActions extends aEngineActions
     // to be here
     if (aTools::getCurrentPage()->admin)
     {
-      $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
+      if (!(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege()))
+			{
+				$this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
+			}
     }
     
  		//$this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
