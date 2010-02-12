@@ -70,8 +70,8 @@
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls-item variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(view).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
- 			$(view).parents('.a-area.singleton').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
+  		$(view).find('.editing-now').removeClass('editing-now');
+ 			$(view).parents('.a-area.singleton').find('.editing-now').removeClass('editing-now'); // for singletons
   	});
 
 		// SAVE 

@@ -4853,15 +4853,15 @@ width: 480px;
 
 #a-global-toolbar #the-apostrophe
 { /* Apostrophe */
-	background-color: rgb(153,204,51);
-	background-color: rgba(153,204,51,0.65);	
+	background-color: rgb(51,204,204);
+	background-color: rgba(51,204,204,0.65);	
 }
 
 .a-btn,
 .a-submit
 { /* Background Color */
-background-color: rgb(153,204,51);
-background-color: rgba(153,204,51,0.65);
+	background-color: rgb(51,204,204);
+	background-color: rgba(51,204,204,0.65);	
 }
 
 .a-btn,
@@ -4884,21 +4884,21 @@ text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 .a-btn:hover span,
 .a-btn.icon:hover
 {/*Button Hover Style*/
-background-color: #888;
+background-color: #888 !important;
 text-decoration: none !important;
 }
 
 .a-history-browser,
 ul.a-controls .a-variant-options
 { /* Border Color */
-border-color: rgba(153,204,51,0.65);;	
+border-color: rgb(51,204,204);
 }
 
 
 #a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
-color: rgba(153,204,51,0.65);
+color: rgb(51,204,204);
 }
 
 
