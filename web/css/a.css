@@ -427,6 +427,24 @@ font-size: 11px;
 color: #888;
 }
 
+.a-form-row .error_list
+{
+width: 100%;
+float: left;
+margin: 0;
+font-size: 11px;
+color: #900;
+}
+
+.a-form-row .error_list li
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin: 5px 0;
+}
+
+
 /* Tom's Form Multi-Select*/
 .a-multiple-select-list
 {
@@ -2670,16 +2688,7 @@ float: left;
 width: 180px;
 padding: 20px;
 }
-
-#a-signin-form .error_list
-{
-float: left;
-display: inline;
-margin: 5px 0;
-color: #900;
-font-size: 11px;
-}
-    
+ 
 #a-signin-form label
 {
 	font-size: 16px;
@@ -2707,10 +2716,10 @@ float: left;
 {
 	width: 155px;
 }
-    
+
 #a-signin-form .a-form-row
 {
-margin: 10px;
+margin: 0 10px 10px 10px;
 }
 
 #a-signin-form .a-form-row.submit li
@@ -4718,14 +4727,6 @@ font-size: 14px;
 line-height: 20px;
 text-indent: 24px;
 background: transparent url(/apostrophePlugin/images/a-icon-error.png) no-repeat scroll left top;
-}
-
-#a-admin-container form .a-form-row .error_list
-{
-width: 100%;
-float: left;
-margin: 0;
-font-size: 11px;
 }
 
 #a-admin-container form .a-form-row .error_list li
