@@ -4,13 +4,13 @@
 <?php elseif ($invalid): ?>
   <p class="aFeedInvalid">Invalid feed.</p>
 <?php else: ?>
-  <ul>
+  <ul class="a-feed">
     <?php $n = 0 ?>
     <?php foreach ($feed->getItems() as $feedItem): ?>
       <?php if (($posts !== false) && ($n >= $posts)): ?>
         <?php break ?>
       <?php endif ?>
-      <li>
+      <li class="a-feed-item">
         <ul>
           <li class="title"><?php echo link_to_if($feedItem->getLink() && $links, $feedItem->getTitle(), $feedItem->getLink()) ?></li>
           <?php $date = $feedItem->getPubDate() ?>

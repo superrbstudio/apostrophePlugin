@@ -49,6 +49,16 @@
 
 		<div class='a-subnav-section categories'>
 			<div class="subnav-categories-header">
+
+ 		  <?php if (isset($selectedCategory)): ?>
+ 				<h5 class="a-category-sidebar-title selected-category">Selected Category</h5>  
+ 	    	<ul class="a-category-sidebar-selected-categories">
+ 	        <li class="selected">
+ 						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
+ 	        </li>
+ 	    	</ul>
+			<?php endif ?>
+				
    		<h4>Categories</h4>
 
 	    <?php if ($sf_user->hasCredential('media_admin')): ?>
@@ -72,15 +82,6 @@
 
 			<?php else: ?>
 				
-  		  <?php if (isset($selectedCategory)): ?>
-  				<h5 class="a-category-sidebar-title selected-category">Selected Category</h%>  
-  	    	<ul class="a-category-sidebar-selected-categories">
-  	        <li class="selected">
-  						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
-  	        </li>
-  	    	</ul>
-				<?php endif ?>
-
 	      <ul id="a-category-sidebar-list">
 	        <?php foreach ($categoriesInfo as $categoryInfo): ?>
 	  	       <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
