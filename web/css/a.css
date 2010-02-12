@@ -1428,6 +1428,7 @@ display: none;
 {
 color: #000 !important;
 cursor: default !important;
+text-shadow: 0 1px 0px rgba(255,255,255,0.40) !important;
 }
 
 .a-area.previewing-history a.a-btn.a-history
