@@ -11,7 +11,7 @@
 
 <div id="a-page-tree-container">
 
-	<h3>Drag and drop pages to reorganize the site.</h3>
+	<h2 class="reorganize-title">Drag and drop pages to reorganize the site.</h2>
 
 	<div id="tree"></div>
 
