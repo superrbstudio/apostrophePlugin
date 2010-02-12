@@ -29,8 +29,8 @@
 
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
+	aInputSelfLabel('#a_media_category_name', 'New Category');	
 	$('#a-media-edit-categories-button, #a-media-no-categories-messagem, #a-category-sidebar-list').hide();
-	aInputSelfLabel('#a_media_category_name', 'Category Name');
 	$('#a_media_category_name').focus();
 	// Temporary - See CSS for Notes
 	$('#a_media_category_description').parents('div.a-form-row').addClass('hide-description').parent().attr('id','a-media-category-form');

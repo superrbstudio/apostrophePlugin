@@ -491,6 +491,7 @@ function aInputSelfLabel(selector, label)
 	
 	aInput.each(function() {
 		setLabelIfNeeded(this);
+		$(this).addClass('a-default-value');
 	});
 
 	aInput.focus(function() {
@@ -506,7 +507,7 @@ function aInputSelfLabel(selector, label)
 		var v = $(e).val();
 		if (v === '')
 		{
-			$(e).val(label).addClass('a-default-value');				
+			$(e).val(label).addClass('a-default-value');			
 		}
 	}
 	function clearLabelIfNeeded(e)

@@ -626,7 +626,7 @@ text-decoration: none !important;
 
 .icon-only.a-cancel
 {
-padding-left: 0 !important;
+padding: 0 !important;
 }
 
 .icon.a-settings
@@ -3563,6 +3563,15 @@ cursor: default !important;
 	float: right;
 }
 
+#a-media-category-form
+{
+	float: left;
+	clear: both;
+	display: inline;
+	width: 100%;
+	margin-top: -5px;
+}
+
 #a-media-category-form .a-form-row
 {
 	margin: 0;
@@ -3582,8 +3591,15 @@ cursor: default !important;
 #a-media-category-form .a-form-row input
 {
 	float: left;
-	width: 130px;
 	clear: none;
+	width: 133px;	
+}
+
+#a-media-category-form input#a_media_category_name
+{
+	border: none;
+	margin-left: -4px;
+	background: rgba(255,255,255,0.75);
 }
 
 #a-media-category-form .a-form-row.submit
