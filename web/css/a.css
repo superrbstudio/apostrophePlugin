@@ -3493,6 +3493,10 @@ z-index: 0;
 .a-media-item-content li
 {
 position: relative;
+float: left;
+clear: both;
+display: inline;
+width: 100%;
 }
 
 .a-media .a-media-selected-overlay
