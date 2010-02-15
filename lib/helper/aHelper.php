@@ -77,7 +77,7 @@ function a_slot_get_options($options)
   return $options;
 }
 
-function a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen)
+function a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen, $updating = false)
 {
   $page = aTools::getCurrentPage();
   $slot = $page->getSlot($name);
@@ -87,6 +87,7 @@ function a_slot_body($name, $type, $permid, $options, $validationData, $editorOp
   $parameters['permid'] = $permid;
   $parameters['validationData'] = $validationData;
   $parameters['showEditor'] = $editorOpen;
+  $parameters['updating'] = $updating;
   $user = sfContext::getInstance()->getUser();
   $controller = sfContext::getInstance()->getController();
   $moduleName = $type . 'Slot';
