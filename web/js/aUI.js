@@ -199,6 +199,7 @@ function aUI(target, instance)
 	//
 	//
 	
+	$('div.a-area-overlay').remove();
 	$('div.a-slots').prepend('<div class="a-area-overlay"></div>');
 	$('ul.a-controls a.a-add.slot').hover(function(){
 		$(this).parents('div.a-area').addClass('over')
