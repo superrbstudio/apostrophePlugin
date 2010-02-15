@@ -723,9 +723,10 @@ width: 20px;
 box-shadow:0 0 0 transparent;
 }
 
-.icon.a-arrow-left:hover,
-.icon.a-arrow-right:hover
+.a-btn.icon.a-arrow-left:hover,
+.a-btn.icon.a-arrow-right:hover
 {
+background-color: transparent !important;
 background-position: 0 -20px !important;
 }
 
