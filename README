@@ -51,6 +51,8 @@ Standard features of Apostrophe include version control for all content slots, l
 
 Apostrophe also introduces "areas," or vertical columns, which users with editing privileges are able to create more than one slot. This makes it easy to interleave text with multimedia and other custom slot types without the need to develop a custom PHP template for every page.
 
+Content "slots" include plaintext, rich text, RSS feeds, photos, slideshows, videos, PDFs and raw HTML slots.
+
 Apostrophe includes support for media management, including a built-in media library that allows you to manage locally stored photos and remotely hosted videos. When media are embedded in pages they are automatically sized to cooperate with the page templates created by the designer.
 
 Rich text editing, of course, is standard equipment. And unlike most systems, Apostrophe intelligently filters content pasted from Word and other programs to ensure there are no design-busting markup conflicts.
@@ -433,11 +435,11 @@ to see the editing controls. Notice that editing controls are added to the norma
 ### Managing Pages ###
 
 When a user has appropriate privileges on a page, they are able to make
-the following changes via a simple "breadcrumb trail" that appears at the top of the page:
+the following changes by clicking the "This Page" button, then interacting with a simple "breadcrumb trail" that appears at the top of the page:
 
 * Rename the page by clicking on the page title
 * Add a child page beneath the current page
-* Open the page management settings dialog via the "gear" icon
+* Open the page management settings dialog via "This Page," then the "gear" icon
 for less frequent changes
 
 Apostrophe emphasizes "unpublishing" pages as the preferred way
@@ -503,7 +505,7 @@ You can do much the same thing with video. YouTube is tightly integrated with Ap
 
 You can organize media with categories and tags. Add new categories using the "Manage Categories" button at the left, in the media browser area. 
 
-It's possible to add a media page to the public-facing part of the site that displays only media in certain categories. To do that, go to the home page, add a new page and give it a title that relates to a media category. When the new page appears, click the gear icon. When the page settings dialog appears, select "Media" from the "Page Engine" menu.
+It's possible to add a media page to the public-facing part of the site that displays only media in certain categories. To do that, go to the home page, add a new page and give it a title that relates to a media category. When the new page appears, click "This Page," then the gear icon. When the page settings dialog appears, select "Media" from the "Page Engine" menu.
 
 Once you select Media, a category selector will appear. Pick the appropriate category, then click Save. Note that you can select more than one category.
 
@@ -924,6 +926,43 @@ When this parameter is present in the URL, raw HTML slots will escape their cont
 
 That's it for the standard slots included with Apostrophe! Of course there will be more. And you can add more yourself. See the developer's section of this document.
 
+### Slot Variants: More Mileage From Your Templates ###
+
+It's possible to specify different options to each slot in different page templates. And for many designs this is the way to go.
+
+But sometimes you'd like to have a more flexible setup in which the same template or layout can serve the needs of more pages. 
+
+One solution would be to let users specify slot options or even CSS classes directly, but this has a tendency to be confusing. So we've provided a better solution: slot variants.
+
+If you define variants like this in `app.yml`:
+
+		slot_variants:
+		  aSlideshow:
+		    normal:
+		      label: Normal
+		      options:
+						title: false
+		        arrows: true
+		    compact:
+		      label: Compact
+		      options:
+		        title: true
+		        arrows: true
+		    autoplay:
+		      label: Auto Play
+		      options:
+		        interval: 4
+						title: true
+		        arrows: false         
+
+Then the user will be presented with a choice of these three variations on the slideshow slot in an "Options" menu to the right of the "Choose Images" button. 
+
+How does this work? Each variant has a label and an optional set of options. When the user switches between variants, the slot is refreshed with the new options in effect. 
+
+**In addition to changing options, variants also set a CSS class** on the slot's outermost container. Specifically, when the `compact` option is in use, the CSS class `compact` will be set on that slot's outermost container. This is very useful for styling purposes.
+
+**Prior to version 1.04 slot variant options must fully contradict each other** for consistent results. That is, if you set the `interval` option for one variant, you must set a value for it for every variant (even if that value is false). This requirement is removed in version 1.04.
+ 
 ### Inserting Areas: Unlimited Slots in a Vertical Column ###
 
 Slots are great on their own. But when you want to mix paragraphs of text with
@@ -1100,6 +1139,10 @@ Instead, take advantage of the classes on this div:
     }
 
 Note that if you need different behavior on different pages in a way that can't be achieved by adding different slots and using different variants of each slot, you should use a separate template for each type of page.
+
+#### Styling Slot Variants ####
+
+Slot variants (choices on the "Options" menu for a given slot) also set CSS classes. These classes have the same name as the option. This is very useful for styling purposes, especially if you wish to display the rich text description of a media image to the right or left of the image itself. See "Slot Variants: More Mileage From Your Templates" for details.
 
 ### Access Control: Who Can Edit What? ###
 
