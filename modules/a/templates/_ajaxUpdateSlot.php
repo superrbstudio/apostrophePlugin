@@ -3,7 +3,7 @@
 <?php include_javascripts() ?>
 <?php include_stylesheets() ?>
 <?php use_helper('a') ?>
-<?php a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen) ?>
+<?php a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen, true) ?>
 
 <?php if (isset($variant)): ?>
 	<script type="text/javascript" charset="utf-8">

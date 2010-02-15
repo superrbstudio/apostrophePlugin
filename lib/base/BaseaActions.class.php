@@ -353,23 +353,20 @@ class BaseaActions extends sfActions
     $pageid = $page->id;
     $name = $this->name;
     $permid = $this->permid;
-    $lookingFor = "slot-options-$pageid-$name-$permid";
-    if ($user->hasAttribute($lookingFor, 'a'))
-    {
-      $this->options = $user->getAttribute(
-        $lookingFor, false, "a");
-    }
+    $lookingFor = "slot-original-options-$pageid-$name-$permid";
+    $this->options = $user->getAttribute(
+      $lookingFor, false);
     $this->forward404Unless($this->options !== false);
     
-    return $this->renderPartial("a/ajaxUpdateSlot",
-      array("name" => $this->name, 
-        "pageid" => $page->id,
-        "type" => $slot->type, 
-        "permid" => $this->permid, 
-        "options" => $this->options,
-        "editorOpen" => false,
+    return $this->renderPartial('a/ajaxUpdateSlot',
+      array('name' => $this->name, 
+        'pageid' => $page->id,
+        'type' => $slot->type, 
+        'permid' => $this->permid, 
+        'options' => $this->options,
+        'editorOpen' => false,
         'variant' => $variant,
-        "validationData" => array()));
+        'validationData' => array()));
   }
 
   public function executeRevert(sfRequest $request)

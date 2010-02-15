@@ -42,8 +42,18 @@ class BaseaSlotComponents extends sfComponents
       $permid = $this->permid;
       // Make sure the options passed to a_slot 
       // can be found again at save time
+      if (!$this->updating)
+      {
+        // Slot options can be influenced by variant switching, and that's fine, and the editor might
+        // need to know about it to do the right thing, so it's appropriate to reset the slot
+        // options in the attribute. However, we also need to know what the original, pristine
+        // options from a_slot or a_area were in order to allow variants to be switched without
+        // having side effects on each other's option sets
+        $user->setAttribute("slot-original-options-$id-$name-$permid", 
+          $this->options);
+      }
       $user->setAttribute("slot-options-$id-$name-$permid", 
-        $this->options, "a");
+        $this->options);
     }
     
     if ($this->slot->variant)
@@ -54,6 +64,7 @@ class BaseaSlotComponents extends sfComponents
 
       if (isset($variants[$this->slot->type][$this->slot->variant]['options']))
       {
+        $options = $variants[$this->slot->type][$this->slot->variant]['options'];
         $this->options = array_merge($this->options, $variants[$this->slot->type][$this->slot->variant]['options']);
       }
     }

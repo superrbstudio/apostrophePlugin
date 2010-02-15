@@ -11,6 +11,7 @@
       "type" => $type,
       "permid" => $permid,
       "options" => $options,
+      "updating" => $updating,
       "validationData" => $validationData)) ?>
 
 	<ul class="a-controls a-slot-save-cancel-controls">  
@@ -53,6 +54,7 @@
     "name" => $name,
     "type" => $type,
     "permid" => $permid,
+    "updating" => $updating,
     "options" => $options)) ?>
 
 <?php if ($editable): ?>
