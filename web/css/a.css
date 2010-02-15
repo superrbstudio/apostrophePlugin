@@ -4204,7 +4204,6 @@ border: none;
 #a-admin-container a:link, 
 #a-admin-container a:visited
 {
-color: #ac3;
 text-decoration: none;
 }
 
@@ -4946,7 +4945,8 @@ ul.a-controls .a-variant-options,
 border-color: rgb(51,204,204);
 }
 
-
+#a-admin-container a:link, 
+#a-admin-container a:visited,
 #a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
