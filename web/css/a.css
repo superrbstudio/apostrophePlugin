@@ -2220,6 +2220,12 @@ margin: 0 0 10px 0;
 font-weight: bold;
 }
 
+.a-slot.aRichText em,
+.a-slot.aRichText i
+{
+font-style: italic;
+}
+
 .a-slot.aRichText h3
 {
 font-size: 150%;
