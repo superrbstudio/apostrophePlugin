@@ -83,9 +83,10 @@ abstract class PluginaSlot extends BaseaSlot
     return $this->isNew() && $this->editDefault;
   }
   
-  public function getEffectiveVariant()
+  // You must pass the slot options in effect so that allowed_variants can be taken into account
+  public function getEffectiveVariant($options)
   {
-    $variants = sfConfig::get('app_a_slot_variants');
+    $variants = aTools::getVariantsForSlotType($this->type, $options);
     if (!isset($variants))
     {
       // No variants, no class
@@ -96,12 +97,12 @@ abstract class PluginaSlot extends BaseaSlot
     // If the variant is not defined (and the empty string will not be),
     // and there is at least one variant, return the first one as the default.
     // If there are no variants return an empty string
-    if (!isset($variants[$this->type][$variant]))
+    if (!isset($variants[$variant]))
     {
-      if (isset($variants[$this->type]) && count($variants[$this->type]))
+      if (count($variants))
       {
         // Return the first variant for the type, if any, when the variant is bogus
-        $keys = array_keys($variants[$this->type]);
+        $keys = array_keys($variants);
         return $keys[0];
       }
       return '';

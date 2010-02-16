@@ -51,21 +51,28 @@ class BaseaSlotComponents extends sfComponents
         // having side effects on each other's option sets
         $user->setAttribute("slot-original-options-$id-$name-$permid", 
           $this->options);
+        if (isset($this->options['allowed_variants']))
+        {
+          $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $this->options['allowed_variants']);
+        }
       }
       $user->setAttribute("slot-options-$id-$name-$permid", 
         $this->options);
     }
     
-    if ($this->slot->variant)
+    // Calling getEffectiveVariant ensures we default to the behavior of the first one
+    // defined, or the first one allowed if there is an allowed_variants option
+    $variant = $this->slot->getEffectiveVariant($this->options);
+    
+    if ($variant)
     {
       // Allow slot variants to adjust slot options. This shouldn't be used to radically
       // change the slot, just as an adjunct to CSS, styling things in ways CSS can't
-      $variants = sfConfig::get('app_a_slot_variants');
-
-      if (isset($variants[$this->slot->type][$this->slot->variant]['options']))
+      $variants = aTools::getVariantsForSlotType($this->slot->type, $this->options);
+      if (isset($variants[$variant]['options']))
       {
-        $options = $variants[$this->slot->type][$this->slot->variant]['options'];
-        $this->options = array_merge($this->options, $variants[$this->slot->type][$this->slot->variant]['options']);
+        $options = $variants[$variant]['options'];
+        $this->options = array_merge($this->options, $variants[$variant]['options']);
       }
     }
     

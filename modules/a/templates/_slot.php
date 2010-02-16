@@ -96,7 +96,7 @@
 <?php if ($sf_request->isXmlHttpRequest()): ?>
   <?php // Changing the variant only refreshes the content, not the outer wrapper and controls. However, ?>
   <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
-  <?php $variants = aTools::getVariantsForSlotType($type) ?>
+  <?php $variants = aTools::getVariantsForSlotType($type, $options) ?>
   <?php if (count($variants)): ?>
     <script type="text/javascript">
       $(document).ready(function() {
