@@ -30,7 +30,7 @@
         </tr>
       </tfoot>
       <tbody>
-        [?php $n=1; $total = count($pager); foreach ($pager as $i => $<?php echo $this->getSingularName() ?>): $odd = fmod(++$i, 2) ? 'odd' : 'even' ?]
+        [?php $n=1; $total = $pager->getNbResults(); foreach ($pager->getResults() as $i => $<?php echo $this->getSingularName() ?>): $odd = fmod(++$i, 2) ? 'odd' : 'even' ?]
           <tr class="a-admin-row [?php echo $odd ?] [?php echo ($n == $total)? 'last':'' ?]">
 						<?php if ($this->configuration->getValue('list.batch_actions')): ?>
             	[?php include_partial('<?php echo $this->getModuleName() ?>/list_td_batch_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'helper' => $helper)) ?]
