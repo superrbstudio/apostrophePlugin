@@ -2256,6 +2256,15 @@ margin: 0 0 10px 0;
 font-weight: bold;
 }
 
+.a-slot.aRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
 .a-slot.aRichText em,
 .a-slot.aRichText i
 {

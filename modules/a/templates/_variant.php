@@ -1,14 +1,15 @@
-<?php $variants = sfConfig::get('app_a_slot_variants') ?>
-<?php if ((!$slot->isNew()) && isset($variants[$slot->type]) && count($variants[$slot->type])): ?>
+<?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid") ?>
+<?php $variants = aTools::getVariantsForSlotType($slot->type, $options) ?>
+<?php if ((!$slot->isNew()) && (count($variants) > 1)): ?>
   <li class="a-controls-item variant" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
 		<?php echo jq_link_to_function('Options', '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant").toggleClass("open").children("ul.a-variant-options").toggle()', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
     <ul class="a-variant-options dropshadow">
-      <?php foreach ($variants[$slot->type] as $variant => $settings): ?>
+      <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
         <?php // target them later to change the active variant without rewriting the ?>
         <?php // outer area container ?>
         <?php $id = "a-$pageid-$name-$permid-variant-$variant" ?>
-        <?php $active = ($variant === $slot->getEffectiveVariant()) ?>
+        <?php $active = ($variant === $slot->getEffectiveVariant($options)) ?>
         <li id="<?php echo $id ?>-active" class="active current" style="<?php echo $active ? '' : 'display: none' ?>">
           <span class="a-btn a-disabled icon a-checked"><?php echo $settings['label'] ?></span>
         </li>

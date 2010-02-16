@@ -540,7 +540,7 @@ class aTools
     }
   }
   
-  static public function getVariantsForSlotType($type)
+  static public function getVariantsForSlotType($type, $options = array())
   {
     $variants = sfConfig::get('app_a_slot_variants');
     if (!is_array($variants))
@@ -551,6 +551,20 @@ class aTools
     {
       return array();
     }
-    return $variants[$type];
+    $variants = $variants[$type];
+    if (isset($options['allowed_variants']))
+    {
+      $allowed = array_flip($options['allowed_variants']);
+      $keep = array();
+      foreach ($variants as $name => $value)
+      {
+        if (isset($allowed[$name]))
+        {
+          $keep[$name] = $value;
+        }
+      }
+      $variants = $keep;
+    }
+    return $variants;
   }
 }

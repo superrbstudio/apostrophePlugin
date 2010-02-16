@@ -959,10 +959,20 @@ Then the user will be presented with a choice of these three variations on the s
 
 How does this work? Each variant has a label and an optional set of options. When the user switches between variants, the slot is refreshed with the new options in effect. 
 
+Sometimes you will want to define variants on a slot that are only suitable for use in a particular place. For instance, you wouldn't want to allow an "extra-wide" image slot in a sidebar. Beginning in version 1.04, you can address this by passing the `allowed_variants` option when inserting an area or slot:
+
+		<?php a_slot('aImage', array('allowed_variants' => array('narrow'))) ?>
+
+Note that this means that you can lock a slot down to a single variant that would not otherwise be the default. If you allow only one variant, the options menu does not appear, since there are no other choices.
+
+You can do the same thing for an area by adding `allowed_variants` to the `type_options` for the slot type in question.
+
 **In addition to changing options, variants also set a CSS class** on the slot's outermost container. Specifically, when the `compact` option is in use, the CSS class `compact` will be set on that slot's outermost container. This is very useful for styling purposes.
 
 **Prior to version 1.04 slot variant options must fully contradict each other** for consistent results. That is, if you set the `interval` option for one variant, you must set a value for it for every variant (even if that value is false). This requirement is removed in version 1.04.
  
+What about newly added slots? If there are variants for a slot, the first variant in the list is used for new slots of that type (in areas) or for slots whose variant has never been set (for standalone slots). If an `allowed_variants` option is present for a particular slot or area, the first allowed variant is used.
+
 ### Inserting Areas: Unlimited Slots in a Vertical Column ###
 
 Slots are great on their own. But when you want to mix paragraphs of text with
