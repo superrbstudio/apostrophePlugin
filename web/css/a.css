@@ -245,6 +245,7 @@ text-indent: -9999px;
 {
 float:left;
 display:inline;
+clear: both;
 line-height:10px;
 padding-bottom:6px;
 padding-left:20px;
