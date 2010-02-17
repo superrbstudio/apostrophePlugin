@@ -713,19 +713,15 @@ distribute them as plugins as explained in the developers' section in this docum
 aText slots contain only plaintext (actually, valid HTML text, which can include valid HTML and UTF-8 entities). URLs are automatically rendered as links, email addresses are rendered as obfuscated `mailto:` links, and newlines are rendered as line breaks. 
 
 Note that the special slot name `title` is reserved for the title of the page
-and is always of the type `aText`.  While you don't really need to provide an additional editing interface for the title, you might also want to insert it as an `h1` somewhere in your
+and is always of the type `aText`.  While you don't really need to provide an additional editing interface for the title, you might also want to insert it elsewhere in your
 page layout or template as a design element:
 
-    <h1>
-        <?php a_slot('title', 'aText') ?>
-    </h1>
+    <?php a_slot('title', 'aText') ?>
 
 The behavior of most slot types can be influenced by passing options to them from the template or layout. You do this by passing an array of options as a third argument
 to the helper, like this:
 
-    <h1>
-        <?php a_slot('aboutus', 'aText', 'multiline' => true) ?>
-    </h1>
+    <?php a_slot('aboutus', 'aText', 'multiline' => true) ?>
 
 The `multiline` option specifies that a plaintext slot should permit multiple-line text input.
 
@@ -739,10 +735,8 @@ The rich text slot allows users to edit content using a rich text editor. The HT
 
 The `tool` option is one of the most useful options for use with rich text slots:
 
-    <h2>
-        <?php a_slot('subtitle', 'aRichText',
-          array('tool' => 'basic')) ?>
-    </h2>
+    <?php a_slot('subtitle', 'aRichText',
+      array('tool' => 'basic')) ?>
 
 Here we create a subtitle rich text slot on the page which is editable, but only
 with the limited palette of options provided in FCK's `basic` toolbar (bold, italic and links).
@@ -759,12 +753,10 @@ Other notable options to `aRichText` slots include:
 
 * allowed-tags is a list of HTML elements to be permitted inside the rich text. By default Apostrophe filters out most HTML elements to prevent pasted content from Microsoft Word and the like from wrecking page layouts. You can pass an array of HTML element names (without angle brackets), or a string like that accepted by the PHP `strip_tags` function. 
 
-This allows us to write a better version of the `subtitle` slot above that filters the HTML to make sure it's suitable to appear inside an `h2` element:
+This allows us to write a better version of the `subtitle` slot above that filters the HTML to make sure it's suitable to appear in a particular context:
 
-    <h2>
-        <?php a_slot('subtitle', 'aRichText',
-          array('tool' => 'basic', 'allowed-tags' => '<b><i><strong><em><a>')) ?>
-    </h2>
+		<?php a_slot('subtitle', 'aRichText',
+		  array('tool' => 'basic', 'allowed-tags' => '<b><i><strong><em><a>')) ?>
 
 Note that we list both the `b` tag and the `strong` tag here. We do this because different browsers submit slightly different rich text. 
 
@@ -785,9 +777,7 @@ The default list of allowed tags is:
 
 The aFeed slot allows editors to insert an RSS feed into the page:
 
-    <h2>
-        <?php a_slot('subtitle', 'aFeed') ?>
-    </h2>
+    <?php a_slot('subtitle', 'aFeed') ?>
 
 When the user clicks "Edit," they are invited to paste an RSS feed URL. When they click "Save," the five most recent posts in that feed appear. The title of each feed post links to the original article on the site of origin as specified by the feed.
 
@@ -1149,6 +1139,12 @@ Instead, take advantage of the classes on this div:
     }
 
 Note that if you need different behavior on different pages in a way that can't be achieved by adding different slots and using different variants of each slot, you should use a separate template for each type of page.
+
+#### Why So Many Wrappers? ####
+
+The wrapper divs output by Apostrophe are necessary to implement inline editing. We've found over time that it's best to keep them in place even when the page is rendered in a non-editing mode in order to allow a single set of CSS to render the page consistently. 
+
+We recommend embracing our wrapper divs and styling them to suit your needs rather than attempting to remove or replace them or put unnecessary wrappers around them. See the provided `a/templates/defaultTemplate.php` for an example of how to float one to the left of another. The use of CSS floating makes it straightforward to lay slots and areas out as you see fit. 
 
 #### Styling Slot Variants ####
 

@@ -287,8 +287,10 @@ config/ProjectConfiguration.class.php\n\n");
     $dir = dirname($path);
     if (!file_exists($dir))
     {
-      system('mkdir -p ' . escapeshellarg($dir), $result);
-      if ($result != 0)
+      // Use the handy recursive flag instead of shelling out to mkdir -p.
+      // Note that 0777 is the default, I'm doing nothing more radical here than
+      // plain old mkdir($dir)
+      if (!mkdir($dir, 0777, true))
       {
         throw new sfException("Unable to create $dir in which to create $path\n");
       }
