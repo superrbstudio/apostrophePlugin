@@ -490,11 +490,6 @@ border: none;
 	cursor: default !important;
 }
 
-#a-login-form .a-i
-{
-background-color: #666;
-}
-
 .a-btn.icon
 {
 padding: 0 4px 0 20px;
@@ -519,7 +514,6 @@ text-indent: -9999px;
 padding: 0;
 width: 20px;
 }
-
 
 .a-btn.a-flag-btn:hover
 { /* Hovering Flag Buttons - Pop to the top */
@@ -803,7 +797,16 @@ box-shadow:0 0 0 transparent;
 {
 background-color: #888;
 background-position: 0 -20px;
+}
 
+.icon.a-drag.alt
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-drag.alt:hover
+{
+	background-position: 0 0;
 }
 
 .icon.a-events
