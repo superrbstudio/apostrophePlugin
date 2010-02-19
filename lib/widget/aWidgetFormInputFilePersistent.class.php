@@ -95,29 +95,37 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
         {
           $source = $defaultPreview;
         }
-        list($iwidth, $iheight) = getimagesize($source);
-        $dimensions = aDimensions::constrain($iwidth, $iheight, 'jpg', $imagePreview);
-        // A simple filename reveals less
-        $imagename = "$persistid.jpg";
-        $url = "$urlStem/$imagename";
-        $output = "$dir/$imagename";
-        if ((isset($info['newfile']) && $info['newfile']) || (!file_exists($output)))
+        $info = aImageConverter::getInfo($source);
+        if ($info)
         {
-          if ($imagePreview['resizeType'] === 'c')
+          $iwidth = $info['width'];
+          $height = $info['height'];
+          // This is safe - based on sniffed file contents and not a user supplied extension
+          $format = $info['format'];
+          list($iwidth, $iheight) = getimagesize($source);
+          $dimensions = aDimensions::constrain($iwidth, $iheight, $format, $imagePreview);
+          // A simple filename reveals less
+          $imagename = "$persistid.$format";
+          $url = "$urlStem/$imagename";
+          $output = "$dir/$imagename";
+          if ((isset($info['newfile']) && $info['newfile']) || (!file_exists($output)))
           {
-            $method = 'cropOriginal';
+            if ($imagePreview['resizeType'] === 'c')
+            {
+              $method = 'cropOriginal';
+            }
+            else
+            {
+              $method = 'scaleToFit';
+            }
+            sfContext::getInstance()->getLogger()->info("YY calling converter method $method width " . $dimensions['width'] . ' height ' . $dimensions['height']);
+            aImageConverter::$method(
+              $source,
+              $output,
+              $dimensions['width'],
+              $dimensions['height']);
+            sfContext::getInstance()->getLogger()->info("YY after converter");
           }
-          else
-          {
-            $method = 'scaleToFit';
-          }
-          sfContext::getInstance()->getLogger()->info("YY calling converter method $method width " . $dimensions['width'] . ' height ' . $dimensions['height']);
-          aImageConverter::$method(
-            $source,
-            $output,
-            $dimensions['width'],
-            $dimensions['height']);
-          sfContext::getInstance()->getLogger()->info("YY after converter");
         }
         if (isset($imagePreview['markup']))
         {
