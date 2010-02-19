@@ -6,6 +6,11 @@ class BaseaSlotComponents extends sfComponents
 {
   protected function setup()
   {
+    if (!isset($this->options))
+    {
+      // Prevents numerous warnings and problems if there are no slot options present
+      $this->options = array();
+    }
     $this->page = aTools::getCurrentPage();
     $this->slug = $this->page->slug;
     $this->realSlug = aTools::getRealPage()->slug;
@@ -72,7 +77,7 @@ class BaseaSlotComponents extends sfComponents
       if (isset($variants[$variant]['options']))
       {
         $options = $variants[$variant]['options'];
-        $this->options = array_merge($this->options, $variants[$variant]['options']);
+        $this->options = array_merge($this->options, $options);
       }
     }
     

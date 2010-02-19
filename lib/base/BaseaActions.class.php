@@ -354,6 +354,7 @@ class BaseaActions extends sfActions
     $name = $this->name;
     $permid = $this->permid;
     $lookingFor = "slot-original-options-$pageid-$name-$permid";
+    // Must be consistent about not using namespaces!
     $this->options = $user->getAttribute(
       $lookingFor, false);
     $this->forward404Unless($this->options !== false);
