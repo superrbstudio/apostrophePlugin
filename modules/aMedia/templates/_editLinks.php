@@ -13,7 +13,7 @@
 		<?php if ($mediaItem->getType() !== 'video' && $sf_params->get('action') == 'show'): ?>
 	  <li class="a-media-download-original">
 	     <?php // download link ?>
-	     <?php echo link_to("Download Original", "aMedia/original?".http_build_query(array(
+	     <?php echo link_to("Download Original", "aMediaBackend/original?".http_build_query(array(
 	             "slug" => $mediaItem->getSlug(),
 	             "format" => $mediaItem->getFormat())),
 	              array(
