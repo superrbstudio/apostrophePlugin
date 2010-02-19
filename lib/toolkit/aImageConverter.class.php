@@ -232,7 +232,7 @@ class aImageConverter
     
     if (preg_match('/\.pdf$/i', $fileIn))
     {
-      $in = imagecreatetruecolor(100, 100);
+      $in = self::createTrueColorAlpha(100, 100);
       imagefilledrectangle($in, 0, 0, 100, 100, imagecolorallocate($in, 255, 255, 255));
     } 
     else
@@ -261,7 +261,9 @@ class aImageConverter
       {
         $height = $cropParameters['height'];
       }
-      $cropped = imagecreatetruecolor($width, $height);
+      $cropped = self::createTrueColorAlpha($width, $height);
+      imagealphablending($cropped, false);
+      imagesavealpha($cropped, true);
       imagecopy($cropped, $in, 0, 0, $left, $top, $width, $height);
       imagedestroy($in);
       $in = null;
@@ -283,7 +285,7 @@ class aImageConverter
       {
         $height = $scaleParameters['xsize'] * imagesy($cropped) / imagesx($cropped);
         $width = $scaleParameters['xsize'];
-        $out = imagecreatetruecolor($width, $height);
+        $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, imagesx($cropped), imagesy($cropped));
         imagedestroy($cropped);
         $cropped = null;
@@ -292,7 +294,7 @@ class aImageConverter
       {
         $width = $scaleParameters['ysize'] * imagesx($cropped) / imagesy($cropped);
         $height = $scaleParameters['ysize'];
-        $out = imagecreatetruecolor($width, $height);
+        $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, imagesx($cropped), imagesy($cropped));
         imagedestroy($cropped);
         $cropped = null;
@@ -301,7 +303,7 @@ class aImageConverter
       {
         $width = imagesx($cropped) * $scaleParameters['scale'];
         $height = imagesy($cropped)* $scaleParameters['scale'];
-        $out = imagecreatetruecolor($width, $height);
+        $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, imagesx($cropped), imagesy($cropped));
         imagedestroy($cropped);
         $cropped = null;
@@ -320,7 +322,7 @@ class aImageConverter
           // Taller than the original. So it will be narrower than requested
           $width = ceil($height * ($swidth / $sheight));
         }
-        $out = imagecreatetruecolor($width, $height);
+        $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, $swidth, $sheight);
         imagedestroy($cropped);
         $cropped = null;
@@ -357,6 +359,17 @@ class aImageConverter
     imagedestroy($out);
     $out = null;
     return true;
+  }
+  
+  // Make sure the new image is capable of being saved with intact alpha channel;
+  // don't composite alpha channel in gd. If a designer uploads an alpha channel image
+  // they must have a reason for doing so
+  static public function createTrueColorAlpha($width, $height)
+  {
+    $im = imagecreatetruecolor($width, $height);
+    imagealphablending($im, false);
+    imagesavealpha($im, true);
+    return $im;
   }
   
   // Retrieves what you really want to know about an image file, PDFs included,
