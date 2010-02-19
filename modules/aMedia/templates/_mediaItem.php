@@ -48,7 +48,7 @@
 <?php if ($mediaItem->getType() === 'pdf'): ?>
   <li class="a-media-item-link a-media-item-meta">
 		<span>URL:</span>
-		<input type="text" id="a-media-item-link-value-<?php echo $id ?>" name="a-media-item-link-value" value="<?php echo url_for("aMedia/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) ?>">
+		<input type="text" id="a-media-item-link-value-<?php echo $id ?>" name="a-media-item-link-value" value="<?php echo url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) ?>">
 	</li>
 	
 	<script type="text/javascript" charset="utf-8">

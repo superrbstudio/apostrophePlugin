@@ -28,7 +28,7 @@
             $dimensions['resizeType'],
             $dimensions['format']),
           $embed), 
-        "aMedia/original?" .
+        "aMediaBackend/original?" .
           http_build_query(
             array(
               "slug" => $item->getSlug(),
