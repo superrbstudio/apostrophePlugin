@@ -37,10 +37,12 @@ class BaseaSlotActions extends sfActions
     $name = $this->name;
     $permid = $this->permid;
     $lookingFor = "slot-options-$pageid-$name-$permid";
-    if ($user->hasAttribute($lookingFor, 'a'))
+    $this->options = $user->getAttribute(
+      $lookingFor, false);
+    if ($user->hasAttribute($lookingFor))
     {
       $this->options = $user->getAttribute(
-        $lookingFor, false, "a");
+        $lookingFor, false);
     }
     
     if ($editing)
