@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * A collection of static methods useful for making tests easier to write.
