@@ -1,18 +1,8 @@
 <?php
 
-class aPDFSlotActions extends BaseaSlotActions
+// See lib/base in this plugin for the actual code. You can extend that
+// class in your own application level override of this file
+
+class aPDFSlotActions extends BaseaPDFSlotActions
 {
-  public function executeEdit(sfRequest $request)
-  {
-    $this->logMessage("====== in aPDFSlotActions::executeEdit", "info");
-    $this->editSetup();
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'pdf'))
-    {
-      return $this->redirectToPage();
-    }
-    $this->slot->unlink('MediaItems');
-    $this->slot->link('MediaItems', array($item->id));
-    $this->editSave();
-  }
 }
