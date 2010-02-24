@@ -1,19 +1,8 @@
 <?php
 
-class aImageSlotActions extends BaseaSlotActions
-{
-  public function executeEdit(sfRequest $request)
-  {
-    $this->logMessage("====== in aImageSlotActions::executeEdit", "info");
-    $this->editSetup();
+// See lib/base in this plugin for the actual code. You can extend that
+// class in your own application level override of this file
 
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'image'))
-    {
-      return $this->redirectToPage();
-    }
-    $this->slot->unlink('MediaItems');
-    $this->slot->link('MediaItems', array($item->id));
-    $this->editSave();
-  }
+class aImageSlotActions extends BaseaImageSlotActions
+{
 }
