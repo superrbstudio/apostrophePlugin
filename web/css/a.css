@@ -3203,6 +3203,13 @@ clear: both;
 {
 	background: none !important;
 	padding: 0 !important;
+	color: #900 !important;
+	text-shadow: none;
+}
+
+.a-media-toolbar h3 .a-cancel:hover
+{
+	color: #333 !important;
 }
 
 .a-media-item
