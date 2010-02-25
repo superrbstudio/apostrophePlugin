@@ -34,9 +34,7 @@ class BaseaNavigationComponents extends sfComponents
   
   public function executeTabs()
   {
-    $page = aTools::getCurrentPage();
-    if($page->getSlug() != $this->root)
-      $page = aPageTable::retrieveBySlug($this->root);
+    $page = aPageTable::retrieveBySlug($this->root);
 
     $this->root = isset($this->root)? $this->root : '/';
     $this->active = isset($this->active)? $this->active : $this->root;

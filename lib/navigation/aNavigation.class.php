@@ -13,7 +13,7 @@ abstract class aNavigation
   {
     if(!isset(self::$tree))
     {
-      $root = aPageTable::retrieveBySlugWithSlots('/');
+      $root = aPageTable::retrieveBySlug('/');
       
       $rootInfo['id'] = $root['id'];
       $rootInfo['lft'] = $root['lft'];
