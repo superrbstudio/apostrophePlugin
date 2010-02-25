@@ -3556,7 +3556,8 @@ cursor: default !important;
 #a-media-categories-list,
 #a-media-categories-list .category,
 .a-category-sidebar-selected-categories,
-.a-tag-sidebar-selected-tags
+.a-tag-sidebar-selected-tags,
+.a-blog-selected-tag
 {
 	float: left;
 	clear: both;
