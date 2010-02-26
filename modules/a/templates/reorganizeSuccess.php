@@ -1,6 +1,6 @@
 <?php use_helper('jQuery') ?>
 
-<?php slot('body_class','a-admin') ?>
+<?php slot('body_class','a-admin a-reorganize') ?>
 
 <?php sfContext::getInstance()->getResponse()->addJavascript('/apostrophePlugin/js/jsTree/_lib/css.js') ?>
 <?php sfContext::getInstance()->getResponse()->addJavascript('/apostrophePlugin/js/jsTree/source/tree_component.js') ?>
