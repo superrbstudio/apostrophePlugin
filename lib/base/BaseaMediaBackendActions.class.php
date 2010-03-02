@@ -81,7 +81,7 @@ class BaseaMediaBackendActions extends sfActions
   protected $validAPIKey = false;
   // TODO: beef this up to challenge/response
   protected $user = false;
-  private function validateAPIKey()
+  protected function validateAPIKey()
   {
     // Media API is no longer used internally and defaults to off in apostrophePlugin
     $this->forward404Unless(sfConfig::get('app_a_media_apienabled', false));
@@ -264,12 +264,12 @@ class BaseaMediaBackendActions extends sfActions
     $this->jsonResponse('ok', $result);
   }
   
-  private function getDirectory()
+  protected function getDirectory()
   {
     return aMediaItemTable::getDirectory();
   }
   
-  private function getItem()
+  protected function getItem()
   {
     return aMediaTools::getItem($this);
   }
