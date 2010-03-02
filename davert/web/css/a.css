@@ -649,6 +649,16 @@ background-image: url(/apostrophePlugin/images/a-icon-users.png);
 background-image: url(/apostrophePlugin/images/a-icon-media.png);
 }
 
+.icon.a-minify-edit
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png);
+}
+
+.icon.a-minify-preview
+{
+background-image: url(/apostrophePlugin/images/a-icon-templates.png);
+}
+
 .icon.a-reorganize
 {
 background-image: url(/apostrophePlugin/images/a-icon-sitemap.png);

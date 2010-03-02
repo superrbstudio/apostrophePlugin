@@ -101,6 +101,7 @@ all:
     enabled_modules:
       - aCleanLogin
       - a
+      - aMinify	  
       - aRichText
       - aText
       - aMedia

@@ -31,6 +31,9 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     
     $this->dispatcher->connect('a.getGlobalButtons', array('aMediaCMSSlotsTools', 
       'getGlobalButtons'));
+
+    // switch to minify (preview) or edit mode
+    $this->dispatcher->connect('a.getGlobalButtons', array('aMinifyTools','getGlobalButtons'));
       
     if (sfConfig::get('app_a_media_routes_register', true) && in_array('aMedia', sfConfig::get('sf_enabled_modules', array())))
     {

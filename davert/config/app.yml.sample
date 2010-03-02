@@ -23,7 +23,9 @@ all:
       twoColumn: Two Column Page
     # Use the provided stylesheet (recommended)
     use_bundled_stylesheet: true
-  # Media plugin related options
+    # remove extra html tags from templates for non-authencticated users
+    minify: false
+	# Media plugin related options
   aMedia:
     apikeys:
       # Must match the API key above
