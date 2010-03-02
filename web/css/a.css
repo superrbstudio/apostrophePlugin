@@ -1022,6 +1022,190 @@ color: #888;
 
 
 
+/* 7.5 aUI Button Icons ALT (Black)
+-------------------------------------*/
+
+.alt .icon.a-feed
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png);
+}
+
+.alt .icon.a-page-small
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-page-small.png);
+}
+
+.alt .icon.a-unchecked
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png);
+}
+
+.alt .icon.a-checked
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);	
+}
+
+.alt .icon.a-blog-btn,
+.alt .icon.a-blogpost
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
+}
+
+.alt .icon.a-video
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-video.png);
+}
+
+.alt .icon.a-image
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png);
+}
+
+.alt .icon.a-slideshow
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-slideshow.png);
+}
+
+.alt .icon.a-richtext,
+.alt .icon.a-text
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-text.png);
+}
+
+.alt .icon.a-add
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
+}
+
+.alt .icon.a-history,
+.alt .icon.a-history-revert
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
+}
+
+.a-cancel
+{
+background: url(/apostrophePlugin/images/a-icon-alt-cancel.png) top left no-repeat;
+}
+
+.alt .icon.a-settings
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png);
+}
+
+.alt .icon.a-templates
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png);
+}
+
+.alt .icon.a-users
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-users.png);
+}
+
+.alt .icon.a-media
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-media.png);
+}
+
+.alt .icon.a-reorganize
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-sitemap.png);
+}
+
+.alt .icon.a-button
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-button.png);
+}
+
+.alt .icon.a-pdf
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-pdf.png);
+}
+
+.alt .icon.a-rawhtml
+{
+	background-image: url(/apostrophePlugin/images/a-icon-alt-rawhtml.png);
+}
+
+.alt .icon.a-download
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-download.png);
+}
+
+.alt .icon.a-publish,
+.alt .icon.a-edit
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png);
+}
+
+.alt .icon.a-arrow-up
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-up.png);
+}
+
+.alt .icon.a-arrow-down
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-down.png);
+}
+
+.alt .icon.a-arrow-left
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left.png);
+}
+
+.alt .icon.a-arrow-right
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right.png);
+}
+
+.alt .icon.a-arrow-left.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple.png);	
+}
+
+.alt .icon.a-arrow-right.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png);
+}
+
+.alt .icon.a-delete
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
+}
+
+.alt .icon.a-calendar
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-event.png);
+}
+
+.alt .icon.a-close
+{
+background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0;
+}
+
+.alt .icon.a-drag
+{
+background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat;
+}
+
+.alt .icon.a-events span.day
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png);
+}
+
+.alt .a-rss-feed
+{
+	background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat;	
+}
+
+
+
+
+
+
+
+
 /* 8. aUI Breadcrumb - Rename Page / Add Page
  **** To be deprecated when we develop new Global Toolbar functionality - 2/3/2010
 -------------------------------------*/
@@ -2191,7 +2375,6 @@ margin: -6px 0 0 -6px;
 .a-area.addslot-now .a-area-overlay
 {
 	display: block;
-	background-color: rgba(51,204,204,0.10);	
 }
 
 .a-area.over .a-area-overlay
@@ -4945,6 +5128,11 @@ width: 480px;
 { /* Background Color */
 	background-color: rgb(51,204,204);
 	background-color: rgba(51,204,204,0.65);	
+}
+
+.a-area.addslot-now .a-area-overlay
+{
+	background-color: rgba(51,204,204,0.25);	
 }
 
 .a-btn,
