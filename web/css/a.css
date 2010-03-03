@@ -4907,7 +4907,6 @@ margin: 0;
 float: left;
 display: inline;
 clear: both;
-height: 41px; /* this _should_ fix a safari height bug */
 }
 
 #a-admin-bar .a-admin-controls
