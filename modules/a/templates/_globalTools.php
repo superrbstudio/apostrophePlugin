@@ -23,7 +23,7 @@ These are mostly links to independent modules.
 
   	<?php // The Apostrophe ?>
   	<div class="a-global-toolbar-apostrophe">
-  		<?php echo link_to('Apostrophe Now','/', array('id' => 'the-apostrophe')) ?>
+  		<?php echo link_to('Apostrophe Now','@homepage', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 	
 				<?php if ($page && !$page->admin): ?>
