@@ -2566,8 +2566,7 @@ margin-top: 24px; /* Space for the Arrow Controls*/
 margin-bottom: 40px;
 }
 
-.a-slot.aSlideshow .a-slideshow-description,
-.a-slot.aPDF .a-pdf-description
+.a-slot.aSlideshow .a-slideshow-meta
 {
 	font-size: 11px;
 	margin: 5px 0;
@@ -2795,6 +2794,180 @@ margin-top: -10px;
 {
 	font-size: 11px;
 	line-height: 1.4;
+}
+
+/*aPDF Slot Styles*/
+
+.a-slot.aPDF
+{
+	margin:20px 0px;
+}
+
+.a-pdf-slot
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+}
+
+.a-pdf-slot .a-pdf-meta
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+	margin:5px 0;
+}
+
+.a-pdf-title
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:both;
+	width:100%;
+	font-size: 16px;
+	margin-bottom:5px;
+}
+
+.a-pdf-description
+{
+	margin-top:0px;
+	color:#666;
+	width:100%;
+}
+
+.a-pdf-download
+{
+	margin-left:-3px;
+}
+
+.a-pdf-download a
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:both;
+	background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center;
+	padding-left:20px;
+}
+
+/*ICON ONLY*/
+
+.a-pdf-slot.icon-only .a-media-pdf-icon
+{
+	display:inline;
+	position:absolute;
+	height:70px;
+	width:56px;
+	margin-top:5px;
+	top:0;
+	left:0;
+	z-index:10;
+}
+
+.a-pdf-slot.icon-only .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-small.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.a-pdf-slot.icon-only .a-pdf-meta
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+	padding-left:66px;
+}
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.icon-only .a-media-pdf-icon
+{
+	display:inline;
+	position:absolute;
+	top:0;
+	left:0;
+	float:left;
+	height:43px;
+	width:34px;
+	margin-top:5px;
+	clear:none;
+	z-index:10;
+}
+
+.compact .a-pdf-slot.icon-only .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.icon-only .a-pdf-meta
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+	padding-left:45px;
+}
+
+/*PDF PREVIEW*/
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon img
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+	border:1px solid #ccc;
+	margin-right:10px;
+	margin-bottom:5px;
+	height:70px;
+	width:56px;
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon
+{
+	display:inline;
+	position:absolute;
+	top:0!important;
+	left:0!important;
+	float:left;
+	height:70px;
+	width:56px;
+	margin-top:5px;
+	clear:none;
+	z-index:10;
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon a
+{
+	float:left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.with-preview .a-pdf-meta
+{
+	display:inline;
+	position:relative;
+	float:left;
+	clear:none;
+	padding-left:70px;
 }
 
 /* 15. Apostrophe Login Form
@@ -3711,18 +3884,6 @@ z-index: 10;
 width: 100%;
 height: 100%;
 background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
-}
-
-.a-media-pdf-icon-overlay
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 35px;
-	width: 35px;
-	text-indent: -9999px;
-	overflow: hidden;
-	background: url(/apostrophePlugin/images/a-media-pdf-btn-small.png) no-repeat top left;
 }
 
 .a-media-thumb-link img
