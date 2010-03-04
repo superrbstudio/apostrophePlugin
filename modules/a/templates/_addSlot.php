@@ -1,10 +1,12 @@
 <?php
+use_helper('I18N');
+
 $slotTypesInfo = aTools::getSlotTypesInfo($options);
 
 foreach ($slotTypesInfo as $type => $info) {
   $label = $info['label'];
   $class = $info['class'];
-	$link = jq_link_to_remote($label, array(
+	$link = jq_link_to_remote(__($label), array(
 		"url" => "a/addSlot?" . http_build_query(array('name' => $name, 'id' => $id, 'type' => $type, )),
 		"update" => "a-slots-$id-$name",
 		'script' => true,

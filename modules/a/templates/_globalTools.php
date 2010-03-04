@@ -9,6 +9,8 @@ These are mostly links to independent modules.
 */
 ?>
 
+<?php use_helper('I18N') ?>
+
 <div id="a-global-toolbar">
   <?php // All logged in users, including guests with no admin abilities, need access to the ?>
   <?php // logout button. But if you have no legitimate admin roles, you shouldn't see the ?>
@@ -23,7 +25,7 @@ These are mostly links to independent modules.
 
   	<?php // The Apostrophe ?>
   	<div class="a-global-toolbar-apostrophe">
-  		<?php echo link_to('Apostrophe Now','@homepage', array('id' => 'the-apostrophe')) ?>
+  		<?php echo link_to(__('Apostrophe Now'),'@homepage', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 	
 				<?php if ($page && !$page->admin): ?>

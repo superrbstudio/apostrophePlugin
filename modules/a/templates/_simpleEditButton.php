@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php if (!isset($controlsSlot)): ?>
   <?php $controlsSlot = true ?>
 <?php endif ?>
@@ -7,11 +8,11 @@
 <?php endif ?>
 
 	<li class="a-controls-item edit">
-  <?php echo jq_link_to_function(isset($label) ? $label : "edit", "", 
+  <?php echo jq_link_to_function(isset($label) ? __($label) : __("edit"), "", 
 				array(
 					'id' => "a-slot-edit-$pageid-$name-$permid",
 					'class' => isset($class) ? $class : 'a-btn icon a-edit', 
-					'title' => isset($title) ? $title : 'Edit', 
+					'title' => isset($title) ? $title : __('Edit'), 
 	)) ?>
 	<script type="text/javascript">
 	$(document).ready(function(){

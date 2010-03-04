@@ -1,8 +1,9 @@
+<?php use_helper('I18N') ?>
 <?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid") ?>
 <?php $variants = aTools::getVariantsForSlotType($slot->type, $options) ?>
 <?php if ((!$slot->isNew()) && (count($variants) > 1)): ?>
   <li class="a-controls-item variant" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
-		<?php echo jq_link_to_function('Options', '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant").toggleClass("open").children("ul.a-variant-options").toggle()', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
+		<?php echo jq_link_to_function(__('Options'), '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant").toggleClass("open").children("ul.a-variant-options").toggle()', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
     <ul class="a-variant-options dropshadow">
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
@@ -14,7 +15,7 @@
           <span class="a-btn a-disabled icon a-checked"><?php echo $settings['label'] ?></span>
         </li>
         <li id="<?php echo $id ?>-inactive" class="inactive" style="<?php echo (!$active) ? '' : 'display: none' ?>">
-          <?php echo jq_link_to_remote($settings['label'], array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn icon a-unchecked',)) ?>
+          <?php echo jq_link_to_remote(__($settings['label']), array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn icon a-unchecked',)) ?>
         </li>
     		<script type="text/javascript" charset="utf-8">
     			$(document).ready(function() {

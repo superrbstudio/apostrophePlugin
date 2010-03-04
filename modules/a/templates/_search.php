@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <div id="a-search">
   <form id="a-search-global" action="<?php echo url_for('a/search') ?>" method="get" class="a-search-form">
     <input type="text" name="q" value="<?php echo htmlspecialchars($sf_params->get('q')) ?>" class="a-search-field" id="a-search-cms-field" /> 
@@ -6,5 +7,5 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	aInputSelfLabel('#a-search-cms-field', 'Search');
+	aInputSelfLabel('#a-search-cms-field', <?php echo json_encode(__('Search')) ?>);
 </script>

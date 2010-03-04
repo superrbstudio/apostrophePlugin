@@ -1,4 +1,4 @@
-<?php use_helper('a', 'jQuery') ?>
+<?php use_helper('a', 'jQuery', 'I18N') ?>
 
 <?php // We don't replace the area controls on an AJAX refresh, ?>
 <?php // just the contents ?>
@@ -15,7 +15,7 @@
 <!-- .a-controls.a-area-controls History Module -->
 <li class="a-controls-item history">
   <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
-	<?php echo jq_link_to_remote("History", array(
+	<?php echo jq_link_to_remote(__("History"), array(
       "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
 			'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
 									 $(".a-history-browser .a-history-items").attr("rel","a-area-'.$pageid.'-'.$name.'");
@@ -26,7 +26,7 @@
 				'class' => 'a-btn icon a-history', 
 	)); ?>
 	<ul class="a-history-options">
-		<li><a href="#" class="a-btn icon a-history-revert">Save as Current Revision</a></li>
+		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision') ?></a></li>
 	</ul>
 </li>
 <?php end_slot() // END - PK-HISTORY SLOT ==================================== ?>
@@ -49,7 +49,7 @@
 		<ul class="a-controls a-area-controls">
 			<!-- .a-controls.a-area-controls Add Slot Module -->
 			<li class="a-controls-item slot">
-				<?php echo link_to_function("Add Slot", "", array('class' => 'a-btn icon a-add slot', )) ?>
+				<?php echo link_to_function(__('Add Slot'), "", array('class' => 'a-btn icon a-add slot', )) ?>
 				<ul class="a-area-options slot">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
@@ -127,7 +127,7 @@
 						<!-- <li class="slot-history"><a href="#" class="a-btn icon history">Slot History</a></li> -->
           <?php if ($i > 0): ?>
 						<li class="move-up">
-            <?php echo jq_link_to_remote("Move", array(
+            <?php echo jq_link_to_remote(__('Move'), array(
                 "url" => "a/moveSlot?" .http_build_query(array(
 									"id" => $page->id,
 									"name" => $name,
@@ -137,14 +137,14 @@
 									'complete' => 'aUI()'), 
 									array(
 										'class' => 'a-btn icon a-arrow-up', 
-										'title' => 'Move Up', 
+										'title' => __('Move Up'), 
 						)) ?>
 						</li>
           <?php endif ?>
 
           <?php if (($i + 1) < count($slots)): ?>
 						<li class="move-down">
-            <?php echo jq_link_to_remote("Move", array(
+            <?php echo jq_link_to_remote(__('Move'), array(
                 "url" => "a/moveSlot?" .http_build_query(array(
 									"id" => $page->id,
 									"name" => $name,
@@ -153,7 +153,7 @@
 									'complete' => 'aUI()'), 
 									array(
 										'class' => 'a-btn icon a-arrow-down', 
-										'title' => 'Move Down', 
+										'title' => __('Move Down'), 
 						)) ?>
             </li>
         <?php endif ?>
@@ -170,7 +170,7 @@
 
       <?php if ($infinite): ?>
         <li class="delete">
-          <?php echo jq_link_to_remote("Delete", array(
+          <?php echo jq_link_to_remote(__('Delete'), array(
             "url" => "a/deleteSlot?" .http_build_query(array(
               "id" => $page->id,
               "name" => $name,
@@ -180,8 +180,8 @@
 							'complete' => 'aUI()'), 
               array(
                 'class' => 'a-btn icon a-delete', 
-                'title' => 'Delete Slot',
-								'confirm' => 'Are you sure you want to delete this slot?', )) ?>
+                'title' => __('Delete Slot'),
+								'confirm' => __('Are you sure you want to delete this slot?'), )) ?>
         </li>			
       <?php endif ?>
 		</ul>

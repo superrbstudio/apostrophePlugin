@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php
   // Displays the slot's contents in a non-editable form.
   //
@@ -13,7 +14,7 @@
 ?>
 <?php if (!strlen($value)): ?>
   <?php if ($editable): ?>
-    Double-click to edit.
+    <?php echo __('Double-click to edit.') ?>
   <?php endif ?>
 <?php else: ?>
 <?php echo $value ?>

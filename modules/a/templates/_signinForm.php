@@ -1,4 +1,4 @@
-<?php use_helper('jQuery') ?>
+<?php use_helper('jQuery', 'I18N') ?>
 
 <div id="a-signin">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="a-signin-form" <?php echo ($form->hasErrors())? 'class="has-errors"':''; ?>>
@@ -25,7 +25,7 @@
 				<button type="submit" class="a-btn"><?php echo __('sign in') ?></button>
 			</li>
 			<li>
-				<?php echo jq_link_to_function('Cancel', "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
+				<?php echo jq_link_to_function(__('Cancel'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
 			</li>
 		</ul>
 		
