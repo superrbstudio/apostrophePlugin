@@ -2828,18 +2828,24 @@ margin-top: -10px;
 	clear:both;
 	width:100%;
 	font-size: 16px;
-	margin-bottom:5px;
 }
 
 .a-pdf-description
 {
+	float:left;
+	display:inline;
+	position:relative;
 	margin-top:0px;
 	color:#666;
 	width:100%;
+	margin:5px 0;
 }
 
 .a-pdf-download
 {
+	float:left;
+	display:inline;
+	position:relative;
 	margin-left:-3px;
 }
 
@@ -2942,8 +2948,8 @@ margin-top: -10px;
 {
 	display:inline;
 	position:absolute;
-	top:0!important;
-	left:0!important;
+	top:0;
+	left:0;
 	float:left;
 	height:70px;
 	width:56px;
