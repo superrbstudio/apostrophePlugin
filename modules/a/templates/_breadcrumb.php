@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <ul id="a-breadcrumb">
 
 <?php $first = true; ?> 
@@ -65,12 +66,5 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#a-breadcrumb .a-breadcrumb-form.add').hide();
-		
-		<?php if (0): ?>
-		// I don't think we should filter this way, so I am commenting this out for now.
-		<?php if ($page->userHasPrivilege('edit')): ?>
-		 if ($.browser.msie && $.browser.version < 7) { $('#a-breadcrumb').before('<h3 id="editing-disabled">Editing is not available in Internet Explorer 6. Use IE 7+ or Firefox.<\/h3>'); }
-		<?php endif ?>
-		<?php endif ?>		
 	});
 </script>

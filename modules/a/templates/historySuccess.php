@@ -1,14 +1,15 @@
-<?php use_helper('Url', 'jQuery') ?>
+<?php use_helper('Url', 'jQuery', 'I18N') ?>
 
 <?php $n=0; foreach ($versions as $version => $data): ?>
 <tr class="a-history-item" id="a-history-item-<?php echo $data['version'] ?>">
   <?php if (0): ?>
 	  <td class="id">
-		  ID#
+		  <?php echo __('ID#') ?>
 	  </td>
 	<?php endif ?>
 	<td class="date">
-		<?php echo date("j M Y - g:iA", strtotime($data['created_at'])); ?>
+	  <?php // Localize the date. We used to do: "j M Y - g:iA" ?>
+		<?php echo format_date(strtotime($data['created_at'])) ?>
 	</td>
 	<td class="editor">
 		<?php echo $data['author'] ?>
@@ -52,7 +53,7 @@
 		<td class="id">
 		</td>
 		<td class="date">
-			No history found.
+			<?php echo __('No history found.') ?>
 		</td>
 		<td class="editor">
 		</td>

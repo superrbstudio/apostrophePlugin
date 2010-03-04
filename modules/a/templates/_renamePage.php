@@ -1,4 +1,4 @@
-<?php use_helper('jQuery', 'Url') ?>
+<?php use_helper('jQuery', 'Url', 'I18N') ?>
 
 <?php $page = aTools::getCurrentPage() ?>
 
@@ -14,10 +14,10 @@
 
 	  <ul id="a-breadcrumb-rename-controls" class="a-form-controls a-breadcrumb-controls rename" style="display:none;">
 			<li>
-				<button id="a-breadcrumb-rename-submit" type="submit" class="a-btn">Rename</button>							
+				<button id="a-breadcrumb-rename-submit" type="submit" class="a-btn"><?php echo __('Rename') ?></button>							
 			</li>
 	  	<li>
-				<?php echo jq_link_to_function("cancel", '', array('class' => 'a-btn icon a-cancel event-default')) ?>
+				<?php echo jq_link_to_function(__("cancel"), '', array('class' => 'a-btn icon a-cancel event-default')) ?>
 	  	</li>
 	  </ul>
 

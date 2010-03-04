@@ -1,4 +1,5 @@
-<?php echo jq_link_to_function("Add Page", 
+<?php use_helper('I18N') ?>
+<?php echo jq_link_to_function(__("Add Page"), 
 	'$("#a-breadcrumb-create-childpage-form").fadeIn(250, function(){ $(".a-breadcrumb-create-childpage-title").focus(); }); 
 	$("#a-breadcrumb-create-childpage-button").hide(); 
 	$("#a-breadcrumb-create-childpage-button").prev().hide();
@@ -20,7 +21,7 @@
 			<button type="submit" class="a-btn">Create Page</button>			
 		</li>
 	  <li>
-			<?php echo jq_link_to_function("cancel", 
+			<?php echo jq_link_to_function(__("cancel"), 
 				'$("#a-breadcrumb-create-childpage-form").hide(); 
 				$("#a-breadcrumb-create-childpage-button").fadeIn(); 
 				$("#a-breadcrumb-create-childpage-button").prev(".a-i").fadeIn();', 
@@ -31,7 +32,7 @@
 	</ul>
 
 	<script type="text/javascript" charset="utf-8">
-		aInputSelfLabel('#a-breadcrumb-create-title', 'Page Title');
+		aInputSelfLabel('#a-breadcrumb-create-title', <?php echo json_encode(__('Page Title')) ?>);
 	</script>
 
 </form>
@@ -53,7 +54,7 @@
 				message.oneTime(1050, function(){
 					message.fadeOut('slow');
 				});
-			}).text('Add Page Disabled');
+			}).text(<?php echo json_encode('Add Page Disabled') ?>);
 			
 			aUI('#a-breadcrumb');
 		});

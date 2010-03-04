@@ -1,6 +1,6 @@
 <div class="a-chad"></div>
 
-<?php use_helper('Url', 'jQuery') ?>
+<?php use_helper('Url', 'jQuery', 'I18N') ?>
 
 	<?php echo jq_form_remote_tag(
 	  array(
@@ -12,7 +12,7 @@
 	    "name" => "a-page-settings-form", 
 	    "id" => "a-page-settings-form")) ?>
 
-	<h3 id="a-page-settings-heading">Page Settings</h3>
+	<h3 id="a-page-settings-heading"><?php echo __('Page Settings') ?></h3>
 
 	<?php // We need this to distinguish the original AJAX POST from an ?>
 	<?php // actual form submit; we can't use a name attribute on the ?>
@@ -24,26 +24,27 @@
 		<div id="a-page-settings-left">
 			<?php if (isset($form['slug'])): ?>
 			  <div class="a-form-row slug">
-			    <label>Page Slug</label>
+			    <label><?php echo __('Page Slug') ?></label>
 			    <?php echo $form['slug'] ?>
 			    <?php echo $form['slug']->renderError() ?>
 			  </div>
 			<?php endif ?>
 			<div class="a-form-row status">
-			  <label>Page Status</label>
+			  <label><?php echo __('Page Status') ?></label>
 			  	<div class="a-page-settings-status">
 				    <?php echo $form['archived'] ?>
             <?php if(isset($form['cascade_archived'])): ?>
-              <?php echo $form['cascade_archived'] ?> Cascade <em>status</em> changes to children
+              <?php // If you want your <em> back here, do it in the translation file ?>
+              <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children') ?>
             <?php endif ?> 
 					</div>
 			</div>			
 			<div class="a-form-row privacy">
-			  <label>Page Privacy</label>
+			  <label><?php echo __('Page Privacy') ?></label>
 			  	<div class="a-page-settings-status">
 						<?php echo $form['view_is_secure'] ?>
 						<?php if(isset($form['cascade_view_is_secure'])): ?>
-                <?php echo $form['cascade_view_is_secure'] ?> Cascade <em>privacy</em> changes to children
+                <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children') ?>
             <?php endif ?> 
 					</div>
 			</div>
@@ -51,7 +52,7 @@
 	
   <div id="a-page-settings-right">
 	
-		<h4>Page Permissions</h4>
+		<h4><?php echo __('Page Permissions') ?></h4>
 	
 		<div class="a-page-permissions">
 		  <?php include_partial('a/privileges', 
@@ -66,13 +67,13 @@
   </div>
 
 	<div class="a-form-row template" id="a-page-template">
-	  <label>Page Template</label>
+	  <label><?php echo __('Page Template') ?></label>
 	  <?php echo $form['template'] ?>
 	  <?php echo $form['template']->renderError() ?>
 	</div>
 	
 	<div class="a-form-row engine">
-	  <label>Page Engine</label>
+	  <label><?php echo __('Page Engine') ?></label>
 	  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
 	  <?php echo $form['engine']->renderError() ?>
 	</div>
@@ -84,10 +85,10 @@
 	
 	<ul id="a-page-settings-footer" class="a-controls a-page-settings-form-controls">
 		<li>
-		  <input type="submit" name="submit" value="Save Changes" class="a-submit" id="a-page-settings-submit" />
+		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes')) ?>" class="a-submit" id="a-page-settings-submit" />
 		</li>
 		<li>
-			<?php echo jq_link_to_function('Cancel', '
+			<?php echo jq_link_to_function(__('Cancel'), '
 				$("#a-page-settings").slideUp(); 
 				$("#a-page-settings-button-open").show(); 
 				$("#a-page-settings-button-close").addClass("loading").hide()
@@ -101,9 +102,9 @@
 		<li>
 			<?php $childMessage = ''; ?>
 			<?php if($page->hasChildren()): ?>
-			<?php $childMessage = "This page has children that will also be deleted. "; ?>
+			<?php $childMessage = __("This page has children that will also be deleted. "); ?>
 			<?php endif; ?>
-      <?php echo link_to("Delete This Page", "a/delete?id=" . $page->getId(), array("confirm" => $childMessage."Are you sure? This operation can not be undone. Consider unpublishing the page instead.", 'class' => 'a-btn icon a-delete')) ?>
+      <?php echo link_to(__("Delete This Page"), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.'), 'class' => 'a-btn icon a-delete')) ?>
     </li>
 		<?php endif ?>
 	</ul>

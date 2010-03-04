@@ -1,11 +1,11 @@
-<?php use_helper('a') ?>
+<?php use_helper('a', 'I18N') ?>
 <?php slot('body_class') ?>a-search-results<?php end_slot() ?>
 
 
 <div id="a-search-results-container">
 
-	<h2>Search: "<?php echo htmlspecialchars($sf_request->getParameter('q')) ?>"</h2>
-
+	<h2><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q')))) ?></h2>
+	
 	<dl class="a-search-results">
 	<?php foreach ($results as $result): ?>
 	  <?php $url = $result->url ?>
