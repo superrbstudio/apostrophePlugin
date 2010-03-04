@@ -4,6 +4,11 @@ class BaseaImageSlotActions extends BaseaSlotActions
 {
   public function executeEdit(sfRequest $request)
   {
+    if ($request->getParameter('aMediaCancel'))
+    {
+      $this->redirectToPage();
+    }
+    
     $this->logMessage("====== in aImageSlotActions::executeEdit", "info");
     $this->editSetup();
 

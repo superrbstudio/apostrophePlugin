@@ -5,6 +5,11 @@ class BaseaSlideshowSlotActions extends BaseaSlotActions
   public function executeEdit(sfRequest $request)
   {
     $this->logMessage("====== in aSlideshowSlotActions::executeEdit", "info");
+    if ($request->getParameter('aMediaCancel'))
+    {
+      return $this->redirectToPage();
+    }
+    
     $this->editSetup();
     $ids = preg_split('/,/', $request->getParameter('aMediaIds'));
     $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids)->andWhere('m.type = "image"');
