@@ -44,7 +44,7 @@ foreach ($tabs as $tab)
   echo link_to(
     $tab['title'], 
     aTools::urlForPage($tab['slug']),
-    array('target' => '_top'));
+    array());
   echo("</li>\n");
 	$tabcount++;
 
