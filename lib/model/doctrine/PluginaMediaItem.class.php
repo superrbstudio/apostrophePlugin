@@ -21,7 +21,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
 
   public function doctrineSave($conn)
   {
-    return parent::save($conn);
+    $result = parent::save($conn);
+    return $result;
   }
 
   public function delete(Doctrine_Connection $conn = null)

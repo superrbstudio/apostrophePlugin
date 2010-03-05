@@ -5,6 +5,11 @@ class BaseaButtonSlotActions extends BaseaSlotActions
   // Image association is handled by a separate action
   public function executeImage(sfRequest $request)
   {
+    if ($request->getParameter('aMediaCancel'))
+    {
+      return $this->redirectToPage();
+    }
+    
     $this->logMessage("====== in aImageSlotActions::executeImage", "info");
     $this->editSetup();
     $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
