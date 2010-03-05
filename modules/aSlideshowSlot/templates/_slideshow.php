@@ -32,6 +32,7 @@
 
 <?php if (count($items) > 1): ?>
 <script type="text/javascript" charset="utf-8">
+//<![CDATA[
 	$(document).ready(function() {
       <?php // Clear any interval timer left running by a previous slot variant ?>
       if (window.aSlideshowIntervalTimeouts !== undefined)
@@ -133,6 +134,7 @@
 	  interval();
 	
 	});
+//]]>
 </script>
 <?php elseif (count($items) == 1): ?>
 <script type="text/javascript" charset="utf-8">
