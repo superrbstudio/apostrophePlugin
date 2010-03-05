@@ -1,4 +1,4 @@
-<?php use_helper('Url', 'jQuery', 'I18N') ?>
+<?php use_helper('Url', 'jQuery', 'I18N', 'Date') ?>
 
 <?php $n=0; foreach ($versions as $version => $data): ?>
 <tr class="a-history-item" id="a-history-item-<?php echo $data['version'] ?>">
