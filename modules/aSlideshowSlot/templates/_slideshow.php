@@ -5,28 +5,30 @@
 </ul>
 <?php endif ?>
 
-<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow">
-<?php $first = true; $n=0; foreach ($items as $item): ?>
-  <?php $dimensions = aDimensions::constrain(
-    $item->width, 
-    $item->height,
-    $item->format, 
-    array("width" => $options['width'],
-      "height" => $options['flexHeight'] ? false : $options['height'],
-      "resizeType" => $options['resizeType'])) ?>
-  <?php $embed = str_replace(
-    array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-    array($dimensions['width'], 
-      $dimensions['height'], 
-      $dimensions['resizeType'],
-      $dimensions['format']),
-    $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false)) ?>
+<?php if (count($items)): ?>
+	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow">
+	<?php $first = true; $n=0; foreach ($items as $item): ?>
+	  <?php $dimensions = aDimensions::constrain(
+	    $item->width, 
+	    $item->height,
+	    $item->format, 
+	    array("width" => $options['width'],
+	      "height" => $options['flexHeight'] ? false : $options['height'],
+	      "resizeType" => $options['resizeType'])) ?>
+	  <?php $embed = str_replace(
+	    array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
+	    array($dimensions['width'], 
+	      $dimensions['height'], 
+	      $dimensions['resizeType'],
+	      $dimensions['format']),
+	    $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false)) ?>
 
-  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>" <?php echo ($first)? 'style="display:list-item;"':''; ?>>
-		<?php include_partial('aSlideshowSlot/slideshowItem', array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
-	</li>
-<?php $first = false; $n++; endforeach ?>
-</ul>
+	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>" <?php echo ($first)? 'style="display:list-item;"':''; ?>>
+			<?php include_partial('aSlideshowSlot/slideshowItem', array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
+		</li>
+	<?php $first = false; $n++; endforeach ?>
+	</ul>
+<?php endif ?>
 
 <?php if (count($items) > 1): ?>
 <script type="text/javascript" charset="utf-8">
