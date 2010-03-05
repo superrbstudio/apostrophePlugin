@@ -28,14 +28,14 @@ class aNavigationTabs extends aNavigation
        if($key == 0) $node['class'] = $node['class']. ' first';
        if($key == count($tree)-1) $node['class'] = $node['class']. ' last';
       if($node['id'] == $this->activeInfo['id'])
-        $node['class'] = $node['class'].' current';
+        $node['class'] = $node['class'].' a-current-page';
       if(isset($node['children']) && $depth < $this->depth)
         $this->traverse($node['children'], $depth + 1);
       else
         unset($node['children']);
 		  if($node['archived'] == true)
       {
-        $node['class'] = $node['class'] . ' archived';
+        $node['class'] = $node['class'] . ' a-archived-paged';
         if($this->livingOnly)
           unset($tree[$key]);
       }

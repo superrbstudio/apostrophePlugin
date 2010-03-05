@@ -24,7 +24,7 @@ class aNavigationBreadcrumb extends aNavigation
       }
       else if($node['id'] == $this->activeInfo['id'])
       {
-        $node['class'] = $node['class']. " current";
+        $node['class'] = $node['class']. " a-current-page";
         $this->nav[] = $node;
       }
     }

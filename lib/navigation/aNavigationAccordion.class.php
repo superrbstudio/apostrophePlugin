@@ -44,7 +44,7 @@ class aNavigationAccordion extends aNavigation
           $peer['class'] = @$peer['class'].' peer';
         }
         //This node is the current so set the class
-        $node['class'] = $node['class'].' current';
+        $node['class'] = $node['class'].' a-current-page';
       }
       else
       {
@@ -55,7 +55,7 @@ class aNavigationAccordion extends aNavigation
         $this->traverse($node['children']);
       if($node['archived'] == true)
       {
-        $node['class'] = $node['class'] . ' archived';
+        $node['class'] = $node['class'] . ' a-archived-page';
         if($this->livingOnly)
           unset($tree[$pos]);
       }
