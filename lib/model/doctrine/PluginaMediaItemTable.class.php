@@ -194,6 +194,12 @@ class PluginaMediaItemTable extends Doctrine_Table
   
   public function findByIdsInOrder($ids)
   {
+    if (empty($ids))
+    {
+      // Doctrine doesn't generate any clause at all for WHERE IN if an array if false. This is a bug, but
+      // it doesn't seem to be getting fixed at the Doctrine level
+      return Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->where('1 = 0');
+    }
     $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
     // Don't forget to put them in order!
     return aDoctrine::orderByList($q, $ids)->execute();
