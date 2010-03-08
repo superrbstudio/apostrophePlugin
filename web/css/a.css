@@ -2845,16 +2845,15 @@ margin-top: -10px;
 
 .a-pdf-slot.icon-only
 {
-	min-height: 70px;
 	height: auto !important;
-	height: 70px;
+	height: 43px;
 }
 
 .a-pdf-slot.icon-only .a-media-pdf-icon
 {
 	position:absolute;
-	height:70px;
-	width:56px;
+	height:43px;
+	width:34px;
 	margin-top:5px;
 	top:0;
 	left:0;
@@ -2864,7 +2863,7 @@ margin-top: -10px;
 .a-pdf-slot.icon-only .a-media-pdf-icon a
 {
 	float:left;
-	background: url(/apostrophePlugin/images/a-pdf-icon-small.png) no-repeat top left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -2873,7 +2872,7 @@ margin-top: -10px;
 
 .a-pdf-slot.icon-only .a-pdf-meta
 {
-	padding-left:66px;
+	padding-left:45px;
 	text-indent: 0 !important;
 }
 
@@ -2885,16 +2884,16 @@ margin-top: -10px;
 	position:absolute;
 	top:0;
 	left:0;
-	height:43px;
-	width:34px;
-	margin-top:5px;
+	height:20px;
+	width:20px;
+	margin-top:4px;
 	z-index:10;
 }
 
 .compact .a-pdf-slot.icon-only .a-media-pdf-icon a
 {
 	float:left;
-	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+	background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -2903,8 +2902,25 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.icon-only .a-pdf-meta
 {
-	padding-left:45px;
+	padding-left:25px;
 }
+
+.compact .a-pdf-title
+{
+	width:100%;
+	font-size: 14px;
+}
+
+.compact .a-pdf-description
+{
+	display:none;
+}
+
+.compact .a-pdf-download
+{
+	display:none;
+}
+
 
 /*PDF PREVIEW*/
 

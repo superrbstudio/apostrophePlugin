@@ -52,7 +52,13 @@
 			
   <ul class="a-pdf-meta">
     <?php if ($title): ?>
-      <li class="a-pdf-title"><?php echo $item->title ?></li>
+      <li class="a-pdf-title"><?php echo link_to(($item->title), "aMediaBackend/original?" .
+							http_build_query(
+							array(
+							"slug" => $item->getSlug(),
+              "format" => $item->getFormat()
+ 							))) ?>
+			</li>
     <?php endif ?>
     <?php if ($description): ?>
       <li class="a-pdf-description"><?php echo $item->description ?>
