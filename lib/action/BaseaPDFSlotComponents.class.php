@@ -12,13 +12,14 @@ class BaseaPDFSlotComponents extends BaseaSlotComponents
   {
     $this->setup();
     $this->constraints = $this->getOption('constraints', array());
-    $this->width = $this->getOption('width', 170);
+    $this->width = $this->getOption('width', 100);
     $this->height = $this->getOption('height', 220);
     $this->resizeType = $this->getOption('resizeType', 's');
     $this->flexHeight = $this->getOption('flexHeight', true);
     $this->defaultImage = $this->getOption('defaultImage');     
-    $this->title = $this->getOption('title');
-    $this->description = $this->getOption('description');
+    $this->title = $this->getOption('title', true);
+    $this->pdfPreview = $this->getOption('pdfPreview', false);
+    $this->description = $this->getOption('description', true);
     
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
@@ -41,3 +42,4 @@ class BaseaPDFSlotComponents extends BaseaSlotComponents
     }
   }
 }
+

@@ -18,38 +18,91 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-  <ul>
-    <li class="a-context-pdf">
+    <div class="a-pdf-slot<?php echo ($pdfPreview)? ' with-preview': ' icon-only' ?>">
+
+			<div class="a-media-pdf-icon">
       <?php // Thumbnail image as a link to the original PDF ?>
-      <?php echo link_to(str_replace(
-          array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-          array($dimensions['width'], 
-            $dimensions['height'],
-            $dimensions['resizeType'],
-            $dimensions['format']),
-          $embed), 
-        "aMediaBackend/original?" .
-          http_build_query(
-            array(
-              "slug" => $item->getSlug(),
-              "format" => $item->getFormat()))) ?>
-    </li>
+			<?php if ($pdfPreview): ?>
+
+	      <?php echo link_to(str_replace(
+	          array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
+	          array($dimensions['width'], 
+	            $dimensions['height'],
+	            $dimensions['resizeType'],
+	            $dimensions['format']),
+	          $embed), 
+	        "aMediaBackend/original?" .
+	          http_build_query(
+	            array(
+	              "slug" => $item->getSlug(),
+	              "format" => $item->getFormat()))) ?>
+
+			<?php else: ?>
+
+
+				<?php echo link_to('Download PDF', "aMediaBackend/original?" .
+								http_build_query(
+								array(
+								"slug" => $item->getSlug(),
+	              "format" => $item->getFormat()
+	 							))) ?>	
+				
+	    <?php endif ?>
+			</div>
+			
+  <ul class="a-pdf-meta">
     <?php if ($title): ?>
       <li class="a-pdf-title"><?php echo $item->title ?></li>
     <?php endif ?>
     <?php if ($description): ?>
-      <li class="a-pdf-description"><?php echo $item->description ?></li>
+      <li class="a-pdf-description"><?php echo $item->description ?>
+			</li>
     <?php endif ?>
+			<p class="a-pdf-download">
+	      <?php echo link_to("Download PDF", "aMediaBackend/original?" .
+								http_build_query(
+								array(
+								"slug" => $item->getSlug(),
+	              "format" => $item->getFormat()
+	 							))) ?>
+		    </p>
   </ul>
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$("#a-slot-<?php echo $id ?> .a-context-pdf a").prepend('<div class="a-media-pdf-icon-overlay">Click to Download PDF</div>').attr('title','Click to Download PDF')
-		});
-	</script>
+</div>
+
+	<?php if ($pdfPreview): ?>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+	
+				var pdfImg = $("#a-slot-<?php echo $id ?> .a-pdf-slot a img");
+
+				pdfImg.hover(function(){
+					pdfImg.fadeTo(0,.5);
+				},function(){
+					pdfImg.fadeTo(0,1);			
+				});
+
+			});
+		</script>
+	<?php else: ?>
+			<script type="text/javascript" charset="utf-8">
+				$(document).ready(function() {
+					
+					var pdfImg = $("#a-slot-<?php echo $id ?> .a-pdf-slot .a-media-pdf-icon");
+
+					pdfImg.hover(function(){
+						pdfImg.fadeTo(0,.5);
+					},function(){
+						pdfImg.fadeTo(0,1);
+					});
+
+				});
+			</script>
+	<?php endif ?>
+	
 <?php else: ?>
   <?php if ($defaultImage): ?>
     <ul>
-      <li class="a-context-pdf">
+      <li class="a-pdf-slot">
         <?php echo image_tag($defaultImage) ?>
       </li>
     </ul>
