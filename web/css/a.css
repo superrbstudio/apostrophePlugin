@@ -2805,36 +2805,25 @@ margin-top: -10px;
 
 .a-pdf-slot
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
 }
 
 .a-pdf-slot .a-pdf-meta
 {
-	display:inline;
 	position:relative;
-	float:left;
-	clear:none;
 	margin:5px 0;
 }
 
 .a-pdf-title
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:both;
 	width:100%;
 	font-size: 16px;
 }
 
 .a-pdf-description
 {
-	float:left;
-	display:inline;
-	position:relative;
 	margin-top:0px;
 	color:#666;
 	width:100%;
@@ -2843,27 +2832,26 @@ margin-top: -10px;
 
 .a-pdf-download
 {
-	float:left;
-	display:inline;
-	position:relative;
 	margin-left:-3px;
 }
 
 .a-pdf-download a
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:both;
 	background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center;
 	padding-left:20px;
 }
 
 /*ICON ONLY*/
 
+.a-pdf-slot.icon-only
+{
+	min-height: 70px;
+	height: auto !important;
+	height: 70px;
+}
+
 .a-pdf-slot.icon-only .a-media-pdf-icon
 {
-	display:inline;
 	position:absolute;
 	height:70px;
 	width:56px;
@@ -2885,11 +2873,8 @@ margin-top: -10px;
 
 .a-pdf-slot.icon-only .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	padding-left:66px;
+	text-indent: 0 !important;
 }
 
 /*COMPACT*/
@@ -2900,11 +2885,9 @@ margin-top: -10px;
 	position:absolute;
 	top:0;
 	left:0;
-	float:left;
 	height:43px;
 	width:34px;
 	margin-top:5px;
-	clear:none;
 	z-index:10;
 }
 
@@ -2920,10 +2903,6 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.icon-only .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	padding-left:45px;
 }
 
@@ -2933,10 +2912,6 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon img
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	border:1px solid #ccc;
 	margin-right:10px;
 	margin-bottom:5px;
@@ -2946,16 +2921,14 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon
 {
-	display:inline;
 	position:absolute;
 	top:0;
 	left:0;
-	float:left;
 	height:70px;
 	width:56px;
 	margin-top:5px;
-	clear:none;
 	z-index:10;
+	overflow:hidden;	
 }
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon a
@@ -2963,16 +2936,11 @@ margin-top: -10px;
 	float:left;
 	height:100%;
 	width:100%;
-	overflow:hidden;
 	text-indent: -9999px;
 }
 
 .compact .a-pdf-slot.with-preview .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	padding-left:70px;
 }
 
