@@ -274,6 +274,17 @@ class aArray
     return $hash;
   }
   
+  // Hashes 'id' to 'name', useful in select elements
+  public static function getChoices($array)
+  {
+    $hash = array();
+    foreach ($array as $item)
+    {
+      $hash[$item->getId()] = $item->getName();
+    }
+    return $hash;
+  }
+  
   /**
    * Given an array of items, rearrange them into subarrays
    * by first letter of their string representation. Useful for directories 
