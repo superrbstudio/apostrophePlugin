@@ -2596,6 +2596,11 @@ float: left;
 z-index: 1;
 }
 
+.a-slot.aSlideshow .a-slideshow-position
+{
+	line-height: 20px;
+}
+
 .a-slideshow
 {
 	float: left;

@@ -1,6 +1,11 @@
 <?php if ($options['arrows'] && (count($items) > 1)): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
 	<li class="a-slideshow-controls-previous a-btn a-arrow-left icon nobg">Previous</li>
+	<?php if ($options['position']): ?>
+		<li class="a-slideshow-position">
+			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
+		</li>
+	<?php endif ?>
 	<li class="a-slideshow-controls-next a-btn a-arrow-right icon nobg">Next</li>
 </ul>
 <?php endif ?>
@@ -34,25 +39,37 @@
 <script type="text/javascript" charset="utf-8">
 //<![CDATA[
 	$(document).ready(function() {
-      <?php // Clear any interval timer left running by a previous slot variant ?>
-      if (window.aSlideshowIntervalTimeouts !== undefined)
-      {
-        if (window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>'])
-        {
-          clearTimeout(window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>']);
-        } 
-      }
-      else
-      {
-        window.aSlideshowIntervalTimeouts = {};
-      }
-			var position = 0;
-			var img_count = <?php echo count($items)-1 ?>;
-			var slideshowItems = $('#a-slideshow-<?php echo $id ?> .a-slideshow-item');
-			$('.a-context-media-show-item').hide();
-			$('#a-slideshow-item-<?php echo $id ?>-'+position).show();
 
-			var intervalEnabled = <?php echo ($options['interval'])? 1:0; ?>;
+    <?php // Clear any interval timer left running by a previous slot variant ?>
+    if (window.aSlideshowIntervalTimeouts !== undefined)
+    {
+      if (window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>'])
+      {
+        clearTimeout(window.aSlideshowIntervalTimeouts['<?php echo "a-$id" ?>']);
+      } 
+    }
+    else
+    {
+      window.aSlideshowIntervalTimeouts = {};
+    }
+
+		var position = 0;
+		var img_count = <?php echo count($items)-1 ?>;
+		var slideshowItems = $('#a-slideshow-<?php echo $id ?> .a-slideshow-item');
+		$('.a-context-media-show-item').hide();
+		$('#a-slideshow-item-<?php echo $id ?>-'+position).show();
+		
+		<?php if ($options['position']): ?>
+		var positionHead = $('#a-slideshow-controls-<?php echo $id ?> li.a-slideshow-position span.head');
+		setHead(position);
+		
+		function setHead(current_position)
+		{
+			positionHead.text(current_position+1);
+		}
+		<?php endif ?>
+		
+		var intervalEnabled = <?php echo ($options['interval'])? 1:0; ?>;
 		slideshowItems.attr('title', 'Click For Next Image');
 	
 		$('#a-slideshow-<?php echo $id ?>').bind('showImage', function(e, num){
@@ -97,6 +114,9 @@
 				newItem.parents('.a-slideshow').css('height',newItem.height());
 				newItem.fadeIn('slow');			
 				oldItem.hide();
+				<?php if ($options['position']): ?>
+				setHead(position);				
+				<?php endif ?>
 			}
 			interval();
 	  }
@@ -114,6 +134,9 @@
 				newItem.parents('.a-slideshow').css('height',newItem.height());
 	  		newItem.fadeIn('slow');			
 	  		oldItem.hide();
+				<?php if ($options['position']): ?>
+				setHead(position);				
+				<?php endif ?>	
 	  	}
 	  	interval();
 	  }
