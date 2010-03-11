@@ -2566,6 +2566,11 @@ margin-top: 24px; /* Space for the Arrow Controls*/
 margin-bottom: 40px;
 }
 
+.a-slot.aSlideshow.single-image
+{
+	margin-top:0px; /* Removes Space for the Arrow Controls When There is One Image*/
+}
+
 .a-slot.aSlideshow .a-slideshow-meta
 {
 	font-size: 11px;
