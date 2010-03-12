@@ -24,7 +24,7 @@
 
 function aMultipleSelectAll(options)
 {
-	if (!options)
+	if (options === undefined)
 	{
 		options = {};
 	}
@@ -41,6 +41,10 @@ function aMultipleSelectAll(options)
 
 function aMultipleSelect(target, options)
 {
+	if (options === undefined)
+	{
+		options = {};
+	}
   $(target + ' select[multiple]').each(
     function(i) {
       var name = $(this).attr('name');
@@ -111,9 +115,9 @@ function aMultipleSelect(target, options)
       for (k = 0; (k < values.length); k++)
       {
         $(items[k]).data("boxid", values[k]);
-        $(items[k]).click(function() { update($(this).data("boxid")); return false; });
+        $(items[k]).click(function() { update($(this).data("boxid"), false); return false; });
       }
-      function update(remove)
+      function update(remove, initial)
       {
         var ul = $("#" + id + " ul");
         var select = $("#" + id + " select")[0];
@@ -159,7 +163,15 @@ function aMultipleSelect(target, options)
         }
         // Necessary in IE
         $(select).replaceWith("<select name='select-" + name + "'>" + html + "</select>");
-        $("#" + id + " select").change(function() { update(false); });
+        $("#" + id + " select").change(function() { update(false, false); });
+				if ((!initial) && (options['onChange']))
+				{
+					// Receives the outermost element of the enhanced control.
+					// To use this to implement autosubmit you might write:
+					// onChange: function(multi) { $(multi).parents('form').submit(); }
+					var div = $('#' + id);
+					options['onChange'](div, div.parents('form'));
+				}
       }
       function aHtmlEscape(html)
       {
@@ -169,7 +181,7 @@ function aMultipleSelect(target, options)
         html = html.replace('"', '&quot;'); 
         return html;
       }  
-      update(false);
+      update(false, true);
     }
   );
 }

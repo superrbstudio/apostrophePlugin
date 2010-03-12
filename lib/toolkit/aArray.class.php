@@ -261,14 +261,15 @@ class aArray
   
   /**
    * Given a flat array of objects, returns an associative
-   * array indexed by ids as returned by getId()
+   * array indexed by ids as returned by getId(). You can
+   * specify an alternate id-fetching method
    */
-  public static function listToHashById($array)
+  public static function listToHashById($array, $method = 'getId')
   {
     $hash = array();
     foreach ($array as $item)
     {
-      $hash[$item->getId()] = $item;
+      $hash[$item->$method()] = $item;
     }
     
     return $hash;
