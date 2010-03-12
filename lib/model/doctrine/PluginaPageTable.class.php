@@ -281,14 +281,37 @@ class PluginaPageTable extends Doctrine_Table
   protected static $engineCachePage = false;
   protected static $engineCacheRemainder = false;
   protected static $engineCacheFirstEnginePages = array();
+  protected static $engineCachePagePrefix = false;
   
   static public function getMatchingEnginePage($url, &$remainder)
   {
+    // Engines won't work on sites where the CMS is not mounted at the root of the site
+    // unless we examine the a_page route to determine a prefix. Generate the route properly
+    // then lop off the controller name, if any
+    
     if ($url === self::$engineCacheUrl)
     {
       $remainder = self::$engineCacheRemainder;
       return self::$engineCachePage;
     }
+    
+    if (self::$engineCachePagePrefix)
+    {
+      $prefix = self::$engineCachePagePrefix;
+    }
+    else
+    {
+      $prefix = '';
+      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy'), false);
+    
+      if (preg_match("/^(\/\w+\.php)?(.*)\/dummy$/", $dummyUrl, $matches))
+      {
+        $prefix = $matches[2];
+      }
+      self::$engineCachePagePrefix = $prefix;
+    }
+    $url = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $url);
+    
     $urls = array();
     // Remove any query string
     $twig = preg_replace('/\?.*$/', '', $url);
