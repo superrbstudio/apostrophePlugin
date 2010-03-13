@@ -1,3 +1,5 @@
+<?php use_helper('I18N') ?>
+  
 <?php // Entire media browser goes into what would otherwise be the regular apostrophe subnav ?>
 <?php slot('a-subnav') ?>
 
@@ -20,14 +22,14 @@
   	<h4>Find in Media</h4>
 
 	  <form method="POST" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
-	    <?php echo isset($search) ? link_to('Clear Search', aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => 'Clear Search', )) : '' ?>
+	    <?php echo isset($search) ? link_to(__('Clear Search'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search'), )) : '' ?>
 	    <?php echo $searchForm->renderHiddenFields() ?>
 	    <?php echo $searchForm['search']->render() ?>
-	    <input width="29" type="image" height="20" title="Click to Search" alt="Search" src="/apostrophePlugin/images/a-special-blank.gif" value="Submit" class="a-search-submit submit" id="a-media-search-submit" />
+	    <input width="29" type="image" height="20" title="<?php echo __('Click to Search') ?>" alt="<?php echo __('Search') ?>" src="/apostrophePlugin/images/a-special-blank.gif" value="<?php echo __('Submit') ?>" class="a-search-submit submit" id="a-media-search-submit" />
 	  </form>
 
 		<div class='a-subnav-section types'>
-	  	<h4>Media Types</h4>
+	  	<h4><?php echo __('Media Types') ?></h4>
 
 		  <ul class="a-filter-options type">
 				<?php $type = isset($type) ? $type : '' ?>
@@ -59,18 +61,18 @@
  	    	</ul>
 			<?php endif ?>
 				
-   		<h4>Categories</h4>
+   		<h4><?php echo __('Categories') ?></h4>
 
 	    <?php if ($sf_user->hasCredential('media_admin')): ?>
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
 	    	<?php // See the _editCategories partial ?>
-	    	<?php echo jq_link_to_remote('Add Category', array(
+	    	<?php echo jq_link_to_remote(__('Add Category'), array(
 					'url' => url_for('aMedia/editCategories'), 
 					'update' => 'a-media-edit-categories'), array(
 						'class' => 'a-btn icon a-add icon-only', 
 						'id' => 'a-media-edit-categories-button',
-						'title' => '+ Add Category', )) ?>
+						'title' => __('+ Add Category'), )) ?>
 	    <?php endif ?>
 
 
@@ -78,7 +80,7 @@
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<span id="a-media-no-categories-message">There are no nonempty categories.</span>
+			<span id="a-media-no-categories-message"><?php echo __('There are no nonempty categories.') ?></span>
 
 			<?php else: ?>
 				
@@ -100,7 +102,7 @@
 		<div class='a-subnav-section tags'>
 
 		 <?php if (isset($selectedTag)): ?>
-				<h4 class="a-tag-sidebar-title selected-tag">Selected Tag</h4>  
+				<h4 class="a-tag-sidebar-title selected-tag"><?php echo __('Selected Tag') ?></h4>  
 	    	<ul class="a-tag-sidebar-selected-tags">
 	        <li class="selected">
 						<?php echo link_to(htmlspecialchars($selectedTag), aUrl::addParams($current, array("tag" => false)), array('class' => 'selected',)) ?>
@@ -108,14 +110,14 @@
 	    	</ul>
       <?php endif ?>
    	
-			<h4 class="a-tag-sidebar-title popular">Popular Tags</h4>
+			<h4 class="a-tag-sidebar-title popular"><?php echo __('Popular Tags') ?></h4>
     	<ul class="a-tag-sidebar-list popular">
       	<?php foreach ($popularTags as $tag => $count): ?>
 	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
 	      <?php endforeach ?>
     	</ul>
 
-    	<h4 class="a-tag-sidebar-title all-tags">All Tags</h4>
+    	<h4 class="a-tag-sidebar-title all-tags"><?php echo __('All Tags') ?></h4>
 	    <ul class="a-tag-sidebar-list all-tags">
 	      <?php foreach ($allTags as $tag => $count): ?>
 	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
@@ -129,7 +131,7 @@
    
 <script type="text/javascript" charset="utf-8">
 
-	aInputSelfLabel('#a-media-search', <?php echo json_encode(isset($search) ? $search : 'Search') ?>);
+	aInputSelfLabel('#a-media-search', <?php echo json_encode(isset($search) ? $search : __('Search')) ?>);
 
   <?php if (isset($search)): ?>
     $('#a-media-search-remove').show();

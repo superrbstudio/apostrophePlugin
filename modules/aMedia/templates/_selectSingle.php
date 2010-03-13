@@ -1,12 +1,14 @@
+<?php use_helper('I18N') ?>
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php if (!$type): ?>
 <?php $type = "media item" ?>
 <?php endif ?>
 
 <div class="a-media-select">
-  <p>Use the browsing and searching features to locate the <?php echo $type ?> you want, then click on that <?php echo $type ?> to select it.
+  <p><?php echo __('Use the browsing and searching features to locate the %type% you want, then click on that %type% to select it.', array('%type%' => __($type))) ?>
   <?php if ($limitSizes): ?>
-  Only appropriately sized <?php echo $type ?>s are shown.
+  <?php // separately I18N the plural ?>
+  <?php echo __('Only appropriately sized %typeplural% are shown.', array('%typeplural%' => __($type . 's'))) ?>
   <?php endif ?>
   </p>
 	<?php 

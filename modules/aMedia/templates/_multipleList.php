@@ -1,4 +1,4 @@
-<?php use_helper('jQuery') ?>
+<?php use_helper('I18N', 'jQuery') ?>
 
 <?php $ids = array() ?>
 
@@ -6,18 +6,18 @@
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
   <ul class="a-controls a-media-multiple-list-controls">	
-	  <li><?php echo jq_link_to_remote("remove this item",
+	  <li><?php echo jq_link_to_remote(__("remove this item"),
     array(
       'url' => 'aMedia/multipleRemove?id='.$id,
       'update' => 'a-media-selection-list',
 			'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.')', 
     ), array(
 			'class'=> 'a-btn icon a-delete icon-only',
-			'title' => 'Remove', )) ?>
+			'title' => __('Remove'), )) ?>
 		</li>
 	</ul>	
 
-	<div class="a-media-selected-item-drag-overlay" title="Drag &amp; Drop to Order"></div>
+	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order') ?>"></div>
 	<div class="a-media-selected-item-overlay"></div>
   <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('selected_constraints'))) ?>" />
 

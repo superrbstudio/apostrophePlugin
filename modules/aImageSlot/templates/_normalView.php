@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>
@@ -10,7 +11,7 @@
 
 <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-image">
-	  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => 'Choose image', 'label' => 'Select an Image', 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => __('Choose image'), 'label' => __('Select an Image'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 <?php end_slot() ?>

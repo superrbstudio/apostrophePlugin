@@ -3557,8 +3557,15 @@ clear: both;
 
 .a-media-toolbar h3
 {
-	float: left;
+	/*This made it tough to show constraints etc., if you really need it do it at app level */
+	/*float: left;*/
 	margin: 0 0 10px 0;
+}
+
+.a-media-toolbar .a-constraints
+{
+  font-size: 110%;
+  padding-bottom: 10px;
 }
 
 .a-media-toolbar h3 .a-cancel

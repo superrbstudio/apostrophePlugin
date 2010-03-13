@@ -1,8 +1,9 @@
+<?php use_helper('I18N') ?>
 <?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
 <?php if (!isset($url)): ?>
-  <p class="aFeedSelect">Click Edit to select a feed URL.</p>
+  <p class="aFeedSelect"><?php echo __('Click Edit to select a feed URL.') ?></p>
 <?php elseif ($invalid): ?>
-  <p class="aFeedInvalid">Invalid feed.</p>
+  <p class="aFeedInvalid"><?php echo __('Invalid feed.') ?></p>
 <?php else: ?>
   <ul class="a-feed">
     <?php $n = 0 ?>

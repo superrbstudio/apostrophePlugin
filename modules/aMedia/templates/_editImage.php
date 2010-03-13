@@ -1,3 +1,5 @@
+<?php use_helper('I18N') ?>
+  
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
 
 <?php if (!$item): ?>	
@@ -48,13 +50,13 @@
 
     <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
     <div class="a-form-row tags help">
-    Tags should be separated by commas. Example: student life, chemistry, laboratory
+    <?php echo __('Tags should be separated by commas. Example: sales, kittens, laboratory') ?>
     </div>
 
 		<div class="a-form-row tags"><?php echo $form['tags']->renderRow() ?></div>
 
     <div class="a-form-row permissions help">
-			Hidden Photos can be used in photo slots, but are not displayed in the Media section.
+			<?php echo __('Hidden Photos can be used in photo slots, but are not displayed in the Media section.') ?>
     </div>
 
 		<div class="a-form-row permissions">
@@ -81,9 +83,9 @@
      	<li class="a-controls-item cancel"><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
 
       <li class="a-controls-item delete">
-			<?php echo link_to("Delete", "aMedia/delete?" . http_build_query(
+			<?php echo link_to(__("Delete"), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
-         array("confirm" => "Are you sure you want to delete this item?", "class"=>"a-btn icon a-delete icon-only", 'title' => 'Delete', ),
+         array("confirm" => __("Are you sure you want to delete this item?"), "class"=>"a-btn icon a-delete icon-only", 'title' => __('Delete'), ),
          array("target" => "_top")) ?>
 			</li>
 
