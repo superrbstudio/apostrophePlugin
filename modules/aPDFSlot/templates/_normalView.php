@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>
@@ -10,7 +11,7 @@
 
 <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-pdf">
-	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => 'Choose PDF', 'label' => 'Select a PDF File', 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => __('Choose PDF'), 'label' => __('Select a PDF File'), 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 <?php end_slot() ?>
@@ -40,7 +41,7 @@
 			<?php else: ?>
 
 
-				<?php echo link_to('Download PDF', "aMediaBackend/original?" .
+				<?php echo link_to(__('Download PDF'), "aMediaBackend/original?" .
 								http_build_query(
 								array(
 								"slug" => $item->getSlug(),
@@ -65,7 +66,7 @@
 			</li>
     <?php endif ?>
 			<p class="a-pdf-download">
-	      <?php echo link_to("Download PDF", "aMediaBackend/original?" .
+	      <?php echo link_to(__("Download PDF"), "aMediaBackend/original?" .
 								http_build_query(
 								array(
 								"slug" => $item->getSlug(),

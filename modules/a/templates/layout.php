@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php // This is a copy of apostrophePlugin/modules/a/templates/layout.php ?>
 <?php // It also makes a fine site-wide layout, which gives you global slots on non-page templates ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -16,6 +17,23 @@
 
 	<!--[if lt IE 7]>
 		<script type="text/javascript" charset="utf-8">
+		  <?php // John, I moved this back inline so that I could internationalize it ?>
+      function aIE6(authenticated)
+      {
+      	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+      	$(document).ready(function() {
+
+      		if (authenticated)
+      		{
+      			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + <?php echo json_encode(__('You are using IE6! That is just awful! Apostrophe does not support editing using Internet Explorer 6. Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a></h2></div>')) ?>);	
+      		}
+
+      		$('input[type="checkbox"]').addClass('checkbox');
+      		$('input[type="radio"]').addClass('checkbox');
+
+      	});	
+      }
+
 			aIE6(<?php echo ($sf_user->isAuthenticated())? true:false ?>);
 		</script>
 	<![endif]-->	

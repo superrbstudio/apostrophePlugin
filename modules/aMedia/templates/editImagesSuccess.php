@@ -1,13 +1,12 @@
+<?php use_helper('I18N', 'jQuery') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
-
-<?php use_helper('jQuery') ?>
 
 <div id="a-media-plugin">
 
 	<?php include_component('aMedia', 'browser') ?>
 
 	<div class="a-media-toolbar">
-		<h3>Annotate Images</h3>
+		<h3><?php echo __('Annotate Images') ?></h3>
 	</div>
 
 	<div class="a-media-library">				
@@ -42,8 +41,8 @@
 
 		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
 		<ul class="a-controls a-media-edit-footer">
-			<li><input type="submit" name="submit" value="Save Images" class="a-submit" /></li>
-			<li><?php echo link_to("cancel", "aMedia/resume", array("class"=>"a-cancel a-btn icon event-default")) ?></li>
+			<li><input type="submit" name="submit" value="<?php echo __('Save Images') ?>" class="a-submit" /></li>
+			<li><?php echo link_to(__("cancel"), "aMedia/resume", array("class"=>"a-cancel a-btn icon event-default")) ?></li>
 		</ul>
 		</form>
 	</div>

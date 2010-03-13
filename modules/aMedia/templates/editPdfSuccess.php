@@ -1,6 +1,5 @@
+<?php use_helper('I18N', 'jQuery') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
-
-<?php use_helper('jQuery') ?>
 
 <div id="a-media-plugin">
 
@@ -9,9 +8,9 @@
 <div class="a-media-toolbar">
   <h3>
 		<?php if ($item): ?> 
-			Editing PDF: <?php echo $item->getTitle() ?>
+			<?php echo __('Editing PDF: %title%', array('%title%' => $item->getTitle())) ?>
     <?php else: ?> 
-			Add PDF 
+			<?php echo __('Add PDF') ?> 
 		<?php endif ?>
    </h3>
 </div>
@@ -26,7 +25,7 @@
 
   <?php // Post-form-validation error when we tried to get the thumbnail ?>
   <?php if (isset($serviceError)): ?>
-  <h3>That is not a valid PDF.</h3>
+  <h3><?php echo __('That is not a valid PDF.') ?></h3>
   <?php endif ?>
 
   <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editPdf", array("slug" => $slug)))?>">
@@ -61,7 +60,7 @@
     <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
 
     <div class="a-form-row about-tags">
-    Tags should be separated by commas. Example: student life, chemistry, laboratory
+    <?php echo __('Tags should be separated by commas. Example: student life, chemistry, laboratory') ?>
     </div>
 
     <div class="a-form-row tags">
@@ -69,14 +68,14 @@
     </div>
 
     <ul class="a-controls a-media-edit-footer">
-      <li><input type="submit" value="Save" class="a-submit" /></li>
+      <li><input type="submit" value="<?php echo __('Save') ?>" class="a-submit" /></li>
       <?php if ($item): ?>
-      <li><?php echo link_to("Delete", "aMedia/delete?" . http_build_query(
+      <li><?php echo link_to(__("Delete"), "aMedia/delete?" . http_build_query(
           array("slug" => $slug)),
-          array("confirm" => "Are you sure you want to delete this item?",
+          array("confirm" => __("Are you sure you want to delete this item?"),
             "target" => "_top", "class"=>"a-btn icon a-delete")) ?></li>
       <?php endif ?>
-			<li><?php echo link_to("Cancel", "aMedia/resumeWithPage", array("class"=>"a-cancel a-btn icon event-default")) ?></li>
+			<li><?php echo link_to(__("Cancel"), "aMedia/resumeWithPage", array("class"=>"a-cancel a-btn icon event-default")) ?></li>
     </ul>
   </form>
 </div>

@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <?php use_helper('jQuery') ?>
@@ -7,7 +8,7 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-toolbar">
-    <h3>Upload Images</h3>
+    <h3><?php echo __('Upload Images') ?></h3>
 
     <?php echo $form->renderGlobalErrors() ?>
 
@@ -25,7 +26,7 @@
       </div>
 
 			<ul class="a-controls a-media-upload-controls">
-      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add">Add Another Photo</a></li>
+      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo __('Add Another Photo') ?></a></li>
 			</ul>
 			
 			<br class="c"/>

@@ -3,14 +3,23 @@
 class aDate
 {
   // All date formatters here accept both Unix timestamps and MySQL date or datetime values.
-  // These methods output only the date, not the time (see aTime). Use these methods
+  // These methods output only the date, not the time (except for aDate::time()). Use these methods
   // for consistency within and across our applications.
+  
+  // By default we now use the I18N format_date helper. But we can override this when we
+  // want our favorite English date treatment for an English-only site
   
   // Most compact: Sep 3 (2-digit year follows but only if not current year)
   
   static public function pretty($date)
   {
     $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Short date format is the closest I18N format to our proprietary version
+      return format_date($date, 'd');
+    }
     $month = date('F', $date);
     $day = date('j', $date);
     $month = substr($month, 0, 3);
@@ -30,6 +39,12 @@ class aDate
   static public function long($date)
   {
     $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Long date format is the closest I18N format to our proprietary version
+      return format_date($date, 'D');
+    }
     return date('l, j F Y', $date);
   }
 
@@ -38,6 +53,12 @@ class aDate
   static public function medium($date)
   {
     $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Long date format is the closest I18N format to our proprietary version
+      return format_date($date, 'p');
+    }
     return date('D, j M Y', $date);
   }
 
@@ -46,6 +67,12 @@ class aDate
   static public function short($date)
   {
     $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Short date format is the closest I18N format to our proprietary version
+      return format_date($date, 'd');
+    }
     return date('n/j/y', $date);
   }
   
@@ -94,13 +121,23 @@ class aDate
     return $date;
   }
   
+  // By default just calls the I18N format_time. The rest of this description
+  // applies only if you set app_a_pretty_english_dates:
+  
   // The only variation on our time format is turning on the display
   // of :00 when the time is a round hour, such as 8PM. Set compact
-  // to false to bring back :00
+  // to false to bring back :00. Otherwise we remove it
   
   static public function time($date, $compact = true)
   {
     $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Short time format is the closest I18N format to our proprietary version
+      return format_date($date, 't');
+    }
+    
     $hour = date('g', $date);
     $min = date('i', $date);
     $s = $hour;

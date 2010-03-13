@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>
@@ -8,7 +9,7 @@
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
     <li class="a-controls-item choose-images">
-    <?php echo link_to('Choose images',
+    <?php echo link_to(__('Choose images'),
       'aMedia/select',
       array(
         'query_string' => 
@@ -18,7 +19,7 @@
               array("multiple" => true,
               "aMediaIds" => implode(",", $itemIds),
               "type" => "image",
-              "label" => "Create a Slideshow",
+              "label" => __("Create a Slideshow"),
               "after" => url_for("aSlideshowSlot/edit") . "?" . 
                 http_build_query(
                   array(

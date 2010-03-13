@@ -202,22 +202,6 @@ function aUI(target, instance)
 	aOverrides();
 }
 
-function aIE6(authenticated)
-{
-	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
-	$(document).ready(function() {
-
-		if (authenticated)
-		{
-			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>You are using IE6 and that is just awful! Apostrophe does not support editing using Internet Explorer 6. Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a></h2></div>');	
-		}
-
-		$('input[type="checkbox"]').addClass('checkbox');
-		$('input[type="radio"]').addClass('checkbox');
-		
-	});	
-}
-
 function aOverrides()
 {
 	// Override this function in site.js to execute code when a calls aUI();

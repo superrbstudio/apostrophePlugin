@@ -1,4 +1,4 @@
-<?php use_helper('jQuery') ?>
+<?php use_helper('I18N', 'jQuery') ?>
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
@@ -7,7 +7,7 @@
 	<?php include_component('aMedia', 'browser') ?>
 
 	<div class="a-media-toolbar">
-		<h3>You are editing: <?php echo $item->getTitle() ?></h3>
+		<h3><?php echo __('You are editing: %title%', array('%title%' => $item->getTitle())) ?></h3>
 	</div>
 
 	<div class="a-media-library">			

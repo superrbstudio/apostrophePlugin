@@ -1,53 +1,46 @@
 <?php // Yes, this is template code, but we use regular PHP syntax because we are building a sentence and the introduction of ?>
 <?php // newlines wrecks the punctuation. ?>
 <?php 
+use_helper('I18N');
 $clauses = array();
 if (aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-height'))
 {
-  $clauses[] = "a " . aMediaTools::getAttribute('aspect-width') . 'x' . aMediaTools::getAttribute('aspect-height') . " aspect ratio";
+  $clauses[] = __('A %w%x%h% aspect ratio', array('%w%' => aMediaTools::getAttribute('aspect-width'), '%h%' => aMediaTools::getAttribute('aspect-height')));
 }
 if (aMediaTools::getAttribute('minimum-width'))
 {
-  $clauses[] = "a minimum width of " . aMediaTools::getAttribute('minimum-width') . " pixels";
+  $clauses[] = __('A minimum width of %mw% pixels', array('%mw%' => aMediaTools::getAttribute('minimum-width')));
 }
 if (aMediaTools::getAttribute('minimum-height'))
 {
-  $clauses[] = "a minimum height of " . aMediaTools::getAttribute('minimum-height') . " pixels";
+  $clauses[] = __('A minimum height of %mh% pixels', array('%mh%' => aMediaTools::getAttribute('minimum-height')));
 }
 if (aMediaTools::getAttribute('width'))
 {
-  $clauses[] = "a width of exactly " . aMediaTools::getAttribute('width') . " pixels";
+  $clauses[] = __('A width of exactly %w% pixels', array('%w%' => aMediaTools::getAttribute('width')));
 }
 if (aMediaTools::getAttribute('height'))
 {
-  $clauses[] = "a height of exactly " . aMediaTools::getAttribute('height') . " pixels";
+  $clauses[] = __('A height of exactly %h% pixels', array('%h%' => aMediaTools::getAttribute('height')));
 }
 if (aMediaTools::getAttribute('type'))
 {
-  $type = aMediaTools::getAttribute('type') . "s";
+  // Internationalize the plural so that can be correct too
+  $type = __(aMediaTools::getAttribute('type') . "s");
 } 
 else
 {
-  $type = "items";
+  $type = __("items");
 }
 if (count($clauses))
 {
-  echo("<h3>Displaying only $type with ");
-  if (count($clauses) > 1)
+  // Markup change: for I18N it's better to use a list here rather than
+  // trying to create a sentence with commas and 'and'
+  echo('<h3>' . __("Displaying only %t% with:", array('%t%' => $type)) . '</h3>');
+  echo('<ul class="a-constraints">');
+  foreach ($clauses as $clause)
   {
-    for ($i = 0; ($i < count($clauses) - 1); $i++)
-    {
-      if ($i > 0)
-      {
-        echo(", ");
-      }
-      echo($clauses[$i]);
-    }
-    echo(" and " . $clauses[count($clauses) - 1]);
+    echo('<li>' . $clause . '</li>');
   }
-  else
-  {
-    echo($clauses[0]);
-  }
-  echo(".</h3>\n");
+  echo('</ul>');
 }

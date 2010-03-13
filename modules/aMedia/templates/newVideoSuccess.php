@@ -1,32 +1,31 @@
+<?php use_helper('jQuery', 'I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
-
-<?php use_helper('jQuery') ?>
 
 <div id="a-media-plugin">
 
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-toolbar">
-  <h3>Add Video</h3>
+  <h3><?php echo __('Add Video') ?></h3>
 </div>
 
 <div class="a-media-library">				
 
  	<ul class="a-controls" id="a-media-video-buttons">
-		<li><?php echo link_to_function("Search YouTube", 
+		<li><?php echo link_to_function(__("Search YouTube"), 
 	  		"$('#a-media-video-search-form').show(); 
 		 		 $('#a-media-video-buttons').hide(); 
 		 		 $('#a-media-video-search-heading').show();", 
 		 		 array("class" => "a-btn")) ?></li>
       
-		<li><?php echo link_to_function("Add by YouTube URL", 
+		<li><?php echo link_to_function(__("Add by YouTube URL"), 
 	      "$('#a-media-video-add-by-url-form').show(); 
 			   $('#a-media-video-buttons').hide(); 
 			 	 $('#a-media-video-add-by-url-heading').show();", 
 		 		 array("class" => "a-btn")) ?></li>
 
 		<?php if (aMediaTools::getOption('embed_codes')): ?>
-	  <li><?php echo link_to_function("Add by Embed Code", 
+	  <li><?php echo link_to_function(__("Add by Embed Code"), 
 	      "$('#a-media-video-add-by-embed-form').show(); 
 			 	 $('#a-media-video-buttons').hide(); 
 			 	 $('#a-media-video-add-by-embed-heading').show();", 
@@ -34,10 +33,10 @@
 		</li>
 	  <?php endif ?>
 
-	  <li><?php echo link_to("Cancel", "aMedia/resumeWithPage", array("class" => "a-cancel a-btn icon event-default")) ?></li>
+	  <li><?php echo link_to(__("Cancel"), "aMedia/resumeWithPage", array("class" => "a-cancel a-btn icon event-default")) ?></li>
 	</ul>
 
-	<h4 id="a-media-video-search-heading" class="a-media-video-heading">Search YouTube</h4>     
+	<h4 id="a-media-video-search-heading" class="a-media-video-heading"><?php echo __('Search YouTube') ?></h4>     
 
     <?php echo jq_form_remote_tag(
 			array(
@@ -56,7 +55,7 @@
     	<?php include_partial('aMedia/videoSearch', array('form' => $videoSearchForm, 'results' => false)) ?>
     </form>
 
- 		<h4 id="a-media-video-add-by-url-heading" class="a-media-video-heading">Add by URL</h4>   
+ 		<h4 id="a-media-video-add-by-url-heading" class="a-media-video-heading"><?php echo __('Add by URL') ?></h4>   
 
     <form id="a-media-video-add-by-url-form" class="a-media-search-form" method="POST" action="<?php echo url_for("aMedia/editVideo") ?>">
 
@@ -69,19 +68,19 @@
 			</div>
 
 			<div class="a-form-row example">
-        <p>Example: http://www.youtube.com/watch?v=EwTZ2xpQwpA</p>
+        <p><?php echo __('Example: http://www.youtube.com/watch?v=EwTZ2xpQwpA') ?></p>
         <input type="hidden" name="first_pass" value="1" /> 
 			</div>
 
 			<ul class="a-controls a-media-upload-form-footer" id="a-media-video-add-by-url-form-submit">
-        <li><input type="submit" value="Go" class="a-submit" /></li>
-        <li><?php echo link_to_function("Cancel", "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-cancel a-btn icon event-default")) ?></li>
+        <li><input type="submit" value="<?php echo __('Go') ?>" class="a-submit" /></li>
+        <li><?php echo link_to_function(__("Cancel"), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-cancel a-btn icon event-default")) ?></li>
       </ul>
 		
      </form>
 		
 		<?php if (aMediaTools::getOption('embed_codes')): ?>
-			<h4 id="a-media-video-add-by-embed-heading" class="a-media-video-heading">Add by Embed Code</h4>
+			<h4 id="a-media-video-add-by-embed-heading" class="a-media-video-heading"><?php echo __('Add by Embed Code') ?></h4>
 			
 			<form id="a-media-video-add-by-embed-form" class="a-media-search-form" method="POST" action="<?php echo url_for("aMedia/editVideo") ?>">
 
@@ -93,15 +92,15 @@
 			</div>
 
 			<div class="a-form-row example">
-        <p>Example: <?php echo htmlspecialchars('<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="437" height="291" ...</object>') ?></p>
+        <p><?php echo __('Example: %embed%', array('%embed%' => htmlspecialchars('<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="437" height="291" ...</object>'))) ?></p>
         <input type="hidden" name="first_pass" value="1" /> 
 			</div>
 			
 
 			<ul class="a-controls a-media-upload-form-footer" id="a-media-video-add-by-embed-form-submit">
-        <li><input type="submit" value="Go" class="a-submit" /></li>
+        <li><input type="submit" value="<?php echo __('Go') ?>" class="a-submit" /></li>
         <li>
-					<?php echo link_to_function("Cancel", 
+					<?php echo link_to_function(__("Cancel"), 
 					"$('#a-media-video-add-by-embed-form').hide(); 
 					 $('#a-media-video-add-by-embed-heading').hide(); 
 					 $('#a-media-video-buttons').show();", 
@@ -112,14 +111,14 @@
      </form>
      <?php endif ?>
 
-			<div id="a-media-video-search-results-container">I want search results displayed here</div>
+			<div id="a-media-video-search-results-container">Placeholder text</div>
 </div>
 
 </div>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-			aInputSelfLabel('#videoSearch_q', <?php echo json_encode(isset($search) ? $search : 'Search') ?>);
+			aInputSelfLabel('#videoSearch_q', <?php echo json_encode(isset($search) ? $search : __('Search')) ?>);
 			aInputSelfLabel('#a-media-video-url', <?php echo json_encode(isset($search) ? $search : 'http://') ?>);
 			aInputSelfLabel('#a-media-video-embed', <?php echo json_encode(isset($search) ? $search : '<object>...</object>') ?>);			
 	});
