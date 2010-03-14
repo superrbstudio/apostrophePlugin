@@ -25,9 +25,6 @@ class BaseaMediaActions extends aEngineActions
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
     $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
-
-    aTools::setAllowSlotEditing(false);
-
 	}
 
   public function executeSelect(sfRequest $request)

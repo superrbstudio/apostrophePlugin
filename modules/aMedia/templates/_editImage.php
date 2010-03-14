@@ -50,7 +50,7 @@
 
     <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
     <div class="a-form-row tags help">
-    <?php echo __('Tags should be separated by commas. Example: sales, kittens, laboratory') ?>
+    <?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings') ?>
     </div>
 
 		<div class="a-form-row tags"><?php echo $form['tags']->renderRow() ?></div>
