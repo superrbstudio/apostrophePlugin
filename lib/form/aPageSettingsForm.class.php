@@ -125,8 +125,18 @@ class aPageSettingsForm extends aPageForm
   
   protected function addPrivilegeWidget($privilege, $widgetName)
   {
-    list($all, $selected, $inherited, $sufficient) = $this->getObject()->getAccessesById($privilege);
-
+    // For i18n-update we need to tolerate being run without a proper page
+    if ($this->getObject()->isNew())
+    {
+      $all = array();
+      $selected = array();
+      $inherited = array();
+      $sufficient = array();
+    }
+    else
+    {
+      list($all, $selected, $inherited, $sufficient) = $this->getObject()->getAccessesById($privilege);
+    }
     foreach ($inherited as $userId)
     {
       unset($all[$userId]);

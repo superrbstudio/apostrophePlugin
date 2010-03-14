@@ -3,11 +3,13 @@
 class aButtonForm extends sfForm
 {
   protected $id;
-  public function __construct($id)
+  // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+  public function __construct($id = 1)
   {
     $this->id = $id;
     parent::__construct();
   }
+  
   public function configure()
   {
     $this->setWidgets(array(

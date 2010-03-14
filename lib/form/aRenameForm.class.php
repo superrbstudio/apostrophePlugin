@@ -3,8 +3,13 @@
 class aRenameForm extends sfForm
 {
   protected $page;
-  public function __construct($page)
+  // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+  public function __construct($page = null)
   {
+    if (!$page)
+    {
+      $page = new aPage();
+    }
     $this->page = $page;
     parent::__construct();
   }

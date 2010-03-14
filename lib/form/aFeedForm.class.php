@@ -3,7 +3,8 @@ class aFeedForm extends sfForm
 {
   // Ensures unique IDs throughout the page
   protected $id;
-  public function __construct($id, $defaults)
+  // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+  public function __construct($id = 1, $defaults = array())
   {
     $this->id = $id;
     parent::__construct();
