@@ -4,8 +4,14 @@ class aMediaEditImagesForm extends sfForm
 {
   private $active = array();
   
-  public function __construct($active)
+  // PARAMETER IS REQUIRED, accepting null is strictly a workaround so that
+  // i18n-update can extract labels from the form
+  public function __construct($active = null)
   {
+    if (is_null($active))
+    {
+      $active = array('1');
+    }
     $this->active = array_flip($active);
     parent::__construct();
   }
