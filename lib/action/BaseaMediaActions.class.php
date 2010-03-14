@@ -25,14 +25,6 @@ class BaseaMediaActions extends aEngineActions
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
     $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
-
-    if(sfConfig::get('app_aMedia_use_bundled_layout', true))
-    {
-      $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'layout.php').'/layout');
-    }
-
-    aTools::setAllowSlotEditing(false);
-
 	}
 
   public function executeSelect(sfRequest $request)
