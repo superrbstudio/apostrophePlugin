@@ -310,8 +310,8 @@ class aTools
     {
       $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
         array(
-          array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
-          array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
+          array('name' => 'users', 'label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
+          array('name' => 'reorganize', 'label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
       // Eventually this one too. Reorganize will probably get moved into it
       // ('Settings', 'a/globalSettings', 'a-settings')
@@ -321,7 +321,7 @@ class aTools
         foreach ($extraAdminButtons as $data)
         {
           aTools::addGlobalButtons(array(new aGlobalButton(
-            $data['label'], $data['action'], isset($data['class']) ? $data['class'] : '')));
+            $data['name'], $data['label'], $data['action'], isset($data['class']) ? $data['class'] : '')));
         }
       }
     }
@@ -345,24 +345,24 @@ class aTools
     // so the recipients just call back to addGlobalButtons
     sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
     
-    $buttonsByLabel = array();
+    $buttonsByName = array();
     foreach (self::$globalButtons as $button)
     {
-      $buttonsByLabel[$button->getLabel()] = $button;
+      $buttonsByName[$button->getName()] = $button;
     }
     if ($buttonsOrder === false)
     {
-      ksort($buttonsByLabel);
-      $orderedButtons = array_values($buttonsByLabel);
+      ksort($buttonsByName);
+      $orderedButtons = array_values($buttonsByName);
     }
     else
     {
       $orderedButtons = array();
-      foreach ($buttonsOrder as $label)
+      foreach ($buttonsOrder as $name)
       {
-        if (isset($buttonsByLabel[$label]))
+        if (isset($buttonsByName[$name]))
         {
-          $orderedButtons[] = $buttonsByLabel[$label];
+          $orderedButtons[] = $buttonsByName[$name];
         }
       }
     }
@@ -566,5 +566,11 @@ class aTools
       $variants = $keep;
     }
     return $variants;
+  }
+  
+  static private function i18nDummy()
+  {
+    __('Reorganize');
+    __('Users');
   }
 }

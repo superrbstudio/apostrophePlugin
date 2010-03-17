@@ -29,14 +29,14 @@ These are mostly links to independent modules.
   		<ul class="a-global-toolbar-buttons a-controls">
 	
 				<?php if ($page && !$page->admin): ?>
-					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle">This Page</a></li>
+					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle"><?php echo __('This Page', null, 'apostrophe') ?></a></li>
 				<?php endif ?>
   			<?php $buttons = aTools::getGlobalButtons() ?>
   			<?php foreach ($buttons as $button): ?>
   			  <?php if ($button->getTargetEnginePage()): ?>
   			    <?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
   			  <?php endif ?>
-  			  <li><?php echo link_to($button->getLabel(), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
+  			  <li><?php echo link_to(__($button->getLabel()), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
   			<?php endforeach ?>
 				<?php if (0): ?><li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel event-default', )) ?></li><?php endif ?>
   		</ul>
