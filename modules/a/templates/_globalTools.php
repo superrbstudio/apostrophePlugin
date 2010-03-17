@@ -25,7 +25,7 @@ These are mostly links to independent modules.
 
   	<?php // The Apostrophe ?>
   	<div class="a-global-toolbar-apostrophe">
-  		<?php echo link_to(__('Apostrophe Now'),'/', array('id' => 'the-apostrophe')) ?>
+  		<?php echo link_to(__('Apostrophe Now', null, 'apostrophe'),'/', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 	
 				<?php if ($page && !$page->admin): ?>

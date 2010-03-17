@@ -60,7 +60,7 @@ function a_remote_dialog_toggle($options)
 
 
   $s = '';
-  $s .= jq_link_to_remote(__($label), 
+  $s .= jq_link_to_remote(__($label, null, 'apostrophe'), 
     array(
       "url" => $action,
       "update" => $id,
@@ -78,7 +78,7 @@ function a_remote_dialog_toggle($options)
     ), array(
   		'class' => "$id-button open", 
   		'id' => "$id-button-open"));
-  $s .= jq_link_to_function(__($label), 
+  $s .= jq_link_to_function(__($label, null, 'apostrophe'), 
 		"$('#$id-button-close').hide(); 
 		 $('#$id-button-open').show(); 
 		 $('#$id').hide();

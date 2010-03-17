@@ -21,6 +21,7 @@ class aButtonForm extends sfForm
       'title' => new sfValidatorString(array('required' => false))
     ));
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
   
   public function validateUrl($validator, $value)

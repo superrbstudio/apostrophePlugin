@@ -52,6 +52,7 @@ class aMediaPdfForm extends aMediaItemForm
     $this->widgetSchema->setLabel("view_is_secure", "Permissions");
     $this->widgetSchema->setNameFormat('a_media_item[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
   

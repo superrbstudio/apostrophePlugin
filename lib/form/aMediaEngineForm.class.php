@@ -11,5 +11,7 @@ class aMediaEngineForm extends aPageForm
     $this->setValidator('media_categories_list', new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'aMediaCategory', 'required' => false)));
     $this->widgetSchema->setNameFormat('enginesettings[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

@@ -16,10 +16,10 @@
 
 	<ul class="a-controls a-slot-save-cancel-controls">  
 	  <li>
-			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
+			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
 		</li>
 	  <li>
-			<?php echo button_to_function(__("Cancel"), "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
+			<?php echo button_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
 		</li>
 	</ul>
 

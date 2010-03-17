@@ -14,5 +14,7 @@ class aRawHTMLForm extends sfForm
     // Raw HTML slot, so anything goes, including an empty response 
     $this->setValidators(array('value' => new sfValidatorString(array('required' => false))));
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

@@ -12,7 +12,7 @@
 	<?php if (aMediaTools::isSelecting()): ?>
 
     <?php if (isset($label)): ?>
-      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to(__("cancel"), "aMedia/selectCancel", array("class"=>"a-cancel event-default text-only")) ?></h3>
+      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to(__("cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-cancel event-default text-only")) ?></h3>
     <?php endif ?>
 
     <?php include_partial('aMedia/describeConstraints') ?>
@@ -32,15 +32,15 @@
      <?php $type = aMediaTools::getAttribute('type') ?>
 
      <?php if (!($selecting && $type && ($type !== 'image'))): ?>
-     <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon a-add"><?php echo __('Add Images') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
      <?php if (!($selecting && $type && ($type !== 'video'))): ?>
-     <li><a href="<?php echo url_for("aMedia/newVideo") ?>" class="a-btn icon a-add"><?php echo __('Add Video') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/newVideo") ?>" class="a-btn icon a-add"><?php echo __('Add Video', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
      <?php if (!($selecting && $type && ($type !== 'pdf'))): ?>
-     <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon a-add"><?php echo __('Add PDF') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
    </ul>

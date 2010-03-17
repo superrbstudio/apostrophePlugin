@@ -8,6 +8,6 @@
     <li class="a-slideshow-meta a-slideshow-description"><?php echo $item->description ?></li>
   <?php endif ?>
   <?php if ($options['credit'] && $item->credit): ?>
-    <li class="a-slideshow-meta a-slideshow-credit"><?php echo __('Photo Credit: %credit%', array('%credit%' => $item->credit)) ?></li>
+    <li class="a-slideshow-meta a-slideshow-credit"><?php echo __('Photo Credit: %credit%', array('%credit%' => $item->credit), 'apostrophe') ?></li>
   <?php endif ?>
 </ul>

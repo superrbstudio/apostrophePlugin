@@ -22,10 +22,10 @@
 		
 		<ul class="a-form-row submit">
     	<li>
-				<button type="submit" class="a-btn"><?php echo __('sign in') ?></button>
+				<button type="submit" class="a-btn"><?php echo __('sign in', null, 'apostrophe') ?></button>
 			</li>
 			<li>
-				<?php echo jq_link_to_function(__('Cancel'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
+				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
 			</li>
 		</ul>
 		

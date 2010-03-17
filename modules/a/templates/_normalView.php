@@ -14,7 +14,7 @@
 ?>
 <?php if (!strlen($value)): ?>
   <?php if ($editable): ?>
-    <?php echo __('Double-click to edit.') ?>
+    <?php echo __('Double-click to edit.', null, 'apostrophe') ?>
   <?php endif ?>
 <?php else: ?>
 <?php echo $value ?>

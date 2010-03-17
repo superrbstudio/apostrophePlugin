@@ -3,9 +3,9 @@
 	<?php echo $form->render() ?>
 
 <ul class="a-controls">
-  <li><input type="submit" value="<?php echo __('Go') ?>" class="a-submit" /></li>
+  <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
 	<li>
-		<?php echo link_to_function(__("Cancel"), 
+		<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
 			"$('#a-media-video-search-form').hide(); 
 			 $('#a-media-video-search-results-container').hide(); 
 			 $('#a-media-video-search-heading').hide(); 
@@ -20,7 +20,7 @@ var aMediaVideoSearchResults = null;
 
 <?php if ($results !== false): ?>
   <?php if (!count($results)): ?>
-    <p><?php echo __('No matching videos were found. Try being less specific.') ?></p>
+    <p><?php echo __('No matching videos were found. Try being less specific.', null, 'apostrophe') ?></p>
   <?php else: ?>
 
     <ul id="a-media-video-search-results"></ul>
@@ -67,7 +67,7 @@ function aMediaVideoSearchRenderResults()
     var result = aMediaVideoSearchResults[i];
     var id = result.id;
     var embed = template.replace(/_ID_/g, id);
-    var li = $("<li class='"+li_class+" video-"+i+"'><a href='#' class='a-media-search-select a-btn'><?php echo __('Select%buttonspan%', array('%buttonspan%' => '<span></span>')) ?></a><br class='clear c'/>" + embed + "</li>");
+    var li = $("<li class='"+li_class+" video-"+i+"'><a href='#' class='a-media-search-select a-btn'><?php echo __('Select%buttonspan%', array('%buttonspan%' => '<span></span>'), 'apostrophe') ?></a><br class='clear c'/>" + embed + "</li>");
     var a = li.find('a:first');
     a.data('videoInfo', result);
     a.click(function() {

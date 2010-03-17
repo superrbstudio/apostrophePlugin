@@ -9,7 +9,7 @@
   echo ($item->peerOfAncestorOfCurrentPage) ? 'ancestor-peer-page ' : '';
   echo ($item->peerOfCurrentPage) ? 'peer-page ' : '';
 ?>" id="a-tab-nav-item-<?php echo $name ?>-<?php echo $item->id ?>">
-<?php echo link_to(__($item->getName()), $item->getUrl()) ?> 
+<?php echo link_to(__($item->getName(), null, 'apostrophe'), $item->getUrl()) ?> 
 <?php if ($item->hasChildren()): ?>
 <?php echo include_partial('a/navigation', array('page' => $page, 'name' => $name, 'draggable' => $draggable, 'navigation' => $item->getChildren(), 'classes' => $classes, 'pID' => $item->id, 'nest' => $nest + 1)); ?>
 <?php endif ?>

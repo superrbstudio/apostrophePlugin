@@ -18,6 +18,8 @@ class aMediaVideoEmbedForm extends aMediaVideoForm
         array('image/jpeg', 'image/png', 'image/gif'),
         "required" => (!$this->getObject()->getId()))));
     $this->widgetSchema->setFormFormatterName('aAdmin');  
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
   static public function validateEmbed($validator, $value, $arguments)
   {

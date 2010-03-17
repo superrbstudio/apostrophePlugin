@@ -18,5 +18,7 @@ class aFeedForm extends sfForm
     // Ensures unique IDs throughout the page
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

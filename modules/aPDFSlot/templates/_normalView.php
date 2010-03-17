@@ -11,7 +11,7 @@
 
 <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-pdf">
-	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => __('Choose PDF'), 'label' => __('Select a PDF File'), 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => __('Choose PDF', null, 'apostrophe'), 'label' => __('Select a PDF File', null, 'apostrophe'), 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 <?php end_slot() ?>
@@ -41,7 +41,7 @@
 			<?php else: ?>
 
 
-				<?php echo link_to(__('Download PDF'), "aMediaBackend/original?" .
+				<?php echo link_to(__('Download PDF', null, 'apostrophe'), "aMediaBackend/original?" .
 								http_build_query(
 								array(
 								"slug" => $item->getSlug(),
@@ -66,7 +66,7 @@
 			</li>
     <?php endif ?>
 			<p class="a-pdf-download">
-	      <?php echo link_to(__("Download PDF"), "aMediaBackend/original?" .
+	      <?php echo link_to(__("Download PDF", null, 'apostrophe'), "aMediaBackend/original?" .
 								http_build_query(
 								array(
 								"slug" => $item->getSlug(),

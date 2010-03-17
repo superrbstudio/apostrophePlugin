@@ -23,6 +23,8 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 		$this->widgetSchema->setLabel('media_categories_list', 'Categories');
 		// If I don't unset this saving the form will purge existing relationships to slots
 		unset($this['slots_list']);
+		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
   public function updateObject($values = null)
   {

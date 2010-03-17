@@ -12,7 +12,7 @@
 	    "name" => "a-page-settings-form", 
 	    "id" => "a-page-settings-form")) ?>
 
-	<h3 id="a-page-settings-heading"><?php echo __('Page Settings') ?></h3>
+	<h3 id="a-page-settings-heading"><?php echo __('Page Settings', null, 'apostrophe') ?></h3>
 
 	<?php // We need this to distinguish the original AJAX POST from an ?>
 	<?php // actual form submit; we can't use a name attribute on the ?>
@@ -24,27 +24,27 @@
 		<div id="a-page-settings-left">
 			<?php if (isset($form['slug'])): ?>
 			  <div class="a-form-row slug">
-			    <label><?php echo __('Page Slug') ?></label>
+			    <label><?php echo __('Page Slug', null, 'apostrophe') ?></label>
 			    <?php echo $form['slug'] ?>
 			    <?php echo $form['slug']->renderError() ?>
 			  </div>
 			<?php endif ?>
 			<div class="a-form-row status">
-			  <label><?php echo __('Page Status') ?></label>
+			  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
 			  	<div class="a-page-settings-status">
 				    <?php echo $form['archived'] ?>
             <?php if(isset($form['cascade_archived'])): ?>
               <?php // If you want your <em> back here, do it in the translation file ?>
-              <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children') ?>
+              <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
             <?php endif ?> 
 					</div>
 			</div>			
 			<div class="a-form-row privacy">
-			  <label><?php echo __('Page Privacy') ?></label>
+			  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
 			  	<div class="a-page-settings-status">
 						<?php echo $form['view_is_secure'] ?>
 						<?php if(isset($form['cascade_view_is_secure'])): ?>
-                <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children') ?>
+                <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
             <?php endif ?> 
 					</div>
 			</div>
@@ -52,7 +52,7 @@
 	
   <div id="a-page-settings-right">
 	
-		<h4><?php echo __('Page Permissions') ?></h4>
+		<h4><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
 	
 		<div class="a-page-permissions">
 		  <?php include_partial('a/privileges', 
@@ -67,13 +67,13 @@
   </div>
 
 	<div class="a-form-row template" id="a-page-template">
-	  <label><?php echo __('Page Template') ?></label>
+	  <label><?php echo __('Page Template', null, 'apostrophe') ?></label>
 	  <?php echo $form['template'] ?>
 	  <?php echo $form['template']->renderError() ?>
 	</div>
 	
 	<div class="a-form-row engine">
-	  <label><?php echo __('Page Engine') ?></label>
+	  <label><?php echo __('Page Engine', null, 'apostrophe') ?></label>
 	  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
 	  <?php echo $form['engine']->renderError() ?>
 	</div>
@@ -85,10 +85,10 @@
 	
 	<ul id="a-page-settings-footer" class="a-controls a-page-settings-form-controls">
 		<li>
-		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes')) ?>" class="a-submit" id="a-page-settings-submit" />
+		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
 		</li>
 		<li>
-			<?php echo jq_link_to_function(__('Cancel'), '
+			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '
 				$("#a-page-settings").slideUp(); 
 				$("#a-page-settings-button-open").show(); 
 				$("#a-page-settings-button-close").addClass("loading").hide()
@@ -102,9 +102,9 @@
 		<li>
 			<?php $childMessage = ''; ?>
 			<?php if($page->hasChildren()): ?>
-			<?php $childMessage = __("This page has children that will also be deleted. "); ?>
+			<?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?>
 			<?php endif; ?>
-      <?php echo link_to(__("Delete This Page"), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.'), 'class' => 'a-btn icon a-delete')) ?>
+      <?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete')) ?>
     </li>
 		<?php endif ?>
 	</ul>

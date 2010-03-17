@@ -42,5 +42,7 @@ class aMediaBrowseForm extends sfForm
 
     // Yes, really: this makes it contextual without extra effort
     $this->widgetSchema->setNameFormat('%s');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

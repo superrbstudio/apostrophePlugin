@@ -7,7 +7,7 @@
 	<?php include_component('aMedia', 'browser') ?>
 
 	<div class="a-media-toolbar">
-		<h3><?php echo __('You are editing: %title%', array('%title%' => $item->getTitle())) ?></h3>
+		<h3><?php echo __('You are editing: %title%', array('%title%' => $item->getTitle()), 'apostrophe') ?></h3>
 	</div>
 
 	<div class="a-media-library">			

@@ -11,7 +11,7 @@
 
 <div id="a-page-tree-container">
 
-	<h2 class="reorganize-title"><?php echo __('Drag and drop pages to reorganize the site.') ?></h2>
+	<h2 class="reorganize-title"><?php echo __('Drag and drop pages to reorganize the site.', null, 'apostrophe') ?></h2>
 
 	<div id="tree"></div>
 

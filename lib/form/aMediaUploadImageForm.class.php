@@ -21,6 +21,7 @@ class aMediaUploadImageForm extends sfForm
     // The same as the edit form by design
     $this->widgetSchema->setNameFormat('a_media_item[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
 }

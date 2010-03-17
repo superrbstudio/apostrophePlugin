@@ -9,7 +9,7 @@
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
     <li class="a-controls-item choose-images">
-    <?php echo link_to(__('Choose images'),
+    <?php echo link_to(__('Choose images', null, 'apostrophe'),
       'aMedia/select',
       array(
         'query_string' => 
@@ -19,7 +19,7 @@
               array("multiple" => true,
               "aMediaIds" => implode(",", $itemIds),
               "type" => "image",
-              "label" => __("Create a Slideshow"),
+              "label" => __("Create a Slideshow", null, 'apostrophe'),
               "after" => url_for("aSlideshowSlot/edit") . "?" . 
                 http_build_query(
                   array(
