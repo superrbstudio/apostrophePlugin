@@ -13,7 +13,11 @@ class aMediaCMSSlotsTools
     if ($user->hasCredential('media_admin') || $user->hasCredential('media_upload'))
     {
       aTools::addGlobalButtons(array(
-        new aGlobalButton('Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
+        new aGlobalButton('media', 'Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
     }
+  }
+  static private function i18nDummy()
+  {
+    __('Media');
   }
 }

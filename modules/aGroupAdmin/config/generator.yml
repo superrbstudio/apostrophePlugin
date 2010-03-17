@@ -9,7 +9,7 @@ generator:
     plural:                ~
     route_prefix:          a_group_admin
     with_doctrine_route:     1
-
+    i18n_catalogue: apostrophe
     config:
       list:
         title: Group list

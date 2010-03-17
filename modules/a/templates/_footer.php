@@ -7,4 +7,3 @@
 <?php if (sfConfig::get('app_a_credit', true)): ?>
 <div class="a-attribution">Built with <a href="http://www.apostrophenow.com/">Apostrophe</a></div>
 <?php endif ?>
-<?php echo("Your culture is set to " . $sf_user->getCulture()) ?>
