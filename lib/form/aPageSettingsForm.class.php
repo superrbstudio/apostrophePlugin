@@ -7,6 +7,19 @@
 
 class aPageSettingsForm extends aPageForm
 {
+  // Use this to i18n select choices that SHOULD be i18ned and other things that the
+  // sniffer would otherwise miss. It never gets called, it's just here for our i18n-update 
+  // task to sniff. Don't worry about widget labels or validator error messages,
+  // the sniffer is smart about those
+  private function i18nDummy()
+  {
+    __('Choose a User to Add', null, 'apostrophe');
+    __('Home Page', null, 'apostrophe');
+    __('Default Page', null, 'apostrophe');
+    __('Template-Based', null, 'apostrophe');
+    __('Media', null, 'apostrophe');
+  }
+  
   public function configure()
   {
     // We must explicitly limit the fields because otherwise tables with foreign key relationships

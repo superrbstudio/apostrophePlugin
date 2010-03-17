@@ -2,6 +2,14 @@
 
 class aMediaImageForm extends aMediaItemForm
 {
+  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+  // it's just here for our i18n-update task to sniff
+  private function i18nDummy()
+  {
+    __('Public', null, 'apostrophe');
+    __('Hidden', null, 'apostrophe');
+  }
+  
   public function configure()
   {
     unset($this['type']);

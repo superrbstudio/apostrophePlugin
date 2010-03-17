@@ -2,6 +2,16 @@
 
 class aMediaBrowseForm extends sfForm
 {
+  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+  // it's just here for our i18n-update task to sniff
+  private function i18nDummy()
+  {
+    __('All', null, 'apostrophe');
+    __('Image', null, 'apostrophe');
+    __('Video', null, 'apostrophe');
+    __('PDF', null, 'apostrophe');
+  }
+
   public function configure()
   {
     $typeOptions = array(
