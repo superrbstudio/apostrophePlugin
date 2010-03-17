@@ -833,8 +833,12 @@ abstract class PluginaPage extends BaseaPage
     // Raw PDO for performance
     $connection = Doctrine_Manager::connection();
     $pdo = $connection->getDbh();
+    // When we look for the current culture, we need to do it in the ON clause, not
+    // in the WHERE clause. Otherwise we don't get any information at all about pages
+    // not i18n'd yet
+    $escCulture = $connection->quote($this->getCulture());
     $query = "SELECT p.id, p.slug, p.view_is_secure, p.archived, p.lft, p.rgt, p.level, p.engine, s.value AS title FROM a_page p
-      LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title'
+      LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
       LEFT JOIN a_slot s ON s.id = avs.slot_id ";
@@ -852,8 +856,6 @@ abstract class PluginaPage extends BaseaPage
     {
       $whereClauses[] = '(p.admin IS FALSE OR p.admin IS NULL)';
     }
-    // Pay attention to the current culture. Thanks to virtualize
-    $whereClauses[] =  '(a.culture = ' . $connection->quote($this->getCulture()) . ')';
     $whereClauses[] = $where;
     $query .= "WHERE " . implode(' AND ', $whereClauses);
     $query .= " ORDER BY p.lft";
@@ -862,6 +864,21 @@ abstract class PluginaPage extends BaseaPage
     $results = array();
     foreach ($resultSet as $result)
     {
+      // If there is no title yet, supply one to help the translator limp along
+      if (!strlen($result['title']))
+      {
+        if ($result['slug'] === '/')
+        {
+          $result['title'] = 'home';
+        }
+        else
+        {
+          if (preg_match('|([^/]+)$|', $result['slug'], $matches))
+          {
+            $result['title'] = $matches[1];
+          }
+        }
+      }
       $results[] = $result;
     }
     return $results;
