@@ -19,6 +19,8 @@ class aRenameForm extends sfForm
     $this->setWidget('id', new sfWidgetFormInputHidden(array('default' => $this->page->getId())));
     // It's not sfFormWidgetInput anymore in 1.4
     $this->setWidget('title', new sfWidgetFormInputText(array('default' => html_entity_decode($this->page->getTitle())), array('class' => 'epc-value a-breadcrumb-input')));
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }
 

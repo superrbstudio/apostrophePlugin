@@ -23,14 +23,14 @@
 <?php echo $form ?>
 
 <div class="a-form-row submit">
-<input type="submit" name="add" value="<?php echo __('add') ?>" class="a-btn icon a-add icon-only" />
-<?php echo jq_link_to_function(__('Cancel'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon icon-only a-cancel', )) ?>
+<input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-btn icon a-add icon-only" />
+<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon icon-only a-cancel', )) ?>
 </div>
 </form>
 
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-	aInputSelfLabel('#a_media_category_name', <?php echo json_encode(__('New Category')) ?>);	
+	aInputSelfLabel('#a_media_category_name', <?php echo json_encode(__('New Category', null, 'apostrophe')) ?>);	
 	$('#a-media-edit-categories-button, #a-media-no-categories-messagem, #a-category-sidebar-list').hide();
 	$('#a_media_category_name').focus();
 	// Temporary - See CSS for Notes

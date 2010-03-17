@@ -9,5 +9,7 @@ class aMediaVideoSearchForm extends sfForm
     $this->widgetSchema->setNameFormat('videoSearch[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');  
     $this->widgetSchema->setLabel('q', ' ');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

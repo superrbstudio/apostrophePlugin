@@ -4,7 +4,7 @@
 <tr class="a-history-item" id="a-history-item-<?php echo $data['version'] ?>">
   <?php if (0): ?>
 	  <td class="id">
-		  <?php echo __('ID#') ?>
+		  <?php echo __('ID#', null, 'apostrophe') ?>
 	  </td>
 	<?php endif ?>
 	<td class="date">
@@ -53,7 +53,7 @@
 		<td class="id">
 		</td>
 		<td class="date">
-			<?php echo __('No history found.') ?>
+			<?php echo __('No history found.', null, 'apostrophe') ?>
 		</td>
 		<td class="editor">
 		</td>

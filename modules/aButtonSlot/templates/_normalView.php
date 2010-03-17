@@ -15,7 +15,7 @@
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
   	<li class="a-controls-item choose-image">
-  	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image'), 'label' => __('Select an Image'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+  	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
   	</li>
 			<?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page, 'controlsSlot' => false)) ?>
   <?php end_slot() ?>

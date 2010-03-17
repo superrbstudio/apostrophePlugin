@@ -1,5 +1,5 @@
 <?php use_helper('I18N') ?>
-<?php echo jq_link_to_function(__("Add Page"), 
+<?php echo jq_link_to_function(__("Add Page", null, 'apostrophe'), 
 	'$("#a-breadcrumb-create-childpage-form").fadeIn(250, function(){ $(".a-breadcrumb-create-childpage-title").focus(); }); 
 	$("#a-breadcrumb-create-childpage-button").hide(); 
 	$("#a-breadcrumb-create-childpage-button").prev().hide();
@@ -21,7 +21,7 @@
 			<button type="submit" class="a-btn">Create Page</button>			
 		</li>
 	  <li>
-			<?php echo jq_link_to_function(__("cancel"), 
+			<?php echo jq_link_to_function(__("cancel", null, 'apostrophe'), 
 				'$("#a-breadcrumb-create-childpage-form").hide(); 
 				$("#a-breadcrumb-create-childpage-button").fadeIn(); 
 				$("#a-breadcrumb-create-childpage-button").prev(".a-i").fadeIn();', 
@@ -32,7 +32,7 @@
 	</ul>
 
 	<script type="text/javascript" charset="utf-8">
-		aInputSelfLabel('#a-breadcrumb-create-title', <?php echo json_encode(__('Page Title')) ?>);
+		aInputSelfLabel('#a-breadcrumb-create-title', <?php echo json_encode(__('Page Title', null, 'apostrophe')) ?>);
 	</script>
 
 </form>

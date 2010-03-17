@@ -13,7 +13,7 @@
 	    "name" => "a-personal-settings-form", 
 	    "id" => "a-personal-settings-form")) ?>
 
-	<h3 id="a-personal-settings-heading"><?php echo __('User Preferences for %name%', array('%name%' => "<span>" . $sf_user->getGuardUser()->getUsername() . "</span>")) ?></h3>
+	<h3 id="a-personal-settings-heading"><?php echo __('User Preferences for %name%', array('%name%' => "<span>" . $sf_user->getGuardUser()->getUsername() . "</span>"), 'apostrophe') ?></h3>
 
 	<?php // We need this to distinguish the original AJAX POST from an ?>
 	<?php // actual form submit; we can't use a name attribute on the ?>
@@ -24,10 +24,10 @@
 	
 	<ul id="a-personal-settings-footer" class="a-controls a-personal-settings-form-controls">
 		<li>
-		  <input type="submit" name="a-personal-settings-submit" value="<?php echo htmlspecialchars(__('Save Changes')) ?>" id="a-personal-settings-submit" class="a-submit" />
+		  <input type="submit" name="a-personal-settings-submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" id="a-personal-settings-submit" class="a-submit" />
 		</li>
 		<li>
-			<?php echo jq_link_to_function(__('Cancel'), '
+			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '
 				$("#a-personal-settings").slideUp(); 
 				$("#a-personal-settings-button-open").show(); 
 				$("#a-personal-settings-button-close").addClass("loading").hide()

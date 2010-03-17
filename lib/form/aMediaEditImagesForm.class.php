@@ -28,6 +28,7 @@ class aMediaEditImagesForm extends sfForm
     
     $this->widgetSchema->setNameFormat('a_media_items[%s]'); 
     // $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
   

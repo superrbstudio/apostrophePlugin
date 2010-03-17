@@ -10,6 +10,8 @@ class BaseaPersonalSettingsForm extends sfGuardUserProfileForm
     unset($this['user_id']);
     $this->widgetSchema->setNameFormat('settings[%s]');
     $this->widgetSchema->setFormFormatterName('list');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }
 

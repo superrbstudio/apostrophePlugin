@@ -45,6 +45,8 @@ class aMediaVideoForm extends aMediaItemForm
     $this->widgetSchema->setLabel("view_is_secure", "Permissions");
     $this->widgetSchema->setlabel("media_categories_list", "Categories");
     $this->widgetSchema->setFormFormatterName('aAdmin');  
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
     
   }
   public function updateObject($values = null)

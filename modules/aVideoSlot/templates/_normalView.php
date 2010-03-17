@@ -9,7 +9,7 @@
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
     <li class="a-controls-item choose-video">
-	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => __('Choose Video'), 'label' => __('Select a Video'), 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => __('Choose Video', null, 'apostrophe'), 'label' => __('Select a Video', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	  </li>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
   <?php end_slot() ?>

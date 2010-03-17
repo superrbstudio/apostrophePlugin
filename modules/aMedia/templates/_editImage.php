@@ -50,13 +50,13 @@
 
     <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
     <div class="a-form-row tags help">
-    <?php echo __('Tags should be separated by commas. Example: sales, kittens, laboratory') ?>
+    <?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
     </div>
 
 		<div class="a-form-row tags"><?php echo $form['tags']->renderRow() ?></div>
 
     <div class="a-form-row permissions help">
-			<?php echo __('Hidden Photos can be used in photo slots, but are not displayed in the Media section.') ?>
+			<?php echo __('Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
     </div>
 
 		<div class="a-form-row permissions">
@@ -83,9 +83,9 @@
      	<li class="a-controls-item cancel"><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
 
       <li class="a-controls-item delete">
-			<?php echo link_to(__("Delete"), "aMedia/delete?" . http_build_query(
+			<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
-         array("confirm" => __("Are you sure you want to delete this item?"), "class"=>"a-btn icon a-delete icon-only", 'title' => __('Delete'), ),
+         array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete icon-only", 'title' => __('Delete', null, 'apostrophe'), ),
          array("target" => "_top")) ?>
 			</li>
 

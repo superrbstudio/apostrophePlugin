@@ -1,13 +1,13 @@
 <?php use_helper('I18N') ?>
 <?php if ($options['arrows'] && (count($items) > 1)): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-	<li class="a-slideshow-controls-previous a-btn a-arrow-left icon nobg"><?php echo __('Previous') ?></li>
+	<li class="a-slideshow-controls-previous a-btn a-arrow-left icon nobg"><?php echo __('Previous', null, 'apostrophe') ?></li>
 	<?php if ($options['position']): ?>
 		<li class="a-slideshow-position">
 			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
 		</li>
 	<?php endif ?>
-	<li class="a-slideshow-controls-next a-btn a-arrow-right icon nobg"><?php echo __('Next') ?></li>
+	<li class="a-slideshow-controls-next a-btn a-arrow-right icon nobg"><?php echo __('Next', null, 'apostrophe') ?></li>
 </ul>
 <?php endif ?>
 
@@ -71,7 +71,7 @@
 		<?php endif ?>
 		
 		var intervalEnabled = <?php echo ($options['interval'])? 1:0; ?>;
-		slideshowItems.attr('title', <?php echo json_encode(__('Click For Next Image')) ?>);
+		slideshowItems.attr('title', <?php echo json_encode(__('Click For Next Image', null, 'apostrophe')) ?>);
 	
 		$('#a-slideshow-<?php echo $id ?>').bind('showImage', function(e, num){
 			position = num;

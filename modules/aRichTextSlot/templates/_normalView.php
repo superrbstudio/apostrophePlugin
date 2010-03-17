@@ -4,7 +4,7 @@
 <?php if (!strlen($value)): ?>
 
   <?php if ($editable): ?>
-    <?php echo __('Click edit to add text.') ?>
+    <?php echo __('Click edit to add text.', null, 'apostrophe') ?>
   <?php endif ?>
 
 <?php else: ?>

@@ -62,6 +62,8 @@ class aMediaImageForm extends aMediaItemForm
     // $this->widgetSchema->setFormFormatterName('aAdmin');
     
     $this->widgetSchema->setLabel('media_categories_list', 'Categories');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
   
   public function updateObject($values = null)

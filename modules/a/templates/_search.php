@@ -7,5 +7,5 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	aInputSelfLabel('#a-search-cms-field', <?php echo json_encode(__('Search')) ?>);
+	aInputSelfLabel('#a-search-cms-field', <?php echo json_encode(__('Search', null, 'apostrophe')) ?>);
 </script>

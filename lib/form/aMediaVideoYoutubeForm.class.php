@@ -11,5 +11,7 @@ class aMediaVideoYoutubeForm extends aMediaVideoForm
         array('required' => true, 'trim' => true),
         array('required' => "Not a valid YouTube URL")));
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }

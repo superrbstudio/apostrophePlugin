@@ -12,5 +12,6 @@ class aPageForm extends BaseaPageForm
 {
   public function configure()
   {
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
 }

@@ -12,6 +12,8 @@ class aMediaUploadImagesForm extends sfForm
       $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'atLeastOne'))));
     }
     $this->widgetSchema->setFormFormatterName('aAdmin');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
   // Thanks yet again to http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
   public function atLeastOne($validator, $values, $args)

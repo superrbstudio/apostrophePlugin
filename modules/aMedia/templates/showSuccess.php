@@ -18,7 +18,7 @@
 <?php // This was inside a ul which doesn't make sense ?>
 
 
-<?php echo link_to(__('Media Library'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left thin', 'id' => 'media-library-back-button', ))?>
+<?php echo link_to(__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left thin', 'id' => 'media-library-back-button', ))?>
 
 <ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
 	<li class="a-media-item-source">
@@ -29,16 +29,16 @@
   <?php // Stored as HTML ?>
 	<li class="a-media-item-title"><h3><?php echo htmlspecialchars($mediaItem->getTitle()) ?></h3></li>
   <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
-	<li class="a-media-item-dimensions a-media-item-meta"><span><?php echo __('Original Dimensions:') ?></span> <?php echo __('%width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' =>  $mediaItem->getHeight())) ?></li>
-  <li class="a-media-item-created-at a-media-item-meta"><span><?php echo __('Uploaded:') ?></span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
-  <li class="a-media-item-credit a-media-item-meta"><span><?php echo __('Credit:') ?></span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
-  <li class="a-media-item-categories a-media-item-meta"><span><?php echo __('Categories:') ?></span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
-  <li class="a-media-item-tags a-media-item-meta"><span><?php echo __('Tags:') ?></span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
+	<li class="a-media-item-dimensions a-media-item-meta"><span><?php echo __('Original Dimensions:', null, 'apostrophe') ?></span> <?php echo __('%width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' =>  $mediaItem->getHeight()), 'apostrophe') ?></li>
+  <li class="a-media-item-created-at a-media-item-meta"><span><?php echo __('Uploaded:', null, 'apostrophe') ?></span> <?php echo aDate::pretty($mediaItem->getCreatedAt()) ?></li>
+  <li class="a-media-item-credit a-media-item-meta"><span><?php echo __('Credit:', null, 'apostrophe') ?></span> <?php echo htmlspecialchars($mediaItem->getCredit()) ?></li>
+  <li class="a-media-item-categories a-media-item-meta"><span><?php echo __('Categories:', null, 'apostrophe') ?></span> <?php include_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories())) ?></li>
+  <li class="a-media-item-tags a-media-item-meta"><span><?php echo __('Tags:', null, 'apostrophe') ?></span> <?php include_partial('aMedia/showTags', array('tags' => $mediaItem->getTags())) ?></li>
 	<li class="a-media-item-download">
 		<?php if ($mediaItem->getType() !== 'video'): ?>
         <?php // download link ?>
         <?php echo link_to(
-          __("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>")),
+          __("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),
           "aMediaBackend/original?" .
             http_build_query(
               array(

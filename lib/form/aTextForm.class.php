@@ -29,5 +29,7 @@ class aTextForm extends sfForm
     $this->setWidgets(array('value' => new sfWidgetFormTextarea(array('default' => html_entity_decode(strip_tags($this->value))), $this->soptions)));
     $this->setValidators(array('value' => new sfValidatorString(array('required' => false))));
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');    
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    
   }
 }
