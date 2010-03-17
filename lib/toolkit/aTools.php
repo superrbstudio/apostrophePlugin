@@ -309,19 +309,18 @@ class aTools
     if ($user->hasCredential('admin'))
     {
       $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
-        array(
-          array('name' => 'users', 'label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
-          array('name' => 'reorganize', 'label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
+        array('users' => array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
+          'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
       // Eventually this one too. Reorganize will probably get moved into it
       // ('Settings', 'a/globalSettings', 'a-settings')
 
       if (is_array($extraAdminButtons))
       {
-        foreach ($extraAdminButtons as $data)
+        foreach ($extraAdminButtons as $name => $data)
         {
           aTools::addGlobalButtons(array(new aGlobalButton(
-            $data['name'], $data['label'], $data['action'], isset($data['class']) ? $data['class'] : '')));
+            $name, $data['label'], $data['action'], isset($data['class']) ? $data['class'] : '')));
         }
       }
     }
