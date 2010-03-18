@@ -1756,6 +1756,12 @@ cursor: default;
 .a_pager_navigation a.a_pager_navigation_first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+-moz-border-top-left-radius:10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-moz-border-bottom-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
 }
 
 .a_pager_navigation a.a_pager_navigation_first:hover
@@ -1767,6 +1773,7 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 background-position: -22px 0;
 width: 19px;
 margin-right: 5px;
+margin-left:1px;
 }
 .a_pager_navigation a.a_pager_navigation_previous:hover
 {
@@ -1777,6 +1784,7 @@ background-position: -22px -40px !important;
 background-position: -41px 0;
 width: 19px;
 margin-left: 5px;
+margin-right: 1px;
 }
 .a_pager_navigation a.a_pager_navigation_next:hover
 {
@@ -1785,6 +1793,12 @@ background-position: -41px -60px;
 .a_pager_navigation a.a_pager_navigation_last
 {
 background-position: -60px 0;
+-moz-border-top-right-radius:10px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-moz-border-bottom-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
 }
 .a_pager_navigation a.a_pager_navigation_last:hover
 {
@@ -1797,6 +1811,12 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
+-moz-border-top-left-radius:10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-moz-border-bottom-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
 }
 
 .a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
@@ -1806,14 +1826,23 @@ text-indent: -999px;
 overflow: hidden;
 width: 19px;
 margin-right: 5px;
+margin-left:1px;
+
 }
 
 .a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -60px -80px;
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background-position:-60px -80px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
+-moz-border-top-right-radius:10px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-moz-border-bottom-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
 }
 
 .a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
@@ -1823,13 +1852,25 @@ text-indent: -999px;
 overflow: hidden;
 width: 19px;
 margin-left: 5px;
+margin-right:1px;
 }
 
 
+.a_pager_navigation a.a_pager_navigation_first,
+.a_pager_navigation a.a_pager_navigation_previous,
+.a_pager_navigation a.a_pager_navigation_next,
+.a_pager_navigation a.a_pager_navigation_last
+{
+	background-color:#e2e2e2;
+}
 
-
-
-
+.a_pager_navigation a.a_pager_navigation_first:hover,
+.a_pager_navigation a.a_pager_navigation_previous:hover,
+.a_pager_navigation a.a_pager_navigation_next:hover,
+.a_pager_navigation a.a_pager_navigation_last:hover
+{
+	background-color:#e2e2e2;
+}
 
 /* 11. aUI Global Toolbar
 -------------------------------------*/
