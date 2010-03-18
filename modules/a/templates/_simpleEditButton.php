@@ -20,6 +20,7 @@
 		var editSlot = $('#a-slot-<?php echo "$pageid-$name-$permid" ?>');
 		editBtn.click(function(event){
 			$(this).parent().addClass('editing-now');
+			$(this).parents('.a-area').addClass('editing-now');
 			$(editSlot).children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide content
 			$(editSlot).children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide content
 			$(editSlot).children('.a-slot-content').children('.a-slot-form').fadeIn();							// Show form
