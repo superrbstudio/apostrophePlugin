@@ -64,7 +64,8 @@ class sfWidgetFormJQueryDate extends sfWidgetFormDate
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
     $prefix = $this->generateId($name);
-
+    // Spike Broehm: hyphens are not valid in function names
+    $prefix = str_replace('-', '_', $prefix);
     $image = '';
     if (false !== $this->getOption('image'))
     {
