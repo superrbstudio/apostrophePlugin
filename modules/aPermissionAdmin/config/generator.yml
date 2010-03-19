@@ -23,4 +23,5 @@ generator:
         title: New Permission
 
       form:
+        class: aPermissionAdminForm
         display: [name, description, groups_list, users_list]

@@ -174,6 +174,7 @@ class aTools
   
   static public function getSlotTypesInfo($options)
   {
+    $instance = sfContext::getInstance();
     $slotTypes = array_merge(
       array(
          'aText' => 'Plain Text',
@@ -569,7 +570,19 @@ class aTools
   
   static private function i18nDummy()
   {
-    __('Reorganize');
-    __('Users');
+    __('Reorganize', null, 'apostrophe');
+    __('Users', null, 'apostrophe');
+    __('Plain Text', null, 'apostrophe');
+    __('Rich Text', null, 'apostrophe');
+    __('RSS Feed', null, 'apostrophe');
+    __('Image', null, 'apostrophe');
+    __('Slideshow', null, 'apostrophe');
+    __('Button', null, 'apostrophe');
+    __('Video', null, 'apostrophe');
+    __('PDF', null, 'apostrophe');
+    __('Raw HTML', null, 'apostrophe');    
+    __('Template-Based', null, 'apostrophe');
+    __('Users', null, 'apostrophe');
+    __('Reorganize', null, 'apostrophe');
   }
 }
