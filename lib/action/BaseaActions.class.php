@@ -1,19 +1,19 @@
 <?php
 
 /**
- * a actions.
+ a actions.
  *
- * @package    apostrophe
- * @subpackage a
- * @author     Your name here
- * @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
+ @package    apostrophe
+ @subpackage a
+ @author     Your name here
+ @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
  */
 class BaseaActions extends sfActions
 {
  /**
-  * Executes index action
+  Executes index action
   *
-  * @param sfRequest $request A request object
+  @param sfWebRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
@@ -70,22 +70,22 @@ class BaseaActions extends sfActions
     $this->flunkUnless($page->userHasPrivilege($privilege));
   }
 
-  public function executeSort(sfRequest $request)
+  public function executeSort(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-navcolumn');
   }
   
-  public function executeSortTree(sfRequest $request)
+  public function executeSortTree(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-navcolumn');
   }
   
-  public function executeSortTabs(sfRequest $request)
+  public function executeSortTabs(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-tab-nav-item', '/');
   }
   
-  public function executeSortNav(sfRequest $request)
+  public function executeSortNav(sfWebRequest $request)
   {
     return $this->sortNavWrapper('a-tab-nav-item');
   }
@@ -169,7 +169,7 @@ class BaseaActions extends sfActions
     $this->unlockTree();
   }
 
-  public function executeRename(sfRequest $request)
+  public function executeRename(sfWebRequest $request)
   {
     $page = $this->retrievePageForEditingByIdParameter();
     $this->flunkUnless($page);
@@ -179,7 +179,7 @@ class BaseaActions extends sfActions
     return $this->redirect($page->getUrl());
   }
 
-  public function executeShowArchived(sfRequest $request)
+  public function executeShowArchived(sfWebRequest $request)
   {
     $page = $this->retrievePageForEditingByIdParameter();
     $this->state = $request->getParameter('state');
@@ -255,7 +255,7 @@ class BaseaActions extends sfActions
   public function executeHistory()
   {
     // Careful: if we don't build the query our way,
-    // we'll get *all* slots as soon as we peek at ->slots,
+    // we'll get *allslots as soon as we peek at ->slots,
     // including slots that are not current etc.
     $page = $this->retrievePageForAreaEditing();
     $all = $this->getRequestParameter('all');
@@ -265,7 +265,7 @@ class BaseaActions extends sfActions
     $this->all = $all;
   }
   
-  public function executeAddSlot(sfRequest $request)
+  public function executeAddSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
@@ -278,7 +278,7 @@ class BaseaActions extends sfActions
     }
   }
 
-  public function executeMoveSlot(sfRequest $request)
+  public function executeMoveSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
@@ -313,7 +313,7 @@ class BaseaActions extends sfActions
     }
   }
 
-  public function executeDeleteSlot(sfRequest $request)
+  public function executeDeleteSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
@@ -328,7 +328,7 @@ class BaseaActions extends sfActions
 
   // TODO: refactor. This should probably move into BaseaSlotActions and share more code with executeEdit
   
-  public function executeSetVariant(sfRequest $request)
+  public function executeSetVariant(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
@@ -370,7 +370,7 @@ class BaseaActions extends sfActions
         'validationData' => array()));
   }
 
-  public function executeRevert(sfRequest $request)
+  public function executeRevert(sfWebRequest $request)
   {
     $version = false;
     $subaction = $request->getParameter('subaction');
@@ -418,7 +418,7 @@ class BaseaActions extends sfActions
     return $page;
   }
 
-  public function executeSettings(sfRequest $request)
+  public function executeSettings(sfWebRequest $request)
   {
     if ($request->hasParameter('settings'))
     {
@@ -551,7 +551,7 @@ class BaseaActions extends sfActions
     return $this->redirect($parent->getUrl());
   }
   
-  public function executeSearch(sfRequest $request)
+  public function executeSearch(sfWebRequest $request)
   {
     // create the array of pages matching the query
     $q = $request->getParameter('q');
@@ -640,7 +640,7 @@ class BaseaActions extends sfActions
     }
   }
   
-  public function executeReorganize(sfRequest $request)
+  public function executeReorganize(sfWebRequest $request)
   {
     
     // Reorganizing the tree = escaping your page-specific security limitations.
@@ -758,12 +758,12 @@ class BaseaActions extends sfActions
   // ajax/iframe breakers for use in forcing the user back to the login page
   // when they try to do an ajax action after timing out.
   
-  public function executeCleanSignin(sfRequest $request)
+  public function executeCleanSignin(sfWebRequest $request)
   {
     // Template is a frame/ajax breaker, redirects to phase 2
   }
   
-  public function executeCleanSigninPhase2(sfRequest $request)
+  public function executeCleanSigninPhase2(sfWebRequest $request)
   {
     $this->getRequest()->isXmlHttpRequest();
     $cookies = array_keys($_COOKIE);
@@ -787,7 +787,7 @@ class BaseaActions extends sfActions
     exit(0);
   }
   
-  public function executePersonalSettings(sfRequest $request)
+  public function executePersonalSettings(sfWebRequest $request)
   {
     $this->forward404Unless(sfConfig::get('app_a_personal_settings_enabled', false));
     $this->logMessage("ZZ hello", "info");
@@ -807,6 +807,19 @@ class BaseaActions extends sfActions
         return 'Redirect';
       }
     }
+  }
+  
+  public function executeLanguage(sfWebRequest $request)
+  {
+    $this->form = new aLanguageForm(null, array('languages' => sfConfig::get('app_a_i18n_languages')));
+    if ($this->form->process($request))
+    {
+      // culture has changed
+      return $this->redirect('@homepage');
+    }
+
+    // the form is not valid (can't happen... but you never know)
+    return $this->redirect('@homepage');
   }
   
   // There are potential race conditions in the Doctrine nested set code, and also 

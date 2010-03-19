@@ -1,6 +1,5 @@
 <ul class="a-controls">
 <?php if ($sf_user->isAuthenticated()): ?>
-  
 	<?php if (sfConfig::get('app_a_personal_settings_enabled', false)): ?>
 	<li id="a-logged-in-as"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span>								
 	<?php // Sets up open and close buttons, ajax loading of form ?>
@@ -15,9 +14,11 @@
 	<?php else: ?>
 		<li id="a-logged-in-as"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span><?php echo $sf_user->getGuardUser()->getUsername() ?></span></li>									
 	<?php endif ?>
+	<?php include_partial('a/language') ?>
 	
   <li><?php echo link_to(__('Log Out', null, 'apostrophe'), sfConfig::get('app_a_actions_logout', 'sfGuardAuth/signout'), array('class' => 'a-btn', )) ?></li>
 <?php else: ?>
+	<?php include_partial('a/language') ?>
   <?php // You can easily turn off the 'Log In' link via app.yml ?>
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li>
