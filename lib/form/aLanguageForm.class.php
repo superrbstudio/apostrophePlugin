@@ -61,7 +61,11 @@ class aLanguageForm extends sfForm
 
     if (!isset($options['languages']))
     {
-      throw new RuntimeException(sprintf('%s requires a "languages" option.', get_class($this)));
+      $options['languages'] = sfConfig::get('app_a_i18n_languages', false);
+      if ($options['languages'] === false)
+      {
+        throw new RuntimeException(sprintf('%s requires a "languages" option.', get_class($this)));
+      }
     }
 
     parent::__construct(array('language' => $user->getCulture()), $options, $CSRFSecret);
