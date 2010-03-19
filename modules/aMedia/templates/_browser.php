@@ -19,7 +19,7 @@
 <div id="a-subnav" class="media">
 	<div class="a-subnav-wrapper">
 
-  	<h4>Find in Media</h4>
+  	<h4><?php echo __('Find in Media', null, 'apostrophe') ?></h4>
 
 	  <form method="POST" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
 	    <?php echo isset($search) ? link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) : '' ?>
@@ -34,13 +34,13 @@
 		  <ul class="a-filter-options type">
 				<?php $type = isset($type) ? $type : '' ?>
 				<li class="a-filter-option">
-					<?php echo link_to('Image', aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
+					<?php echo link_to(__('Image', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
 				</li>
 				<li class="a-filter-option">
-					<?php echo link_to('Video', aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
+					<?php echo link_to(__('Video', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
 				</li>
 				<li class="a-filter-option">
-					<?php echo link_to('PDF', aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
+					<?php echo link_to(__('PDF', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
 				</li>
 		  </ul>
 		</div>

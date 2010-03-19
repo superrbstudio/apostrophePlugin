@@ -7,7 +7,7 @@
           <?php echo htmlspecialchars($info['name']) ?> (<?php echo $info['count'] ?>)
         </li>
         <li class="actions">
-          <?php echo jq_link_to_remote("Delete", array('url' => "aMedia/deleteCategory?" . http_build_query(array('slug' => $info['slug'])), 'update' => 'a-media-edit-categories'), array("class" => "a-btn icon icon-only a-delete")) ?>
+          <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array('url' => "aMedia/deleteCategory?" . http_build_query(array('slug' => $info['slug'])), 'update' => 'a-media-edit-categories'), array("class" => "a-btn icon icon-only a-delete")) ?>
         </li>
       </ul>
     </li>
