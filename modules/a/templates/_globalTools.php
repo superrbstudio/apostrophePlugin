@@ -36,7 +36,7 @@ These are mostly links to independent modules.
   			  <?php if ($button->getTargetEnginePage()): ?>
   			    <?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
   			  <?php endif ?>
-  			  <li><?php echo link_to(__($button->getLabel()), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
+  			  <li><?php echo link_to(__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
   			<?php endforeach ?>
 				<?php if (0): ?><li><?php echo jq_link_to_function('Cancel','',array('class' => 'a-btn icon a-cancel event-default', )) ?></li><?php endif ?>
   		</ul>
