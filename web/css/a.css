@@ -1859,7 +1859,11 @@ margin-right:1px;
 .a_pager_navigation a.a_pager_navigation_first,
 .a_pager_navigation a.a_pager_navigation_previous,
 .a_pager_navigation a.a_pager_navigation_next,
-.a_pager_navigation a.a_pager_navigation_last
+.a_pager_navigation a.a_pager_navigation_last,
+.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
 {
 	background-color:#e2e2e2;
 }
