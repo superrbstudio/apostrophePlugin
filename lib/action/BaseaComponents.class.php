@@ -89,7 +89,7 @@ class BaseaComponents extends BaseaSlotComponents
       {
         $this->options['edit'] = true;
       }
-      $user->setAttribute("area-options-$id-$name", $this->options);
+      $user->setAttribute("area-options-$id-$name", $this->options, 'apostrophe');
     }
     // Editability override, useful for virtual pages where access control depends on something
     // external to the CMS

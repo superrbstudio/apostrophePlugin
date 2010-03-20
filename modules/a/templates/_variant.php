@@ -1,5 +1,5 @@
 <?php use_helper('I18N') ?>
-<?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid") ?>
+<?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid", null, 'apostrophe') ?>
 <?php $variants = aTools::getVariantsForSlotType($slot->type, $options) ?>
 <?php if ((!$slot->isNew()) && (count($variants) > 1)): ?>
   <li class="a-controls-item variant" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">

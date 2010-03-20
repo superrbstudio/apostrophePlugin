@@ -159,7 +159,7 @@ function _a_navcolumn_body($page)
   // subpage, so just allow those with potential-editor privs to see that archived pages
   // exist, whether or not they are allowed to actually edit them
   if (aTools::isPotentialEditor() && 
-    $sf_user->getAttribute('show-archived', true, 'a'))
+    $sf_user->getAttribute('show-archived', true, 'apostrophe'))
   {
     $livingOnly = false;
   }

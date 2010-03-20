@@ -245,10 +245,10 @@ class aTools
     $lookingFor = "area-options-$pageid-$name";
     $options = array();
     $user = sfContext::getInstance()->getUser();
-    if ($user->hasAttribute($lookingFor, 'a'))
+    if ($user->hasAttribute($lookingFor, false, 'apostrophe'))
     {
       $options = $user->getAttribute(
-        $lookingFor, false, "a");
+        $lookingFor, false, 'apostrophe');
     }
     return $options;
   }

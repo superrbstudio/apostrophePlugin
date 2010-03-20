@@ -42,7 +42,7 @@ abstract class aNavigation
   public function __construct($root, $active, $options = array())
   {
     $this->user = sfContext::getInstance()->getUser();
-    $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'a'));
+    $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'apostrophe'));
     
     $this->root = $root;
     $this->active = $active;

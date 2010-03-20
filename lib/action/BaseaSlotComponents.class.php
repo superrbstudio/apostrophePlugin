@@ -55,14 +55,14 @@ class BaseaSlotComponents extends sfComponents
         // options from a_slot or a_area were in order to allow variants to be switched without
         // having side effects on each other's option sets
         $user->setAttribute("slot-original-options-$id-$name-$permid", 
-          $this->options);
+          $this->options, 'apostrophe');
         if (isset($this->options['allowed_variants']))
         {
-          $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $this->options['allowed_variants']);
+          $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $this->options['allowed_variants'], 'apostrophe');
         }
       }
       $user->setAttribute("slot-options-$id-$name-$permid", 
-        $this->options);
+        $this->options, 'apostrophe');
     }
     
     // Calling getEffectiveVariant ensures we default to the behavior of the first one

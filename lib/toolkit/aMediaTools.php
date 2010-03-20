@@ -115,20 +115,17 @@ class aMediaTools
   static public function getAttribute($attribute, $default = null)
   {
     $attribute = "aMedia-$attribute";
-    return self::getUser()->getAttribute($attribute, $default);
+    return self::getUser()->getAttribute($attribute, $default, 'apostrophe_media');
   }
   static public function setAttribute($attribute, $value = null)
   {
     $attribute = "aMedia-$attribute";
-    self::getUser()->setAttribute($attribute, $value);
+    self::getUser()->setAttribute($attribute, $value, 'apostrophe_media');
   }
   static public function removeAttributes($attributes)
   {
     $user = self::getUser();
-    foreach ($attributes as $attribute)
-    {
-      $user->setAttribute("aMedia-$attribute", null);
-    }
+    $user->getAttributeHolder()->removeNamespace('apostrophe-media');
   }
   // This is a good convention for plugin options IMHO
   static private $options = array(

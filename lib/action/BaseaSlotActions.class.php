@@ -38,13 +38,10 @@ class BaseaSlotActions extends sfActions
     $permid = $this->permid;
     $lookingFor = "slot-options-$pageid-$name-$permid";
     $this->options = $user->getAttribute(
-      $lookingFor, false);
-    if ($user->hasAttribute($lookingFor))
-    {
-      $this->options = $user->getAttribute(
-        $lookingFor, false);
-    }
-    
+      $lookingFor, false, 'apostrophe');
+    // We ought to check for this, although we also check your privileges
+    // on the page
+    $this->forward404Unless($this->options !== false);
     if ($editing)
     {
       if (!($this->getOption('edit') || $this->page->userHasPrivilege('edit')))
