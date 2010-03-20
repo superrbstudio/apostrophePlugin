@@ -10,7 +10,8 @@ class aFormSignin extends sfGuardFormSignin
   
   private function i18nDummy()
   {
-    // I have no idea why this never gets extracted otherwise
+    // Not sure why extraction is failing for these
     __('Remember', null, 'apostrophe');
+    __('The username and/or password is invalid.', null, 'apostrophe');
   }
 }

@@ -183,8 +183,7 @@ class BaseaActions extends sfActions
   {
     $page = $this->retrievePageForEditingByIdParameter();
     $this->state = $request->getParameter('state');
-    $this->getUser()->setAttribute(
-      'show-archived', $this->state, 'a');
+    $this->getUser()->setAttribute('show-archived', $this->state, 'apostrophe');
     if (!$this->state)
     {
       while ($page->getArchived())
@@ -355,8 +354,7 @@ class BaseaActions extends sfActions
     $permid = $this->permid;
     $lookingFor = "slot-original-options-$pageid-$name-$permid";
     // Must be consistent about not using namespaces!
-    $this->options = $user->getAttribute(
-      $lookingFor, false);
+    $this->options = $user->getAttribute($lookingFor, false, 'apostrophe');
     $this->forward404Unless($this->options !== false);
     
     return $this->renderPartial('a/ajaxUpdateSlot',
@@ -389,7 +387,7 @@ class BaseaActions extends sfActions
     $this->flunkUnless($page);
     $this->name = $this->getRequestParameter('name');
     $name = $this->name;
-    $options = $this->getUser()->getAttribute("area-options-$id-$name");
+    $options = $this->getUser()->getAttribute("area-options-$id-$name", null, 'apostrophe');
     $this->flunkUnless(isset($options['edit']) && $options['edit']);
     if ($subaction == 'revert')
     {
@@ -411,7 +409,7 @@ class BaseaActions extends sfActions
     $page = aPageTable::retrieveByIdWithSlots($id);
     $this->flunkUnless($page);
     $name = $this->getRequestParameter('name');
-    $options = $this->getUser()->getAttribute("area-options-$id-$name");
+    $options = $this->getUser()->getAttribute("area-options-$id-$name", null, 'apostrophe');
     $this->flunkUnless(isset($options['edit']) && $options['edit']);
     $this->page = $page;
     $this->name = $name;
