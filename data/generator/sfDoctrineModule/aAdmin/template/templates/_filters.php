@@ -1,11 +1,12 @@
 [?php include_stylesheets_for_form($form) ?]
 [?php include_javascripts_for_form($form) ?]
+[?php use_helper('I18N') ?]
 
 <div id="a-admin-filters-container">
 
 	  <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter')) ?]" method="post" id="a-admin-filters-form">
 		
-			<h3>Filters</h3>
+			<h3>[?php echo __('Filters', null, 'apostrophe') ?]</h3>
 
 		  [?php if ($form->hasGlobalErrors()): ?]
 		    [?php echo $form->renderGlobalErrors() ?]
@@ -32,7 +33,7 @@
 				<div class="a-form-row submit">
 					<ul class="a-controls a-admin-filter-controls">
 						<li>[?php echo jq_link_to_function('Filter<span></span>', '$("#a-admin-filters-form").submit();', array('class' => 'a-btn', )) ?]</li>
-						<li>[?php echo link_to(__('reset', array(), 'a-admin'), '<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter'), array('query_string' => '_reset', 'method' => 'post', 'class' => 'a-btn icon a-cancel event-default')) ?]</li>
+						<li>[?php echo link_to(__('reset', array(), 'apostrophe'), '<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter'), array('query_string' => '_reset', 'method' => 'post', 'class' => 'a-btn icon a-cancel event-default')) ?]</li>
 					</ul>
 				</div>
 				

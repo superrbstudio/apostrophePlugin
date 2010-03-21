@@ -36,7 +36,7 @@ class BaseaComponents extends BaseaSlotComponents
     $homeInfo = $ancestorsInfo[0];
     
     // Show archived tabs only to those who are potential editors.
-    $this->tabs = $this->page->getTabsInfo(!(aTools::isPotentialEditor() &&  $this->getUser()->getAttribute('show-archived', true)), $homeInfo);
+    $this->tabs = $this->page->getTabsInfo(!(aTools::isPotentialEditor() &&  $this->getUser()->getAttribute('show-archived', true, 'apostrophe')), $homeInfo);
     if (sfConfig::get('app_a_home_as_tab', true))
     {
       array_unshift($this->tabs, $homeInfo);
@@ -70,9 +70,9 @@ class BaseaComponents extends BaseaSlotComponents
     $name = $this->name;
     if ($this->refresh)
     {
-      if ($user->hasAttribute("area-options-$id-$name"))
+      if ($user->hasAttribute("area-options-$id-$name", 'apostrophe'))
       {
-        $this->options = $user->getAttribute("area-options-$id-$name", array());
+        $this->options = $user->getAttribute("area-options-$id-$name", array(), 'apostrophe');
       }
       else
       {

@@ -1,0 +1,17 @@
+more i18n omissions merged back from trunk
+
+--This line, and those below, will be ignored--
+
+_M   .
+M    lib/form/aPageSettingsForm.class.php
+M    modules/a/templates/_createPage.php
+M    modules/aUserAdmin/lib/aUserAdminGeneratorConfiguration.class.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_list_batch_actions.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_filters.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_list.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_list_field_boolean.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_list_th_tabular.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_flashes.php
+M    data/generator/sfDoctrineModule/aAdmin/template/templates/_pagination.php
+_M   web/images
+_M   web/css/a.css

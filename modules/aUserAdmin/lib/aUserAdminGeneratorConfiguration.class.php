@@ -10,4 +10,11 @@
  */
 class aUserAdminGeneratorConfiguration extends BaseaUserAdminGeneratorConfiguration
 {
+  private function i18nDummy()
+  {
+    __('<p>If you want to grant a user the ability to edit a portion of the site, first add them to the <b>editor</b> group.</p><p>Then browse to that area of the site and click the gear to add them to the list of users who can edit in that particular area.</p><p>If you want a user to have full control over the entire site, add them to the <b>admin</b> group.</p>', null, 'apostrophe');
+    __('New', null, 'apostrophe');
+    __('Back to List', null, 'apostrophe');
+    __('Save and Add', null, 'apostrophe');
+  }
 }
