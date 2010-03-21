@@ -18,6 +18,10 @@ class aPageSettingsForm extends aPageForm
     __('Default Page', null, 'apostrophe');
     __('Template-Based', null, 'apostrophe');
     __('Media', null, 'apostrophe');
+    __('Published', null, 'apostrophe');
+    __('Unpublished', null, 'apostrophe');
+    __('results', null, 'apostrophe');    
+    __('Login Required', null, 'apostrophe');
   }
   
   public function configure()
