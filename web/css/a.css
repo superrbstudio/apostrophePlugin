@@ -5366,5 +5366,26 @@ color: rgb(51,204,204);
 
 
 
-/* #. CSS Separator
+/* #. jQuery autocomplete results
 -------------------------------------*/
+
+.ac_results{
+border-color: #bbb;
+}
+
+.ac_results li
+{
+font-family: arial, sans-serif;
+}
+
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+background-color: #fff;
+}
+
+.ac_results .ac_over
+{
+color: #000;
+background-color: #fbef3b;
+}
