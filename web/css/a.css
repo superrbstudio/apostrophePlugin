@@ -5179,6 +5179,7 @@ clear: both;
 z-index: 9999;
 }
 
+.ui-timepicker-trigger,
 .ui-datepicker-trigger
 {/* This seems like a temporary solution, the datepicker markup sucks */
 position: relative;
