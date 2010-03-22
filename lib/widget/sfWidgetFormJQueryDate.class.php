@@ -75,7 +75,7 @@ class sfWidgetFormJQueryDate extends sfWidgetFormDate
       // Outer div with the prefix ID allows efficient jQuery - Firefox can delay for
       // as much as two full seconds trying to process the :has selectors that are otherwise
       // necessary to locate all of the controls in here
-      '<div class="a-date-wrapper" id="' . $prefix . '">' .
+      '<div class="a-date-wrapper" id="' . $prefix . '-date">' .
       // Parent class select controls, our interface to Symfony
       '<span style="display: none">' . parent::render($name, $value, $attributes, $errors) . '</span>' .
       // Autopopulated by jQuery.Datepicker, we also allow direct editing and have hooks relating to that
