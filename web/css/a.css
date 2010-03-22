@@ -4625,42 +4625,31 @@ text-decoration:none;
 /* 27. Admin Generator
 -------------------------------------*/
 
-#a-admin-container
-{
-font: 12px/1.25 Arial, sans-serif;
-position: relative;
-float: left;
-}
-
-#a-admin-container a img,
-#a-admin-container a:link img,
-#a-admin-container a:visited img
+.a-admin a img,
+.a-admin a:link img,
+.a-admin a:visited img
 {
 border: none;
 }
 
-#a-admin-container a:link, 
-#a-admin-container a:visited
+.a-admin a:link, 
+.a-admin a:visited
 {
 text-decoration: none;
 }
 
-#a-admin-container a:hover
+.a-admin a:hover
 {
 color: #333;
 }
 
-#a-admin-container td
+.a-admin td
 {
 margin: 0;
 vertical-align: top;
 }
 
-#a-admin-container p
-{
-}
-
-#a-admin-container #a-admin-bar
+.a-admin #a-admin-bar
 {
 float: left;
 display: inline;
@@ -4669,19 +4658,15 @@ margin: 0 0 20px 0;
 position: relative;
 }
 
-#a-admin-container #a-admin-bar,
-#a-admin-container #a-admin-bar a,
-#a-admin-container #a-admin-bar h2
+.a-admin #a-admin-bar,
+.a-admin #a-admin-bar a,
+.a-admin #a-admin-bar h2
 {
 color: #13A0BC;
 line-height: 24px;
 }
 
-#a-admin-container #a-admin-bar h2
-{
-}
-
-#a-admin-container #a-admin-bar h2.a-admin-title
+.a-admin #a-admin-bar h2.a-admin-title
 {
 color: #666;
 font-size: 24px;
@@ -4691,7 +4676,7 @@ top: 0;
 text-transform: capitalize;
 }
 
-#a-admin-container #a-admin-content
+.a-admin #a-admin-content
 {
 float: left;
 display: inline;
@@ -4699,7 +4684,7 @@ margin: 0;
 width: 720px;
 }
 
-#a-admin-container #a-admin-content #a-admin-list-actions
+.a-admin #a-admin-list-actions
 {
 	width:100%;
 	padding-bottom:20px;
@@ -4707,7 +4692,7 @@ width: 720px;
 	border-bottom:1px solid #ddd;
 }
 
-#a-admin-container .notice
+.a-admin .notice
 {
 color: #666;
 font-size: 18px;
@@ -4715,7 +4700,7 @@ line-height: 18px;
 margin-bottom: 20px;
 }
 
-#a-admin-container fieldset h2
+.a-admin fieldset h2
 {
 padding: 10px 0 0;
 margin: 0 0 10px 0;
@@ -4726,9 +4711,9 @@ text-transform: capitalize;
 border-top: 1px #ddd solid;
 }
 
-#a-admin-container input, 
-#a-admin-container textarea, 
-#a-admin-container select
+.a-admin input, 
+.a-admin textarea, 
+.a-admin select
 {
 padding: 3px;
 font-family: Arial, sans-serif;
@@ -4738,30 +4723,30 @@ vertical-align: middle;
 width: 358px;
 }
 
-#a-admin-container .a-admin-text input
+.a-admin .a-admin-text input
 {
 	float: left;
 	clear: both;
 }
 
-#a-admin-container select
+.a-admin select
 {
 width: auto;
 }
 
-#a-admin-container .a-admin-batch-actions-choice select
+.a-admin .a-admin-batch-actions-choice select
 {
 float: left;
 margin-right: 10px;
 }
 
-#a-admin-container .save-ok
+.a-admin .save-ok
 {
 margin-bottom: 10px;
 border: 1px solid #73B65A;
 }
 
-#a-admin-container .save-ok h2
+.a-admin .save-ok h2
 {
 margin: 0 !important;
 padding: 5px 20px 5px 25px;
@@ -4770,14 +4755,14 @@ color: #fff;
 background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
 }
 
-#a-admin-container .a-form-row
+.a-admin .a-form-row
 {
 padding: 10px 10px 10px 120px;
 min-width:590px;
 width: 590px;
 }
 
-#a-admin-container .a-form-row td
+.a-admin .a-form-row td
 {
 margin-bottom: 10px;
 float: left;
@@ -4785,12 +4770,12 @@ clear: both;
 position: relative;
 }
 
-#a-admin-container .a-form-row .content
+.a-admin .a-form-row .content
 {
 padding-left: 9em;
 }
 
-#a-admin-container .a-form-row label
+.a-admin .a-form-row label
 {
 float: left;
 text-align: left;
@@ -4805,7 +4790,7 @@ line-height: 20px;
 display: block;
 }
 
-#a-admin-container .a-form-row .checkbox_list label
+.a-admin .a-form-row .checkbox_list label
 {
 position: absolute;
 display: inline;
@@ -4815,7 +4800,7 @@ float: left;
 width: auto !important;
 }
 
-#a-admin-container .a-form-row .checkbox_list li
+.a-admin .a-form-row .checkbox_list li
 {
 float: left;
 display: inline;
@@ -4823,7 +4808,7 @@ width: 100%;
 position: relative;
 }
 
-#a-admin-container .a-form-row .a-help
+.a-admin .a-form-row .a-help
 {
 display: block;
 clear: both;
@@ -4833,7 +4818,7 @@ font-size: 11px;
 color: #888;
 }
 
-#a-admin-container #a-admin-footer
+.a-admin #a-admin-footer
 {
 width: 720px;
 float: right;
@@ -4841,20 +4826,20 @@ line-height: 1.5;
 margin: 20px 0;
 }
 
-#a-admin-container label.required
+.a-admin label.required
 {
 color: #333 !important;
 font-weight: bold !important;
 }
 
-#a-admin-container .form-errors
+.a-admin .form-errors
 {
 margin-bottom: 10px;
 border: 1px solid #f33;
 background-color: #ffc;
 }
 
-#a-admin-container .form-errors h2
+.a-admin .form-errors h2
 {
 padding: 5px 20px 5px 25px;
 font-size: 11px;
@@ -4862,41 +4847,41 @@ color: #fff;
 background: #f33 url(../images/error.png) no-repeat 5px 2px;
 }
 
-#a-admin-container .form-errors dl
+.a-admin .form-errors dl
 {
 padding: 5px;
 }
 
-#a-admin-container .form-errors dt
+.a-admin .form-errors dt
 {
 font-weight: bold;
 float: left;
 padding-right: 5px;
 }
 
-#a-admin-container .form-errors dd
+.a-admin .form-errors dd
 {
 margin: 0;
 }
 
-#a-admin-container .form-error
+.a-admin .form-error
 {
 color: #f33;
 }
 
-#a-admin-container fieldset
+.a-admin fieldset
 {
 margin-bottom: 3px;
 background-color: #fff;
 border: none;
 }
 
-#a-admin-container ul.a-admin-td-actions
+.a-admin ul.a-admin-td-actions
 {
 list-style-type: none;
 }
 
-#a-admin-container ul.a-admin-td-actions li
+.a-admin ul.a-admin-td-actions li
 {
 list-style-type: none;
 display: block;
@@ -4905,7 +4890,7 @@ width: auto;
 margin: 0 1px 5px 0;
 }
 
-#a-admin-container ul.a-admin-actions
+.a-admin ul.a-admin-actions
 {
 float:left;
 display:inline;
@@ -4916,12 +4901,12 @@ border-top: 1px solid #e2e2e2;
 padding-top: 20px;
 }
 
-#a-admin-container ul.a-admin-actions a
+.a-admin ul.a-admin-actions a
 {
 color: #333;
 }
 
-#a-admin-container ul.a-admin-actions li
+.a-admin ul.a-admin-actions li
 {
 list-style-type: none;
 display: inline;
@@ -4929,17 +4914,17 @@ float: left;
 margin-right:1px !important;
 }
 
-#a-admin-container.sfGuardUser a.icon.a-add
+.a-admin.sfGuardUser a.icon.a-add
 {
 	background-image: url(/apostrophePlugin/images/a-icon-users.png);
 }
 
-#a-admin-container ul.a-admin-actions li.a-admin-batch-actions-choice
+.a-admin ul.a-admin-actions li.a-admin-batch-actions-choice
 {
 float: left;
 }
 
-#a-admin-container ul.a-admin-actions input
+.a-admin ul.a-admin-actions input
 {
 padding: 2px;
 color: #333;
@@ -4953,7 +4938,7 @@ cursor: pointer;
 width: auto;
 }
 
-#a-admin-container .a-admin-default-action
+.a-admin .a-admin-default-action
 {
 background-color: #fc6 !important;
 font-weight: bold !important;
@@ -4962,7 +4947,7 @@ font-weight: bold !important;
 .a-admin-form-container,
 #a-admin-form,
 #a-admin-batch-form,
-#a-admin-container .a-admin-list
+.a-admin .a-admin-list
 {
 float: left;
 clear: both;
@@ -4978,7 +4963,7 @@ border-right: 0px;
 	
 }
 
-#a-admin-container .a-admin-list-table
+.a-admin .a-admin-list-table
 {
 width: 100%;
 }
@@ -4998,7 +4983,7 @@ display: block;
 width: 100px;
 }
 
-#a-admin-container .a-admin-list thead th
+.a-admin .a-admin-list thead th
 {
 font-size: 18px;
 padding: 6px 3px;
@@ -5008,68 +4993,68 @@ line-height: 24px;
 vertical-align: middle;
 }
 
-#a-admin-container .a-admin-list thead th *
+.a-admin .a-admin-list thead th *
 {
 float: left;
 }
 
-#a-admin-container .a-admin-list tfoot th
+.a-admin .a-admin-list tfoot th
 {
 padding: 3px 6px;
 border-top: 1px solid #e2e2e2;
 background-color: #f4f4f4;
 }
 
-#a-admin-container .a-admin-list th a
+.a-admin .a-admin-list th a
 {
 color: #333;
 }
 
-#a-admin-container .a-admin-list td
+.a-admin .a-admin-list td
 {
 padding: 6px 3px;
 border: none;
 }
 
-#a-admin-container .a-admin-filter li
+.a-admin .a-admin-filter li
 {
 list-style-type: none;
 }
 
-#a-admin-container .a-admin-row td
+.a-admin .a-admin-row td
 {
 border-bottom: 1px solid #e2e2e2;
 }
 
-#a-admin-container .a-admin-row.last td
+.a-admin .a-admin-row.last td
 {
 border: none;
 }
 
-#a-admin-container .a-admin-row-1 td
+.a-admin .a-admin-row-1 td
 {
 border-top: 1px solid #e2e2e2;
 }
 
-#a-admin-container .a-admin-edit-help
+.a-admin .a-admin-edit-help
 {
 color: #aaa;
 }
 
-#a-admin-container select.a-admin-multiple, 
-#a-admin-container select.a-admin-multiple-selected
+.a-admin select.a-admin-multiple, 
+.a-admin select.a-admin-multiple-selected
 {
 width: 12em;
 }
 
-#a-admin-container ul.a-admin-checklist li
+.a-admin ul.a-admin-checklist li
 {
 list-style: none;
 list-style-position: outside !important;
 line-height: 1.5em;
 }
 
-#a-admin-container ul.a-admin-checklist li label
+.a-admin ul.a-admin-checklist li label
 {
 display: inline;
 float: none;
@@ -5205,7 +5190,7 @@ border-bottom: 0;
 }
 
 
-#a-admin-container .a-admin-flashes
+.a-admin .a-admin-flashes
 {/* We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice */
 color: #EF9920;
 float: left;
@@ -5220,19 +5205,19 @@ text-indent: 24px;
 background: transparent url(/apostrophePlugin/images/a-icon-error.png) no-repeat scroll left top;
 }
 
-#a-admin-container form .a-form-row .error_list li
+.a-admin form .a-form-row .error_list li
 {
 padding-left: 24px;
 line-height: 20px;
 }
 
-#a-admin-container form .a-form-row .error_list
+.a-admin form .a-form-row .error_list
 {
 display: block;
 font-size: 11px;
 }
 
-#a-admin-container form .error_list li
+.a-admin form .error_list li
 {
 height: 20px;
 line-height: 24px;
@@ -5252,7 +5237,7 @@ list-style-position: outside;
 /* 28. Admin Generator - Filters
 -------------------------------------*/
 
-#a-admin-container #a-admin-filters-container
+.a-admin #a-admin-filters-container
 {
 display: none;
 float: left;
@@ -5264,18 +5249,18 @@ color: #333;
 border: 1px solid #e2e2e2;
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form
+.a-admin #a-admin-filters-container #a-admin-filters-form
 {
 padding: 10px;
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row
 {
 	padding:0;
 	margin:3px 0 2px 0;
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
 {
 	width:120px;
 	float:left;
@@ -5283,14 +5268,14 @@ padding: 10px;
 
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label label
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label label
 {
 float:left;
 display:inline;
 
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
 {
 	float:left;
 	display:inline;
@@ -5298,7 +5283,7 @@ display:inline;
 	width: 580px;
 }
 
-#a-admin-container #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
 {
 	position: relative !important;
 	display: block;
@@ -5388,8 +5373,8 @@ ul.a-controls .a-variant-options,
 border-color: rgb(51,204,204);
 }
 
-#a-admin-container a:link, 
-#a-admin-container a:visited,
+.a-admin a:link, 
+.a-admin a:visited,
 #a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
