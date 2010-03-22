@@ -245,7 +245,7 @@ class aTools
     $lookingFor = "area-options-$pageid-$name";
     $options = array();
     $user = sfContext::getInstance()->getUser();
-    if ($user->hasAttribute($lookingFor, false, 'apostrophe'))
+    if ($user->hasAttribute($lookingFor, 'apostrophe'))
     {
       $options = $user->getAttribute(
         $lookingFor, false, 'apostrophe');
