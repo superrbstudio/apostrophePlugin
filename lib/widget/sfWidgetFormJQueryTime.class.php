@@ -183,6 +183,7 @@ class sfWidgetFormJQueryTime extends sfWidgetFormTimeFixed
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
     $prefix = $this->generateId($name);
+    sfContext::getInstance()->getResponse()->addJavascript('/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.min.js', 'last');
 
     $image = '';
     if (false !== $this->getOption('image'))
