@@ -2684,6 +2684,7 @@ border: none;
 .a-slot.aSlideshow ul.a-slideshow-controls li
 {
 float: left;
+border: 0;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls a
@@ -3647,6 +3648,7 @@ clear: both;
 	background: none !important;
 	padding: 0 !important;
 	color: #900 !important;
+	border: 0 !important;
 	text-shadow: none;
 }
 
