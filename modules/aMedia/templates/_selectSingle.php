@@ -5,10 +5,11 @@
 <?php endif ?>
 
 <div class="a-media-select">
-  <p><?php echo __('Use the browsing and searching features to locate the %type% you want, then click on that %type% to select it.', array('%type%' => __($type)), 'apostrophe') ?>
+  <?php // Thanks to Galileo for i18n corrections here ?>
+  <p><?php echo __('Use the browsing and searching features to locate the %type% you want, then click on that %type% to select it.', array('%type%' => __($type, null, 'apostrophe')), 'apostrophe') ?>
   <?php if ($limitSizes): ?>
   <?php // separately I18N the plural ?>
-  <?php echo __('Only appropriately sized %typeplural% are shown.', array('%typeplural%' => __($type . 's')), 'apostrophe') ?>
+  <?php echo __('Only appropriately sized %typeplural% are shown.', array('%typeplural%' => __($type . 's', null, 'apostrophe')), 'apostrophe') ?>
   <?php endif ?>
   </p>
 	<?php 
