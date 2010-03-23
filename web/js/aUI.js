@@ -16,7 +16,8 @@ function aUI(target, instance)
 		
 	  });
 	}
-	
+
+	// Grab Target if Passed Through
 	if (typeof target == 'undefined') // If Not Set
 	{
 		target = '';
@@ -30,17 +31,16 @@ function aUI(target, instance)
 		target = target+" ";
 	}
 
+	// Instance
 	if (typeof instance == 'undefined') // If Not Set
 	{
 		instance = null;
 	}
 	
-	//
-	// TARGETTED CONTROLS
-	//
 
-	var addSlotButton = $(target+'ul.a-area-controls a.a-add.slot');
-	
+
+	// TARGETTED CONTROLS
+	var addSlotButton = $(target+'ul.a-area-controls a.a-add.slot');	
 	if (addSlotButton.hasClass('addslot-now')) // init_a_controls was resetting add slot buttons in some scenarios when we didn't want it to	
 	{ 
 		addSlotButton.prev().hide();
@@ -49,11 +49,9 @@ function aUI(target, instance)
 	{
 		addSlotButton.siblings('.a-area-options').hide();
 	}
-	
-	//
-	// INSTANCE CONTROLS
-	//
 
+	
+	// INSTANCE CONTROLS
 	if (instance == 'history-preview') 
 	{ // if we are refreshing while using the history browser we need to set some parameters
 		$(target + ".a-controls-item").siblings().show();
@@ -90,10 +88,9 @@ function aUI(target, instance)
 		$(target + '.cancel-addslot').hide().removeClass('cancel-addslot');
 	};
 
-	//
-	// A-CONTROLS BUTTON EVENTS
-	//
 
+
+	// Add Slot Button
 	$('a.a-add.slot').unbind("click").click(function(event){
 		event.preventDefault();
 		$(this).hide(); //HIDE SELF
@@ -104,6 +101,9 @@ function aUI(target, instance)
 		$(this).parent().siblings('.a-controls-item.cancel').show().addClass('cancel-addslot'); //SHOW CANCEL BUTTON
 	});
 	
+	
+	
+	// History Button and History Browser Offset
 	$('a.a-history').unbind("click").click(function(event){
 		event.preventDefault();	
 		$('.a-history-browser').hide();
@@ -130,7 +130,10 @@ function aUI(target, instance)
 
 	});
 	
-	$('a.a-cancel').unbind("click").click(function(event){
+	
+	
+	// Cancel Buttons for History and Adding Slots
+	$('.a-controls a.a-cancel').unbind("click").click(function(event){
 		$(this).parents('.a-controls').children().show();
 		$(this).parents('.a-controls').find('.a-area-options').hide();		
 		$(this).parent().hide(); //hide parent <li>
@@ -155,10 +158,9 @@ function aUI(target, instance)
 		}
 
 		if ($(this).hasClass('event-default')) 
-		{ //allow default event
-			
+		{
+			//allow default event
 			$(this).parent().show(); //unhide cancel button
-			
 		}
 		else
 		{
@@ -168,6 +170,9 @@ function aUI(target, instance)
 		
 	});
 	
+	
+	
+	// Variants
 	$('a.a-variant-options-toggle').click(function(){
 		$(this).parents('.a-slots').children().css('z-index','699');
 		$(this).parents('.a-slot').css('z-index','799');	
@@ -179,30 +184,22 @@ function aUI(target, instance)
 		event.preventDefault();
 	}).attr('onclick','');
 
-	//
-	// Cross Browser Opacity Settings
-	//
-	// $('.a-page-overlay').fadeTo(0,.85).hide(); // Modal Box Overlay // Keep For IE 
-	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
-	//
-	//
-	//
 
-	//
+
+	// Cross Browser Opacity Settings
+	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
+
+
+
 	//aContext Slot / Area Controls Setup
-	//
 	$('.a-controls li:last-child').addClass('last'); //add 'last' class to last option
 	$('.a-area-controls .a-controls-item').siblings(':not(.cancel)').css('display', 'block');
 	$('.a-area-controls .a-controls-item').children('.a-btn').css('display', 'block');
 	$('.a-controls').css('visibility','visible'); //show them after everything is loaded
-	//
-	//
-	//
+
 	
 	
-	//
 	// Flagging Buttons
-	//
 	var flagBtn = $('.a-flag-btn');
 	flagBtn.wrapInner('<span class="a-flag-btn-label"></span>');
 	
@@ -212,9 +209,9 @@ function aUI(target, instance)
 		$(this).removeClass('expanded');
 	});	
 	
-	//
+	
+	
 	// aOverrides is a way to stub in function calls to aUI. If you over ride this function in site.js it gets called with aUI();
-	//
 	aOverrides();
 }
 
