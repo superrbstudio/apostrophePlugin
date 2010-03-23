@@ -67,12 +67,12 @@
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
 	    	<?php // See the _editCategories partial ?>
-	    	<?php echo jq_link_to_remote(__('Add Category', null, 'apostrophe'), array(
+	    	<?php echo jq_link_to_remote(__('Edit', null, 'apostrophe'), array(
 					'url' => url_for('aMedia/editCategories'), 
 					'update' => 'a-media-edit-categories'), array(
-						'class' => 'a-btn icon a-add icon-only', 
+						'class' => 'a-btn icon a-edit icon-only a-flag-btn flag-right', 
 						'id' => 'a-media-edit-categories-button',
-						'title' => __('+ Add Category', null, 'apostrophe'), )) ?>
+					)) ?>
 	    <?php endif ?>
 
 
@@ -80,7 +80,7 @@
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<span id="a-media-no-categories-message"><?php echo __('There are no nonempty categories.', null, 'apostrophe') ?></span>
+			<span id="a-media-no-categories-message"><?php echo __('There are no categories that contain media.', null, 'apostrophe') ?></span>
 
 			<?php else: ?>
 				

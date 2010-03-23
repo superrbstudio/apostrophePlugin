@@ -199,6 +199,10 @@ function aUI(target, instance)
 	//
 	//
 	
+	
+	//
+	// Area Overlay Thing
+	//
 	$('div.a-area-overlay').remove();
 	$('div.a-slots').prepend('<div class="a-area-overlay"></div>');
 	$('ul.a-controls a.a-add.slot').hover(function(){
@@ -206,7 +210,22 @@ function aUI(target, instance)
 	},function(){
 		$(this).parents('div.a-area').removeClass('over')		
 	})
-		
+	
+	//
+	// Flagging Buttons
+	//
+	var flagBtn = $('.a-flag-btn');
+	flagBtn.wrapInner('<span class="a-flag-btn-label"></span>');
+	
+	flagBtn.hover(function () {
+		$(this).addClass('expanded');
+	},function () {
+		$(this).removeClass('expanded');
+	});	
+	
+	//
+	// aOverrides is a way to stub in function calls to aUI. If you over ride this function in site.js it gets called with aUI();
+	//
 	aOverrides();
 }
 

@@ -183,7 +183,22 @@ object
 	clear: both;
 }
 
-
+br.c
+{
+ background: none;
+ border: 0;
+ clear: both;
+ display: block;
+ float: none;
+ font-size: 0p;
+ margin: 0;
+ padding: 0;
+ position: static;
+ overflow: hidden;
+ visibility: hidden;
+ width: 0;
+ height: 0;
+}
 
 
 
@@ -192,11 +207,11 @@ object
 
 .dropshadow
 { /* This is just for fun right now */
--moz-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
--webkit-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
--opera-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
--khtml-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);	
-box-shadow:2px 4px 12px rgba(0, 0, 0, 0.5);
+-moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-opera-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-khtml-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);	
+box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .a-overlay
@@ -507,12 +522,18 @@ background-repeat: no-repeat;
 
 .a-btn.icon-only
 {
-padding: 0 0 0 20px;
 background-position: top left;
 background-repeat: no-repeat;
 text-indent: -9999px;
 padding: 0;
 width: 20px;
+}
+
+.a-btn.a-flag-btn.icon.expanded,
+.a-btn.a-flag-btn.icon-only.expanded
+{
+	padding-left: 20px;
+	width: auto;
 }
 
 .a-btn.a-flag-btn:hover
@@ -525,21 +546,50 @@ width: 20px;
 display:none;
 line-height:20px;
 padding: 0 4px;
-position:absolute;
-right:20px;
-top:0;
 white-space:nowrap;
 text-indent:0 !important;
+}
+
+.a-btn:hover .a-flag-btn-label
+{
+	background-color: transparent !important;
+}
+
+.a-btn.flag-left .a-flag-btn-label
+{
+	position:absolute;
+	left: auto;
+	right: 100%;
+	margin-right: 3px;
+}
+
+.a-btn.flag-right .a-flag-btn-label
+{
+	position:absolute;
+	right: auto;
+	left: 100%;
+	margin-left: 3px;	
+}
+
+.a-btn.flag-left:hover .a-flag-btn-label,
+.a-btn.flag-right:hover .a-flag-btn-label
+{
+	font-size: 11px;
+	color: #fff;
+	background: #000 !important;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	text-shadow: none;
+	height: 16px;
+	line-height: 17px;
+	margin-top: 2px;
 }
 
 .a-btn.expanded .a-flag-btn-label
 {
 	display: block;
 }
-
-
-
-
 
 
 
@@ -1665,7 +1715,7 @@ ul.a-controls .a-variant-options
 	top: -5px;
 	left: -5px;
 	background: #fff;
-	border: 1px solid #eee;
+/*	border: 1px solid #eee;*/
 	z-index: 1;	
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -1756,6 +1806,12 @@ cursor: default;
 .a_pager_navigation a.a_pager_navigation_first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+-moz-border-top-left-radius:10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-moz-border-bottom-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
 }
 
 .a_pager_navigation a.a_pager_navigation_first:hover
@@ -1767,6 +1823,7 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 background-position: -22px 0;
 width: 19px;
 margin-right: 5px;
+margin-left:1px;
 }
 .a_pager_navigation a.a_pager_navigation_previous:hover
 {
@@ -1777,6 +1834,7 @@ background-position: -22px -40px !important;
 background-position: -41px 0;
 width: 19px;
 margin-left: 5px;
+margin-right: 1px;
 }
 .a_pager_navigation a.a_pager_navigation_next:hover
 {
@@ -1785,6 +1843,12 @@ background-position: -41px -60px;
 .a_pager_navigation a.a_pager_navigation_last
 {
 background-position: -60px 0;
+-moz-border-top-right-radius:10px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-moz-border-bottom-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
 }
 .a_pager_navigation a.a_pager_navigation_last:hover
 {
@@ -1797,6 +1861,12 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
+-moz-border-top-left-radius:10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-moz-border-bottom-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
 }
 
 .a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
@@ -1806,14 +1876,23 @@ text-indent: -999px;
 overflow: hidden;
 width: 19px;
 margin-right: 5px;
+margin-left:1px;
+
 }
 
 .a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -60px -80px;
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background-position:-60px -80px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
+-moz-border-top-right-radius:10px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-moz-border-bottom-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
 }
 
 .a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
@@ -1823,13 +1902,29 @@ text-indent: -999px;
 overflow: hidden;
 width: 19px;
 margin-left: 5px;
+margin-right:1px;
 }
 
 
+.a_pager_navigation a.a_pager_navigation_first,
+.a_pager_navigation a.a_pager_navigation_previous,
+.a_pager_navigation a.a_pager_navigation_next,
+.a_pager_navigation a.a_pager_navigation_last,
+.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled,
+.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+{
+	background-color:#e2e2e2;
+}
 
-
-
-
+.a_pager_navigation a.a_pager_navigation_first:hover,
+.a_pager_navigation a.a_pager_navigation_previous:hover,
+.a_pager_navigation a.a_pager_navigation_next:hover,
+.a_pager_navigation a.a_pager_navigation_last:hover
+{
+	background-color:#e2e2e2;
+}
 
 /* 11. aUI Global Toolbar
 -------------------------------------*/
@@ -2566,6 +2661,11 @@ margin-top: 24px; /* Space for the Arrow Controls*/
 margin-bottom: 40px;
 }
 
+.a-slot.aSlideshow.single-image
+{
+	margin-top:0px; /* Removes Space for the Arrow Controls When There is One Image*/
+}
+
 .a-slot.aSlideshow .a-slideshow-meta
 {
 	font-size: 11px;
@@ -2594,11 +2694,6 @@ float: left;
 .a-slot.aSlideshow ul.a-slideshow-controls a
 {
 z-index: 1;
-}
-
-.a-slot.aSlideshow .a-slideshow-position
-{
-	line-height: 20px;
 }
 
 .a-slideshow
@@ -2810,36 +2905,25 @@ margin-top: -10px;
 
 .a-pdf-slot
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
 }
 
 .a-pdf-slot .a-pdf-meta
 {
-	display:inline;
 	position:relative;
-	float:left;
-	clear:none;
 	margin:5px 0;
 }
 
 .a-pdf-title
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:both;
 	width:100%;
 	font-size: 16px;
 }
 
 .a-pdf-description
 {
-	float:left;
-	display:inline;
-	position:relative;
 	margin-top:0px;
 	color:#666;
 	width:100%;
@@ -2848,30 +2932,28 @@ margin-top: -10px;
 
 .a-pdf-download
 {
-	float:left;
-	display:inline;
-	position:relative;
 	margin-left:-3px;
 }
 
 .a-pdf-download a
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:both;
 	background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center;
 	padding-left:20px;
 }
 
 /*ICON ONLY*/
 
+.a-pdf-slot.icon-only
+{
+	height: auto !important;
+	height: 43px;
+}
+
 .a-pdf-slot.icon-only .a-media-pdf-icon
 {
-	display:inline;
 	position:absolute;
-	height:70px;
-	width:56px;
+	height:43px;
+	width:34px;
 	margin-top:5px;
 	top:0;
 	left:0;
@@ -2881,7 +2963,7 @@ margin-top: -10px;
 .a-pdf-slot.icon-only .a-media-pdf-icon a
 {
 	float:left;
-	background: url(/apostrophePlugin/images/a-pdf-icon-small.png) no-repeat top left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -2890,11 +2972,8 @@ margin-top: -10px;
 
 .a-pdf-slot.icon-only .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
-	padding-left:66px;
+	padding-left:45px;
+	text-indent: 0 !important;
 }
 
 /*COMPACT*/
@@ -2905,18 +2984,16 @@ margin-top: -10px;
 	position:absolute;
 	top:0;
 	left:0;
-	float:left;
-	height:43px;
-	width:34px;
-	margin-top:5px;
-	clear:none;
+	height:20px;
+	width:20px;
+	margin-top:4px;
 	z-index:10;
 }
 
 .compact .a-pdf-slot.icon-only .a-media-pdf-icon a
 {
 	float:left;
-	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+	background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -2925,12 +3002,25 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.icon-only .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
-	padding-left:45px;
+	padding-left:25px;
 }
+
+.compact .a-pdf-title
+{
+	width:100%;
+	font-size: 14px;
+}
+
+.compact .a-pdf-description
+{
+	display:none;
+}
+
+.compact .a-pdf-download
+{
+	display:none;
+}
+
 
 /*PDF PREVIEW*/
 
@@ -2938,10 +3028,6 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon img
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	border:1px solid #ccc;
 	margin-right:10px;
 	margin-bottom:5px;
@@ -2951,16 +3037,14 @@ margin-top: -10px;
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon
 {
-	display:inline;
 	position:absolute;
 	top:0;
 	left:0;
-	float:left;
 	height:70px;
 	width:56px;
 	margin-top:5px;
-	clear:none;
 	z-index:10;
+	overflow:hidden;	
 }
 
 .compact .a-pdf-slot.with-preview .a-media-pdf-icon a
@@ -2968,16 +3052,11 @@ margin-top: -10px;
 	float:left;
 	height:100%;
 	width:100%;
-	overflow:hidden;
 	text-indent: -9999px;
 }
 
 .compact .a-pdf-slot.with-preview .a-pdf-meta
 {
-	display:inline;
-	position:relative;
-	float:left;
-	clear:none;
 	padding-left:70px;
 }
 
@@ -4592,13 +4671,6 @@ text-decoration:none;
 /* 27. Admin Generator
 -------------------------------------*/
 
-.a-admin
-{
-font: 12px/1.25 Arial, sans-serif;
-position: relative;
-float: left;
-}
-
 .a-admin a img,
 .a-admin a:link img,
 .a-admin a:visited img
@@ -4623,10 +4695,6 @@ margin: 0;
 vertical-align: top;
 }
 
-.a-admin p
-{
-}
-
 .a-admin #a-admin-bar
 {
 float: left;
@@ -4642,10 +4710,6 @@ position: relative;
 {
 color: #13A0BC;
 line-height: 24px;
-}
-
-.a-admin #a-admin-bar h2
-{
 }
 
 .a-admin #a-admin-bar h2.a-admin-title
@@ -4666,7 +4730,7 @@ margin: 0;
 width: 720px;
 }
 
-.a-admin #a-admin-content #a-admin-list-actions
+.a-admin #a-admin-list-actions
 {
 	width:100%;
 	padding-bottom:20px;
@@ -5150,6 +5214,7 @@ clear: both;
 z-index: 9999;
 }
 
+.ui-timepicker-trigger,
 .ui-datepicker-trigger
 {/* This seems like a temporary solution, the datepicker markup sucks */
 position: relative;
@@ -5365,12 +5430,13 @@ color: rgb(51,204,204);
 
 
 
-
 /* #. jQuery autocomplete results
 -------------------------------------*/
 
 .ac_results{
 border-color: #bbb;
+color: #000;
+width: 120px;
 }
 
 .ac_results li
@@ -5389,3 +5455,8 @@ background-color: #fff;
 color: #000;
 background-color: #fbef3b;
 }
+
+
+
+/* #. CSS Separator
+-------------------------------------*/
