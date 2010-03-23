@@ -5217,13 +5217,8 @@ z-index: 9999;
 position: relative;
 top: 6px;
 left: 3px;
-}
-
-.ui-datepicker-trigger:hover
-{
 cursor: pointer;
 }
-
 
 .a-admin-controls
 {
