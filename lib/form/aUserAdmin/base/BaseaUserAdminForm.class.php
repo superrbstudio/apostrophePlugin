@@ -6,7 +6,8 @@ class BaseaUserAdminForm extends sfGuardUserAdminForm
   {
     parent::configure();
     
-    unset($this['is_super_admin']);
+    if(!sfContext::getInstance()->getUser()->isSuperAdmin())
+      unset($this['is_super_admin']);
 
     $this->setWidget('groups_list', new sfWidgetFormDoctrineChoice(array(
       'model' => 'sfGuardGroup',
