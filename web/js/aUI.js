@@ -91,7 +91,7 @@ function aUI(target, instance)
 	};
 
 	//
-	// PK-CONTROLS BUTTON EVENTS
+	// A-CONTROLS BUTTON EVENTS
 	//
 
 	$('a.a-add.slot').unbind("click").click(function(event){
@@ -199,6 +199,22 @@ function aUI(target, instance)
 	//
 	//
 	
+	
+	//
+	// Flagging Buttons
+	//
+	var flagBtn = $('.a-flag-btn');
+	flagBtn.wrapInner('<span class="a-flag-btn-label"></span>');
+	
+	flagBtn.hover(function () {
+		$(this).addClass('expanded');
+	},function () {
+		$(this).removeClass('expanded');
+	});	
+	
+	//
+	// aOverrides is a way to stub in function calls to aUI. If you over ride this function in site.js it gets called with aUI();
+	//
 	aOverrides();
 }
 
