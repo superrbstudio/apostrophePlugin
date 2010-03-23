@@ -489,6 +489,7 @@ white-space: nowrap;
 text-transform: capitalize;
 height: 18px;
 line-height: 18px;
+border:none;
 }
 
 .a-btn.a-disabled,
