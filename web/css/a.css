@@ -4411,7 +4411,7 @@ background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
 background-position: bottom right;
 }
 
-#a-subnav #a-tab-navigation-subnav-0 li
+#a-subnav .a-navigation li
 {
 float: left;
 width: 100%;
@@ -4421,21 +4421,12 @@ line-height: 20px;
 margin-bottom: 5px;
 }
 
-#a-subnav #a-tab-navigation-subnav-0 li.last
+#a-subnav .a-navigation li.last
 {
 	margin-bottom: 0;
 }
 
-#a-subnav #a-tab-navigation-subnav-0 li a
-{
-/*float: right;
-position: relative;
-margin-left: 10px;
-cursor:move;
-*/
-}
-
-#a-subnav #a-tab-navigation-subnav-0 li a
+#a-subnav .a-navigation li a
 {
 	float: left;
 	width: 155px;
