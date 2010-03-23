@@ -94,6 +94,7 @@
 <?php endif ?>
 
 <?php if ($sf_request->isXmlHttpRequest()): ?>
+
   <?php // Changing the variant only refreshes the content, not the outer wrapper and controls. However, ?>
   <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
   <?php $variants = aTools::getVariantsForSlotType($type, $options) ?>
@@ -111,4 +112,15 @@
       });
     </script>
   <?php endif ?>
+
+	<?php // Thanks Spike! ?>
+  <?php // have to explicitly show the controls when form validation fails, by calling aUI() ?>
+  <?php if (isset($validationData['form']) && !$validationData['form']->isValid()): ?>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      aUI();
+    })
+  </script>
+  <?php endif; ?>
+
 <?php endif ?>
