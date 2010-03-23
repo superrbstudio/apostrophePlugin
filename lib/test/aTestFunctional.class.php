@@ -2,6 +2,8 @@
 
 class aTestFunctional extends sfTestFunctional
 {
+  protected $loginButtonText = 'sign in';
+
   public function loadData($path = null)
   {
     if (!$path)
@@ -25,7 +27,9 @@ class aTestFunctional extends sfTestFunctional
       get('/login')->
       setField('signin[username]', $username)->
       setField('signin[password]', $password)->
-      click('sign in')->isRedirected()->followRedirect()
+      click($this->loginButtonText)->
+      with('response')->isRedirected()->
+      followRedirect()
     ;
   }
   

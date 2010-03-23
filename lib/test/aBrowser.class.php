@@ -1,6 +1,6 @@
 <?php
 
-class aFormBrowser extends aBrowser
+class aBrowser extends sfBrowser
 {
   public function restart()
   {
