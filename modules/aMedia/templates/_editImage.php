@@ -76,11 +76,11 @@
    <?php if ($item): ?>
     <ul class="a-controls a-media-form-footer">
 
-     	<li class="a-controls-item submit"><input type="submit" value="Save" class="pk-btn a-submit" /></li>
+     	<li class="a-controls-item submit"><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="pk-btn a-submit" /></li>
 
        <?php $id = $item->getId() ?>
 
-     	<li class="a-controls-item cancel"><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
+     	<li class="a-controls-item cancel"><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
 
       <li class="a-controls-item delete">
 			<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
