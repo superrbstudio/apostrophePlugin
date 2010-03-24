@@ -4415,38 +4415,6 @@ background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
 background-position: bottom right;
 }
 
-#a-subnav #a-tab-navigation-subnav-0 li
-{
-float: left;
-width: 100%;
-clear: both;
-position: relative;
-line-height: 20px;
-margin-bottom: 5px;
-}
-
-#a-subnav #a-tab-navigation-subnav-0 li.last
-{
-	margin-bottom: 0;
-}
-
-#a-subnav #a-tab-navigation-subnav-0 li a
-{
-/*float: right;
-position: relative;
-margin-left: 10px;
-cursor:move;
-*/
-}
-
-#a-subnav #a-tab-navigation-subnav-0 li a
-{
-	float: left;
-	width: 155px;
-	height: 100%;
-	padding: 0 20px 0 5px;
-}
-
 #a-subnav hr
 {
 	float: left;
