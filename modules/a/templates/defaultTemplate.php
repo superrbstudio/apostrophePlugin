@@ -22,6 +22,7 @@
 		'aRawHTML',
 	),
   'type_options' => array(
+    'aText' => array('multiline' => true),
 		'aRichText' => array('tool' => 'Main'), 	
 		'aSlideshow' => array("width" => 480, "flexHeight" => true),
 		'aVideo' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),		

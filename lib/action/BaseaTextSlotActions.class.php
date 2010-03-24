@@ -18,7 +18,7 @@ class BaseaTextSlotActions extends BaseaSlotActions
         $value = preg_replace("/\s/", " ", $value);
       }
       $value = htmlspecialchars($value);
-      $value = preg_replace("(\r\n|\n|\r)", "<br />\n", $value);
+      // Don't do newline to br transformations here, let textToHtml do that
       $maxlength = $this->getOption('maxlength');
       if ($maxlength !== false)
       {

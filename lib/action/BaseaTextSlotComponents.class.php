@@ -17,6 +17,6 @@ class BaseaTextSlotComponents extends BaseaSlotComponents
     // We don't recommend doing this at the FCK level,
     // let it happen here instead so what is stored in the
     // db can be clean markup
-    $this->value = aHtml::obfuscateMailto($this->value);
+    $this->value = aHtml::obfuscateMailto(aHtml::textToHtml($this->value));
   }
 }
