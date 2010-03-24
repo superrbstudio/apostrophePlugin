@@ -1078,6 +1078,12 @@ abstract class PluginaPage extends BaseaPage
     }
     $area->latest_version++;
     $area->save();
+    $this->requestSearchUpdate();
+    $this->end();
+  }
+  
+  public function requestSearchUpdate()
+  {
     if (sfConfig::get('app_a_defer_search_updates', false))
     {
       // Deferred updates are sometimes nice for performance...
@@ -1091,8 +1097,8 @@ abstract class PluginaPage extends BaseaPage
       aPageTable::retrieveByIdWithSlots($this->id);
       $this->updateLuceneIndex();
     }
-    $this->end();
   }
+  
   public function clearSlotCache()
   {
     $this->slotCache = false;

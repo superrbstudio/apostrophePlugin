@@ -462,6 +462,7 @@ class BaseaActions extends sfActions
     if ($mainFormValid && (!isset($this->engineForm)))
     {
       $this->form->save();
+      $this->page->requestSearchUpdate();          
       return 'Redirect';
     }
     
@@ -478,6 +479,7 @@ class BaseaActions extends sfActions
           // no proper documentation as yet
           $this->form->save();
           $this->engineForm->save();
+          $this->page->requestSearchUpdate();          
           return 'Redirect';
         }
       }
