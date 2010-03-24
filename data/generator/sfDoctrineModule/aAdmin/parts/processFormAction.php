@@ -1,5 +1,6 @@
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
