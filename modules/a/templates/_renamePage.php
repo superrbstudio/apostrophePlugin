@@ -14,7 +14,7 @@
 
 	  <ul id="a-breadcrumb-rename-controls" class="a-form-controls a-breadcrumb-controls rename" style="display:none;">
 			<li>
-				<button id="a-breadcrumb-rename-submit" type="submit" class="a-btn"><?php echo __('Rename', null, 'apostrophe') ?></button>							
+				<input id="a-breadcrumb-rename-submit" type="submit" class="a-submit" value="<?php echo __('Rename', null, 'apostrophe') ?>"/>
 			</li>
 	  	<li>
 				<?php echo jq_link_to_function(__("cancel", null, 'apostrophe'), '', array('class' => 'a-btn icon a-cancel event-default')) ?>
