@@ -28,7 +28,7 @@ aPage:
                 permid: 1
                 Slot:
                   type: aRichText 
-                  value: '<h2>Welcome to aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> <p>You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.</p>'
+                  value: '<h3>Welcome to aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> <p>You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.</p>'
     children:
       about:
         slug: "/about"
@@ -59,7 +59,7 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: '<h2>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h2> It is open source, robust, &amp; super easy to use!'
+                      value: '<h3>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> It is open source, robust, &amp; super easy to use!'
       admin:
         # By convention this page is the parent of all admin pages. Admin pages are
         # hidden from all normal navigation
@@ -132,4 +132,4 @@ aPage:
                     permid: 1
                     Slot:
                       type: aRichText 
-                      value: '<h2>For more information or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a></h2>'
+                      value: '<h3>For more information or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailt:apostrophe@punkave.com">apostrophe@punkave.com</a></h3>'
