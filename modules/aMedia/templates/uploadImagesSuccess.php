@@ -32,8 +32,8 @@
 			<br class="c"/>
       
 			<ul class="a-controls a-media-form-footer">
-      	<li><?php echo link_to_function("Upload Photos", "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
-      	<li><?php echo link_to("cancel", "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
+      	<li><?php echo link_to_function(__('Upload Photos', null, 'apostrophe'), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
+      	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
       </ul>
 
     </form>
