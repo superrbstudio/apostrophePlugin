@@ -6,6 +6,7 @@
       "slot" => $name, 
       "slug" => $slug, 
       "actual_slug" => aTools::getRealPage()->getSlug(),
+      "actual_url" => aTools::getRealUrl(),
       "permid" => $permid,
       "noajax" => 1)) ?>
 <?php echo link_to($buttonLabel,

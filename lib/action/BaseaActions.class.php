@@ -270,7 +270,8 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
     $this->type = $this->getRequestParameter('type');
     $options = aTools::getAreaOptions($page->id, $this->name);
-
+    aTools::setRealUrl($request->getParameter('actual_url'));
+    
     if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($options))))
     {
       $this->forward404();

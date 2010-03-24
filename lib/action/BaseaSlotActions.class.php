@@ -104,7 +104,11 @@ class BaseaSlotActions extends sfActions
   {
     // Used for non-AJAX edits of global slots so that we can
     // redirect back to the real page after the edit succeeds
-    if ($this->hasRequestParameter('actual_slug'))
+    if ($this->hasRequestParameter('actual_url'))
+    {
+      return $this->redirect($this->getRequestParameter('actual_url'));
+    }
+    elseif ($this->hasRequestParameter('actual_slug'))
     {
       return $this->redirect(aTools::urlForPage(
         $this->getRequestParameter('actual_slug')));

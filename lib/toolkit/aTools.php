@@ -16,6 +16,7 @@ class aTools
   static private $savedCurrentPage = null;
   static protected $globalButtons = false;
   static private $allowSlotEditing = true;
+  static protected $realUrl = null;
   
   // Must reset ALL static variables to their initial state
   static public function listenToSimulateNewRequestEvent(sfEvent $event)
@@ -584,5 +585,19 @@ class aTools
     __('Template-Based', null, 'apostrophe');
     __('Users', null, 'apostrophe');
     __('Reorganize', null, 'apostrophe');
+  }
+  
+  static public function getRealUrl()
+  {
+    if(isset(self::$realUrl))
+    {
+      return self::$realUrl;
+    }
+    return sfContext::getInstance()->getRequest()->getUri();
+  }
+  
+  static public function setRealUrl($url)
+  {
+    self::$realUrl = $url;
   }
 }
