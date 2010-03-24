@@ -24,7 +24,7 @@ generator:
         class: aUserAdminForm
         display:
           # hid permissions because groups imply them and don't confuse admins
-          "NONE":                   [username, password, password_again, is_active, groups_list]
+          "NONE":  [username, password, password_again, is_active, groups_list, is_super_admin]
         actions:
           _save:
           _list:
