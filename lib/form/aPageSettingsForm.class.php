@@ -26,6 +26,8 @@ class aPageSettingsForm extends aPageForm
   
   public function configure()
   {
+    parent::configure();
+    
     // We must explicitly limit the fields because otherwise tables with foreign key relationships
     // to the pages table will extend the form whether it's appropriate or not. If you want to do
     // those things on behalf of an engine used in some pages, define a form class called
@@ -137,7 +139,9 @@ class aPageSettingsForm extends aPageForm
       unset($this['editors']);
       unset($this['managers']);
       unset($this['slug']);
-    } 
+    }
+    // We changed the form formatter name, so we have to reset the translation catalogue too 
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
   
   protected function addPrivilegeWidget($privilege, $widgetName)
