@@ -21,6 +21,6 @@ class BaseaUserAdminForm extends sfGuardUserAdminForm
   private function i18nDummy()
   {
     // This phrase isn't being discovered otherwise
-    __('Password (Again)', null, 'apostrophe');
+    __('Password (again)', null, 'apostrophe');
   }
 }

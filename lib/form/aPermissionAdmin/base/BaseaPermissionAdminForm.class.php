@@ -8,4 +8,10 @@ class BaseaPermissionAdminForm extends sfGuardPermissionForm
     
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
+  
+  private function i18nDummy()
+  {
+    // This phrase isn't being discovered otherwise
+    __('Save and add', null, 'apostrophe');
+  }
 }
