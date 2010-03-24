@@ -77,6 +77,45 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
   <changelog>
     <release>
       <version>
+        <release>1.0.9</release>
+        <api>1.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.apostrophenow.com/home/license">MIT license</license>
+      <date>2010-03-24</date>
+      <notes>
+         * A computer abandoned by an admin who has logged out can no longer be used to edit slots the admin previously edited using cleverly constructed URLs (only an issue on the same computer and if the PHP session has not ended). Note that you must upgrade your myUser class in apps/frontend/lib to extend aSecurityUser rather than sfGuardSecurityUser to get this fix (aSecurityUser is a subclass of the latter)
+         * Global or virtual-page media slots can be edited successfully on Symfony pages that are not CMS pages
+         * Unpublished pages no longer interfere with aNavigationAccordion layout
+         * Fixtures no longer use HTML tags our filters remove on edit
+         * Plaintext slots now autolink URLs and email address (obfuscated) as described in the manual
+         * Search engine updates refactored, search engine now updates when you save page settings
+         * 'tool' option to rich text slots now correctly activates the FCK toolbar set name you specify
+         * Slot save/cancel buttons now survive form validation passes properly (thanks to Spike)
+         * Date widget is XHTML correct (thanks Spike)
+         * Engines now work when the CMS is not mounted at the root of the site (important for those using the CMS as a subfolder of a site dominated by other Symfony modules)
+         * Attempting to attach a list of zero items to a slideshow no longer results in adding all items in the media repository
+         * Cross-browser and XHTML strictness fixes
+         * Moved lib/base to lib/action (you must symfony cc)
+         * Lost connections between existing media slots and media items when editing other media slots: fixed. Also, slideshows etc. are no longer removed on "cancel," and selecting zero media items no longer selects all media items
+         * i18n of over 99% of the admin interface (many thanks to Quentin, Galileo, Frank, Pablo and Fotis), new languages are regularly being added to the demo project's apps/frontend/i18n folder
+         * More convenient i18n of your site content (temporary titles supplied, all navigation controls work for pages whose titles are not yet translated)
+         * Aesthetic upgrades
+         * Superadmins can grant superadmin status
+         * Some demo-specific styles moved from a.css to demo.css
+         * Optional language selector in a/login partial
+         * Global admin buttons now have separate names and labels (labels can be internationalized) and a documented way to add and reorder them in app.yml
+         * Alpha channel is now preserved when rendering PNGs from a PNG original with gd (not available with netpbm)
+         * Compact PDF slot style, without inline preview (you can override this in aMediaPDF/normalView if you want it back and you have ghostscript)
+         * Better IE6 upgrade message
+         * Various private methods now protected for easier app level overrides
+      </notes>
+    </release>
+    <release>
+      <version>
         <release>1.0.8</release>
         <api>1.0.0</api>
       </version>
