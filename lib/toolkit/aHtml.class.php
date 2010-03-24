@@ -557,7 +557,7 @@ class aHtml
    * not included in simple_format_text for some reason 
    *
    * @param string $text The text you want converted to basic HTML.
-   * @return string Text with carriage returns and anchor tags.
+   * @return string Text with br tags and anchor tags.
    */
   static public function textToHtml($text)
   {
