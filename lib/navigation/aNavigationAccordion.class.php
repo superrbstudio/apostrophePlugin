@@ -23,8 +23,6 @@ class aNavigationAccordion extends aNavigation
     foreach($tree as $pos => &$node)
     {
       $node['class'] = $this->cssClass;
-      if($pos == 0) $node['class'] = $node['class'].' first';
-      if($pos == count($tree)-1) $node['class'] = $node['class'].' last';
       
       if(self::isAncestor($node, $this->activeInfo))
       {
