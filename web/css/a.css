@@ -1743,12 +1743,6 @@ ul.a-controls .a-variant-options.loading
 	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
-
-
-
-
-
-
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -1805,10 +1799,9 @@ cursor: default;
 .a_pager_navigation a.a_pager_navigation_first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
--moz-border-top-left-radius:10px;
+-moz-border-radius:10px 0px 0px 10px;
 -webkit-border-top-left-radius:10px;
 border-top-left-radius:10px;
--moz-border-bottom-left-radius:10px;
 -webkit-border-bottom-left-radius:10px;
 border-bottom-left-radius:10px;
 }
@@ -1842,10 +1835,9 @@ background-position: -41px -60px;
 .a_pager_navigation a.a_pager_navigation_last
 {
 background-position: -60px 0;
--moz-border-top-right-radius:10px;
+-moz-border-radius:0px 10px 10px 0px;
 -webkit-border-top-right-radius:10px;
 border-top-right-radius:10px;
--moz-border-bottom-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
@@ -1860,10 +1852,9 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
--moz-border-top-left-radius:10px;
+-moz-border-radius:10px 0px 0px 10px;
 -webkit-border-top-left-radius:10px;
 border-top-left-radius:10px;
--moz-border-bottom-left-radius:10px;
 -webkit-border-bottom-left-radius:10px;
 border-bottom-left-radius:10px;
 }
@@ -1886,10 +1877,9 @@ background-position:-60px -80px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
--moz-border-top-right-radius:10px;
+-moz-border-radius:0px 10px 10px 0px;
 -webkit-border-top-right-radius:10px;
 border-top-right-radius:10px;
--moz-border-bottom-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
