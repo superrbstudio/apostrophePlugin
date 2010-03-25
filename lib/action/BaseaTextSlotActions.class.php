@@ -17,8 +17,9 @@ class BaseaTextSlotActions extends BaseaSlotActions
       {
         $value = preg_replace("/\s/", " ", $value);
       }
-      $value = htmlspecialchars($value);
-      // Don't do newline to br transformations here, let textToHtml do that
+      // We store light markup for "plain text" slots. We don't score
+      // the mailto: obfuscation though
+      $value = aHtml::textToHtml($value);
       $maxlength = $this->getOption('maxlength');
       if ($maxlength !== false)
       {
