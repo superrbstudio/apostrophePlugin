@@ -21,11 +21,7 @@ class aMediaTools
   }
   static public function clearSelecting()
   {
-    self::removeAttributes(
-      array("after", "selecting", "multiple", "selection", 
-        "type", "aspect-width", "aspect-height",
-        "minimum-width", "minimum-height",
-        "width", "height", "label"));
+    self::removeAttributes();
   }
   static public function isSelecting()
   {
@@ -125,7 +121,7 @@ class aMediaTools
   static public function removeAttributes($attributes)
   {
     $user = self::getUser();
-    $user->getAttributeHolder()->removeNamespace('apostrophe-media');
+    $user->getAttributeHolder()->removeNamespace('apostrophe_media');
   }
   // This is a good convention for plugin options IMHO
   static private $options = array(
