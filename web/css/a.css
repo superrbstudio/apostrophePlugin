@@ -832,7 +832,11 @@ height: 20px;
 width: 20px;
 padding: 0;
 margin: 0;
+<<<<<<< .mine
+border:0;
+=======
 border: 0;
+>>>>>>> .r708
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -1612,12 +1616,15 @@ width: 100%;
 padding-bottom: 10px;
 }
 
-.a-area.singleton ul.a-controls.a-area-controls
-{ /* Singleton Area Controls */
+
+/* Turned off 3/25/10 JMH ====================================== */
+
+/*.a-area.singleton ul.a-controls.a-area-controls
+{
 position: absolute;
 top: 0;
 left: 0;
-}
+}*/
 
 .browsing-history ul.a-controls.a-area-controls
 { /* Change z-index of Area controls when we are browsing history */
@@ -4414,14 +4421,6 @@ background-position: bottom right;
 	margin: 10px 0;
 	width: 100%;
 }
-
-
-
-
-
-
-
-
 
 /* 25. Shared Tag Sidebar
 -------------------------------------*/
