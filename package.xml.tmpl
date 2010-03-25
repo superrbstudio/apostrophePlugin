@@ -77,6 +77,26 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
   <changelog>
     <release>
       <version>
+        <release>1.0.10</release>
+        <api>1.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.apostrophenow.com/home/license">MIT license</license>
+      <date>2010-03-25</date>
+      <notes>
+         * Cancel works properly again in the media plugin
+         * Media plugin also clears stale selection attributes when starting a new selection
+         * Plain text slots were double-escaping entities. Fixed.
+         * Plain text slots are now i18n-correct (UTF8).
+         * Harmless but large extra tarballs of older releases no longer in plugin tarball
+         * Button CSS more cross-browser compatible
+      </notes>
+    </release>
+    <release>
+      <version>
         <release>1.0.9</release>
         <api>1.0.0</api>
       </version>
