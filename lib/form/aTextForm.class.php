@@ -27,7 +27,7 @@ class aTextForm extends sfForm
     }
     $this->soptions['class'] = $class;
     $text = html_entity_decode(strip_tags($this->value), ENT_COMPAT, 'UTF-8');
-    $this->setWidgets(array('value' => new sfWidgetFormTextarea(array('default' => ), $this->soptions)));
+    $this->setWidgets(array('value' => new sfWidgetFormTextarea(array('default' => $text), $this->soptions)));
     $this->setValidators(array('value' => new sfValidatorString(array('required' => false))));
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');    
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
