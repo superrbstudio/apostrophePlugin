@@ -22,7 +22,7 @@
 		
 		<ul class="a-form-row submit">
     	<li>
-				<input type="submit" class="a-btn" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
+				<input type="submit" class="a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
 			</li>
 			<li>
 				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>

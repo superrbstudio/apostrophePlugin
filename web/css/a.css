@@ -1041,13 +1041,11 @@ input.a-cancel
 { /* Format ALL Submit Buttons */
 float: left;
 position: relative;
-height: 20px;
-line-height:19px;
 color: #fff;
 font: 12px/normal arial, sans-serif;
-padding:2px;
+padding:1px 2px;
 z-index: 2;
-width: auto !important;
+width: auto;
 cursor: pointer;
 }
 
@@ -3217,6 +3215,13 @@ float: left;
 	border: 1px solid #888;
 	padding: 3px 2px;
 	color: #333;
+}
+
+#a-signin-form .a-form-row.submit input
+{
+	color:#fff;
+	padding:0px 2px;
+	padding-top:1px;
 }
 
 #a-signin-form input[type="text"],
