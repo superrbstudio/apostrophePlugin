@@ -471,11 +471,6 @@ color: #900;
 	width: 100%;
 }
 
-
-
-
-
-
 /* 6. aUI Buttons
 -------------------------------------*/
 
@@ -492,9 +487,9 @@ cursor: pointer;
 padding: 0 4px;
 white-space: nowrap;
 text-transform: capitalize;
-height: 20px;
-line-height: 20px;
-border: none;
+height: 18px;
+line-height: 18px;
+border:none;
 }
 
 .a-btn.a-disabled,
@@ -507,8 +502,8 @@ border: none;
 
 .a-btn.icon
 {
-padding: 0 4px 0 20px;
-background-position: top left;
+padding: 0 2px 0 20px;
+background-position: 0 -1px;
 background-repeat: no-repeat;
 }
 
@@ -517,16 +512,16 @@ background-repeat: no-repeat;
 	font-size:18px;
 	height:24px;
 	line-height:24px;
-	background-position: center left;
+	background-position: 0 2px;
 }
 
 .a-btn.icon-only
 {
-background-position: top left;
+background-position: -1px -1px;
 background-repeat: no-repeat;
 text-indent: -9999px;
 padding: 0;
-width: 20px;
+width: 18px;
 }
 
 .a-btn.a-flag-btn.icon.expanded,
@@ -544,7 +539,7 @@ width: 20px;
 .a-btn .a-flag-btn-label
 {
 display:none;
-line-height:20px;
+line-height:18px;
 padding: 0 4px;
 white-space:nowrap;
 text-indent:0 !important;
@@ -731,7 +726,7 @@ background-image: url(/apostrophePlugin/images/a-icon-edit.png);
 background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
 text-indent: -9999px;
 padding: 0;
-width: 20px;
+width: 18px;
 }
 
 .icon.a-arrow-down
@@ -739,7 +734,7 @@ width: 20px;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
 text-indent: -9999px;
 padding: 0;
-width: 20px;
+width: 18px;
 }
 
 .icon.a-arrow-left
@@ -747,7 +742,7 @@ width: 20px;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
 text-indent: -9999px;
 padding: 0;
-width: 20px;
+width: 18px;
 -moz-box-shadow:0 0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -760,7 +755,7 @@ box-shadow:0 0 0 transparent;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
 text-indent: -9999px;
 padding: 0;
-width: 20px;
+width: 18px;
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -812,11 +807,11 @@ background-image: url(/apostrophePlugin/images/a-icon-event.png);
 background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
 float: left;
 overflow: hidden;
-height: 20px;
-line-height: 20px;
+height: 18px;
+line-height: 18px;
 padding: 0;
 text-indent: -9999px;
-width: 20px;
+width: 18px;
 }
 
 .icon.a-close:hover
@@ -837,11 +832,19 @@ height: 20px;
 width: 20px;
 padding: 0;
 margin: 0;
+<<<<<<< .mine
+border:0;
+=======
+border: 0;
+>>>>>>> .r708
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
 -khtml-box-shadow:0 0 0 transparent;
 box-shadow:0 0 0 transparent;
+-moz-border-radius: 10px !important;
+-webkit-border-radius: 10px !important;
+border-radius: 10px !important;
 }
 
 .icon.a-drag:hover
@@ -868,8 +871,8 @@ background-position: 0 -20px;
 .icon.a-events span.day
 {
 float: left;
-height: 20px;
-width: 20px;
+height: 18px;
+width: 18px;
 background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
 }
 
@@ -885,152 +888,152 @@ background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
 
 .icon.a-events.day-2 span.day
 {
-	background-position: 0 -20px;
+	background-position: 0 -21px;
 }
 
 .icon.a-events.day-3 span.day
 {
-	background-position: 0 -40px;
+	background-position: 0 -41px;
 }
 
 .icon.a-events.day-4 span.day
 {
-	background-position: 0 -60px;
+	background-position: 0 -61px;
 }
 
 .icon.a-events.day-5 span.day
 {
-	background-position: 0 -80px;
+	background-position: 0 -81px;
 }
 
 .icon.a-events.day-6 span.day
 {
-	background-position: 0 -100px;
+	background-position: 0 -101px;
 }
 
 .icon.a-events.day-7 span.day 
 {
-	background-position: 0 -120px;
+	background-position: 0 -121px;
 }
 
 .icon.a-events.day-8 span.day
 {
-	background-position: 0 -140px;
+	background-position: 0 -141px;
 }
 
 .icon.a-events.day-9 span.day
 {
-	background-position: 0 -160px;
+	background-position: 0 -161px;
 }
 
 .icon.a-events.day-10 span.day
 {
-	background-position: 0 -180px;
+	background-position: 0 -181px;
 }
 
 .icon.a-events.day-11 span.day
 {
-	background-position: 0 -200px;
+	background-position: 0 -201px;
 }
 
 .icon.a-events.day-12 span.day
 {
-	background-position: 0 -220px;
+	background-position: 0 -221px;
 }
 
 .icon.a-events.day-13 span.day
 {
-	background-position: 0 -240px;
+	background-position: 0 -241px;
 }
 
 .icon.a-events.day-14 span.day
 {
-	background-position: 0 -260px;
+	background-position: 0 -261px;
 }
 
 .icon.a-events.day-15 span.day
 {
-	background-position: 0 -280px;
+	background-position: 0 -281px;
 }
 
 .icon.a-events.day-16 span.day
 {
-	background-position: 0 -300px;
+	background-position: 0 -301px;
 }
 
 .icon.a-events.day-17 span.day
 {
-	background-position: 0 -320px;
+	background-position: 0 -321px;
 }
 
 .icon.a-events.day-18 span.day
 {
-	background-position: 0 -340px;
+	background-position: 0 -341px;
 }
 
 .icon.a-events.day-19 span.day
 {
-	background-position: 0 -360px;
+	background-position: 0 -361px;
 }
 
 .icon.a-events.day-20 span.day
 {
-	background-position: 0 -380px;
+	background-position: 0 -381px;
 }
 
 .icon.a-events.day-21 span.day
 {
-	background-position: 0 -400px;
+	background-position: 0 -401px;
 }
 
 .icon.a-events.day-22 span.day
 {
-	background-position: 0 -420px;
+	background-position: 0 -421px;
 }
 
 .icon.a-events.day-23 span.day
 {
-	background-position: 0 -440px;
+	background-position: 0 -441px;
 }
 
 .icon.a-events.day-24 span.day
 {
-	background-position: 0 -460px;
+	background-position: 0 -461px;
 }
 
 .icon.a-events.day-25 span.day
 {
-	background-position: 0 -480px;
+	background-position: 0 -481px;
 }
 
 .icon.a-events.day-26 span.day
 {
-	background-position: 0 -500px;
+	background-position: 0 -501px;
 }
 
 .icon.a-events.day-27 span.day
 {
-	background-position: 0 -520px;
+	background-position: 0 -521px;
 }
 
 .icon.a-events.day-28 span.day
 {
-	background-position: 0 -540px;
+	background-position: 0 -541px;
 }
 
 .icon.a-events.day-29 span.day
 {
-	background-position: 0 -560px;
+	background-position: 0 -561px;
 }
 
 .icon.a-events.day-30 span.day
 {
-	background-position: 0 -580px;
+	background-position: 0 -581px;
 }
 
 .icon.a-events.day-31 span.day
 {
-	background-position: 0 -600px;
+	background-position: 0 -601px;
 }
 
 input.a-submit,
@@ -1039,13 +1042,18 @@ input.a-cancel
 float: left;
 position: relative;
 height: 20px;
-border: 0;
+line-height:19px;
 color: #fff;
 font: 12px/normal arial, sans-serif;
-padding: 2px;
+padding:2px;
 z-index: 2;
 width: auto !important;
 cursor: pointer;
+}
+
+ul.a-form-row.submit .a-btn
+{
+	height:auto;
 }
 
 input.a-submit:hover
@@ -1066,11 +1074,6 @@ color: #888;
 	padding-left: 20px;
 	background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat;	
 }
-
-
-
-
-
 
 /* 7.5 aUI Button Icons ALT (Black)
 -------------------------------------*/
@@ -1133,7 +1136,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
 background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
 }
 
-.a-cancel
+.alt .a-cancel
 {
 background: url(/apostrophePlugin/images/a-icon-alt-cancel.png) top left no-repeat;
 }
@@ -1219,8 +1222,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png);
 }
 
-.alt .icon.a-delete,
-.icon.a-delete.alt
+.alt .icon.a-delete
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 }
@@ -1249,6 +1251,10 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png);
 {
 	background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat;	
 }
+
+
+
+
 
 
 
@@ -1610,12 +1616,15 @@ width: 100%;
 padding-bottom: 10px;
 }
 
-.a-area.singleton ul.a-controls.a-area-controls
-{ /* Singleton Area Controls */
+
+/* Turned off 3/25/10 JMH ====================================== */
+
+/*.a-area.singleton ul.a-controls.a-area-controls
+{
 position: absolute;
 top: 0;
 left: 0;
-}
+}*/
 
 .browsing-history ul.a-controls.a-area-controls
 { /* Change z-index of Area controls when we are browsing history */
@@ -1741,12 +1750,6 @@ ul.a-controls .a-variant-options.loading
 	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
-
-
-
-
-
-
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -1803,10 +1806,9 @@ cursor: default;
 .a_pager_navigation a.a_pager_navigation_first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
--moz-border-top-left-radius:10px;
+-moz-border-radius:10px 0px 0px 10px;
 -webkit-border-top-left-radius:10px;
 border-top-left-radius:10px;
--moz-border-bottom-left-radius:10px;
 -webkit-border-bottom-left-radius:10px;
 border-bottom-left-radius:10px;
 }
@@ -1840,10 +1842,9 @@ background-position: -41px -60px;
 .a_pager_navigation a.a_pager_navigation_last
 {
 background-position: -60px 0;
--moz-border-top-right-radius:10px;
+-moz-border-radius:0px 10px 10px 0px;
 -webkit-border-top-right-radius:10px;
 border-top-right-radius:10px;
--moz-border-bottom-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
@@ -1858,10 +1859,9 @@ background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
--moz-border-top-left-radius:10px;
+-moz-border-radius:10px 0px 0px 10px;
 -webkit-border-top-left-radius:10px;
 border-top-left-radius:10px;
--moz-border-bottom-left-radius:10px;
 -webkit-border-bottom-left-radius:10px;
 border-bottom-left-radius:10px;
 }
@@ -1884,10 +1884,9 @@ background-position:-60px -80px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
--moz-border-top-right-radius:10px;
+-moz-border-radius:0px 10px 10px 0px;
 -webkit-border-top-right-radius:10px;
 border-top-right-radius:10px;
--moz-border-bottom-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
@@ -2686,6 +2685,7 @@ border: none;
 .a-slot.aSlideshow ul.a-slideshow-controls li
 {
 float: left;
+border: 0;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls a
@@ -3649,6 +3649,7 @@ clear: both;
 	background: none !important;
 	padding: 0 !important;
 	color: #900 !important;
+	border: 0 !important;
 	text-shadow: none;
 }
 
@@ -4444,14 +4445,6 @@ margin-bottom: 5px;
 	width: 100%;
 }
 
-
-
-
-
-
-
-
-
 /* 25. Shared Tag Sidebar
 -------------------------------------*/
 
@@ -5208,13 +5201,13 @@ z-index: 9999;
 position: relative;
 top: 6px;
 left: 3px;
+cursor: pointer;
 }
 
 .ui-datepicker-trigger:hover
 {
 cursor: pointer;
 }
-
 
 .a-admin-controls
 {
@@ -5223,7 +5216,6 @@ float: left;
 width: 720px !important;
 border-bottom: 0;
 }
-
 
 .a-admin .a-admin-flashes
 {/* We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice */
@@ -5347,11 +5339,6 @@ width: auto;
 width: 480px;
 }
 
-
-
-
-
-
 /* 30. aUI & Admin Colors - Default
 -------------------------------------*/
 
@@ -5381,16 +5368,11 @@ width: 480px;
 .a-submit,
 .a-cancel
 { /* Button Styles */
--moz-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
--webkit-box-shadow:inset 0px 0px 2px rgba(0, 0, 0, 0.70);
--webkit-box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.40); /*so safari 4 gets something*/
--opera-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
--khtml-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);	
-box-shadow:inset 0px 0px 1px rgba(0, 0, 0, 0.70);
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
 text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+border:1px solid rgba(20,20,20,.2);
 }
 
 .a-btn:hover,
