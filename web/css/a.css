@@ -502,7 +502,7 @@ border:none;
 
 .a-btn.icon
 {
-padding: 0 2px 0 20px;
+padding: 0 4px 0 20px;
 background-position: 0 -1px;
 background-repeat: no-repeat;
 }
@@ -653,8 +653,8 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 .a-cancel
 {
 color: #fff !important;
-padding: 0 4px 0 20px !important;
-background: url(/apostrophePlugin/images/a-icon-cancel.png) top left no-repeat;
+padding: 1px 4px 1px 20px !important;
+background: url(/apostrophePlugin/images/a-icon-cancel.png) no-repeat -1px -1px;
 background-color: #999 !important;
 }
 
@@ -1043,14 +1043,6 @@ padding:1px 2px;
 z-index: 2;
 width: auto;
 cursor: pointer;
-}
-
-/* seperated out a-cancel bc a-cancel has an icon, a-submit does not 3/26/10 JMH ====================================== */
-
-input.a-cancel
-{
-	background-position:-1px -1px;
-	padding:1px 2px 1px 20px !important;
 }
 
 ul.a-form-row.submit .a-btn
@@ -1586,7 +1578,7 @@ ul.a-controls li
 float: left;
 display: inline;
 position: relative;
-margin: 0 2px 2px 0 !important;
+margin: 0px 2px 2px 0 !important;
 width: auto;
 height: auto;
 border: none;
@@ -2632,6 +2624,12 @@ display: block;
 .a-slot-is-editable.aRawHTML .a-slot-content-container
 {
 /*	padding: 22px 0 0 0 !important;*/
+}
+
+.aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
+.aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
+{
+	margin-top:10px!important;
 }
 
 .a-slot.aTextSlot,
@@ -5381,7 +5379,7 @@ width: 480px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
 text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-border:1px solid rgba(20,20,20,.2);
+border:1px solid rgba(0,0,0,.15);
 }
 
 .a-btn:hover,
