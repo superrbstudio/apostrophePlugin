@@ -3251,53 +3251,8 @@ margin-right: 5px;
 
 
 
-/* 17. Tabbed Navigation Styles 
- **** To Be Deprecated when all sites switch to Navigation Component - 2/3/2010
+/* 17. General Navigation Styles 
 -------------------------------------*/
-
-#a-tab-navigation
-{
-	float: left;
-	display: inline;
-	width: 100%;
-	clear: both;
-	margin: 20px 0;
-}
-
-#a-tab-navigation .a-tab-nav-item
-{
-	float: left;
-	display: inline;
-	width: 118px;
-	height: 20px;
-	line-height: 20px;
-	border: 1px solid #ddd;
-	border-bottom: 0;
-	border-right: 0;
-}
-
-#a-tab-navigation .a-tab-nav-item.last
-{
-	border-right: 1px solid #ddd;
-}
-
-#a-tab-navigation .a-tab-nav-item a
-{
-	float: left;
-	display: inline;
-	width: 100%;
-	height: 100%;
-	text-decoration: none;
-	color: #333;
-	text-align: center;	
-}
-
-#a-tab-navigation .a-tab-nav-item.a-current-page a,
-#a-tab-navigation .a-tab-nav-item a:hover
-{
-	background-color: #ddd;
-	color:#000;
-}
 
 .a-navigation .archived
 { /* aUI(); Makes Unpublished pages 50% Opacity */
