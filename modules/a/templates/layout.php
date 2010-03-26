@@ -79,7 +79,7 @@
     <?php if (has_slot('a-tabs')): ?>
       <?php include_slot('a-tabs') ?>
     <?php else: ?>
-		  <?php include_component('a', 'tabs') # Top Level Navigation ?>
+			<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
 		<?php endif ?>
 
 		<?php if (has_slot('a-breadcrumb')): ?>
