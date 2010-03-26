@@ -832,11 +832,7 @@ height: 20px;
 width: 20px;
 padding: 0;
 margin: 0;
-<<<<<<< .mine
-border:0;
-=======
 border: 0;
->>>>>>> .r708
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -1041,13 +1037,11 @@ input.a-cancel
 { /* Format ALL Submit Buttons */
 float: left;
 position: relative;
-height: 20px;
-line-height:19px;
 color: #fff;
 font: 12px/normal arial, sans-serif;
-padding:2px;
+padding:1px 2px;
 z-index: 2;
-width: auto !important;
+width: auto;
 cursor: pointer;
 }
 
@@ -3219,6 +3213,13 @@ float: left;
 	color: #333;
 }
 
+#a-signin-form .a-form-row.submit input
+{
+	color:#fff;
+	padding:0px 2px;
+	padding-top:1px;
+}
+
 #a-signin-form input[type="text"],
 #a-signin-form input[type="password"]
 {
@@ -4412,6 +4413,29 @@ background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
 background-position: bottom right;
 }
 
+#a-subnav .a-navigation li
+{
+float: left;
+width: 100%;
+clear: both;
+position: relative;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+#a-subnav .a-navigation li.last
+{
+	margin-bottom: 0;
+}
+
+#a-subnav .a-navigation li a
+{
+	float: left;
+	width: 155px;
+	height: 100%;
+	padding: 0 20px 0 5px;
+}
+
 #a-subnav hr
 {
 	float: left;
@@ -5178,6 +5202,11 @@ z-index: 9999;
 position: relative;
 top: 6px;
 left: 3px;
+cursor: pointer;
+}
+
+.ui-datepicker-trigger:hover
+{
 cursor: pointer;
 }
 
