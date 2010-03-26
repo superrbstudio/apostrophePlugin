@@ -19,7 +19,7 @@
 			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
 		</li>
 	  <li>
-			<?php echo link_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
+			<a href="#" class="a-btn a-cancel event-default" id="a-slot-form-cancel-<?php echo $id ?>" onclick="return false;"><?php echo __("Cancel", null, 'apostrophe') ?></a>
 		</li>
 	</ul>
 

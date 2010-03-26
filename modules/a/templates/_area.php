@@ -7,7 +7,7 @@
 <?php slot('a-cancel') ?>
 <!-- .a-controls.area Cancel Button -->
 <li class="a-controls-item cancel">
-	<a href="#" class="a-btn a-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
+	<a href="#" class="a-btn a-cancel a-cancel-area" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
 </li>
 <?php end_slot() ?>
 
@@ -23,7 +23,7 @@
 									 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
       "update" => "a-history-items-$pageid-$name"), 
 			array(
-				'class' => 'a-btn icon a-history', 
+				'class' => 'a-btn icon a-history-btn', 
 	)); ?>
 	<ul class="a-history-options">
 		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
@@ -49,7 +49,7 @@
 		<ul class="a-controls a-area-controls">
 			<!-- .a-controls.a-area-controls Add Slot Module -->
 			<li class="a-controls-item slot">
-				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add slot', )) ?>
+				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot', )) ?>
 				<ul class="a-area-options slot">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>

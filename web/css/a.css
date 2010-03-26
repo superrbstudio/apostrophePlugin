@@ -481,8 +481,8 @@ float: left;
 display: inline;
 color: #fff !important;
 text-decoration: none !important;
-font-family: arial, sans-serif;
-font-size: 12px;
+font-family: arial, sans-serif !important;
+font-size: 12px !important;
 cursor: pointer;
 padding: 0 4px;
 white-space: nowrap;
@@ -644,7 +644,7 @@ background-image: url(/apostrophePlugin/images/a-icon-text.png);
 background-image: url(/apostrophePlugin/images/a-icon-add.png);
 }
 
-.icon.a-history,
+.icon.a-history-btn,
 .icon.a-history-revert
 {
 background-image: url(/apostrophePlugin/images/a-icon-history.png);
@@ -1132,7 +1132,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-text.png);
 background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
 }
 
-.alt .icon.a-history,
+.alt .icon.a-history-btn,
 .alt .icon.a-history-revert
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
@@ -1672,14 +1672,14 @@ display: none;
 }
 
 .editing-now a.a-btn,
-.browsing-history a.a-btn.a-history
+.browsing-history a.a-history-btn
 {
 color: #000 !important;
 cursor: default !important;
 text-shadow: 0 1px 0px rgba(255,255,255,0.40) !important;
 }
 
-.a-area.previewing-history a.a-btn.a-history
+.a-area.previewing-history a.a-history-btn
 {
 background-color: transparent !important;
 color: #fff !important;
