@@ -1,4 +1,4 @@
-<ul class="a-navigation nav-level-depth-<?php echo $nest?> a-navigation-<?php echo $name ?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-navigation a-navigation-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-level-depth-<?php echo $nest?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
 
 	<?php foreach($nav as $pos => $item): ?>
 
