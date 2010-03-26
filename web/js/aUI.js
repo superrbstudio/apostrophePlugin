@@ -40,8 +40,8 @@ function aUI(target, instance)
 
 
 	// TARGETTED CONTROLS
-	var addSlotButton = $(target+'ul.a-area-controls a.a-add.slot');	
-	if (addSlotButton.hasClass('addslot-now')) // init_a_controls was resetting add slot buttons in some scenarios when we didn't want it to	
+	var addSlotButton = $(target+'ul.a-area-controls a.a-add-slot');	
+	if (addSlotButton.hasClass('addslot-now'))
 	{ 
 		addSlotButton.prev().hide();
 	} 
@@ -61,7 +61,7 @@ function aUI(target, instance)
 	
 	if (instance == 'history-revert') 
 	{ // after clicking 'save as current revision'
-		$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').css('display','none');		
+		$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();		
 		$(target + ".a-controls-item").siblings().show();
 		$(target + ".a-controls-item").siblings('.cancel').hide();
 		$(target).removeClass('browsing-history');
@@ -74,7 +74,7 @@ function aUI(target, instance)
 	
 	if (instance == 'history-cancel') 
 	{ // clicking cancel after previewing history item
-		$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').css('display','none');				
+		$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();
 		$(target).removeClass('browsing-history');
 		$(target).removeClass('previewing-history');
 		if ($(target).hasClass('singleton')) // remove instances of a-slot-controls for singleton areas
@@ -91,10 +91,9 @@ function aUI(target, instance)
 
 
 	// Add Slot Button
-	$('a.a-add.slot').unbind("click").click(function(event){
+	$('a.a-add-slot').unbind("click").click(function(event){
 		event.preventDefault();
 		$(this).hide(); //HIDE SELF
-		$(this).prev('.a-i').hide(); //HIDE SELF BG
 		$(this).siblings('.a-area-options.slot').fadeIn(); //SHOW AREA OPTIONS FOR SLOTS
 		$(this).parent().siblings(':not(.cancel)').hide(); //HIDE OTHER OPTION CHILD LINKS
 		$(this).parent().addClass('addslot-now').parents('div.a-area').addClass('addslot-now');
@@ -102,13 +101,12 @@ function aUI(target, instance)
 	});
 	
 	
-	
 	// History Button and History Browser Offset
-	$('a.a-history').unbind("click").click(function(event){
+	$('a.a-history-btn').unbind("click").click(function(event){
 		event.preventDefault();	
 		$('.a-history-browser').hide();
-		$('a.a-history').parents('.a-area').removeClass('browsing-history');
-		$('a.a-history').parents('.a-area').removeClass('previewing-history');
+		$('a.a-history-btn').parents('.a-area').removeClass('browsing-history');
+		$('a.a-history-btn').parents('.a-area').removeClass('previewing-history');
 		$('.a-page-overlay').show();
 		if (!$(this).parents('.a-area').hasClass('browsing-history')) 
 		{
@@ -118,31 +116,28 @@ function aUI(target, instance)
 			$(this).parents('.a-area').addClass('browsing-history');
 		}
 				
+		// Positioning the History Browser
 		var y1 = .49, y2 = $(this).offset().top;
-
 		if (parseInt(y1 + y2) > parseInt(y2)) { y2 = parseInt(y1 + y2);	} else { y2 = parseInt(y2); } 
-
 		$('.a-history-browser').css('top',(y2+20)+"px"); //21 = height of buttons plus one margin
 		$('.a-history-browser').fadeIn();
 
 		$(this).parent().siblings(':not(.cancel)').hide(); //HIDE OTHER OPTION CHILD LINKS
 		$(this).parents('.a-controls').find('.cancel').show().addClass('cancel-history'); //SHOW CANCEL BUTTON And Scope it to History
-
 	});
 	
 	
 	
 	// Cancel Buttons for History and Adding Slots
-	$('.a-controls a.a-cancel').unbind("click").click(function(event){
+	$('a.a-cancel-area').unbind("click").click(function(event){
 		$(this).parents('.a-controls').children().show();
 		$(this).parents('.a-controls').find('.a-area-options').hide();		
 		$(this).parent().hide(); //hide parent <li>
-
+	
 		if ($(this).parent().hasClass('cancel-history')) //history specific events
 		{
 			$(this).parents('.a-controls').find('.a-history-options').hide();
-			$(this).parents('.a-controls').find('a.a-history').show();
-			$(this).parents('.a-controls').find('a.a-history').prev('.a-i').show();
+			$(this).parents('.a-controls').find('a.a-history-btn').show();
 			$(this).parent().removeClass('cancel-history');
 			$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').css('display','none');		
 			$(this).parents('.a-area').removeClass('browsing-history');
@@ -151,12 +146,11 @@ function aUI(target, instance)
 		
 		if ($(this).parent().hasClass('cancel-addslot')) //add slot specific events
 		{
-			$(this).parents('.a-controls').find('a.a-add.slot').show();
-			$(this).parents('.a-controls').find('a.a-add.slot').prev('.a-i').show();
+			$(this).parents('.a-controls').find('a.a-add-slot').show();
 			$('.addslot-now').removeClass('addslot-now');
 			$(this).parent().removeClass('cancel-addslot');			
 		}
-
+	
 		if ($(this).hasClass('event-default')) 
 		{
 			//allow default event
@@ -190,15 +184,6 @@ function aUI(target, instance)
 	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
 
 
-
-	//aContext Slot / Area Controls Setup
-	$('.a-controls li:last-child').addClass('last'); //add 'last' class to last option
-	$('.a-area-controls .a-controls-item').siblings(':not(.cancel)').css('display', 'block');
-	$('.a-area-controls .a-controls-item').children('.a-btn').css('display', 'block');
-	$('.a-controls').css('visibility','visible'); //show them after everything is loaded
-
-	
-
 	// Area Overlay Thing
 	$('div.a-area-overlay').remove();
 	$('div.a-slots').prepend('<div class="a-area-overlay"></div>');
@@ -209,6 +194,13 @@ function aUI(target, instance)
 	})
 
 
+	//aContext Slot / Area Controls Setup
+	$('.a-controls li:last-child').addClass('last'); //add 'last' class to last option
+	$('.a-area-controls .a-controls-item').siblings(':not(.cancel)').css('display', 'block');
+	$('.a-area-controls .a-controls-item').children('.a-btn').css('display', 'block');
+	$('.a-controls').css('visibility','visible'); //show them after everything is loaded
+
+	
 	
 	// Flagging Buttons
 	var flagBtn = $('.a-flag-btn');
@@ -221,8 +213,6 @@ function aUI(target, instance)
 	});	
 	
 	
-	
-	// aOverrides is a way to stub in function calls to aUI. If you over ride this function in site.js it gets called with aUI();
 	aOverrides();
 }
 

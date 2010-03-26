@@ -21,12 +21,12 @@
 			<input type="submit" class="a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" />			
 		</li>
 	  <li>
-			<?php echo jq_link_to_function(__("cancel", null, 'apostrophe'), 
+			<?php echo jq_link_to_function(__("Cancel", null, 'apostrophe'), 
 				'$("#a-breadcrumb-create-childpage-form").hide(); 
 				$("#a-breadcrumb-create-childpage-button").fadeIn(); 
 				$("#a-breadcrumb-create-childpage-button").prev(".a-i").fadeIn();', 
 				array(
-					'class' => 'a-btn icon a-cancel', 
+					'class' => 'a-btn a-cancel', 
 			)) ?>
 		</li>
 	</ul>

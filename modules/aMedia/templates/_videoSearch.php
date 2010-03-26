@@ -10,7 +10,7 @@
 			 $('#a-media-video-search-results-container').hide(); 
 			 $('#a-media-video-search-heading').hide(); 
 			 $('#a-media-video-buttons').show();", 
-			array("class" => "a-cancel a-btn icon event-default")) ?>
+			array("class" => "a-btn a-cancel")) ?>
 	</li>
 </ul>
 

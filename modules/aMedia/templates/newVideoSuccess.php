@@ -33,7 +33,7 @@
 		</li>
 	  <?php endif ?>
 
-	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-cancel a-btn icon event-default")) ?></li>
+	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn a-cancel")) ?></li>
 	</ul>
 
 	<h4 id="a-media-video-search-heading" class="a-media-video-heading"><?php echo __('Search YouTube', null, 'apostrophe') ?></h4>     
@@ -104,7 +104,7 @@
 					"$('#a-media-video-add-by-embed-form').hide(); 
 					 $('#a-media-video-add-by-embed-heading').hide(); 
 					 $('#a-media-video-buttons').show();", 
-					 array("class" => "a-cancel a-btn icon event-default")) ?>
+					 array("class" => "a-btn a-cancel")) ?>
 				</li>
       </ul>
 			
