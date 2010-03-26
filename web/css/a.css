@@ -25,7 +25,7 @@
 	* 14. Areas and Slots
 	* 15. Apostrophe Login Form
 	* 16. Apostrophe Signin Form
-	* 17. Tabbed Navigation Styles 
+	* 17. General Navigation Styles 
 	* 18. Site Search
 	* 19. Search Results
 	* 20. Apostrophe Feedback Form
@@ -654,7 +654,7 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 {
 color: #fff !important;
 padding: 0 4px 0 20px !important;
-background: url(/apostrophePlugin/images/a-icon-cancel.png) top left no-repeat;
+background: url(/apostrophePlugin/images/a-icon-cancel.png) no-repeat -1px -1px;
 background-color: #999 !important;
 }
 
@@ -3204,34 +3204,20 @@ padding: 20px;
 	font-size: 16px;
 }
 
-#a-signin-form label,
-#a-signin-form input,
-#a-signin-form a
-{
-clear: both;
-float: left;
-}
-
-#a-signin-form input
+#a-signin-form .a-form-row input[type="text"],
+#a-signin-form .a-form-row input[type="password"]
 {
 	font-size: 12px;
 	font-family: Arial, Sans-serif;
 	border: 1px solid #888;
 	padding: 3px 2px;
 	color: #333;
+	width: 155px;	
 }
 
 #a-signin-form .a-form-row.submit input
 {
 	color:#fff;
-	padding:0px 2px;
-	padding-top:1px;
-}
-
-#a-signin-form input[type="text"],
-#a-signin-form input[type="password"]
-{
-	width: 155px;
 }
 
 #a-signin-form .a-form-row

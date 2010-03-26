@@ -94,7 +94,7 @@
 				$("#a-page-settings-button-close").addClass("loading").hide()
 				$(".a-page-overlay").hide();', 
 				array(
-					'class' => 'a-btn icon a-cancel', 
+					'class' => 'a-btn a-cancel', 
 					'title' => 'cancel', 
 				)) ?>
 		</li>

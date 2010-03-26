@@ -25,7 +25,7 @@
 				<input type="submit" class="a-btn" value="<?php echo __('sign in', null, 'apostrophe') ?>" />
 			</li>
 			<li>
-				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-cancel event-default', )) ?>
+				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-btn a-cancel', )) ?>
 			</li>
 		</ul>
 		

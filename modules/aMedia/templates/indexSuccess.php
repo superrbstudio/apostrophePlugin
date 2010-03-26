@@ -12,7 +12,7 @@
 	<?php if (aMediaTools::isSelecting()): ?>
 
     <?php if (isset($label)): ?>
-      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to(__("cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-cancel event-default text-only")) ?></h3>
+      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn a-cancel text-only")) ?></h3>
     <?php endif ?>
 
     <?php include_partial('aMedia/describeConstraints') ?>
