@@ -1045,6 +1045,14 @@ width: auto;
 cursor: pointer;
 }
 
+/* seperated out a-cancel bc a-cancel has an icon, a-submit does not 3/26/10 JMH ====================================== */
+
+input.a-cancel
+{
+	background-position:-1px -1px;
+	padding:1px 2px 1px 20px !important;
+}
+
 ul.a-form-row.submit .a-btn
 {
 	height:auto;
@@ -1132,7 +1140,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
 
 .alt .a-cancel
 {
-background: url(/apostrophePlugin/images/a-icon-alt-cancel.png) top left no-repeat;
+background: url(/apostrophePlugin/images/a-icon-alt-cancel.png);
 }
 
 .alt .icon.a-settings
