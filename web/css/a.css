@@ -5395,7 +5395,7 @@ color: rgb(51,204,204);
 
 
 
-/* #. jQuery autocomplete results
+/* 31. jQuery autocomplete results
 -------------------------------------*/
 
 .ac_results{
@@ -5423,5 +5423,21 @@ background-color: #fbef3b;
 
 
 
-/* #. CSS Separator
+/* 31. jQuery autocomplete results
 -------------------------------------*/
+
+.a-login ul
+{
+	list-style: none;
+}
+
+.a-login li
+{
+	float: left;
+}
+
+.a-login li#a-language-switch
+{
+	padding-right: 10px;
+}
+
