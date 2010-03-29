@@ -5459,5 +5459,48 @@ color: rgb(51,204,204);
 }
 
 
-/* #. CSS Separator
+/* 31. jQuery autocomplete results
 -------------------------------------*/
+
+.ac_results{
+border-color: #bbb;
+color: #000;
+width: 120px;
+}
+
+.ac_results li
+{
+font-family: arial, sans-serif;
+}
+
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+background-color: #fff;
+}
+
+.ac_results .ac_over
+{
+color: #000;
+background-color: #fbef3b;
+}
+
+
+/* 32. Login button and language switcher
+-------------------------------------*/
+
+.a-login ul
+{
+	list-style: none;
+}
+
+.a-login li
+{
+	float: left;
+}
+
+.a-login li#a-language-switch
+{
+	padding-right: 10px;
+}
+

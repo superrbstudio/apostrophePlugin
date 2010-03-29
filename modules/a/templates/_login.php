@@ -1,4 +1,4 @@
-<ul class="a-controls">
+<ul class="a-login">
 <?php if ($sf_user->isAuthenticated()): ?>
 	<?php if (sfConfig::get('app_a_personal_settings_enabled', false)): ?>
 	<li id="a-logged-in-as"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span>								

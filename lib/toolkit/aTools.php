@@ -27,6 +27,7 @@ class aTools
     self::$savedCurrentPage = null;
     self::$globalButtons = false;
     self::$allowSlotEditing = true;
+    aNavigation::simulateNewRequest();
   }
   
   static public function cultureOrDefault($culture = false)

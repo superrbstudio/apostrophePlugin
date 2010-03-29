@@ -198,9 +198,7 @@ class BaseaActions extends sfActions
   {
     $this->flunkUnless($this->getRequest()->getMethod() == sfRequest::POST);
     $parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
-    
     $title = trim($this->getRequestParameter('title'));
-
     $this->flunkUnless(strlen($title));
 
     $pathComponent = $title;
