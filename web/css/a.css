@@ -1047,10 +1047,11 @@ float: left;
 position: relative;
 color: #fff;
 font: 12px/normal arial, sans-serif;
-padding:1px 2px;
+padding:1px 4px;
 z-index: 2;
 width: auto;
 cursor: pointer;
+min-height:20px;
 }
 
 ul.a-form-row.submit .a-btn
