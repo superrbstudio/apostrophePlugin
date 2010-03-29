@@ -502,8 +502,8 @@ border:none;
 
 .a-btn.icon
 {
-padding: 0 2px 0 20px;
-background-position: 0 -1px;
+padding: 0 4px 0 20px;
+background-position: center left;
 background-repeat: no-repeat;
 }
 
@@ -512,12 +512,12 @@ background-repeat: no-repeat;
 	font-size:18px;
 	height:24px;
 	line-height:24px;
-	background-position: 0 2px;
+	background-position: center left;
 }
 
 .a-btn.icon-only
 {
-background-position: -1px -1px;
+background-position: center;
 background-repeat: no-repeat;
 text-indent: -9999px;
 padding: 0;
@@ -654,7 +654,7 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 {
 color: #fff !important;
 padding: 0 4px 0 20px !important;
-background: url(/apostrophePlugin/images/a-icon-cancel.png) no-repeat -1px -1px;
+background: url(/apostrophePlugin/images/a-icon-cancel.png) left center no-repeat;
 background-color: #999 !important;
 }
 
@@ -724,6 +724,7 @@ background-image: url(/apostrophePlugin/images/a-icon-edit.png);
 .icon.a-arrow-up
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
+background-position:center;
 text-indent: -9999px;
 padding: 0;
 width: 18px;
@@ -732,6 +733,7 @@ width: 18px;
 .icon.a-arrow-down
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
+background-position:center;
 text-indent: -9999px;
 padding: 0;
 width: 18px;
@@ -742,7 +744,7 @@ width: 18px;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
 -moz-box-shadow:0 0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -755,7 +757,7 @@ box-shadow:0 0 0 transparent;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -1045,14 +1047,6 @@ width: auto;
 cursor: pointer;
 }
 
-/* seperated out a-cancel bc a-cancel has an icon, a-submit does not 3/26/10 JMH ====================================== */
-
-input.a-cancel
-{
-	background-position:-1px -1px;
-	padding:1px 2px 1px 20px !important;
-}
-
 ul.a-form-row.submit .a-btn
 {
 	height:auto;
@@ -1060,7 +1054,7 @@ ul.a-form-row.submit .a-btn
 
 input.a-submit:hover
 {
-background-color: #888;
+background-color: #888!important;
 cursor: pointer;
 }
 
@@ -1132,7 +1126,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-text.png);
 background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
 }
 
-.alt .icon.a-history-btn,
+.alt .icon.a-history,
 .alt .icon.a-history-revert
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
@@ -1618,15 +1612,12 @@ width: 100%;
 padding-bottom: 10px;
 }
 
-
-/* Turned off 3/25/10 JMH ====================================== */
-
-/*.a-area.singleton ul.a-controls.a-area-controls
+.a-area.singleton ul.a-controls.a-area-controls
 {
 position: absolute;
 top: 0;
 left: 0;
-}*/
+}
 
 .browsing-history ul.a-controls.a-area-controls
 { /* Change z-index of Area controls when we are browsing history */
@@ -2005,12 +1996,6 @@ margin-right: 5px;
 {
 	background-color: #333;
 }
-
-
-
-
-
-
 
 /* 12. Page Settings Panel
 -------------------------------------*/
@@ -2634,6 +2619,12 @@ display: block;
 /*	padding: 22px 0 0 0 !important;*/
 }
 
+.aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
+.aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
+{
+	margin-top:10px!important;
+}
+
 .a-slot.aTextSlot,
 .a-slot.aRawHTML
 {
@@ -3239,53 +3230,8 @@ margin-right: 5px;
 
 
 
-/* 17. Tabbed Navigation Styles 
- **** To Be Deprecated when all sites switch to Navigation Component - 2/3/2010
+/* 17. General Navigation Styles 
 -------------------------------------*/
-
-#a-tab-navigation
-{
-	float: left;
-	display: inline;
-	width: 100%;
-	clear: both;
-	margin: 20px 0;
-}
-
-#a-tab-navigation .a-tab-nav-item
-{
-	float: left;
-	display: inline;
-	width: 118px;
-	height: 20px;
-	line-height: 20px;
-	border: 1px solid #ddd;
-	border-bottom: 0;
-	border-right: 0;
-}
-
-#a-tab-navigation .a-tab-nav-item.last
-{
-	border-right: 1px solid #ddd;
-}
-
-#a-tab-navigation .a-tab-nav-item a
-{
-	float: left;
-	display: inline;
-	width: 100%;
-	height: 100%;
-	text-decoration: none;
-	color: #333;
-	text-align: center;	
-}
-
-#a-tab-navigation .a-tab-nav-item.a-current-page a,
-#a-tab-navigation .a-tab-nav-item a:hover
-{
-	background-color: #ddd;
-	color:#000;
-}
 
 .a-navigation .archived
 { /* aUI(); Makes Unpublished pages 50% Opacity */
@@ -5395,7 +5341,7 @@ color: rgb(51,204,204);
 
 
 
-/* 31. jQuery autocomplete results
+/* #. jQuery autocomplete results
 -------------------------------------*/
 
 .ac_results{
@@ -5423,21 +5369,5 @@ background-color: #fbef3b;
 
 
 
-/* 31. jQuery autocomplete results
+/* #. CSS Separator
 -------------------------------------*/
-
-.a-login ul
-{
-	list-style: none;
-}
-
-.a-login li
-{
-	float: left;
-}
-
-.a-login li#a-language-switch
-{
-	padding-right: 10px;
-}
-
