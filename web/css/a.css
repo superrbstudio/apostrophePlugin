@@ -656,9 +656,12 @@ background-image: url(/apostrophePlugin/images/a-icon-history.png);
 .a-cancel
 {
 color: #fff !important;
-padding: 0 4px 0 20px !important;
-background: url(/apostrophePlugin/images/a-icon-cancel.png) left center no-repeat;
+padding: 0 4px 0 20px;
+background: url(/apostrophePlugin/images/a-icon-cancel.png);
+background-position:left center;
+background-repeat:no-repeat;
 background-color: #999 !important;
+padding-left:20px !important;
 }
 
 .a-cancel:hover
@@ -812,11 +815,11 @@ background-image: url(/apostrophePlugin/images/a-icon-event.png);
 background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
 float: left;
 overflow: hidden;
-height: 18px;
-line-height: 18px;
+height: 20px;
+line-height: 20px;
 padding: 0;
 text-indent: -9999px;
-width: 18px;
+width: 20px;
 }
 
 .icon.a-close:hover
@@ -1152,7 +1155,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
 .alt .a-cancel,
 .a-cancel.alt
 {
-background: url(/apostrophePlugin/images/a-icon-alt-cancel.png);
+background-image: url(/apostrophePlugin/images/a-icon-alt-cancel.png);
 }
 
 .alt .icon.a-settings,
@@ -5431,8 +5434,15 @@ text-decoration: none !important;
 .a-cancel.alt
 { /* Button Styles */
 color: #333 !important;
-text-shadow: 0 -1px 0px rgba(255,255,255,255.20);
+text-shadow: 0 1px 0px rgba(255,255,255,255.20);
 background-color: #fff !important;
+}
+
+.a-btn.alt:hover,
+.a-submit.alt:hover,
+.a-cancel.alt:hover
+{ /* Button Styles */
+background-color: #E0E0E0 !important;
 }
 
 .a-btn.alt,
