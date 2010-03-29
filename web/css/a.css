@@ -46,9 +46,12 @@
 	* 27. Admin Generator
 	* 28. Admin Generator - Filters
 
+	*** Misc Styles
+	* 29. jQuery Autocomplete	
+
 	*** Always Override Styles
-	* 29. Bundled Templates
-	* 30. aUI & Admin Colors - Default
+	* 30. Bundled Templates
+	* 31. aUI & Admin Colors - Default
 	
 */
 
@@ -644,7 +647,7 @@ background-image: url(/apostrophePlugin/images/a-icon-text.png);
 background-image: url(/apostrophePlugin/images/a-icon-add.png);
 }
 
-.icon.a-history,
+.icon.a-history-btn,
 .icon.a-history-revert
 {
 background-image: url(/apostrophePlugin/images/a-icon-history.png);
@@ -1074,176 +1077,214 @@ color: #888;
 /* 7.5 aUI Button Icons ALT (Black)
 -------------------------------------*/
 
-.alt .icon.a-feed
+.alt .icon.a-feed,
+.icon.a-feed.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png);
 }
 
-.alt .icon.a-page-small
+.alt .icon.a-page-small,
+.icon.a-page-small.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-page-small.png);
 }
 
-.alt .icon.a-unchecked
+.alt .icon.a-unchecked,
+.icon.a-unchecked.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png);
 }
 
-.alt .icon.a-checked
+.alt .icon.a-checked,
+.icon.a-checked.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);	
 }
 
 .alt .icon.a-blog-btn,
-.alt .icon.a-blogpost
+.alt .icon.a-blogpost,
+.icon.a-blog-btn.alt,
+.icon.a-blogpost.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
 }
 
-.alt .icon.a-video
+.alt .icon.a-video,
+.icon.a-video.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-video.png);
 }
 
-.alt .icon.a-image
+.alt .icon.a-image,
+.icon.a-image.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png);
 }
 
-.alt .icon.a-slideshow
+.alt .icon.a-slideshow,
+.icon.a-slideshow.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-slideshow.png);
 }
 
 .alt .icon.a-richtext,
-.alt .icon.a-text
+.alt .icon.a-text,
+.icon.a-richtext.alt,
+.icon.a-text.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-text.png);
 }
 
-.alt .icon.a-add
+.alt .icon.a-add,
+.icon.a-add.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
 }
 
-.alt .icon.a-history,
-.alt .icon.a-history-revert
+.alt .icon.a-history-btn,
+.alt .icon.a-history-revert,
+.icon.a-history-btn.alt,
+.icon.a-history-revert.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
 }
 
-.alt .a-cancel
+.alt .a-cancel,
+.a-cancel.alt
 {
 background: url(/apostrophePlugin/images/a-icon-alt-cancel.png);
 }
 
-.alt .icon.a-settings
+.alt .icon.a-settings,
+.icon.a-settings.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png);
 }
 
-.alt .icon.a-templates
+.alt .icon.a-templates,
+.icon.a-templates.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png);
 }
 
-.alt .icon.a-users
+.alt .icon.a-users,
+.icon.a-users.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-users.png);
 }
 
-.alt .icon.a-media
+.alt .icon.a-media,
+.icon.a-media.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-media.png);
 }
 
-.alt .icon.a-reorganize
+.alt .icon.a-reorganize,
+.icon.a-reorganize.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-sitemap.png);
 }
 
-.alt .icon.a-button
+.alt .icon.a-button,
+.icon.a-button.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-button.png);
 }
 
-.alt .icon.a-pdf
+.alt .icon.a-pdf,
+.icon.a-pdf.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-pdf.png);
 }
 
-.alt .icon.a-rawhtml
+.alt .icon.a-rawhtml,
+.icon.a-rawhtml.alt
 {
 	background-image: url(/apostrophePlugin/images/a-icon-alt-rawhtml.png);
 }
 
-.alt .icon.a-download
+.alt .icon.a-download,
+.icon.a-download.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-download.png);
 }
 
 .alt .icon.a-publish,
-.alt .icon.a-edit
+.alt .icon.a-edit,
+.icon.a-publish.alt,
+.icon.a-edit.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png);
 }
 
-.alt .icon.a-arrow-up
+.alt .icon.a-arrow-up,
+.icon.a-arrow-up.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-up.png);
 }
 
-.alt .icon.a-arrow-down
+.alt .icon.a-arrow-down,
+.icon.a-arrow-down.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-down.png);
 }
 
-.alt .icon.a-arrow-left
+.alt .icon.a-arrow-left,
+.icon.a-arrow-left.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left.png);
 }
 
-.alt .icon.a-arrow-right
+.alt .icon.a-arrow-right,
+.icon.a-arrow-right.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right.png);
 }
 
-.alt .icon.a-arrow-left.thin
+.alt .icon.a-arrow-left.thin,
+.icon.a-arrow-left.thin.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple.png);	
 }
 
-.alt .icon.a-arrow-right.thin
+.alt .icon.a-arrow-right.thin,
+.icon.a-arrow-right.thin.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png);
 }
 
-.alt .icon.a-delete
+.alt .icon.a-delete,
+.icon.a-delete.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 }
 
-.alt .icon.a-calendar
+.alt .icon.a-calendar,
+.icon.a-calendar.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-event.png);
 }
 
-.alt .icon.a-close
+.alt .icon.a-close,
+.icon.a-close.alt
 {
 background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0;
 }
 
-.alt .icon.a-drag
+.alt .icon.a-drag,
+.icon.a-drag.alt
 {
 background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat;
 }
 
-.alt .icon.a-events span.day
+.alt .icon.a-events span.day,
+.icon.a-events.alt span.day
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png);
 }
 
-.alt .a-rss-feed
+.alt .a-rss-feed,
+.a-rss-feed.alt
 {
 	background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat;	
 }
@@ -1633,7 +1674,7 @@ ul.a-controls ul.a-controls-item.history
 z-index: 899;
 }
 
-ul.a-controls li.addslot-now
+ul.a-controls li.add-slot-now
 {
 	margin: 0 4px 0 0 !important;
 }
@@ -1659,21 +1700,21 @@ ul.a-controls ul.a-controls-item
 position: relative;
 }
 
-ul.a-area-controls li .a-area-options,
+ul.a-controls .a-area-options,
 ul.a-controls .a-history-options
 {
 display: none;
 }
 
 .editing-now a.a-btn,
-.browsing-history a.a-btn.a-history
+.browsing-history a.a-history-btn
 {
 color: #000 !important;
 cursor: default !important;
 text-shadow: 0 1px 0px rgba(255,255,255,0.40) !important;
 }
 
-.a-area.previewing-history a.a-btn.a-history
+.a-area.previewing-history a.a-history-btn
 {
 background-color: transparent !important;
 color: #fff !important;
@@ -1708,9 +1749,10 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
 	background-color: #999;
 }
 
-ul.a-controls .a-variant-options
+ul.a-controls .a-variant-options,
+ul.a-controls .a-area-options
 {
-	padding: 30px 20px 2px 5px;
+	padding: 30px 5px 2px 5px;
 	position: absolute;
 	float: left;
 	display: none;
@@ -1723,16 +1765,30 @@ ul.a-controls .a-variant-options
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	list-style: none;
+	min-width: 100px;
+	width: auto !important;
+	width: 100px;
 }
 
 ul.a-controls .a-variant-options li,
-ul.a-controls .a-variant-options li.last
+ul.a-controls .a-variant-options li.last,
+ul.a-controls .a-area-options li,
+ul.a-controls .a-area-options li.last
 {
 	width: 100%;
 	float: left;
 	clear: both;
 	margin: 0 0 4px 0 !important;
 	list-style: none;	
+}
+
+ul.a-controls .a-area-options a,
+ul.a-controls .a-variant-options a,
+ul.a-controls .a-variant-options span
+{
+float: none !important;
+display: block !important;
+border: none !important;
 }
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options
@@ -2453,13 +2509,24 @@ bottom: 0;
 width: 100%;
 height: 100%;
 z-index: 799;
-border: 1px solid #e5e5e5;
+border: 1px inset rgba(0,0,0,0.2);
 padding: 5px;
 margin: -6px 0 0 -6px;
 -moz-border-radius: 2px;
 }
 
-.a-area.addslot-now .a-area-overlay
+.a-area.add-slot-now .a-area-overlay
+{
+	display: block;
+}
+
+.a-area.add-slot-now .a-add-slot
+{
+	background-color: #333;
+	z-index:999;
+}
+
+.a-area.add-slot-now .slots .a-options
 {
 	display: block;
 }
@@ -2467,10 +2534,6 @@ margin: -6px 0 0 -6px;
 .a-area.over .a-area-overlay
 {
 	display: block;
-}
-
-.a-controls-item.slot.addslot-now
-{
 }
 
 .a-slots
@@ -5271,86 +5334,7 @@ display:inline;
 
 
 
-
-/* 29. Bundled Templates
--------------------------------------*/
-
-/* -- Default Template -- */
-
-.a-default #a-content
-{
-clear: none;
-float: left;
-width: auto;
-}
-
-.a-default .a-area-body
-{
-width: 480px;
-}
-
-/* 30. aUI & Admin Colors - Default
--------------------------------------*/
-
-/* GREEN — 153,204,51 */
-/* ORANGE — 255,153,0 */
-/* PINK — 255,0,102 */
-
-#a-global-toolbar #the-apostrophe
-{ /* Apostrophe */
-	background-color: rgb(51,204,204);
-	background-color: rgba(51,204,204,0.65);	
-}
-
-.a-btn,
-.a-submit
-{ /* Background Color */
-	background-color: rgb(51,204,204);
-	background-color: rgba(51,204,204,0.65);	
-}
-
-.a-area.addslot-now .a-area-overlay
-{
-	background-color: rgba(51,204,204,0.25);	
-}
-
-.a-btn,
-.a-submit,
-.a-cancel
-{ /* Button Styles */
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-border:1px solid rgba(20,20,20,.2);
-}
-
-.a-btn:hover,
-.a-btn:hover span,
-.a-btn.icon:hover
-{/*Button Hover Style*/
-background-color: #888 !important;
-text-decoration: none !important;
-}
-
-.a-history-browser,
-ul.a-controls .a-variant-options,
-.a-area.addslot-now .a-area-overlay
-{ /* Border Color */
-border-color: rgb(51,204,204);
-}
-
-.a-admin a:link, 
-.a-admin a:visited,
-#a-global-toolbar #a-logged-in-as span,
-#a-personal-settings-heading span
-{ /* Text Color */
-color: rgb(51,204,204);
-}
-
-
-
-/* #. jQuery autocomplete results
+/* 29. jQuery Autocomplete Results
 -------------------------------------*/
 
 .ac_results{
@@ -5376,6 +5360,103 @@ color: #000;
 background-color: #fbef3b;
 }
 
+
+
+
+
+/* 30. Bundled Templates
+-------------------------------------*/
+
+/* -- Default Template -- */
+
+.a-default #a-content
+{
+clear: none;
+float: left;
+width: auto;
+}
+
+.a-default .a-area-body
+{
+width: 480px;
+}
+
+
+
+
+
+/* 31. aUI & Admin Colors - Default
+-------------------------------------*/
+
+/* GREEN — 153,204,51 */
+/* ORANGE — 255,153,0 */
+/* PINK — 255,0,102 */
+
+#a-global-toolbar #the-apostrophe
+{ /* Apostrophe */
+	background-color: rgb(51,204,204);
+	background-color: rgba(51,204,204,0.65);	
+}
+
+.a-btn,
+.a-submit
+{ /* Background Color */
+	background-color: rgb(51,204,204);
+	background-color: rgba(51,204,204,0.65);	
+}
+
+.a-btn,
+.a-submit,
+.a-cancel
+{ /* Button Styles */
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+border:1px solid rgba(20,20,20,.2);
+}
+
+.a-btn:hover,
+.a-btn:hover span,
+.a-btn.icon:hover
+{/*Button Hover Style*/
+color: #fff !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #888 !important;
+text-decoration: none !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt
+{ /* Button Styles */
+color: #333 !important;
+text-shadow: 0 -1px 0px rgba(255,255,255,255.20);
+background-color: #fff !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt,
+.a-history-browser,
+ul.a-controls .a-variant-options
+{ /* Border Color */
+border-color: rgb(51,204,204);
+}
+
+.a-area.add-slot-now .a-area-overlay
+{
+background-color: rgba(51,204,204,0.1);
+border-color: rgba(51,204,204,0.5);
+}
+
+.a-admin a:link, 
+.a-admin a:visited,
+#a-global-toolbar #a-logged-in-as span,
+#a-personal-settings-heading span
+{ /* Text Color */
+color: rgb(51,204,204);
+}
 
 
 /* #. CSS Separator
