@@ -8,6 +8,31 @@ class aTestFunctional extends sfTestFunctional
     aTestTools::loadData($this);
   }
   
+  protected $options = array(
+    'login-button-text' => 'Sign In',
+    'login-url' => '/login',
+    'default-prefix' => '/cms/'
+    );
+  
+  public function setOptions($options = array())
+  {
+    $this->options = array_merge($this->options, $options);
+  }
+
+  // This isn't full-scale routing, it just prepends the appropriate prefix to the
+  // URL. That's /cms/ if we're running with the default route as a mere plugin, 
+  // or /admin/ if we're running from the sandbox project
+  public function route($route)
+  {
+    return $this->options['default-prefix'] . $route;
+  }
+  
+  public function loadData($path = null)
+  {
+    parent::__construct($browser, $lime, $testers);
+    aTestTools::loadData($this);
+  }
+  
   public function login($username = 'user_1', $password = null)
   {
     if (!$password)
@@ -22,14 +47,12 @@ class aTestFunctional extends sfTestFunctional
       }
     }
     $this->
-      get('/login')->
+      get($this->options['login-url'])->
       setField('signin[username]', $username)->
       setField('signin[password]', $password)->
-      click('sign in', array('_with_csrf' => true));
-    echo($this->getResponse()->getContent());
-    $this->
-      with('response')->begin()->isRedirected()->end()->
-        followRedirect()
+      click($this->options['login-button-text'], array('_with_csrf' => true))->
+      with('response')->isRedirected()->
+      followRedirect()
     ;
   }
   
@@ -44,10 +67,10 @@ class aTestFunctional extends sfTestFunctional
     }
     
     return $this->
-      get('/login')->
+      get($this->options['login-url'])->
       setField('signin[username]', $username)->
       setField('signin[password]', $password)->
-      click('sign in')->
+      click('sign in', array('_with_csrf' => true))->
       with('response')->begin()->
         isStatusCode(200)->
         contains('The username and/or password is invalid')->
@@ -59,7 +82,7 @@ class aTestFunctional extends sfTestFunctional
   {
     // submit parent (a slug) and title to aContextCMS/create via POST
     return $this->
-      post('/admin/a/create', array('parent' => $parentSlug, 'title' => $pageTitle))->
+      post($this->route('a/create'), array('parent' => $parentSlug, 'title' => $pageTitle))->
       with('response')->begin()->
         isRedirected()->followRedirect()->
       end()->
@@ -67,5 +90,5 @@ class aTestFunctional extends sfTestFunctional
         isParameter('module', 'a')->
         isParameter('action', 'show')->
       end();
-  }  
+  }
 }

@@ -6,6 +6,16 @@ abstract class aNavigation
   public static $tree = null;
   public static $hash = null;
   
+  // Functional testing reuses the same PHP session, we must
+  // accurately simulate a new one. This method is called by
+  // an event listener in aTools. Add more calls there for other
+  // classes that do static caching
+  public static function simulateNewRequest()
+  {
+    self::$tree = null;
+    self::$hash = null;
+  }
+  
   protected abstract function buildNavigation();
   
   
