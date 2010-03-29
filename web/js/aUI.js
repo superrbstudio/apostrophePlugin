@@ -37,20 +37,6 @@ function aUI(target, instance)
 		instance = null;
 	}
 	
-
-
-	// TARGETTED CONTROLS
-	var addSlotButton = $(target+'ul.a-area-controls a.a-add-slot');	
-	if (addSlotButton.hasClass('addslot-now'))
-	{ 
-		addSlotButton.prev().hide();
-	} 
-	else
-	{
-		addSlotButton.siblings('.a-area-options').hide();
-	}
-
-	
 	// INSTANCE CONTROLS
 	if (instance == 'history-preview') 
 	{ // if we are refreshing while using the history browser we need to set some parameters
@@ -81,24 +67,7 @@ function aUI(target, instance)
 		{
 			$(target + " .a-slot-controls").remove();					
 		}
-	};
-
-	if (instance == 'add-slot')
-	{
-		$(target + '.cancel-addslot').hide().removeClass('cancel-addslot');
-	};
-
-
-
-	// Add Slot Button
-	$('a.a-add-slot').unbind("click").click(function(event){
-		event.preventDefault();
-		$(this).hide(); //HIDE SELF
-		$(this).siblings('.a-area-options.slot').fadeIn(); //SHOW AREA OPTIONS FOR SLOTS
-		$(this).parent().siblings(':not(.cancel)').hide(); //HIDE OTHER OPTION CHILD LINKS
-		$(this).parent().addClass('addslot-now').parents('div.a-area').addClass('addslot-now');
-		$(this).parent().siblings('.a-controls-item.cancel').show().addClass('cancel-addslot'); //SHOW CANCEL BUTTON
-	});
+	};	
 	
 	
 	// History Button and History Browser Offset
@@ -126,8 +95,6 @@ function aUI(target, instance)
 		$(this).parents('.a-controls').find('.cancel').show().addClass('cancel-history'); //SHOW CANCEL BUTTON And Scope it to History
 	});
 	
-	
-	
 	// Cancel Buttons for History and Adding Slots
 	$('a.a-cancel-area').unbind("click").click(function(event){
 		$(this).parents('.a-controls').children().show();
@@ -143,14 +110,7 @@ function aUI(target, instance)
 			$(this).parents('.a-area').removeClass('browsing-history');
 			$(this).parents('.a-area').removeClass('previewing-history');
 		}
-		
-		if ($(this).parent().hasClass('cancel-addslot')) //add slot specific events
-		{
-			$(this).parents('.a-controls').find('a.a-add-slot').show();
-			$('.addslot-now').removeClass('addslot-now');
-			$(this).parent().removeClass('cancel-addslot');			
-		}
-	
+			
 		if ($(this).hasClass('event-default')) 
 		{
 			//allow default event
@@ -163,7 +123,6 @@ function aUI(target, instance)
 		}
 		
 	});
-	
 	
 	
 	// Variants
@@ -179,11 +138,8 @@ function aUI(target, instance)
 	}).attr('onclick','');
 
 
-
 	// Cross Browser Opacity Settings
 	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
-
-
 
 	//aContext Slot / Area Controls Setup
 	$('.a-controls li:last-child').addClass('last'); //add 'last' class to last option
@@ -191,7 +147,6 @@ function aUI(target, instance)
 	$('.a-area-controls .a-controls-item').children('.a-btn').css('display', 'block');
 	$('.a-controls').css('visibility','visible'); //show them after everything is loaded
 
-	
 	
 	// Flagging Buttons
 	var flagBtn = $('.a-flag-btn');

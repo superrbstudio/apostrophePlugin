@@ -1,7 +1,7 @@
 <?php use_helper('a', 'jQuery', 'I18N') ?>
 
-<?php // We don't replace the area controls on an AJAX refresh, ?>
-<?php // just the contents ?>
+<?php // We don't replace the area controls on an AJAX refresh, just the contents ?>
+
 <?php if ($editable): ?>
 
 <?php slot('a-cancel') ?>
@@ -12,7 +12,7 @@
 <?php end_slot() ?>
 
 <?php slot('a-history-controls') // START - PK-HISTORY SLOT ====================================  ?>
-<!-- .a-controls.a-area-controls History Module -->
+<!-- History Controls -->
 <li class="a-controls-item history">
   <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
 	<?php echo jq_link_to_remote(__("History", null, 'apostrophe'), array(
@@ -25,7 +25,7 @@
 			array(
 				'class' => 'a-btn icon a-history-btn', 
 	)); ?>
-	<ul class="a-history-options">
+	<ul class="a-options a-history-options">
 		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
 	</ul>
 </li>
@@ -46,13 +46,28 @@
   <?php // The area controls ?>
   <?php if ($editable): ?>
     <?php if ($infinite): ?>
+
 		<ul class="a-controls a-area-controls">
-			<!-- .a-controls.a-area-controls Add Slot Module -->
-			<li class="a-controls-item slot">
-				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot', )) ?>
-				<ul class="a-area-options slot">
+
+			<!-- Slot Controls -->
+
+			<li class="a-controls-item slots">
+
+				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot', 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
+
+				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
+				
+				<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
+						$(this).parents('.a-area').toggleClass('add-slot-now');
+						});
+					});
+
+				</script>
+				
 			</li>	
 			
 			<?php include_slot('a-history-controls') ?>
