@@ -1668,7 +1668,7 @@ left: 0;
 { /* Change z-index of Area controls when we are browsing history */
 z-index: 999;
 }
-
+	
 .a-area.browsing-history ul.a-controls.a-slot-controls,
 ul.a-controls ul.a-controls-item.history
 {
