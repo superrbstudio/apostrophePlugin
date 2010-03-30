@@ -191,7 +191,7 @@ function aMultipleSelect(target, options)
         var value = false;
         if (index > 0)
         {
-					if (index === addIndex)
+					if (index === select.length - 1 && options['add'])
 					{
 						select.selectedIndex = 0;
 						$("#" + id + " .add").fadeIn();
