@@ -2521,6 +2521,11 @@ position: relative;
 overflow: hidden;
 }
 
+.a-area.add-slot-now
+{
+	z-index:999;
+}
+
 .a-area.add-slot-now .a-new-slot
 {
 	display: block;
