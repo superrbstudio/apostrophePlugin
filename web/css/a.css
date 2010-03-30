@@ -1707,13 +1707,15 @@ ul.a-controls .a-history-options
 display: none;
 }
 
-.editing-now a.a-btn,
+/* Disabled editing now styles 3/30/10 JMH ====================================== */
+
+/*.editing-now a.a-btn,
 .browsing-history a.a-history-btn
 {
 color: #000 !important;
 cursor: default !important;
 text-shadow: 0 1px 0px rgba(255,255,255,0.40) !important;
-}
+}*/
 
 .a-area.previewing-history a.a-history-btn
 {
