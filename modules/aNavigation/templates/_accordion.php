@@ -39,9 +39,11 @@
           $.ajax(options);
 					
 					// Fixes Margin
-					nav.children().removeClass('first last');
+					nav.children().removeClass('first second penultimate last');
 					nav.children(':first').addClass('first');
 					nav.children(':last').addClass('last');
+					nav.children(':first').next("li").addClass('second');
+					nav.children(':last').prev("li").addClass('penultimate');
         }
       });
 
