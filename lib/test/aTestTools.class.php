@@ -30,11 +30,6 @@ class aTestTools
     // and modified Doctrine. But for consecutive runs in the same PHP invocation, we definitely
     // don't need to start from scratch!
     
-    // New: the atestcache command line wrapper can be used to trigger reuse of this cache 
-    // outside of acommit. Note that this is NOT a good idea if you have any reason at all to think
-    // any of the above unsafe conditions exist - so at the very least, run acommit as your final commit,
-    // as it is guaranteed to rebuild the fixtures before running its first test.
-  
     $root = sfConfig::get('sf_root_dir');
     $writable = aFiles::getWritableDataFolder();
     $cache = "$writable/test-fixtures-cache.sql";

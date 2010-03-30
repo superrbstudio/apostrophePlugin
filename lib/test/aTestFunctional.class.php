@@ -12,7 +12,7 @@ class aTestFunctional extends sfTestFunctional
     'login-button-text' => 'Sign In',
     'login-url' => '/login',
     'default-prefix' => '/cms/'
-    );
+  );
   
   public function setOptions($options = array())
   {
