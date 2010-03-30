@@ -118,7 +118,7 @@ class aMediaTools
     $attribute = "aMedia-$attribute";
     self::getUser()->setAttribute($attribute, $value, 'apostrophe_media');
   }
-  static public function removeAttributes($attributes)
+  static public function removeAttributes()
   {
     $user = self::getUser();
     $user->getAttributeHolder()->removeNamespace('apostrophe_media');
