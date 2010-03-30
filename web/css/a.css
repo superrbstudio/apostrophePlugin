@@ -1790,6 +1790,7 @@ display: block !important;
 border-color: #fff !important;
 display: block !important;
 -moz-border-radius: 2px !important;
+text-shadow:none;
 }
 
 ul.a-controls .a-options a:hover,
@@ -1798,6 +1799,7 @@ ul.a-controls .a-options span
 	background-color: #f5f5f5	 !important;
 	color: #000 !important;
 	border-color: #ddd !important;
+	text-shadow:none;
 }
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options
