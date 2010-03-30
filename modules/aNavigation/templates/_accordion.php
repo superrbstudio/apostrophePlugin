@@ -1,22 +1,22 @@
-<ul class="a-navigation nav-level-depth-<?php echo $nest?> a-navigation-<?php echo $name ?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-navigation a-navigation-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-level-depth-<?php echo $nest?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
 
-	<?php foreach($nav as $item): ?>
+  <?php foreach($nav as $pos => $item): ?>
 
-		<li class="<?php echo $item['class']?>" id="a-tab-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
+    <li class="<?php echo $item['class']?> <?php if($pos == 0) echo 'first' ?> <?php if($pos == 1) echo 'second' ?> <?php if($pos == count($pos) - 1) echo 'next-last' ?> <?php if($pos == count($nav)-1) echo 'last' ?>" id="a-tab-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 
-			<?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
+      <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
 
-			<?php if(isset($item['children']) && $nest < $maxDepth): ?>
-				<?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon)) ?>
-			<?php endif ?>
+      <?php if(isset($item['children']) && $nest < $maxDepth): ?>
+        <?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth + 1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon)) ?>
+      <?php endif ?>
 
-			<?php if ($dragIcon && $draggable): ?>
-				<span class="a-btn icon a-drag a-controls nobg"></span>
-			<?php endif ?>
+      <?php if ($dragIcon && $draggable): ?>
+        <span class="a-btn icon a-drag a-controls nobg"></span>
+      <?php endif ?>
 
-		</li>
+    </li>
 
-	<?php endforeach ?>
+  <?php endforeach ?>
 
 </ul>
 
@@ -39,11 +39,11 @@
           $.ajax(options);
 					
 					// Fixes Margin
-					nav.children().removeClass('first second penultimate last');
+					nav.children().removeClass('first second next-last last');
 					nav.children(':first').addClass('first');
 					nav.children(':last').addClass('last');
 					nav.children(':first').next("li").addClass('second');
-					nav.children(':last').prev("li").addClass('penultimate');
+					nav.children(':last').prev("li").addClass('next-last');
         }
       });
 

@@ -22,12 +22,7 @@ class aNavigationAccordion extends aNavigation
   {
     foreach($tree as $pos => &$node)
     {
-      $node['class'] = $this->cssClass;
-      if($pos == 0) $node['class'] = $node['class'].' first';
-			if($pos == 0) $node['class'] = $node['class'].' second';
-      if($pos == count($tree)-2) $node['class'] = $node['class'].' penultimate';
-      if($pos == count($tree)-1) $node['class'] = $node['class'].' last';
-      
+      $node['class'] = $this->cssClass;      
       if(self::isAncestor($node, $this->activeInfo))
       {
         //We need to set this nodes peers to have the ancestor-peer class

@@ -25,10 +25,6 @@ class aNavigationTabs extends aNavigation
     foreach($tree as $key => &$node)
     {
       $node['class'] = $this->cssClass;
-       if($key == 0) $node['class'] = $node['class']. ' first';
-		   if($key == 1) $node['class'] = $node['class']. ' second';
-       if($key == count($tree)-2) $node['class'] = $node['class']. ' penultimate';
-       if($key == count($tree)-1) $node['class'] = $node['class']. ' last';
       if($node['id'] == $this->activeInfo['id'])
         $node['class'] = $node['class'].' a-current-page';
       if(isset($node['children']) && $depth < $this->depth)
