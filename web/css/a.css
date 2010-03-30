@@ -2502,7 +2502,6 @@ position: relative;
 float: left;
 width: 100%;
 margin: 10px 0;
-/*	z-index:599;*/
 }
 
 .a-area .a-new-slot
@@ -2519,6 +2518,11 @@ margin: -6px 0 6px -5px;
 display: none;
 position: relative;
 overflow: hidden;
+}
+
+.a-area.add-slot-now
+{
+	z-index:999;
 }
 
 .a-area.add-slot-now .a-new-slot
