@@ -142,14 +142,30 @@ function aUI(target, instance)
 	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
 
 
-	// Area Overlay Thing
-	$('div.a-area-overlay').remove();
-	$('div.a-slots').prepend('<div class="a-area-overlay"></div>');
-	$('ul.a-controls a.a-add-slot').hover(function(){
-		$(this).parents('div.a-area').addClass('over')
-	},function(){
-		$(this).parents('div.a-area').removeClass('over')		
-	})
+	// New Slot Box
+	// $('div.a-new-slot').remove();
+	// $('div.a-slots').prepend('<div class="a-new-slot"><p>+ Add Slot</p></div>');
+	// $('ul.a-controls a.a-add-slot').hover(function(){
+	// 	var thisArea = $(this).parents('div.a-area');
+	// 	thisArea.addClass('over');
+	// 	// We could animate this to slide open, or just toggle the visibility using CSS
+	// 	// thisArea.find('div.a-new-slot').animate({
+	// 	// 		display: 'block',
+	// 	//     height: '25px'
+	// 	//   }, 325, function() {
+	// 	// 	  });
+	// },function(){
+	// 	var thisArea = $(this).parents('div.a-area');
+	// 	thisArea.removeClass('over');
+	// 	// thisArea.find('div.a-new-slot').stop();
+	// 	// if (!thisArea.hasClass('add-slot-now'))
+	// 	// {
+	// 	// 	thisArea.find('div.a-new-slot').css({
+	// 	// 		height:'1px',
+	// 	// 		display:'none',
+	// 	// 	});			
+	// 	// }
+	// })
 
 
 	//aContext Slot / Area Controls Setup
