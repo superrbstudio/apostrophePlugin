@@ -4,28 +4,14 @@
  */
 class PluginaPageTable extends Doctrine_Table
 {
-  // Is this the best place to keep snippets like this?
+  // We always join with at least the title slots because a call to
+  // getTitle() is all but inevitable and will not retrieve the correct
+  // version or culture except by chance if we allow Doctrine to populate
+  // the relations without guidance. Closes http://trac.apostrophenow.org/ticket/219
 
-  // If culture is null you get the current user's culture,
-  // or sf_default_culture if none is set or we're running in a task context
   static public function retrieveBySlug($slug, $culture = null)
   {
-    if (is_null($culture))
-    {
-      $culture = aTools::getUserCulture();
-    }
-    $query = new Doctrine_Query();
-    $page = $query->
-      from('aPage p')->
-      where('p.slug = ?', $slug)->
-      fetchOne();
-    // In case Doctrine is clever and returns the same page object
-    if ($page)
-    {
-      $page->clearSlotCache();
-      $page->setCulture($culture);
-    }
-    return $page;
+    return self::retrieveBySlugWithTitles($slug, $culture);
   }
 
   // If culture is null you get the current user's culture,
