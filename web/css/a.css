@@ -1658,7 +1658,7 @@ padding-bottom: 10px;
 }
 
 .a-area.singleton ul.a-controls.a-area-controls
-{ /* Area Controls - Sit ON singleton slots */
+{
 position: absolute;
 top: 0;
 left: 0;
@@ -1668,7 +1668,7 @@ left: 0;
 { /* Change z-index of Area controls when we are browsing history */
 z-index: 999;
 }
-	
+
 .a-area.browsing-history ul.a-controls.a-slot-controls,
 ul.a-controls ul.a-controls-item.history
 {
@@ -1752,8 +1752,7 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
 	background-color: #999;
 }
 
-ul.a-controls .a-variant-options,
-ul.a-controls .a-area-options
+ul.a-controls .a-options
 {
 	padding: 30px 5px 2px 5px;
 	position: absolute;
@@ -1773,10 +1772,8 @@ ul.a-controls .a-area-options
 	width: 100px;
 }
 
-ul.a-controls .a-variant-options li,
-ul.a-controls .a-variant-options li.last,
-ul.a-controls .a-area-options li,
-ul.a-controls .a-area-options li.last
+ul.a-controls .a-options li,
+ul.a-controls .a-options li.last
 {
 	width: 100%;
 	float: left;
@@ -1785,13 +1782,22 @@ ul.a-controls .a-area-options li.last
 	list-style: none;	
 }
 
-ul.a-controls .a-area-options a,
-ul.a-controls .a-variant-options a,
-ul.a-controls .a-variant-options span
+ul.a-controls .a-options a
 {
+color: #777 !important;
 float: none !important;
 display: block !important;
-border: none !important;
+border-color: #fff !important;
+display: block !important;
+-moz-border-radius: 2px !important;
+}
+
+ul.a-controls .a-options a:hover,
+ul.a-controls .a-options span
+{
+	background-color: #f5f5f5	 !important;
+	color: #000 !important;
+	border-color: #ddd !important;
 }
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options
@@ -2499,32 +2505,43 @@ margin: 10px 0;
 /*	z-index:599;*/
 }
 
-.a-area .a-area-overlay
+.a-area .a-new-slot
 {
-position: absolute;
 float: left;
 clear: both;
-display: none;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
 width: 100%;
-height: 100%;
+height: 1px;
 z-index: 799;
-border: 1px inset rgba(0,0,0,0.2);
+border: 1px dashed rgba(0,0,0,0.2);
 padding: 5px;
-margin: -6px 0 0 -6px;
+margin: -6px 0 6px -5px;
 -moz-border-radius: 2px;
+display: none;
+position: relative;
+overflow: hidden;
 }
 
-.a-area.add-slot-now .a-area-overlay
+.a-area.add-slot-now .a-new-slot
 {
 	display: block;
+	height: 25px;
+}
+
+.a-area .a-new-slot p
+{
+	position: relative;	
+	text-align: center;
+	width: 100%;
+	font-size: 16px;
+	line-height: 20px;
+	top: 50%;
+	margin-top: -10px;
+	color: #eee;
 }
 
 .a-area.add-slot-now .a-add-slot
 {
+	color: #fff !important;
 	background-color: #333;
 	z-index:999;
 }
@@ -2534,9 +2551,10 @@ margin: -6px 0 0 -6px;
 	display: block;
 }
 
-.a-area.over .a-area-overlay
+.a-area.over .a-new-slot
 {
 	display: block;
+	height: 25px;
 }
 
 .a-slots
@@ -5452,12 +5470,6 @@ background-color: #E0E0E0 !important;
 ul.a-controls .a-variant-options
 { /* Border Color */
 border-color: rgb(51,204,204);
-}
-
-.a-area.add-slot-now .a-area-overlay
-{
-background-color: rgba(51,204,204,0.1);
-border-color: rgba(51,204,204,0.5);
 }
 
 .a-admin a:link, 

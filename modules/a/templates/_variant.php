@@ -4,7 +4,7 @@
 <?php if ((!$slot->isNew()) && (count($variants) > 1)): ?>
   <li class="a-controls-item variant" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
 		<?php echo jq_link_to_function(__('Options', null, 'apostrophe'), '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant").toggleClass("open").children("ul.a-variant-options").toggle()', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
-    <ul class="a-variant-options dropshadow">
+    <ul class="a-options a-variant-options dropshadow">
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
         <?php // target them later to change the active variant without rewriting the ?>
