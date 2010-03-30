@@ -36,8 +36,8 @@ function aMultipleSelectAll(options)
 }
 
 // Transforms multiple select elements into a much more attractive
-// and user-friendly control with a pulldown on the left and links
-// to remove already-selected choices on the right
+// and user-friendly control with a pulldown menu to add the next item and
+// links to remove already-selected choices
 
 function aMultipleSelect(target, options)
 {
@@ -75,6 +75,30 @@ function aMultipleSelect(target, options)
         // try it both ways
         selected.push(option.getAttribute('selected') || option.selected);
       }
+
+			var length = values.length;
+			
+			var addIndex = undefined;
+			if (options['add']) {
+				var addIndex = values.length;
+				values.push('_new');
+				labels.push(options['add']);
+				selected.push(false);
+				var addName = name + '_add';
+				if (name.substr(name.length - 3) === '][]')
+				{
+					addName = name.substr(0, name.length - 3) + '_add][]';
+				}
+				else if (name.substr(name.length - 2) === '[]')
+				{
+					addName = name.substr(0, name.length - 2) + '_add[]';
+				}
+				else if (name.substr(name.length - 1) === ']')
+				{
+					addName = name.substr(0, name.length - 1) + '_add]';
+				}
+			}
+			
       if (id === '')
       {
         // Hopefully unique
@@ -83,7 +107,23 @@ function aMultipleSelect(target, options)
       var html = "<div class='a-multiple-select' id='" + id + "'>";
       html += "<select name='select-" + name + "'>";
       html += "</select>\n";
-      for (j = 0; (j < values.length); j++)
+			if (addIndex !== undefined)
+			{
+				if (options['add-add-label'] === undefined)
+				{
+					options['add-add-label'] = 'Add';
+				}
+				if (options['add-cancel-label'] === undefined)
+				{
+					options['add-cancel-label'] = 'Cancel';
+				}
+				html += "<div class='add' style='display: none'>\n";
+				html += "<input class='add-text'>\n";
+				html += "<button class='add-add'>" + options['add-add-label'] + "</button>\n";
+				html += "<button class='add-cancel'>" + options['add-cancel-label'] + "</button>\n";
+				html += "</div>\n";
+			}
+      for (j = 0; (j < length); j++)
       {
         html += "<input type='checkbox' name='" + name + "'";
         if (selected[j])
@@ -98,21 +138,47 @@ function aMultipleSelect(target, options)
       {
         options['remove'] = ' <span>Remove</span>';
       }
-      for (j = 0; (j < values.length); j++)
+      for (j = 0; (j < length); j++)
       {
-        html += "<li style='display: none'><a href='#' title='Remove this item' class='a-multiple-select-remove'>" + 
-          labels[j] + 
-          options['remove'] + "</a></li>\n";
+        html += liHtml(labels[j], options);
       }
       html += "</ul>\n";
       // Handy for clearing floats
       html += "<div class='a-multiple-select-after'></div>\n";
       html += "</div>\n";
       $(this).replaceWith(html);
+			var container = $('#' + id);
+			container.find('.add-cancel').click(function() {
+				container.find('.add').hide();
+				return false;
+			});
+			container.find('.add-add').click(function() {
+				container.find('.add').hide();
+				var addText = container.find('.add-text');
+				var v = addText.val();
+				addText.val('');
+				var ev = aHtmlEscape(v);
+				if (v.length && (!containsLabel(v)))
+				{
+					container.append("<input type='checkbox' name='" + addName + "' value='" + ev + "' style='display: none' checked />"); 
+					var remover = $(liHtml(v, options));
+					remover.click(function() {
+						// Must use filter, can't have nasty characters in a selector
+						container.find('input[type=checkbox]').filter(function() { $(this).val() === ev }).remove();
+						$(this).remove();
+						onChange();
+						return false;
+					});
+					container.find('ul').append(remover);
+					remover.show();
+					onChange();
+				}
+				return false;
+			});
       var select = $("#" + id + " select");
       var k;
       var items = $('#' + id + ' ul li');
-      for (k = 0; (k < values.length); k++)
+      for (k = 0; (k < length); k++)
       {
         $(items[k]).data("boxid", values[k]);
         $(items[k]).click(function() { update($(this).data("boxid"), false); return false; });
@@ -125,10 +191,16 @@ function aMultipleSelect(target, options)
         var value = false;
         if (index > 0)
         {
+					if (index === addIndex)
+					{
+						select.selectedIndex = 0;
+						$("#" + id + " .add").fadeIn();
+						return;
+					}
           value = select.options[index].value;
         }
         var boxes = $('#' + id + " input[type=checkbox]");
-        for (k = 1; (k < values.length); k++)
+        for (k = 1; (k < length); k++)
         {
           if (boxes[k].value === remove)
           {
@@ -142,7 +214,7 @@ function aMultipleSelect(target, options)
         var items = $('#' + id + ' ul li');
         var k;
         var html;
-        for (k = 0; (k < values.length); k++)
+        for (k = 0; (k < length); k++)
         {
           if (boxes[k].checked)
           {
@@ -161,10 +233,21 @@ function aMultipleSelect(target, options)
               labels[k] + "</option>";
           }
         }
+				if (addIndex !== undefined)
+				{
+					html += "<option value=\"_new\">" + labels[addIndex] + "</option>";
+				}
         // Necessary in IE
         $(select).replaceWith("<select name='select-" + name + "'>" + html + "</select>");
         $("#" + id + " select").change(function() { update(false, false); });
-				if ((!initial) && (options['onChange']))
+				if (!initial)
+				{
+					onChange();
+				}
+      }
+			function onChange()
+			{
+				if (options['onChange'])
 				{
 					// Receives the outermost element of the enhanced control.
 					// To use this to implement autosubmit you might write:
@@ -172,15 +255,39 @@ function aMultipleSelect(target, options)
 					var div = $('#' + id);
 					options['onChange'](div, div.parents('form'));
 				}
-      }
+			}
       function aHtmlEscape(html)
       {
         html = html.replace('&', '&amp;'); 
         html = html.replace('<', '&lt;'); 
         html = html.replace('>', '&gt;'); 
         html = html.replace('"', '&quot;'); 
+        html = html.replace("'", '&#39;'); 
         return html;
       }  
+      function liHtml(label, options)
+			{
+				return "<li style='display: none'><a href='#' title='Remove this item' class='a-multiple-select-remove'>" + 
+				          label + 
+				          options['remove'] + "</a></li>\n";	
+			}
+			// We need this because you can't have nasty characters in a selector 
+			function containsLabel(v)
+			{
+				var container = $('#' + id);
+				if (labels.indexOf(v) !== -1)
+				{
+					return true;
+				}
+				var found = false;
+				$(container).find('input[type=checkbox]').each(function() {
+					if ($(this).val() === v)
+					{
+						found = true;
+					}
+				});
+				return found;
+			}
       update(false, true);
     }
   );
