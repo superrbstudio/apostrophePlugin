@@ -1047,7 +1047,7 @@ float: left;
 position: relative;
 color: #fff;
 font: 12px/normal arial, sans-serif;
-padding:1px 4px;
+padding:0px 4px;
 z-index: 2;
 width: auto;
 cursor: pointer;
@@ -1631,7 +1631,14 @@ height: auto;
 border: none;
 }
 
-ul.a-controls li.last
+ul.a-controls li a
+{
+
+}
+
+ul.a-controls li.last,
+ul.a-slideshow-controls li.last,
+ul.a-controls.a-area-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
 }
@@ -2908,11 +2915,6 @@ background-position: 0 -30px !important;
 	margin: 0;
 }
 
-.a-slot.aButton .a-button
-{ /* Fixes IE6 Bug */
-	background: none;
-}
-
 /* aButton Slot Bundled Variant Style */
 
 .a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
@@ -3331,7 +3333,7 @@ margin-right: 5px;
 /* 17. General Navigation Styles 
 -------------------------------------*/
 
-.a-nav .archived
+.a-navigation .archived
 { /* aUI(); Makes Unpublished pages 50% Opacity */
 text-decoration: line-through;
 }
@@ -3688,11 +3690,8 @@ clear: both;
 	background: none !important;
 	padding: 0 !important;
 	color: #900 !important;
-	border: 0;
+	border: 0 !important;
 	text-shadow: none;
-	float: none;
-	font-size: inherit;
-	font-family: inherit;
 }
 
 .a-media-toolbar h3 .a-cancel:hover
@@ -4360,10 +4359,10 @@ padding-bottom: 10px;
 
 
 
-/* 24. 	 Subnav Wrapper and Bundled Subnav Navigation
+/* 24. 	 Subnav
 -------------------------------------*/
 
-.a-subnav-wrapper
+#a-subnav
 {
 	width: 200px;
 	margin: 0 40px 0 0;
@@ -4372,7 +4371,7 @@ padding-bottom: 10px;
 	position:relative;
 }
 
-.a-subnav-inner
+#a-subnav .a-subnav-wrapper
 {
 	width: 180px;
 	padding: 10px;
@@ -4382,7 +4381,24 @@ padding-bottom: 10px;
 	clear: both;
 }
 
-.a-subnav-section
+#a-subnav .a-search-form
+{
+margin: 10px 0;
+float: left;
+display:inline;
+}
+
+#a-subnav .a-search-form
+{
+width: 178px;
+}
+
+#a-subnav .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+#a-subnav .a-subnav-section
 {
 color: #000;
 text-decoration: none;
@@ -4392,7 +4408,7 @@ width: 100%;
 margin: 0 0 10px 0;
 }
 
-.a-subnav-section h4
+#a-subnav .a-subnav-section h4
 {
 float: left;
 width: 100%;
@@ -4400,34 +4416,20 @@ clear: both;
 margin-bottom: 5px;
 }
 
-.a-subnav-section.categories h4
+#a-subnav .a-subnav-section.categories h4
 {
 	width: auto;
 	line-height: 20px;
 }
 
-
-.a-subnav-wrapper .a-search-form
-{
-margin: 10px 0;
-float: left;
-display:inline;
-width: 178px;
-}
-
-.a-subnav-wrapper .a-search-form .a-search-field
-{
-width: 150px;
-}
-
-.a-subnav-wrapper .a-filter-options .a-filter-option a 
+#a-subnav .a-filter-options .a-filter-option a 
 {
 float: left;
 width: 100%;
 clear: both;
 }
 
-.a-subnav-wrapper .a-filter-options .a-filter-option a
+#a-subnav .a-filter-options .a-filter-option a
 {
 float: left;
 clear: both;
@@ -4436,7 +4438,7 @@ height: 20px;
 width: auto;
 }
 
-.a-subnav-wrapper a.selected
+#a-subnav a.selected
 {
 float: left;
 display: inline;
@@ -4446,23 +4448,12 @@ padding-right: 20px;
 background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
 }
 
-.a-subnav-wrapper a.selected:hover
+#a-subnav a.selected:hover
 {
 background-position: bottom right;
 }
 
-.a-subnav-wrapper hr
-{
-	float: left;
-	clear: both;
-	position: relative;
-	display: inline;
-	margin: 10px 0;
-	width: 100%;
-}
-
-
-.a-nav-subnav .a-nav-item
+#a-subnav .a-navigation li
 {
 float: left;
 width: 100%;
@@ -4472,12 +4463,12 @@ line-height: 20px;
 margin-bottom: 5px;
 }
 
-.a-nav-subnav .a-nav-item.last
+#a-subnav .a-navigation li.last
 {
 	margin-bottom: 0;
 }
 
-.a-nav-subnav .a-nav-item a
+#a-subnav .a-navigation li a
 {
 	float: left;
 	width: 155px;
@@ -4485,6 +4476,15 @@ margin-bottom: 5px;
 	padding: 0 20px 0 5px;
 }
 
+#a-subnav hr
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: inline;
+	margin: 10px 0;
+	width: 100%;
+}
 
 /* 25. Shared Tag Sidebar
 -------------------------------------*/
@@ -4717,7 +4717,34 @@ margin: 0;
 vertical-align: top;
 }
 
-.a-admin-content
+.a-admin #a-admin-bar
+{
+float: left;
+display: inline;
+width: 100%;
+margin: 0 0 20px 0;
+position: relative;
+}
+
+.a-admin #a-admin-bar,
+.a-admin #a-admin-bar a,
+.a-admin #a-admin-bar h2
+{
+color: #13A0BC;
+line-height: 24px;
+}
+
+.a-admin #a-admin-bar h2.a-admin-title
+{
+color: #666;
+font-size: 24px;
+line-height: 24px;
+float: left;
+top: 0;
+text-transform: capitalize;
+}
+
+.a-admin #a-admin-content
 {
 float: left;
 display: inline;
@@ -4859,7 +4886,7 @@ font-size: 11px;
 color: #888;
 }
 
-.a-admin-footer
+.a-admin #a-admin-footer
 {
 width: 720px;
 float: right;
@@ -5101,7 +5128,14 @@ display: inline;
 float: none;
 }
 
-.admin ul.a-controls li
+#a-subnav.admin
+{
+min-height: 500px;
+background: none;
+}
+
+#a-subnav.admin ul, 
+#a-subnav.admin li
 {
 display: block;
 float: left;
@@ -5138,38 +5172,58 @@ margin: 10px 0;
 width: 100px;
 }
 
-.a-admin-bar
+#a-admin-bar
 {
-position: relative;
+width: 100%;
+margin: 0;
 float: left;
 display: inline;
 clear: both;
-margin: 0 0 20px 0;
-width: 100%;
 }
 
-.a-admin-bar .a-admin-title
-{
-color: #666;
-font-size: 24px;
-line-height: 24px;
-float: left;
-top: 0;
-text-transform: capitalize;
-}
-
-.a-admin-bar .a-admin-controls
+#a-admin-bar .a-admin-controls
 {
 margin-left: 10px;
 float: left;
 }
 
-.a-admin-bar .a-admin-controls li
+#a-admin-bar .a-admin-controls li
 {
 float: left;
 display: inline;
 line-height: 30px;
 margin: 0 10px 0 0;
+}
+
+#a-admin-bar .a-admin-bg img
+{
+width: 100%;
+height: 11px;
+}
+
+
+.specialbox .content-container.editing
+{
+padding-top: 10px;
+background: url(/apostrophePlugin/images/a-special-caution.png) top left repeat-x !important;
+}
+
+.caution
+{
+float: left;
+margin-bottom: 40px;
+color: #333;
+padding: 16px 0 10px;
+border: 1px solid #e2e2e2;
+background: url(/apostrophePlugin/images/a-special-caution.png) top left repeat-x;
+}
+
+.caution-padding
+{
+display: block;
+float: left;
+margin: 0 10px;
+clear: both;
 }
 
 /* JQ Date Picker Fix */
@@ -5180,7 +5234,7 @@ z-index: 9999;
 
 .ui-timepicker-trigger,
 .ui-datepicker-trigger
-{ /* This seems like a temporary solution, the datepicker markup sucks */
+{/* This seems like a temporary solution, the datepicker markup sucks */
 position: relative;
 top: 6px;
 left: 3px;
