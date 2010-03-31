@@ -2,7 +2,7 @@
 
 class aNavigationTabs extends aNavigation
 {
-  protected $cssClass = 'a-tab-nav-item'; 
+  protected $cssClass = 'a-nav-item'; 
   public function buildNavigation()
   {
     $this->rootInfo = parent::$hash[$this->root];

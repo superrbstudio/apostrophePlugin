@@ -1,8 +1,8 @@
-<ul class="a-navigation a-navigation-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-level-depth-<?php echo $nest?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
 
   <?php foreach($nav as $pos => $item): ?>
 
-    <li class="<?php echo $item['class']?> <?php if($pos == 0) echo 'first' ?> <?php if($pos == 1) echo 'second' ?> <?php if($pos == count($pos) - 1) echo 'next-last' ?> <?php if($pos == count($nav)-1) echo 'last' ?>" id="a-tab-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
+    <li class="<?php echo $item['class']?> <?php if($pos == 0) echo 'first' ?> <?php if($pos == 1) echo 'second' ?> <?php if($pos == count($pos) - 1) echo 'next-last' ?> <?php if($pos == count($nav)-1) echo 'last' ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 
       <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
 

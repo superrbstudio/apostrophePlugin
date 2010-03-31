@@ -16,8 +16,8 @@
 
 <?php use_helper('Url') ?>
 
-<div id="a-subnav" class="media">
-	<div class="a-subnav-wrapper">
+<div class="a-subnav-wrapper media">
+	<div class="a-subnav-inner">
 
   	<h4><?php echo __('Find in Media', null, 'apostrophe') ?></h4>
 

@@ -2,7 +2,7 @@
 
 class aNavigationAccordion extends aNavigation
 {
-  protected $cssClass = 'a-accordion-nav-item'; 
+  protected $cssClass = 'a-nav-item'; 
   public function buildNavigation()
   {
     $this->rootInfo = parent::$hash[$this->root];

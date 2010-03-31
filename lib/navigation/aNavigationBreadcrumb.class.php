@@ -2,7 +2,7 @@
 
 class aNavigationBreadcrumb extends aNavigation
 {
-  protected $cssClass = 'a-breadcrumb-nav-item'; 
+  protected $cssClass = 'a-nav-item'; 
   public function buildNavigation()
   {
     $this->rootInfo = parent::$hash[$this->root];
