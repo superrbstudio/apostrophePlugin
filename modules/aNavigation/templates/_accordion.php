@@ -2,7 +2,7 @@
 
   <?php foreach($nav as $pos => $item): ?>
 
-    <li class="<?php echo $item['class']?> <?php if($pos == 0) echo 'first' ?> <?php if($pos == 1) echo 'second' ?> <?php if($pos == count($pos) - 1) echo 'next-last' ?> <?php if($pos == count($nav)-1) echo 'last' ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
+    <li class="<?php echo $item['class']?> <?php if($pos == 0) echo 'first' ?> <?php if($pos == 1) echo 'second' ?> <?php if($pos == count($nav) - 2) echo 'next-last' ?> <?php if($pos == count($nav)-1) echo 'last' ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 
       <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
 
@@ -26,14 +26,14 @@
   $(document).ready(
     function() 
     {
-			var nav = $("#a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>");
+			var nav = $("#a-nav-<?php echo $name ?>-<?php echo $nest ?>");
 			
       nav.sortable(
       { 
         delay: 100,
         update: function(e, ui) 
         { 
-          var serial = jQuery("#a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>").sortable('serialize', {key:'a-tab-nav-item[]'});
+          var serial = nav.sortable('serialize', {key:'a-nav-item[]'});
           var options = {"url":<?php echo json_encode(url_for('a/sortNav').'?page=' . $item['id']); ?>,"type":"POST"};
           options['data'] = serial;
           $.ajax(options);
