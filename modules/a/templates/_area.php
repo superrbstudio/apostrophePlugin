@@ -62,10 +62,17 @@
 				<script type="text/javascript" charset="utf-8">
 					$(document).ready(function() {
 						$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
-						$(this).parents('.a-area').toggleClass('add-slot-now');
+							var area = $(this).parents('.a-area');
+							area.toggleClass('add-slot-now');
+							$(document).click(function(e){
+								var target = e.target, // e.target grabs the node that triggered the event.
+								$target = $(target);  // wraps the node in a jQuery object
+									if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
+										area.removeClass('add-slot-now');
+									}
+							});
 						});
 					});
-
 				</script>
 				
 			</li>	
