@@ -2915,6 +2915,11 @@ background-position: 0 -30px !important;
 	margin: 0;
 }
 
+.a-slot.aButton .a-button
+{ /* Fixes IE6 Bug */
+	background: none;
+}
+
 /* aButton Slot Bundled Variant Style */
 
 .a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
