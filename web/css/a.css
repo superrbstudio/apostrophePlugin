@@ -5390,6 +5390,7 @@ text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 border:1px solid rgba(20,20,20,.2);
 }
 
+.a-btn:focus,
 .a-btn:hover,
 .a-btn:hover span,
 .a-btn.icon:hover
