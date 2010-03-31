@@ -62,10 +62,17 @@
 				<script type="text/javascript" charset="utf-8">
 					$(document).ready(function() {
 						$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
-						$(this).parents('.a-area').toggleClass('add-slot-now');
+							var area = $(this).parents('.a-area');
+							area.toggleClass('add-slot-now');
+							$(document).click(function(e){
+								var target = e.target, // e.target grabs the node that triggered the event.
+								$target = $(target);  // wraps the node in a jQuery object
+									if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
+										area.removeClass('add-slot-now');
+									}
+							});
 						});
 					});
-
 				</script>
 				
 			</li>	
@@ -138,8 +145,6 @@
     <?php if ($editable): ?>
 		<ul class="a-controls a-slot-controls">		
       <?php if ($infinite): ?>
-						<!-- <li class="drag-handle"><a href="#" class="a-btn icon drag" title="Drag to Re-Order Slot">Drag to Re-Order Slot</a></li> -->
-						<!-- <li class="slot-history"><a href="#" class="a-btn icon history">Slot History</a></li> -->
           <?php if ($i > 0): ?>
 						<li class="move-up">
             <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
