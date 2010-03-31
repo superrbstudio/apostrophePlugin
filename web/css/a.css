@@ -3690,8 +3690,11 @@ clear: both;
 	background: none !important;
 	padding: 0 !important;
 	color: #900 !important;
-	border: 0 !important;
+	border: 0;
 	text-shadow: none;
+	float: none;
+	font-size: inherit;
+	font-family: inherit;
 }
 
 .a-media-toolbar h3 .a-cancel:hover
