@@ -733,7 +733,7 @@ background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
 background-position:center;
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
 }
 
 .icon.a-arrow-down
@@ -742,7 +742,7 @@ background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
 background-position:center;
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
 }
 
 .icon.a-arrow-left
@@ -750,7 +750,8 @@ width: 18px;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
+height: 20px;
 -moz-box-shadow:0 0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -763,7 +764,8 @@ box-shadow:0 0 0 transparent;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
+height: 20px;
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -2764,7 +2766,6 @@ display: inline;
 margin-right: 1px;
 width: auto;
 height: auto;
-height: 20px;
 border: none;
 }
 
@@ -2773,6 +2774,7 @@ border: none;
 float: left;
 border: 0;
 background-position: 0 0;
+cursor: pointer;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls li.over
