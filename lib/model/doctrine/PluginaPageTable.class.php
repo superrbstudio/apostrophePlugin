@@ -4,16 +4,21 @@
  */
 class PluginaPageTable extends Doctrine_Table
 {
-  // We always join with at least the title slots because a call to
-  // getTitle() is all but inevitable and will not retrieve the correct
-  // version or culture except by chance if we allow Doctrine to populate
-  // the relations without guidance. Closes http://trac.apostrophenow.org/ticket/219
+	// We always join with all of the current slots for the proper culture in this simplest page-getter method. 
+	// Otherwise we wreck the slot cache for slots on the page, etc., can't see titles or see the wrong versions 
+	// and cultures of slots. This is inefficient in some situations, but the
+	// right response to that is to recognize when you're about to fetch a page
+	// that has already been fetched and just reuse it. I can't make that call
+	//f or you at the model level
 
   static public function retrieveBySlug($slug, $culture = null)
   {
-    return self::retrieveBySlugWithTitles($slug, $culture);
+    return self::retrieveBySlugWithSlots($slug, $culture);
   }
 
+	// CAREFUL: if you are not absolutely positive that you won't need other slots for this
+	// page (ie it is NOT the current page), then don't use this. Use retrieveBySlugWithSlots
+	
   // If culture is null you get the current user's culture,
   // or sf_default_culture if none is set or we're running in a task context
   static public function retrieveBySlugWithTitles($slug, $culture = null)
