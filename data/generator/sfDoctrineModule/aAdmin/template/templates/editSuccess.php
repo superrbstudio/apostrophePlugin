@@ -6,7 +6,9 @@
 
 	[?php slot('a-subnav') ?]
   <div class="a-subnav-wrapper admin">
- 		[?php include_partial('<?php echo $this->getModuleName() ?>/form_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'form' => $form, 'configuration' => $configuration)) ?]
+		<div class="a-subnav-inner">
+ 			[?php include_partial('<?php echo $this->getModuleName() ?>/form_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'form' => $form, 'configuration' => $configuration)) ?]
+		</div>	
   </div>
 	[?php end_slot() ?]
 
