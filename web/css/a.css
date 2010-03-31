@@ -2772,6 +2772,12 @@ border: none;
 {
 float: left;
 border: 0;
+background-position: 0 0;
+}
+
+.a-slot.aSlideshow ul.a-slideshow-controls li.over
+{
+	background-position: 0 -20px;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls a
