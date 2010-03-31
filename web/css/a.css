@@ -1631,14 +1631,7 @@ height: auto;
 border: none;
 }
 
-ul.a-controls li a
-{
-
-}
-
-ul.a-controls li.last,
-ul.a-slideshow-controls li.last,
-ul.a-controls.a-area-controls li.last
+ul.a-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
 }
@@ -5108,14 +5101,7 @@ display: inline;
 float: none;
 }
 
-#a-subnav.admin
-{
-min-height: 500px;
-background: none;
-}
-
-#a-subnav.admin ul, 
-#a-subnav.admin li
+.admin ul.a-controls li
 {
 display: block;
 float: left;
