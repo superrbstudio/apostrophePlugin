@@ -1,6 +1,5 @@
 <?php
 
-use_helper('Form');
 use_helper('jQuery');
 
 /**
