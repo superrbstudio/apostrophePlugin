@@ -123,7 +123,7 @@
 	  else
 	  {
 			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
-			$('#a_settings_settings_template').before("<div class='a-overlay'></div>")
+			$('#a_settings_settings_template').before("<div class='a-overlay'></div>");
 			$('#a_settings_settings_template').siblings('div.a-overlay').fadeTo(0,0.5).css('display','block');
 	    // $('#a_settings_settings_template').attr('disabled','disabled'); // Symfony doesn't like this.
 	    <?php // AJAX replace engine settings form as needed ?>

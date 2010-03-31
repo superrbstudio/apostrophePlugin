@@ -41,7 +41,7 @@
 			var liveTitle = renameInput[0].value;
 			
 			renameInput.bind('cancel', function(e){
-				renameSpacer.text(cleanTitle(currentTitle))
+				renameSpacer.text(cleanTitle(currentTitle));
 				renameInput[0].value = currentTitle;
 				renameInputWidth = checkInputWidth(renameSpacer.width());
 				renameInput.css('width', renameInputWidth);
@@ -53,24 +53,17 @@
 				renameControls.fadeIn();
 				renameInput.select();
 				$(this).stopTime();
-			})
+			});
 
 			renameInput.blur(function(){
 				$(this).oneTime(250, "hide", function() {
 					renameControls.hide();
 				});
-				// Tried to capture the click on the submit and cancel the hide
-				// $(document).mousedown(function(e){
-				// 	target = $(e.target);
-				// 	if (!target.hasClass('a-submit')) {
-				// 		renameControls.hide();						
-				// 	}
-				// })				
-			})
+			});
 			
 			renameSubmitBtn.click(function(){
 				renameInput.focus();
-			})
+			});
 
 			renameInput.keydown(function(e){
 				liveTitle = renameInput[0].value;
@@ -86,7 +79,7 @@
 				}			
 				renameInputWidth = checkInputWidth(renameSpacer.width());
 				renameInput.css('width', renameInputWidth);
-			})
+			});
 
 			renameControls.find('a.a-cancel').click(function(){
 				renameInput.trigger('cancel');
@@ -116,9 +109,7 @@
 			{
 				return t.replace(/ /g,'-');
 			}
-
 		});
-
 	</script>
 
 <?php else: ?>
