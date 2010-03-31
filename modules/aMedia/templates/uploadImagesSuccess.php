@@ -35,7 +35,6 @@
       	<li><?php echo link_to_function(__('Upload Photos', null, 'apostrophe'), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
       	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn a-cancel")) ?></li>
       </ul>
-
     </form>
 
     <?php // Elements get moved here by jQuery when they are not in use. ?>
@@ -43,57 +42,48 @@
     <?php // in it are never uploaded. ?>
 
     <form style="display: none" action="#" enctype="multipart/form-data" id="a-media-upload-form-inactive"></form>
-
 </div>
 
-<script type="text/javascript" charset="utf-8">
-	$(function() {
-  <?php // Why don't I just do this once? Because I have to re-bind handlers ?>
-  <?php // to elements when I remove them and then re-add them elsewhere ?>
-  <?php // in the document. ?>
-  function aMediaUploadSetRemoveHandler(element)
-  {
-    $(element).find('.a-close').click(
-      function()
-      {
-        // Move the entire row to the inactive form
-        var element = $($(this).parent().parent().parent()).remove();
-        $('#a-media-upload-form-inactive').append(element);
-        $('#a-media-add-photo').show();
-        return false;
-      }
-    );
-  }
-  // Move the first inactive element back to the active form
-  $('#a-media-add-photo').click(
-    function()
-    {
-      var elements = $('#a-media-upload-form-inactive .a-form-row');
-      if (elements.length > 0)
-      {
-        var element = $(elements[0]).remove()[0];
-        // Only really necessary the first time
-        element.style.visibility = 'visible';
-        $('#a-media-upload-form-subforms').append(element);
-        aMediaUploadSetRemoveHandler(element);
-      }
-      // If that was the last one hide the add button for now
-      if (elements.length == 1)
-      {
-        $('#a-media-add-photo').hide();
-      }
-      return false;
-    }
-  );
-  // Move all the initially inactive elements to the inactive form
-  function aMediaUploadInitialize()
-  {
-    $('#a-media-upload-form-inactive').append(
-      $('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
-    aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
-  }
-  aMediaUploadInitialize();
-});
-
-</script>
+	<script type="text/javascript" charset="utf-8">
+		$(function() {
+	  <?php // Why don't I just do this once? Because I have to re-bind handlers ?>
+	  <?php // to elements when I remove them and then re-add them elsewhere ?>
+	  <?php // in the document. ?>
+	  function aMediaUploadSetRemoveHandler(element)
+	  {
+	    $(element).find('.a-close').click(function() {
+	        // Move the entire row to the inactive form
+	        var element = $($(this).parent().parent().parent()).remove();
+	        $('#a-media-upload-form-inactive').append(element);
+	        $('#a-media-add-photo').show();
+	        return false;
+	      });
+	  }
+	  // Move the first inactive element back to the active form
+	  $('#a-media-add-photo').click(function() {
+	      var elements = $('#a-media-upload-form-inactive .a-form-row');
+	      if (elements.length > 0)
+	      {
+	        var element = $(elements[0]).remove()[0];
+	        // Only really necessary the first time
+	        element.style.visibility = 'visible';
+	        $('#a-media-upload-form-subforms').append(element);
+	        aMediaUploadSetRemoveHandler(element);
+	      }
+	      // If that was the last one hide the add button for now
+	      if (elements.length == 1)
+	      {
+	        $('#a-media-add-photo').hide();
+	      }
+	      return false;
+	    });
+	  // Move all the initially inactive elements to the inactive form
+	  function aMediaUploadInitialize()
+	  {
+	    $('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
+	    aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
+	  }
+	  aMediaUploadInitialize();
+	});
+	</script>
 </div>

@@ -3,38 +3,37 @@
 
 <div id="a-media-plugin">
 
-<?php include_component('aMedia', 'browser') ?>
+	<?php include_component('aMedia', 'browser') ?>
 
-<div class="a-media-toolbar">
-  <h3><?php echo __('Add Video', null, 'apostrophe') ?></h3>
-</div>
+	<div class="a-media-toolbar">
+	  <h3><?php echo __('Add Video', null, 'apostrophe') ?></h3>
+	</div>
 
-<div class="a-media-library">				
-
- 	<ul class="a-controls" id="a-media-video-buttons">
-		<li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
-	  		"$('#a-media-video-search-form').show(); 
-		 		 $('#a-media-video-buttons').hide(); 
-		 		 $('#a-media-video-search-heading').show();", 
-		 		 array("class" => "a-btn")) ?></li>
+	<div class="a-media-library">				
+	 	<ul class="a-controls" id="a-media-video-buttons">
+			<li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
+		  		"$('#a-media-video-search-form').show(); 
+			 		 $('#a-media-video-buttons').hide(); 
+			 		 $('#a-media-video-search-heading').show();", 
+			 		 array("class" => "a-btn")) ?></li>
       
-		<li><?php echo link_to_function(__("Add by YouTube URL", null, 'apostrophe'), 
-	      "$('#a-media-video-add-by-url-form').show(); 
-			   $('#a-media-video-buttons').hide(); 
-			 	 $('#a-media-video-add-by-url-heading').show();", 
-		 		 array("class" => "a-btn")) ?></li>
+			<li><?php echo link_to_function(__("Add by YouTube URL", null, 'apostrophe'), 
+		      "$('#a-media-video-add-by-url-form').show(); 
+				   $('#a-media-video-buttons').hide(); 
+				 	 $('#a-media-video-add-by-url-heading').show();", 
+			 		 array("class" => "a-btn")) ?></li>
 
-		<?php if (aMediaTools::getOption('embed_codes')): ?>
-	  <li><?php echo link_to_function(__("Add by Embed Code", null, 'apostrophe'), 
-	      "$('#a-media-video-add-by-embed-form').show(); 
-			 	 $('#a-media-video-buttons').hide(); 
-			 	 $('#a-media-video-add-by-embed-heading').show();", 
-			 	 array("class" => "a-btn")) ?>
-		</li>
-	  <?php endif ?>
+			<?php if (aMediaTools::getOption('embed_codes')): ?>
+		  <li><?php echo link_to_function(__("Add by Embed Code", null, 'apostrophe'), 
+		      "$('#a-media-video-add-by-embed-form').show(); 
+				 	 $('#a-media-video-buttons').hide(); 
+				 	 $('#a-media-video-add-by-embed-heading').show();", 
+				 	 array("class" => "a-btn")) ?>
+			</li>
+		  <?php endif ?>
 
-	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn a-cancel")) ?></li>
-	</ul>
+		  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn a-cancel")) ?></li>
+		</ul>
 
 	<h4 id="a-media-video-search-heading" class="a-media-video-heading"><?php echo __('Search YouTube', null, 'apostrophe') ?></h4>     
 
@@ -112,15 +111,13 @@
      <?php endif ?>
 
 			<div id="a-media-video-search-results-container">Placeholder text</div>
-</div>
-
+	</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-			aInputSelfLabel('#videoSearch_q', <?php echo json_encode(isset($search) ? $search : __('Search', null, 'apostrophe')) ?>);
-			aInputSelfLabel('#a-media-video-url', <?php echo json_encode(isset($search) ? $search : 'http://') ?>);
-			aInputSelfLabel('#a-media-video-embed', <?php echo json_encode(isset($search) ? $search : '<object>...</object>') ?>);			
+		aInputSelfLabel('#videoSearch_q', <?php echo json_encode(isset($search) ? $search : __('Search', null, 'apostrophe')) ?>);
+		aInputSelfLabel('#a-media-video-url', <?php echo json_encode(isset($search) ? $search : 'http://') ?>);
+		aInputSelfLabel('#a-media-video-embed', <?php echo json_encode(isset($search) ? $search : '<object>...</object>') ?>);			
 	});
-	
 </script>

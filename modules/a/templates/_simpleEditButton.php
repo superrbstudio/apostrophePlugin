@@ -14,7 +14,7 @@
 					'class' => isset($class) ? $class : 'a-btn icon a-edit', 
 					'title' => isset($title) ? $title : __('Edit', null, 'apostrophe'), 
 	)) ?>
-	<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		var editBtn = $('#a-slot-edit-<?php echo "$pageid-$name-$permid" ?>');
 		var editSlot = $('#a-slot-<?php echo "$pageid-$name-$permid" ?>');
@@ -29,7 +29,7 @@
 			return false;
 		});
 	})
-	</script>
+</script>
 	</li>
 	
 <?php if ($controlsSlot): ?>

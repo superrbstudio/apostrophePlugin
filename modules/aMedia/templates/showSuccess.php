@@ -49,7 +49,7 @@
 	</li>
 </ul>
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 function aMediaItemRefresh(id)
 {
   <?php // We're updating essentially the whole page, it's not worth building ?>

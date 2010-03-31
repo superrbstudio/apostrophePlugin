@@ -20,11 +20,9 @@
 <?php if ($draggable): ?>
 
 
-  <script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   //<![CDATA[
-  $(document).ready(
-    function() 
-    {
+  $(document).ready(function(){
       $("#a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>").sortable(
       { 
         delay: 100,

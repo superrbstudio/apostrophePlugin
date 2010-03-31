@@ -54,7 +54,7 @@ foreach ($tabs as $tab)
 <?php if ($draggable): ?>
 
 
-	<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 	//<![CDATA[
 	$(document).ready(
 	  function() 

@@ -7,16 +7,12 @@
 <?php echo $form->renderHiddenFields() ?>
 <?php echo $form['value']->render() ?>
 
-<script type="text/javascript">
-
+<script type="text/javascript" charset="utf-8">
 $(document).ready (function() {
-	
 	$('textarea.aTextSlot.multi-line').autogrow({
 		// maxHeight: 400, //Max Height was causing problems.
 		minHeight: 30,
 		lineHeight: 16
 	});
-							
 });
-
 </script>

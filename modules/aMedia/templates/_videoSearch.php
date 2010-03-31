@@ -14,8 +14,8 @@
 	</li>
 </ul>
 
-<script type="text/javascript">
-var aMediaVideoSearchResults = null;
+<script type="text/javascript" charset="utf-8">
+	var aMediaVideoSearchResults = null;
 </script>
 
 <?php if ($results !== false): ?>
@@ -29,7 +29,7 @@ var aMediaVideoSearchResults = null;
     <div id="a-media-video-search-pagination" class="a_pager_navigation"></div>
     <br class="clear" />
 
-		<script type="text/javascript">
+		<script type="text/javascript" charset="utf-8">
 		  var aMediaVideoSearchResults = <?php echo json_encode($results) ?>;
 		  var aMediaVideoSearchPage = 1;
 		</script>
@@ -37,7 +37,7 @@ var aMediaVideoSearchResults = null;
   <?php endif ?>
 <?php endif ?>
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 function aMediaVideoSearchRenderResults()
 {
   if (!aMediaVideoSearchResults)

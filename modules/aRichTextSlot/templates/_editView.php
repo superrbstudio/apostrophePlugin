@@ -1,7 +1,7 @@
 <?php echo $form->renderHiddenFields() ?>
 <?php echo $form['value']->render() ?>
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
   function(slotId)
   {

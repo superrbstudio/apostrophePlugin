@@ -56,9 +56,8 @@
 		$(document).ready(function() {
 			$('#a-media-item-link-value-<?php echo $id ?>').focus(function(){
 				$(this).select();
-			})
+			});
 		});
-		
 	</script>
 <?php endif ?>
   

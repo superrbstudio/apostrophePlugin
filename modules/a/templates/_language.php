@@ -5,7 +5,7 @@
       <?php echo $form->renderHiddenFields() ?>
       <?php echo $form['language']->render() ?>
     </form>
-    <script>
+		<script type="text/javascript" charset="utf-8">
       $('#a-language-switch select').change(function() { this.form.submit() });
     </script>
   </li>

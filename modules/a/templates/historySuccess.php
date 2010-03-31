@@ -63,21 +63,21 @@
 <?php endif ?>
 
 <?php if(count($versions)  == 10 && is_null($all)): ?>
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   $(function() {
-        $('.a-history-browser .a-history-browser-view-more').show();
+		$('.a-history-browser .a-history-browser-view-more').show();
   });
 </script>
 <?php else: ?>
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   $(function() {
-        $('.a-history-browser .a-history-browser-view-more').hide();
+		$('.a-history-browser .a-history-browser-view-more').hide();
   });
 </script>
 <?php endif ?>
 
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
 	// Stuff to do as soon as the DOM is ready;
 	$('.a-history-browser-view-more').mousedown(function(){
@@ -104,7 +104,6 @@ $(document).ready(function() {
 	    {
 				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				$(targetArea).addClass('previewing-history');
-				// cancelBtn.parent().addClass('cancel-history');				
 				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
 				$(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
 				$(targetArea+' .a-history-options').css('display','inline');
@@ -114,7 +113,6 @@ $(document).ready(function() {
 	  );
 
 		// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
-		
 		revertBtn.click(function(){
 		  $.post( // User clicks REVERT
 		    <?php echo json_encode(url_for('a/revert')) ?>,
@@ -141,41 +139,13 @@ $(document).ready(function() {
 		  	}
 			);
 		});
-							
 	});
 
 	$('.a-history-item').hover(function(){
 		$(this).css('cursor','pointer');
 	},function(){
 		$(this).css('cursor','default');		
-	})
-
 	});
+
+});
 </script>
-
-<?php
-/*
-<?php echo jq_form_remote_tag(
-  array(
-    'update' => "a-contents-$name",
-    'url' => 'a/revert',
-    'script' => true),
-  array(
-    "name" => "a-vc-form-$name", 
-    "id" => "a-vc-form-$name")) ?>
-<?php echo input_hidden_tag('id', $id)?>
-<?php echo input_hidden_tag('name', $name)?>
-<?php echo input_hidden_tag('subaction', '', array("id" => "a-vc-subaction-$name"))?>
-<?php echo select_tag('version',
-  options_for_select(
-    $versions, $version), array("id" => "a-vc-$name-version")) ?>
-<?php echo submit_tag("Preview", array(
-  "name" => "preview", "class" => "submit", "id" => "a-preview-$name", "onClick" => "$('#a-vc-subaction-$name').val('preview'); return true")) ?>
-<?php echo submit_tag("Revert", array(
-  "name" => "revert", "class" => "submit", "id" => "a-revert-$name", "onClick" => "$('#a-vc-subaction-$name').val('revert'); return true")) ?>
-<?php echo submit_tag("Cancel", array(
-  "name" => "cancel", "class" => "submit", "id" => "a-cancel-$name", "onClick" => "$('#a-vc-subaction-$name').val('cancel'); return true")) ?>
-</form>
-	*/
-?>
-

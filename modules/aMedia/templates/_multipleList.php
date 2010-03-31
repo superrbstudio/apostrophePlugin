@@ -26,12 +26,10 @@
 </li>
 <?php endforeach ?>
 
-
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 
 	function aMediaItemsIndicateSelected(ids)
 	{
-
 		$('.a-media-selected-overlay').remove();
 		
 	  var i;
@@ -50,7 +48,6 @@
 		});
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
-
 	}
 
 	function aMediaDeselectItem(id)
@@ -64,17 +61,12 @@
 	});
 
 	$(document).ready(function() { // On page ready indicate selected items
-
 		aMediaItemsIndicateSelected(<?php echo json_encode($ids) ?>) 
-
 		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
-			
 		$('.a-media-selection-list-item').hover(function(){
 			$(this).addClass('over');
 		},function(){
 			$(this).removeClass('over');			
 		});
-		
 	});
-
 </script>

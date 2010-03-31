@@ -62,8 +62,8 @@
 <?php endif ?>
 
 <?php if ($editable): ?>
-  <script type="text/javascript">
-  $(document).ready(function() {
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
 
     var view = $('#a-slot-<?php echo $id ?>');
 
@@ -99,8 +99,8 @@
   <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
   <?php $variants = aTools::getVariantsForSlotType($type, $options) ?>
   <?php if (count($variants)): ?>
-    <script type="text/javascript">
-      $(document).ready(function() {
+	<script type="text/javascript" charset="utf-8">
+     $(document).ready(function() {
         var outerWrapper = $('#a-slot-<?php echo $id ?>');
         <?php foreach ($variants as $variant => $data): ?>
           <?php if ($slot->variant !== $variant): ?>
