@@ -165,8 +165,7 @@ class aPageSettingsForm extends aPageForm
     $this->setWidget($widgetName, new sfWidgetFormSelect(array(
       // + operator is correct: we don't want renumbering when
       // ids are numeric
-      'choices' => 
-        array("" => "Choose a User to Add") + $all,
+      'choices' => $all,
       'multiple' => true,
       'default' => $selected
     )));

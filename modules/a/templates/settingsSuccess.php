@@ -20,6 +20,7 @@
   <input type="hidden" name="submit" value="1" />
 
 	<?php echo $form->renderHiddenFields() ?>
+	<?php echo $form->renderGlobalErrors() ?>
 
 		<div id="a-page-settings-left">
 			<?php if (isset($form['slug'])): ?>
@@ -134,7 +135,7 @@
 	}
 	aUpdateEngineAndTemplate();
 	<?php // you can do this: { remove: 'custom html for remove button' } ?>
-	aMultipleSelect('#a-page-settings', { });
+	$(function() { aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) });
 
 	<?php // you can do this: { linkTemplate: "<a href='#'>_LABEL_</a>",  ?>
 	<?php //                    spanTemplate: "<span>_LINKS_</span>",     ?>
