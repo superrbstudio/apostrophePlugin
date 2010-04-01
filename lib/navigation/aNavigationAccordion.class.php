@@ -22,34 +22,17 @@ class aNavigationAccordion extends aNavigation
   {
     foreach($tree as $pos => &$node)
     {
-      $node['class'] = $this->cssClass;      
-      if(self::isAncestor($node, $this->activeInfo))
-      {
-        //We need to set this nodes peers to have the ancestor-peer class
-        foreach($tree as &$peer)
-        {
-          $peer['class'] = @$peer['class'].' ancestor-peer';
-        } 
-        //This page is an ancestor so set the class
-        $node['class'] = $node['class'].' ancestor';
-      }
-      else if($node['id'] == $this->activeInfo['id'])
-      {
-        //We need to set this nodes peer to have the peer class
-        foreach($tree as &$peer)
-        {
-          $peer['class'] = @$peer['class'].' peer';
-        }
-        //This node is the current so set the class
-        $node['class'] = $node['class'].' a-current-page';
-      }
-      else
+      
+      $this->applyCSS($tree, $node);
+      
+      if(!self::isAncestor($node, $this->activeInfo) || !$node['id'] == $this->activeInfo['id'])
       {
         unset($node['children']);
       }
       
       if( isset($node['children']) && count($node['children']) )
         $this->traverse($node['children']);
+        
       if($node['archived'] == true)
       {
         $node['class'] = $node['class'] . ' a-archived-page';

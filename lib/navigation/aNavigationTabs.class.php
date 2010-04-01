@@ -24,14 +24,14 @@ class aNavigationTabs extends aNavigation
   {
     foreach($tree as $key => &$node)
     {
-      $node['class'] = $this->cssClass;
-      if($node['id'] == $this->activeInfo['id'])
-        $node['class'] = $node['class'].' a-current-page';
+      $this->applyCSS($tree, $node);
+        
       if(isset($node['children']) && $depth < $this->depth)
         $this->traverse($node['children'], $depth + 1);
       else
         unset($node['children']);
-		  if($node['archived'] == true)
+		  
+      if($node['archived'] == true)
       {
         $node['class'] = $node['class'] . ' a-archived-paged';
         if($this->livingOnly)
