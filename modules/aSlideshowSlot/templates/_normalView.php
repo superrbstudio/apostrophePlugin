@@ -41,12 +41,16 @@
 	<?php include_component('aSlideshowSlot', 'slideshow', array('items' => $items, 'id' => $id, 'options' => $options)) ?>
 <?php else: ?>
 
-	<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
-	<?php (isset($options['height']))? $height = $options['height'] : $height = (($options['width'])? floor($options['width']*.56):'100'); ?>		
-	<?php $style .= 'height:'.$height.'px;' ?>
+	<?php if (isset($options['singleton']) != true): ?>
+		
+		<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
+		<?php (isset($options['height']))? $height = $options['height'] : $height = (($options['width'])? floor($options['width']*.56):'100'); ?>		
+		<?php $style .= 'height:'.$height.'px;' ?>
 	
-	<div class="a-slideshow-placeholder" style="<?php echo $style ?>">
-		<span style="line-height:<?php echo $height ?>px;"><?php echo __("Create a Slideshow", null, 'apostrophe') ?></span>
-	</div>
-<?php endif ?>
+		<div class="a-slideshow-placeholder" style="<?php echo $style ?>">
+			<span style="line-height:<?php echo $height ?>px;"><?php echo __("Create a Slideshow", null, 'apostrophe') ?></span>
+		</div>
+	
+	<?php endif ?>
 
+<?php endif ?>

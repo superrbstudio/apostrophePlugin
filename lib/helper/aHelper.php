@@ -45,6 +45,7 @@ function a_slot($name, $type, $options = false)
 {
   $options = a_slot_get_options($options);
   $options['type'] = $type;
+	$options['singleton'] = true;
   aTools::globalSetup($options);
   include_component("a", "area", 
     array("name" => $name, "options" => $options)); 
