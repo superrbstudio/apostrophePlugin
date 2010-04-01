@@ -141,4 +141,5 @@
 	<?php //                    betweenLinks: " " }                       ?>
 	aRadioSelect('.a-radio-select', { });
 	$('#a-page-settings').show();
+	aUI();
 </script>

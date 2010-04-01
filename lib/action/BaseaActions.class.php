@@ -201,8 +201,7 @@ class BaseaActions extends sfActions
     $title = trim($this->getRequestParameter('title'));
     $this->flunkUnless(strlen($title));
 
-    $pathComponent = $title;
-    $pathComponent = strtolower(preg_replace("/[\W]+/", "-", $title));
+    $pathComponent = aTools::slugify($title, false);
 
     $base = $parent->getSlug();
     if ($base === '/')

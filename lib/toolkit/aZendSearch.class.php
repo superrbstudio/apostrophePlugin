@@ -327,6 +327,9 @@ class aZendSearch
     // Zend_Loader::registerAutoload();
     
     self::$zendLoaded = true;
+    
+    // Thanks Fotis
+    Zend_Search_Lucene_Analysis_Analyzer::setDefault(new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8());
   }
 
   static public function getLuceneIndex(Doctrine_Table $table)

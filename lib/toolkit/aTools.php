@@ -601,4 +601,53 @@ class aTools
   {
     self::$realUrl = $url;
   }
+  
+  // UTF-8 where available. If your UTF-8 gets munged make sure your PHP has the
+  // mbstring extension
+  
+  static public function slugify($path, $allowSlashes = false)
+  {
+    if (!function_exists('mb_strtolower'))
+    {
+      // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
+      // Allows letters and numbers, dashes and underscores. Everything else gets replaced with a -. Also we now remove
+      // trailing -
+      if ($allowSlashes)
+      {
+        $path = strtolower(preg_replace('/[^\w\-_\/]+/', '-', $path));    
+      }
+      else
+      {
+        $path = strtolower(preg_replace('/[^\w\-_]+/', '-', $path));    
+      }
+      // Trailing dashes are silly
+      return $path = preg_replace('/-$/', '', $path);     
+    }
+    // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
+    // Allows letters and numbers, dashes and underscores. Everything else gets replaced with a -. Also we now remove
+    // trailing -
+    if ($allowSlashes)
+    {
+      $path = mb_strtolower(preg_replace('/[^\p{L}\p{N}\-_\/]+/u', '-', $path), 'UTF-8');    
+    }
+    else
+    {
+      $path = mb_strtolower(preg_replace('/[^\p{L}\p{N}\-_]+/u', '-', $path), 'UTF-8');    
+      // Trailing dashes are silly
+      $path = preg_replace('/-$/u', '', $path);
+    }
+    return $path;
+  }
+  
+  static public function strtolower($s)
+  {
+    if (function_exists('mb_strtolower'))
+    {
+      return mb_strtolower($s, 'UTF-8');
+    }
+    else
+    {
+      return strtolower($s);
+    }
+  }
 }
