@@ -1624,7 +1624,6 @@ ul.a-controls
 float: left;
 visibility: hidden;
 margin: 0 !important;
-width: 100%;
 }
 
 ul.a-controls li
@@ -1688,6 +1687,7 @@ ul.a-controls li.add-slot-now
 ul.a-controls.a-slot-controls
 {
 	z-index: 799;
+	width: 100%;
 }
 
 .aImage ul.a-controls.a-slot-controls,
