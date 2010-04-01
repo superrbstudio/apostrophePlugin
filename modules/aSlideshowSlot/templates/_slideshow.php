@@ -97,10 +97,10 @@
 		});
 
 		$('.a-slideshow-controls li').hover(function(){
-			$(this).css('background-position','0 -20px');		
+			$(this).addClass('over');	
 		},function(){
-			$(this).css('background-position','0 0');					
-		})
+			$(this).removeClass('over');
+		});
 
 	  function previous() 
 	  {
