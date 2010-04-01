@@ -530,8 +530,12 @@ width: 18px;
 .a-btn.a-flag-btn.icon.expanded,
 .a-btn.a-flag-btn.icon-only.expanded
 {
-	padding-left: 20px;
 	width: auto;
+}
+
+.a-btn.a-flag-btn.icon
+{
+	padding: 0 0 0 20px;	
 }
 
 .a-btn.a-flag-btn:hover
@@ -1620,6 +1624,7 @@ ul.a-controls
 float: left;
 visibility: hidden;
 margin: 0 !important;
+width: 100%;
 }
 
 ul.a-controls li
@@ -1636,6 +1641,11 @@ border: none;
 ul.a-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+	float: right;
 }
 
 ul.a-controls .a-controls-item.cancel
@@ -2754,6 +2764,20 @@ margin-bottom: 40px;
 {
 	font-size: 11px;
 	margin: 5px 0;
+}
+
+.a-slot.aSlideshow .a-slideshow-placeholder
+{ /* Height and Width are defined in the template and applied inline in _normalView.php */
+}
+
+.a-slot.aSlideshow .a-slideshow-placeholder span
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: 1px dashed #ccc;
+	margin: -1px 0 0 -1px;
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls

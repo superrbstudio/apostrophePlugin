@@ -142,7 +142,7 @@ function aUI(target, instance)
 	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
 
 
-	// New Slot Box
+	// // New Slot Box
 	// $('div.a-new-slot').remove();
 	// $('div.a-slots').prepend('<div class="a-new-slot"><p>+ Add Slot</p></div>');
 	// $('ul.a-controls a.a-add-slot').hover(function(){
