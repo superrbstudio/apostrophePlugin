@@ -4992,13 +4992,16 @@ font-weight: bold !important;
 .a-admin-form-container,
 #a-admin-form,
 #a-admin-batch-form,
-.a-admin .a-admin-list
+.a-admin-list,
+.a-admin-list table
 {
 float: left;
 clear: both;
 width: 100%;
 border-bottom: 0px;
 border-right: 0px;
+margin: 0;
+padding: 0;
 }
 
 .a-admin-form-container .a-admin-form-container
@@ -5008,9 +5011,9 @@ border-right: 0px;
 	
 }
 
-.a-admin .a-admin-list-table
+.a-admin .a-admin-list
 {
-width: 100%;
+overflow: hidden;
 }
 
 #a-admin-list-batch-actions
@@ -5028,57 +5031,57 @@ display: block;
 width: 100px;
 }
 
-.a-admin .a-admin-list thead th
+.a-admin-list th,
+.a-admin-list td
 {
-font-size: 18px;
-padding: 6px 3px;
+padding: 8px 5px;
+border: none;
+}
+
+.a-admin-list thead th
+{
+font-size: 14px;
 text-align: left;
 border-bottom: 1px solid #e2e2e2;
 line-height: 24px;
 vertical-align: middle;
 }
 
-.a-admin .a-admin-list thead th *
+.a-admin-list thead th *
 {
 float: left;
 }
 
-.a-admin .a-admin-list tfoot th
+.a-admin-list tfoot th
 {
 padding: 3px 6px;
 border-top: 1px solid #e2e2e2;
 background-color: #f4f4f4;
 }
 
-.a-admin .a-admin-list th a
-{
-color: #333;
-}
-
-.a-admin .a-admin-list td
-{
-padding: 6px 3px;
-border: none;
-}
-
-.a-admin .a-admin-filter li
+.a-admin-filter li
 {
 list-style-type: none;
 }
 
-.a-admin .a-admin-row td
+.a-admin-row td
 {
-border-bottom: 1px solid #e2e2e2;
+border-left: 1px solid #e5e5e5;
 }
 
-.a-admin .a-admin-row.last td
+.a-admin-row.odd td
 {
-border: none;
+background-color: #f7f7f7;
 }
 
 .a-admin .a-admin-row-1 td
 {
 border-top: 1px solid #e2e2e2;
+}
+
+.a-admin-row td.first
+{
+	border-left: 0;
 }
 
 .a-admin .a-admin-edit-help
@@ -5373,21 +5376,23 @@ width: 480px;
 }
 
 .a-btn,
-.a-submit
-{ /* Background Color */
-	background-color: rgb(51,204,204);
-	background-color: rgba(51,204,204,0.65);	
+.a-submit,
+.a-cancel,
+.a-admin-list th a
+{ /* Button Border Radius */
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
 }
 
 .a-btn,
 .a-submit,
 .a-cancel
 { /* Button Styles */
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-border:1px solid rgba(20,20,20,.2);
+	background-color: rgb(51,204,204);
+	background-color: rgba(51,204,204,0.65);	
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	border:1px solid rgba(20,20,20,.2);	
 }
 
 .a-btn:focus,
