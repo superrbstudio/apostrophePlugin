@@ -19,7 +19,7 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-    <div class="a-pdf-slot<?php echo ($pdfPreview)? ' with-preview': ' icon-only' ?>">
+    <div class="a-pdf-slot<?php echo ($pdfPreview)? ' with-preview': ' no-label' ?>">
 
 			<div class="a-media-pdf-icon">
       <?php // Thumbnail image as a link to the original PDF ?>

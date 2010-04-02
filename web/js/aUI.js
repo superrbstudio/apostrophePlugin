@@ -176,8 +176,8 @@ function aUI(target, instance)
 
 	
 	// Flagging Buttons
-	var flagBtn = $('.a-flag-btn');
-	flagBtn.wrapInner('<span class="a-flag-btn-label"></span>');
+	var flagBtn = $('.flag');
+	flagBtn.wrapInner('<span class="flag-label"></span>');
 	
 	flagBtn.hover(function () {
 		$(this).addClass('expanded');

@@ -7,7 +7,7 @@
           <?php echo htmlspecialchars($info['name']) ?> (<?php echo $info['count'] ?>)
         </li>
         <li class="actions">
-          <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array('url' => "aMedia/deleteCategory?" . http_build_query(array('slug' => $info['slug'])), 'update' => 'a-media-edit-categories'), array("class" => "a-btn icon icon-only a-delete")) ?>
+          <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array('url' => "aMedia/deleteCategory?" . http_build_query(array('slug' => $info['slug'])), 'update' => 'a-media-edit-categories'), array("class" => "a-btn icon no-label a-delete")) ?>
         </li>
       </ul>
     </li>
@@ -23,8 +23,8 @@
 <?php echo $form ?>
 
 <div class="a-form-row submit">
-<input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-btn icon a-add icon-only" />
-<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon icon-only a-cancel', )) ?>
+<input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-submit icon a-add no-label" />
+<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon no-label a-cancel', )) ?>
 </div>
 </form>
 

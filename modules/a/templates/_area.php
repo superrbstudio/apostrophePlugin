@@ -199,7 +199,7 @@
 							'before' => '$(this).parents(".a-slot").fadeOut();', 
 							'complete' => 'aUI()'), 
               array(
-                'class' => 'a-btn icon a-delete a-flag-btn', 
+                'class' => 'a-btn icon a-delete flag', 
                 'title' => __('Delete Slot', null, 'apostrophe'),
 								'confirm' => __('Are you sure you want to delete this slot?', null, 'apostrophe'), )) ?>
         </li>			

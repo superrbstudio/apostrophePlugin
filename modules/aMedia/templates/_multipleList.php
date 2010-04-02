@@ -12,7 +12,7 @@
       'update' => 'a-media-selection-list',
 			'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.')', 
     ), array(
-			'class'=> 'a-btn icon a-delete icon-only',
+			'class'=> 'a-btn icon a-delete no-label',
 			'title' => __('Remove', null, 'apostrophe'), )) ?>
 		</li>
 	</ul>	

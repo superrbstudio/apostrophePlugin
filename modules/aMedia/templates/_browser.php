@@ -70,7 +70,7 @@
 	    	<?php echo jq_link_to_remote(__('Edit', null, 'apostrophe'), array(
 					'url' => url_for('aMedia/editCategories'), 
 					'update' => 'a-media-edit-categories'), array(
-						'class' => 'a-btn icon a-edit icon-only a-flag-btn flag-right', 
+						'class' => 'a-btn icon a-edit no-label flag flag-right', 
 						'id' => 'a-media-edit-categories-button',
 					)) ?>
 	    <?php endif ?>
