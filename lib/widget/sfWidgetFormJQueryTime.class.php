@@ -192,7 +192,10 @@ class sfWidgetFormJQueryTime extends sfWidgetFormTimeFixed
     }
     $hourid = $this->generateId($name.'[hour]');
     $minid = $this->generateId($name.'[minute]');
-    $s = '<span style="display: none">' . parent::render($name, $value, $attributes, $errors) . '</span>';
+
+		$s = '<div class="a-time-wrapper" id="' . $prefix . '-time">';
+    $s .= '<span style="display: none">' . parent::render($name, $value, $attributes, $errors) . '</span>';
+
     $val = '';
     if (is_array($value))
     {
@@ -321,6 +324,7 @@ $(function() {
 	});
 });
 </script>
+</div>
 EOM
 ;
     return $s;

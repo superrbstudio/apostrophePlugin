@@ -5422,12 +5422,20 @@ border-radius: 2px;
 
 .a-btn:focus,
 .a-btn:hover,
-.a-btn:hover span,
-.a-btn.icon:hover
+.a-btn:hover span
 {/*Button Hover Style*/
 color: #fff !important;
 text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 background-color: #888 !important;
+text-decoration: none !important;
+}
+
+.a-btn:active,
+.a-btn:active span
+{/*Button Hover Style*/
+color: #eee !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #111 !important;
 text-decoration: none !important;
 }
 
