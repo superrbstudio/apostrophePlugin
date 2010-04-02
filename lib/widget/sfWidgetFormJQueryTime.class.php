@@ -208,7 +208,7 @@ class sfWidgetFormJQueryTime extends sfWidgetFormTimeFixed
     {
       $val = htmlspecialchars(aDate::time($value, false), ENT_QUOTES);
     }
-    $s .= "<input type='text' name='a-ignored' id='$prefix-ui' value='$val' class='" . (isset($attributes['class']) ? $attributes['class'] : '') . "'><img id='$prefix-ui-trigger' class='ui-timepicker-trigger' src='/apostrophePlugin/images/a-icon-time.png'/>";
+    $s .= "<input type='text' name='a-ignored' id='$prefix-ui' value='$val' class='" . (isset($attributes['class']) ? $attributes['class'] : '') . "'><img id='$prefix-ui-trigger' class='ui-timepicker-trigger' src='/apostrophePlugin/images/a-icon-timepicker.png'/>";
     $s .= <<<EOM
 <script>
 $(function() { 
