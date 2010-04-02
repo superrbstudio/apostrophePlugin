@@ -25,7 +25,7 @@ class aNavigationAccordion extends aNavigation
       
       $this->applyCSS($tree, $node);
       
-      if(!self::isAncestor($node, $this->activeInfo) && !$node['id'] == $this->activeInfo['id'])
+      if(!self::isAncestor($node, $this->activeInfo) && !($node['id'] == $this->activeInfo['id']))
       {
         unset($node['children']);
       }
