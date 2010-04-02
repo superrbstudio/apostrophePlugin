@@ -2778,6 +2778,7 @@ margin-bottom: 40px;
 	text-align: center;
 	border: 1px dashed #ccc;
 	margin: -1px 0 0 -1px;
+	background: rgba(0,0,0,0.025);
 }
 
 .a-slot.aSlideshow ul.a-slideshow-controls
