@@ -25,6 +25,10 @@ class aValidatorSlug extends sfValidatorString
   protected function configure($options = array(), $messages = array())
   {
     $this->addOption('allow_slashes', false);
+    // If strict is false, doClean will just clean the slug (potentially changing it).
+    // If strict is true, it will reject slugs that are not already clean.
+    // The latter is probably best when users are explicitly editing slugs
+    $this->addOption('strict', true);
     
     parent::configure($options, $messages);
   }
@@ -37,10 +41,18 @@ class aValidatorSlug extends sfValidatorString
     $clean = (string) parent::doClean($value);
     $clean = aTools::strtolower($clean);
     $slugified = aTools::slugify($clean, $this->getOption('allow_slashes'));
-    if ($slugified !== $clean)
+    if ($this->getOption('strict'))
     {
-      throw new sfValidatorError($this, 'invalid', array('value' => $value));
+      if ($slugified !== $clean)
+      {
+        throw new sfValidatorError($this, 'invalid', array('value' => $value));
+      }
     }
+    else
+    {
+      $clean = $slugified;
+    }
+    
     return $clean;
   }
   

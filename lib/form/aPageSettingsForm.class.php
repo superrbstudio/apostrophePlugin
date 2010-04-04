@@ -179,6 +179,7 @@ class aPageSettingsForm extends aPageForm
 
   public function updateObject($values = null)
   {
+    $oldSlug = $this->getObject()->slug;
     $object = parent::updateObject($values);
     
     // Check for cascading operations
@@ -197,13 +198,20 @@ class aPageSettingsForm extends aPageForm
       }
       $q->execute();
     }
+
+    // On manual change of slug, set up a redirect from the old slug,
+    // and notify child pages so they can update their slugs if they are
+    // not already deliberately different
+    if ($object->slug !== $oldSlug)
+    {
+      Doctrine::getTable('aRedirect')->update($oldSlug, $object);
+      $children = $object->getChildren();
+      foreach ($children as $child)
+      {
+        $child->updateParentSlug($oldSlug, $object->slug);
+      }
+    }
     
-    // This part isn't validation, it's just normalization.
-    $slug = $object->slug;
-    $slug = trim($slug);
-    $slug = preg_replace("/\/+/", "/", $slug);
-    $slug = preg_match("/^(\/.*?)\/*$/", $slug, $matches);
-    $object->slug = $matches[1];
     if (isset($object->engine) && (!strlen($object->engine)))
     {
       // Store it as null for plain ol' executeShow page templating
@@ -230,18 +238,8 @@ class aPageSettingsForm extends aPageForm
       $cache = $routing->getCache();
       if ($cache)
       {
-        sfContext::getInstance()->getLogger()->info("QZ got cache");
         $cache->clean();
-        sfContext::getInstance()->getLogger()->info("QZ cleared cache");
       }
-      else
-      {
-        sfContext::getInstance()->getLogger()->info("QZ no cache");
-      }
-    }
-    else
-    {
-      sfContext::getInstance()->getLogger()->info("QZ no routing");
     }
   }
   

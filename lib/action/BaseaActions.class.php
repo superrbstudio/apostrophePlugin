@@ -27,6 +27,15 @@ class BaseaActions extends sfActions
       $slug = "/$slug";
     }
     $page = aPageTable::retrieveBySlugWithSlots($slug);
+    if (!$page)
+    {
+      $redirect = Doctrine::getTable('aRedirect')->findOneBySlug($slug);
+      if ($redirect)
+      {
+        $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);        
+        return $this->redirect($page->getUrl(), 301);
+      }
+    }
     aTools::validatePageAccess($this, $page);
     aTools::setPageEnvironment($this, $page);
     $this->page = $page;
@@ -174,8 +183,15 @@ class BaseaActions extends sfActions
     $page = $this->retrievePageForEditingByIdParameter();
     $this->flunkUnless($page);
     $this->flunkUnless($page->userHasPrivilege('edit|manage'));    
-    // Rename never changes the slug, just the title
-    $page->setTitle(htmlspecialchars($request->getParameter('title')));
+    $form = new aRenameForm($page);
+    $form->bind($request->getParameter('aRenameForm'));
+    if ($form->isValid())
+    {
+      $values = $form->getValues();
+      $page->updateLastSlugComponent($values['title']);
+      $page->setTitle($values['title']);
+    }
+    // Valid or invalid, redirect. You have to work hard to come up with an invalid title
     return $this->redirect($page->getUrl());
   }
 
@@ -690,14 +706,17 @@ class BaseaActions extends sfActions
       if ($type === 'after')
       {
         $page->getNode()->moveAsNextSiblingOf($refPage);
+        $page->forceSlugFromParent();
       }
       elseif ($type === 'before')
       {
         $page->getNode()->moveAsPrevSiblingOf($refPage);
+        $page->forceSlugFromParent();
       }
       elseif ($type === 'inside')
       {
         $page->getNode()->moveAsLastChildOf($refPage);
+        $page->forceSlugFromParent();
       }
       else
       {

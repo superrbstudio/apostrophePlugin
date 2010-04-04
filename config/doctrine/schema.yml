@@ -362,7 +362,8 @@ aMediaItem:
     Sluggable:
       fields: [title]
       unique: true
-      builder: aMediaItemTable::slugify
+      # We unified this
+      builder: aTools::slugify
   columns:
     id:
       type: integer(4)
@@ -563,3 +564,30 @@ aFeedSlot:
     type: column_aggregation
     keyField: type
     keyValue: 'aFeed'
+
+aRedirect:
+  tableName: a_redirect
+  actAs:
+    Timestampable: ~
+    Taggable: ~
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    page_id:
+      type: integer(4)
+    slug:
+      type: string(255)
+      unique: true
+  indexes:
+    slugindex:
+      fields: [slug]
+  relations:
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      onDelete: cascade
+      

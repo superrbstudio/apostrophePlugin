@@ -1360,4 +1360,140 @@ abstract class PluginaPage extends BaseaPage
     }
     return $info;
   } 
+  
+  public function updateLastSlugComponent($title)
+  {
+    if ($this->slug === '/')
+    {
+      // We never update the home page slug
+      return;
+    }
+    if ($this->getCulture() !== sfConfig::get('sf_default_culture'))
+    {
+      // Retitling a page in a culture other than the default does not
+      // change the page slug
+      return;
+    }
+    $component = aTools::slugify($title, false);
+    $path = $this->slug;
+    if (function_exists('mb_strrpos'))
+    {
+      $slash = mb_strrpos($path, '/');
+      $newPath = mb_substr($path, 0, $slash + 1) . $component;
+    }
+    else
+    {
+      $slash = strrpos($path, '/');
+      $newPath = substr($path, 0, $slash + 1) . $component;
+    }
+    if ($path === $newPath)
+    {
+      return;
+    }
+    $this->slug = $newPath;
+    $this->save();
+    Doctrine::getTable('aRedirect')->update($path, $this);
+    $children = $this->getChildren();
+    foreach ($children as $child)
+    {
+      $child->updateParentSlug($path, $newPath);
+    }
+  }
+  
+  // Update your slug based on your current parent's slug - no discussion or debate permitted.
+  // Reorganize uses this. CAN be called when the parent is root, so be careful not to 
+  // set a double slash as a prefix
+  
+  public function forceSlugFromParent()
+  {
+    $pslug = $this->getNode()->getParent()->slug;
+    if ($pslug === '/')
+    {
+      $pslug = '';
+    }
+    if (function_exists('mb_substr'))
+    {
+      $slash = mb_strrpos($this->slug, '/');
+      $newSlug = $pslug . mb_substr($this->slug, $slash);
+    }
+    else
+    {
+      $slash = strrpos($this->slug, '/');
+      $newSlug = $pslug . substr($this->slug, $slash);      
+    }
+    if ($this->slug !== $newSlug)
+    {
+      Doctrine::getTable('aRedirect')->update($this->slug, $this);
+      $this->slug = $newSlug;
+      $this->save();
+      $children = $this->getChildren();
+      foreach ($children as $child)
+      {
+        $child->forceSlugFromParent();
+      }
+    }
+  }
+  
+  // The parent's slug has changed (it is still the same parent). This is just an FYI - pges whose slugs
+  // already diverge from the parent don't have to update their slugs too. Should never be called
+  // when the parent is root
+  
+  public function updateParentSlug($old, $new)
+  {
+    if ($old === '/')
+    {
+      throw new sfException("You can't change the slug of the root page, why are we here?");
+    }
+    // Make sure this page's slug is actually prefixed by its parent's slug followed
+    // by a /. If not, it has already been customized and should not get uncustomized
+    // just because somebody edited the title or slug of the parent
+    $slug = $this->slug;
+    $old .= '/';
+    if (function_exists('mb_substr'))
+    {
+      $stem = mb_substr($slug, 0, mb_strlen($old));
+      if ($stem !== $old)
+      {
+        return;
+      }
+      $slash = mb_strrpos($slug, '/');
+      $newSlug = $new . mb_substr($slug, $slash);
+    }
+    else
+    {
+      $stem = substr($slug, 0, strlen($old));
+      if ($stem !== $old)
+      {
+        return;
+      }
+      $slash = strrpos($slug, '/');
+      $newSlug = $new . substr($slug, $slash);
+    }
+    
+    if ($slug !== $newSlug)
+    {
+      $this->slug = $newSlug;
+      Doctrine::getTable('aRedirect')->update($slug, $this);
+      $this->save();
+      $children = $this->getChildren();
+      foreach ($children as $child)
+      {
+        $child->updateParentSlug($slug, $newSlug);
+      }
+    }
+  }  
+
+  // We may need this before we're done
+  // protected function str_replace($old, $new, $content)
+  // {
+  //   if (function_exists('mb_strpos'))
+  //   {
+  //     $at = 0;
+  //     while (($at = mb_strpos($content, $old, $at)) !== false)
+  //     {
+  //       $content = mb_substr($content, 0, $at) . $new . mb_substr($content, $at + mb_strlen($old));
+  //       $at = $at + strlen($old);
+  //     }
+  //   }
+  // }
 }

@@ -34,13 +34,6 @@ class PluginaMediaItemTable extends Doctrine_Table
     return aZendSearch::addSearchQuery($this, $q, $luceneQuery);
   }
   
-  static public function slugify($s)
-  {
-    $s = Doctrine_Inflector::urlize($s);
-    $s = str_replace("/", "-", $s);
-    return $s;
-  }
-
   static public function getDirectory()
   {
     return aFiles::getUploadFolder('media_items');

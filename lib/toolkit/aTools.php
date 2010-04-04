@@ -603,42 +603,45 @@ class aTools
   }
   
   // UTF-8 where available. If your UTF-8 gets munged make sure your PHP has the
-  // mbstring extension
+  // mbstring extension. allowSlashes will allow / but will reduce duplicate / and
+  // remove any / at the end. Everything that isn't a letter or a number 
+  // (or a slash, when allowed) is converted to a -. Consecutive -'s are reduced and leading and
+  // trailing -'s are removed
   
   static public function slugify($path, $allowSlashes = false)
   {
-    if (!function_exists('mb_strtolower'))
+    if (function_exists('mb_strtolower'))
     {
       // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
-      // Allows letters and numbers, dashes and underscores. Everything else gets replaced with a -. Also we now remove
-      // trailing -
-      if ($allowSlashes)
-      {
-        $path = strtolower(preg_replace('/[^\w\-_\/]+/', '-', $path));    
-      }
-      else
-      {
-        $path = strtolower(preg_replace('/[^\w\-_]+/', '-', $path));    
-      }
-      // Trailing dashes are silly
-      return $path = preg_replace('/-$/', '', $path);     
-    }
-    // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
-    // Allows letters and numbers, dashes and underscores. Everything else gets replaced with a -. Also we now remove
-    // trailing -
-    if ($allowSlashes)
-    {
-      $path = mb_strtolower(preg_replace('/[^\p{L}\p{N}\-_\/]+/u', '-', $path), 'UTF-8');    
+      $alnum = '\p{L}\p{N}_';
+      $modifier = 'u';
     }
     else
     {
-      $path = mb_strtolower(preg_replace('/[^\p{L}\p{N}\-_]+/u', '-', $path), 'UTF-8');    
-      // Trailing dashes are silly
-      $path = preg_replace('/-$/u', '', $path);
+      $alnum = '\w';
+      $modifier = '';
     }
+    if ($allowSlashes)
+    {
+      $alnum .= '\/';
+    }
+    $regexp = "/[^$alnum\-]+/$modifier";
+    $path = aTools::strtolower(preg_replace("/[^$alnum\-]+/$modifier", '-', $path));  
+    if ($allowSlashes)
+    {
+      // No multiple consecutive /
+      $path = preg_replace("/\/+/$modifier", "/", $path);
+      // No trailing /
+      $path = preg_replace("/\/$/$modifier", '', $path);
+    }
+    // No consecutive dashes
+    $path = preg_replace("/-+/$modifier", '-', $path);
+    // Leading and trailing dashes are silly. This has the effect of trim()
+    // among other sensible things
+    $path = preg_replace("/^-*(.*?)-*$/$modifier", '$1', $path);     
     return $path;
   }
-  
+
   static public function strtolower($s)
   {
     if (function_exists('mb_strtolower'))
