@@ -26,8 +26,9 @@ It currently invokes:
 
 ./symfony cc
 ./symfony doctrine:migrate --env=envname
+./symfony apostrophe:migrate --env=envname
 
-You can skip the migrate step with --skip-migrate.
+You can skip the migrate steps with --skip-migrate.
 
 You won't normally call it yourself, but you could call it with:
 
@@ -43,6 +44,7 @@ EOF;
     if (!$options['skip-migrate'])
     {
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
+      $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
     }
   }
   
@@ -51,7 +53,14 @@ EOF;
     array_unshift($args, $task);
     foreach ($options as $key => $value)
     {
-      $args[] = "--$key=$value";
+      if ($value === false)
+      {
+        $args[] = "--$key";
+      }
+      else
+      {
+        $args[] = "--$key=$value";
+      }
     }
     $args = implode(' ', array_map('escapeshellarg', $args));
     echo("Launching remote task $args\n");

@@ -43,6 +43,7 @@ Which currently invokes:
 
 ./symfony cc
 ./symfony doctrine:migrate --env=envname
+./symfony apostrophe:migrate --env=envname
 
 Call it with:
 

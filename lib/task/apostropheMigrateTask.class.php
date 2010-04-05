@@ -9,6 +9,7 @@ class apostropheMigrateTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
+      new sfCommandOption('force', false, sfCommandOption::PARAMETER_NONE, 'No prompts'),
       // add your own options here
     ));
 
@@ -47,12 +48,15 @@ BACK UP YOUR DATABASE BEFORE YOU RUN THIS TASK. It works fine in our tests,
 but why take chances with your data?
 
 ");
-    if (!$this->askConfirmation(
-"Are you sure you are ready to migrate your project? [y/N]",
-      'QUESTION_LARGE',
-      false))
+    if (!$options['force'])
     {
-      die("Operation CANCELLED. No changes made.\n");
+      if (!$this->askConfirmation(
+  "Are you sure you are ready to migrate your project? [y/N]",
+        'QUESTION_LARGE',
+        false))
+      {
+        die("Operation CANCELLED. No changes made.\n");
+      }
     }
     $this->conn = Doctrine_Manager::connection()->getDbh();
 
