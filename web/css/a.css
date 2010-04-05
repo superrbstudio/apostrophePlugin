@@ -750,7 +750,8 @@ width: 18px;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
+height: 20px;
 -moz-box-shadow:0 0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -763,7 +764,8 @@ box-shadow:0 0 0 transparent;
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
 text-indent: -9999px;
 padding: 0;
-width: 18px;
+width: 20px;
+height: 20px;
 -moz-box-shadow:0 0 0 transparent;
 -webkit-box-shadow:0 0 0 transparent;
 -opera-box-shadow:0 0 0 transparent;
@@ -1631,16 +1633,14 @@ height: auto;
 border: none;
 }
 
-ul.a-controls li a
-{
-
-}
-
-ul.a-controls li.last,
-ul.a-slideshow-controls li.last,
-ul.a-controls.a-area-controls li.last
+ul.a-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+	float: right;
 }
 
 ul.a-controls .a-controls-item.cancel
@@ -1683,6 +1683,7 @@ ul.a-controls li.add-slot-now
 ul.a-controls.a-slot-controls
 {
 	z-index: 799;
+	width: 100%;
 }
 
 .aImage ul.a-controls.a-slot-controls,
@@ -1694,6 +1695,11 @@ position: absolute;
 z-index: 799;
 top: 0;
 left: 0;
+}
+
+ul.a-controls.a-media-edit-links
+{
+	width: 100%;
 }
 
 ul.a-controls ul.a-controls-item
@@ -1790,6 +1796,7 @@ display: block !important;
 border-color: #fff !important;
 display: block !important;
 -moz-border-radius: 2px !important;
+text-shadow:none;
 }
 
 ul.a-controls .a-options a:hover,
@@ -1798,6 +1805,7 @@ ul.a-controls .a-options span
 	background-color: #f5f5f5	 !important;
 	color: #000 !important;
 	border-color: #ddd !important;
+	text-shadow:none;
 }
 
 ul.a-controls .a-controls-item.variant.open .a-variant-options
@@ -2502,6 +2510,7 @@ position: relative;
 float: left;
 width: 100%;
 margin: 10px 0;
+/*	z-index:599;*/
 }
 
 .a-area .a-new-slot
