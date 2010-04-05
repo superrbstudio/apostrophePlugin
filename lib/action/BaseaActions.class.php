@@ -188,8 +188,10 @@ class BaseaActions extends sfActions
     if ($form->isValid())
     {
       $values = $form->getValues();
+      // The slugifier needs to see pre-encoding text
       $page->updateLastSlugComponent($values['title']);
-      $page->setTitle($values['title']);
+      $title = htmlentities($values['title'], ENT_COMPAT, 'UTF-8');
+      $page->setTitle($title);
     }
     // Valid or invalid, redirect. You have to work hard to come up with an invalid title
     return $this->redirect($page->getUrl());

@@ -35,8 +35,7 @@
 			var renameInputWidth = checkInputWidth(renameSpacer.width());		
 			renameInput.css('width', renameInputWidth);		
 
-			var currentTitle = "<?php echo $page->getTitle() ?>"
-			renameInput[0].value = currentTitle;
+      var currentTitle = renameInput[0].value;
 			var liveTitle = renameInput[0].value;
 			
 			renameInput.bind('cancel', function(e){
