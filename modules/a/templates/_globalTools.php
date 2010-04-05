@@ -31,7 +31,6 @@ These are mostly links to independent modules.
 				<?php if ($page && !$page->admin): ?>
 					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle"><?php echo __('This Page', null, 'apostrophe') ?></a></li>
 				<?php endif ?>
-  			<?php $buttons = aTools::getGlobalButtons() ?>
   			<?php foreach ($buttons as $button): ?>
   			  <?php if ($button->getTargetEnginePage()): ?>
   			    <?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
