@@ -190,6 +190,7 @@
 
       <?php if ($infinite): ?>
         <li class="delete">
+					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "flag"); ?>
           <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array(
             "url" => "a/deleteSlot?" .http_build_query(array(
               "id" => $page->id,
@@ -199,7 +200,7 @@
 							'before' => '$(this).parents(".a-slot").fadeOut();', 
 							'complete' => 'aUI()'), 
               array(
-                'class' => 'a-btn icon a-delete flag', 
+                'class' => 'a-btn icon a-delete '.$delete_button_style, 
                 'title' => __('Delete Slot', null, 'apostrophe'),
 								'confirm' => __('Are you sure you want to delete this slot?', null, 'apostrophe'), )) ?>
         </li>			

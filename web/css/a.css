@@ -2773,17 +2773,17 @@ margin-bottom: 40px;
 	margin-top:0px; /* Removes Space for the Arrow Controls When There is One Image*/
 }
 
-.a-slot.aSlideshow .a-slideshow-meta
+.a-slideshow-meta
 {
 	font-size: 11px;
 	margin: 5px 0;
 }
 
-.a-slot.aSlideshow .a-slideshow-placeholder
+.a-slideshow-placeholder
 { /* Height and Width are defined in the template and applied inline in _normalView.php */
 }
 
-.a-slot.aSlideshow .a-slideshow-placeholder span
+.a-slideshow-placeholder span
 {
 	display: block;
 	width: 100%;
@@ -2794,7 +2794,7 @@ margin-bottom: 40px;
 	background: rgba(0,0,0,0.025);
 }
 
-.a-slot.aSlideshow ul.a-slideshow-controls
+ul.a-slideshow-controls
 {/* Slideshow Controls */
 position: absolute;
 top: -24px;
@@ -2807,7 +2807,7 @@ height: auto;
 border: none;
 }
 
-.a-slot.aSlideshow ul.a-slideshow-controls li
+ul.a-slideshow-controls li
 {
 float: left;
 border: 0;
@@ -2815,12 +2815,12 @@ background-position: 0 0;
 cursor: pointer;
 }
 
-.a-slot.aSlideshow ul.a-slideshow-controls li.over
+ul.a-slideshow-controls li.over
 {
 	background-position: 0 -20px;
 }
 
-.a-slot.aSlideshow ul.a-slideshow-controls a
+ul.a-slideshow-controls a
 {
 z-index: 1;
 }
@@ -2833,16 +2833,14 @@ z-index: 1;
 	display: inline;
 }
 
-.a-slideshow .a-slideshow-item
+.a-slideshow-item
 {
 display: none;
 float: left;
 clear: both;
 }
 
-.a-slideshow .a-slideshow-item .a-slideshow-image,
-.a-slideshow .a-slideshow-item .a-slideshow-title,
-.a-slideshow .a-slideshow-item .a-slideshow-description
+.a-slideshow-item .a-slideshow-meta
 {
 	float: left;
 	clear: both;
@@ -2850,12 +2848,12 @@ clear: both;
 	display: block;
 }
 
-.a-slideshow .a-slideshow-item .a-slideshow-title
+.a-slideshow-item .a-slideshow-title
 {
 	margin: 5px 0;
 }
 
-.a-slideshow .a-slideshow-item .a-slideshow-image
+.a-slideshow-item .a-slideshow-image
 {
 	line-height:0 !important; /* RB: fixes the bit of whitespace after img */
 }
