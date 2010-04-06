@@ -8,7 +8,7 @@ class BaseaNavigationComponents extends sfComponents
     $page = aPageTable::retrieveBySlug($this->root);
 
     $this->root = isset($this->root)? $this->root : '/';
-    $this->active = isset($this->active)? $this->active : $this->root;
+    $this->active = !empty($this->active)? $this->active : $this->root;
 
     $this->dragIcon = isset($this->dragIcon)? $this->dragIcon : false;    
     $this->draggable = isset($this->draggable)? $page->userHasPrivilege('edit'): false;
@@ -24,7 +24,7 @@ class BaseaNavigationComponents extends sfComponents
   public function executeBreadcrumb()
   {
     $this->root = isset($this->root)? $this->root : '/';
-    $this->active = isset($this->active)? $this->active : $this->root;
+    $this->active = !empty($this->active)? $this->active : $this->root;
     
     $this->separator = isset($this->separator)? $this->separator : ' > ';
     $this->navigation = new aNavigationBreadcrumb($this->root, $this->active, $this->options);
@@ -36,7 +36,7 @@ class BaseaNavigationComponents extends sfComponents
     $page = aPageTable::retrieveBySlug($this->root);
 
     $this->root = isset($this->root)? $this->root : '/';
-    $this->active = isset($this->active)? $this->active : $this->root;
+    $this->active = !empty($this->active)? $this->active : $this->root;
     
     $this->options = array('depth' => isset($this->depth)? $this->depth : 1);
     $this->depth = $this->options['depth'];
