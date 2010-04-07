@@ -95,7 +95,7 @@ function aUI(target, instance)
 		$(this).parents('.a-controls').find('.cancel').show().addClass('cancel-history'); //SHOW CANCEL BUTTON And Scope it to History
 	});
 	
-	// Cancel Buttons for History and Adding Slots
+	// Cancel Buttons for History
 	$('a.a-cancel-area').unbind("click").click(function(event){
 		$(this).parents('.a-controls').children().show();
 		$(this).parents('.a-controls').find('.a-area-options').hide();		
@@ -104,11 +104,11 @@ function aUI(target, instance)
 		if ($(this).parent().hasClass('cancel-history')) //history specific events
 		{
 			$(this).parents('.a-controls').find('.a-history-options').hide();
-			$(this).parents('.a-controls').find('a.a-history-btn').show();
+			$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();		
 			$(this).parent().removeClass('cancel-history');
-			$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').css('display','none');		
 			$(this).parents('.a-area').removeClass('browsing-history');
 			$(this).parents('.a-area').removeClass('previewing-history');
+			$(this).parents('.a-controls').find('a.a-history-btn').show();
 		}
 			
 		if ($(this).hasClass('event-default')) 

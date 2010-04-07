@@ -91,7 +91,7 @@ $(document).ready(function() {
 	  var params = $(this).data('params');
 	
 		var targetArea = "#"+$(this).parent().attr('rel');					// this finds the associated area that the history browser is displaying
-		var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');				// this grabs the history button
+		var historyBtn = $(targetArea+ ' .a-area-controls a.a-history-btn');				// this grabs the history button
 		var cancelBtn = $(targetArea+ ' .a-area-controls a.a-cancel');					// this grabs the cancel button for this area
 		var revertBtn = $(targetArea+ ' .a-area-controls a.a-history-revert');	// this grabs the history revert button for this area
 		
@@ -104,7 +104,8 @@ $(document).ready(function() {
 	    {
 				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				$(targetArea).addClass('previewing-history');
-				// cancelBtn.parent().addClass('cancel-history');				
+				
+				historyBtn.addClass('a-disabled');
 				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
 				$(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
 				$(targetArea+' .a-history-options').css('display','inline');
@@ -121,6 +122,8 @@ $(document).ready(function() {
 		    params.revert,
 		    function(result)
 		    {
+				 	$('body').removeClass('history-preview');			
+					historyBtn.removeClass('a-disabled');			
 					$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 					$('.a-history-options').hide();
 					$(this).parents('.a-controls').find('a.a-cancel').parent().hide();
@@ -136,6 +139,8 @@ $(document).ready(function() {
 		    params.cancel,
 		    function(result)
 		    {
+				 $('body').removeClass('history-preview');
+				 historyBtn.removeClass('a-disabled');			
 		     $('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				 aUI(targetArea, 'history-cancel');
 		  	}
