@@ -4742,7 +4742,7 @@ color: #333;
 .a-admin td
 {
 margin: 0;
-vertical-align: top;
+vertical-align: middle;
 }
 
 .a-admin-content
