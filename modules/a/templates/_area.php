@@ -25,7 +25,7 @@
 			array(
 				'class' => 'a-btn icon a-history-btn', 
 	)); ?>
-	<ul class="a-options a-history-options">
+	<ul class="a-history-options">
 		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
 	</ul>
 </li>
@@ -102,6 +102,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$('.a-history-preview-notice').fadeIn();
+		$('body').addClass('history-preview');
 	})
 </script>
 <?php endif ?>

@@ -1725,21 +1725,9 @@ ul.a-controls .a-history-options
 display: none;
 }
 
-/* Disabled editing now styles 3/30/10 JMH ====================================== */
-
-/*.editing-now a.a-btn,
-.browsing-history a.a-history-btn
-{
-color: #000 !important;
-cursor: default !important;
-text-shadow: 0 1px 0px rgba(255,255,255,0.40) !important;
-}*/
-
-.a-area.previewing-history a.a-history-btn
-{
-background-color: transparent !important;
-color: #fff !important;
-cursor: pointer !important;
+.history-preview a.a-btn.a-add-slot
+{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
+ display: none !important;
 }
 
 .a-area.previewing-history .a-slots .a-controls

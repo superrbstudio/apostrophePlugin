@@ -104,6 +104,7 @@ $(document).ready(function() {
 	    {
 				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				$(targetArea).addClass('previewing-history');
+				historyBtn.addClass('a-disabled');				
 				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
 				$(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
 				$(targetArea+' .a-history-options').css('display','inline');
@@ -119,6 +120,8 @@ $(document).ready(function() {
 		    params.revert,
 		    function(result)
 		    {
+					$('body').removeClass('history-preview');
+					historyBtn.removeClass('a-disabled');						
 					$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 					$('.a-history-options').hide();
 					$(this).parents('.a-controls').find('a.a-cancel').parent().hide();
@@ -127,13 +130,16 @@ $(document).ready(function() {
 			);	
 		});
 			
-		cancelBtn.mouseup(function(){ // * 9/1/09 I Had to change this to MOUSEUP from CLICK because of a necessary unbind call in aUI applied to the cancel button. 
+		cancelBtn.mouseup(function(){ 
+			// * 9/1/09 I Had to change this to MOUSEUP from CLICK because of a necessary unbind call in aUI applied to the cancel button. 
 			// additional functionality added to the existing cancel button
 		  $.post( // User clicks CANCEL
 		    <?php echo json_encode(url_for('a/revert')) ?>,
 		    params.cancel,
 		    function(result)
 		    {
+				 $('body').removeClass('history-preview');
+				 historyBtn.removeClass('a-disabled');						
 		     $('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				 aUI(targetArea, 'history-cancel');
 		  	}
