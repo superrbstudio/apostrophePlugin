@@ -745,9 +745,11 @@ padding: 0;
 width: 18px;
 }
 
-.icon.a-arrow-left
+.icon.a-arrow-left /* only used for slideshows, so extra styles are needed  JMH 4/7/10 ====================================== */
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
+background-position:0 0;
+border:none!important;
 text-indent: -9999px;
 padding: 0;
 width: 20px;
@@ -759,9 +761,11 @@ height: 20px;
 box-shadow:0 0 0 transparent;
 }
 
-.icon.a-arrow-right
+.icon.a-arrow-right /* only used for slideshows, so extra styles are needed JMH 4/7/10 ====================================== */
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
+background-position:0 0;
+border:none!important;
 text-indent: -9999px;
 padding: 0;
 width: 20px;
