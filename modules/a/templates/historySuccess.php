@@ -103,8 +103,7 @@ $(document).ready(function() {
 	    function(result)
 	    {
 				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
-				$(targetArea).addClass('previewing-history');
-				
+				$(targetArea).addClass('previewing-history');				
 				historyBtn.addClass('a-disabled');
 				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
 				$(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				

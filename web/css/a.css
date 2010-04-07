@@ -5424,10 +5424,6 @@ width: 480px;
 /* 31. aUI & Admin Colors - Default
 -------------------------------------*/
 
-/* GREEN — 153,204,51 */
-/* ORANGE — 255,153,0 */
-/* PINK — 255,0,102 */
-
 #a-global-toolbar #the-apostrophe
 { /* Apostrophe */
 	background-color: rgb(51,204,204);
@@ -5496,7 +5492,9 @@ color: rgb(51,204,204);
 }
 
 
-/* 31. jQuery autocomplete results
+
+
+/* 32. jQuery autocomplete results
 -------------------------------------*/
 
 .ac_results{
@@ -5523,7 +5521,9 @@ background-color: #fbef3b;
 }
 
 
-/* 32. Login button and language switcher
+
+
+/* 33. Login button and language switcher
 -------------------------------------*/
 
 .a-login ul
@@ -5540,4 +5540,3 @@ background-color: #fbef3b;
 {
 	padding-right: 10px;
 }
-
