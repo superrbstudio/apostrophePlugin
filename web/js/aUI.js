@@ -186,12 +186,13 @@ function aUI(target, instance)
 	});	
 	
 	
-	aOverrides();
-}
+	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
+	// We use this for refreshing progressive enhancements such as Cufon following an Ajax requests.
+	if (typeof aOverrides =="function")
+	{ 
+		aOverrides(); 	
+	}
 
-function aOverrides()
-{
-	// Override this function in site.js to execute code when a calls aUI();
 }
 
 $(document).ready(function(){
