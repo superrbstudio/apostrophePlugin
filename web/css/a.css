@@ -4789,6 +4789,12 @@ font-family: Arial, sans-serif;
 font-size: 11px;
 border: 1px solid #ddd;
 vertical-align: middle;
+}
+
+.a-admin .a-form-row input, 
+.a-admin .a-form-row textarea, 
+.a-admin .a-form-row select
+{
 width: 358px;
 }
 
