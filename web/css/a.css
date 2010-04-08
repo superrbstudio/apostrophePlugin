@@ -4363,13 +4363,16 @@ padding-bottom: 10px;
 	color: #000;
 }
 
-
-
-
-
-
-
-
+.a-blog .blog-errors
+{
+	display:inline;
+	float:left;
+	margin:20px 0;
+	padding-left:25px;
+	font:18px/1.4 sans-serif;
+	color:#900;
+	background: transparent url(/apostrophePlugin/images/error.png) no-repeat 5px 2px;
+}
 
 /* 24. 	 Subnav
 -------------------------------------*/
