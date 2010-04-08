@@ -1631,11 +1631,11 @@ ul.a-controls
 {
 float: left;
 visibility: hidden;
-margin: 0 !important;
+margin: 0;
 }
 
 ul.a-controls li
-{ /* All buttons on the site are wrapped in a list. This LI often contains (constrains) the .a-i element  */
+{ /* All buttons on the site are wrapped in a list. */
 float: left;
 display: inline;
 position: relative;
@@ -5204,12 +5204,25 @@ margin: 0 10px 0 0;
 z-index: 9999;
 }
 
+.a-date-wrapper,
+.a-time-wrapper
+{
+	float: left;
+	clear: both;
+}
+
+.a-date-wrapper input,
+.a-time-wrapper input
+{
+	float: left;
+}
+
 .ui-timepicker-trigger,
 .ui-datepicker-trigger
-{ /* This seems like a temporary solution, the datepicker markup sucks */
+{
 position: relative;
-top: 6px;
-left: 3px;
+float: left;
+padding: 0 3px;
 cursor: pointer;
 }
 
