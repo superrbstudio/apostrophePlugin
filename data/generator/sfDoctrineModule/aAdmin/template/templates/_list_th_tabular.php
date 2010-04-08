@@ -5,7 +5,7 @@
 	<?php if ($field->isReal()): ?>
 	  [?php if ('<?php echo $name ?>' == $sort[0]): ?]
 	    [?php echo link_to(__('<?php echo $field->getConfig('label') ?>', array(), '<?php echo $this->getI18nCatalogue() ?>'), '<?php echo $this->getModuleName() ?>/index?sort=<?php echo $name ?>&sort_type='.($sort[1] == 'asc' ? 'desc' : 'asc')) ?]
-	    [?php echo image_tag(sfConfig::get('app_aAdmin_web_dir').'/images/'.$sort[1].'.png', array('alt' => __($sort[1], array(), 'apostrophe'), 'title' => __($sort[1], array(), 'apostrophe'))) ?]
+	    [?php echo image_tag(((sfConfig::get('app_aAdmin_web_dir'))?sfConfig::get('app_aAdmin_web_dir'):'/apostrophePlugin').'/images/'.$sort[1].'.png', array('alt' => __($sort[1], array(), 'apostrophe'), 'title' => __($sort[1], array(), 'apostrophe'))) ?]
 	  [?php else: ?]
 	    [?php echo link_to(__('<?php echo $field->getConfig('label') ?>', array(), '<?php echo $this->getI18nCatalogue() ?>'), '<?php echo $this->getModuleName() ?>/index?sort=<?php echo $name ?>&sort_type=asc') ?]
 	  [?php endif; ?]
