@@ -18,24 +18,25 @@ class aMediaRouting
       $r->prependRoute('a_media_image_show', new aRoute('/view/:slug', array(
         'module' => 'aMedia',
         'action' => 'show'
-      ), array('slug' => '^[\w\-]+$')));
+      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$')));
 
       // Allow permalinks for PDF originals
       $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'original'
-      ), array('slug' => '^[\w\-]+$', 'format' => '^(jpg|png|gif|pdf)$')));
+      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(jpg|png|gif|pdf)$')));
       
-      $r->prependRoute('a_media_image', new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
+      $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'image'
       ), array(
-        'slug' => '^[\w\-]+$',
+        'slug' => '^' . aTools::getSlugRegexpFragment() . '$',
         'width' => '^\d+$',
         'height' => '^\d+$',
         'resizeType' => '^\w$',
         'format' => '^(jpg|png|gif)$'
-      )));
+      ));
+      $r->prependRoute('a_media_image', $route);
       
       // What we want:
       // /media   <-- everything

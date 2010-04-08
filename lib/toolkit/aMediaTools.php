@@ -172,7 +172,8 @@ class aMediaTools
   {
     if ($actions->hasRequestParameter('slug'))
     {
-      $slug = preg_replace("/[^\w\-]/", "", $actions->getRequestParameter('slug'));
+      // Not sure why we're tolerant about this, but let's stay compatible with that
+      $slug = aTools::slugify($actions->getRequestParameter('slug'));
       $item = Doctrine_Query::create()->
         from('aMediaItem')->
         where('slug = ?', array($slug))->
