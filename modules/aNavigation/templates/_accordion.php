@@ -33,7 +33,7 @@
         delay: 100,
         update: function(e, ui) 
         { 
-          var serial = nav.sortable('serialize', {key:'a-nav-item[]'});
+          var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
           var options = {"url":<?php echo json_encode(url_for('a/sortNav').'?page=' . $item['id']); ?>,"type":"POST"};
           options['data'] = serial;
           $.ajax(options);
