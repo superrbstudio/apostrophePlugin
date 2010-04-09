@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>apostrophePlugin</name>
   <channel>plugins.symfony-project.org</channel>
@@ -31,16 +31,16 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
     <active>yes</active>
   </developer>
   <developer>
-      <name>Dan Ordille</name>
-      <user>dordille</user>
-      <email>dan@punkave.com</email>
-      <active>yes</active>
+    <name>Dan Ordille</name>
+    <user>dordille</user>
+    <email>dan@punkave.com</email>
+    <active>yes</active>
   </developer>
   <developer>
-      <name>Jake Hiller</name>
-      <user>jakehiller</user>
-      <email>jake@punkave.com</email>
-      <active>yes</active>
+    <name>Jake Hiller</name>
+    <user>jakehiller</user>
+    <email>jake@punkave.com</email>
+    <active>yes</active>
   </developer>
   <date>##CURRENT_DATE##</date>
   <version>
@@ -73,8 +73,51 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
       </package>
     </required>
   </dependencies>
-  <phprelease></phprelease>
+  <phprelease/>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.12</release>
+        <api>1.0.12</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2010-04-09</date>
+      <notes> * Support classes for functional tests of Apostrophe. Our functional test parent classes permit fast reloading of the database between functional test classes via mysqldump. Support hooks for this are documented, we'll release that portion of our internal commit tool at some point. 
+ * Language switcher no longer uses a-controls class, I created a separate CSS class for it to avoid breaking functional tests that check whether the user sees controls they shouldn't.
+ * changed background position for buttons to be compatible with the gradients, fixed incorrect width on slideshow arrows
+ * Merged further improvements to functional testing from trunk
+ * merged new add slot user interface into the 1.3 branch
+ * removed the old tabs component in favor of the new aNavigation component we want people to use
+ * "Home" no longer appears in French when it should be English
+ * Related: aPageTable::retrieveBySlug() now fetches the page complete with its current slots for the proper culture. Without this there were too many situations where Doctrine's standard policy of refreshing a particular object if it is requested more than once led to unexpected behavior, such as missing slots or the wrong versions or cultures of slots.
+ * missing alt images
+ * restored button positioning for singleton slots
+ * CSS improvements
+ * fixed icon images for trash and cancel
+ * Warning caused by obsolete argument in removeAttributes call fixed
+ * When a-area slot is in an add-slot-now state, the z-index is increased to 999 so that the menu sits on top of everything else. This helps with stacking and overlap for neighboring elements
+ * If you click anywhere outside of the addslot dropdown the dropdown goes away
+ * There is no Form helper in Symfony 1.4 (this affected the aSubCrud functionality which is fairly obscure)
+ * Submit and cancel butotn look and feel fixes
+ * updated slideshow controls in template and css
+ * No text shadow on new add-slot dropdown lis, up &amp; down slot arrows were the wrong width.
+ * Fixed double-escaping in rename page form
+ * changed padding on flagged button, was set for previous button dimensions
+ * Fixed an ugly bug with History Previews in 1.3
+ * fixed slideshow arrow background position
+ * styled blog error messages
+ * little styling change on the blog errors
+  * HTML "button" elements eradicated
+ * solved the annoying cancel button issue finally, removed the stray lines from aUI that didn't need to be there anymore, and renamed some special button classes to avoid conflicts and clarify
+ * Took the class off of the slideshow arrows because they're not buttons
+ * Our admin generator theme no longer mandates that i18n be turned on in your settings.yml (although it CAN be)
+ * added a unique class name to aNavigation for tabs and accordions
+ * added a unique class name to aNavigation for breadcrumbs too
+</notes>
+    </release>
     <release>
       <version>
         <release>1.0.11</release>
