@@ -590,10 +590,12 @@ text-indent:0 !important;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
 	text-shadow: none;
-	height: 16px;
-	line-height: 17px;
-	margin-top: 2px;
+	height: 18px;
+	line-height: 18px;
+	margin-top: 0px;
 }
 
 .a-btn.expanded .flag-label
