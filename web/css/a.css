@@ -2579,15 +2579,6 @@ float: left;
 width: 100%;
 }
 
-.a-slot-content,
-.a-slot-content-container
-{
-position: relative;
-float: left;
-width: 100%;
-clear: both;
-}
-
 .a-slot
 { /* Individual Slots */
 position: relative;
@@ -2599,9 +2590,22 @@ font-size: 12px;
 display: inline;
 }
 
+.a-slot-content
+{
+	
+}
+
+.a-slot-content,
+.a-slot-content-container
+{
+position: relative;
+float: left;
+width: 100%;
+clear: both;
+}
+
 .a-slot-form
-{/* Creates space for buttons to sit on top of forms when logged-in-editing */
-	padding-top: 22px !important;
+{
 	float: left;
 	width: 100%;
 }
