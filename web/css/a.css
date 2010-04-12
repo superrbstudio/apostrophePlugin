@@ -818,6 +818,7 @@ background-position: 0 center !important;
 
 .icon.a-delete
 {
+background-color: #fff !important;
 background-image: url(/apostrophePlugin/images/a-icon-trash.png);
 }
 
@@ -1654,7 +1655,7 @@ ul.a-controls li.last
 
 ul.a-controls li.last.delete
 {
-	float: right;
+/*	float: right;*/
 }
 
 ul.a-controls .a-controls-item.cancel
