@@ -664,7 +664,9 @@ background-image: url(/apostrophePlugin/images/a-icon-add.png);
 .icon.a-history-btn,
 .icon.a-history-revert
 {
-background-image: url(/apostrophePlugin/images/a-icon-history.png);
+color: #111 !important;
+background-color: #fff !important;	
+background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
 }
 
 .a-cancel
@@ -818,8 +820,9 @@ background-position: 0 center !important;
 
 .icon.a-delete
 {
+color: #111 !important;
 background-color: #fff !important;
-background-image: url(/apostrophePlugin/images/a-icon-trash.png);
+background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 }
 
 .icon.a-calendar

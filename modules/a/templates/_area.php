@@ -23,7 +23,7 @@
 									 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
       "update" => "a-history-items-$pageid-$name"), 
 			array(
-				'class' => 'a-btn icon a-history-btn', 
+				'class' => 'a-btn icon a-history-btn flag', 
 	)); ?>
 	<ul class="a-history-options">
 		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
