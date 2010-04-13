@@ -178,8 +178,11 @@ function aUI(target, instance)
 	// Flagging Buttons
 	var flagBtn = $('.flag');
 	var flagLabel = $('span.flag-label');
-	flagLabel.children().insertBefore(flagLabel).remove(); // Clear out flag labels before adding flag labels (for Ajax)
-	flagBtn.wrapInner('<span class="flag-label"></span>');
+	if (!flagBtn.data('flagged'))
+	{
+		flagBtn.wrapInner('<span class="flag-label"></span>').data('flagged',1);		
+	}
+
 	
 	flagBtn.hover(function () {
 		$(this).addClass('expanded');
