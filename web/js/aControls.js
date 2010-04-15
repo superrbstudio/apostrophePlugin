@@ -118,7 +118,7 @@ function aMultipleSelect(target, options)
 					options['add-cancel-label'] = 'Cancel';
 				}
 				html += "<div class='add' style='display: none'>\n";
-				html += "<input class='add-text'>\n";
+				html += "<input name='add-text' class='add-text'>\n";
 				html += "<button class='add-add'>" + options['add-add-label'] + "</button>\n";
 				html += "<button class='add-cancel'>" + options['add-cancel-label'] + "</button>\n";
 				html += "</div>\n";
