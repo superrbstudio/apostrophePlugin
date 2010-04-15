@@ -297,9 +297,11 @@ text-decoration:underline;
 }
 
 .nobg,
-.nobg:hover
+.nobg:hover,
+a.a-btn.nobg,
+a.a-btn.nobg:hover
 {
-	background-color: transparent !important;
+	background: none !important;
 	-moz-box-shadow: 0 0 0 transparent !important;
 	-webkit-box-shadow: 0 0 0 transparent !important;
 	-opera-box-shadow: 0 0 0 transparent !important;
@@ -307,6 +309,7 @@ text-decoration:underline;
 	box-shadow: 0 0 0 transparent !important;
 	-moz-border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;
+	border: 0 !important;
 }
 
 
@@ -4974,9 +4977,8 @@ margin: 0 1px 5px 0;
 float:left;
 display:inline;
 width:100%;
-margin: 10px 0;
+margin: 0 0 10px 0;
 list-style-type: none;
-border-top: 1px solid #e2e2e2;
 padding-top: 20px;
 }
 
@@ -5083,9 +5085,9 @@ float: left;
 
 .a-admin-list tfoot th
 {
-padding: 3px 6px;
-border-top: 1px solid #e2e2e2;
-background-color: #f4f4f4;
+border: 1px solid #e2e2e2;
+border-left: none;
+border-right: none;
 }
 
 .a-admin-filter li
@@ -5165,7 +5167,7 @@ border-color: #666 !important;
 
 .a-admin-list-results
 {
-float: right;
+float: left;
 font-size: 14px;
 color: #333;
 height: 20px;
