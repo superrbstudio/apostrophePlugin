@@ -2,17 +2,35 @@ function aUI(target, instance)
 {
 
 	if (!$.browser.msie) { // I know we're not supposed to use this.
-		$('.a-btn, .a-submit, .a-cancel').each(function() { // inject extra markup for link styles
+		$('.a-btn, .a-submit, .a-cancel').each(function() {
+
 			var backgroundImage = $(this).css('background-image');
 
-				if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
+			// Setup Button Gradient Backgrounds
+			// We have to do it this way to preserve the icons as background images
+			if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
+			{
+				$(this).data('a-gradient', 1); 
+				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
+				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
+				$(this).css('background-image', mozBackgroundImage);
+				$(this).css('background-image', webkitBackgroundImage);			
+			}
+		
+			// Setup Flag Buttons
+			if($(this).hasClass('flag'))
+			{
+				if (!$(this).children('span').size())
 				{
-					$(this).data('a-gradient', 1); 
-					mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
-					webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
-					$(this).css('background-image', mozBackgroundImage);
-					$(this).css('background-image', webkitBackgroundImage);			
-				}
+					$(this).wrapInner('<span class="flag-label"></span>');		
+				}				
+
+				$(this).hover(function () {
+					$(this).addClass('expanded');
+				},function () {
+					$(this).removeClass('expanded');
+				});	
+			}
 		
 	  });
 	}
@@ -172,24 +190,7 @@ function aUI(target, instance)
 	$('.a-controls li:last-child').addClass('last'); //add 'last' class to last option
 	$('.a-area-controls .a-controls-item').siblings(':not(.cancel)').css('display', 'block');
 	$('.a-area-controls .a-controls-item').children('.a-btn').css('display', 'block');
-	$('.a-controls').css('visibility','visible'); //show them after everything is loaded
-
-	
-	// Flagging Buttons
-	var flagBtn = $('.flag');
-	var flagLabel = $('span.flag-label');
-	if (!flagBtn.data('flagged'))
-	{
-		flagBtn.wrapInner('<span class="flag-label"></span>').data('flagged',1);		
-	}
-
-	
-	flagBtn.hover(function () {
-		$(this).addClass('expanded');
-	},function () {
-		$(this).removeClass('expanded');
-	});	
-	
+	$('.a-controls').css('visibility','visible'); //show them after everything is loaded	
 	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
 	// We use this for refreshing progressive enhancements such as Cufon following an Ajax requests.

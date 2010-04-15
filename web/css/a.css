@@ -4787,9 +4787,9 @@ text-transform: capitalize;
 border-top: 1px #ddd solid;
 }
 
-.a-admin input, 
-.a-admin textarea, 
-.a-admin select
+.a-admin .a-form-row input, 
+.a-admin .a-form-row textarea, 
+.a-admin .a-form-row select
 {
 padding: 3px;
 font-family: Arial, sans-serif;
