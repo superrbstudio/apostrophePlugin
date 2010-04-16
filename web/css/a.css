@@ -516,7 +516,7 @@ background-repeat: no-repeat;
 .a-btn.no-label,
 .no-label
 {
-background-position: center;
+background-position: center center;
 background-repeat: no-repeat;
 text-indent: -9999px;
 padding: 0;
@@ -529,6 +529,26 @@ width: 18px;
 	height:24px;
 	line-height:24px;
 	background-position: center left;
+}
+
+.a-btn.big.no-label
+{
+	width: 24px;
+	background-position: center center;
+}
+
+.a-btn.mini
+{
+	font-size: 10px !important;
+	height: 16px;
+	line-height: 16px !important;
+	background-position: center left;
+}
+
+.a-btn.mini.no-label
+{
+	width: 16px;
+	background-position: center center;
 }
 
 .a-btn.flag.icon.expanded,
