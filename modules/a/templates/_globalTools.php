@@ -2,12 +2,15 @@
 /*
 Global Tools
 This will be the top bar across the site when logged in.
-
 It will contain global admin buttons like Users, Page Settings, and the Breadcrumb.
-
 These are mostly links to independent modules. 
 */
 ?>
+
+<?php $buttons = aTools::getGlobalButtons() ?>
+<?php $page = aTools::getCurrentPage() ?>
+<?php $pageEdit = $page && $page->userHasPrivilege('edit') ?>
+<?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
 
 <?php use_helper('I18N') ?>
 
@@ -15,11 +18,6 @@ These are mostly links to independent modules.
   <?php // All logged in users, including guests with no admin abilities, need access to the ?>
   <?php // logout button. But if you have no legitimate admin roles, you shouldn't see the ?>
   <?php // apostrophe or the global buttons ?>
-
-  <?php $buttons = aTools::getGlobalButtons() ?>
-  <?php $page = aTools::getCurrentPage() ?>
-  <?php $pageEdit = $page && $page->userHasPrivilege('edit') ?>
-  <?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
 
   <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
 
@@ -40,34 +38,32 @@ These are mostly links to independent modules.
   		</ul>
   	</div>
 
-
   	<div class="a-global-toolbar-user-settings a-personal-settings-container">
 			<div id="a-personal-settings"></div>
     </div>
 
 	<?php endif ?>
 
-		<?php // Login / Logout ?>
-		<div class="a-global-toolbar-login a-login">
-			<?php include_partial("a/login") ?>
-		</div>
+	<?php // Login / Logout ?>
+	<div class="a-global-toolbar-login a-login">
+		<?php include_partial("a/login") ?>
+	</div>
 		
-		<?php // Administrative breadcrumb ?>
-  	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>
-		<div class="a-global-toolbar-this-page" id="a-global-toolbar-this-page">
-  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
-  		<div id="a-page-settings"></div>
-		</div>
-  	<?php endif ?>
+	<?php // Administrative Breadcrumb ?>
+ 	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>
+	<div class="a-global-toolbar-this-page" id="a-global-toolbar-this-page">
+ 		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
+ 		<div id="a-page-settings"></div>
+	</div>
+ 	<?php endif ?>
   	
 </div>
 
-<?php if (aTools::getCurrentPage()): ?>
-	<?php include_partial('a/historyBrowser', array('page' => $page)) ?>
-<?php endif ?>
+<?php if ($sf_user->isAuthenticated() && $pageEdit): ?>
+
+<?php include_partial('a/historyBrowser', array('page' => $page)) ?>
 
 <div class="a-page-overlay"></div>
-
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -89,3 +85,5 @@ These are mostly links to independent modules.
 		<?php endif ?>
 	});
 </script>
+
+<?php endif ?>
