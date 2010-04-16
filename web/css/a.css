@@ -415,13 +415,22 @@ line-height: 20px;
 }
 
 .a-form-row input[type="text"],
+.a-form-row input[type="password"],
 .a-form-row select,
 .a-form-row textarea
 {
 font-family: arial, sans-serif;
 font-size: 12px;
-border: 1px solid #e2e2e2;
+border: 1px solid #ddd;
 padding: 3px;
+}
+
+.a-admin .a-form-row input, 
+.a-admin .a-form-row textarea, 
+.a-admin .a-form-row select
+{
+font-size: 11px;
+width: 358px;
 }
 
 .a-form-row.submit
@@ -475,6 +484,29 @@ color: #900;
 	display: block;
 	position: relative;
 	width: 100%;
+}
+
+.a-multiple-select .add
+{
+	position: relative;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin: 5px 0;
+}
+
+.a-multiple-select .add input
+{
+	float: left;
+	width: 120px;
+	border: 1px solid #ddd;
+	padding: 3px;
+	margin: -1px 0 0 0;
+}
+
+.a-multiple-select .add .a-btn
+{
+	margin-left: 2px;
 }
 
 /* 6. aUI Buttons
@@ -3356,11 +3388,6 @@ padding: 20px;
 #a-signin-form .a-form-row input[type="text"],
 #a-signin-form .a-form-row input[type="password"]
 {
-	font-size: 12px;
-	font-family: Arial, Sans-serif;
-	border: 1px solid #888;
-	padding: 3px 2px;
-	color: #333;
 	width: 155px;	
 }
 
@@ -3912,15 +3939,12 @@ left: 25px;
 float: left;
 }
 
-#a-media-plugin .a-form-row input,
+#a-media-plugin .a-form-row input[type="text"],
 #a-media-plugin .a-form-row select,
 #a-media-plugin .a-form-row textarea
 {
 float: left;
 width: 214px;
-border: 1px solid #666;
-padding: 2px 3px;
-font: 12px Arial, Sans-serif;
 }
 
 #a-media-plugin .a-form-row textarea
@@ -4805,24 +4829,6 @@ background-color: transparent;
 font-size: 14px;
 text-transform: capitalize;
 border-top: 1px #ddd solid;
-}
-
-.a-admin .a-form-row input, 
-.a-admin .a-form-row textarea, 
-.a-admin .a-form-row select
-{
-padding: 3px;
-font-family: Arial, sans-serif;
-font-size: 11px;
-border: 1px solid #ddd;
-vertical-align: middle;
-}
-
-.a-admin .a-form-row input, 
-.a-admin .a-form-row textarea, 
-.a-admin .a-form-row select
-{
-width: 358px;
 }
 
 .a-admin .a-admin-text input

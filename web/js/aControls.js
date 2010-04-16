@@ -119,8 +119,8 @@ function aMultipleSelect(target, options)
 				}
 				html += "<div class='add' style='display: none'>\n";
 				html += "<input name='add-text' class='add-text'>\n";
-				html += "<button class='add-add'>" + options['add-add-label'] + "</button>\n";
-				html += "<button class='add-cancel'>" + options['add-cancel-label'] + "</button>\n";
+				html += "<a href='#add' onclick='return false;' class='add-add a-btn icon a-add'>" + options['add-add-label'] + "</a>\n";
+				html += "<a href='#cancel' onclick='return false;' class='add-cancel a-btn a-cancel no-label'>" + options['add-cancel-label'] + "</a>\n";
 				html += "</div>\n";
 			}
       for (j = 0; (j < length); j++)
@@ -194,7 +194,8 @@ function aMultipleSelect(target, options)
 					if ((index === select.length - 1) && options['add'])
 					{
 						select.selectedIndex = 0;
-						$("#" + id + " .add").fadeIn();
+						aUI($("#" + id + " .add"));
+						$("#" + id + " .add").fadeIn().children('input').focus();
 						return;
 					}
           value = select.options[index].value;

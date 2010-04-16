@@ -1,4 +1,4 @@
-<ul class="a-admin-actions">
+<ul class="a-controls a-admin-action-controls">
 
 <?php foreach (array('new', 'edit') as $action): ?>
 	<?php if ('new' == $action): ?>

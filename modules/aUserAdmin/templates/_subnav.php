@@ -5,7 +5,7 @@
 <?php // (admin and editor) or other groups we already added to the system, just edit that user ?>
 
 <?php if ($sf_user->isSuperAdmin()): ?>
-  <ul>
+  <ul class="a-controls a-admin-action-controls">
 	  <li class="dashboard"><h4><?php echo link_to(__('User Dashboard', null, 'apostrophe'), 'aUserAdmin/index') ?></h4></li>
 	  <li><?php echo link_to(__('Add User', null, 'apostrophe'), 'aUserAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
 
