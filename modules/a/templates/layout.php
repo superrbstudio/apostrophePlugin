@@ -78,26 +78,24 @@
 
     <?php // Perhaps we want some of this on non-CMS pages like 'reorganize' but we can't ?>
     <?php // spew PHP warnings, so fix that before you take away this if ?>
-    <?php if ($page): ?>
-      <?php if (has_slot('a-tabs')): ?>
-        <?php include_slot('a-tabs') ?>
-      <?php else: ?>
-  			<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page->slug, 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
-  		<?php endif ?>
+     <?php if (has_slot('a-tabs')): ?>
+       <?php include_slot('a-tabs') ?>
+     <?php else: ?>
+ 			<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page['slug'], 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
+ 		<?php endif ?>
 
-  		<?php if (has_slot('a-breadcrumb')): ?>
-  				<?php include_slot('a-breadcrumb') ?>
-  		<?php elseif ($page): ?>
-  				<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page->slug, 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
-  		<?php endif ?>
+ 		<?php if (has_slot('a-breadcrumb')): ?>
+ 				<?php include_slot('a-breadcrumb') ?>
+ 		<?php elseif ($page): ?>
+ 				<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page['slug'], 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
+ 		<?php endif ?>
 
-      <?php if (has_slot('a-subnav')): ?>
-        <?php include_slot('a-subnav') ?>
-      <?php elseif ($page): ?>
-  		  <?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
-  		<?php endif ?>
-    <?php endif ?>
-    
+     <?php if (has_slot('a-subnav')): ?>
+       <?php include_slot('a-subnav') ?>
+     <?php elseif ($page): ?>
+ 		  <?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
+ 		<?php endif ?>
+
 		<div id="a-content">
 			<?php echo $sf_data->getRaw('sf_content') ?>
 		</div>
