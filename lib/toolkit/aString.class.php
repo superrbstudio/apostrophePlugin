@@ -181,18 +181,15 @@ class aString
       if (strlen($s1) !== strlen($s2))
       {
         $min = min(strlen($s1), strlen($s2));
-        sfContext::getInstance()->getLogger()->info("min is $min fromdiff");
         for ($i = 0; ($i < $min); $i++)
         {
           $c1 = substr($s1, $i, 1);
           $c2 = substr($s2, $i, 1);
           if ($c1 !== $c2)
           {
-            sfContext::getInstance()->getLogger()->info("difference at $i fromdiff $c1 vs $c2");
             break;
           }
         }
-        sfContext::getInstance()->getLogger()->info("i is $i fromdiff");
         $onlyin1[0] = substr($s1, $i);
         $onlyin2[0] = substr($s2, $i);
         if (!strlen($onlyin1[0]))
@@ -205,7 +202,6 @@ class aString
         }
       }
     }
-    sfContext::getInstance()->getLogger()->info('returning fromdiff');
     return array("onlyin1" => array_values($onlyin1), "onlyin2" => array_values($onlyin2));
   }
 }

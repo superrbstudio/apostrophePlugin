@@ -251,6 +251,17 @@ abstract class PluginaPage extends BaseaPage
       }
     }
   }
+  
+  // WARNING: You need to retrieve the slots properly before you can use this
+  // reliably. That means using aPageTable::retrieveBySlugWithSlots() or
+  // aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
+  // the page in the first place.
+  
+  // Otherwise Doctrine will pull every slot by default, including old slots
+  // in the history and slots in other languages, and they will not be in
+  // the right order, especially if your client is in your office for a dmeo.
+  // So heed this warning. Thanks.
+  
   public function hasSlot($name, $permid = 1)
   {
     $this->populateSlotCache();
@@ -268,6 +279,16 @@ abstract class PluginaPage extends BaseaPage
     }
     return false;
   }
+  
+  // WARNING: You need to retrieve the slots properly before you can use this
+  // reliably. That means using aPageTable::retrieveBySlugWithSlots() or
+  // aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
+  // the page in the first place.
+  
+  // Otherwise Doctrine will pull every slot by default, including old slots
+  // in the history and slots in other languages, and they will not be in
+  // the right order, especially if your client is in your office for a dmeo.
+  // So heed this warning. Thanks.
   
   // $new can be a slot class name, an already-created slot object, or false.
   // If it is false no new slot is added to the list to be returned.
@@ -358,6 +379,18 @@ abstract class PluginaPage extends BaseaPage
     $slot->type = $type;
     return $slot;
   }
+
+  // WARNING: You need to retrieve the slots properly before you can use this
+  // reliably. That means using aPageTable::retrieveBySlugWithSlots() or
+  // aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
+  // the page in the first place. (You can also use aPageTable::retrieveBySlugWithTitles()
+  // to avoid loading other slots on the page, but only if you don't turn around and try
+  // to use those other slots.)
+  
+  // Otherwise Doctrine will pull every slot by default, including old slots
+  // in the history and slots in other languages, and they will not be in
+  // the right order, especially if your client is in your office for a dmeo.
+  // So heed this warning. Thanks.
 
   public function getTitle()
   {
@@ -966,8 +999,10 @@ abstract class PluginaPage extends BaseaPage
     // it is first in the hash so it gets ranked first
     if ($action === 'add')
     {
+      // New: support for specifying whether the new slot is at top or bottom of the area
+      $top = (!isset($params['top'])) || $params['top'];
       $diff = '<strong>' . aString::limitCharacters($params['slot']->getSearchText(), 20) . "</strong>";
-      $newSlots = $this->getArea($name, $params['slot'], true);
+      $newSlots = $this->getArea($name, $params['slot'], $top);
     }
     else
     {
@@ -984,8 +1019,8 @@ abstract class PluginaPage extends BaseaPage
     $areaVersion = new aAreaVersion();
     $areaVersion->area_id = $area->id;
     $areaVersion->version = $area->latest_version + 1;
-    // Don't crash on an anon edit, it's odd but you could authorize it with the 'edit' option
-    if (sfContext::getInstance() && sfContext::getInstance()->getUser()->getGuardUser())
+    // Don't crash on an anon edit, such as an edit made by a task
+    if (sfContext::hasInstance() && sfContext::getInstance()->getUser()->getGuardUser())
     {
       $areaVersion->author_id = 
         sfContext::getInstance()->getUser()->getGuardUser()->getId();
@@ -1003,7 +1038,7 @@ abstract class PluginaPage extends BaseaPage
       $oldText = '';
       if (isset($newSlots[$params['permid']]))
       {
-        $oldText = $newSlots[$params['permid']]->getSearchText();
+        $oldText = $newSlots[$params['permid']]->getSearchText(); 
       }
       $newText = $params['slot']->getSearchText();
       $fullDiff = aString::diff($oldText, $newText);
@@ -1058,6 +1093,7 @@ abstract class PluginaPage extends BaseaPage
       $diff = '[Reverted to older version]';
       # We just want whatever is in the slot cache copied to a new version
     }
+    
     $areaVersion->diff = $diff;
     $areaVersion->save();
 

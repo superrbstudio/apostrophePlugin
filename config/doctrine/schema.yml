@@ -15,8 +15,15 @@ aPage:
       primary: true
       autoincrement: true
     slug:
-      type: string(255)
-      unique: true
+      # Even though we are not big fans of 1000 character URLs, they are legal in all
+      # browsers and sharp limits on slug length make it very difficult to import
+      # from other CMSes. 1000 is the limit of unique index key lengths in MySQL
+      # (NOTE: this figure must also appear in the specification of the index, below)
+      type: string(1000)
+      # NOTE: we set unique on the index, not the column. If we set it on the column
+      # Doctrine will do it as part of the create of the column, which creates an
+      # implicit index before we ever get to the index section below, and fails because
+      # the key length is not specfied
     template:
       type: string(100)
     # Must log in to see. (Sometimes with particular credentials, see documentation)
@@ -39,7 +46,13 @@ aPage:
       type: string(255)
   indexes:
     slugindex:
-      fields: [slug]
+      fields:
+        # ACHTUNG: this must match the length of the field! Note that
+        # 1000 is the maximum in MySQL. Some databases might ignore this,
+        # that's fine if they also have no limit on unique key lengths
+        slug:
+          length: 1000
+          unique: true
     engineindex:
       fields: [engine]
   relations:

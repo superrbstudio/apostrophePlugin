@@ -9,10 +9,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   {
     if (!$this->getOwnerId())
     {
-      $user = sfContext::getInstance()->getUser();
-      if ($user->getGuardUser())
+      if (sfContext::hasInstance())
       {
-        $this->setOwnerId($user->getGuardUser()->getId());
+        $user = sfContext::getInstance()->getUser();
+        if ($user->getGuardUser())
+        {
+          $this->setOwnerId($user->getGuardUser()->getId());
+        }
       }
     }
     // Let the culture be the user's culture

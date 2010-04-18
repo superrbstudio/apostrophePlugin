@@ -113,6 +113,7 @@ EOF;
     {
       throw new sfException('Problem executing project:deploy task.');
     }
+    $extra = '';
     if ($options['skip-migrate'])
     {
       $extra .= ' --skip-migrate';
