@@ -61,20 +61,10 @@
 				
 				<script type="text/javascript" charset="utf-8">
 					$(document).ready(function() {
-						$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
-							var area = $(this).parents('.a-area');
-							area.toggleClass('add-slot-now');
-							$(document).click(function(e){
-								var target = e.target, // e.target grabs the node that triggered the event.
-								$target = $(target);  // wraps the node in a jQuery object
-									if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
-										area.removeClass('add-slot-now');
-									}
-							});
-						});
+						menuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>',$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parents('.a-area'))
 					});
-				</script>
-				
+				</script>				
+						
 			</li>	
 			
 			<?php include_slot('a-history-controls') ?>

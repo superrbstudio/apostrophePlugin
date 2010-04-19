@@ -1,5 +1,3 @@
-<div class="a-chad"></div>
-
 <?php use_helper('Url', 'jQuery', 'I18N') ?>
 
 	<?php echo jq_form_remote_tag(
@@ -89,15 +87,7 @@
 		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
 		</li>
 		<li>
-			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '
-				$("#a-page-settings").slideUp(); 
-				$("#a-page-settings-button-open").show(); 
-				$("#a-page-settings-button-close").addClass("loading").hide()
-				$(".a-page-overlay").hide();', 
-				array(
-					'class' => 'a-btn a-cancel', 
-					'title' => 'cancel', 
-				)) ?>
+			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
 		</li>
 		<?php if ($page->userHasPrivilege('manage')): ?>
 		<li>

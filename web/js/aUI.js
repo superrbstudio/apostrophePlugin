@@ -159,7 +159,6 @@ function aUI(target, instance)
 	// Cross Browser Opacity Settings
 	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
 
-
 	// // New Slot Box
 	// $('div.a-new-slot').remove();
 	// $('div.a-slots').prepend('<div class="a-new-slot"><p>+ Add Slot</p></div>');
@@ -201,6 +200,63 @@ function aUI(target, instance)
 
 }
 
+function menuToggle(button, menu, classname, overlay){
+	// Usage: menuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False)
+		
+	if (typeof button == "string") 
+	{
+		button = $(button);
+	};
+
+	if (typeof menu == "string") 
+	{
+		menu = $(menu);
+	};
+	
+	if (typeof classname == "undefined" || classname == '')
+	{
+		classname = "show-options";
+	}
+	
+	if (typeof overlay == "undefined")
+	{
+		overlay = false;
+	}	
+	
+	button.click(function(){
+		if (button.hasClass('active')) 
+		{
+			button.removeClass('active');
+			menu.removeClass(classname);
+			if (overlay) { $('.a-page-overlay').fadeOut(); };			
+		}
+		else
+		{
+			button.addClass('active');
+			menu.addClass(classname);			
+			if (overlay) { $('.a-page-overlay').stop().show();	}
+		};
+
+		$(document).click(function(e){
+			var target = e.target, // e.target grabs the node that triggered the event.
+			$target = $(target);  // wraps the node in a jQuery object
+			// If the ID of the target does not match the menu or the Menu
+			// ANd you're not clicking on any of the menu items then hide the menu because that means you're clicking off the menu
+			// This javascript doesn't work right now
+				if (!(target.id === button.attr('id')) && !($(target).parents(menu).length > 0)) {
+					button.removeClass('active');
+					menu.removeClass(classname);
+					if (overlay) { $('.a-page-overlay').fadeOut(); };
+				}
+		});
+	});
+}
+
 $(document).ready(function(){
 	aUI();
+	
+	jQuery.fn.isChildOf = function(b){
+	  return (this.parents(b).length > 0);
+	};
+	
 });
