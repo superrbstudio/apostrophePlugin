@@ -600,9 +600,8 @@ abstract class PluginaPage extends BaseaPage
       $parentInfo = $this->getParentInfo();
       if (!$parentInfo)
       {
-        // TODO: we should stub in the current page here, but it's going to be the home page, 
-        // and we're not very interested in the peers of the home page (i.e. it has none)
-        $this->peerInfo = array();
+        // It's the home page. Return a stub: the home page is its only peer
+        $this->peerInfo = array(array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt));
       }
       else
       {
