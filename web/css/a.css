@@ -241,7 +241,6 @@ bottom: 0;
 height: 100%;
 width: 100%;
 display: none;
-background: rgb(255,255,255);
 background: rgba(255,255,255,0.5);
 }
 
@@ -2965,8 +2964,7 @@ background-position: 0 -30px !important;
 	color: #fff;
 	font-size: 11px;
 	line-height: 1.3;
-	background: rgb(0,0,0);	
-	background: rgba(0, 0, 0, 0.35);	
+	background: rgba(0,0,0,0.35);	
 }
 
 .a-slot.aSlideshow.autoplay .a-slideshow-title
@@ -4681,34 +4679,27 @@ display: none;
 div.tag-suggestions
 {
 position: relative;
-display: inline;
+display: block;
 float: left;
 clear: both;
 width: 100%;
-padding-top: 8px;
 margin: 0;
 z-index: 9999;
 font-size: 11px;
+width: 100%;
+height: 1px;
 }
 
 .tubes-tags div.tag-suggestions,
 .a_admin_form_field_tags div.tag-suggestions
 {
 	width: 360px;
-	top: -9px;
 }
 
 #a-media-edit-form div.tag-suggestions
 {
-	width: 216px;
-	top: -9px;
-/*	left: 120px;*/ /* This keeps switching back and forth, It needs to makeup its mind! */
-}
-
-#a-admin-form div.tag-suggestions {
-left:0px;
-top:-9px;
-width:360px;
+	margin-left: 120px;
+	width: 222px;
 }
 
 div.tag-suggestions .tag-spacer
@@ -4718,11 +4709,12 @@ div.tag-suggestions .tag-spacer
 
 div.tag-suggestions ul
 {
-position: relative;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
 float: left;
 width: 100%;
-font-size: 11px;
-text-indent: 3px;
 z-index: 999;
 }
 
@@ -4735,26 +4727,19 @@ margin: 0;
 visibility: hidden;
 }
 	
-div.tag-suggestions li a
+div.tag-suggestions li a,
+div.tag-suggestions li a:link
 {
 float: left;
 display: block;
 visibility: visible;
-background: #fff;
-padding: 2px;
 width: 100%;
-border-left: 1px solid #666;
-border-right: 1px solid #666;
-}
-
-div.tag-suggestions li a.first
-{
-border-top: 1px solid #666;
-}
-
-div.tag-suggestions li a.last
-{
-border-bottom: 1px solid #666;
+line-height: 20px;
+text-indent: 4px;
+background: rgba(0,0,0,0.65);
+color: #fff !important;
+text-decoration: none !important;
+font-size: 11px;
 }
 
 div.tag-suggestions li a:hover
