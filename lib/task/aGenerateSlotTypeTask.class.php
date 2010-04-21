@@ -176,15 +176,14 @@ EOM
      
   $this->ensureAndCreate($form, '<?' . 'php' . <<<EOM
     
-class $typeForm extends sfForm
+class $typeForm extends baseForm
 {
   // Ensures unique IDs throughout the page
   protected \$id;
-  public function __construct(\$id, \$defaults)
+  public function __construct(\$id, \$defaults = array(), \$options = array(), \$CSRFSecret = null)
   {
     \$this->id = \$id;
-    parent::__construct();
-    \$this->setDefaults(\$defaults);
+    parent::__construct(\$defaults, \$options, \$CSRFSecret);
   }
   public function configure()
   {
