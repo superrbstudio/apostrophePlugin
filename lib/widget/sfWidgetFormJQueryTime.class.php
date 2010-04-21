@@ -210,7 +210,7 @@ class sfWidgetFormJQueryTime extends sfWidgetFormTimeFixed
     }
     $s .= "<input type='text' name='a-ignored' id='$prefix-ui' value='$val' class='" . (isset($attributes['class']) ? $attributes['class'] : '') . "'><img id='$prefix-ui-trigger' class='ui-timepicker-trigger' src='/apostrophePlugin/images/a-icon-timepicker.png'/>";
     $s .= <<<EOM
-<script>
+<script type="text/javascript" charset="utf-8">
 $(function() { 
   var hour;
   var min;
