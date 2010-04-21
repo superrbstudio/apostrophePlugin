@@ -176,7 +176,7 @@ EOM
      
   $this->ensureAndCreate($form, '<?' . 'php' . <<<EOM
     
-class $typeForm extends baseForm
+class $typeForm extends BaseForm
 {
   // Ensures unique IDs throughout the page
   protected \$id;
