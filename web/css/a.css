@@ -1743,7 +1743,8 @@ left: 0;
 }
 
 .a-area.singleton.aRichText ul.a-controls.a-area-controls,
-.a-area.singleton.aText ul.a-controls.a-area-controls
+.a-area.singleton.aText ul.a-controls.a-area-controls,
+.a-area.singleton.aBlog ul.a-controls.a-area-controls
 {
 	position: relative;
 	margin-bottom: 0 !important;
@@ -1831,7 +1832,7 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
 	background-color: #999;
 }
 
-ul.a-controls .a-options
+.a-options
 {
 	padding: 30px 5px 2px 5px;
 	position: absolute;
@@ -1890,6 +1891,40 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options
 ul.a-controls .a-variant-options.loading
 {
 	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-options.a-slot-form
+{
+	top: -27px;
+}
+
+.a-options.a-slot-form .a-form-row
+{
+	line-height: 20px;
+	font-size: 11px;
+	margin: 0 0 5px 0;
+}
+
+.aBlog .a-options.a-slot-form
+{
+}
+
+.a-options.a-slot-form .a-form-row label
+{
+	width: 80px;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #666;
+}
+
+.a-options.a-slot-form .a-form-field
+{
+	float: left;
+}
+
+.a-options.a-slot-form .a-form-row.tags .a-form-field input
+{
+	width: 100px;
 }
 
 /* 10. aUI Pager Navigation
