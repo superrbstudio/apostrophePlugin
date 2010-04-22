@@ -114,13 +114,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return $result;
   }
 
-  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false)
+  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque')
   {
     if ($height === false)
     {
       // Scale the height. I had this backwards
       $height = floor(($width * $this->height / $this->width) + 0.5); 
     }
+
     // Accessible alt title
     $title = htmlspecialchars($this->getTitle());
     // It would be nice if partials could be used for this.
@@ -138,7 +139,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       $serviceUrl = $this->getServiceUrl();
       $embeddedUrl = $this->youtubeUrlToEmbeddedUrl($serviceUrl);
       return <<<EOM
-<object alt="$title" width="$width" height="$height"><param name="movie" value="$embeddedUrl"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed alt="$title" src="$embeddedUrl" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height"></embed></object>
+			<object alt="$title" width="$width" height="$height">
+				<param name="movie" value="$embeddedUrl"></param>
+				<param name="allowFullScreen" value="true"></param>
+				<param name="allowscriptaccess" value="always"></param>
+				<param name="wmode" value="$wmode"></param>
+				<embed alt="$title" src="$embeddedUrl" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
+			</object>
 EOM
       ;
     }
