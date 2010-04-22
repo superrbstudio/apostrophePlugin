@@ -1696,7 +1696,8 @@ ul.a-controls
 {
 float: left;
 visibility: hidden;
-margin: 0;
+margin: 0 !important;
+padding: 0 !important;
 }
 
 ul.a-controls li
@@ -1731,7 +1732,7 @@ position: relative;
 z-index: 899;
 float: left;
 width: 100%;
-padding-bottom: 10px;
+margin-bottom: 10px !important;
 }
 
 .a-area.singleton ul.a-controls.a-area-controls
@@ -1739,6 +1740,13 @@ padding-bottom: 10px;
 position: absolute;
 top: 0;
 left: 0;
+}
+
+.a-area.singleton.aRichText ul.a-controls.a-area-controls,
+.a-area.singleton.aText ul.a-controls.a-area-controls
+{
+	position: relative;
+	margin-bottom: 0 !important;
 }
 
 .browsing-history ul.a-controls.a-area-controls
