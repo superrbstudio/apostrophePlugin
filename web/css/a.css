@@ -598,6 +598,11 @@ width: 18px;
 	padding: 0;
 }
 
+.a-btn.no-label:hover
+{
+	text-indent: -9999px;
+}
+
 .a-btn.flag:hover,
 .a-btn.flag.no-label:hover
 { /* Hovering Flag Buttons - Pop to the top */

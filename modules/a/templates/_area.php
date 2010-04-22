@@ -4,33 +4,32 @@
 
 <?php if ($editable): ?>
 
-<?php slot('a-cancel') ?>
-<!-- .a-controls.area Cancel Button -->
-<li class="a-controls-item cancel">
-	<a href="#" class="a-btn a-cancel a-cancel-area" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
-</li>
-<?php end_slot() ?>
+	<?php slot('a-cancel') ?>
+	<li class="a-controls-item cancel">
+		<a href="#" class="a-btn a-cancel a-cancel-area" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
+	</li>
+	<?php end_slot() ?>
 
-<?php slot('a-history-controls') // START - PK-HISTORY SLOT ====================================  ?>
-<!-- History Controls -->
-<li class="a-controls-item history">
-  <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
-	<?php echo jq_link_to_remote(__("History", null, 'apostrophe'), array(
-      "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
-			'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
-									 $(".a-history-browser .a-history-items").attr("rel","a-area-'.$pageid.'-'.$name.'");
-                   $(".a-history-browser .a-history-browser-view-more").attr("onClick", "'.$moreAjax.'").hide();
-									 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
-      "update" => "a-history-items-$pageid-$name"), 
-			array(
-				'class' => 'a-btn icon a-history-btn flag', 
-	)); ?>
-	<ul class="a-history-options">
-		<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
-	</ul>
-</li>
-<?php end_slot() // END - PK-HISTORY SLOT ==================================== ?>
-
+	<?php slot('a-history-controls') ?>
+	<li class="a-controls-item history">
+	  <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
+		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "flag"); ?>
+		<?php echo jq_link_to_remote(__("History", null, 'apostrophe'), array(
+	      "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
+				'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
+										 $(".a-history-browser .a-history-items").attr("rel","a-area-'.$pageid.'-'.$name.'");
+	                   $(".a-history-browser .a-history-browser-view-more").attr("onClick", "'.$moreAjax.'").hide();
+										 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
+	      "update" => "a-history-items-$pageid-$name"), 
+				array(
+					'title' => 'Area History', 
+					'class' => 'a-btn icon a-history-btn '.$history_button_style, 
+		)); ?>					
+		<ul class="a-history-options">
+			<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
+		</ul>
+	</li>
+	<?php end_slot() ?>
 
 <?php endif ?>
 
@@ -49,71 +48,34 @@
 
 		<ul class="a-controls a-area-controls">
 
-			<!-- Slot Controls -->
-
+		<?php # Slot Controls ?>
 			<li class="a-controls-item slots">
-
 				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot', 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
-
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
-				
-				<script type="text/javascript" charset="utf-8">
-					$(document).ready(function() {
-						$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
-							var area = $(this).parents('.a-area');
-							area.toggleClass('add-slot-now');
-							$(document).click(function(e){
-								var target = e.target, // e.target grabs the node that triggered the event.
-								$target = $(target);  // wraps the node in a jQuery object
-									if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
-										area.removeClass('add-slot-now');
-									}
-							});
-						});
-					});
-				</script>
-				
 			</li>	
-			
 			<?php include_slot('a-history-controls') ?>
 			<?php include_slot('a-cancel') ?>
-			
 		</ul>
     <?php endif ?>
 
-
   <?php endif ?>
-	<?php if (!$infinite): ?>
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function(){
-				$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton');
-				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls').removeClass('a-slot-controls');
-			});
-		</script>
-	<?php endif ?>
 
   <?php // End area controls ?>
 
 <?php endif ?>
 
-<?php if ($preview): ?>
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-		$('.a-history-preview-notice').fadeIn();
-		$('body').addClass('history-preview');
-	})
-</script>
-<?php endif ?>
-
 <?php $i = 0 ?>
+
 <?php // On an AJAX refresh we are updating a-slots-$pageid-$name, ?>
 <?php // so don't nest another one inside it ?>
+
 <?php if (!$refresh): ?>
   <?php // Wraps all of the slots in the area ?>
   <div id="a-slots-<?php echo "$pageid-$name" ?>" class="a-slots">
 <?php endif ?>
+
 <?php // Loop through all of the slots in the area ?>
 <?php foreach ($slots as $permid => $slot): ?>
    <?php if ($infinite): ?>
@@ -209,18 +171,9 @@
 		</ul>
 		
   <?php endif ?>
-
-		<?php // End controls for this individual slot ?>		
-		
-    <?php if ($editable): ?>
-		<!-- <ul class="a-messages a-slot-messages">
-			<li class="background"></li>
-			<li><span class="message">Double Click to Edit</span></li>
-		</ul> -->
-		<?php endif ?>
-		
-    <?php // Wraps the actual content - edit and normal views - ?>
-    <?php // for this individual slot ?>
+	<?php // End controls for this individual slot ?>		
+				
+    <?php // Wraps the actual content - edit and normal views for this individual slot ?>
   	<div class="a-slot-content" id="a-slot-content-<?php echo "$pageid-$name-$permid" ?>">
       <?php // Now we can include the slot ?>
       <?php include_slot("a-slot-content-$pageid-$name-$permid") ?>
@@ -229,9 +182,52 @@
 <?php $i++; endforeach ?>
 
 <?php if (!$refresh): ?>
-  <?php // Closes the div wrapping all of the slots ?>
-  </div>
-<?php // Closes the div wrapping all of the slots AND the area controls ?>
-</div>
+  </div>  <?php // Closes the div wrapping all of the slots ?>
+</div> <?php // Closes the div wrapping all of the slots AND the area controls ?>
 <?php endif ?>
 <!-- END SLOT -->
+
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+
+		<?php if ($editable): ?>
+
+			<?php if ($infinite): ?>
+
+				<?php // Add Slot Dropdown ?>
+				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
+					var area = $(this).parents('.a-area');
+					area.toggleClass('add-slot-now');
+					$(document).click(function(e){
+						var target = e.target, // e.target grabs the node that triggered the event.
+						$target = $(target);  // wraps the node in a jQuery object
+							if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
+								area.removeClass('add-slot-now');
+							}
+					});
+				});			
+
+			<?php endif ?>
+
+			<?php if (!$infinite): ?>
+			
+				<?php // Singleton Slot Controls ?>
+				$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton <?php echo $options['type'] ?>');
+				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls').removeClass('a-slot-controls');
+				
+			<?php endif ?>
+
+		<?php endif ?>
+
+		<?php if ($preview): ?>
+
+			<?php // Previewing History for Area ?>
+			$('.a-history-preview-notice').fadeIn();
+			$('body').addClass('history-preview');
+
+		<?php endif ?>
+		
+	});
+</script>
