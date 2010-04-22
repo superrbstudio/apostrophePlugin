@@ -4284,7 +4284,8 @@ cursor: default !important;
 
 #a-media-category-form .a-form-row.submit input
 {
-	width: 20px
+	width: 20px;
+	margin-right:2px;
 }
 
 #media-library-back-button
