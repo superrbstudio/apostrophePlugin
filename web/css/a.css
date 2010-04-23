@@ -2901,7 +2901,7 @@ display: block;
 .aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
 .aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
 {
-	margin-top:10px!important;
+/*	margin-top:10px!important;*/
 }
 
 .a-slot.aTextSlot,
