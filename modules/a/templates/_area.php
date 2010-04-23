@@ -15,7 +15,7 @@
 	<?php slot('a-history-controls') ?>
 	<li class="a-controls-item history">
 	  <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
-		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "flag"); ?>
+		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big"); ?>
 		<?php echo jq_link_to_remote(__("History", null, 'apostrophe'), array(
 	      "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
 				'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
@@ -49,7 +49,7 @@
 
 		<?php # Slot Controls ?>
 			<li class="a-controls-item slots">
-				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', ""); ?>				
+				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big"); ?>				
 				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
@@ -152,7 +152,7 @@
 
       <?php if ($infinite): ?>
         <li class="delete">
-					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "flag"); ?>
+					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "no-label"); ?>
           <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array(
             "url" => "a/deleteSlot?" .http_build_query(array(
               "id" => $page->id,
@@ -217,6 +217,7 @@
 				else
 				{
 					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	<?php // Move up the slot controls and give them some class names. ?>
+					$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big'); // Singleton Slots can't have big history buttons, Sorry Charlie!
 				};				
 			<?php endif ?>
 

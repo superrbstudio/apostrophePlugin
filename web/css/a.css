@@ -688,8 +688,7 @@ background-image: url(/apostrophePlugin/images/a-icon-checked.png);
 }
 
 .icon.a-blog-btn,
-.icon.a-blogpost,
-.icon.a-blog
+.icon.a-blogpost
 {
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
 }
@@ -1186,10 +1185,8 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);
 }
 
 .alt .icon.a-blog-btn,
-.alt .icon.a-blog,
 .alt .icon.a-blogpost,
 .icon.a-blog-btn.alt,
-.icon.a-blog.alt,
 .icon.a-blogpost.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
@@ -1753,6 +1750,12 @@ left: 0;
 	margin-bottom: 0 !important;
 }
 
+.a-area.browsing-history ul.a-controls.a-slot-controls,
+ul.a-controls ul.a-controls-item.history
+{
+z-index: 899;
+}
+
 ul.a-controls li.add-slot-now
 {
 	margin: 0 4px 0 0 !important;
@@ -1857,7 +1860,7 @@ ul.a-controls .a-options li.last
 {
 float: left;
 clear: both;
-color: #777;
+color: #777 !important;
 }
 
 .a-options a:hover,
@@ -1870,7 +1873,7 @@ color: #777;
 {
 	float: none !important;
 	display: block !important;
-/*	border-color: #fff !important; this is overriding default button border styles*/
+	border-color: #fff !important;
 	display: block !important;
 	-moz-border-radius: 2px !important;
 	text-shadow:none;	
@@ -2931,7 +2934,7 @@ display: block;
 .aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
 .aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
 {
-/*	margin-top:10px!important;*/
+	margin-top:10px!important;
 }
 
 .a-slot.aTextSlot,
@@ -4049,8 +4052,7 @@ margin-bottom: 30px;
 width: 50%;
 }
 
-#a-media-plugin .a-form-row.categories .a-form-field,
-#a-media-plugin .a-form-row.tags .a-form-field
+#a-media-plugin .a-form-row.categories .a-form-field
 {
 	float:none;
 }
@@ -5619,7 +5621,7 @@ text-decoration: none !important;
 .a-submit.alt,
 .a-cancel.alt
 { /* Button Styles */
-color: #555 !important;
+color: #333 !important;
 text-shadow: 0 1px 0px rgba(255,255,255,255.20);
 background-color: #fff !important;
 }
