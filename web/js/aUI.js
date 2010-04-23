@@ -76,16 +76,16 @@ function aUI(target, instance)
 		}
 	};
 	
-	if (instance == 'history-cancel') 
-	{ // clicking cancel after previewing history item
-		$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();
-		$(target).removeClass('browsing-history');
-		$(target).removeClass('previewing-history');
-		if ($(target).hasClass('singleton')) // remove instances of a-slot-controls for singleton areas
-		{
-			$(target + " .a-slot-controls").remove();					
-		}
-	};	
+	// if (instance == 'history-cancel') 
+	// { // clicking cancel after previewing history item
+	// 	$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();
+	// 	$(target).removeClass('browsing-history');
+	// 	$(target).removeClass('previewing-history');
+	// 	if ($(target).hasClass('singleton')) // remove instances of a-slot-controls for singleton areas
+	// 	{
+	// 		$(target + " .a-slot-controls").remove();					
+	// 	}
+	// };	
 	
 	
 	// History Button and History Browser Offset
@@ -119,15 +119,15 @@ function aUI(target, instance)
 		$(this).parents('.a-controls').find('.a-area-options').hide();		
 		$(this).parent().hide(); //hide parent <li>
 	
-		if ($(this).parent().hasClass('cancel-history')) //history specific events
-		{
-			$(this).parents('.a-controls').find('.a-history-options').hide();
-			$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();		
-			$(this).parent().removeClass('cancel-history');
-			$(this).parents('.a-area').removeClass('browsing-history');
-			$(this).parents('.a-area').removeClass('previewing-history');
-			$(this).parents('.a-controls').find('a.a-history-btn').show();
-		}
+		// if ($(this).parent().hasClass('cancel-history')) //history specific events
+		// {
+		// 	$(this).parents('.a-controls').find('.a-history-options').hide();
+		// 	$('.a-history-browser, .a-history-preview-notice, .a-page-overlay').hide();		
+		// 	$(this).parent().removeClass('cancel-history');
+		// 	$(this).parents('.a-area').removeClass('browsing-history');
+		// 	$(this).parents('.a-area').removeClass('previewing-history');
+		// 	$(this).parents('.a-controls').find('a.a-history-btn').show();
+		// }
 			
 		if ($(this).hasClass('event-default')) 
 		{
