@@ -687,6 +687,7 @@ background-image: url(/apostrophePlugin/images/a-icon-unchecked.png);
 background-image: url(/apostrophePlugin/images/a-icon-checked.png);	
 }
 
+.icon.a-blog,
 .icon.a-blog-btn,
 .icon.a-blogpost
 {
@@ -1185,8 +1186,10 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);
 }
 
 .alt .icon.a-blog-btn,
+.alt .icon.a-blog,
 .alt .icon.a-blogpost,
 .icon.a-blog-btn.alt,
+.icon.a-blog.alt,
 .icon.a-blogpost.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
@@ -1763,7 +1766,7 @@ ul.a-controls li.add-slot-now
 
 ul.a-controls.a-slot-controls
 {
-	z-index: 799;
+	z-index: 899;
 	width: 100%;
 }
 
@@ -1873,7 +1876,6 @@ color: #777 !important;
 {
 	float: none !important;
 	display: block !important;
-	border-color: #fff !important;
 	display: block !important;
 	-moz-border-radius: 2px !important;
 	text-shadow:none;	
