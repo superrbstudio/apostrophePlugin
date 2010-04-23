@@ -59,7 +59,7 @@ function aUI(target)
 	});
 	
 	// Close History Browser
-	$('#a_close_history_browser').click(function(){
+	$('#a-history-close-button, #a-history-heading-button').click(function(){
 		aCloseHistory();
 	});
 	
@@ -136,6 +136,10 @@ function aBrowseHistory(area)
 	// Positioning the History Browser
 	$('.a-history-browser').css('top',(areaControlsTop-5)+"px"); //21 = height of buttons plus one margin
 	$('.a-history-browser').fadeIn();
+	$('.a-page-overlay').click(function(){
+		aCloseHistory();
+		$(this).unbind('click');
+	});
 }
 
 function aCloseHistory()
