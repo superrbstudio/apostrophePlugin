@@ -4019,7 +4019,8 @@ margin-bottom: 30px;
 width: 50%;
 }
 
-#a-media-plugin .a-form-row.categories .a-form-field
+#a-media-plugin .a-form-row.categories .a-form-field,
+#a-media-plugin .a-form-row.tags .a-form-field
 {
 	float:none;
 }
