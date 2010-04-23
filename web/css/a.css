@@ -688,7 +688,8 @@ background-image: url(/apostrophePlugin/images/a-icon-checked.png);
 }
 
 .icon.a-blog-btn,
-.icon.a-blogpost
+.icon.a-blogpost,
+.icon.a-blog
 {
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
 }
@@ -1185,8 +1186,10 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);
 }
 
 .alt .icon.a-blog-btn,
+.alt .icon.a-blog,
 .alt .icon.a-blogpost,
 .icon.a-blog-btn.alt,
+.icon.a-blog.alt,
 .icon.a-blogpost.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
@@ -1865,7 +1868,7 @@ ul.a-controls .a-options li.last
 {
 float: left;
 clear: both;
-color: #777 !important;
+color: #777;
 }
 
 .a-options a:hover,
@@ -1878,7 +1881,7 @@ color: #777 !important;
 {
 	float: none !important;
 	display: block !important;
-	border-color: #fff !important;
+/*	border-color: #fff !important; this is overriding default button border styles*/
 	display: block !important;
 	-moz-border-radius: 2px !important;
 	text-shadow:none;	
@@ -5585,7 +5588,7 @@ text-decoration: none !important;
 .a-submit.alt,
 .a-cancel.alt
 { /* Button Styles */
-color: #333 !important;
+color: #555 !important;
 text-shadow: 0 1px 0px rgba(255,255,255,255.20);
 background-color: #fff !important;
 }
