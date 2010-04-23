@@ -1,15 +1,13 @@
 <?php use_helper('I18N') ?>
 <div class="a-history-browser dropshadow">
-	<h3>
-		<?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?>
-  </h3>
+	<div class="a-history-browser-heading">
+		<h3><img src="/apostrophePlugin/images/a-icon-alt-history.png"/><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></h3>
+		<a href="#close-history-browser" onclick="return false;" id="a_close_history_browser" class="a-btn flag no-label icon a-close nobg" title="<?php echo __('Close History Browser', null, 'apostrophe') ?>"><?php echo __('Close History Browser', null, 'apostrophe') ?></a>
+	</div>
 	<div class="a-history-browser-crop">
 		<table cellspacing="0" cellpadding="0" border="0" title="<?php echo htmlspecialchars(__('Choose a revision.', null, 'apostrophe')) ?>">
 			<thead>
 			<tr>
-				<?php if (0): ?>
-				  <th class="id"><?php echo __('ID', null, 'apostrophe') ?></th>
-				<?php endif ?>
 				<th class="date"><?php echo __('Date', null, 'apostrophe') ?></th>
 				<th class="editor"><?php echo __('Editor', null, 'apostrophe') ?></th>
 				<th class="preview"><?php echo __('Preview', null, 'apostrophe') ?></th>
@@ -27,9 +25,6 @@
 			</tfoot>
 			<tbody class="a-history-items"> <?php // this replaces the history container, we want to return a list of populated rows <TR></TR> ?>
 			<tr class="a-history-item">
-				<?php if (0): ?>
-				  <td class="id"></td>
-				<?php endif ?>
 				<td class="date"><img src="/apostrophePlugin/images/a-icon-loader.gif"></td>
 				<td class="editor"></td>
 				<td class="preview"></td>
@@ -39,9 +34,11 @@
 	</div>
 </div>
 
-<div class="a-history-preview-notice">
-	<div>
-	<?php echo __('You are previewing another version of this material. This will not become the current version unless you click "Save As Current Revision." If you change your mind, click "Cancel."', null, 'apostrophe') ?>
+<div class="a-history-preview-notice dropshadow">
+	<h4>History Preview</h4>
+	<p><?php echo __('You are previewing another version of this content area. This will not become the current version unless you click "Save As Current Revision." If you change your mind, click "Cancel."', null, 'apostrophe') ?></p>
+	<div class="a-history-options">
+		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a>	<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn a-cancel"><?php echo __('Cancel', null, 'apostrophe') ?></a>
 	</div>
 </div>
 

@@ -78,7 +78,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
+
 	// Stuff to do as soon as the DOM is ready;
 	$('.a-history-browser-view-more').mousedown(function(){
 		$(this).children('img').fadeIn('fast');
@@ -90,10 +90,10 @@ $(document).ready(function() {
 		
 	  var params = $(this).data('params');
 	
-		var targetArea = "#"+$(this).parent().attr('rel');					// this finds the associated area that the history browser is displaying
+		var targetArea = "#"+$(this).parent().attr('rel');											// this finds the associated area that the history browser is displaying
 		var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');				// this grabs the history button
-		var cancelBtn = $(targetArea+ ' .a-area-controls a.a-cancel');					// this grabs the cancel button for this area
-		var revertBtn = $(targetArea+ ' .a-area-controls a.a-history-revert');	// this grabs the history revert button for this area
+		var cancelBtn = $('#a-history-cancel-button');	// this grabs the cancel button for this area
+		var revertBtn = $('#a-history-revert-button');	// this grabs the history revert button for this area
 		
 		$(historyBtn).siblings('.a-history-options').show();
 
@@ -105,43 +105,39 @@ $(document).ready(function() {
 				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
 				$(targetArea).addClass('previewing-history');
 				historyBtn.addClass('a-disabled');				
-				$(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
-				$(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
-				$(targetArea+' .a-history-options').css('display','inline');
+				// $(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
+				// $(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
+				// $(targetArea+' .a-history-options').css('display','inline');
 				$('.a-page-overlay').hide();
-				aUI(targetArea,'history-preview');
+				aUI(targetArea);
 	    }
 	  );
 
 		// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
 		revertBtn.click(function(){
-		  $.post( // User clicks REVERT
+		  $.post( // User clicks Save As Current Revision Button
 		    <?php echo json_encode(url_for('a/revert')) ?>,
 		    params.revert,
 		    function(result)
 		    {
-					$('body').removeClass('history-preview');
+					$('#a-slots-<?php echo "$id-$name" ?>').html(result);			
 					historyBtn.removeClass('a-disabled');						
-					$('#a-slots-<?php echo "$id-$name" ?>').html(result);
-					$('.a-history-options').hide();
-					$(this).parents('.a-controls').find('a.a-cancel').parent().hide();
+					aCloseHistory();
 					aUI(targetArea, 'history-revert');
 		  	}
 			);	
 		});
-			
-		cancelBtn.mouseup(function(){ 
-			// * 9/1/09 I Had to change this to MOUSEUP from CLICK because of a necessary unbind call in aUI applied to the cancel button. 
-			// additional functionality added to the existing cancel button
+						
+		cancelBtn.click(function(){ 
 		  $.post( // User clicks CANCEL
 		    <?php echo json_encode(url_for('a/revert')) ?>,
 		    params.cancel,
 		    function(result)
 		    {
-				 $('body').removeClass('history-preview');
-				 historyBtn.removeClass('a-disabled');						
-		     $('#a-slots-<?php echo "$id-$name" ?>').html(result);
-				 aUI(targetArea, 'history-cancel');
+		     	$('#a-slots-<?php echo "$id-$name" ?>').html(result);
+				 	historyBtn.removeClass('a-disabled');								
+					aCloseHistory();
+				 	aUI(targetArea);
 		  	}
 			);
 		});
@@ -153,5 +149,4 @@ $(document).ready(function() {
 		$(this).css('cursor','default');		
 	});
 
-});
 </script>

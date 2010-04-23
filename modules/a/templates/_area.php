@@ -5,9 +5,11 @@
 <?php if ($editable): ?>
 
 	<?php slot('a-cancel') ?>
-	<li class="a-controls-item cancel">
-		<a href="#" class="a-btn a-cancel a-cancel-area" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
-	</li>
+		<?php if (0): ?>	
+			<li class="a-controls-item cancel">
+				<a href="#" class="a-btn a-cancel a-cancel-area" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a>					
+			</li>
+		<?php endif ?>
 	<?php end_slot() ?>
 
 	<?php slot('a-history-controls') ?>
@@ -25,9 +27,6 @@
 					'title' => 'Area History', 
 					'class' => 'a-btn icon a-history-btn '.$history_button_style, 
 		)); ?>					
-		<ul class="a-history-options">
-			<li><a href="#" class="a-btn icon a-history-revert"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a></li>
-		</ul>
 	</li>
 	<?php end_slot() ?>
 
@@ -50,7 +49,8 @@
 
 		<?php # Slot Controls ?>
 			<li class="a-controls-item slots">
-				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot', 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
+				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', ""); ?>				
+				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
@@ -142,9 +142,8 @@
         <?php endif ?>
       <?php endif ?>
 
-      <?php // Include slot-type-specific controls if the ?>
-      <?php // slot has any ?>
-      <?php include_slot("a-slot-controls-$pageid-$name-$permid") ?>
+      <?php // Include slot-type-specific controls if the slot has any ?>
+     	<?php include_slot("a-slot-controls-$pageid-$name-$permid") ?>
 
 			<?php if (!$infinite): ?>
 			  <?php include_slot('a-history-controls') ?>
@@ -195,9 +194,9 @@
 		<?php if ($editable): ?>
 
 			<?php if ($infinite): ?>
-
 				<?php // Add Slot Dropdown ?>
-				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').click(function(){ 
+				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
+					console.log('add slot clicked');
 					var area = $(this).parents('.a-area');
 					area.toggleClass('add-slot-now');
 					$(document).click(function(e){
@@ -208,25 +207,26 @@
 							}
 					});
 				});			
-
 			<?php endif ?>
 
 			<?php if (!$infinite): ?>
-			
 				<?php // Singleton Slot Controls ?>
 				$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton <?php echo $options['type'] ?>');
-				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls').removeClass('a-slot-controls');
-				
+				if ($('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls-moved').length) {	<?php // This is far from optimal. We are still using jQuery to "toss up" the slot controls if it's a Singleton slot. ?>
+					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').remove(); <?php // If the slot controls have already been pushed up, remove any new instances from an Ajax return ?>
+				}
+				else
+				{
+					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	<?php // Move up the slot controls and give them some class names. ?>
+				};				
 			<?php endif ?>
 
 		<?php endif ?>
 
 		<?php if ($preview): ?>
-
 			<?php // Previewing History for Area ?>
 			$('.a-history-preview-notice').fadeIn();
 			$('body').addClass('history-preview');
-
 		<?php endif ?>
 		
 	});

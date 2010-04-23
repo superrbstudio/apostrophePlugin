@@ -590,7 +590,7 @@ width: 18px;
 
 .a-btn.flag.icon
 {
-	padding: 0 10px;
+	padding: 0 0 0 18px;
 }
 
 .a-btn.flag.icon.no-label
@@ -1753,17 +1753,6 @@ left: 0;
 	margin-bottom: 0 !important;
 }
 
-.browsing-history ul.a-controls.a-area-controls
-{ /* Change z-index of Area controls when we are browsing history */
-z-index: 999;
-}
-
-.a-area.browsing-history ul.a-controls.a-slot-controls,
-ul.a-controls ul.a-controls-item.history
-{
-z-index: 899;
-}
-
 ul.a-controls li.add-slot-now
 {
 	margin: 0 4px 0 0 !important;
@@ -2529,7 +2518,10 @@ clear: both;
 z-index: 999;
 overflow: hidden;
 display: none;
-border: 1px solid #333;
+background: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
 }
 
 .a-history-browser h3
@@ -2542,7 +2534,37 @@ width: 100%;
 margin: 0;
 padding: 10px;
 clear: both;
-background-color: #fff;
+}
+
+.a-history-browser-heading
+{
+	float: left;
+	clear: both;
+	width: 100%;
+	position: relative;
+}
+
+.a-history-browser #a_close_history_browser
+{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -10px;
+	height: 18px;
+	width: 18px;
+	background-position: -1px -1px;
+}
+
+.a-history-browser #a_close_history_browser span
+{
+	color: #333 !important;
+	text-shadow: none !important;
+}
+
+.a-history-browser #a_close_history_browser:hover
+{
+	background-position: 0 -21px;
+	width: auto;
 }
 
 a.a-history-browser-view-more
@@ -2581,10 +2603,8 @@ clear: both;
 {
 width: 100%;
 table-layout: fixed;
-border-bottom: 1px solid #ddd;
 font-size: 11px;
 color: #333;
-background-color: #fff;
 }
 
 .a-history-browser thead th
@@ -2640,27 +2660,37 @@ width: 70%;
 .a-history-preview-notice
 {
 display: none;
-position: absolute;
-top: 0px;
-left: 0px;
-width: 100%;
-z-index: 999;
+position: fixed;
+top: 55px;
+left: 20px;
+z-index: 9999;
 background: #fff;
-color: #d4c;
+color: #900;
 border-bottom: 1px solid #ddd;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+float: left;
+width: 250px;
 }
 
-.a-history-preview-notice div
+.a-history-preview-notice h4,
+.a-history-preview-notice p,
+.a-history-preview-notice .a-history-options
 {
 float: left;
-margin: 10px;
+clear: both;
+margin: 0 10px 10px;
 }
 
-.a-history-options
+.a-history-preview-notice h4
 {
-float: left;
-display: inline;
-padding-left: 1px;
+	margin-top: 10px;
+}
+
+.a-history-options .a-history-revert
+{
+	margin-right: 2px !important;
 }
 
 
