@@ -196,7 +196,6 @@
 			<?php if ($infinite): ?>
 				<?php // Add Slot Dropdown ?>
 				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
-					console.log('add slot clicked');
 					var area = $(this).parents('.a-area');
 					area.toggleClass('add-slot-now');
 					$(document).click(function(e){

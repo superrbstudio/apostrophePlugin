@@ -1,7 +1,7 @@
 <?php use_helper('I18N') ?>
 <div class="a-history-browser dropshadow">
 	<div class="a-history-browser-heading">
-		<h3><img src="/apostrophePlugin/images/a-icon-alt-history.png"/><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></h3>
+		<a href="#big-history-button" class="a-btn icon a-history-btn big" style="margin: 5px"><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></a>
 		<a href="#close-history-browser" onclick="return false;" id="a_close_history_browser" class="a-btn flag no-label icon a-close nobg" title="<?php echo __('Close History Browser', null, 'apostrophe') ?>"><?php echo __('Close History Browser', null, 'apostrophe') ?></a>
 	</div>
 	<div class="a-history-browser-crop">
