@@ -5698,3 +5698,129 @@ background-color: #fbef3b;
 	padding-right: 10px;
 }
 
+/* 33. New lightweight rich text slot
+-------------------------------------*/
+
+.a-slot.aNewRichText h1,
+.a-slot.aNewRichText h2,
+.a-slot.aNewRichText h3,
+.a-slot.aNewRichText h4,
+.a-slot.aNewRichText h5,
+.a-slot.aNewRichText h6,
+.a-slot.aNewRichText p,
+.a-slot.aNewRichText ul,
+.a-slot.aNewRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aNewRichText b,
+.a-slot.aNewRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText em,
+.a-slot.aNewRichText i
+{
+font-style: italic;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aNewRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aNewRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aNewRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aNewRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aNewRichText table th,
+.a-slot.aNewRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aNewRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
+/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
+.a-slot-is-editable.aNewRichText .a-slot-content-container
+{
+/*	padding: 22px 0 0 0 !important;*/
+}
+
+.aNewRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
+{
+	margin-top:10px!important;
+}
+
+.a-slot.aNewRichText
+{
+width: 100%;
+}

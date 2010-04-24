@@ -18,7 +18,8 @@
 		'aFeed', 
 		'aButton', 
 		'aText',
-		'aRawHTML', 
+		'aRawHTML',
+		'aNewRichText' 
 	),	
   'type_options' => array(
 		'aRichText' => array('tool' => 'Main'), 	
