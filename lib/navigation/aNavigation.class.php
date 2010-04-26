@@ -12,6 +12,10 @@ abstract class aNavigation
   // classes that do static caching
   public static function simulateNewRequest()
   {
+    if (sfConfig::get('app_a_many_pages', false))
+    {
+      
+    }
     self::$tree = null;
     self::$hash = null;
   }

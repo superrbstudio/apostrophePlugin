@@ -569,14 +569,21 @@ abstract class PluginaPage extends BaseaPage
   
   protected $ancestorsInfo;
   
-  public function getAncestorsInfo()
+  public function getAncestorsInfo($includeSelf = false)
   {
     if (!isset($this->ancestorsInfo))
     {
       $id = $this->id;
       // Since our presence on an admin page implies we know about it, it's OK to include
       // admin pages in the breadcrumb. It's not OK in other navigation
-      $this->ancestorsInfo = $this->getPagesInfo(false, '( p.lft < ' . $this->lft . ' AND p.rgt > ' . $this->rgt . ' )', true);
+      $less = '<';
+      $greater = '>';
+      if ($includeSelf)
+      {
+        $less = '<=';
+        $greater = '>=';
+      }
+      $this->ancestorsInfo = $this->getPagesInfo(false, "( p.lft $less " . $this->lft . " AND p.rgt $greater " . $this->rgt . ' )', true);
     }
     return $this->ancestorsInfo;
   }
@@ -601,7 +608,7 @@ abstract class PluginaPage extends BaseaPage
       if (!$parentInfo)
       {
         // It's the home page. Return a stub: the home page is its only peer
-        $this->peerInfo = array(array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt));
+        $this->peerInfo = array($this->getInfo());
       }
       else
       {
@@ -614,6 +621,14 @@ abstract class PluginaPage extends BaseaPage
     return $this->peerInfo;
   }
 
+  // Sometimes it is useful to have an info structure describing a page object
+  // (the aNavigation classes exploit this)
+  
+  public function getInfo()
+  {
+    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+  }
+  
   protected $childrenInfo;
   
   public function getChildrenInfo($livingOnly = true)
@@ -708,11 +723,13 @@ abstract class PluginaPage extends BaseaPage
   //     1c
   //   Two
   
+  // You can now specify the root slug, which defaults to the home page.
+  
   // Note that children of Two, 1a, and 1c are NOT returned. Only the siblings of
   // the current page's ancestors, the current page and its siblings, and the immediate
   // children of the current page are returned. For a full tree use getTreeInfo().
   
-  public function getAccordionInfo($livingOnly = true, $depth = null)
+  public function getAccordionInfo($livingOnly = true, $depth = null, $root = '/')
   {
     // As far as I can tell there is no super-elegant, single-query way to do this
     // without fetching a lot of extra pages. So do a peer fetch at each level.
@@ -723,6 +740,20 @@ abstract class PluginaPage extends BaseaPage
     // want the ancestors to show up, you probably shouldn't be using
     // an accordion contro. in the first place
     $ancestors = $this->getAncestorsInfo();
+    
+    // Dump ancestors we don't care about
+    for ($i = 0; ($i < count($ancestors)); $i++)
+    {
+      if ($ancestors[$i]['slug'] === $root)
+      {
+        $ancestors = array_slice($ancestors, $i);
+        break;
+      }
+    }
+    if ($i === count($ancestors))
+    {
+      throw new sfException("Root slug $root never found among ancestors in getAccordionInfo");
+    }
     $result = array();
     // Ancestor levels
     foreach ($ancestors as $ancestor)

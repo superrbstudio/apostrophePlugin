@@ -3,20 +3,75 @@
 class aNavigationTabs extends aNavigation
 {
   protected $cssClass = 'a-nav-item'; 
-  public function buildNavigation()
+  public function initializeTree()
   {
-    $this->rootInfo = parent::$hash[$this->root];
-    $this->activeInfo = parent::$hash[$this->active];
-    $this->depth = $this->options['depth'];
-    
-    if(isset($this->rootInfo['children']))
+    if (sfConfig::get('app_a_many_pages', true))
     {
-      $this->nav = $this->rootInfo['children'];
+      // The use of the static sitewide page tree 
+      // requires too much memory on sites with more
+      // than about 500-1000 pages. On smaller sites
+      // it turns out to be a performance win to get
+      // all of the page information for the site and
+      // cache it for subsequent navigation elements on
+      // the same page, which the base class does for us
     }
     else
     {
-      $this->nav = $this->rootInfo['parent']['children'];
+      parent::initializeTree();
     }
+  }
+  
+  public function buildNavigation()
+  {
+    if (sfConfig::get('app_a_many_pages', true))
+    {
+      $activePage = aPageTable::retrieveBySlug($this->active);
+      $this->activeInfo = $activePage->getInfo();
+      
+      $rootPage = aPageTable::retrieveBySlug($this->root);
+      $this->rootInfo = $rootPage->getTreeInfo(false, $this->options['depth']);
+      // If no kids...
+      if (!count($this->rootInfo))
+      {
+        // Try the parent
+        $rootPage = $rootPage->getParent();
+        if (!$rootPage)
+        {
+          // Parent does not exist - this is the home page and there are no subpages
+          // (unlikely in practice due to admin pages)
+          $this->rootInfo = array();
+        }
+        else
+        {
+          // Parent does exist, use its kids
+          $this->rootInfo = $rootPage->getTreeInfo(false, $this->options['depth']);
+        }
+      }
+      $this->nav = $this->rootInfo;
+    }
+    else
+    {
+      $this->rootInfo = parent::$hash[$this->root];
+      $this->activeInfo = parent::$hash[$this->active];
+      if(isset($this->rootInfo['children']))
+      {
+        $this->nav = $this->rootInfo['children'];
+      }
+      else
+      {
+        if (!isset($this->rootInfo['parent']))
+        {
+          // A site root with no children
+          $this->nav = array();
+        }
+        else
+        {
+          $this->nav = $this->rootInfo['parent']['children'];
+        }
+      }
+    }
+    $this->depth = $this->options['depth'];
+    
     $this->traverse($this->nav);
   }
   
