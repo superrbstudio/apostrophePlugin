@@ -460,4 +460,104 @@ class aImageConverter
     }
     return false;
   }
+  
+  // Can this box handle pdf, png, jpeg (also acdepts jpg), gif, bmp, ico...
+
+  // Mainly used to check for PDF support.
+  
+  // NOTE: this call is a performance hit, especially with netpbm and ghostscript available.
+  // So we cache the result for 5 minutes. Keep that in mind if you make configuration changes, install
+  // ghostscript, etc. and don't see an immediate difference.
+
+  static public function supportsInput($extension)
+  {
+    $hint = aImageConverter::getHint("input:$extension");
+    if (!is_null($hint))
+    {
+      return $hint;
+    }
+    
+    $result = false;
+    if (sfConfig::get('app_aimageconverter_netpbm', true))
+    {
+      if (aImageConverter::supportsInputNetpbm($extension))
+      {
+        $result = true;
+      }
+    }
+    if (!$result)
+    {
+      $result = aImageConverter::supportsInputGd($extension);
+    }
+    aImageConverter::setHint("input:$extension", $result);
+    return $result;
+  }
+
+  static public function supportsInputNetpbm($extension)
+  {
+    $types = array('gif' => 'gif', 'png' => 'png', 'jpg' => 'jpeg', 'jpeg' => 'jpeg', 'bmp' => 'bmp', 'ico' => 'ico');
+    $path = sfConfig::get("app_aimageconverter_path", "");
+    if (strlen($path)) {
+      if (!preg_match("/\/$/", $path)) {
+        $path .= "/";
+      }
+    }
+    if ($extension === 'pdf')
+    {
+      $cmd = 'gs';
+    }
+    elseif (!isset($types[$extension]))
+    {
+      if (!preg_match('/^\w+$/', $extension))
+      {
+        return false;
+      }
+      $cmd = $extension . 'topnm';
+    }
+    else
+    {
+      $cmd = $types[$extension] . 'topnm';
+    }
+    $in = popen("(PATH=$path:\$PATH; export PATH; which $cmd)", "r");
+    $result = stream_get_contents($in);
+    pclose($in);
+    if (strlen($result))
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  static public function supportsInputGd($extension)
+  {
+    $types = array('gif' => 'gif', 'png' => 'png', 'jpg' => 'jpeg', 'jpeg' => 'jpeg', 'bmp' => 'bmp', 'ico' => 'ico');
+    if (!isset($types[$extension]))
+    {
+      return false;
+    }
+    $f = 'imagecreatefrom' . $types[$extension];
+    return is_callable($f);
+  }
+  
+  static public function getHint($hint)
+  {
+    $cache = aImageConverter::getHintCache();
+    $key = 'apostrophe:imageconverter:' . $hint;
+    return $cache->get($key, null);
+  }
+  
+  static public function setHint($hint, $value)
+  {
+    $cache = aImageConverter::getHintCache();
+    // The lifetime should be short to avoid annoying developers who are
+    // trying to fix their configuration and test with new possibilities
+    $key = 'apostrophe:imageconverter:' . $hint;
+    $cache->set($key, $value, 300);
+  }
+  static public function getHintCache()
+  {
+    $cacheClass = sfConfig::get('app_a_hint_cache_class', 'sfFileCache');
+    $cache = new $cacheClass(sfConfig::get('app_a_hint_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_hint_cache')))));
+    return $cache;
+  }
 }
