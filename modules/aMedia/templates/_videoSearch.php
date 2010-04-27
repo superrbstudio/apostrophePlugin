@@ -26,7 +26,7 @@
     <ul id="a-media-video-search-results"></ul>
     <br class="clear" />
 
-    <div id="a-media-video-search-pagination" class="a_pager_navigation"></div>
+    <div id="a-media-video-search-pagination" class="a-pager-navigation"></div>
     <br class="clear" />
 
 		<script type="text/javascript" charset="utf-8">
@@ -89,11 +89,11 @@ function aMediaVideoSearchRenderResults()
       var item;
       if (i === aMediaVideoSearchPage)
       {
-        item = $('<span class="a_page_navigation_number a_pager_navigation_disabled">' + i + '</span>');
+        item = $('<span class="a-page-navigation-number a-pager-navigation-disabled">' + i + '</span>');
       }
       else
       {
-        item = $('<span class="a_page_navigation_number"><a href="#">' + i + '</a></span>');
+        item = $('<span class="a-page-navigation-number"><a href="#">' + i + '</a></span>');
       }  
       item.data('page', i);
       item.click(function() { 

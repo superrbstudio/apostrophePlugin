@@ -1988,7 +1988,7 @@ ul.a-controls .a-variant-options.loading
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
-.a_pager_navigation
+.a-pager-navigation
 {
 float: left;
 display: inline;
@@ -1998,8 +1998,8 @@ font-size: 11px;
 width: 100%;
 }
 
-.a_pager_navigation a,
-.a_pager_navigation span
+.a-pager-navigation a,
+.a-pager-navigation span
 {
 display: inline;
 float: left;
@@ -2007,23 +2007,23 @@ height: 20px;
 line-height: 20px;
 }
 
-.a_pager_navigation .a_page_navigation_number
+.a-pager-navigation .a-page-navigation-number
 {
 padding: 0 6px;
 }
 
-.a_pager_navigation span.a_page_navigation_number.a_pager_navigation_disabled
+.a-pager-navigation span.a-page-navigation-number.a-pager-navigation-disabled
 {
 background-color: #e2e2e2;
 }
 
-.a_pager_navigation a.a_page_navigation_number:hover
+.a-pager-navigation a.a-page-navigation-number:hover
 {
 color: #000;
 background-color: #e2e2e2;
 }
 
-.a_pager_navigation .a_pager_navigation_image
+.a-pager-navigation .a-pager-navigation-image
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
 display: inline;
@@ -2033,12 +2033,12 @@ height: 20px;
 text-indent: -9999px;
 }
 
-.a_pager_navigation a.a_pager_navigation_image.disabled
+.a-pager-navigation a.a-pager-navigation-image.disabled
 {
 cursor: default;
 }
 
-.a_pager_navigation a.a_pager_navigation_first
+.a-pager-navigation a.a-pager-navigation-first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
 -moz-border-radius:10px 0px 0px 10px;
@@ -2048,33 +2048,33 @@ border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 }
 
-.a_pager_navigation a.a_pager_navigation_first:hover
+.a-pager-navigation a.a-pager-navigation-first:hover
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 }
-.a_pager_navigation a.a_pager_navigation_previous
+.a-pager-navigation a.a-pager-navigation-previous
 {
 background-position: -22px 0;
 width: 19px;
 margin-right: 5px;
 margin-left:1px;
 }
-.a_pager_navigation a.a_pager_navigation_previous:hover
+.a-pager-navigation a.a-pager-navigation-previous:hover
 {
 background-position: -22px -40px !important;
 }
-.a_pager_navigation a.a_pager_navigation_next
+.a-pager-navigation a.a-pager-navigation-next
 {
 background-position: -41px 0;
 width: 19px;
 margin-left: 5px;
 margin-right: 1px;
 }
-.a_pager_navigation a.a_pager_navigation_next:hover
+.a-pager-navigation a.a-pager-navigation-next:hover
 {
 background-position: -41px -60px;
 }
-.a_pager_navigation a.a_pager_navigation_last
+.a-pager-navigation a.a-pager-navigation-last
 {
 background-position: -60px 0;
 -moz-border-radius:0px 10px 10px 0px;
@@ -2083,12 +2083,12 @@ border-top-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
-.a_pager_navigation a.a_pager_navigation_last:hover
+.a-pager-navigation a.a-pager-navigation-last:hover
 {
 background-position: -60px -80px;
 }
 
-.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
@@ -2101,7 +2101,7 @@ border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 }
 
-.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
 text-indent: -999px;
@@ -2112,7 +2112,7 @@ margin-left:1px;
 
 }
 
-.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
 background-position:-60px -80px;
@@ -2126,7 +2126,7 @@ border-top-right-radius:10px;
 border-bottom-right-radius:10px;
 }
 
-.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
 text-indent: -999px;
@@ -2137,22 +2137,22 @@ margin-right:1px;
 }
 
 
-.a_pager_navigation a.a_pager_navigation_first,
-.a_pager_navigation a.a_pager_navigation_previous,
-.a_pager_navigation a.a_pager_navigation_next,
-.a_pager_navigation a.a_pager_navigation_last,
-.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+.a-pager-navigation a.a-pager-navigation-first,
+.a-pager-navigation a.a-pager-navigation-previous,
+.a-pager-navigation a.a-pager-navigation-next,
+.a-pager-navigation a.a-pager-navigation-last,
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
 {
 	background-color:#e2e2e2;
 }
 
-.a_pager_navigation a.a_pager_navigation_first:hover,
-.a_pager_navigation a.a_pager_navigation_previous:hover,
-.a_pager_navigation a.a_pager_navigation_next:hover,
-.a_pager_navigation a.a_pager_navigation_last:hover
+.a-pager-navigation a.a-pager-navigation-first:hover,
+.a-pager-navigation a.a-pager-navigation-previous:hover,
+.a-pager-navigation a.a-pager-navigation-next:hover,
+.a-pager-navigation a.a-pager-navigation-last:hover
 {
 	background-color:#e2e2e2;
 }
