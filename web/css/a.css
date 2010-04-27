@@ -4759,14 +4759,15 @@ display: inline;
 float: left;
 }
 
-ul.a-tag-sidebar-list
+.a-tag-sidebar-list,
+.a-blog-selected-tag
 {
 float: left;
 width: 100%;
-margin-bottom: 20px;
+margin-bottom: 10px;
 }
  
-ul.a-tag-sidebar-list li
+.a-tag-sidebar-list li
 {
 margin: 0 0 5px 0;
 }
