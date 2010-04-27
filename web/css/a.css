@@ -4759,14 +4759,14 @@ display: inline;
 float: left;
 }
 
-.a-tag-sidebar ul.a-tag-sidebar-list
+ul.a-tag-sidebar-list
 {
 float: left;
 width: 100%;
 margin-bottom: 20px;
 }
  
-.a-tag-sidebar ul.a-tag-sidebar-list li
+ul.a-tag-sidebar-list li
 {
 margin: 0 0 5px 0;
 }
