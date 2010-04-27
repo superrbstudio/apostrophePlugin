@@ -2933,10 +2933,11 @@ display: block;
 /*	padding: 22px 0 0 0 !important;*/
 }
 
+/* RB:turning this off so save controls feel closer and more in context to the text area... if this is being done for some other reason please contact me before restoring this style */
 .aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
 .aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
 {
-	margin-top:10px!important;
+/*	margin-top:10px!important;*/
 }
 
 .a-slot.aTextSlot,
