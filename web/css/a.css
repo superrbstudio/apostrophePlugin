@@ -1747,7 +1747,10 @@ left: 0;
 
 .a-area.singleton.aRichText ul.a-controls.a-area-controls,
 .a-area.singleton.aText ul.a-controls.a-area-controls,
-.a-area.singleton.aBlog ul.a-controls.a-area-controls
+.a-area.singleton.aBlog ul.a-controls.a-area-controls,
+.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aEvent ul.a-controls.a-area-controls,
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
 {
 	position: relative;
 	margin-bottom: 0 !important;
