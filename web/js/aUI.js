@@ -38,8 +38,8 @@ function aUI(target)
 			{
 				if (!$(this).children('span').size())
 				{
-					$(this).wrapInner('<span class="flag-label"></span>');		
-				}				
+					$(this).attr('title','').wrapInner('<span class="flag-label"></span>');		
+				}
 
 				$(this).hover(function () {
 					$(this).addClass('expanded');

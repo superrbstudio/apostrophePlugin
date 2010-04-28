@@ -645,10 +645,11 @@ text-indent:0 !important;
 {
 	font-size: 11px;
 	color: #fff;
-	background: #000 !important;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+	background: rgba(0,0,0,0.75) !important;
+	background: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
 	text-shadow: none;
@@ -1119,6 +1120,42 @@ background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
 {
 	background-position: 0 -601px;
 }
+
+.icon.a-sort-arrow
+{
+	background-position: 0 0;
+}
+
+.icon.a-sort-arrow.sorting,
+.icon.a-sort-arrow:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);	
+}
+
+.icon.a-sort-arrow.desc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+
+.icon.a-sort-arrow.sorting:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+.icon.a-sort-arrow.desc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);		
+}
+
 
 input.a-submit,
 input.a-cancel
