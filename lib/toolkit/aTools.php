@@ -106,6 +106,28 @@ class aTools
     return $page ? ($page->admin ? null : $page) : null;
   }
 
+  /**
+   * We've fetched a page on our own using aPageTable::queryWithSlots and we want
+   * to make Apostrophe aware of it so that areas on the current page that live on
+   * that virtual page don't generate a superfluous second query
+   *
+   * @param array, Doctrine_Collection, aPage $pages
+   */
+  static public function cacheVirtualPages($pages)
+  {
+    if(get_class($pages) == 'Doctrine_Collection' || is_array($pages))
+    {
+      foreach($pages as $page)
+      {
+        self::$globalCache[$page['slug']] = $page;
+      }
+    }
+    else
+    {
+      self::$globalCache[$pages['slug']] = $pages;
+    }
+  }
+
   static public function globalSetup($options)
   {
     if (isset($options['global']) && $options['global'])
