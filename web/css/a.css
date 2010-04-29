@@ -5566,8 +5566,8 @@ ul.a-controls .a-variant-options
 border-color: rgb(51,204,204);
 }
 
-.a-admin a:link, 
-.a-admin a:visited,
+.a-admin .a-admin-content a:link, 
+.a-admin .a-admin-content a:visited,
 #a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
