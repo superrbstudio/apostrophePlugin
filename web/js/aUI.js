@@ -8,7 +8,7 @@ function aUI(target)
 	}
 	else if (typeof target == 'object') // If jQuery object get id
 	{
-		target = "#"+$(target).attr('id')+" ";
+		target = "#"+ target.attr('id') +" ";
 	}
 	else // probably a string
 	{

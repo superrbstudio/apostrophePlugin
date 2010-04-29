@@ -194,7 +194,7 @@ function aMultipleSelect(target, options)
 					if ((index === select.length - 1) && options['add'])
 					{
 						select.selectedIndex = 0;
-						aUI($("#" + id + " .add"));
+						aUI("#" + id + " .add");
 						$("#" + id + " .add").fadeIn().children('input').focus();
 						return;
 					}
