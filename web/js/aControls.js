@@ -105,7 +105,7 @@ function aMultipleSelect(target, options)
         id = name;
       }
       var html = "<div class='a-multiple-select' id='" + id + "'>";
-      html += "<select name='select-" + name + "'>";
+      html += "<select class='a-multiple-select-input' name='select-" + name + "'>";
       html += "</select>\n";
 			if (addIndex !== undefined)
 			{
@@ -239,7 +239,7 @@ function aMultipleSelect(target, options)
 					html += "<option value=\"_new\">" + labels[addIndex] + "</option>";
 				}
         // Necessary in IE
-        $(select).replaceWith("<select name='select-" + name + "'>" + html + "</select>");
+        $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
         $("#" + id + " select").change(function() { update(false, false); });
 				if (!initial)
 				{

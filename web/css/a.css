@@ -1741,13 +1741,14 @@ margin: 0 !important;
 padding: 0 !important;
 }
 
-.a-slot.editing-now ul.a-controls
-{
+.a-slot.editing-now ul.a-controls,
+.a-area.singleton.editing-now ul.a-controls
+{ /* Controls sit on top when editing a singleton slot or a slot in an area */
 z-index: 899;
 }
 
 ul.a-controls li
-{ /* All buttons on the site are wrapped in a list. */
+{ /* All controls buttons are wrapped in a list. */
 float: left;
 display: inline;
 position: relative;
@@ -1773,7 +1774,7 @@ display: none;
 }
 
 ul.a-controls.a-area-controls
-{ /* Area Controls - Sit ABOVE all slots */
+{
 position: relative;
 float: left;
 width: 100%;
@@ -1793,15 +1794,9 @@ left: 0;
 .a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
 .a-area.singleton.aEvent ul.a-controls.a-area-controls,
 .a-area.singleton.aEventSingle ul.a-controls.a-area-controls
-{
+{ /* Singleton Slots that don't allow controls to sit on top of their content */
 	position: relative;
 	margin-bottom: 0 !important;
-}
-
-.a-area.browsing-history ul.a-controls.a-slot-controls,
-ul.a-controls ul.a-controls-item.history
-{
-z-index: 899;
 }
 
 ul.a-controls li.add-slot-now
