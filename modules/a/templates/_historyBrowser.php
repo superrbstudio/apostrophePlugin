@@ -13,23 +13,21 @@
 				<th class="preview"><?php echo __('Preview', null, 'apostrophe') ?></th>
 			</tr>
 			</thead>
-			<tfoot>
-			<?php if (1): ?>
-			  <tr>
-				  <td colspan="3">
-				    <a href="#" class="a-history-browser-view-more"><?php echo __('View More Revisions', null, 'apostrophe') ?> <img src="/apostrophePlugin/images/a-icon-loader.gif" class="spinner" /></a>
-          </td>
-					<td class="number-of-revisions"></td>
-			  </tr>
-			<?php endif ?>
-			</tfoot>
-			<tbody class="a-history-items"> <?php // this replaces the history container, we want to return a list of populated rows <TR></TR> ?>
+			<tbody class="a-history-items">
 			<tr class="a-history-item">
 				<td class="date"><img src="/apostrophePlugin/images/a-icon-loader.gif"></td>
 				<td class="editor"></td>
 				<td class="preview"></td>
 			</tr>
 			</tbody>
+			<tfoot>
+			  <tr>
+				  <td colspan="3">
+				    <a href="#" class="a-history-browser-view-more" id="a-history-browser-view-more"><?php echo __('View More Revisions', null, 'apostrophe') ?> <img src="/apostrophePlugin/images/a-icon-loader.gif" class="spinner" /></a>
+          </td>
+					<td class="number-of-revisions"></td>
+			  </tr>
+			</tfoot>
 		</table>
 	</div>
 </div>

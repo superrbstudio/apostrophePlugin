@@ -65,88 +65,86 @@
 <?php if(count($versions)  == 10 && is_null($all)): ?>
 <script type="text/javascript" charset="utf-8">
   $(function() {
-		$('.a-history-browser .a-history-browser-view-more').show();
+		$('#a-history-browser-view-more').show();
   });
 </script>
 <?php else: ?>
 <script type="text/javascript" charset="utf-8">
   $(function() {
-		$('.a-history-browser .a-history-browser-view-more').hide();
+		$('#a-history-browser-view-more').hide().before('&nbsp;');
   });
 </script>
 <?php endif ?>
 
 
 <script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
 
-	// Stuff to do as soon as the DOM is ready;
-	$('.a-history-browser-view-more').mousedown(function(){
-		$(this).children('img').fadeIn('fast');
-	})
+		$('.a-history-browser-view-more').mousedown(function(){
+			$(this).children('img').fadeIn('fast');
+		})
 
-	$('.a-history-item').click(function() {
+		$('.a-history-item').click(function() {
 
-		$('.a-history-browser').hide();
+			$('.a-history-browser').hide();
 		
-	  var params = $(this).data('params');
+		  var params = $(this).data('params');
 	
-		var targetArea = "#"+$(this).parent().attr('rel');											// this finds the associated area that the history browser is displaying
-		var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');				// this grabs the history button
-		var cancelBtn = $('#a-history-cancel-button');	// this grabs the cancel button for this area
-		var revertBtn = $('#a-history-revert-button');	// this grabs the history revert button for this area
+			var targetArea = "#"+$(this).parent().attr('rel');								<?php // this finds the associated area that the history browser is displaying ?>
+			var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');	<?php // this grabs the history button ?>
+			var cancelBtn = $('#a-history-cancel-button');										<?php // this grabs the cancel button for this area ?>
+			var revertBtn = $('#a-history-revert-button');										<?php // this grabs the history revert button for this area ?>
 		
-		$(historyBtn).siblings('.a-history-options').show();
+			$(historyBtn).siblings('.a-history-options').show();
 
-	  $.post( //User clicks to PREVIEW revision
-	    <?php echo json_encode(url_for('a/revert')) ?>,
-	    params.preview,
-	    function(result)
-	    {
-				$('#a-slots-<?php echo "$id-$name" ?>').html(result);
-				$(targetArea).addClass('previewing-history');
-				historyBtn.addClass('a-disabled');				
-				// $(targetArea+' .a-controls-item').siblings('.cancel, .history').css('display', 'block'); // turn off all controls initially				
-				// $(targetArea+' .a-controls-item.cancel').addClass('cancel-history');				
-				// $(targetArea+' .a-history-options').css('display','inline');
-				$('.a-page-overlay').hide();
-				aUI(targetArea);
-	    }
-	  );
-
-		// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
-		revertBtn.click(function(){
-		  $.post( // User clicks Save As Current Revision Button
+		  $.post( //User clicks to PREVIEW revision
 		    <?php echo json_encode(url_for('a/revert')) ?>,
-		    params.revert,
+		    params.preview,
 		    function(result)
 		    {
-					$('#a-slots-<?php echo "$id-$name" ?>').html(result);			
-					historyBtn.removeClass('a-disabled');						
-					aCloseHistory();
-					aUI(targetArea, 'history-revert');
-		  	}
-			);	
-		});
+					$('#a-slots-<?php echo "$id-$name" ?>').html(result);
+					$(targetArea).addClass('previewing-history');
+					historyBtn.addClass('a-disabled');				
+					$('.a-page-overlay').hide();
+					aUI(targetArea);
+		    }
+		  );
+
+			// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
+			revertBtn.click(function(){
+			  $.post( // User clicks Save As Current Revision Button
+			    <?php echo json_encode(url_for('a/revert')) ?>,
+			    params.revert,
+			    function(result)
+			    {
+						$('#a-slots-<?php echo "$id-$name" ?>').html(result);			
+						historyBtn.removeClass('a-disabled');						
+						aCloseHistory();
+						aUI(targetArea, 'history-revert');
+			  	}
+				);	
+			});
 						
-		cancelBtn.click(function(){ 
-		  $.post( // User clicks CANCEL
-		    <?php echo json_encode(url_for('a/revert')) ?>,
-		    params.cancel,
-		    function(result)
-		    {
-		     	$('#a-slots-<?php echo "$id-$name" ?>').html(result);
-				 	historyBtn.removeClass('a-disabled');								
-					aCloseHistory();
-				 	aUI(targetArea);
-		  	}
-			);
+			cancelBtn.click(function(){ 
+			  $.post( // User clicks CANCEL
+			    <?php echo json_encode(url_for('a/revert')) ?>,
+			    params.cancel,
+			    function(result)
+			    {
+			     	$('#a-slots-<?php echo "$id-$name" ?>').html(result);
+					 	historyBtn.removeClass('a-disabled');								
+						aCloseHistory();
+					 	aUI(targetArea);
+			  	}
+				);
+			});
 		});
-	});
 
-	$('.a-history-item').hover(function(){
-		$(this).css('cursor','pointer');
-	},function(){
-		$(this).css('cursor','default');		
-	});
+		$('.a-history-item').hover(function(){
+			$(this).css('cursor','pointer');
+		},function(){
+			$(this).css('cursor','default');		
+		});
 
+});
 </script>

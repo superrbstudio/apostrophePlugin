@@ -1736,6 +1736,7 @@ ul.a-controls
 {
 float: left;
 visibility: hidden;
+position: relative;
 margin: 0 !important;
 padding: 0 !important;
 }
@@ -2676,7 +2677,7 @@ padding: 0 4px;
 .a-history-browser tfoot td
 {
 border-top: 1px solid #ddd;
-/*	padding: 8px 4px;*/
+padding: 8px 4px;
 }
 
 /* This was commented out in the partial at some point - 1/7/2010 */
