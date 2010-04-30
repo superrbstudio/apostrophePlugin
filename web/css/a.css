@@ -1741,6 +1741,11 @@ margin: 0 !important;
 padding: 0 !important;
 }
 
+.a-slot.editing-now ul.a-controls
+{
+z-index: 899;
+}
+
 ul.a-controls li
 { /* All buttons on the site are wrapped in a list. */
 float: left;
@@ -1770,7 +1775,6 @@ display: none;
 ul.a-controls.a-area-controls
 { /* Area Controls - Sit ABOVE all slots */
 position: relative;
-z-index: 899;
 float: left;
 width: 100%;
 margin-bottom: 10px !important;
@@ -1807,7 +1811,6 @@ ul.a-controls li.add-slot-now
 
 ul.a-controls.a-slot-controls
 {
-	z-index: 899;
 	width: 100%;
 }
 
