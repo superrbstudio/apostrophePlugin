@@ -4606,6 +4606,9 @@ background-position: bottom right;
 	display: inline;
 	margin: 10px 0;
 	width: 100%;
+	height: 1px;
+	border: none;
+	background: #999;
 }
 
 
