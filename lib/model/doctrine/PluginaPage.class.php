@@ -568,7 +568,9 @@ abstract class PluginaPage extends BaseaPage
   // To generate a URL for a page use: aTools::urlForPage($info['slug'])
   
   protected $ancestorsInfo;
-  
+
+  // Careful, the cache must hold the entire path including the item itself, we lop off the last element
+	// before returning in those cases where it is not wanted.
   public function getAncestorsInfo($includeSelf = false)
   {
     if (!isset($this->ancestorsInfo))
@@ -576,16 +578,15 @@ abstract class PluginaPage extends BaseaPage
       $id = $this->id;
       // Since our presence on an admin page implies we know about it, it's OK to include
       // admin pages in the breadcrumb. It's not OK in other navigation
-      $less = '<';
-      $greater = '>';
-      if ($includeSelf)
-      {
-        $less = '<=';
-        $greater = '>=';
-      }
-      $this->ancestorsInfo = $this->getPagesInfo(false, "( p.lft $less " . $this->lft . " AND p.rgt $greater " . $this->rgt . ' )', true);
+      $this->ancestorsInfo = $this->getPagesInfo(false, "( p.lft <= " . $this->lft . " AND p.rgt >= " . $this->rgt . ' )', true);
     }
-    return $this->ancestorsInfo;
+		$ancestorsInfo = $this->ancestorsInfo;
+		if (!$includeSelf)
+		{
+			$ancestorsInfo = $this->ancestorsInfo;
+			array_pop($ancestorsInfo);
+		}
+		return $ancestorsInfo;
   }
 
   public function getParentInfo()
