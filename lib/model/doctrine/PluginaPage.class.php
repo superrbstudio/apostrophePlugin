@@ -900,7 +900,7 @@ abstract class PluginaPage extends BaseaPage
     // in the WHERE clause. Otherwise we don't get any information at all about pages
     // not i18n'd yet
     $escCulture = $connection->quote($this->getCulture());
-    $query = "SELECT p.id, p.slug, p.view_is_secure, p.archived, p.lft, p.rgt, p.level, p.engine, s.value AS title FROM a_page p
+    $query = "SELECT p.id, p.slug, p.view_is_secure, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
       LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
