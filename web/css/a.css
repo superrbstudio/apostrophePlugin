@@ -2011,12 +2011,14 @@ ul.a-controls .a-variant-options.loading
 	float: left;
 }
 
-.aBlog .a-options.a-slot-form
+.aBlog .a-options.a-slot-form,
+.aEvent .a-options.a-slot-form
 {
 	width: 300px;
 }
 
-.aBlog .a-options.a-slot-form .a-form-row.tags input
+.aBlog .a-options.a-slot-form .a-form-row.tags input,
+.aEvent .a-options.a-slot-form .a-form-row.tags input
 {
 	width: 180px;
 }
