@@ -71,6 +71,13 @@ class sfWidgetFormJQueryDate extends sfWidgetFormDate
     {
       $image = sprintf(', buttonImage: "%s", buttonImageOnly: true', $this->getOption('image'));
     }
+
+    $beforeShow = '';
+    if (isset($attributes['beforeShow']))
+    {
+      $beforeShow = sprintf(', beforeShow: %s', $attributes['beforeShow']);
+    }
+
     $onClose = '';
     if (isset($attributes['onClose']))
     {
@@ -144,6 +151,7 @@ $(function()
     showOn:     "both",
 		showAnim: 	"fadeIn"
 		%s
+		%s
     %s
   }, \$.datepicker.regional["%s"], %s));
 
@@ -167,7 +175,7 @@ EOF
       $prefix,
       $id,
       min($this->getOption('years')), max($this->getOption('years')),
-      $prefix, $prefix, $onClose, $image, $this->getOption('culture'), $this->getOption('config')
+      $prefix, $prefix, $beforeShow, $onClose, $image, $this->getOption('culture'), $this->getOption('config')
     ) . 
     // Close wrapper div
     '</div>';
