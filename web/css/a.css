@@ -2756,7 +2756,8 @@ margin: 10px 0;
 /*	z-index:599;*/
 }
 
-.a-area.editing-now
+.a-area.editing-now,
+.a-slot.editing-now
 {
 	z-index: 900;
 }
@@ -2849,6 +2850,12 @@ clear: both;
 {
 	float: left;
 	width: 100%;
+}
+
+.a-slot-form.a-options
+{
+	position: relative;
+	margin-bottom: -27px;
 }
 
 /* Rich Text Slot Styles */
