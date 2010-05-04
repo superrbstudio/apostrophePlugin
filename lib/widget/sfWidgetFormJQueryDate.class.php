@@ -72,7 +72,7 @@ class sfWidgetFormJQueryDate extends sfWidgetFormDate
       $image = sprintf(', buttonImage: "%s", buttonImageOnly: true', $this->getOption('image'));
     }
     $onClose = '';
-    if (false !== $attributes['onClose'])
+    if (isset($attributes['onClose']))
     {
       $onClose = sprintf(', onClose: %s', $attributes['onClose']);
     }
