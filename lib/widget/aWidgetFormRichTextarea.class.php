@@ -48,7 +48,7 @@ class aWidgetFormRichTextarea extends sfWidgetFormTextarea
     $name = $attributes['name'];
     if (!strlen($value))
     {
-      // Quirk: if the value is blank there is no way to get started editing
+      // Quirk: if the value is blank there is no way to get started editing.
       $value = '&nbsp;';
     }
     $internalBrowser = json_encode($this->getOption('internal_browser'));
