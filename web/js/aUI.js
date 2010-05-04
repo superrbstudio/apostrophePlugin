@@ -77,7 +77,7 @@ function aUI(target)
 
 
 	// Cross Browser Opacity Settings
-	$('.a-navigation .archived').fadeTo(0,.5); // Archived Page Labels
+	$('.a-navigation .a-archived-page').fadeTo(0,.5); // Archived Page Labels
 
 
 	// // New Slot Box

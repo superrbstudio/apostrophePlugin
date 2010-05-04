@@ -88,7 +88,7 @@ class aNavigationTabs extends aNavigation
 		  
       if($node['archived'] == true)
       {
-        $node['class'] = $node['class'] . ' a-archived-paged';
+        $node['class'] = $node['class'] . ' a-archived-page';
         if($this->livingOnly)
           unset($tree[$key]);
       }
