@@ -3382,7 +3382,7 @@ position: absolute;
 top: 5px;
 right: 5px;
 padding: 0;
-z-index:999;
+z-index:9999 !important;
 display: none;
 }
 
