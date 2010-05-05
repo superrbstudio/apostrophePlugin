@@ -86,8 +86,15 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     $info = aImageConverter::getInfo($file);
     if ($info)
     {
-      $this->width = $info['width'];
-      $this->height = $info['height'];
+      // Sometimes we store formats we can't get dimensions for on this particular platform
+      if (isset($info['width']))
+      {
+        $this->width = $info['width'];
+      }
+      if (isset($info['height']))
+      {
+        $this->height = $info['height'];
+      }
       $this->format = $info['format'];
       $this->clearImageCache(true);
       return true;

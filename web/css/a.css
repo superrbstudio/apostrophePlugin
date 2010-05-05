@@ -4033,6 +4033,17 @@ height: 100%;
 background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
 }
 
+.a-media-icon-as-thumbnail
+{
+	display:block;
+	padding-top: 22px;
+}
+
+.a-media-item-source .a-media-icon-as-thumbnail
+{
+	padding-top: 66px;
+}
+
 .a-media-thumb-link img
 {
 position: relative;
