@@ -1786,6 +1786,7 @@ margin-bottom: 10px !important;
 position: absolute;
 top: 0;
 left: 0;
+z-index: 799;
 }
 
 .a-area.singleton.aRichText ul.a-controls.a-area-controls,
