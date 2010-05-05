@@ -58,83 +58,23 @@
 
 
 
-/* 1. Reset  - do NOT modify!
- * Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+/* 1. Reset  - do NOT modify! -- Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td
-{
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-weight: inherit;
-font-style: inherit;
-font-size: 100%;
-font-family: inherit;
-vertical-align: baseline;
-}
+* { margin: 0; padding: 0; font-weight: normal; } /* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
 
-*
-{
-/* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
-margin: 0;
-padding: 0;
-font-weight: normal;
-}
-/* TBB: in IE6 (and maybe IE7?), an explicit setting for
- * vertical-align: breaks <img align="left">. Strange
- * but true. align="left" is an anachronism but 
- * Study Abroad is using it courtesy of FCK's image editor
- */
-img
-{
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-weight: inherit;
-font-style: inherit;
-font-size: 100%;
-font-family: inherit;
-/* vertical-align: baseline; */
-}
-/* remember to define focus styles! */
-:focus { outline: 0; }
+:focus { outline: 0; } /* remember to define focus styles! */
 
 /* remember to highlight inserts somehow! */
 ins { text-decoration: none; }
 del { text-decoration: line-through; }
 
-body
-{
-line-height: 1;
-color: black;
-background: white;
-}
-
 ol, ul { list-style: none; }
 
-/* tables still need 'cellspacing="0"' in the markup */
-table
-{
-border-collapse: separate;
-border-spacing: 0;
-}
+table { border-collapse: separate; border-spacing: 0; } /* tables still need 'cellspacing="0"' in the markup */
 
-caption, th, td
-{
-text-align: left;
-font-weight: normal;
-}
+caption, th, td { text-align: left; font-weight: normal; }
 
 blockquote:before, 
 blockquote:after,
@@ -157,21 +97,11 @@ quotes: "" "";
 -------------------------------------*/
 html, body { height: 100%; }
 
-body
-{
-font: 12px/1.4 arial, sans-serif;
-color: #333;
-}
+body { font: 12px/1.4 arial, sans-serif; color: #333; }
 
-h1, h2, h3, h4, h5, h6
-{
-	line-height: 1.2;
-}
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
 
-p
-{
-	line-height: 1.4;
-}
+p { line-height: 1.4; }
 
 input[type="checkbox"],
 input[type="radio"]
@@ -180,13 +110,9 @@ input[type="radio"]
 	border: none !important;
 }
 
-object
-{
-	float: left;
-	clear: both;
-}
+object { float: left; clear: both; }
 
-br.c
+br.c 
 {
  background: none;
  border: 0;
@@ -205,7 +131,7 @@ br.c
 
 
 
-/* 3. Generic Classes
+/* 3. General Classes
 -------------------------------------*/
 
 .dropshadow
@@ -508,6 +434,10 @@ color: #900;
 	margin-left: 2px;
 }
 
+
+
+
+
 /* 6. aUI Buttons
 -------------------------------------*/
 
@@ -689,7 +619,6 @@ background-image: url(/apostrophePlugin/images/a-icon-checked.png);
 }
 
 .icon.a-blog,
-.icon.a-blogsingle,
 .icon.a-blog-btn,
 .icon.a-blogpost,
 .icon.a-blogsingle
@@ -1737,305 +1666,6 @@ vertical-align: baseline;
 
 
 
-
-
-
-
-/* 9. aUI Area and Slot Controls
--------------------------------------*/
-
-ul.a-controls
-{
-float: left;
-visibility: hidden;
-position: relative;
-margin: 0 !important;
-padding: 0 !important;
-}
-
-.a-slot.editing-now ul.a-controls,
-.a-area.singleton.editing-now ul.a-controls
-{ /* Controls sit on top when editing a singleton slot or a slot in an area */
-z-index: 899;
-}
-
-ul.a-controls li
-{ /* All controls buttons are wrapped in a list. */
-float: left;
-display: inline;
-position: relative;
-margin: 0px 2px 2px 0 !important;
-width: auto;
-height: auto;
-border: none;
-}
-
-ul.a-controls li.last
-{ /* .last option has no margin */
-	margin: 0 0 2px 0 !important;
-}
-
-ul.a-controls li.last.delete
-{
-/*	float: right;*/
-}
-
-ul.a-controls .a-controls-item.cancel
-{ /* Hide All Cancel Buttons */
-display: none;
-}
-
-ul.a-controls.a-area-controls
-{
-position: relative;
-float: left;
-width: 100%;
-margin-bottom: 10px !important;
-}
-
-.a-area.singleton ul.a-controls.a-area-controls
-{
-position: absolute;
-top: 0;
-left: 0;
-z-index: 799;
-}
-
-.a-area.singleton.aRichText ul.a-controls.a-area-controls,
-.a-area.singleton.aText ul.a-controls.a-area-controls,
-.a-area.singleton.aBlog ul.a-controls.a-area-controls,
-.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
-.a-area.singleton.aEvent ul.a-controls.a-area-controls,
-.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
-{ /* Singleton Slots that don't allow controls to sit on top of their content */
-	position: relative;
-	margin-bottom: 0 !important;
-}
-
-ul.a-controls li.add-slot-now
-{
-	margin: 0 4px 0 0 !important;
-}
-
-ul.a-controls.a-slot-controls
-{
-	width: 100%;
-}
-
-.aImage ul.a-controls.a-slot-controls,
-.aSlideshow ul.a-controls.a-slot-controls,
-ul.a-controls.a-media-edit-links,
-ul.a-controls.a-media-multiple-list-controls
-{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
-position: absolute;
-z-index: 799;
-top: 0;
-left: 0;
-}
-
-ul.a-controls.a-media-edit-links
-{
-	width: 100%;
-}
-
-ul.a-controls ul.a-controls-item
-{ /* Control Subsets */
-position: relative;
-}
-
-ul.a-controls .a-area-options,
-ul.a-controls .a-history-options
-{
-display: none;
-}
-
-.history-preview a.a-btn.a-add-slot
-{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
- display: none !important;
-}
-
-.a-area.previewing-history .a-slots .a-controls
-{
-display: none !important;
-}
-
-.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
-{
-display: block !important;
-}
-
-/* Variants Controls */
-
-ul.a-controls .a-controls-item.variant .a-variant-options-toggle
-{
-	position: relative;
-	z-index: 100;
-}
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
-{
-	background-color: #333;
-}
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
-{
-	background-color: #999;
-}
-
-.a-options
-{
-	padding: 35px 5px 2px 5px;
-	position: absolute;
-	float: left;
-	display: none;
-	top: -5px;
-	left: -5px;
-	background: #fff;
-/*	border: 1px solid #eee;*/
-	z-index: 1;	
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	list-style: none;
-	min-width: 124%;
-	width: auto;
-}
-
-ul.a-controls .a-options li,
-ul.a-controls .a-options li.last
-{
-	width: 100%;
-	float: left;
-	clear: both;
-	margin: 0 0 4px 0 !important;
-	list-style: none;	
-}
-
-.a-options a
-{
-float: left;
-clear: both;
-color: #777 !important;
-}
-
-.a-options a:hover,
-.a-options span
-{
-	color: #000 !important;
-}
-
-.a-options a.a-btn
-{
-	float: none !important;
-	display: block !important;
-	display: block !important;
-	-moz-border-radius: 2px !important;
-	text-shadow:none;	
-}
-
-.a-options a.a-btn:hover
-{
-	background-color: #f5f5f5	 !important;
-	color: #000 !important;
-	border-color: #ddd !important;
-	text-shadow:none;
-}
-
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options
-{
-	width: auto;
-	display: block;
-}
-
-ul.a-controls .a-variant-options.loading
-{
-	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
-}
-
-.a-options.a-slot-form
-{
-	top: -27px;
-}
-
-.a-options.a-slot-form .a-slot-form-title
-{
-	float: right;
-	margin: -22px 5px 10px;
-}
-
-.a-options.a-slot-form .a-form-row
-{
-	line-height: 20px;
-	margin: 0 0 15px 0;
-	padding: 0 10px;
-}
-
-.a-options.a-slot-form .a-form-row:hover .a-form-help-text
-{
-	display: block;
-}
-
-.a-options.a-slot-form .a-form-help-text
-{
-	position: absolute;
-	top: 0;
-	left: 100%;
-	white-space: nowrap;
-	width: auto;
-	margin-left: 20px;
-	padding: 0 6px 0 0;
-	background: rgba(0,0,0,1);
-	color: #ccc;
-	line-height: 21px;
-	-moz-border-radius: 0 4px 4px 0px;
-	-webkit-border-radius: 0 4px 4px 0px;
-	border-radius: 0 4px 4px 0px;
-	-moz-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
-	-webkit-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
-	-opera-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
-	-khtml-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
-	box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
-	display: none;
-}
-
-.a-help-arrow
-{
-	position: absolute;
-	top: 0;
-	left: -15px;
-	float: left;
-	height: 21px;
-	width: 15px;
-	margin: 0 5px 0 0;
-	background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
-}
-
-.a-options.a-slot-form .a-form-row label
-{
-	width: 80px;
-	float: left;
-	margin: 0 10px 0 0;
-	color: #666;
-}
-
-.a-options.a-slot-form .a-form-field
-{
-	float: left;
-}
-
-.aBlog .a-options.a-slot-form,
-.aEvent .a-options.a-slot-form
-{
-	width: 300px;
-}
-
-.aBlog .a-options.a-slot-form .a-form-row.tags input,
-.aEvent .a-options.a-slot-form .a-form-row.tags input
-{
-	width: 180px;
-}
-
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
@@ -2207,6 +1837,11 @@ margin-right:1px;
 {
 	background-color:#e2e2e2;
 }
+
+
+
+
+
 
 /* 11. aUI Global Toolbar
 -------------------------------------*/
@@ -2693,13 +2328,6 @@ border-top: 1px solid #ddd;
 padding: 8px 4px;
 }
 
-/* This was commented out in the partial at some point - 1/7/2010 */
-/*.a-history-browser .id
-{
-width: 10%;
-}
-*/
-
 .a-history-browser .date
 {
 width: 15%;
@@ -2712,7 +2340,6 @@ width: 15%;
 
 .a-history-browser .preview
 {
-/*width: 60%;*/
 width: 70%;
 }
 
@@ -2874,7 +2501,6 @@ clear: both;
 }
 
 /* Rich Text Slot Styles */
-
 .a-slot.aRichText h1,
 .a-slot.aRichText h2,
 .a-slot.aRichText h3,
@@ -2899,11 +2525,11 @@ font-weight: bold;
 
 .a-slot.aRichText blockquote
 {
-	display: block;
-	float: left;
-	clear: both;
-	display: inline;	
-	margin: 20px 40px;
+display: block;
+float: left;
+clear: both;
+display: inline;	
+margin: 20px 40px;
 }
 
 .a-slot.aRichText em,
@@ -2980,25 +2606,6 @@ color: #888;
 .a-slot.aRichText.a-edit-view:hover .a-controls
 {
 display: block;
-}
-
-/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
-/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
-.a-slot-is-editable.aRichText .a-slot-content-container,
-.a-slot-is-editable.aText .a-slot-content-container,
-.a-slot-is-editable.aBlogPost .a-slot-content-container,
-.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
-.a-slot-is-editable.aBlogEvent .a-slot-content-container,
-.a-slot-is-editable.aRawHTML .a-slot-content-container
-{
-/*	padding: 22px 0 0 0 !important;*/
-}
-
-/* RB:turning this off so save controls feel closer and more in context to the text area... if this is being done for some other reason please contact me before restoring this style */
-.aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
-.aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
-{
-/*	margin-top:10px!important;*/
 }
 
 .a-slot.aTextSlot,
@@ -3449,6 +3056,322 @@ margin-top: -10px;
 	padding-left:70px;
 }
 
+
+/* 9. Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+float: left;
+visibility: hidden;
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+.a-slot.editing-now ul.a-controls,
+.a-area.singleton.editing-now ul.a-controls
+{ /* Controls sit on top when editing a singleton slot or a slot in an area */
+z-index: 899;
+}
+
+ul.a-controls li
+{ /* All controls buttons are wrapped in a list. */
+float: left;
+display: inline;
+position: relative;
+margin: 0px 2px 2px 0 !important;
+width: auto;
+height: auto;
+border: none;
+}
+
+ul.a-controls li.last
+{ /* .last option has no margin */
+	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+/*	float: right;*/
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{
+position: relative;
+float: left;
+width: 100%;
+margin-bottom: 10px !important;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 799;
+}
+
+.a-area.singleton.aRichText ul.a-controls.a-area-controls,
+.a-area.singleton.aText ul.a-controls.a-area-controls,
+.a-area.singleton.aBlog ul.a-controls.a-area-controls,
+.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aEvent ul.a-controls.a-area-controls,
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
+{ /* Singleton Slots that don't allow controls to sit on top of their content */
+	position: relative;
+	margin-bottom: 0 !important;
+}
+
+ul.a-controls li.add-slot-now
+{
+	margin: 0 4px 0 0 !important;
+}
+
+ul.a-controls.a-slot-controls
+{
+	width: 100%;
+}
+
+.aImage ul.a-controls.a-slot-controls,
+.aSlideshow ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+}
+
+ul.a-controls.a-media-edit-links
+{
+	width: 100%;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-controls .a-area-options,
+ul.a-controls .a-history-options
+{
+display: none;
+}
+
+.history-preview a.a-btn.a-add-slot
+{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
+ display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+/* Variants Controls */
+
+ul.a-controls .a-controls-item.variant .a-variant-options-toggle
+{
+	position: relative;
+	z-index: 100;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
+{
+	background-color: #333;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
+{
+	background-color: #999;
+}
+
+.a-options
+{
+	padding: 35px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 124%;
+	width: auto;
+}
+
+ul.a-controls .a-options li,
+ul.a-controls .a-options li.last
+{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 4px 0 !important;
+	list-style: none;	
+}
+
+.a-options a
+{
+float: left;
+clear: both;
+color: #777 !important;
+}
+
+.a-options a:hover,
+.a-options span
+{
+	color: #000 !important;
+}
+
+.a-options a.a-btn
+{
+	float: none !important;
+	display: block !important;
+	display: block !important;
+	-moz-border-radius: 2px !important;
+	text-shadow:none;	
+}
+
+.a-options a.a-btn:hover
+{
+	background-color: #f5f5f5	 !important;
+	color: #000 !important;
+	border-color: #ddd !important;
+	text-shadow:none;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options
+{
+	width: auto;
+	display: block;
+}
+
+ul.a-controls .a-variant-options.loading
+{
+	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-options.a-slot-form
+{
+	width: 100%;
+	top: -27px;
+}
+
+.a-options.a-slot-form .a-slot-form-title
+{
+	position:absolute;
+	float:right;
+	right:7px;
+	top:0;
+	line-height:27px;
+}
+
+.a-options.a-slot-form .a-form-row
+{
+	line-height: 20px;
+	margin: 0 0 15px 0;
+	padding: 0 10px;
+}
+
+.a-options.a-slot-form .a-form-row:hover .a-form-help-text
+{
+	display: block;
+}
+
+.a-options.a-slot-form .a-form-help-text
+{
+	position: absolute;
+	top: 0;
+	left: 100%;
+	white-space: nowrap;
+	width: auto;
+	margin-left: 20px;
+	padding: 0 6px 0 0;
+	background: rgba(0,0,0,1);
+	color: #ccc;
+	line-height: 21px;
+	-moz-border-radius: 0 4px 4px 0px;
+	-webkit-border-radius: 0 4px 4px 0px;
+	border-radius: 0 4px 4px 0px;
+	-moz-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-webkit-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-opera-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-khtml-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	display: none;
+}
+
+.a-help-arrow
+{
+	position: absolute;
+	top: 0;
+	left: -15px;
+	float: left;
+	height: 21px;
+	width: 15px;
+	margin: 0 5px 0 0;
+	background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
+}
+
+.a-options.a-slot-form .a-form-row label
+{
+	width: 80px;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #666;
+}
+
+.a-options.a-slot-form .a-form-field
+{
+	float: left;
+}
+
+.aBlog .a-options.a-slot-form,
+.aEvent .a-options.a-slot-form
+{
+	width: 300px;
+}
+
+.aBlog .a-options.a-slot-form .a-form-row.tags input,
+.aEvent .a-options.a-slot-form .a-form-row.tags input
+{
+	width: 180px;
+}
+
+.aBlogSingle .a-options.a-slot-form .a-form-row
+{
+	padding: 0;
+}
+
+
+.aBlogSingle .a-blogsingle-input
+{
+	width: 180px
+}
+
+.aBlogSingle .a-form-row.search label
+{
+	width: 120px;
+}
+
+
+
 /* 15. Apostrophe Login Form
  **** This floats in the upper right corner when we use a login button
 -------------------------------------*/
@@ -3459,15 +3382,8 @@ position: absolute;
 top: 5px;
 right: 5px;
 padding: 0;
-background: #fff;
-border: 1px solid #888;
 z-index:999;
 display: none;
--moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
 }
 
 #a-login-form
@@ -4776,10 +4692,6 @@ display: none;
 
 
 
-
-
-
-
 /* 26. Shared Tag Suggestions
 -------------------------------------*/
 
@@ -4835,7 +4747,9 @@ visibility: hidden;
 }
 	
 div.tag-suggestions li a,
-div.tag-suggestions li a:link
+div.tag-suggestions li a:link,
+.ac_results .ac_even,
+.ac_results .ac_odd
 {
 float: left;
 display: block;
@@ -4849,11 +4763,37 @@ text-decoration: none !important;
 font-size: 11px;
 }
 
-div.tag-suggestions li a:hover
+div.tag-suggestions li a:hover,
+.ac_results .ac_over
 {
 background-color: #000;
 color: #fff !important;
 text-decoration:none;
+cursor: pointer;
+}
+
+.ac_results{
+z-index: 9999;
+font-size: 11px;
+border: none;
+min-width: 120px;
+}
+
+.ac_results ul{
+overflow: visible !important;
+}
+
+.ac_results li
+{
+font-family: arial, sans-serif;
+}
+
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+white-space: nowrap;
+padding: 0 4px;
+overflow: hidden;
 }
 
 
@@ -5473,36 +5413,6 @@ display:inline;
 
 
 
-/* 29. jQuery Autocomplete Results
--------------------------------------*/
-
-.ac_results{
-border-color: #bbb;
-color: #000;
-width: 120px;
-}
-
-.ac_results li
-{
-font-family: arial, sans-serif;
-}
-
-.ac_results .ac_even,
-.ac_results .ac_odd
-{
-background-color: #fff;
-}
-
-.ac_results .ac_over
-{
-color: #000;
-background-color: #fbef3b;
-}
-
-
-
-
-
 /* 30. Bundled Templates
 -------------------------------------*/
 
@@ -5610,31 +5520,6 @@ color: rgb(51,204,204);
 }
 
 
-/* 31. jQuery autocomplete results
--------------------------------------*/
-
-.ac_results{
-border-color: #bbb;
-color: #000;
-width: 120px;
-}
-
-.ac_results li
-{
-font-family: arial, sans-serif;
-}
-
-.ac_results .ac_even,
-.ac_results .ac_odd
-{
-background-color: #fff;
-}
-
-.ac_results .ac_over
-{
-color: #000;
-background-color: #fbef3b;
-}
 
 
 /* 32. Login button and language switcher
@@ -5763,13 +5648,6 @@ color: #888;
 .a-slot.aNewRichText.a-edit-view:hover .a-controls
 {
 display: block;
-}
-
-/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
-/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
-.a-slot-is-editable.aNewRichText .a-slot-content-container
-{
-/*	padding: 22px 0 0 0 !important;*/
 }
 
 .aNewRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls

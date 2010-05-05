@@ -23,7 +23,7 @@
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li>
 			<?php echo jq_link_to_function(__('Login', null, 'apostrophe'), "$('#a-login-form-container').fadeIn(); $('#signin_username').focus(); $('.a-page-overlay').fadeIn('fast');", array('class' => 'a-btn','id' => 'a-login-button')) ?>	
-			<div id="a-login-form-container">
+			<div id="a-login-form-container" class="dropshadow a-option">
 				<?php include_component('a','signinForm') ?>
 			</div>
 		</li>
