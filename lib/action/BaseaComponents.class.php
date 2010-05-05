@@ -61,7 +61,16 @@ class BaseaComponents extends BaseaSlotComponents
     $this->page = aTools::getCurrentPage();
     $this->pageid = $this->page->id;
     $this->slots = $this->page->getArea($this->name, $this->addSlot, sfConfig::get('app_a_new_slots_top', true));
-    $this->editable = $this->page->userHasPrivilege('edit');
+    if (!is_null($this->getOption('edit', null)))
+    {
+      // Editability override, useful for virtual pages where access control depends on something
+      // external to the CMS
+      $this->editable = $this->getOption('edit');
+    }
+    else
+    {
+      $this->editable = $this->page->userHasPrivilege('edit');
+    }
     $user = $this->getUser();
     // Clean this up for nicer templates
     $this->refresh = (isset($this->refresh) && $this->refresh);
@@ -90,12 +99,6 @@ class BaseaComponents extends BaseaSlotComponents
         $this->options['edit'] = true;
       }
       $user->setAttribute("area-options-$id-$name", $this->options, 'apostrophe');
-    }
-    // Editability override, useful for virtual pages where access control depends on something
-    // external to the CMS
-    if ($this->getOption('edit'))
-    {
-      $this->editable = true;
     }
     $this->infinite = $this->getOption('infinite');
     if (!$this->infinite)
