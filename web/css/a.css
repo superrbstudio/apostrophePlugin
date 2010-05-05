@@ -3212,8 +3212,13 @@ ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	list-style: none;
-	min-width: 124%;
+	min-width: 120px;
 	width: auto;
+}
+
+ul.a-controls .a-options
+{
+	min-width: 124%;
 }
 
 ul.a-controls .a-options li,
