@@ -26,8 +26,14 @@
 <?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
   <a <?php echo $linkAttributes ?> class="a-media-thumb-link">
     <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
-    <?php if ($type == 'pdf'): ?><span class="a-media-pdf-btn"></span><?php endif ?>
-    <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
+    <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
+    <?php if ($mediaItem->getWidth()): ?>
+      <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
+    <?php else: ?>
+      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
+      <?php $type = $mediaItem->getType() ?>
+      <img class="a-media-icon-as-thumbnail" src="/apostrophePlugin/images/a-<?php echo $type ?>-icon-tiny.png" />
+    <?php endif ?>
   </a>
 </li>
 
@@ -40,7 +46,9 @@
 </li>
 
 <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
-<li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
+<?php if ($mediaItem->getWidth()): ?>
+  <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
+<?php endif ?>
 <li class="a-media-item-created-at a-media-item-meta"><?php echo __('<span>Uploaded:</span> %date%', array('%date%' => aDate::pretty($mediaItem->getCreatedAt())), 'apostrophe') ?></li>
 <li class="a-media-item-credit a-media-item-meta"><?php echo __('<span>Credit:</span> %credit%', array('%credit%' => htmlspecialchars($mediaItem->getCredit())), 'apostrophe') ?></li>
 <li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>

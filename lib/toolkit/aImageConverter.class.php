@@ -392,6 +392,13 @@ class aImageConverter
     fclose($in);
     if ($data === '%PDF')
     {
+      if (!aImageConverter::supportsInput('pdf'))
+      {
+        // All we can do is confirm the format and allow
+        // download of the original (which, for PDF, is
+        // usually fine)
+        return array('format' => 'pdf');
+      }
       $result['format'] = 'pdf';
       $path = sfConfig::get("app_aimageconverter_path", "");
       if (strlen($path)) {
