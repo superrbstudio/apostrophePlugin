@@ -3230,7 +3230,7 @@ ul.a-controls .a-options li.last
 {
 float: left;
 clear: both;
-color: #777 !important;
+color: #777;
 }
 
 .a-options a:hover,
