@@ -515,6 +515,7 @@ width: 18px;
 .a-btn.flag.icon.expanded,
 .a-btn.flag.no-label.expanded
 {
+	background-position: -1px center;
 	width: auto;
 }
 
@@ -3345,6 +3346,13 @@ ul.a-controls .a-variant-options.loading
 .a-options.a-slot-form .a-form-field
 {
 	float: left;
+}
+
+.a-controls.a-blog-post-controls
+{
+	width: 100%;
+	float: left;
+	margin: 10px 0 5px 0 !important;
 }
 
 .aBlog .a-options.a-slot-form,
