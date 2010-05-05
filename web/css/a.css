@@ -3379,11 +3379,13 @@ ul.a-controls .a-variant-options.loading
 #a-login-form-container
 {
 position: absolute;
+left: auto;
 top: 5px;
 right: 5px;
 padding: 0;
 z-index:9999 !important;
-width: auto !important;
+width: 240px;
+min-width: 0;
 }
 
 #a-login-form
