@@ -690,7 +690,8 @@ background-image: url(/apostrophePlugin/images/a-icon-checked.png);
 
 .icon.a-blog,
 .icon.a-blog-btn,
-.icon.a-blogpost
+.icon.a-blogpost,
+.icon.a-blogsingle
 {
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
 }
@@ -1225,9 +1226,11 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);
 .alt .icon.a-blog-btn,
 .alt .icon.a-blog,
 .alt .icon.a-blogpost,
+.alt .icon.a-blogsingle,
 .icon.a-blog-btn.alt,
 .icon.a-blog.alt,
-.icon.a-blogpost.alt
+.icon.a-blogpost.alt,
+.icon.a-blogsingle.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
 }
