@@ -62,27 +62,20 @@
 	</tr>
 <?php endif ?>
 
-<?php if(count($versions)  == 10 && is_null($all)): ?>
-<script type="text/javascript" charset="utf-8">
-  $(function() {
-		$('#a-history-browser-view-more').show();
-  });
-</script>
-<?php else: ?>
-<script type="text/javascript" charset="utf-8">
-  $(function() {
-		$('#a-history-browser-view-more').hide().before('&nbsp;');
-  });
-</script>
-<?php endif ?>
-
-
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 
+		<?php if(count($versions)  == 10 && is_null($all)): ?>
+				$('#a-history-browser-view-more').show();
+		<?php else: ?>
+				$('#a-history-browser-view-more').hide().before('&nbsp;');
+		<?php endif ?>
+
+		$('#a-history-browser-number-of-revisions').text('<?php echo count($versions) ?> Revisions');
+
 		$('.a-history-browser-view-more').mousedown(function(){
 			$(this).children('img').fadeIn('fast');
-		})
+		});
 
 		$('.a-history-item').click(function() {
 

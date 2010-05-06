@@ -2272,13 +2272,20 @@ clear: both;
 	background-position: 0 -20px;
 }
 
+span#a-history-browser-number-of-revisions,
 a.a-history-browser-view-more
 {
 float: left;
 display: inline;
-padding: 8px;
+padding: 0 8px;
 line-height: 20px;
 position: relative;
+line-height: 1.2;
+}
+
+a.a-history-browser-view-more
+{
+	border-left: 1px solid #ccc;
 }
 
 a.a-history-browser-view-more .spinner
@@ -2619,10 +2626,17 @@ color: #888;
 display: block;
 }
 
-.a-slot.aTextSlot,
+.a-slot.aText,
 .a-slot.aRawHTML
 {
 width: 100%;
+}
+
+.a-slot.aText textarea.aTextSlot
+{
+	float: left;
+	clear: both;
+	width: 100%;
 }
 
 .a-slot.aRawHTML textarea.aRawHTMLSlotTextarea

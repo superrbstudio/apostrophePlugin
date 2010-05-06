@@ -1,4 +1,4 @@
-<?php use_helper('I18N') ?>
+	<?php use_helper('I18N') ?>
 <div class="a-history-browser dropshadow">
 	<div class="a-history-browser-heading">
 		<a href="#big-history-button" class="a-btn icon a-history-btn big" id="a-history-heading-button" style="margin: 5px" id="" onclick="return false;"><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></a>
@@ -23,9 +23,9 @@
 			<tfoot>
 			  <tr>
 				  <td colspan="3">
+						<span id="a-history-browser-number-of-revisions">Revisions</span>
 				    <a href="#" class="a-history-browser-view-more" id="a-history-browser-view-more"><?php echo __('View More Revisions', null, 'apostrophe') ?> <img src="/apostrophePlugin/images/a-icon-loader.gif" class="spinner" /></a>
           </td>
-					<td class="number-of-revisions"></td>
 			  </tr>
 			</tfoot>
 		</table>
