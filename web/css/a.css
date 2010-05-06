@@ -1917,8 +1917,13 @@ margin-right: 5px;
 	clear: both;
 	width: 100%;
 	margin: 0;
-	padding: 8px 0;
+	padding: 0;
 	overflow: hidden;
+}
+
+#a-global-toolbar .a-global-toolbar-this-page.ok
+{
+	padding: 8px 0;
 }
 
 #a-this-page-toggle.open

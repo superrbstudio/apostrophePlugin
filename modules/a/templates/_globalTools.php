@@ -69,7 +69,7 @@ These are mostly links to independent modules.
 	$(document).ready(function() {
 		var thisPageStatus = 0;
 		var thisPage = $('#a-this-page-toggle');
-		$('#a-global-toolbar-this-page').hide();
+		$('#a-global-toolbar-this-page').hide().addClass('ok');
 		thisPage.click(function(){
 			thisPage.toggleClass('open');
 			$('#a-breadcrumb').addClass('show');
