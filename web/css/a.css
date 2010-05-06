@@ -627,6 +627,11 @@ background-image: url(/apostrophePlugin/images/a-icon-checked.png);
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
 }
 
+.icon.a-blog
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-blog-many.png) !important;	
+}
+
 .icon.a-video
 {
 background-image: url(/apostrophePlugin/images/a-icon-video.png);
