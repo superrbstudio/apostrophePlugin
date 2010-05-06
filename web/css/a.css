@@ -3354,7 +3354,7 @@ ul.a-controls .a-variant-options.loading
 }
 
 .a-options.a-slot-form .a-form-field
-{
+	{
 	float: left;
 }
 
@@ -3362,7 +3362,7 @@ ul.a-controls .a-variant-options.loading
 {
 	width: 100%;
 	float: left;
-	margin: 10px 05px 0 !important;
+	margin: 10px 0 5px 0 !important;
 }
 
 .aBlog .a-options.a-slot-form,
