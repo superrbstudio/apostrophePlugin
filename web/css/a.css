@@ -3286,6 +3286,11 @@ color: #777;
 	text-shadow:none;
 }
 
+.a-options .a-multiple-select a
+{
+	color: #777 !important;
+}
+
 ul.a-controls .a-controls-item.variant.open .a-variant-options
 {
 	width: auto;
