@@ -148,6 +148,37 @@ class aDate
     $s .= date('A', $date);
     return $s;
   }
+
+
+	// 4:15 PM, Thursday
+
+	static public function dayAndTime($date)
+	{
+		$date = self::normalize($date);
+		if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Short date format is the closest I18N format to our proprietary version
+      return format_date($date, 'd');
+    }
+		$time = self::time($date);
+		$day = date('l', $date);
+		return $time.', '.$day;
+	}
+
+  // January 14, 2009
+  
+  static public function dayMonthYear($date)
+  {
+    $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+      // Long date format is the closest I18N format to our proprietary version
+      return format_date($date, 'D');
+    }
+    return date('M j, Y', $date);
+  }
   
   // Subtracts $date2 from $date1 and returns the difference in whole days.
   // For instance, if $date2 is 2009-09-30 and $date1 is 2009-10-01, the

@@ -2,7 +2,7 @@
 
 <?php if ($editable): ?>
 
-  <form method="POST" action="#" class="a-slot-form" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
+  <form method="POST" action="#" class="a-slot-form a-edit-view" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
 
   <?php include_component($editModule, 
     "editView", 
@@ -45,7 +45,7 @@
 <?php endif ?>
 
 <?php if ($editable): ?>
-  <div class="a-slot-content-container <?php echo $outlineEditable ? " a-editable" : "" ?>" id="a-slot-content-container-<?php echo $id ?>" style="display: <?php echo $showEditor ? "none" : "block"?>">
+  <div class="a-slot-content-container a-normal-view <?php echo $outlineEditable ? " a-editable" : "" ?>" id="a-slot-content-container-<?php echo $id ?>" style="display: <?php echo $showEditor ? "none" : "block"?>">
 <?php endif ?>
 
 <?php include_component($normalModule, 

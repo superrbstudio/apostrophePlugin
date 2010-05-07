@@ -38,3 +38,21 @@ ul.a-slideshow
 {
 	background: none !important;
 }
+
+/* RGBA is awesome. Except for IE. Solid Colors */
+
+.a-page-overlay
+{
+	background: #fff;
+}
+
+div.tag-suggestions li a,
+div.tag-suggestions li a:link
+{
+background: #444;
+}
+
+.a-slot.aSlideshow.compact .a-slideshow-title
+{
+	background: #000;
+}

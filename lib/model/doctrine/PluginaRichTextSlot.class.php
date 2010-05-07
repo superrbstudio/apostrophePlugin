@@ -20,4 +20,12 @@ abstract class PluginaRichTextSlot extends BaseaRichTextSlot
     
     return strip_tags($this->value);
   }
+
+  /**
+   * Returns the plaintext representation of this slot
+   */
+  public function getText()
+  {
+    return $this->getSearchText();
+  }
 }

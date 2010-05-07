@@ -58,83 +58,23 @@
 
 
 
-/* 1. Reset  - do NOT modify!
- * Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+/* 1. Reset  - do NOT modify! -- Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td
-{
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-weight: inherit;
-font-style: inherit;
-font-size: 100%;
-font-family: inherit;
-vertical-align: baseline;
-}
+* { margin: 0; padding: 0; font-weight: normal; } /* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
 
-*
-{
-/* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
-margin: 0;
-padding: 0;
-font-weight: normal;
-}
-/* TBB: in IE6 (and maybe IE7?), an explicit setting for
- * vertical-align: breaks <img align="left">. Strange
- * but true. align="left" is an anachronism but 
- * Study Abroad is using it courtesy of FCK's image editor
- */
-img
-{
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-weight: inherit;
-font-style: inherit;
-font-size: 100%;
-font-family: inherit;
-/* vertical-align: baseline; */
-}
-/* remember to define focus styles! */
-:focus { outline: 0; }
+:focus { outline: 0; } /* remember to define focus styles! */
 
 /* remember to highlight inserts somehow! */
 ins { text-decoration: none; }
 del { text-decoration: line-through; }
 
-body
-{
-line-height: 1;
-color: black;
-background: white;
-}
-
 ol, ul { list-style: none; }
 
-/* tables still need 'cellspacing="0"' in the markup */
-table
-{
-border-collapse: separate;
-border-spacing: 0;
-}
+table { border-collapse: separate; border-spacing: 0; } /* tables still need 'cellspacing="0"' in the markup */
 
-caption, th, td
-{
-text-align: left;
-font-weight: normal;
-}
+caption, th, td { text-align: left; font-weight: normal; }
 
 blockquote:before, 
 blockquote:after,
@@ -157,21 +97,11 @@ quotes: "" "";
 -------------------------------------*/
 html, body { height: 100%; }
 
-body
-{
-font: 12px/1.4 arial, sans-serif;
-color: #333;
-}
+body { font: 12px/1.4 arial, sans-serif; color: #333; }
 
-h1, h2, h3, h4, h5, h6
-{
-	line-height: 1.2;
-}
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
 
-p
-{
-	line-height: 1.4;
-}
+p { line-height: 1.4; }
 
 input[type="checkbox"],
 input[type="radio"]
@@ -180,13 +110,9 @@ input[type="radio"]
 	border: none !important;
 }
 
-object
-{
-	float: left;
-	clear: both;
-}
+object { float: left; clear: both; }
 
-br.c
+br.c 
 {
  background: none;
  border: 0;
@@ -205,7 +131,7 @@ br.c
 
 
 
-/* 3. Generic Classes
+/* 3. General Classes
 -------------------------------------*/
 
 .dropshadow
@@ -241,7 +167,6 @@ bottom: 0;
 height: 100%;
 width: 100%;
 display: none;
-background: rgb(255,255,255);
 background: rgba(255,255,255,0.5);
 }
 
@@ -301,7 +226,7 @@ text-decoration:underline;
 a.a-btn.nobg,
 a.a-btn.nobg:hover
 {
-	background: none !important;
+	background-color: transparent !important;
 	-moz-box-shadow: 0 0 0 transparent !important;
 	-webkit-box-shadow: 0 0 0 transparent !important;
 	-opera-box-shadow: 0 0 0 transparent !important;
@@ -509,6 +434,10 @@ color: #900;
 	margin-left: 2px;
 }
 
+
+
+
+
 /* 6. aUI Buttons
 -------------------------------------*/
 
@@ -586,17 +515,23 @@ width: 18px;
 .a-btn.flag.icon.expanded,
 .a-btn.flag.no-label.expanded
 {
+	background-position: -1px center;
 	width: auto;
 }
 
 .a-btn.flag.icon
 {
-	padding: 0 10px;
+	padding: 0 0 0 18px;
 }
 
 .a-btn.flag.icon.no-label
 {
 	padding: 0;
+}
+
+.a-btn.no-label:hover
+{
+	text-indent: -9999px;
 }
 
 .a-btn.flag:hover,
@@ -641,10 +576,11 @@ text-indent:0 !important;
 {
 	font-size: 11px;
 	color: #fff;
-	background: #000 !important;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+	background: rgba(0,0,0,0.75) !important;
+	background: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
 	text-shadow: none;
@@ -688,10 +624,17 @@ background-image: url(/apostrophePlugin/images/a-icon-unchecked.png);
 background-image: url(/apostrophePlugin/images/a-icon-checked.png);	
 }
 
+.icon.a-blog,
 .icon.a-blog-btn,
-.icon.a-blogpost
+.icon.a-blogpost,
+.icon.a-blogsingle
 {
 background-image: url(/apostrophePlugin/images/a-icon-blog.png);
+}
+
+.icon.a-blog
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-blog-many.png) !important;	
 }
 
 .icon.a-video
@@ -952,6 +895,8 @@ background-position: 0 -20px;
 	padding-left: 0 !important;
 }
 
+.icon.a-event,
+.icon.a-eventsingle,
 .icon.a-events span.day
 {
 float: left;
@@ -1115,10 +1060,48 @@ background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
 	background-position: 0 -581px;
 }
 
+.icon.a-event,
+.icon.a-eventsingle,
 .icon.a-events.day-31 span.day
 {
 	background-position: 0 -601px;
 }
+
+.icon.a-sort-arrow
+{
+	background-position: 0 0;
+}
+
+.icon.a-sort-arrow.sorting,
+.icon.a-sort-arrow:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);	
+}
+
+.icon.a-sort-arrow.desc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+
+.icon.a-sort-arrow.sorting:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+.icon.a-sort-arrow.desc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);		
+}
+
 
 input.a-submit,
 input.a-cancel
@@ -1192,9 +1175,13 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);
 }
 
 .alt .icon.a-blog-btn,
+.alt .icon.a-blog,
 .alt .icon.a-blogpost,
+.alt .icon.a-blogsingle,
 .icon.a-blog-btn.alt,
-.icon.a-blogpost.alt
+.icon.a-blog.alt,
+.icon.a-blogpost.alt,
+.icon.a-blogsingle.alt
 {
 background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
 }
@@ -1367,6 +1354,10 @@ background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-re
 background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat;
 }
 
+.alt .icon.a-event,
+.alt .icon.a-eventsingle,
+.icon.a-event.alt,
+.icon.a-eventsingle.alt,
 .alt .icon.a-events span.day,
 .icon.a-events.alt span.day
 {
@@ -1627,7 +1618,7 @@ line-height: 20px;
 margin: 0;
 overflow: hidden;
 text-indent: -9999px;
-background: url(/apostrophePlugin/images/a-icon-page-settings.png) no-repeat 0 0;
+background: url(/apostrophePlugin/images/a-icon-personal-settings.png) no-repeat 0 0;
 position: relative;
 }
 
@@ -1691,209 +1682,10 @@ vertical-align: baseline;
 
 
 
-
-
-
-
-/* 9. aUI Area and Slot Controls
--------------------------------------*/
-
-ul.a-controls
-{
-float: left;
-visibility: hidden;
-margin: 0;
-}
-
-ul.a-controls li
-{ /* All buttons on the site are wrapped in a list. */
-float: left;
-display: inline;
-position: relative;
-margin: 0px 2px 2px 0 !important;
-width: auto;
-height: auto;
-border: none;
-}
-
-ul.a-controls li.last
-{ /* .last option has no margin */
-	margin: 0 0 2px 0 !important;
-}
-
-ul.a-controls li.last.delete
-{
-/*	float: right;*/
-}
-
-ul.a-controls .a-controls-item.cancel
-{ /* Hide All Cancel Buttons */
-display: none;
-}
-
-ul.a-controls.a-area-controls
-{ /* Area Controls - Sit ABOVE all slots */
-position: relative;
-z-index: 899;
-float: left;
-width: 100%;
-padding-bottom: 10px;
-}
-
-.a-area.singleton ul.a-controls.a-area-controls
-{
-position: absolute;
-top: 0;
-left: 0;
-}
-
-.browsing-history ul.a-controls.a-area-controls
-{ /* Change z-index of Area controls when we are browsing history */
-z-index: 999;
-}
-
-.a-area.browsing-history ul.a-controls.a-slot-controls,
-ul.a-controls ul.a-controls-item.history
-{
-z-index: 899;
-}
-
-ul.a-controls li.add-slot-now
-{
-	margin: 0 4px 0 0 !important;
-}
-
-ul.a-controls.a-slot-controls
-{
-	z-index: 799;
-	width: 100%;
-}
-
-.aImage ul.a-controls.a-slot-controls,
-.aSlideshow ul.a-controls.a-slot-controls,
-ul.a-controls.a-media-edit-links,
-ul.a-controls.a-media-multiple-list-controls
-{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
-position: absolute;
-z-index: 799;
-top: 0;
-left: 0;
-}
-
-ul.a-controls.a-media-edit-links
-{
-	width: 100%;
-}
-
-ul.a-controls ul.a-controls-item
-{ /* Control Subsets */
-position: relative;
-}
-
-ul.a-controls .a-area-options,
-ul.a-controls .a-history-options
-{
-display: none;
-}
-
-.history-preview a.a-btn.a-add-slot
-{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
- display: none !important;
-}
-
-.a-area.previewing-history .a-slots .a-controls
-{
-display: none !important;
-}
-
-.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
-{
-display: block !important;
-}
-
-/* Variants Controls */
-
-ul.a-controls .a-controls-item.variant .a-variant-options-toggle
-{
-	position: relative;
-	z-index: 100;
-}
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
-{
-	background-color: #333;
-}
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
-{
-	background-color: #999;
-}
-
-ul.a-controls .a-options
-{
-	padding: 30px 5px 2px 5px;
-	position: absolute;
-	float: left;
-	display: none;
-	top: -5px;
-	left: -5px;
-	background: #fff;
-/*	border: 1px solid #eee;*/
-	z-index: 1;	
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	list-style: none;
-	min-width: 100px;
-	width: auto !important;
-	width: 100px;
-}
-
-ul.a-controls .a-options li,
-ul.a-controls .a-options li.last
-{
-	width: 100%;
-	float: left;
-	clear: both;
-	margin: 0 0 4px 0 !important;
-	list-style: none;	
-}
-
-ul.a-controls .a-options a
-{
-color: #777 !important;
-float: none !important;
-display: block !important;
-border-color: #fff !important;
-display: block !important;
--moz-border-radius: 2px !important;
-text-shadow:none;
-}
-
-ul.a-controls .a-options a:hover,
-ul.a-controls .a-options span
-{
-	background-color: #f5f5f5	 !important;
-	color: #000 !important;
-	border-color: #ddd !important;
-	text-shadow:none;
-}
-
-ul.a-controls .a-controls-item.variant.open .a-variant-options
-{
-	width: auto;
-	display: block;
-}
-
-ul.a-controls .a-variant-options.loading
-{
-	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
-}
-
 /* 10. aUI Pager Navigation
 -------------------------------------*/
 
-.a_pager_navigation
+.a-pager-navigation
 {
 float: left;
 display: inline;
@@ -1903,8 +1695,8 @@ font-size: 11px;
 width: 100%;
 }
 
-.a_pager_navigation a,
-.a_pager_navigation span
+.a-pager-navigation a,
+.a-pager-navigation span
 {
 display: inline;
 float: left;
@@ -1912,23 +1704,23 @@ height: 20px;
 line-height: 20px;
 }
 
-.a_pager_navigation .a_page_navigation_number
+.a-pager-navigation .a-page-navigation-number
 {
 padding: 0 6px;
 }
 
-.a_pager_navigation span.a_page_navigation_number.a_pager_navigation_disabled
+.a-pager-navigation span.a-page-navigation-number.a-pager-navigation-disabled
 {
 background-color: #e2e2e2;
 }
 
-.a_pager_navigation a.a_page_navigation_number:hover
+.a-pager-navigation a.a-page-navigation-number:hover
 {
 color: #000;
 background-color: #e2e2e2;
 }
 
-.a_pager_navigation .a_pager_navigation_image
+.a-pager-navigation .a-pager-navigation-image
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
 display: inline;
@@ -1938,12 +1730,12 @@ height: 20px;
 text-indent: -9999px;
 }
 
-.a_pager_navigation a.a_pager_navigation_image.disabled
+.a-pager-navigation a.a-pager-navigation-image.disabled
 {
 cursor: default;
 }
 
-.a_pager_navigation a.a_pager_navigation_first
+.a-pager-navigation a.a-pager-navigation-first
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
 -moz-border-radius:10px 0px 0px 10px;
@@ -1953,33 +1745,33 @@ border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 }
 
-.a_pager_navigation a.a_pager_navigation_first:hover
+.a-pager-navigation a.a-pager-navigation-first:hover
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 }
-.a_pager_navigation a.a_pager_navigation_previous
+.a-pager-navigation a.a-pager-navigation-previous
 {
 background-position: -22px 0;
 width: 19px;
 margin-right: 5px;
 margin-left:1px;
 }
-.a_pager_navigation a.a_pager_navigation_previous:hover
+.a-pager-navigation a.a-pager-navigation-previous:hover
 {
 background-position: -22px -40px !important;
 }
-.a_pager_navigation a.a_pager_navigation_next
+.a-pager-navigation a.a-pager-navigation-next
 {
 background-position: -41px 0;
 width: 19px;
 margin-left: 5px;
 margin-right: 1px;
 }
-.a_pager_navigation a.a_pager_navigation_next:hover
+.a-pager-navigation a.a-pager-navigation-next:hover
 {
 background-position: -41px -60px;
 }
-.a_pager_navigation a.a_pager_navigation_last
+.a-pager-navigation a.a-pager-navigation-last
 {
 background-position: -60px 0;
 -moz-border-radius:0px 10px 10px 0px;
@@ -1988,12 +1780,12 @@ border-top-right-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 border-bottom-right-radius:10px;
 }
-.a_pager_navigation a.a_pager_navigation_last:hover
+.a-pager-navigation a.a-pager-navigation-last:hover
 {
 background-position: -60px -80px;
 }
 
-.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
@@ -2006,7 +1798,7 @@ border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 }
 
-.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
 text-indent: -999px;
@@ -2017,7 +1809,7 @@ margin-left:1px;
 
 }
 
-.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
 background-position:-60px -80px;
@@ -2031,7 +1823,7 @@ border-top-right-radius:10px;
 border-bottom-right-radius:10px;
 }
 
-.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
 {
 background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
 text-indent: -999px;
@@ -2042,25 +1834,30 @@ margin-right:1px;
 }
 
 
-.a_pager_navigation a.a_pager_navigation_first,
-.a_pager_navigation a.a_pager_navigation_previous,
-.a_pager_navigation a.a_pager_navigation_next,
-.a_pager_navigation a.a_pager_navigation_last,
-.a_pager_navigation span.a_pager_navigation_first.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_previous.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_next.a_pager_navigation_disabled,
-.a_pager_navigation span.a_pager_navigation_last.a_pager_navigation_disabled
+.a-pager-navigation a.a-pager-navigation-first,
+.a-pager-navigation a.a-pager-navigation-previous,
+.a-pager-navigation a.a-pager-navigation-next,
+.a-pager-navigation a.a-pager-navigation-last,
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
 {
 	background-color:#e2e2e2;
 }
 
-.a_pager_navigation a.a_pager_navigation_first:hover,
-.a_pager_navigation a.a_pager_navigation_previous:hover,
-.a_pager_navigation a.a_pager_navigation_next:hover,
-.a_pager_navigation a.a_pager_navigation_last:hover
+.a-pager-navigation a.a-pager-navigation-first:hover,
+.a-pager-navigation a.a-pager-navigation-previous:hover,
+.a-pager-navigation a.a-pager-navigation-next:hover,
+.a-pager-navigation a.a-pager-navigation-last:hover
 {
 	background-color:#e2e2e2;
 }
+
+
+
+
+
 
 /* 11. aUI Global Toolbar
 -------------------------------------*/
@@ -2136,8 +1933,13 @@ margin-right: 5px;
 	clear: both;
 	width: 100%;
 	margin: 0;
-	padding: 8px 0;
+	padding: 0;
 	overflow: hidden;
+}
+
+#a-global-toolbar .a-global-toolbar-this-page.ok
+{
+	padding: 8px 0;
 }
 
 #a-this-page-toggle.open
@@ -2442,7 +2244,10 @@ clear: both;
 z-index: 999;
 overflow: hidden;
 display: none;
-border: 1px solid #333;
+background: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
 }
 
 .a-history-browser h3
@@ -2455,16 +2260,53 @@ width: 100%;
 margin: 0;
 padding: 10px;
 clear: both;
-background-color: #fff;
 }
 
+.a-history-browser-heading
+{
+	float: left;
+	clear: both;
+	width: 100%;
+	position: relative;
+}
+
+.a-history-browser #a-history-close-button
+{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -10px;
+	height: 20px;
+	width: 20px;
+	background-position: 0 0;
+	z-index: 999;
+}
+
+.a-history-browser #a-history-close-button span
+{
+	color: #333 !important;
+	text-shadow: none !important;
+}
+
+.a-history-browser #a-history-close-button:hover
+{
+	background-position: 0 -20px;
+}
+
+span#a-history-browser-number-of-revisions,
 a.a-history-browser-view-more
 {
 float: left;
 display: inline;
-padding: 8px;
+padding: 0 8px;
 line-height: 20px;
 position: relative;
+line-height: 1.2;
+}
+
+a.a-history-browser-view-more
+{
+	border-left: 1px solid #ccc;
 }
 
 a.a-history-browser-view-more .spinner
@@ -2494,10 +2336,8 @@ clear: both;
 {
 width: 100%;
 table-layout: fixed;
-border-bottom: 1px solid #ddd;
 font-size: 11px;
 color: #333;
-background-color: #fff;
 }
 
 .a-history-browser thead th
@@ -2524,15 +2364,8 @@ padding: 0 4px;
 .a-history-browser tfoot td
 {
 border-top: 1px solid #ddd;
-/*	padding: 8px 4px;*/
+padding: 8px 4px;
 }
-
-/* This was commented out in the partial at some point - 1/7/2010 */
-/*.a-history-browser .id
-{
-width: 10%;
-}
-*/
 
 .a-history-browser .date
 {
@@ -2546,34 +2379,43 @@ width: 15%;
 
 .a-history-browser .preview
 {
-/*width: 60%;*/
 width: 70%;
 }
 
 .a-history-preview-notice
 {
 display: none;
-position: absolute;
-top: 0px;
-left: 0px;
-width: 100%;
-z-index: 999;
+position: fixed;
+top: 55px;
+left: 20px;
+z-index: 9999;
 background: #fff;
-color: #d4c;
+color: #900;
 border-bottom: 1px solid #ddd;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+float: left;
+width: 250px;
 }
 
-.a-history-preview-notice div
+.a-history-preview-notice h4,
+.a-history-preview-notice p,
+.a-history-preview-notice .a-history-options
 {
 float: left;
-margin: 10px;
+clear: both;
+margin: 0 10px 10px;
 }
 
-.a-history-options
+.a-history-preview-notice h4
 {
-float: left;
-display: inline;
-padding-left: 1px;
+	margin-top: 10px;
+}
+
+.a-history-options .a-history-revert
+{
+	margin-right: 2px !important;
 }
 
 
@@ -2593,6 +2435,12 @@ float: left;
 width: 100%;
 margin: 10px 0;
 /*	z-index:599;*/
+}
+
+.a-area.editing-now,
+.a-slot.editing-now
+{
+	z-index: 900;
 }
 
 .a-area .a-new-slot
@@ -2685,8 +2533,13 @@ clear: both;
 	width: 100%;
 }
 
-/* Rich Text Slot Styles */
+.a-slot-form.a-options
+{
+	position: relative;
+	margin-bottom: -27px;
+}
 
+/* Rich Text Slot Styles */
 .a-slot.aRichText h1,
 .a-slot.aRichText h2,
 .a-slot.aRichText h3,
@@ -2711,11 +2564,11 @@ font-weight: bold;
 
 .a-slot.aRichText blockquote
 {
-	display: block;
-	float: left;
-	clear: both;
-	display: inline;	
-	margin: 20px 40px;
+display: block;
+float: left;
+clear: both;
+display: inline;	
+margin: 20px 40px;
 }
 
 .a-slot.aRichText em,
@@ -2794,28 +2647,17 @@ color: #888;
 display: block;
 }
 
-/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
-/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
-.a-slot-is-editable.aRichText .a-slot-content-container,
-.a-slot-is-editable.aText .a-slot-content-container,
-.a-slot-is-editable.aBlogPost .a-slot-content-container,
-.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
-.a-slot-is-editable.aBlogEvent .a-slot-content-container,
-.a-slot-is-editable.aRawHTML .a-slot-content-container
-{
-/*	padding: 22px 0 0 0 !important;*/
-}
-
-.aRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls,
-.aText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
-{
-	margin-top:10px!important;
-}
-
-.a-slot.aTextSlot,
+.a-slot.aText,
 .a-slot.aRawHTML
 {
 width: 100%;
+}
+
+.a-slot.aText textarea.aTextSlot
+{
+	float: left;
+	clear: both;
+	width: 100%;
 }
 
 .a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
@@ -2986,8 +2828,7 @@ background-position: 0 -30px !important;
 	color: #fff;
 	font-size: 11px;
 	line-height: 1.3;
-	background: rgb(0,0,0);	
-	background: rgba(0, 0, 0, 0.35);	
+	background: rgba(0,0,0,0.35);	
 }
 
 .a-slot.aSlideshow.autoplay .a-slideshow-title
@@ -3144,13 +2985,13 @@ margin-top: -10px;
 
 /*ICON ONLY*/
 
-.a-pdf-slot.icon-only
+.a-pdf-slot.no-label
 {
 	height: auto !important;
 	height: 43px;
 }
 
-.a-pdf-slot.icon-only .a-media-pdf-icon
+.a-pdf-slot.no-label .a-media-pdf-icon
 {
 	position:absolute;
 	height:43px;
@@ -3161,7 +3002,7 @@ margin-top: -10px;
 	z-index:10;
 }
 
-.a-pdf-slot.icon-only .a-media-pdf-icon a
+.a-pdf-slot.no-label .a-media-pdf-icon a
 {
 	float:left;
 	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
@@ -3171,7 +3012,7 @@ margin-top: -10px;
 	text-indent: -9999px;
 }
 
-.a-pdf-slot.icon-only .a-pdf-meta
+.a-pdf-slot.no-label .a-pdf-meta
 {
 	padding-left:45px;
 	text-indent: 0 !important;
@@ -3179,7 +3020,7 @@ margin-top: -10px;
 
 /*COMPACT*/
 
-.compact .a-pdf-slot.icon-only .a-media-pdf-icon
+.compact .a-pdf-slot.no-label .a-media-pdf-icon
 {
 	display:inline;
 	position:absolute;
@@ -3191,7 +3032,7 @@ margin-top: -10px;
 	z-index:10;
 }
 
-.compact .a-pdf-slot.icon-only .a-media-pdf-icon a
+.compact .a-pdf-slot.no-label .a-media-pdf-icon a
 {
 	float:left;
 	background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
@@ -3201,7 +3042,7 @@ margin-top: -10px;
 	text-indent: -9999px;
 }
 
-.compact .a-pdf-slot.icon-only .a-pdf-meta
+.compact .a-pdf-slot.no-label .a-pdf-meta
 {
 	padding-left:25px;
 }
@@ -3261,6 +3102,341 @@ margin-top: -10px;
 	padding-left:70px;
 }
 
+
+/* 9. Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+float: left;
+visibility: hidden;
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+.a-slot.editing-now ul.a-controls,
+.a-area.singleton.editing-now ul.a-controls
+{ /* Controls sit on top when editing a singleton slot or a slot in an area */
+z-index: 899;
+}
+
+ul.a-controls li
+{ /* All controls buttons are wrapped in a list. */
+float: left;
+display: inline;
+position: relative;
+margin: 0px 2px 2px 0 !important;
+width: auto;
+height: auto;
+border: none;
+}
+
+ul.a-controls li.last
+{ /* .last option has no margin */
+	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+/*	float: right;*/
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{
+position: relative;
+float: left;
+width: 100%;
+margin-bottom: 10px !important;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 799;
+margin: 0 !important;
+}
+
+.a-area.singleton.aRichText ul.a-controls.a-area-controls,
+.a-area.singleton.aText ul.a-controls.a-area-controls,
+.a-area.singleton.aBlog ul.a-controls.a-area-controls,
+.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aEvent ul.a-controls.a-area-controls,
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
+{ /* Singleton Slots that don't allow controls to sit on top of their content */
+	position: relative;
+	margin-bottom: 0 !important;
+}
+
+ul.a-controls li.add-slot-now
+{
+	margin: 0 4px 0 0 !important;
+}
+
+ul.a-controls.a-slot-controls
+{
+	width: 100%;
+}
+
+.aImage ul.a-controls.a-slot-controls,
+.aSlideshow ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+}
+
+ul.a-controls.a-media-edit-links
+{
+	width: 100%;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-controls .a-area-options,
+ul.a-controls .a-history-options
+{
+z-index: 899;
+display: none;
+}
+
+.history-preview a.a-btn.a-add-slot
+{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
+ display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+/* Variants Controls */
+
+ul.a-controls .a-controls-item.variant .a-variant-options-toggle
+{
+	position: relative;
+	z-index: 100;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
+{
+	background-color: #333;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
+{
+	background-color: #999;
+}
+
+.a-options
+{
+	padding: 35px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 120px;
+	width: auto;
+}
+
+ul.a-controls .a-options
+{
+	min-width: 124%;
+}
+
+ul.a-controls .a-options li,
+ul.a-controls .a-options li.last
+{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 4px 0 !important;
+	list-style: none;	
+}
+
+.a-options a
+{
+float: left;
+clear: both;
+color: #777;
+}
+
+.a-options a:hover,
+.a-options span
+{
+	color: #000 !important;
+}
+
+.a-options a.a-btn
+{
+	float: none !important;
+	display: block !important;
+	display: block !important;
+	-moz-border-radius: 2px !important;
+	text-shadow:none;	
+}
+
+.a-options a.a-btn:hover
+{
+	background-color: #f5f5f5	 !important;
+	color: #000 !important;
+	border-color: #ddd !important;
+	text-shadow:none;
+}
+
+.a-options .a-multiple-select a
+{
+	color: #777 !important;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options
+{
+	width: auto;
+	display: block;
+}
+
+ul.a-controls .a-variant-options.loading
+{
+	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-options.a-slot-form
+{
+	width: 100%;
+	top: -27px;
+}
+
+.a-options.a-slot-form .a-slot-form-title
+{
+	position:absolute;
+	float:right;
+	right:7px;
+	top:0;
+	line-height:27px;
+}
+
+.a-options.a-slot-form .a-form-row
+{
+	line-height: 20px;
+	margin: 0 0 15px 0;
+	padding: 0 10px;
+}
+
+.a-options.a-slot-form .a-form-row:hover .a-form-help-text
+{
+	display: block;
+}
+
+.a-options.a-slot-form .a-form-help-text
+{
+	position: absolute;
+	top: 0;
+	left: 100%;
+	white-space: nowrap;
+	width: auto;
+	margin-left: 20px;
+	padding: 0 6px 0 0;
+	background: rgba(0,0,0,1);
+	color: #ccc;
+	line-height: 21px;
+	-moz-border-radius: 0 4px 4px 0px;
+	-webkit-border-radius: 0 4px 4px 0px;
+	border-radius: 0 4px 4px 0px;
+	-moz-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-webkit-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-opera-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-khtml-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	display: none;
+}
+
+.a-help-arrow
+{
+	position: absolute;
+	top: 0;
+	left: -15px;
+	float: left;
+	height: 21px;
+	width: 15px;
+	margin: 0 5px 0 0;
+	background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
+}
+
+.a-options.a-slot-form .a-form-row label
+{
+	width: 80px;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #666;
+}
+
+.a-options.a-slot-form .a-form-field
+	{
+	float: left;
+}
+
+.a-controls.a-blog-post-controls
+{
+	width: 100%;
+	float: left;
+	margin: 10px 0 5px 0 !important;
+}
+
+.aBlog .a-options.a-slot-form,
+.aEvent .a-options.a-slot-form
+{
+	width: 300px;
+}
+
+.aBlog .a-options.a-slot-form .a-form-row.tags input,
+.aEvent .a-options.a-slot-form .a-form-row.tags input
+{
+	width: 180px;
+}
+
+.aBlogSingle .a-options.a-slot-form .a-form-row
+{
+	padding: 0;
+}
+
+
+.aBlogSingle .a-blogsingle-input
+{
+	width: 180px
+}
+
+.aBlogSingle .a-form-row.search label
+{
+	width: 120px;
+}
+
+
+
 /* 15. Apostrophe Login Form
  **** This floats in the upper right corner when we use a login button
 -------------------------------------*/
@@ -3268,18 +3444,13 @@ margin-top: -10px;
 #a-login-form-container
 {
 position: absolute;
+left: auto;
 top: 5px;
 right: 5px;
 padding: 0;
-background: #fff;
-border: 1px solid #888;
-z-index:999;
-display: none;
--moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+z-index:9999 !important;
+width: 222px;
+min-width: 0;
 }
 
 #a-login-form
@@ -3439,7 +3610,7 @@ margin-right: 5px;
 /* 17. General Navigation Styles 
 -------------------------------------*/
 
-.a-nav .archived
+.a-nav .a-archived-page a
 { /* aUI(); Makes Unpublished pages 50% Opacity */
 text-decoration: line-through;
 }
@@ -4123,6 +4294,17 @@ height: 100%;
 background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
 }
 
+.a-media-icon-as-thumbnail
+{
+	display:block;
+	padding-top: 22px;
+}
+
+.a-media-item-source .a-media-icon-as-thumbnail
+{
+	padding-top: 66px;
+}
+
 .a-media-thumb-link img
 {
 position: relative;
@@ -4259,13 +4441,15 @@ cursor: default !important;
 
 #a-media-category-form .a-form-row.submit input
 {
-	width: 20px
+	width: 20px;
+	margin-right:2px;
 }
 
 #media-library-back-button
 {
 	clear: both;
 	margin-bottom: 10px;
+	height:24px;
 }
 
 
@@ -4331,126 +4515,6 @@ padding-bottom: 10px;
 
 
 
-
-
-
-/* 23. Blog Engine
--------------------------------------*/
-
-#a-blog-main,
-#a-blog-main .a-blog-post
-{
-	float: left;
-	width: 100%;
-	display: inline;
-	position: relative;	
-}
-
-#a-blog-main .a-blog-post
-{
-
-	margin: 0 0 20px 0;
-}
-
-#a-blog-main .a-blog-post-title,
-#a-blog-main .a-blog-post-meta,
-#a-blog-main .a-blog-post-tags,
-#a-blog-main .a-blog-post-media,
-#a-blog-main .a-blog-post-body
-{
-	float: left;
-	width: 100%;
-	clear: both;
-	display: inline;
-	position: relative;
-	margin-bottom: 10px;
-}
-
-#a-blog-main .a-blog-post-body p
-{
-	margin-bottom: 10px;
-}
-
-
-.a-subnav-wrapper.blog h4
-{
-	float: left;
-	width: 100%;
-	clear: both;
-	display: inline;
-	position: relative;
-	font-size: 14px;
-}
-
-.a-subnav-wrapper.blog .a-blog-filter-options
-{
-	float: left;
-	width: 100%;
-	clear: both;
-	display: inline;
-	position: relative;
-	line-height: 20px;
-}
-
-.a-subnav-wrapper.media .a-media-filter-options a,
-.a-subnav-wrapper.blog .a-blog-filter-options a
-{
-	float: left;
-	clear: both;
-	display: inline;
-	width: auto;
-	padding: 0 5px;
-}
-
-
-#a-blog-main .a-blog-post-tags
-{
-	float: left;
-	width: 100%;
-}
-
-#a-blog-main .a-blog-post-tags li
-{
-	float: left;
-	margin: 0 5px 0 0;
-}
-
-.a-blog ul.a-slideshow-controls
-{
-	border:medium none;
-	display:inline;
-	float:left;
-	height:20px;
-	margin-right:1px;
-	position:absolute;
-	right:0;
-	top:-24px;
-	width:auto;
-}
-
-/* 23 & 1/2. Events Engine
--------------------------------------*/
-
-.a-blog-events #a-blog-main .a-blog-post-meta
-{
-	font-size: 14px;
-	margin: 0;
-}
-.a-blog-events #a-blog-main .a-blog-post-meta li
-{
-	float: left;
-	margin: 0 5px 0 0;
-}
-
-.a-blog-events #a-blog-main .a-blog-post-meta .a-calendar-day
-{
-	color: #888;
-}
-
-.a-blog-events #a-blog-main .a-blog-post-meta .a-calendar-date
-{
-	color: #000;
-}
 
 
 
@@ -4559,8 +4623,10 @@ background-position: bottom right;
 	display: inline;
 	margin: 10px 0;
 	width: 100%;
+	height: 1px;
+	border: none;
+	background: #999;
 }
-
 
 .a-nav-subnav .a-nav-item
 {
@@ -4631,14 +4697,15 @@ display: inline;
 float: left;
 }
 
-.a-tag-sidebar ul.a-tag-sidebar-list
+.a-tag-sidebar-list,
+.a-blog-selected-tag
 {
 float: left;
 width: 100%;
-margin-bottom: 20px;
+margin-bottom: 10px;
 }
  
-.a-tag-sidebar ul.a-tag-sidebar-list li
+.a-tag-sidebar-list li
 {
 margin: 0 0 5px 0;
 }
@@ -4692,44 +4759,33 @@ display: none;
 
 
 
-
-
-
-
 /* 26. Shared Tag Suggestions
 -------------------------------------*/
 
 div.tag-suggestions
 {
 position: relative;
-display: inline;
+display: block;
 float: left;
 clear: both;
 width: 100%;
-padding-top: 8px;
 margin: 0;
 z-index: 9999;
 font-size: 11px;
+width: 100%;
+height: 1px;
 }
 
 .tubes-tags div.tag-suggestions,
 .a_admin_form_field_tags div.tag-suggestions
 {
 	width: 360px;
-	top: -9px;
 }
 
 #a-media-edit-form div.tag-suggestions
 {
-	width: 216px;
-	top: -9px;
-/*	left: 120px;*/ /* This keeps switching back and forth, It needs to makeup its mind! */
-}
-
-#a-admin-form div.tag-suggestions {
-left:0px;
-top:-9px;
-width:360px;
+	margin-left: 120px;
+	width: 222px;
 }
 
 div.tag-suggestions .tag-spacer
@@ -4739,11 +4795,12 @@ div.tag-suggestions .tag-spacer
 
 div.tag-suggestions ul
 {
-position: relative;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
 float: left;
 width: 100%;
-font-size: 11px;
-text-indent: 3px;
 z-index: 999;
 }
 
@@ -4756,33 +4813,54 @@ margin: 0;
 visibility: hidden;
 }
 	
-div.tag-suggestions li a
+div.tag-suggestions li a,
+div.tag-suggestions li a:link,
+.ac_results .ac_even,
+.ac_results .ac_odd
 {
 float: left;
 display: block;
 visibility: visible;
-background: #fff;
-padding: 2px;
 width: 100%;
-border-left: 1px solid #666;
-border-right: 1px solid #666;
+line-height: 20px;
+text-indent: 4px;
+background: rgba(0,0,0,0.65);
+color: #fff !important;
+text-decoration: none !important;
+font-size: 11px;
 }
 
-div.tag-suggestions li a.first
-{
-border-top: 1px solid #666;
-}
-
-div.tag-suggestions li a.last
-{
-border-bottom: 1px solid #666;
-}
-
-div.tag-suggestions li a:hover
+div.tag-suggestions li a:hover,
+.ac_results .ac_over
 {
 background-color: #000;
 color: #fff !important;
 text-decoration:none;
+cursor: pointer;
+}
+
+.ac_results{
+z-index: 9999;
+font-size: 11px;
+border: none;
+min-width: 120px;
+}
+
+.ac_results ul{
+overflow: visible !important;
+}
+
+.ac_results li
+{
+font-family: arial, sans-serif;
+}
+
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+white-space: nowrap;
+padding: 0 4px;
+overflow: hidden;
 }
 
 
@@ -5130,6 +5208,12 @@ vertical-align: middle;
 float: left;
 }
 
+.a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded, 
+.a-admin-list thead th .a-btn.flag.no-label.a-sort-arrow.expanded
+{ /* Gotta Force the Sort Arrows to look right because they're sprites */
+	background-position: 0 -20px;
+}
+
 .a-admin-list tfoot th
 {
 border: 1px solid #e2e2e2;
@@ -5402,36 +5486,6 @@ display:inline;
 
 
 
-/* 29. jQuery Autocomplete Results
--------------------------------------*/
-
-.ac_results{
-border-color: #bbb;
-color: #000;
-width: 120px;
-}
-
-.ac_results li
-{
-font-family: arial, sans-serif;
-}
-
-.ac_results .ac_even,
-.ac_results .ac_odd
-{
-background-color: #fff;
-}
-
-.ac_results .ac_over
-{
-color: #000;
-background-color: #fbef3b;
-}
-
-
-
-
-
 /* 30. Bundled Templates
 -------------------------------------*/
 
@@ -5511,7 +5565,7 @@ z-index:999;
 .a-submit.alt,
 .a-cancel.alt
 { /* Button Styles */
-color: #333 !important;
+color: #444 !important;
 text-shadow: 0 1px 0px rgba(255,255,255,255.20);
 background-color: #fff !important;
 }
@@ -5532,8 +5586,8 @@ ul.a-controls .a-variant-options
 border-color: rgb(51,204,204);
 }
 
-.a-admin a:link, 
-.a-admin a:visited,
+.a-admin .a-admin-content a:link, 
+.a-admin .a-admin-content a:visited,
 #a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
@@ -5541,31 +5595,6 @@ color: rgb(51,204,204);
 }
 
 
-/* 31. jQuery autocomplete results
--------------------------------------*/
-
-.ac_results{
-border-color: #bbb;
-color: #000;
-width: 120px;
-}
-
-.ac_results li
-{
-font-family: arial, sans-serif;
-}
-
-.ac_results .ac_even,
-.ac_results .ac_odd
-{
-background-color: #fff;
-}
-
-.ac_results .ac_over
-{
-color: #000;
-background-color: #fbef3b;
-}
 
 
 /* 32. Login button and language switcher
@@ -5586,8 +5615,59 @@ background-color: #fbef3b;
 	padding-right: 10px;
 }
 
+/* 33. New lightweight rich text slot
+-------------------------------------*/
 
+.a-slot.aNewRichText h1,
+.a-slot.aNewRichText h2,
+.a-slot.aNewRichText h3,
+.a-slot.aNewRichText h4,
+.a-slot.aNewRichText h5,
+.a-slot.aNewRichText h6,
+.a-slot.aNewRichText p,
+.a-slot.aNewRichText ul,
+.a-slot.aNewRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
 
+.a-slot.aNewRichText b,
+.a-slot.aNewRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText em,
+.a-slot.aNewRichText i
+{
+font-style: italic;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText h3
+{
+font-size: 150%;
+}
 
 /* Create Page Form
 -------------------------------------*/
@@ -5632,4 +5712,70 @@ background-color: #fbef3b;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	margin-bottom: 5px;
+}
+
+.a-slot.aNewRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aNewRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aNewRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aNewRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aNewRichText table th,
+.a-slot.aNewRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aNewRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+.aNewRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
+{
+	margin-top:10px!important;
+}
+
+.a-slot.aNewRichText
+{
+width: 100%;
 }

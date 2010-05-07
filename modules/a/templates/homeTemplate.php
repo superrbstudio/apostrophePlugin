@@ -13,11 +13,13 @@
 		'aRichText', 
 		'aSlideshow', 
 		'aVideo', 
-		'aImage', 
+		'aImage',
+		'aBlog', 
 		'aFeed', 
 		'aButton', 
 		'aText',
-		'aRawHTML', 
+		'aRawHTML',
+		'aNewRichText' 
 	),	
   'type_options' => array(
 		'aRichText' => array('tool' => 'Main'), 	
@@ -33,6 +35,7 @@
 		'aRichText', 
 		'aSlideshow', 
 		'aVideo', 
+		'aBlog', 
 		'aPDF',
 		'aFeed', 
 		'aImage', 

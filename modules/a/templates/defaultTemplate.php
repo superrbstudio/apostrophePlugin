@@ -36,10 +36,11 @@
 	'allowed_types' => array(
 		'aRichText', 
 		'aSlideshow', 
-		'aVideo', 
+		'aVideo',
+		'aBlog', 		 
 		'aImage', 
 		'aFeed', 
-		'aPDF', 		
+		'aPDF', 
 		'aButton', 
 		'aText',
 		'aRawHTML', 		

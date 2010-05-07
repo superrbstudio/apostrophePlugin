@@ -35,6 +35,17 @@ abstract class PluginaSlot extends BaseaSlot
     return '';
   }
 
+  /**
+   * This function returns a plaintext representation of your slot's contents.
+   * This differs from getSearchText in that it should only be used for slots
+   * with user entered text.
+   * @return string
+   */
+  public function getText()
+  {
+    return '';
+  }
+
   // Conveniences for slots that use $this->value to store all of their state
   // and wish to store an array there.
   

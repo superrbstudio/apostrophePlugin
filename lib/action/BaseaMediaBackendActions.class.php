@@ -44,6 +44,7 @@ class BaseaMediaBackendActions extends sfActions
     // from the default front controller, then we may get here
     // even though the file already exists. Tolerate that situation 
     // with reasonable efficiency by just outputting it.
+    
     if (!file_exists($output))
     {
       $originalFormat = $item->getFormat();
