@@ -50,7 +50,7 @@
 		<?php # Slot Controls ?>
 			<li class="a-controls-item slots">
 				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big"); ?>				
-				<?php echo link_to_function(__('Add Slot', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
+				<?php echo link_to_function(__('Add Content', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>

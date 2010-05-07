@@ -3187,6 +3187,7 @@ position: relative;
 ul.a-controls .a-area-options,
 ul.a-controls .a-history-options
 {
+z-index: 899;
 display: none;
 }
 
