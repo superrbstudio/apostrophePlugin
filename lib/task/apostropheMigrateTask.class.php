@@ -27,8 +27,7 @@ or 2.0 from 1.x, etc).
 EOF;
   }
 
-  protected $conn;
-  protected $commandsRun = 0;
+  protected $migrate;
   
   protected function execute($arguments = array(), $options = array())
   {
@@ -40,9 +39,9 @@ EOF;
 Apostrophe Database Migration Task
   
 This task will make any necessary database schema changes to bring your 
-MySQL database up to date with the current release of Apostrophe. For other
-databases see the source code or run './symfony doctrine:build-sql' to obtain
-the SQL commands you may need.
+MySQL database up to date with the current release of Apostrophe and any additional
+Apostrophe plugins that you have installed. For other databases see the source code 
+or run './symfony doctrine:build-sql' to obtain the SQL commands you may need.
   
 BACK UP YOUR DATABASE BEFORE YOU RUN THIS TASK. It works fine in our tests, 
 but why take chances with your data?
@@ -58,7 +57,7 @@ but why take chances with your data?
         die("Operation CANCELLED. No changes made.\n");
       }
     }
-    $this->conn = Doctrine_Manager::connection()->getDbh();
+    $this->migrate = new aMigrate(Doctrine_Manager::connection()->getDbh());
 
     // If I needed to I could look for the constraint definition like this.
     // But since we added these in the same migration I don't have to. Keep this
@@ -71,47 +70,21 @@ but why take chances with your data?
     //   
     // }
     
-    if (!$this->tableExists('a_redirect'))
+    if (!$this->migrate->tableExists('a_redirect'))
     {
-      $this->sql(array(
+      $migrate->sql(array(
   "CREATE TABLE IF NOT EXISTS a_redirect (id INT AUTO_INCREMENT, page_id INT, slug VARCHAR(255) UNIQUE, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX slugindex_idx (slug), INDEX page_id_idx (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
   "ALTER TABLE a_redirect ADD CONSTRAINT a_redirect_page_id_a_page_id FOREIGN KEY (page_id) REFERENCES a_page(id) ON DELETE CASCADE;"));
     }
-    if (!$this->commandsRun)
+    if (!$this->migrate->getCommandsRun())
     {
       echo("Your database is already up to date.\n\n");
     }
     else
     {
-      echo($this->commandsRun . " SQL commands were run.\n\n");
+      echo($this->migrate->getCommandsRun() . " SQL commands were run.\n\n");
     }
     echo("Done!\n");
-  }
-
-  protected function sql($commands)
-  {
-    foreach ($commands as $command)
-    {
-      echo("SQL statement:\n\n$command\n\n");
-      $this->conn->query($command);
-      $this->commandsRun++;
-    }
-  }
-  
-  protected function tableExists($tableName)
-  {
-    if (!preg_match('/^\w+$/', $tableName))
-    {
-      die("Bad table name in tableExists: $tableName\n");
-    }
-    $data = array();
-    try
-    {
-      $data = $this->conn->query("SHOW CREATE TABLE $tableName")->fetchAll();
-    } catch (Exception $e)
-    {
-    }
-    return (isset($data[0]['Create Table']));    
   }
 }
 
