@@ -90,6 +90,15 @@ EOF;
         // TODO: not Microsoft-friendly, might matter in some setting
         $components = preg_split('/\//', $relevant);
         $tags = array_slice($components, 0, count($components) - 1);
+        foreach ($tags as &$tag)
+        {
+          // We don't strictly need to be this harsh, but it's safe and definitely
+          // takes care of some things we definitely can't allow, like periods
+          // (which cause mod_rewrite problems with pretty Symfony URLs).
+          // TODO: clean it up in a nicer way without being UTF8-clueless
+          // (aTools::slugify is UTF8-safe)
+          $tag = aTools::slugify($tag);
+        }
         $item->title = aTools::slugify($pathinfo['filename']);
         $item->setTags($tags);
         if (!strlen($item->title))
