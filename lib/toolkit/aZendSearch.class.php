@@ -328,8 +328,11 @@ class aZendSearch
     
     self::$zendLoaded = true;
     
-    // Thanks Fotis
-    if (function_exists('iconv'))
+    // Thanks to Fotis. Also thanks to the Zend Lucene source 
+    // for the second bit. iconv doesn't mean that PCRE was compiled
+    // with support for Unicode character classes, which the Lucene
+    // cross-language tokenizer requires to work. Lovely
+    if (function_exists('iconv') && (@preg_match('/\pL/u', 'a') == 1)) 
     {
       Zend_Search_Lucene_Analysis_Analyzer::setDefault(new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8());
     }
