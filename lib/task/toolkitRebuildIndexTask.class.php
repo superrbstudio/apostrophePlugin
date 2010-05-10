@@ -32,6 +32,13 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    // Memory usage is a bit high here because we look at every page, and the Rackspace Cloud
+    // environment has a very low default memory limit for their ersatz "cron jobs."
+    // TODO: prioritize a low-memory solution for rebuild-search-index, which will be
+    // necessary for large sites anyway
+    
+    ini_set('memory_limit', '256M');
+    
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
