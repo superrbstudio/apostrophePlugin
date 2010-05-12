@@ -9,8 +9,8 @@ class aNavigationTabs extends aNavigation
     if (!count($this->rootInfo))
     {
       // Try the parent
-      $rootPage = $this->root->getParent();
-      if (!$rootPage)
+      $parent = $this->root->getParent();
+      if (!$parent)
       {
         // Parent does not exist - this is the home page and there are no subpages
         // (unlikely in practice due to admin pages)
@@ -19,7 +19,7 @@ class aNavigationTabs extends aNavigation
       else
       {
         // Parent does exist, use its kids
-        $this->rootInfo = $this->root->getTreeInfo($this->livingOnly, $this->options['depth']);
+        $this->rootInfo = $parent->getTreeInfo($this->livingOnly, $this->options['depth']);
       }
     }
     $this->nav = $this->rootInfo;
