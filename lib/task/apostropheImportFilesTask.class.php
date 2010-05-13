@@ -14,8 +14,7 @@ class apostropheImportFilesTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('dir', null, sfCommandOption::PARAMETER_REQUIRED, 'The directory to scan for files to be imported', 'web/uploads/media_import'),
-      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_REQUIRED, 'Output more info about file conversions', false)
-      // add your own options here
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Output more info about file conversions', null)
     ));
 
     $this->namespace        = 'apostrophe';
@@ -48,89 +47,41 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
     // So we can play with app.yml settings from the application
     $context = sfContext::createInstance($this->configuration);
+
+    $this->verbose = $options['verbose'];
     
-    $dir_iterator = new RecursiveDirectoryIterator($options['dir']);
-    $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
-    $count = 0;
-    foreach ($iterator as $sfile)
+    $import = new aMediaImporter(array('dir' => $options['dir'], 'feedback' => array($this, 'importFeedback')));
+    $import->go();
+  }
+  
+  // Must be public to be part of a callable
+  public function importFeedback($category, $message, $file = null)
+  {
+    if (!is_null($file))
     {
-      if ($sfile->isFile())
+      echo("$file: ");
+    }
+    if ($category === 'completed')
+    {
+      echo($message . " files converted\n");
+    }
+    elseif (($category === 'total') || ($category === 'info') || ($category === 'completed'))
+    {
+      if ($this->verbose)
       {
-        $file = $sfile->getPathname();
-        if (preg_match('/(^|\/)\./', $file))
+        if (($category === 'total') || ($category === 'completed'))
         {
-          # Silently ignore all dot folders to avoid trouble with svn and friends
-          echo("Ignoring $file\n");
-          continue;
-        }
-        $pathinfo = pathinfo($file);
-        if ($pathinfo['filename'] === 'Thumbs.db')
-        {
-          continue;
-        }
-        $info = aImageConverter::getInfo($file);
-        if ($info === false)
-        {
-          echo("Skipping $file not supported or corrupt (is this a BMP with a JPG extension etc?)\n");
-          continue;
-        }
-        $item = new aMediaItem();
-        if ($info['format'] === 'pdf')
-        {
-          $item->type = 'pdf';
+          echo("Files converted: $message\n");
         }
         else
         {
-          $item->type = 'image';
+          echo("$mesage\n");
         }
-        // Split it up to make tags out of the portion of the path that isn't dir (i.e. the folder structure they used)
-        $dir = $options['dir'];
-        $dir = preg_replace('/\/$/', '', $dir) . '/';
-        $relevant = preg_replace('/^' . preg_quote($dir, '/') . '/', '', $file);
-        // TODO: not Microsoft-friendly, might matter in some setting
-        $components = preg_split('/\//', $relevant);
-        $tags = array_slice($components, 0, count($components) - 1);
-        foreach ($tags as &$tag)
-        {
-          // We don't strictly need to be this harsh, but it's safe and definitely
-          // takes care of some things we definitely can't allow, like periods
-          // (which cause mod_rewrite problems with pretty Symfony URLs).
-          // TODO: clean it up in a nicer way without being UTF8-clueless
-          // (aTools::slugify is UTF8-safe)
-          $tag = aTools::slugify($tag);
-        }
-        $item->title = aTools::slugify($pathinfo['filename']);
-        $item->setTags($tags);
-        if (!strlen($item->title))
-        {
-          echo("File must have a basename to convert to a title. Ignoring $file\n");
-          continue;
-        }
-        // The preSaveImage / save / saveImage dance is necessary because
-        // the sluggable behavior doesn't kick in until save and the image file
-        // needs a slug based filename.
-        if (!$item->preSaveImage($file))
-        {
-          echo("Save FAILED for $file\n");
-          continue;
-        }
-        $item->save();
-        if (!$item->saveImage($file))
-        {
-          echo("Save FAILED for $file\n");
-          $item->delete();
-          continue;
-        }
-        unlink($file);
-        $count++;
       }
     }
-    if ($count)
+    else
     {
-      if ($options['verbose'])
-      {
-        echo("Converted $count files.\n");
-      }
+      echo("$message\n");
     }
   }
 }
