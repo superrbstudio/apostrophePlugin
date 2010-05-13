@@ -62,7 +62,7 @@ EOF;
     foreach ($indexes as $index)
     {
       $table = Doctrine::getTable($index);
-      Doctrine::getTable($index)->rebuildLuceneIndex();
+      $table->rebuildLuceneIndex();
       $this->logSection('toolkit', sprintf('Index for "%s" rebuilt', $index));
     }
   }

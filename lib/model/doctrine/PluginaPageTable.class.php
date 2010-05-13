@@ -219,18 +219,18 @@ class PluginaPageTable extends Doctrine_Table
   public function rebuildLuceneIndex()
   {
     aZendSearch::purgeLuceneIndex($this);
-    $pages = $this->findAll();
+    $pages = $this->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
     foreach ($pages as $page)
     {
       $cultures = array();
-      foreach ($page->Areas as $area)
+      foreach ($page['Areas'] as $area)
       {
-        $cultures[$area->culture] = true; 
+        $cultures[$area['culture']] = true; 
       }
       $cultures = array_keys($cultures);
       foreach ($cultures as $culture)
       {
-        $cpage = self::retrieveByIdWithSlots($page->id, $culture);
+        $cpage = self::retrieveBySlugWithSlots($page['slug'], $culture);
         $cpage->updateLuceneIndex();
       }
     }

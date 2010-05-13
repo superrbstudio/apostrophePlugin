@@ -26,6 +26,16 @@ class aZendSearch
   
   static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null)
    {
+     // Ugh: UTF8 Lucene is case sensitive work around this
+     if (function_exists('mb_strtolower'))
+     {
+       $luceneQueryString = mb_strtolower($luceneQueryString);
+     }
+     else
+     {
+       $luceneQueryString = strtolower($luceneQueryString);
+     }
+     
      // We have to register the autoloader before we can use these classes
      self::registerZend();
      
@@ -227,21 +237,31 @@ class aZendSearch
     $doc = new Zend_Search_Lucene_Document();
    
     // store item id so we can retrieve the corresponding object
-    $doc->addField(Zend_Search_Lucene_Field::Keyword('primarykey', $object->getId()));
+    $doc->addField(Zend_Search_Lucene_Field::Keyword('primarykey', $object->getId(), 'UTF-8'));
     if (!is_null($culture))
     {
-      $doc->addField(Zend_Search_Lucene_Field::Keyword('culture', $culture));
+      $doc->addField(Zend_Search_Lucene_Field::Keyword('culture', $culture, 'UTF-8'));
     }
     // index the search fields
     foreach ($fields as $key => $value)
     {
-      $doc->addField(Zend_Search_Lucene_Field::UnStored($key, $value, 'utf-8'));
+      // Ugh: UTF8 Lucene is case sensitive work around this
+      if (function_exists('mb_strtolower'))
+      {
+        $value = mb_strtolower($value);
+      }
+      else
+      {
+        $value = strtolower($value);
+      }
+      
+      $doc->addField(Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8'));
     }
 
     // store the data fields (a big performance win over hydrating things with Doctrine)
     foreach ($storedFields as $key => $value)
     {
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'utf-8'));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
     }
    
     // add item to the index
@@ -328,11 +348,14 @@ class aZendSearch
     
     self::$zendLoaded = true;
     
+    // UTF8 tokenizer can be turned off if you don't have now off by default because it is really, really ignorant of English,
+    // it can't even cope with plural vs singular, much less stemming
+    
     // Thanks to Fotis. Also thanks to the Zend Lucene source 
     // for the second bit. iconv doesn't mean that PCRE was compiled
     // with support for Unicode character classes, which the Lucene
     // cross-language tokenizer requires to work. Lovely
-    if (function_exists('iconv') && (@preg_match('/\pL/u', 'a') == 1)) 
+    if (function_exists('iconv') && (@preg_match('/\pL/u', 'a') == 1))
     {
       Zend_Search_Lucene_Analysis_Analyzer::setDefault(new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8());
     }
