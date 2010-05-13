@@ -16,6 +16,22 @@
  */
 class aValidatorFilePersistent extends sfValidatorFile
 {
+  
+  protected function configure($options = array(), $messages = array())
+  {
+    $guessersSet = isset($options['mime_type_guessers']);
+    parent::configure($options, $messages);
+    if (!$guessersSet)
+    {
+      // Extend the default list from the parent class with a guesser that is
+      // robust on rackspace cloud sites and works fine elsewhere as well.
+      // Based on getimagesize. Also checks the PDF file signature. Everything
+      // else falls back to the other guessers
+      $mimeTypeGuessers = $this->getOption('mime_type_guessers');
+      array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
+      $this->setOption('mime_type_guessers', $mimeTypeGuessers);
+    }
+  }
 
   /**
    * The input value must be an array potentially containing two
@@ -212,5 +228,27 @@ class aValidatorFilePersistent extends sfValidatorFile
   static public function validPersistId($persistid)
   {
     return preg_match("/^[a-fA-F0-9]+$/", $persistid);
+  }
+  
+  /**
+   * Guess the file mime type with mime_content_type function (deprecated)
+   *
+   * @param  string $file  The absolute path of a file
+   *
+   * @return string The mime type of the file (null if not guessable)
+   */
+  protected function guessFromImageconverter($file)
+  {
+    $info = aImageConverter::getInfo($file);
+    if (!$info)
+    {
+      return null;
+    }
+    $formats = array('jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'pdf' => 'application/pdf');
+    if (isset($formats[$info['format']]))
+    {
+      return $formats[$info['format']];
+    }
+    return null;
   }
 }
