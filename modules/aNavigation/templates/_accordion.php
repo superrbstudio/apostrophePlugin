@@ -3,9 +3,9 @@
   <?php foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;
         if($item['slug'] == $active) echo ' a-current-page';
-        if(isset($item['extra'])) echo ' extra';
-        if($item['archived']) echo ' archived';
-        if($item['view_is_secure']) echo ' secure';
+        if(isset($item['extra'])) echo ' a-extra-page';
+        if($item['archived']) echo ' a-archived-page';
+        if($item['view_is_secure']) echo ' a-secure-page';
         if($pos == 0) echo ' first';
         if($pos == 1) echo ' second';
         if($pos == count($nav) - 2) echo ' next-last';
