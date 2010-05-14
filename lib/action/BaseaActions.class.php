@@ -594,9 +594,10 @@ class BaseaActions extends sfActions
 
     foreach ($values as $value)
     {
-      if (isset($value['info']))
+      // doesn't implement isset
+      if (strlen($value->info))
       {
-        $info = unserialize($value['info']);
+        $info = unserialize($value->info);
         if (!aPageTable::checkPrivilege('view', $info))
         {
           continue;
