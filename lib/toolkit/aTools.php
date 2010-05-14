@@ -704,4 +704,5 @@ class aTools
       return strtolower($s);
     }
   }
+  
 }

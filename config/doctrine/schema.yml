@@ -30,7 +30,7 @@ aPage:
     view_is_secure: boolean
     # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
     archived: boolean
-    # 'admin' pages are hidden from all normal navigation. They are linked to directly from
+    # 'admin' pages are hidden from all normal navigation and from search. They are linked to directly from
     # the apostrophe menu as needed. This is useful when functionality implemented as an engine
     # is sometimes user-accessible (sites in which the media area is directly browsable as a tab)
     # and sometimes not (sites in which the media area is exclusively for site editors).

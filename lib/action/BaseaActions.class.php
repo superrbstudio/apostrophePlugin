@@ -594,9 +594,10 @@ class BaseaActions extends sfActions
 
     foreach ($values as $value)
     {
-      if (!sfContext::getInstance()->getUser()->isAuthenticated())
+      if (isset($value['info']))
       {
-        if (isset($value->view_is_secure) && $value->view_is_secure)
+        $info = unserialize($value['info']);
+        if (!aPageTable::checkPrivilege('view', $info))
         {
           continue;
         }

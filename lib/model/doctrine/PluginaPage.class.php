@@ -47,180 +47,9 @@ abstract class PluginaPage extends BaseaPage
     sfContext::getInstance()->getLogger()->info("PAGE: $message");
   }
 
-  // Note: for best performance don't pass the user explicitly
-  // unless it's NOT the current user.
-
   public function userHasPrivilege($privilege, $user = false)
   {
-    // Individual pages can be conveniently locked for 
-    // viewing purposes on an otherwise public site. This is
-    // implemented as a separate permission. 
-    if (($privilege === 'view') && $this->view_is_secure)
-    {
-      $privilege = 'view_locked';
-    }
-    
-    // This was nice logic for granting delete privileges if you
-    // have the privilege of editing the parent of the page. 
-    // A good idea, but not what the client wants. We've gone
-    // with a separate 'admin' privilege instead
-//    if ($privilege === 'delete')
-//    {
-//      // If you can EDIT the parent, then you can DELETE
-//      // its children (after all, you could create them).
-//      $parent = $this->getParent();
-//      if (!$parent)
-//      {
-//        // Nobody, not even the superadmin, can delete the home page
-//        return false;
-//      }
-//      // Make sure we pass the user on!
-//      return $parent->userHasPrivilege('edit', $user);
-//    }
-
-    if ($user === false)
-    {
-      $user = sfContext::getInstance()->getUser();
-    }
-    
-    $username = false;
-    if ($user->getGuardUser())
-    {
-      $username = $user->getGuardUser()->getUsername();
-    }
-    
-    
-    if (!isset($this->privilegesCache[$username][$privilege]))
-    {
-      $this->privilegesCache[$username][$privilege] = $this->userHasPrivilegeBody(
-        $privilege, $user);
-    }
-    return $this->privilegesCache[$username][$privilege];
-  }
-
-  protected function userHasPrivilegeBody($privilege, $user, $debug = false)
-  {
-    // Some privileges can be defined in terms of other privileges on certain ancestor pages
-    if ($privilege === 'move-up')
-    {
-      $parent = $this->getParent();
-      if (!$parent)
-      {
-        return false;
-      }
-      $grandparent = $parent->getParent();
-      if (!$grandparent)
-      {
-        return false;
-      }
-      return $grandparent->userHasPrivilegeBody('manage', $user, true);
-    }
-    if ($privilege === 'move-down')
-    {
-      $parent = $this->getParent();
-      if (!$parent)
-      {
-        return false;
-      }
-      return $parent->userHasPrivilegeBody('manage', $user, true);
-    }
-    // Rule 1: admin can do anything
-    // Work around a bug in some releases of sfDoctrineGuard: users sometimes
-    // still have credentials even though they are not logged in
-    if ($user->isAuthenticated() && $user->hasCredential('cms_admin'))
-    {
-      return true;
-    }
-    $privileges = explode("|", $privilege);
-    foreach ($privileges as $privilege)
-    {
-      $key = "app_a_$privilege" . "_sufficient_credentials";
-      $sufficientCredentials = sfConfig::get(
-          "app_a_$privilege" . "_sufficient_credentials", false);
-      $sufficientGroup = sfConfig::get(
-          "app_a_$privilege" . "_sufficient_group", false);
-      $candidateGroup = sfConfig::get(
-          "app_a_$privilege" . "_candidate_group", false);
-      // By default users must log in to do anything, except for viewing an unlocked page
-      $loginRequired = sfConfig::get(
-          "app_a_$privilege" . "_login_required", 
-          ($privilege === 'view' ? false : true));
-
-      // Rule 2: if no login is required for the site as a whole for this
-      // privilege, anyone can do it...
-      if (!$loginRequired)
-      {
-        return true;
-      }
-
-      // Corollary of rule 2: if login IS required and you're not
-      // logged in, bye-bye
-      if (!$user->isAuthenticated())
-      {
-        continue;
-      }
-
-      // Rule 3: if there are no sufficient credentials and there is no
-      // required or sufficient group, then login alone is sufficient. Common 
-      // on sites with one admin
-      if (($sufficientCredentials === false) && ($candidateGroup === false) && ($sufficientGroup === false))
-      {
-        // Logging in is the only requirement
-        return true; 
-      }
-
-      // Rule 4: if the user has sufficient credentials... that's sufficient!
-      // Many sites will want to simply say 'editors can edit everything' etc
-      if ($sufficientCredentials && 
-        ($user->hasCredential($sufficientCredentials)))
-      {
-        return true;
-      }
-      if ($sufficientGroup && 
-        ($user->hasGroup($sufficientGroup)))
-      {
-        return true;
-      }
-
-      // Rule 5: if there is a candidate group, make sure the user is a member
-      // before checking for explicit privileges for that user
-      if ($candidateGroup && 
-        (!$user->hasGroup($candidateGroup)))
-      {
-        continue;
-      }
-
-      // Rule 6: when minimum but not sufficient credentials are present,
-      // check for an explicit grant of privileges to this user, on
-      // this page or on any ancestor page.
-      $result = $this->userHasExplicitPrivilege($privilege);
-      if ($result)
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  private function userHasExplicitPrivilege($privilege)
-  {
-    // Use caching proxy implementation
-    $ancestors = $this->getAncestors(); 
-    $ids = array();
-    foreach ($ancestors as $page)
-    {
-      $ids[] = $page->id;
-    }
-    $ids[] = $this->id;
-    $user_id = sfContext::getInstance()->getUser()->getGuardUser()->getId();
-    // One "yes" answer is enough.
-    $result = Doctrine_Query::create()->
-      from('aAccess a')->
-      where("a.page_id IN (" . implode(",", $ids) . ") AND " .
-        "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
-      limit(1)->
-      execute();
-    return (count($result) > 0);
+    return aPageTable::checkPrivilege($privilege, $this, $user);
   }
 
   // The new API:
@@ -623,11 +452,12 @@ abstract class PluginaPage extends BaseaPage
   }
 
   // Sometimes it is useful to have an info structure describing a page object
-  // (the aNavigation classes exploit this)
+  // (the aNavigation classes exploit this, so does the search index, which needs
+  // to be able to determine privileges for a page with a minimum of overhead)
   
   public function getInfo()
   {
-    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
   }
   
   protected $childrenInfo;
@@ -1321,10 +1151,23 @@ abstract class PluginaPage extends BaseaPage
 
   public function updateLuceneIndex()
   {
+    if ($this->getAdmin())
+    {
+      // Never index admin pages, that goes against the spirit of 
+      // keeping them completely out of navigation, they are not
+      // a place for content in the normal sense, they are engines
+      // for administrative purposes
+      return;
+    }
     $title = $this->getTitle();
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
     $slug = $this->getSlug();
+    $info = $this->getInfo();
+    // Already a separate field, so don't store it twice.
+    // Otherwise though the info structure is well worth it because
+    // it lets us check explicit privileges
+    unset($info['title']);
     aZendSearch::updateLuceneIndex($this, 
       array('text' => $text),
       $this->getCulture(),
@@ -1332,7 +1175,7 @@ abstract class PluginaPage extends BaseaPage
         'title' => $title,
         'summary' => $summary,
         'slug' => $slug,
-        'view_is_secure' => $this->getViewIsSecure()));
+        'info' => serialize($info)));
   }
 
   public function getSearchSummary()
