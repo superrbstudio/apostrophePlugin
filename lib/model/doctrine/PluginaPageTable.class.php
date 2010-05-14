@@ -403,19 +403,22 @@ class PluginaPageTable extends Doctrine_Table
     {
       return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
     }
-    
-    // Individual pages can be conveniently locked for 
-    // viewing purposes on an otherwise public site. This is
-    // implemented as a separate permission. 
-    if (($privilege === 'view') && $pageOrInfo['view_is_secure'])
-    {
-      $privilege = 'view_locked';
-    }
 
-    // Archived pages can only be visited by users who are permitted to edit them
+    // Archived pages can only be visited by users who are permitted to edit them.
+    // This trumps the less draconian privileges for viewing pages, locked or otherwise
     if (($privilege === 'view') && $pageOrInfo['archived'])
     {
       $privilege = 'edit';
+    }
+    else
+    {
+      // Individual pages can be conveniently locked for 
+      // viewing purposes on an otherwise public site. This is
+      // implemented as a separate permission. 
+      if (($privilege === 'view') && $pageOrInfo['view_is_secure'])
+      {
+        $privilege = 'view_locked';
+      }
     }
 
     $result = false;
@@ -494,9 +497,11 @@ class PluginaPageTable extends Doctrine_Table
     
         // The explicit case
     
+        $user_id = $user->getGuardUser()->getId();
+        
         $accesses = Doctrine_Query::create()->
-          from('aAccess a')->
-          where("(a.page_id <= " . $pageOrInfo['lft'] . " AND a.page_id >= " . $pageOrInfo['rgt'] . ") AND " .
+          select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
+          where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND " .
             "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
           limit(1)->
           execute(array(), Doctrine::HYDRATE_ARRAY);
