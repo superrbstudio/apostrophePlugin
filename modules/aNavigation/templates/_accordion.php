@@ -14,7 +14,7 @@
 
       <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
 
-      <?php if(isset($item['children']) && $nest < $maxDepth): ?>
+      <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
         <?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active)) ?>
       <?php endif ?>
 
@@ -53,7 +53,7 @@
 					nav.children(':first').next("li").addClass('second');
 					nav.children(':last').prev("li").addClass('next-last');
         },
-        items: nav.children(':not(.extra)')
+        items: 'li:not(.extra)'
       });
 
     });
