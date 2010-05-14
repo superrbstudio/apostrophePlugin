@@ -602,7 +602,31 @@ class BaseaActions extends sfActions
         }
       }
       $nvalue = $value;      
-      $nvalue->url = aTools::urlForPage($nvalue->slug, true);
+      if (substr($nvalue->slug, 0, 1) === '@')
+      {
+        // Virtual page slug is a named Symfony route, it wants search results to go there
+        $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
+      }
+      else
+      {
+        $slash = strpos($nvalue->slug, '/');
+        if ($slash === false)
+        {
+          // A virtual page (such as global) taht isn't the least bit interested in
+          // being part of search results
+          continue;
+        }
+        if ($slash > 0)
+        {
+          // A virtual page slug which is a valid Symfony route, such as foo/bar?id=55
+          $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
+        }
+        else
+        {
+          // A normal CMS page
+          $nvalue->url = aTools::urlForPage($nvalue->slug);
+        }
+      }
       $nvalue->class = 'aPage';
       $nvalues[] = $nvalue;
     }
