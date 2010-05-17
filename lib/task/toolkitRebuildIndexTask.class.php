@@ -59,11 +59,112 @@ EOF;
     {
       $indexes = sfConfig::get('app_aToolkit_indexes', array());
     }
+    $count = 0;
     foreach ($indexes as $index)
     {
       $table = Doctrine::getTable($index);
-      $table->rebuildLuceneIndex();
+      if ($index === 'aPage')
+      {
+        aZendSearch::purgeLuceneIndex($table);
+        $pages = Doctrine::getTable('aPage')->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
+        foreach ($pages as $page)
+        {
+          $cultures = array();
+          foreach ($page['Areas'] as $area)
+          {
+            $cultures[$area['culture']] = true; 
+          }
+          $cultures = array_keys($cultures);
+          foreach ($cultures as $culture)
+          {
+            $this->query('INSERT INTO a_lucene_update (page_id, culture) VALUES (:page_id, :culture)', array('page_id' => $page['id'], 'culture' => $culture));
+          }
+        }
+        while (true)
+        {
+          $result = $this->query('SELECT COUNT(id) AS total FROM a_lucene_update');
+          $count = $result[0]['total'];
+          if ($count == 0)
+          {
+            break;
+          }
+          $this->logSection('toolkit', "$count pages remain to be indexed, starting another update pass...");
+          $this->update();
+        }
+      }
+      else
+      {
+        // We don't have a deferred update feature for other tables,
+        // so we'll have to get them done in the memory available
+        $table->rebuildLuceneIndex();
+      }
       $this->logSection('toolkit', sprintf('Index for "%s" rebuilt', $index));
     }
+  }
+  
+  protected function update()
+  {
+    $this->logSection('toolkit', "Executing an update pass on aPage table...");
+    
+    // task->run is really nice, but doesn't help us with the PHP 5.2 + Doctrine out of memory issue
+    
+    $args = $_SERVER['argv'];
+    $taskIndex = array_search('apostrophe:rebuild-search-index', $args);
+    if ($taskIndex === false)
+    {
+      throw new sfException("Can't find apostrophe:rebuild-search-index in the command line in order to replace it. Giving up.");
+    }
+    $args[$taskIndex] = 'apostrophe:update-search-index';
+    $args[] = '--limit=100';
+    aProcesses::systemArray($args);
+    
+    // $task = new aupdateluceneTask($this->dispatcher, $this->formatter);
+    // $task->run(array(), array('env' => $options['env']));
+  }
+  
+  protected function getPDO()
+  {
+    $connection = Doctrine_Manager::connection();
+    $pdo = $connection->getDbh();
+    return $pdo;
+  }
+  
+  protected function query($s, $params = array())
+  {
+    $pdo = $this->getPDO();
+    $nparams = array();
+    // I like to use this with toArray() while not always setting everything,
+    // so I tolerate extra stuff. Also I don't like having to put a : in front 
+    // of everything
+    foreach ($params as $key => $value)
+    {
+      if (strpos($s, ":$key") !== false)
+      {
+        $nparams[":$key"] = $value;
+      }
+    }
+    $statement = $pdo->prepare($s);
+    try
+    {
+      $statement->execute($nparams);
+    }
+    catch (Exception $e)
+    {
+      echo($e);
+      echo("Statement: $s\n");
+      echo("Parameters:\n");
+      var_dump($params);
+      exit(1);
+    }
+    $result = true;
+    try
+    {
+      $result = $statement->fetchAll();
+    } catch (Exception $e)
+    {
+      // Oh no, we tried to fetchAll on a DELETE statement, everybody panic!
+      // Seriously PDO, you need to relax
+    }
+    return $result;
   }
 }

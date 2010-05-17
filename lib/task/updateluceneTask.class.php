@@ -13,6 +13,7 @@ class aupdateluceneTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
+      new sfCommandOption('limit', null, sfCommandOption::PARAMETER_REQUIRED, 'Max pages to update on this pass', false),
       // add your own options here
     ));
 
@@ -38,9 +39,16 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
     // PDO connection not so useful, get the doctrine one
     $conn = Doctrine_Manager::connection();
-    $updates = $conn->getTable("aLuceneUpdate")->findAll();
+    $q = Doctrine::getTable('aLuceneUpdate')->createQuery('u');
+    if ($options['limit'] !== false)
+    {
+      $q->limit($options['limit'] + 0);
+    }
+    $updates = $q->execute();
+    $i = 0;
     foreach ($updates as $update)
     {
+      $i++;
       $page = aPageTable::retrieveByIdWithSlots($update->page_id, $update->culture);
       // Careful, pages die
       if ($page)

@@ -216,6 +216,9 @@ class PluginaPageTable extends Doctrine_Table
     return aZendSearch::getLuceneIndex($this);
   }
 
+  // This does the entire thing at one go, which may be too memory intensive.
+  // The apostrophe:rebuild-search-index task instead invokes apostrophe:update-search-index
+  // for batches of 100 pages
   public function rebuildLuceneIndex()
   {
     aZendSearch::purgeLuceneIndex($this);
