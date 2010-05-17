@@ -433,7 +433,17 @@ color: #900;
 	margin-left: 2px;
 }
 
+a.a-multiple-select-remove
+{
+position: relative;	
+}
 
+a.a-multiple-select-remove span
+{
+position: absolute;
+top: 0;
+left: 100%;
+}
 
 
 
