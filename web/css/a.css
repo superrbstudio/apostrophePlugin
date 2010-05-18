@@ -3109,6 +3109,11 @@ padding: 0 !important;
 z-index: 899;
 }
 
+ul.a-controls.a-slot-save-cancel-controls
+{
+	clear: both;
+}
+
 ul.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
@@ -3334,6 +3339,8 @@ ul.a-controls .a-variant-options.loading
 	line-height: 20px;
 	margin: 0 0 15px 0;
 	padding: 0 10px;
+	width: auto;
+	clear: both;
 }
 
 .a-options.a-slot-form .a-form-row:hover .a-form-help-text
