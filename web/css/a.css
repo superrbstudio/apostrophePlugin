@@ -799,8 +799,8 @@ box-shadow:0 0 0 transparent;
 .a-arrow-btn.icon.a-arrow-left:hover,
 .a-arrow-btn.icon.a-arrow-right:hover
 {
-background-color: transparent !important;
-background-position: 0 -20px !important;
+background-color: transparent;
+background-position: 0 -20px;
 }
 
 .a-arrow-btn.icon.a-arrow-left.thin
