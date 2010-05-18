@@ -3182,6 +3182,7 @@ position: absolute;
 z-index: 799;
 top: 0;
 left: 0;
+width: auto;
 }
 
 ul.a-controls.a-media-edit-links
