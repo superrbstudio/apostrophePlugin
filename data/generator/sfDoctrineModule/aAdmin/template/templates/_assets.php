@@ -1,4 +1,4 @@
-[?php slot('body_class') ?]a-admin [?php echo $sf_params->get('module'); ?] [?php echo $sf_params->get('action');?] [?php end_slot() ?]
+[?php slot('body_class') ?]a-admin a-admin-generator [?php echo $sf_params->get('module'); ?] [?php echo $sf_params->get('action');?] [?php end_slot() ?]
 
 <?php if (isset($this->params['css'])): ?> 
 
