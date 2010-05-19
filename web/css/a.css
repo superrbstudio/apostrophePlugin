@@ -349,14 +349,6 @@ border: 1px solid #ddd;
 padding: 3px;
 }
 
-.a-admin .a-form-row input, 
-.a-admin .a-form-row textarea, 
-.a-admin .a-form-row select
-{
-font-size: 11px;
-width: 358px;
-}
-
 .a-form-row.submit
 {
 margin-left: 120px;
@@ -4932,11 +4924,6 @@ border-top: 1px #ddd solid;
 	clear: both;
 }
 
-.a-admin select
-{
-width: auto;
-}
-
 .a-admin .a-admin-batch-actions-choice select
 {
 float: left;
@@ -4958,67 +4945,12 @@ color: #fff;
 background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
 }
 
-.a-admin .a-form-row
-{
-padding: 10px 10px 10px 120px;
-min-width:590px;
-width: 590px;
-}
-
 .a-admin .a-form-row td
 {
 margin-bottom: 10px;
 float: left;
 clear: both;
 position: relative;
-}
-
-.a-admin .a-form-row .content
-{
-padding-left: 9em;
-}
-
-.a-admin .a-form-row label
-{
-float: left;
-text-align: left;
-width: 120px;
-color: #666;
-font-weight: normal !important;
-text-transform: capitalize;
-position: absolute !important;
-top: 0;
-left: 0;
-line-height: 20px;
-display: block;
-}
-
-.a-admin .a-form-row .checkbox_list label
-{
-position: absolute;
-display: inline;
-top: 0;
-left: 20px;
-float: left;
-width: auto !important;
-}
-
-.a-admin .a-form-row .checkbox_list li
-{
-float: left;
-display: inline;
-width: 100%;
-position: relative;
-}
-
-.a-admin .a-form-row .a-help
-{
-display: block;
-clear: both;
-width: 500px;
-margin: 10px 0 20px 0;
-font-size: 11px;
-color: #888;
 }
 
 .a-admin-footer
@@ -5035,48 +4967,9 @@ color: #333 !important;
 font-weight: bold !important;
 }
 
-.a-admin .form-errors
-{
-margin-bottom: 10px;
-border: 1px solid #f33;
-background-color: #ffc;
-}
-
-.a-admin .form-errors h2
-{
-padding: 5px 20px 5px 25px;
-font-size: 11px;
-color: #fff;
-background: #f33 url(../images/error.png) no-repeat 5px 2px;
-}
-
-.a-admin .form-errors dl
-{
-padding: 5px;
-}
-
-.a-admin .form-errors dt
-{
-font-weight: bold;
-float: left;
-padding-right: 5px;
-}
-
-.a-admin .form-errors dd
-{
-margin: 0;
-}
-
 .a-admin .form-error
 {
 color: #f33;
-}
-
-.a-admin fieldset
-{
-margin-bottom: 3px;
-background-color: #fff;
-border: none;
 }
 
 .a-admin ul.a-admin-td-actions
@@ -5727,4 +5620,103 @@ display: block;
 .a-slot.aNewRichText
 {
 width: 100%;
+}
+
+/* Separating the Admin Generator-based Form styles from our custom admin forms */
+
+.a-admin-generator .a-form-row input, 
+.a-admin-generator .a-form-row textarea
+{
+min-width: 160px;
+max-width: 358px;
+}
+
+.a-admin-generator .a-form-row select,
+.a-admin-generator .a-form-row input[type="checkbox"],
+.a-admin-generator .a-form-row input[type="radio"]
+{
+width: auto;
+}
+
+.a-admin-generator .a-form-row
+{
+/*min-width:590px;*/
+/*width: auto !important;*/
+/*width: 590px;*/
+}
+
+.a-admin-generator .a-form-row label
+{
+/*float: left;*/
+/*text-align: left;*/
+/*width: 120px;*/
+/*color: #666;/*/
+/*font-weight: normal !important;*/
+/*text-transform: capitalize;*/
+/*position: absolute !important;*/
+/*top: 0;*/
+/*left: 0;*/
+/*line-height: 20px;*/
+/*display: block;*/
+}
+
+.a-admin-generator .a-form-row .checkbox_list label
+{
+margin:-2px 0 0 5px;
+}
+
+.a-admin-generator .a-form-row .checkbox_list li
+{
+float: left;
+display: inline;
+width: 100%;
+position: relative;
+}
+
+.a-admin-generator .a-form-help-text
+{
+display: block;
+clear: both;
+margin: 10px 0 20px 120px;
+font-size: 11px;
+color: #888;
+}
+
+.a-admin-generator .form-errors
+{
+margin-bottom: 10px;
+border: 1px solid #f33;
+background-color: #ffc;
+}
+
+.a-admin-generator .form-errors h2
+{
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #f33 url(../images/error.png) no-repeat 5px 2px;
+}
+
+.a-admin-generator .form-errors dl
+{
+padding: 5px;
+}
+
+.a-admin-generator .form-errors dt
+{
+font-weight: bold;
+float: left;
+padding-right: 5px;
+}
+
+.a-admin-generator .form-errors dd
+{
+margin: 0;
+}
+
+.a-admin-generator fieldset
+{
+margin-bottom: 3px;
+background-color: #fff;
+border: none;
 }
