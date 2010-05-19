@@ -84,13 +84,13 @@
 			next();
 	  });
 
-		$('#a-slideshow-controls-<?php echo $id ?> .a-slideshow-controls-previous').click(function(event){
+		$('#a-slideshow-controls-<?php echo $id ?> .a-arrow-left').click(function(event){
 			event.preventDefault();
 			intervalEnabled = false;
 			previous();
 		});
 
-		$('#a-slideshow-controls-<?php echo $id ?> .a-slideshow-controls-next').click(function(event){
+		$('#a-slideshow-controls-<?php echo $id ?> .a-arrow-right').click(function(event){
 			event.preventDefault();
 			intervalEnabled = false;
 			next();
