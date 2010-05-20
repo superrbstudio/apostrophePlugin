@@ -644,7 +644,7 @@ class BaseaActions extends sfActions
     $this->pager->init();
     $this->pagerUrl = "a/search?" .http_build_query(array("q" => $q));
     // setTitle takes care of escaping things
-    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q);
+    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
     $this->results = $this->pager->getResults();
   }
   
@@ -694,7 +694,7 @@ class BaseaActions extends sfActions
     
     $this->treeData = $root->getTreeJSONReady(false);
     // setTitle takes care of escaping things
-    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize');
+    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize' . aTools::getOptionI18n('title_suffix'));
   }
 
   public function executeTreeMove($request)
