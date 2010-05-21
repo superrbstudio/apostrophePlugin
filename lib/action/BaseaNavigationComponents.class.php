@@ -31,9 +31,10 @@ class BaseaNavigationComponents extends sfComponents
   public function executeTabs()
   {
     $this->navSetup();
+    $this->options = array('depth' => isset($this->depth)? $this->depth : 1);
     $this->navigation = new aNavigationTabs($this->rootPage, $this->activePage, $this->options);
 
-    $this->options = array('depth' => isset($this->depth)? $this->depth : 0);
+    
     $this->depth = $this->options['depth'];
 
     $this->nav = $this->navigation->getNav();
