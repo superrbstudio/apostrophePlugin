@@ -284,10 +284,10 @@ class BaseaActions extends sfActions
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
     $this->type = $this->getRequestParameter('type');
-    $options = aTools::getAreaOptions($page->id, $this->name);
+    $this->options = aTools::getAreaOptions($page->id, $this->name);
     aTools::setRealUrl($request->getParameter('actual_url'));
     
-    if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($options))))
+    if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($this->options))))
     {
       $this->forward404();
     }
