@@ -102,6 +102,23 @@ function a_slot_body($name, $type, $permid, $options, $validationData, $editorOp
   }
 }
 
+// Frequently convenient when you want to check an option in a template.
+// Doing the isset() ? foo : bar dance over and over is bug-prone and confusing
+
+function a_get_option($array, $key, $default = false)
+{
+  if (isset($array[$key]))
+  {
+    return $array[$key];
+  }
+  else
+  {
+    return $default;
+  }
+}
+
+// THESE ARE DEPRECATED, use the aNavigationComponent instead
+
 function a_navtree($depth = null)
 {
   $page = aTools::getCurrentPage();
@@ -212,4 +229,3 @@ function _a_navcolumn_body($page)
   }
   return $result;
 }
-
