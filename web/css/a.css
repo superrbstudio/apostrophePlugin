@@ -234,6 +234,7 @@ a.a-btn.nobg:hover
 	-moz-border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;
 	border: 0 !important;
+	text-shadow:none !important;
 }
 
 
