@@ -23,7 +23,7 @@ class BaseaSlotActions extends sfActions
     $this->page = aPageTable::retrieveBySlugWithSlots($this->slug);
     $this->forward404Unless($this->page);    
     $this->pageid = $this->page->getId();
-    aTools::setCurrentPage(aPageTable::retrieveByIdWithSlots($this->page->id));
+    aTools::setCurrentPage($this->page);
     
     $this->user = sfContext::getInstance()->getUser();
     

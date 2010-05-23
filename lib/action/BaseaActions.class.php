@@ -351,9 +351,6 @@ class BaseaActions extends sfActions
     $variant = $this->getRequestParameter('variant');
     $page->newAreaVersion($this->name, 'variant', 
       array('permid' => $this->permid, 'variant' => $variant));
-    $page = aPageTable::retrieveByIdWithSlots(
-      $request->getParameter('id'));
-    $this->flunkUnless($page);
     
     // Borrowed from BaseaSlotActions::executeEdit
     // Refetch the page to reflect these changes before we
