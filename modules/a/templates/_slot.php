@@ -1,7 +1,9 @@
 <?php use_helper('jQuery', 'I18N') ?>
 
-<?php if ($editable): ?>
+<?php // We now render the edit view only when it is AJAXed into place on demand. This saves us the ?>
+<?php // considerable overhead of loading many instances of FCK we won't use ?>
 
+<?php if ($editable && $updating): ?>
   <form method="POST" action="#" class="a-slot-form a-edit-view" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
 
   <?php include_component($editModule, 
@@ -14,17 +16,17 @@
       "updating" => $updating,
       "validationData" => $validationData)) ?>
 
-	<ul class="a-controls a-slot-save-cancel-controls">  
-	  <li>
-			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
-		</li>
-	  <li>
-			<?php echo link_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-btn a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
-		</li>
-	</ul>
+  	<ul class="a-controls a-slot-save-cancel-controls">  
+  	  <li>
+  			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
+  		</li>
+  	  <li>
+  			<?php echo link_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-btn a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
+  		</li>
+  	</ul>
 
   </form>
-
+  
 	<script type="text/javascript" charset="utf-8">
 		$('#a-slot-form-<?php echo $id ?>').submit(function() {
 	    $.post(

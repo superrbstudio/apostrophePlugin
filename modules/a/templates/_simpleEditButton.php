@@ -17,16 +17,21 @@
 
 <script type="text/javascript" charset="utf-8">
 <?php // TODO: Rewrite this as a button class scoped to ALL edit buttons so there's only a single instance of this Javascript ?>
-	$(document).ready(function(){
+	$(document).ready(function() {
+	  <?php // This is now AJAX code to load the edit view on demand ?>
 		var editBtn = $('#a-slot-edit-<?php echo "$pageid-$name-$permid" ?>');
 		var editSlot = $('#a-slot-<?php echo "$pageid-$name-$permid" ?>');
 		editBtn.click(function(event){
-			editBtn.parents('.a-slot, .a-area').addClass('editing-now'); <?php // Apply a class to the Area and Slot Being Edited ?>
-			editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); <?php // Hide the Content Container ?>
-			editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); <?php // Fade In the Edit Form ?>
-			editSlot.children('.a-controls-item variant').hide(); <?php // Hide the Variant Options ?>
-			aUI(editBtn.parents('.a-slot').attr('id')); <?php // Refresh the UI scoped to this Slot ?>
-			return false;
+		  $.get(<?php echo json_encode(url_for($slot->type . 'Slot/ajaxEditView') . '?' . http_build_query(array('id' => $pageid, 'slot' => $name, 'permid' => $permid))) ?>, { }, function(data) { 
+  	    editSlot.children('.a-slot-content').html(data);
+  			editSlot.addClass('editing-now');
+  			editSlot.parents('.a-area').addClass('editing-now');
+  			editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); <?php // Hide the Content Container ?>
+  			editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); <?php // Fade In the Edit Form ?>
+  			editSlot.children('.a-controls-item variant').hide(); <?php // Hide the Variant Options ?>
+  			aUI(editBtn.parents('.a-slot').attr('id')); <?php // Refresh the UI scoped to this Slot ?>
+  			return false;
+	    });
 		});
 	});
 </script>
