@@ -163,7 +163,7 @@ EOF;
     $result = file_get_contents($url);
     if ($result === false)
     {
-      echo("\n\nWARNING: fetch of $url failed, APC cache could not be cleared\n\nClear it yourself by restarting Apache.\n\nTo avoid this error set webhost in config/properties.ini\n\n");
+      echo("\n\nWARNING: fetch of $url failed, APC cache could not be cleared\n\nClear it yourself by restarting Apache.\n\nTo avoid this error set uristem in config/properties.ini\n\n");
       return;
     }
     else
