@@ -1,5 +1,5 @@
 <?php    
-class aFeedForm extends sfForm
+class aFeedForm extends BaseForm
 {
   // Ensures unique IDs throughout the page
   protected $id;

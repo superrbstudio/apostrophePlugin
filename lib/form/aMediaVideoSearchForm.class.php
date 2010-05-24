@@ -1,6 +1,6 @@
 <?php
 
-class aMediaVideoSearchForm extends sfForm
+class aMediaVideoSearchForm extends BaseForm
 {
   public function configure()
   {

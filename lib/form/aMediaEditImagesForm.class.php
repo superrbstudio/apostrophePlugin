@@ -1,6 +1,6 @@
 <?php
 
-class aMediaEditImagesForm extends sfForm
+class aMediaEditImagesForm extends BaseForm
 {
   private $active = array();
   

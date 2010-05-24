@@ -1,6 +1,6 @@
 <?php
 
-class aTextForm extends sfForm
+class aTextForm extends BaseForm
 {
   protected $id;
   protected $value;

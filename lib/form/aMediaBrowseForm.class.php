@@ -1,6 +1,6 @@
 <?php
 
-class aMediaBrowseForm extends sfForm
+class aMediaBrowseForm extends BaseForm
 {
   // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
   // it's just here for our i18n-update task to sniff

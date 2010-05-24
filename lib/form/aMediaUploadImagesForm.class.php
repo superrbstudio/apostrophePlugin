@@ -1,6 +1,6 @@
 <?php
 
-class aMediaUploadImagesForm extends sfForm
+class aMediaUploadImagesForm extends BaseForm
 {
   public function configure()
   {

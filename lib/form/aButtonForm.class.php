@@ -1,6 +1,6 @@
 <?php
 
-class aButtonForm extends sfForm
+class aButtonForm extends BaseForm
 {
   protected $id;
   // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update

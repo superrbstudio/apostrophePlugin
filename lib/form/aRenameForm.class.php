@@ -1,6 +1,6 @@
 <?php
 
-class aRenameForm extends sfForm
+class aRenameForm extends BaseForm
 {
   protected $page;
   // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update

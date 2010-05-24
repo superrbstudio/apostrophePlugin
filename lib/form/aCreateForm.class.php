@@ -1,6 +1,6 @@
 <?php
 
-class aCreateForm extends sfForm
+class aCreateForm extends BaseForm
 {
   protected $page;
   // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
