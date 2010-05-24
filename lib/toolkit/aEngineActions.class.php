@@ -2,7 +2,7 @@
 
 class aEngineActions extends sfActions
 {
-  protected $page = null;
+  public $page = null;
   
   public function preExecute()
   {
