@@ -126,6 +126,8 @@ aPage:
         slug: "/admin"
         template: default
         admin: true
+        # The admin engine has an index action that redirects to the home page, for now
+        engine: aAdmin
         Areas:
           admin_en_title:
             name: title
