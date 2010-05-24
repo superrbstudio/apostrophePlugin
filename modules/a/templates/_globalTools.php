@@ -9,7 +9,7 @@ These are mostly links to independent modules.
 
 <?php $buttons = aTools::getGlobalButtons() ?>
 <?php $page = aTools::getCurrentPage() ?>
-<?php $pageEdit = $page && $page->userHasPrivilege('edit') ?>
+<?php $pageEdit = ($page && $page->userHasPrivilege('edit')) || empty($page) ?>
 <?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
 
 <?php use_helper('I18N') ?>
@@ -59,7 +59,7 @@ These are mostly links to independent modules.
   	
 </div>
 
-<?php if ($sf_user->isAuthenticated() && $pageEdit): ?>
+<?php if (aTools::isPotentialEditor()): ?>
 
 <?php include_partial('a/historyBrowser', array('page' => $page)) ?>
 
