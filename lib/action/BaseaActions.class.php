@@ -164,7 +164,11 @@ class BaseaActions extends sfActions
         $this->logMessage("ZZ skipping non-page");
         continue;
       }
-      if ($child->getNode()->getParent() != $parent)
+      // Compare IDs, not the objects. #375 points out that comparing the objects with !=
+      // does a recursive compare which is bad news. Comparing them with !== should work, but
+      // what if we have two objects representing the same page? Unlikely in Doctrine, but
+      // comparing the page ids is guaranteed to do the right thing.
+      if ($child->getNode()->getParent()->id != $parent->id)
       {
         $this->logMessage("ZZ skipping non-child");
         continue;
