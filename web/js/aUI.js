@@ -122,6 +122,7 @@ function aIE6(authenticated, message)
 		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
 	}
 
+	// Misc IE6 enhancements we want to happen
 	$('input[type="checkbox"]').addClass('checkbox');
 	$('input[type="radio"]').addClass('checkbox');
 }
