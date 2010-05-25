@@ -77,6 +77,56 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
   <changelog>
     <release>
       <version>
+        <release>1.4.0</release>
+        <api>1.4.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.apostrophenow.com/home/license">MIT license</license>
+      <date>2010-05-25</date>
+      <notes>
+        * Hooray, you can link directly to an engine page just by passing an engine-slug parameter as one of your route parameters in link_to and url_for! No more aRouteTools::pushTargetEnginePage() (although that is still occasionally useful and fully supported). 
+        * No more hardcoded routing.yml in apostrophePlugin to break people's backend apps. Instead we have a second event which registers when app_a_admin_routes_register is set (that defaults to true), and registers routes for the various admin modules only if they are actually enabled. Much more conservative.
+        * Added the ability to now specify a slideshowItemPartial.php using the slot options. This adds a boatload of flexibility for not overriding the plugin at the project level, but instead enhancing it. It also integrates well with Variants. I switched the compact slideshow to use this technique and it works great.
+        * a_get_option($options, 'height', 500) replaces isset($optionsheight) ? $optionsheight : 500. The former is much less bug-prone and friendlier in templates, which is important because the defaults for a presentation-related option are a presentation decision and therefore should be in the view layer (the template), but view code shouldn't be complicated to understand.
+        * Refactored permissions checks from aPage to aPageTable
+        * Improved handling of virtual pages in search results
+        * No more 404 errors if you click upload without selecting any images, you get a reasonable validation error message instead
+        * new apostrophe:import-files task pulls in JPEGs, GIFs, PNGs and PDFs in the specified folder, which defaults to web/uploads/media_import. Then it REMOVES those files from that folder. 
+        * Refactored SQL migration conveniences to aMigrate where they can be used by migration hooks in other plugins that listen to the apostrophe:migrate event 
+        * Added Fabien's workaround for plugin configuration initialize methods being invoked twice (this is a Symfony issue)
+        * The media repository now behaves reasonably when PDFs are uploaded to a server that can't render previews of PDFs. An icon is substituted, rather than a fake rendering of the PDF, and the format field is set properly. Much better. Hit this with Jake and John this morning. The preview icon is chosen based on the format and is not hardcoded to PDF. You can reliably check for a nonrenderable media item by checking whether $mediaItem->getWidth() is null. 
+        * If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports the image type, always use gd.
+        * edit = false for slot options is no longer ignored when logged in as an admin
+        * The various get*Info methods that return information about related pages now include the page template. This is handy when you want to link to an ancestor page in a special way if it is a landing page.
+        * New aImageConverter::supportsInput($extension) method allows you to check whether aImageConverter can import a particular image format on this system. Mainly used to check for pdf support.
+        * New default behavior of navigation components is appropriate for use on large sites with many pages. On small sites it may be slightly slower, in which case you can set app_a_many_pages to false to get the old "fetch the entire page tree and reuse it in each navigation component as needed" behavior back.
+        * Tabbed navigation now accepts urls from external sites as extra options
+        * Use aTools::isPotentialEditor to determine when to include history browser div.
+        * Pretty signficant changes to the history browser. The history browser now has its own close button instead of piggy-backing on the area cancel button. The area cancel button has now gone away completely because we use the nifty dropdown for Add Slot. And History has it's own set of controls.
+        * fixed bug that caused the icons to disappear from the addSlot dropdown
+        * changed the aAdmin assets file to look for our jQ UI that comes bundled with apostrophe rather than the Lightness UI bundled with jQuery reloaded
+        * getPeerInfo now works properly when the current page is the home page
+        * Allow 1000 character slugs to handle importing existing sites with deep structure. That's the practical limit with MySQL. Carefully specify the index length so MySQL actually pays attention to this. 
+        * Warning comments before various API methods in aPage explaining the need to get the page properly with retrievePageBySlugWithSlots() first. TODO: document this entire subject in the manual. 
+        * One can now specify whether the slot should go to the top or bottom of the area when adding a slot with newAreaVersion (TODO: document this method generally and this option particularly) 
+        * Removed some obsolete, noisy logging calls
+        * the admin generator form markup was outdated and did not reflect the form markup we use via the formFormatter so we updated it to be that way.
+        * updated layout to allow for main navigation in non-cms pages
+        * made normal and alt page settings button icons
+        * revised page settings icons, smaller and brighter
+        * changed delete and history buttons to be flagging buttons with white backgrounds, big visual clutter improvement
+        * cleaned up history icon, still should probably be redone
+        * adjusted styling on button flag-left and flag-right
+        * new page settings icons
+        * added icons for the reorganize tree to display which engines pages are using
+        * created a brand new awesome a-btn.mini button (its rad)
+      </notes>
+    </release>
+    <release>
+      <version>
         <release>1.0.11</release>
         <api>1.0.0</api>
       </version>

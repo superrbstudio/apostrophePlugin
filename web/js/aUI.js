@@ -114,6 +114,19 @@ function aUI(target)
 	}
 }
 
+function aIE6(authenticated, message)
+{
+	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+	if (authenticated)
+	{
+		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
+	}
+
+	// Misc IE6 enhancements we want to happen
+	$('input[type="checkbox"]').addClass('checkbox');
+	$('input[type="radio"]').addClass('checkbox');
+}
+
 function aBrowseHistory(area)
 {
 	var areaControls = area.find('ul.a-area-controls');
