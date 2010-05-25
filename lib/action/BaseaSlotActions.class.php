@@ -139,6 +139,8 @@ class BaseaSlotActions extends sfActions
     // Symfony 1.2 can return partials rather than templates...
     // which gets us out of the "we need a template from some other
     // module" bind
+    
+    $variant = $this->slot->getEffectiveVariant($this->options);
     return $this->renderPartial("a/ajaxUpdateSlot",
       array("name" => $this->name, 
         "type" => $this->type, 
@@ -146,6 +148,9 @@ class BaseaSlotActions extends sfActions
         "options" => $this->options,
         "editorOpen" => $editorOpen,
         "pageid" => $this->page->id,
+        // If we don't specify the variant we won't get the default variant on 
+        // a newly saved slot with an edit view
+        "variant" => $variant,
         "validationData" => $this->validationData));
   }
 

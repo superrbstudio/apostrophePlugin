@@ -68,7 +68,6 @@ class BaseaSlotComponents extends sfComponents
     // Calling getEffectiveVariant ensures we default to the behavior of the first one
     // defined, or the first one allowed if there is an allowed_variants option
     $variant = $this->slot->getEffectiveVariant($this->options);
-    
     if ($variant)
     {
       // Allow slot variants to adjust slot options. This shouldn't be used to radically

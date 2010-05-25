@@ -98,12 +98,13 @@
   <?php // Changing the variant only refreshes the content, not the outer wrapper and controls. However, ?>
   <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
   <?php $variants = aTools::getVariantsForSlotType($type, $options) ?>
+  <?php $slotVariant = $slot->getEffectiveVariant($options) ?>
   <?php if (count($variants)): ?>
 	<script type="text/javascript" charset="utf-8">
      $(document).ready(function() {
         var outerWrapper = $('#a-slot-<?php echo $id ?>');
         <?php foreach ($variants as $variant => $data): ?>
-          <?php if ($slot->variant !== $variant): ?>
+          <?php if ($slotVariant !== $variant): ?>
             outerWrapper.removeClass(<?php echo json_encode($variant) ?>);
           <?php else: ?>
             outerWrapper.addClass(<?php echo json_encode($variant) ?>);
