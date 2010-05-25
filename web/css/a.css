@@ -5205,6 +5205,7 @@ z-index: 9999;
 .a-date-wrapper,
 .a-time-wrapper
 {
+	margin-bottom:4px;
 	float: left;
 	clear: both;
 }
@@ -5213,6 +5214,15 @@ z-index: 9999;
 .a-time-wrapper input
 {
 	float: left;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	padding:1px;
+	-moz-border-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-radius: 3px;
+	
 }
 
 .ui-timepicker-trigger,
