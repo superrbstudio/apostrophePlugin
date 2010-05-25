@@ -109,6 +109,10 @@
           <?php else: ?>
             outerWrapper.addClass(<?php echo json_encode($variant) ?>);
           <?php endif ?>
+          <?php // It's OK to show the variants menu once we've saved something ?>
+          <?php if (!$slot->isNew()): ?>
+            outerWrapper.find('.a-controls-item.variant').show();
+          <?php endif ?>
         <?php endforeach ?>
       });
     </script>
