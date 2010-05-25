@@ -12,7 +12,11 @@
         if($pos == count($nav)-1) echo ' last'
     ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 
-      <?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
+      <?php if(isset($item['external']) && $item['external']): ?>
+        <?php echo link_to($item['title'], $item['slug']) ?>
+      <?php else: ?>
+        <?php echo link_to($item['title'], aTools::urlForPage($item['slug'], array('absolute' => true))) ?>
+      <?php endif ?>
 
       <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
         <?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active)) ?>

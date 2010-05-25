@@ -42,9 +42,23 @@ class BaseaNavigationComponents extends sfComponents
     $this->extras = isset($this->extras)? $this->extras : array();
 
     $i = 0;
+    $urlValidator = new sfValidatorUrl();
     foreach($this->extras as $slug => $title)
     {
-      $item = array('title' => $title, 'slug' => $slug, 'id' => $i, 'view_is_secure' => false, 'archived' => false, 'extra' => true);
+      $external = false;
+      try{
+        $urlValidator->clean($slug);
+        $external = true;
+      } catch(sfValidatorError $e) {}
+      $item = array(
+        'title' => $title,
+        'slug' => $slug,
+        'id' => $i,
+        'view_is_secure' => false,
+        'archived' => false,
+        'extra' => true,
+        'external' => $external );
+
       array_unshift($this->nav, $item);
     }
 
