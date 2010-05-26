@@ -3069,7 +3069,8 @@ margin: 0 !important;
 .a-area.singleton.aBlog ul.a-controls.a-area-controls,
 .a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
 .a-area.singleton.aEvent ul.a-controls.a-area-controls,
-.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aButton ul.a-controls.a-area-controls
 { /* Singleton Slots that don't allow controls to sit on top of their content */
 	position: relative;
 	margin-bottom: 0 !important;
