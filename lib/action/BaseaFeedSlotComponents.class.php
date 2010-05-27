@@ -35,6 +35,7 @@ class BaseaFeedSlotComponents extends BaseaSlotComponents
       $this->links = $this->getOption('links', true);
       $this->markup = $this->getOption('markup', '<strong><em><p><br><ul><li>');
       $this->dateFormat = $this->getOption('dateFormat', false);
+			$this->itemTemplate = $this->getOption('itemTemplate','aFeedItem');
     }
   }
 }
