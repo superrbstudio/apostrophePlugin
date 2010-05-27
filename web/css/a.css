@@ -50,7 +50,10 @@
 
 	*** Always Override Styles
 	* 30. Bundled Templates
-	* 31. aUI & Admin Colors - Default
+	* 31. Login button and language switcher
+	* 32. New lightweight rich text slot
+	* 33. Some Admin Generator Styles
+	* 34. aUI & Admin Colors - Default
 	
 */
 
@@ -3069,8 +3072,7 @@ margin: 0 !important;
 .a-area.singleton.aBlog ul.a-controls.a-area-controls,
 .a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
 .a-area.singleton.aEvent ul.a-controls.a-area-controls,
-.a-area.singleton.aEventSingle ul.a-controls.a-area-controls,
-.a-area.singleton.aButton ul.a-controls.a-area-controls
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
 { /* Singleton Slots that don't allow controls to sit on top of their content */
 	position: relative;
 	margin-bottom: 0 !important;
@@ -5515,7 +5517,7 @@ width: 100%;
 }
 
 
-/* 34. Some Admin Generator Styles
+/* 33. Some Admin Generator Styles
 -------------------------------------*/
 
 .a-admin-generator .a-form-row input, 
@@ -5621,10 +5623,6 @@ border: none;
 /* 34. aUI & Admin Colors - Default
 -------------------------------------*/
 
-/* GREEN — 153,204,51 */
-/* ORANGE — 255,153,0 */
-/* PINK — 255,0,102 */
-
 #a-global-toolbar #the-apostrophe
 { /* Apostrophe */
 	background-color: rgb(255,150,0);
@@ -5702,5 +5700,3 @@ border-color: rgb(255,150,0);
 { /* Text Color */
 color: rgb(255,150,0);
 }
-
-
