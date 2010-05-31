@@ -49,7 +49,7 @@ These are mostly links to independent modules.
 		  	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>			
 					<li>
 						<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button">Page Settings</a>			
-				 		<div id="a-page-settings" class="a-page-settings dropshadow"></div>
+				 		<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 					</li>				
 					<li><?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
 				<?php endif ?>

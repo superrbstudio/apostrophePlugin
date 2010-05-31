@@ -131,7 +131,11 @@ function aMenuToggle(button, menu, classname, overlay)
 {	
 	/* Usage: aMenuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False) */
 	if (typeof button == "string") { button = $(button); }
-	if (typeof menu == "string") { menu = $(menu); }
+	if (typeof menu == "string") { menu = $(menu); 
+		if (menu.attr('id') == '') {
+			menu.attr('id' == button.attr('id')+'-menu');
+		};
+	}
 	if (typeof classname == "undefined" || classname == '') { classname = "show-options";	}
 	if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); }
 	
