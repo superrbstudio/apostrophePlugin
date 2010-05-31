@@ -346,15 +346,18 @@ class aImageConverter
       {
         $width = $scaleParameters['xysize'][0];
         $height = $scaleParameters['xysize'][1];
+        // This was backwards until 05/31/2010, making things bigger rather than smaller if their
+        // aspect ratios differed from the original. Be consistent with netpbm which makes things
+        // smaller not bigger
         if (($width / $height) > ($swidth / $sheight))
         {
-          // Wider than the original. So it will be shorter than requested
-          $height = ceil($width * ($sheight / $swidth));
+          // Wider than the original. So it will be narrower than requested
+          $width = ceil($height * ($swidth / $sheight));
         }
         else
         {
-          // Taller than the original. So it will be narrower than requested
-          $width = ceil($height * ($swidth / $sheight));
+          // Taller than the original. So it will be shorter than requested
+          $height = ceil($width * ($sheight / $swidth));
         }
         $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, $swidth, $sheight);
