@@ -80,7 +80,7 @@ These are mostly links to independent modules.
 <script type="text/javascript">
 	$(document).ready(function() {
 				
-		aMenuToggle('#a-page-settings-button', '#a-page-settings', 'open', true);
+		aMenuToggle('#a-page-settings-button', $('#a-page-settings-button').parent(), 'open', true);
 		
 		var aPageSettingsButton = $('#a-page-settings-button');
 		

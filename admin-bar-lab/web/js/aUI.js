@@ -141,25 +141,29 @@ function aMenuToggle(button, menu, classname, overlay)
 		menu.attr('id', newID);
 	}
 	
-	button.unbind('click').click(function(){
+	button.unbind('click').click(function()
+	{
+		// Button Toggle
 		if (!button.hasClass('aActiveMenu')) 
-		{
-			menuOpen();
+		{ 
+			menuOpen(); 
 		}
-		else
+		else 
 		{
 			menuClose();
 		}
 	});
 	
+
 	function menuOpen()
 	{
+		// Open Menu, Create Listener
 		button.addClass('aActiveMenu');
 		menu.addClass(classname);			
 		if (overlay) { overlay.stop().show(); }
-		$(document).mouseup(function(e){
-			var target = e.target, // e.target grabs the node that triggered the event.
-			target = $(target);  // wraps the node in a jQuery object
+		$(document).click(function(e){
+			var target = e.target; 
+			target = $(target);  
 			if (target.hasClass('.a-page-overlay')) {
 				menuClose();
 			}
@@ -171,6 +175,7 @@ function aMenuToggle(button, menu, classname, overlay)
 	
 	function menuClose()
 	{
+		// Close Menu, Destroy Listener
 		button.removeClass('aActiveMenu');
 		menu.removeClass(classname);
 		if (overlay) { overlay.fadeOut(); }

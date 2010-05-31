@@ -1923,10 +1923,14 @@ margin-right: 5px;
 #a-page-settings
 {
 	position: absolute;
+}
+
+.open #a-page-settings
+{
 	z-index: 998;
 }
 
-#a-page-settings.open .a-options
+.open #a-page-settings .a-options
 {
 	display: block;
 	min-width: 0;
