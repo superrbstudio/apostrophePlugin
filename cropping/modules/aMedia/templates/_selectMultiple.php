@@ -42,10 +42,3 @@
 </div>
 	<br class="c"/>
 	
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function(){
-  aCrop.init({
-    aspectRatio: <?php echo $aspectRatio ?>
-  });
-});
-</script>

@@ -43,9 +43,17 @@ class BaseaMediaActions extends aEngineActions
     } 
     $items = aMediaItemTable::retrieveByIds($selection);
     $ids = array();
+    $imageInfo = array();
     foreach ($items as $item)
     {
       $ids[] = $item->getId();
+      $info = array('width' => $item->getOriginalWidth(), $item->getOriginalHeight());
+      if ($request->hasParameter('crops'))
+      {
+        $crops = $request->getParameter('crops');
+        // TODO how shall we handle this?
+      }
+      $imageInfo[$item->id] = $info;
     }
     $options = array();
     $optional = array('type', 'aspect-width', 'aspect-height',
@@ -200,7 +208,30 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect(aUrl::addParams("aMedia/index",
       $parameters));
   }
-
+  
+  // Accept and store cropping information for a particular image which must already be part of the selection
+  public function executeCrop(sfRequest $request)
+  {
+    $selection = aMediaTools::getSelection();
+    $id = $request->getParameter('id');
+    $index = array_search($id, $selection);
+    if ($index === false)
+    {
+      $this->forward404();
+    }
+    $cropLeft = floor($request->getParameter('cropLeft'));
+    $cropTop = floor($request->getParameter('cropTop'));
+    $cropWidth = floor($request->getParameter('cropWidth'));
+    $cropHeight = floor($request->getParameter('cropHeight'));
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    $imageInfo[$item->id]['cropLeft'] = $cropLeft;
+    $imageInfo[$item->id]['cropTop'] = $cropTop;
+    $imageInfo[$item->id]['cropWidth'] = $cropWidth;
+    $imageInfo[$item->id]['cropHeight'] = $cropHeight;
+    aMediaTools::setAttribute('imageInfo', $imageInfo);
+    return sfView::NONE;
+  }
+  
   public function executeMultipleAdd(sfRequest $request)
   {
     $this->forward404Unless(aMediaTools::isMultiple());
@@ -216,6 +247,11 @@ class BaseaMediaActions extends aEngineActions
       $selection[] = $id;
     }
     aMediaTools::setSelection($selection);
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    // Make no attempt to scrub out a previous crop, which could be handy
+    $imageInfo[$id]['width'] = $item->getOriginalWidth();
+    $imageInfo[$id]['height'] = $item->getOriginalHeight();
+    aMediaTools::setAttribute('imageInfo', $imageInfo);
     return $this->renderComponent("aMedia", "multipleList");
   }
 
@@ -258,6 +294,7 @@ class BaseaMediaActions extends aEngineActions
     aMediaTools::setSelection($selection);
     return $this->renderComponent("aMedia", "multipleList");
   }
+  
   public function executeSelected(sfRequest $request)
   {
     $controller = $this->getController();
@@ -269,6 +306,12 @@ class BaseaMediaActions extends aEngineActions
       $after = aMediaTools::getAfter();
       // Oops I forgot to call this in the multiple case
       aMediaTools::clearSelecting();
+      
+      // TODO: rework this to do a POST via JavaScript so that we can
+      // safely send all of the additional data that goes into describing
+      // the cropping parameters of a complete slideshow
+      
+      
       // I thought about submitting this like a multiple select,
       // but there's no clean way to implement that feature in
       // addParam, and it wastes URL space anyway
