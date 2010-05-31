@@ -1,2 +1,0 @@
-OK
-Demo successfully zipped

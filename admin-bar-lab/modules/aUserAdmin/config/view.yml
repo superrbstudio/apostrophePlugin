@@ -1,6 +1,0 @@
-default:
-  # Standard layout is fine
-  # layout: admin
-  
-  metas:
-    title: Site Admin: Users
