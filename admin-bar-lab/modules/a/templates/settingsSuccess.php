@@ -31,7 +31,7 @@
 		<?php endif ?>
 
 		<div class="a-form-row engine">
-			<?php echo $form['engine']->renderLabel(__('Page Engine', array(), 'apostrophe')) ?>
+			<?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
 		  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
 		  <?php echo $form['engine']->renderError() ?>
 		</div>
