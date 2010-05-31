@@ -1,20 +1,9 @@
-<?php
-/*
-Global Tools
-This will be the top bar across the site when logged in.
-
-It will contain global admin buttons like Users, Page Settings, and the Breadcrumb.
-
-These are mostly links to independent modules. 
-*/
-?>
+<?php use_helper('I18N') ?>
 
 <?php $buttons = aTools::getGlobalButtons() ?>
 <?php $page = aTools::getCurrentPage() ?>
 <?php $pageEdit = ($page && $page->userHasPrivilege('edit')) || empty($page) ?>
 <?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
-
-<?php use_helper('I18N') ?>
 
 <div id="a-global-toolbar">
   <?php // All logged in users, including guests with no admin abilities, need access to the ?>
@@ -33,12 +22,6 @@ These are mostly links to independent modules.
   		<?php echo link_to(__('Apostrophe Now', null, 'apostrophe'),'@homepage', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 
-				<?php if (0): ?>
-					<?php if ($page && !$page->admin): ?>
-						<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle"><?php echo __('This Page', null, 'apostrophe') ?></a></li>
-					<?php endif ?>
-				<?php endif ?>	
-
   			<?php foreach ($buttons as $button): ?>
   			  <?php if ($button->getTargetEnginePage()): ?>
   			    <?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
@@ -51,30 +34,28 @@ These are mostly links to independent modules.
 						<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button">Page Settings</a>			
 				 		<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 					</li>				
-					<li><?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
+
+					<?php // Remove the Add Page Button if we have reached our max depth, max peers, or if it is an engine page ?>
+					<?php $maxPageLevels = (sfConfig::get('app_a_max_page_levels'))? sfConfig::get('app_a_max_page_levels') : 0; ?><?php // Your Site Tree can only get so deep ?>
+					<?php $maxChildPages = (sfConfig::get('app_a_max_children_per_page'))? sfConfig::get('app_a_max_children_per_page') : 0; ?><?php // Your Site Tree can only get so wide ?>
+					<?php if (!(($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine()))): ?>
+						<li><?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
+					<?php endif ?>
+
 				<?php endif ?>
   		</ul>
   	</div>
 
-		<?php if (0): ?>
-  	<?php // user profile container for a feature we haven't built / and aren't using yet ?>
-			<div class="a-global-toolbar-user-settings a-personal-settings-container">
-			<div id="a-personal-settings"></div>
-    </div>
-		<?php endif ?>
-
 	<?php endif ?>
 
-		<?php // Login / Logout ?>
-		<div class="a-global-toolbar-login a-login">
-			<?php include_partial("a/login") ?>
-		</div>
-		
-  	
+	<?php // Login / Logout ?>
+	<div class="a-global-toolbar-login a-login">
+		<?php include_partial("a/login") ?>
+	</div>		
+ 
 </div>
 
 <?php if (aTools::isPotentialEditor()): ?>
-
 <div class="a-page-overlay"></div>
 
 <script type="text/javascript">
@@ -82,8 +63,7 @@ These are mostly links to independent modules.
 				
 		aMenuToggle('#a-page-settings-button', $('#a-page-settings-button').parent(), '', true);
 		
-		var aPageSettingsButton = $('#a-page-settings-button');
-		
+		var aPageSettingsButton = $('#a-page-settings-button');		
 		aPageSettingsButton.click(function() {
 		 $.ajax({
 				type:'POST',
@@ -95,15 +75,9 @@ These are mostly links to independent modules.
 					aUI('#a-page-settings');
 				},
 				url:'/admin/a/settings/id/<?php echo $page->id; ?>'
-			});
-			
-		  var pos = aPageSettingsButton.offset();  
-		  var width = aPageSettingsButton.width();
-			  //show the menu directly over the placeholder
-		  // $("#a-page-settings").css( { "left": pos.left-5 + "px", "top":pos.top-5 + "px" } );			
-			
+			});	
 		});
+		
 	});
 </script>
-
 <?php endif ?>

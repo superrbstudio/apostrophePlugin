@@ -95,6 +95,8 @@
 			</div>
 	</div>
 
+	<hr/>
+
 	<div class="a-page-settings-section page-submit">
 			  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
 				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
