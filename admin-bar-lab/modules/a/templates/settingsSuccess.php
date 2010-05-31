@@ -17,27 +17,27 @@
 	<div class="a-page-settings-section page-info">
 
 		<div class="a-form-row title">
-			<label><?php echo __('Page Title', null, 'apostrophe') ?></label>
+			<?php echo $form['title']->renderLabel(__('Page Title', array(), 'apostrophe')) ?>
 			<?php echo $form['title']->render() ?>
 			<?php echo $form['title']->renderError() ?>
 		</div>
 
 		<?php if (isset($form['slug'])): ?>
 		  <div class="a-form-row slug">
-		    <label><?php echo __('Page Slug', null, 'apostrophe') ?></label>
+				<?php echo $form['slug']->renderLabel(__('Page Slug', array(), 'apostrophe')) ?>
 		    <?php echo $form['slug'] ?>
 		    <?php echo $form['slug']->renderError() ?>
 		  </div>
 		<?php endif ?>
 
 		<div class="a-form-row engine">
-		  <label><?php echo __('Page Engine', null, 'apostrophe') ?></label>
+			<?php echo $form['engine']->renderLabel(__('Page Engine', array(), 'apostrophe')) ?>
 		  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
 		  <?php echo $form['engine']->renderError() ?>
 		</div>
 
 		<div class="a-form-row template">
-		  <label><?php echo __('Page Template', null, 'apostrophe') ?></label>
+			<?php echo $form['template']->renderLabel(__('Page Template', array(), 'apostrophe')) ?>
 		  <?php echo $form['template'] ?>
 		  <?php echo $form['template']->renderError() ?>
 		</div>
@@ -56,7 +56,7 @@
 		<h4 class="a-page-settings-section-head header"><?php echo __('Page Status', null, 'apostrophe') ?></h4>
 		<div class="a-page-status content">
 			<div class="a-form-row status">
-			  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
+			  <h5><?php echo __('Page Status', null, 'apostrophe') ?></h5>
 			  	<div class="a-page-settings-status">
 				    <?php echo $form['archived'] ?>
 	          <?php if(isset($form['cascade_archived'])): ?>
@@ -67,7 +67,7 @@
 			</div>			
 
 			<div class="a-form-row privacy">
-			  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
+			  <h5><?php echo __('Page Privacy', null, 'apostrophe') ?></h5>
 			  	<div class="a-page-settings-status">
 						<?php echo $form['view_is_secure'] ?>
 						<?php if(isset($form['cascade_view_is_secure'])): ?>
@@ -98,7 +98,6 @@
 	<div class="a-page-settings-section page-submit">
 			  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
 				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
-
 			<?php if ($page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
@@ -107,9 +106,10 @@
 		</ul>
 	</div>
 	
-
 </form>
+<?php // TODO: Tom, clean this up. ?>
 <script type="text/javascript" charset="utf-8">
+<?php // TODO: Move this function down the a.js, pass in the json encoded stuff as a function parameter ?>
 	function aUpdateEngineAndTemplate()
 	{
 	  var val = $('#a_settings_settings_engine').val();
@@ -132,8 +132,13 @@
 	  }
 	}
 	aUpdateEngineAndTemplate();
+	<?php // TODO: Document aMultipleSelect in the WIKI, not here! ?>
 	<?php // you can do this: { remove: 'custom html for remove button' } ?>
-	$(function() { aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) });
+
+	$(document).ready(function() {
+		aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) 
+		aAccordion('.a-page-settings-section-head');
+	});
 
 	<?php // you can do this: { linkTemplate: "<a href='#'>_LABEL_</a>",  ?>
 	<?php //                    spanTemplate: "<span>_LINKS_</span>",     ?>

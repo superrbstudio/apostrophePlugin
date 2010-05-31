@@ -29,7 +29,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 
-		aMenuToggle('#a-create-page-button', '#a-create-page-form', '', true);
+		aMenuToggle($('#a-create-page-button'), $('#a-create-page-button').parent(), '', true);
 		
 		$('#a-create-page-button').click(function(){
 			$('#a-create-page-title').focus();

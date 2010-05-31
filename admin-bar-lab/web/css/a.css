@@ -240,8 +240,15 @@ a.a-btn.nobg:hover
 	text-shadow:none !important;
 }
 
+.a-accordion .content
+{
+	display: none;
+}
 
-
+.a-accordion.open .content
+{
+	display: block;
+}
 
 
 
@@ -1925,18 +1932,18 @@ margin-right: 5px;
 	position: absolute;
 }
 
-.open #a-page-settings
+.show-options #a-page-settings
 {
 	z-index: 998;
 }
 
-.open #a-page-settings .a-options
+.show-options #a-page-settings .a-options
 {
 	display: block;
 	min-width: 0;
 }
 
-#a-page-settings-button
+.show-options #a-page-settings-button
 {
 position: relative;
 z-index: 999;
@@ -1956,10 +1963,10 @@ z-index: 999;
 
 .a-page-settings-section .content
 {
-	margin-left:16px;
+	margin: 0 16px;
 }
 
-h4.a-page-settings-section-head
+.a-page-settings-section h4
 {
 	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
 	cursor: pointer;
@@ -1968,6 +1975,49 @@ h4.a-page-settings-section-head
 	width: 100%;
 	position: relative;
 	margin: 0 0 5px 0;
+}
+
+.a-page-settings-section h4:hover
+{
+	background-position: -6px 0;
+}
+
+.a-page-settings-section.open h4
+{
+	background-position: -6px -20px;
+}
+
+.a-page-settings-section.open h4:hover
+{
+	background-position: -6px -60px;	
+}
+
+
+
+.a-page-settings-section h5
+{
+	font-size: 12px;
+	font-weight: normal;
+	padding: 5px 0;
+	margin-bottom: 5px;
+}
+
+.a-page-settings-section.page-submit
+{
+	margin: 10px 0 5px 0;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-cancel
+{
+	float: left !important;
+	clear: none !important;
+	margin-left: 2px;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-delete
+{
+	clear: none;
+	float: right !important;
 }
 
 .a-page-settings-menu hr
@@ -2058,10 +2108,15 @@ border: 1px solid rgba(0,0,0,0.35);
 	width: 100px;	
 }
 
-#a-create-page-form.show-options
+#a-create-page-button-menu.show-options
+{
+	position: relative;
+	z-index: 998;
+}
+
+.show-options #a-create-page-form
 {
 	display: block;
-	z-index: 998;
 }
 
 #a-create-page-title

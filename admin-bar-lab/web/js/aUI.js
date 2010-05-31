@@ -164,7 +164,7 @@ function aMenuToggle(button, menu, classname, overlay)
 		$(document).click(function(e){
 			var target = e.target; 
 			target = $(target);  
-			if (target.hasClass('.a-page-overlay')) {
+			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) {
 				menuClose();
 			}
 			if (!target.parents().is('#'+menu.attr('id'))) {
@@ -181,6 +181,15 @@ function aMenuToggle(button, menu, classname, overlay)
 		if (overlay) { overlay.fadeOut(); }
 		$(document).unbind('click'); // Clear out click event
 	}
+}
+
+function aAccordion(header)
+{
+	if (typeof header == "string") { header = $(header); }
+	header.click(function() {
+		$(this).parent().toggleClass('open');
+		return false;
+	}).parent().addClass('a-accordion');
 }
 
 
