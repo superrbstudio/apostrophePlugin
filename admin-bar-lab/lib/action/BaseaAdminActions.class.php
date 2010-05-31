@@ -24,6 +24,7 @@ class BaseaAdminActions extends aEngineActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    // TODO WHY DOESN'T THIS FIRE? THE ADMIN PAGE IS CURRENTLY ACCESSIBLE!
     $this->redirect('@homepage');
   }
 }

@@ -117,6 +117,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         return false;
       }
     }
+    $path = $this->getOriginalPath($this->getFormat());
     $result = copy($file, $this->getOriginalPath($this->getFormat()));
     return $result;
   }

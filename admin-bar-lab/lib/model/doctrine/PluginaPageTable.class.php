@@ -216,21 +216,24 @@ class PluginaPageTable extends Doctrine_Table
     return aZendSearch::getLuceneIndex($this);
   }
 
+  // This does the entire thing at one go, which may be too memory intensive.
+  // The apostrophe:rebuild-search-index task instead invokes apostrophe:update-search-index
+  // for batches of 100 pages
   public function rebuildLuceneIndex()
   {
     aZendSearch::purgeLuceneIndex($this);
-    $pages = $this->findAll();
+    $pages = $this->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
     foreach ($pages as $page)
     {
       $cultures = array();
-      foreach ($page->Areas as $area)
+      foreach ($page['Areas'] as $area)
       {
-        $cultures[$area->culture] = true; 
+        $cultures[$area['culture']] = true; 
       }
       $cultures = array_keys($cultures);
       foreach ($cultures as $culture)
       {
-        $cpage = self::retrieveByIdWithSlots($page->id, $culture);
+        $cpage = self::retrieveBySlugWithSlots($page['slug'], $culture);
         $cpage->updateLuceneIndex();
       }
     }
@@ -375,5 +378,144 @@ class PluginaPageTable extends Doctrine_Table
       return false;
     }
     return $data[0]['slug'];
+  }
+  
+  // Check whether the user has sufficient privileges to access a page. This includes
+  // checking explicit privileges in the case of pages that have them on sites where
+  // there is a 'candidate group' for that privilege. $pageOrInfo can be a
+  // Doctrine aPage object or an info structure like those returned by getAncestorsInfo() etc.
+  
+  // Sometimes you can't afford the overhead of an aPage object, thus this method.
+  
+  static $privilegesCache = array();
+  
+  static public function checkPrivilege($privilege, $pageOrInfo, $user = false)
+  {
+    if ($user === false)
+    {
+      $user = sfContext::getInstance()->getUser();
+    }
+    
+    $username = false;
+    if ($user->getGuardUser())
+    {
+      $username = $user->getGuardUser()->getUsername();
+    }
+
+    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
+    {
+      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
+    }
+
+    // Archived pages can only be visited by users who are permitted to edit them.
+    // This trumps the less draconian privileges for viewing pages, locked or otherwise
+    if (($privilege === 'view') && $pageOrInfo['archived'])
+    {
+      $privilege = 'edit';
+    }
+    else
+    {
+      // Individual pages can be conveniently locked for 
+      // viewing purposes on an otherwise public site. This is
+      // implemented as a separate permission. 
+      if (($privilege === 'view') && $pageOrInfo['view_is_secure'])
+      {
+        $privilege = 'view_locked';
+      }
+    }
+
+    $result = false;
+    
+    // Rule 1: admin can do anything
+    // Work around a bug in some releases of sfDoctrineGuard: users sometimes
+    // still have credentials even though they are not logged in
+    if ($user->isAuthenticated() && $user->hasCredential('cms_admin'))
+    {
+      $result = true;
+    }
+    else
+    {
+      $privileges = explode("|", $privilege);
+      foreach ($privileges as $privilege)
+      {
+    
+        $sufficientCredentials = sfConfig::get(
+            "app_a_$privilege" . "_sufficient_credentials", false);
+        $sufficientGroup = sfConfig::get(
+            "app_a_$privilege" . "_sufficient_group", false);
+        $candidateGroup = sfConfig::get(
+            "app_a_$privilege" . "_candidate_group", false);
+        // By default users must log in to do anything, except for viewing an unlocked page
+        $loginRequired = sfConfig::get(
+            "app_a_$privilege" . "_login_required", 
+            ($privilege === 'view' ? false : true));
+
+        // Rule 2: if no login is required for the site as a whole for this
+        // privilege, anyone can do it...
+        if (!$loginRequired)
+        {
+          $result = true;
+          break;
+        }
+
+        // Corollary of rule 2: if login IS required and you're not
+        // logged in, bye-bye
+        if (!$user->isAuthenticated())
+        {
+          continue;
+        }
+
+        // Rule 3: if there are no sufficient credentials and there is no
+        // required or sufficient group, then login alone is sufficient. Common 
+        // on sites with one admin
+        if (($sufficientCredentials === false) && ($candidateGroup === false) && ($sufficientGroup === false))
+        {
+          // Logging in is the only requirement
+          $result = true;
+          break;
+        }
+
+        // Rule 4: if the user has sufficient credentials... that's sufficient!
+        // Many sites will want to simply say 'editors can edit everything' etc
+        if ($sufficientCredentials && 
+          ($user->hasCredential($sufficientCredentials)))
+        {
+          $result = true;
+          break;
+        }
+        if ($sufficientGroup && 
+          ($user->hasGroup($sufficientGroup)))
+        {
+          $result = true;
+          break;
+        }
+
+        // Rule 5: if there is a candidate group, make sure the user is a member
+        // before checking for explicit privileges for that user
+        if ($candidateGroup && 
+          (!$user->hasGroup($candidateGroup)))
+        {
+          continue;
+        }
+    
+        // The explicit case
+    
+        $user_id = $user->getGuardUser()->getId();
+        
+        $accesses = Doctrine_Query::create()->
+          select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
+          where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND " .
+            "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
+          limit(1)->
+          execute(array(), Doctrine::HYDRATE_ARRAY);
+        if (count($accesses) > 0)
+        {
+          $result = true;
+          break;
+        }
+      }
+    }
+    self::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
+    return $result;
   }
 }

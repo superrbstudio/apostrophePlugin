@@ -23,9 +23,6 @@ sfGuardGroupPermission:
   sfGuardGroupPermission_admin_media_upload:
     sfGuardGroup: sfGuardGroup_admin
     sfGuardPermission: sfGuardPermission_media_upload
-  sfGuardGroupPermission_admin_blog_admin:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_blog_admin
   sfGuardGroupPermission_guest_guest:
     sfGuardGroup: sfGuardGroup_guest
     sfGuardPermission: sfGuardPermission_guest

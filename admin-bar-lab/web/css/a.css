@@ -45,13 +45,15 @@
 	*** pkAdmin Generator Styles
 	* 27. Admin Generator
 	* 28. Admin Generator - Filters
-
 	*** Misc Styles
 	* 29. jQuery Autocomplete	
 
 	*** Always Override Styles
 	* 30. Bundled Templates
-	* 31. aUI & Admin Colors - Default
+	* 31. Login button and language switcher
+	* 32. New lightweight rich text slot
+	* 33. Some Admin Generator Styles
+	* 34. aUI & Admin Colors - Default
 	
 */
 
@@ -235,6 +237,7 @@ a.a-btn.nobg:hover
 	-moz-border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;
 	border: 0 !important;
+	text-shadow:none !important;
 }
 
 
@@ -350,14 +353,6 @@ border: 1px solid #ddd;
 padding: 3px;
 }
 
-.a-admin .a-form-row input, 
-.a-admin .a-form-row textarea, 
-.a-admin .a-form-row select
-{
-font-size: 11px;
-width: 358px;
-}
-
 .a-form-row.submit
 {
 margin-left: 120px;
@@ -434,7 +429,17 @@ color: #900;
 	margin-left: 2px;
 }
 
+a.a-multiple-select-remove
+{
+position: relative;	
+}
 
+a.a-multiple-select-remove span
+{
+position: absolute;
+top: 0;
+left: 100%;
+}
 
 
 
@@ -594,6 +599,14 @@ text-indent:0 !important;
 	display: block;
 }
 
+.a-arrow-btn.icon.a-arrow-left,
+.a-arrow-btn.icon.a-arrow-right
+{ /* Arrow Buttons do not use .a-btn */
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+height: 20px;
+}
 
 
 /* 7. aUI Button Icons
@@ -749,54 +762,37 @@ background-image: url(/apostrophePlugin/images/a-icon-edit.png);
 .icon.a-arrow-up
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
-background-position:center;
-text-indent: -9999px;
-padding: 0;
-width: 18px;
 }
 
 .icon.a-arrow-down
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
-background-position:center;
-text-indent: -9999px;
-padding: 0;
-width: 18px;
 }
 
 .icon.a-arrow-left
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
-text-indent: -9999px;
-padding: 0;
-width: 20px;
-height: 20px;
--moz-box-shadow:0 0 0 0 transparent;
--webkit-box-shadow:0 0 0 transparent;
--opera-box-shadow:0 0 0 transparent;
--khtml-box-shadow:0 0 0 transparent;
-box-shadow:0 0 0 transparent;
 }
 
 .icon.a-arrow-right
 {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
-text-indent: -9999px;
-padding: 0;
-width: 20px;
-height: 20px;
--moz-box-shadow:0 0 0 transparent;
--webkit-box-shadow:0 0 0 transparent;
--opera-box-shadow:0 0 0 transparent;
--khtml-box-shadow:0 0 0 transparent;
-box-shadow:0 0 0 transparent;
 }
 
-.a-btn.icon.a-arrow-left:hover,
-.a-btn.icon.a-arrow-right:hover
+.icon.a-arrow-up,
+.icon.a-arrow-down
 {
-background-color: transparent !important;
-background-position: 0 -20px !important;
+	background-position:center;
+	text-indent: -9999px;
+	padding: 0;
+	width: 18px;	
+}
+
+.icon.a-arrow-left:hover,
+.icon.a-arrow-right:hover
+{
+background-color: transparent;
+background-position: 0 -20px;
 }
 
 .icon.a-arrow-left.thin
@@ -2718,7 +2714,7 @@ height: auto;
 border: none;
 }
 
-ul.a-slideshow-controls li
+.a-arrow-btn
 {
 float: left;
 border: 0;
@@ -2767,83 +2763,6 @@ clear: both;
 .a-slideshow-item .a-slideshow-image
 {
 	line-height:0 !important; /* RB: fixes the bit of whitespace after img */
-}
-
-/* aSlideshow Slot Bundled Variant Style - Compact */
-
-.a-slot.aSlideshow.compact
-{
-	margin-top: 0;
-}
-
-.a-slot.aSlideshow.compact ul.a-slideshow-controls
-{
-	position:absolute;
-	top: auto;
-	left: auto;
-	bottom:0;
-	right:0;
-	margin: 0;
-	width:100%;
-	z-index:888;
-	min-height: 30px;
-	height: auto;
-}
-
-.a-slot.aSlideshow.compact ul.a-slideshow-controls li
-{
-	height: 30px;
-	width: 30px;
-	margin: 0 5px;	
-}
-
-.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-previous
-{
-	background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-alt.png);
-	position: absolute;
-	top: 0;
-	right: 30px;
-}
-
-.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-next
-{
-	background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin-alt.png);
-	float: right;
-}
-
-.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-next:hover,
-.a-slot.aSlideshow.compact ul.a-slideshow-controls .a-slideshow-controls-previous:hover
-{
-background-position: 0 -30px !important;
-}
-
-.a-slot.aSlideshow.compact .a-slideshow-title
-{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 122px;
-	padding: 8px 70px 8px 8px;
-	margin: 0;
-	color: #fff;
-	font-size: 11px;
-	line-height: 1.3;
-	background: rgba(0,0,0,0.35);	
-}
-
-.a-slot.aSlideshow.autoplay .a-slideshow-title
-{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 184px;
-	padding: 8px;
-	margin: 0;
-	color: #fff;
-	font-size: 11px;
-	line-height: 1.3;
-	background: rgb(0,0,0);	
-	background: rgba(0, 0, 0, 0.35);	
 }
 
 
@@ -3121,6 +3040,11 @@ padding: 0 !important;
 z-index: 899;
 }
 
+ul.a-controls.a-slot-save-cancel-controls
+{
+	clear: both;
+}
+
 ul.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
@@ -3194,6 +3118,7 @@ position: absolute;
 z-index: 799;
 top: 0;
 left: 0;
+width: auto;
 }
 
 ul.a-controls.a-media-edit-links
@@ -3345,6 +3270,8 @@ ul.a-controls .a-variant-options.loading
 	line-height: 20px;
 	margin: 0 0 15px 0;
 	padding: 0 10px;
+	width: auto;
+	clear: both;
 }
 
 .a-options.a-slot-form .a-form-row:hover .a-form-help-text
@@ -4813,6 +4740,57 @@ margin: 0;
 visibility: hidden;
 }
 	
+	
+.ac_results {
+	padding: 0px;
+	border: 1px solid black;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;
+	font-size: 12px;
+	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background: white url('indicator.gif') right center no-repeat;
+}
+
+.ac_odd {
+	background-color: #eee;
+}
+
+.ac_over {
+	background-color: #0A246A;
+	color: white;
+}
+	
+	
 div.tag-suggestions li a,
 div.tag-suggestions li a:link,
 .ac_results .ac_even,
@@ -4936,11 +4914,6 @@ border-top: 1px #ddd solid;
 	clear: both;
 }
 
-.a-admin select
-{
-width: auto;
-}
-
 .a-admin .a-admin-batch-actions-choice select
 {
 float: left;
@@ -4962,67 +4935,12 @@ color: #fff;
 background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
 }
 
-.a-admin .a-form-row
-{
-padding: 10px 10px 10px 120px;
-min-width:590px;
-width: 590px;
-}
-
 .a-admin .a-form-row td
 {
 margin-bottom: 10px;
 float: left;
 clear: both;
 position: relative;
-}
-
-.a-admin .a-form-row .content
-{
-padding-left: 9em;
-}
-
-.a-admin .a-form-row label
-{
-float: left;
-text-align: left;
-width: 120px;
-color: #666;
-font-weight: normal !important;
-text-transform: capitalize;
-position: absolute !important;
-top: 0;
-left: 0;
-line-height: 20px;
-display: block;
-}
-
-.a-admin .a-form-row .checkbox_list label
-{
-position: absolute;
-display: inline;
-top: 0;
-left: 20px;
-float: left;
-width: auto !important;
-}
-
-.a-admin .a-form-row .checkbox_list li
-{
-float: left;
-display: inline;
-width: 100%;
-position: relative;
-}
-
-.a-admin .a-form-row .a-help
-{
-display: block;
-clear: both;
-width: 500px;
-margin: 10px 0 20px 0;
-font-size: 11px;
-color: #888;
 }
 
 .a-admin-footer
@@ -5039,48 +4957,9 @@ color: #333 !important;
 font-weight: bold !important;
 }
 
-.a-admin .form-errors
-{
-margin-bottom: 10px;
-border: 1px solid #f33;
-background-color: #ffc;
-}
-
-.a-admin .form-errors h2
-{
-padding: 5px 20px 5px 25px;
-font-size: 11px;
-color: #fff;
-background: #f33 url(../images/error.png) no-repeat 5px 2px;
-}
-
-.a-admin .form-errors dl
-{
-padding: 5px;
-}
-
-.a-admin .form-errors dt
-{
-font-weight: bold;
-float: left;
-padding-right: 5px;
-}
-
-.a-admin .form-errors dd
-{
-margin: 0;
-}
-
 .a-admin .form-error
 {
 color: #f33;
-}
-
-.a-admin fieldset
-{
-margin-bottom: 3px;
-background-color: #fff;
-border: none;
 }
 
 .a-admin ul.a-admin-td-actions
@@ -5350,6 +5229,7 @@ z-index: 9999;
 .a-date-wrapper,
 .a-time-wrapper
 {
+	margin-bottom:4px;
 	float: left;
 	clear: both;
 }
@@ -5358,6 +5238,15 @@ z-index: 9999;
 .a-time-wrapper input
 {
 	float: left;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	padding:1px;
+	-moz-border-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-radius: 3px;
+	
 }
 
 .ui-timepicker-trigger,
@@ -5507,97 +5396,7 @@ width: 480px;
 
 
 
-/* 31. aUI & Admin Colors - Default
--------------------------------------*/
-
-/* GREEN — 153,204,51 */
-/* ORANGE — 255,153,0 */
-/* PINK — 255,0,102 */
-
-#a-global-toolbar #the-apostrophe
-{ /* Apostrophe */
-	background-color: rgb(51,204,204);
-	background-color: rgba(51,204,204,0.65);	
-}
-
-.a-btn,
-.a-submit,
-.a-cancel,
-.a-admin-list th a
-{ /* Button Border Radius */
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-}
-
-.a-btn,
-.a-submit,
-.a-cancel
-{ /* Button Styles */
-	background-color: rgb(51,204,204);
-	background-color: rgba(51,204,204,0.65);	
-	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-	border:1px solid rgba(20,20,20,.2);	
-}
-
-.a-btn:focus,
-.a-btn:hover,
-.a-btn:hover span
-{/*Button Hover Style*/
-color: #fff !important;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-background-color: #888 !important;
-text-decoration: none !important;
-}
-
-.a-btn.active,
-.a-btn:active,
-.a-btn:active span
-{/*Button Active Style*/
-color: #eee !important;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-background-color: #111 !important;
-text-decoration: none !important;
-z-index:999;
-}
-
-.a-btn.alt,
-.a-submit.alt,
-.a-cancel.alt
-{ /* Button Styles */
-color: #444 !important;
-text-shadow: 0 1px 0px rgba(255,255,255,255.20);
-background-color: #fff !important;
-}
-
-.a-btn.alt:hover,
-.a-submit.alt:hover,
-.a-cancel.alt:hover
-{ /* Button Styles */
-background-color: #E0E0E0 !important;
-}
-
-.a-btn.alt,
-.a-submit.alt,
-.a-cancel.alt,
-.a-history-browser,
-ul.a-controls .a-variant-options
-{ /* Border Color */
-border-color: rgb(51,204,204);
-}
-
-.a-admin .a-admin-content a:link, 
-.a-admin .a-admin-content a:visited,
-#a-global-toolbar #a-logged-in-as span,
-#a-personal-settings-heading span
-{ /* Text Color */
-color: rgb(51,204,204);
-}
-
-
-
-
-/* 32. Login button and language switcher
+/* 31. Login button and language switcher
 -------------------------------------*/
 
 .a-login ul
@@ -5615,7 +5414,10 @@ color: rgb(51,204,204);
 	padding-right: 10px;
 }
 
-/* 33. New lightweight rich text slot
+
+
+
+/* 32. New lightweight rich text slot
 -------------------------------------*/
 
 .a-slot.aNewRichText h1,
@@ -5778,4 +5580,189 @@ display: block;
 .a-slot.aNewRichText
 {
 width: 100%;
+}
+
+
+/* 33. Some Admin Generator Styles
+-------------------------------------*/
+
+.a-admin-generator .a-form-row input, 
+.a-admin-generator .a-form-row textarea
+{
+min-width: 160px;
+max-width: 358px;
+}
+
+.a-admin-generator .a-form-row select,
+.a-admin-generator .a-form-row input[type="checkbox"],
+.a-admin-generator .a-form-row input[type="radio"]
+{
+width: auto;
+}
+
+.a-admin-generator .a-form-row
+{
+/*min-width:590px;*/
+/*width: auto !important;*/
+/*width: 590px;*/
+}
+
+.a-admin-generator .a-form-row label
+{
+/*float: left;*/
+/*text-align: left;*/
+/*width: 120px;*/
+/*color: #666;/*/
+/*font-weight: normal !important;*/
+/*text-transform: capitalize;*/
+/*position: absolute !important;*/
+/*top: 0;*/
+/*left: 0;*/
+/*line-height: 20px;*/
+/*display: block;*/
+}
+
+.a-admin-generator .a-form-row .checkbox_list label
+{
+margin:-2px 0 0 5px;
+}
+
+.a-admin-generator .a-form-row .checkbox_list li
+{
+float: left;
+display: inline;
+width: 100%;
+position: relative;
+}
+
+.a-admin-generator .a-form-help-text
+{
+display: block;
+clear: both;
+margin: 10px 0 20px 120px;
+font-size: 11px;
+color: #888;
+}
+
+.a-admin-generator .form-errors
+{
+margin-bottom: 10px;
+border: 1px solid #f33;
+background-color: #ffc;
+}
+
+.a-admin-generator .form-errors h2
+{
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #f33 url(../images/error.png) no-repeat 5px 2px;
+}
+
+.a-admin-generator .form-errors dl
+{
+padding: 5px;
+}
+
+.a-admin-generator .form-errors dt
+{
+font-weight: bold;
+float: left;
+padding-right: 5px;
+}
+
+.a-admin-generator .form-errors dd
+{
+margin: 0;
+}
+
+.a-admin-generator fieldset
+{
+margin-bottom: 3px;
+background-color: #fff;
+border: none;
+}
+
+
+
+
+/* 34. aUI & Admin Colors - Default
+-------------------------------------*/
+
+#a-global-toolbar #the-apostrophe
+{ /* Apostrophe */
+	background-color: rgb(255,150,0);
+	background-color: rgba(255,150,0,0.75);	
+}
+
+.a-btn,
+.a-submit,
+.a-cancel,
+.a-admin-list th a
+{ /* Button Border Radius */
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+
+.a-btn,
+.a-submit,
+.a-cancel
+{ /* Button Styles */
+	background-color: rgb(255,150,0);
+	background-color: rgba(255,150,0,0.75);	
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	border:1px solid rgba(20,20,20,.2);	
+}
+
+.a-btn:focus,
+.a-btn:hover,
+.a-btn:hover span
+{/*Button Hover Style*/
+color: #fff !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #888 !important;
+text-decoration: none !important;
+}
+
+.a-btn:active,
+.a-btn:active span
+{/*Button Hover Style*/
+color: #eee !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #111 !important;
+text-decoration: none !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt
+{ /* Button Styles */
+color: #444 !important;
+text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+background-color: #fff !important;
+}
+
+.a-btn.alt:hover,
+.a-submit.alt:hover,
+.a-cancel.alt:hover
+{ /* Button Styles */
+background-color: #E0E0E0 !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt,
+.a-history-browser,
+ul.a-controls .a-variant-options
+{ /* Border Color */
+border-color: rgb(255,150,0);
+}
+
+.a-admin .a-admin-content a:link, 
+.a-admin .a-admin-content a:visited,
+#a-global-toolbar #a-logged-in-as span,
+#a-personal-settings-heading span
+{ /* Text Color */
+color: rgb(255,150,0);
 }

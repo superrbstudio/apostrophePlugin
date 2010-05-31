@@ -1,6 +1,6 @@
 <?php
 
-class aRichTextForm extends sfForm
+class aRichTextForm extends BaseForm
 {
   protected $id;
   protected $soptions;

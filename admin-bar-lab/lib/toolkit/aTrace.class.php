@@ -58,11 +58,16 @@ class aTrace
   {
     echo(self::trace(2));
   }
-  static public function traceText($ignoreCount = 1)
+  // Now you can pass in a trace from a getTrace() call on an exception object
+  static public function traceText($ignoreCount = 1, $trace = null)
   {
-    $trace = debug_backtrace();    
+    if ($trace === null)
+    {
+      $trace = debug_backtrace();    
+    }
     $count = 0;
     $result = "";
+    $lastLine = 'NONE';
     foreach ($trace as $element)    
     {
       $count++;

@@ -60,5 +60,6 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
     $this->options['arrows'] = $this->getOption('arrows', true);
     $this->options['transition'] = $this->getOption('transition');
     $this->options['position'] = $this->getOption('position', false);
+		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
 	}
 }

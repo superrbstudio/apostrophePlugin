@@ -50,5 +50,23 @@ class aProcesses
     system("($cmd) >> /dev/null 2>&1", $result);
     return $result;
   }
+  
+  /*
+   *
+   * Handy if you're reinvoking based on $argv[]. 
+   * First argument is executable
+   *
+   */
+   
+  static public function systemArray($args, &$result = null)
+  {
+    $eargs = array();
+    foreach ($args as $arg)
+    {
+      $eargs[] = escapeshellarg($arg);
+    }
+    $cmd = implode(' ', $args);
+    return system($cmd, $result);
+  }
 }
 

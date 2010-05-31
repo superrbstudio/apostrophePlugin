@@ -18,6 +18,11 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
       $this->dispatcher->connect('routing.load_configuration', array('aRouting', 'listenToRoutingLoadConfigurationEvent'));
     }
 
+    if (sfConfig::get('app_a_admin_routes_register', true))
+    {
+      $this->dispatcher->connect('routing.load_configuration', array('aRouting', 'listenToRoutingAdminLoadConfigurationEvent'));
+    }
+
     // Allows us to reset static data such as the current CMS page.
     // Necessary when writing functional tests that use the restart() method
     // of the browser to start a new request - something that never happens in the

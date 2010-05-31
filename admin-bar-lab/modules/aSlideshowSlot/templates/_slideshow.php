@@ -1,13 +1,13 @@
 <?php use_helper('I18N') ?>
 <?php if ($options['arrows'] && (count($items) > 1)): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-	<li class="a-slideshow-controls-previous icon a-arrow-left"><?php echo __('Previous', null, 'apostrophe') ?></li>
+	<li class="a-arrow-btn icon a-arrow-left"><?php echo __('Previous', null, 'apostrophe') ?></li>
 	<?php if ($options['position']): ?>
 		<li class="a-slideshow-position">
 			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
 		</li>
 	<?php endif ?>
-	<li class="a-slideshow-controls-next icon a-arrow-right"><?php echo __('Next', null, 'apostrophe') ?></li>
+	<li class="a-arrow-btn icon a-arrow-right"><?php echo __('Next', null, 'apostrophe') ?></li>
 </ul>
 <?php endif ?>
 
@@ -30,7 +30,7 @@
 	    $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false)) ?>
 
 	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>" <?php echo ($first)? 'style="display:list-item;"':''; ?>>
-			<?php include_partial('aSlideshowSlot/slideshowItem', array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
+			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
 		</li>
 	<?php $first = false; $n++; endforeach ?>
 	</ul>
@@ -84,13 +84,13 @@
 			next();
 	  });
 
-		$('#a-slideshow-controls-<?php echo $id ?> .a-slideshow-controls-previous').click(function(event){
+		$('#a-slideshow-controls-<?php echo $id ?> .a-arrow-left').click(function(event){
 			event.preventDefault();
 			intervalEnabled = false;
 			previous();
 		});
 
-		$('#a-slideshow-controls-<?php echo $id ?> .a-slideshow-controls-next').click(function(event){
+		$('#a-slideshow-controls-<?php echo $id ?> .a-arrow-right').click(function(event){
 			event.preventDefault();
 			intervalEnabled = false;
 			next();

@@ -37,7 +37,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */
-class aLanguageForm extends sfForm
+class aLanguageForm extends BaseForm
 {
   protected
     $user = null;

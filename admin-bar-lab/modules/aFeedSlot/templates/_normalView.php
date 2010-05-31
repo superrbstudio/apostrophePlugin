@@ -11,14 +11,7 @@
       <?php if (($posts !== false) && ($n >= $posts)): ?>
         <?php break ?>
       <?php endif ?>
-      <li class="a-feed-item">
-        <ul>
-          <li class="title"><?php echo link_to_if($feedItem->getLink() && $links, $feedItem->getTitle(), $feedItem->getLink()) ?></li>
-          <?php $date = $feedItem->getPubDate() ?>
-          <li class="date"><?php echo $dateFormat ? date($dateFormat, $date) : aDate::pretty($date) . ' ' . aDate::time($date) ?></li>
-          <li class="description"><?php echo aHtml::simplify($feedItem->getDescription(), $markup) ?></li>
-        </ul>
-      </li>
+			<?php include_partial('aFeedSlot/'.$itemTemplate, array('feedItem' => $feedItem, 'links' => $links, 'dateFormat' => $dateFormat, 'markup' => $markup)) ?>
       <?php $n++ ?>
     <?php endforeach ?>
   </ul>

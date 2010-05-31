@@ -1,6 +1,6 @@
 <?php
 
-class aRawHTMLForm extends sfForm
+class aRawHTMLForm extends BaseForm
 {
   protected $id;
   public function __construct($id)

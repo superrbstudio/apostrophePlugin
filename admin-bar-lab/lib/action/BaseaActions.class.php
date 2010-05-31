@@ -164,7 +164,11 @@ class BaseaActions extends sfActions
         $this->logMessage("ZZ skipping non-page");
         continue;
       }
-      if ($child->getNode()->getParent() != $parent)
+      // Compare IDs, not the objects. #375 points out that comparing the objects with !=
+      // does a recursive compare which is bad news. Comparing them with !== should work, but
+      // what if we have two objects representing the same page? Unlikely in Doctrine, but
+      // comparing the page ids is guaranteed to do the right thing.
+      if ($child->getNode()->getParent()->id != $parent->id)
       {
         $this->logMessage("ZZ skipping non-child");
         continue;
@@ -284,10 +288,10 @@ class BaseaActions extends sfActions
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
     $this->type = $this->getRequestParameter('type');
-    $options = aTools::getAreaOptions($page->id, $this->name);
+    $this->options = aTools::getAreaOptions($page->id, $this->name);
     aTools::setRealUrl($request->getParameter('actual_url'));
     
-    if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($options))))
+    if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($this->options))))
     {
       $this->forward404();
     }
@@ -351,9 +355,6 @@ class BaseaActions extends sfActions
     $variant = $this->getRequestParameter('variant');
     $page->newAreaVersion($this->name, 'variant', 
       array('permid' => $this->permid, 'variant' => $variant));
-    $page = aPageTable::retrieveByIdWithSlots(
-      $request->getParameter('id'));
-    $this->flunkUnless($page);
     
     // Borrowed from BaseaSlotActions::executeEdit
     // Refetch the page to reflect these changes before we
@@ -594,15 +595,41 @@ class BaseaActions extends sfActions
 
     foreach ($values as $value)
     {
-      if (!sfContext::getInstance()->getUser()->isAuthenticated())
+      // doesn't implement isset
+      if (strlen($value->info))
       {
-        if (isset($value->view_is_secure) && $value->view_is_secure)
+        $info = unserialize($value->info);
+        if (!aPageTable::checkPrivilege('view', $info))
         {
           continue;
         }
       }
       $nvalue = $value;      
-      $nvalue->url = aTools::urlForPage($nvalue->slug, true);
+      if (substr($nvalue->slug, 0, 1) === '@')
+      {
+        // Virtual page slug is a named Symfony route, it wants search results to go there
+        $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
+      }
+      else
+      {
+        $slash = strpos($nvalue->slug, '/');
+        if ($slash === false)
+        {
+          // A virtual page (such as global) taht isn't the least bit interested in
+          // being part of search results
+          continue;
+        }
+        if ($slash > 0)
+        {
+          // A virtual page slug which is a valid Symfony route, such as foo/bar?id=55
+          $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
+        }
+        else
+        {
+          // A normal CMS page
+          $nvalue->url = aTools::urlForPage($nvalue->slug);
+        }
+      }
       $nvalue->class = 'aPage';
       $nvalues[] = $nvalue;
     }
@@ -618,7 +645,7 @@ class BaseaActions extends sfActions
     $this->pager->init();
     $this->pagerUrl = "a/search?" .http_build_query(array("q" => $q));
     // setTitle takes care of escaping things
-    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q);
+    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
     $this->results = $this->pager->getResults();
   }
   
@@ -668,7 +695,7 @@ class BaseaActions extends sfActions
     
     $this->treeData = $root->getTreeJSONReady(false);
     // setTitle takes care of escaping things
-    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize');
+    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize' . aTools::getOptionI18n('title_suffix'));
   }
 
   public function executeTreeMove($request)

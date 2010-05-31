@@ -98,7 +98,16 @@ class aImageConverter
   {    
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
-      // Auto fallback to gd
+      // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
+      // full alpha channel for manageably-sized PNGs and good performance for huge PNGs
+      $info = getimagesize($fileIn);
+      $mapTypes = array(IMAGETYPE_GIF => IMG_GIF, IMAGETYPE_PNG => IMG_PNG, IMAGETYPE_JPEG => IMG_JPG);
+      // If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports
+      // the image type... *then* we skip to gd.
+      if (($info !== false) && (($info[0] <= 1024) && ($info[1] <= 768)) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
+      {
+        return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
+      }
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       if (!$result)
       {

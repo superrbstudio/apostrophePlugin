@@ -2,11 +2,11 @@ function aUI(target)
 {
 	
 	// Grab Target if Passed Through
-	if (typeof target == 'undefined') // If Not Set
+	if (typeof(target) == 'undefined') // If Not Set
 	{
 		target = '';
 	}
-	else if (typeof target == 'object') // If jQuery object get id
+	else if (typeof(target) == 'object') // If jQuery object get id
 	{
 		target = "#"+ target.attr('id') +" ";
 	}
@@ -68,13 +68,11 @@ function aUI(target)
 		$(this).parents('.a-slots').children().css('z-index','699');
 		$(this).parents('.a-slot').css('z-index','799');	
 	});
-
 	
 	// Disabled Buttons
 	$('a.a-disabled').unbind("click").click(function(event){
 		event.preventDefault();
 	}).attr('onclick','');
-
 
 	// Cross Browser Opacity Settings
 	$('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
@@ -104,18 +102,29 @@ function aUI(target)
 	// 	// }
 	// })
 
-
 	//aContext Slot / Area Controls Setup
 	$('.a-controls li:last-child').addClass('last'); // Add 'last' Class To Last Option
 	$('.a-controls').css('visibility','visible'); // Display Controls After They Have Been Styled
 	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
-	// We use this for refreshing progressive enhancements such as Cufon following an Ajax requests.
-	if (typeof aOverrides =="function")
+	// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
+	if (typeof(aOverrides) =="function")
 	{ 
 		aOverrides(); 	
 	}
+}
 
+function aIE6(authenticated, message)
+{
+	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+	if (authenticated)
+	{
+		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
+	}
+
+	// Misc IE6 enhancements we want to happen
+	$('input[type="checkbox"]').addClass('checkbox');
+	$('input[type="radio"]').addClass('checkbox');
 }
 
 function menuToggle(button, menu, classname, overlay){

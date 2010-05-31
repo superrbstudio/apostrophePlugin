@@ -56,13 +56,15 @@ class BaseaMediaBackendActions extends sfActions
       {
         $method = 'scaleToFit';
       }
+      $quality = sfConfig::get('app_aMedia_jpeg_quality', 75);
       aImageConverter::$method(
         aMediaItemTable::getDirectory() .
           DIRECTORY_SEPARATOR .
           "$slug.original.$originalFormat", 
         $output,
         $width,
-        $height);
+        $height,
+        sfConfig::get('app_aMedia_jpeg_quality', 75));
     }
     // The FIRST time, we output this here. Later it
     // can come directly from the file if Apache is
