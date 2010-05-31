@@ -3827,7 +3827,7 @@ width: 100%;
 {
 width: 720px;
 float: right;
-margin-bottom: 20px;
+/*margin-bottom: 20px;*/
 /*overflow: hidden;*/
 }
 
@@ -3854,7 +3854,7 @@ clear: both;
 	clear:both;
 	float:left;
 	display:inline;
-	margin-bottom:20px !important;
+	margin:15px 0 30px 0!important;
 }
 
 .a-media-library .a-controls.a-media-controls li
