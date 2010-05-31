@@ -1984,6 +1984,11 @@ border-right: 1px inset rgba(0,0,0,0.1);
 margin: 10px 0;
 }
 
+.a-form-row.title
+{
+	margin-top: 0;
+}
+
 .a-form-row.title label
 {
 	display: none;
