@@ -4023,10 +4023,13 @@ float: left;
 }
 
 li.a-media-selection-preview-item {
-  display:block;
+  display:none;
 	float:left;
 	width:auto;
 	margin-left:160px;
+}
+li.a-media-selection-preview-item.current {
+  display: block;
 }
 
 #a-media-plugin #a-media-edit-form,

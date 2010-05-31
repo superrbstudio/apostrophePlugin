@@ -21,6 +21,7 @@ aCrop = {
       var api = $.Jcrop(this);
       api.setOptions({allowResize: false});
       aCrop.setAspectMask(api, this);
+      api.disable();
     });
     
     aCrop.previewApi = $(aCrop.el.previewImages).each(function(){

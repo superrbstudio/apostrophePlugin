@@ -47,7 +47,7 @@ class BaseaMediaActions extends aEngineActions
     foreach ($items as $item)
     {
       $ids[] = $item->getId();
-      $info = array('width' => $item->getOriginalWidth(), $item->getOriginalHeight());
+      $info = array('width' => $item->getWidth(), $item->getHeight());
       if ($request->hasParameter('crops'))
       {
         $crops = $request->getParameter('crops');
