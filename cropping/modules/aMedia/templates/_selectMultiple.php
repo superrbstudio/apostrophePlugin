@@ -10,7 +10,8 @@
   <?php endif ?>
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
-<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') ?>
+<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-width') ?
+    aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') : 0 ?>
 
   <ul id="a-media-selection-preview">
   <?php foreach ($items as $item): ?>

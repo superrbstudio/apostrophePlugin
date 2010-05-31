@@ -4018,7 +4018,7 @@ float: left;
 #a-media-selection-preview li {
   display: none;
 }
-#a-media-selection-preview li:first-child {
+#a-media-selection-preview li.current {
   display: block;
 }
 
