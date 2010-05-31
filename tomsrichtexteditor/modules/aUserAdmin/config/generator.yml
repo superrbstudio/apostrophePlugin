@@ -1,0 +1,37 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           sfGuardUser
+    theme:                 aAdmin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          a_user_admin
+    with_doctrine_route:     1
+    i18n_catalogue: apostrophe
+
+    config:
+      actions: ~
+      fields: 
+        password_again:
+          label: "Password (again)"
+        
+      list:
+        title:   User list
+        display: [=username, created_at, updated_at, last_login]
+      form:
+        class: aUserAdminForm
+        display:
+          # hid permissions because groups imply them and don't confuse admins
+          "NONE":                   [username, password, password_again, is_active, groups_list]
+        actions:
+          _save:
+          _list:
+        fields:
+          groups_list:
+            help:       '<p>If you want to grant a user the ability to edit a portion of the site, first add them to the <strong>editor</strong> group.</p><p>Then browse to that area of the site and click the gear to add them to the list of users who can edit in that particular area.</p><p>If you want a user to have full control over the entire site, add them to the <strong>admin</strong> group.</p>'
+      edit:
+        title: Editing User "%%username%%"
+      new:
+        title: New User
