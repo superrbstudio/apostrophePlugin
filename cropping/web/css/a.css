@@ -3953,6 +3953,22 @@ display: inline;
 padding-bottom:10px;
 }
 
+#a-media-selection-preview
+{
+	display:inline;
+	float:left;
+	width:100%;
+	margin:20px 0;
+}
+
+#a-media-selection-preview li
+{
+	display:inline;
+	float:left;
+	width:auto;
+	margin-left:160px;
+}
+
 #a-media-selection-list
 {
 float: left;
@@ -3962,7 +3978,7 @@ margin: 10px 0;
 .a-media-selection-list-item
 {
 float: left;
-margin: 0 16px 16px 0;
+margin: 0 10px 10px 0;
 cursor: move;
 position: relative;
 }
