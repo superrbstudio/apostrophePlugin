@@ -131,13 +131,14 @@ function aMenuToggle(button, menu, classname, overlay)
 {	
 	/* Usage: aMenuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False) */
 	if (typeof button == "string") { button = $(button); }
-	if (typeof menu == "string") { menu = $(menu); 
-		if (menu.attr('id') == '') {
-			menu.attr('id', button.attr('id')+'-menu');
-		};
-	}
+	if (typeof menu == "string") { menu = $(menu); }
 	if (typeof classname == "undefined" || classname == '') { classname = "show-options";	}
 	if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); }
+	
+	if (menu.attr('id') == '') {
+		newID = button.attr('id')+'-menu';
+		menu.attr('id', newID);
+	}
 	
 	button.unbind('click').click(function(){
 		if (!button.hasClass('aActiveMenu')) 
@@ -161,9 +162,10 @@ function aMenuToggle(button, menu, classname, overlay)
 			if (target.hasClass('.a-page-overlay')) {
 				menuClose();
 			}
-			// if (target.id !== button.attr('id')) {
-				// menuClose();
-			// }
+			console.log(target.parents().is('#'+menu.attr('id')));
+			if (target.parents().is('#'+menu.attr('id'))) {
+				menuClose();
+			}
 			
 			// There needs to be better TARGET logic for knowing if you're clicking on something that's not part of the menu
 		});
