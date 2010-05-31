@@ -3999,6 +3999,12 @@ float: left;
   width:100%;
   float:left;
 }
+#a-media-selection-preview li {
+  display: none;
+}
+#a-media-selection-preview li:first-child {
+  display: block;
+}
 
 #a-media-plugin #a-media-edit-form,
 #a-media-plugin .a-media-item-edit-form

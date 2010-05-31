@@ -145,6 +145,10 @@ class aMediaTools
         "width" => 720,
         "height" => false,
         "resizeType" => "s"),
+    "crop_constraints" => array(
+        "width" => 360,
+        "height" => false,
+        "resizeType" => "s"),
     'routes_register' => true,
     'apipublic' => false,
     'embed_codes' => false,

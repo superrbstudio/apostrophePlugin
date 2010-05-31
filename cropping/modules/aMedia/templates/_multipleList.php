@@ -68,6 +68,5 @@
 		},function(){
 			$(this).removeClass('over');			
 		});
-		initCropping();
 	});
 </script>

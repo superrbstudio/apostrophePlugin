@@ -10,12 +10,15 @@
   <?php endif ?>
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
+<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') ?>
+<?php echo $aspectRatio ?>
+
   <ul id="a-media-selection-preview">
-    <?php foreach ($items as $item): ?>
-      <li id="a-media-selection-preview-<?php echo $item->getId() ?>">
-      <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('selected_constraints'))) ?>" />
+  <?php foreach ($items as $item): ?>
+    <li id="a-media-selection-preview-<?php echo $item->getId() ?>">
+      <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('crop_constraints'))) ?>" />
     </li>
-    <?php endforeach; ?>
+  <?php endforeach; ?>
   </ul>
 
 	<ul id="a-media-selection-list">
@@ -35,15 +38,7 @@
 	<br class="c"/>
 	
 <script type="text/javascript" charset="utf-8">
-var JcropAPI;
-function initCropping()
-{
-  JcropAPI = $('#a-media-selection-preview img').each(function(){
-    $.Jcrop(this);
-  });
-}
-
 $(document).ready(function(){
-  initCropping();
+  aCrop.init();
 });
 </script>
