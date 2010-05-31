@@ -1,0 +1,58 @@
+/* IE Specific Stylesheet
+-------------------------------------*/
+
+
+/* Color Fixes for <= IE7
+-------------------------------------*/
+
+#a-global-toolbar #the-apostrophe
+{ /* Apostrophe */
+background-color: rgb(153,204,51);
+}
+
+.a-btn,
+.a-submit,
+.a-cancel
+{ /* Background Color */
+background-color: rgb(153,204,51);
+}
+
+.a-history-browser
+{ /* Border Color */
+border-color: rgb(153,204,51);	
+}
+
+#a-global-toolbar #a-logged-in-as span,
+#a-personal-settings-heading span
+{ /* Text Color */
+color: rgb(153,204,51);
+}
+
+input.checkbox,
+input.radio
+{
+	border: none !important;
+}
+
+ul.a-slideshow
+{
+	background: none !important;
+}
+
+/* RGBA is awesome. Except for IE. Solid Colors */
+
+.a-page-overlay
+{
+	background: #fff;
+}
+
+div.tag-suggestions li a,
+div.tag-suggestions li a:link
+{
+background: #444;
+}
+
+.a-slot.aSlideshow.compact .a-slideshow-title
+{
+	background: #000;
+}

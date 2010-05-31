@@ -1,0 +1,45 @@
+a_user_admin:
+  class: sfDoctrineRouteCollection
+  options:
+    model:               sfGuardUser
+    module:              aUserAdmin
+    prefix_path:         admin/user
+    column:              id
+    with_wildcard_routes: true
+
+a_group_admin:
+  class: sfDoctrineRouteCollection
+  options:
+    model:               sfGuardGroup
+    module:              aGroupAdmin
+    prefix_path:         admin/group
+    column:              id
+    with_wildcard_routes: true
+
+a_permission_admin:
+  class: sfDoctrineRouteCollection
+  options:
+    model:               sfGuardPermission
+    module:              aPermissionAdmin
+    prefix_path:         admin/permission
+    column:              id
+    with_wildcard_routes: true
+
+# This needs to be consistent across sites so our 
+# apostrophe:deploy task can contact it
+a_sync:
+  url: /async/:action
+  param:
+    module: aSync
+    
+# Right now the admin engine isn't terribly exciting,
+# it just redirects away from the /admin page that belongs to it.
+# Longer URLs starting with /admin are left alone as they often belong
+# to non-engine modules like the users module
+a_admin:
+  url: /
+  class: aRoute
+  param:
+    module: aAdmin
+    action: index
+    
