@@ -50,36 +50,40 @@
 
 	</div>
 
+	<hr/>
 
 	<div class="a-page-settings-section page-status">
+		<h4 class="a-page-settings-section-head header"><?php echo __('Page Status', null, 'apostrophe') ?></h4>
+		<div class="a-page-status content">
+			<div class="a-form-row status">
+			  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
+			  	<div class="a-page-settings-status">
+				    <?php echo $form['archived'] ?>
+	          <?php if(isset($form['cascade_archived'])): ?>
+	            <?php // If you want your <em> back here, do it in the translation file ?>
+	            <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
+	          <?php endif ?> 
+					</div>
+			</div>			
 
-		<div class="a-form-row status">
-		  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
-		  	<div class="a-page-settings-status">
-			    <?php echo $form['archived'] ?>
-          <?php if(isset($form['cascade_archived'])): ?>
-            <?php // If you want your <em> back here, do it in the translation file ?>
-            <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
-          <?php endif ?> 
-				</div>
-		</div>			
-
-		<div class="a-form-row privacy">
-		  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
-		  	<div class="a-page-settings-status">
-					<?php echo $form['view_is_secure'] ?>
-					<?php if(isset($form['cascade_view_is_secure'])): ?>
-              <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
-          <?php endif ?> 
-				</div>
+			<div class="a-form-row privacy">
+			  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
+			  	<div class="a-page-settings-status">
+						<?php echo $form['view_is_secure'] ?>
+						<?php if(isset($form['cascade_view_is_secure'])): ?>
+	              <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
+	          <?php endif ?> 
+					</div>
+			</div>
 		</div>
-
 	</div>
+	
+	<hr/>
 
 	<div class="a-page-settings-section page-permissions">
-		<h4><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
+		<h4 class="a-page-settings-section-head header"><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
 	
-		<div class="a-page-permissions">
+		<div class="a-page-permissions content">
 		  <?php include_partial('a/privileges', 
 		    array('form' => $form, 'widget' => 'editors',
 		      'label' => 'Editors', 'inherited' => $inherited['edit'],

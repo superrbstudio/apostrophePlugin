@@ -1922,13 +1922,14 @@ margin-right: 5px;
 
 #a-page-settings
 {
-	position: relative;
+	position: absolute;
 	z-index: 998;
 }
 
 #a-page-settings.open .a-options
 {
 	display: block;
+	min-width: 0;
 }
 
 #a-page-settings-button
@@ -1936,6 +1937,85 @@ margin-right: 5px;
 position: relative;
 z-index: 999;
 }
+
+.a-page-settings-menu
+{
+	width: 360px;
+}
+
+.a-page-settings-section
+{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+h4.a-page-settings-section-head
+{
+	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+	cursor: pointer;
+	text-indent: 16px;
+	line-height: 20px;
+	width: 100%;
+	position: relative;
+	margin: 0 0 5px 0;
+}
+
+.a-page-settings-menu hr
+{
+/* these are copied from aBlog.css, could be combined */
+float: left;
+clear: both;
+width: 100%;
+height: 2px;
+border: 0;
+background: rgba(0,0,0,0.05);
+border-top: 1px inset rgba(0,0,0,0.1);
+border-right: 1px inset rgba(0,0,0,0.1);
+margin: 10px 0;
+}
+
+.a-form-row.title label
+{
+	display: none;
+}
+
+.a-form-row.title input#a_settings_settings_title
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.1);
+}
+
+.a-form-row.title input#a_settings_settings_title:hover
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.35);
+}
+
+.a-form-row.title input#a_settings_settings_title:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+}
+
 
 
 /* Admin Bar CSS - Create Page Form
