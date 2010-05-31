@@ -136,6 +136,7 @@ function aMenuToggle(button, menu, classname, overlay)
 	if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); }
 	
 	if (menu.attr('id') == '') {
+		// We need an ID for the menu. If the menu doesn't have one, we create it by appending 'menu' to the Button ID
 		newID = button.attr('id')+'-menu';
 		menu.attr('id', newID);
 	}
@@ -162,12 +163,9 @@ function aMenuToggle(button, menu, classname, overlay)
 			if (target.hasClass('.a-page-overlay')) {
 				menuClose();
 			}
-			console.log(target.parents().is('#'+menu.attr('id')));
-			if (target.parents().is('#'+menu.attr('id'))) {
+			if (!target.parents().is('#'+menu.attr('id'))) {
 				menuClose();
 			}
-			
-			// There needs to be better TARGET logic for knowing if you're clicking on something that's not part of the menu
 		});
 	}
 	
