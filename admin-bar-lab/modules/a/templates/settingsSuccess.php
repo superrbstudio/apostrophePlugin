@@ -2,55 +2,81 @@
 
 	<?php echo jq_form_remote_tag(
 	  array(
-	    'update' => "a-page-settings",
-	    "url" => "a/settings",
+	    'update' => 'a-page-settings',
+	    'url' => 'a/settings',
 			'complete' => '$(".a-page-overlay").hide();', 
-	    "script" => true),
+	    'script' => true),
 	  array(
-	    "name" => "a-page-settings-form", 
-	    "id" => "a-page-settings-form")) ?>
-
-	<h3 id="a-page-settings-heading"><?php echo __('Page Settings', null, 'apostrophe') ?></h3>
-
-	<?php // We need this to distinguish the original AJAX POST from an ?>
-	<?php // actual form submit; we can't use a name attribute on the ?>
-	<?php // submit tag because that doesn't work in jq_form_remote_tag ?>
-  <input type="hidden" name="submit" value="1" />
+	    'name' => 'a-page-settings-form', 
+	    'id' => 'a-page-settings-form',
+			'class' => 'dropshadow a-options', )) ?>
 
 	<?php echo $form->renderHiddenFields() ?>
 	<?php echo $form->renderGlobalErrors() ?>
 
-		<div id="a-page-settings-left">
-			<?php if (isset($form['slug'])): ?>
-			  <div class="a-form-row slug">
-			    <label><?php echo __('Page Slug', null, 'apostrophe') ?></label>
-			    <?php echo $form['slug'] ?>
-			    <?php echo $form['slug']->renderError() ?>
-			  </div>
-			<?php endif ?>
-			<div class="a-form-row status">
-			  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
-			  	<div class="a-page-settings-status">
-				    <?php echo $form['archived'] ?>
-            <?php if(isset($form['cascade_archived'])): ?>
-              <?php // If you want your <em> back here, do it in the translation file ?>
-              <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
-            <?php endif ?> 
-					</div>
-			</div>			
-			<div class="a-form-row privacy">
-			  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
-			  	<div class="a-page-settings-status">
-						<?php echo $form['view_is_secure'] ?>
-						<?php if(isset($form['cascade_view_is_secure'])): ?>
-                <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
-            <?php endif ?> 
-					</div>
-			</div>
+	<div class="a-page-settings-section page-info">
+
+		<div class="a-form-row title">
+			<label><?php echo __('Page Title', null, 'apostrophe') ?></label>
+			<?php echo $form['title']->render() ?>
+			<?php echo $form['title']->renderError() ?>
 		</div>
-	
-  <div id="a-page-settings-right">
-	
+
+		<?php if (isset($form['slug'])): ?>
+		  <div class="a-form-row slug">
+		    <label><?php echo __('Page Slug', null, 'apostrophe') ?></label>
+		    <?php echo $form['slug'] ?>
+		    <?php echo $form['slug']->renderError() ?>
+		  </div>
+		<?php endif ?>
+
+		<div class="a-form-row engine">
+		  <label><?php echo __('Page Engine', null, 'apostrophe') ?></label>
+		  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
+		  <?php echo $form['engine']->renderError() ?>
+		</div>
+
+		<div class="a-form-row template">
+		  <label><?php echo __('Page Template', null, 'apostrophe') ?></label>
+		  <?php echo $form['template'] ?>
+		  <?php echo $form['template']->renderError() ?>
+		</div>
+
+		<div id="a_settings_engine_settings">
+		  <?php if (isset($engineSettingsPartial)): ?>
+		    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
+	    <?php endif ?>
+		</div>
+
+	</div>
+
+
+	<div class="a-page-settings-section page-status">
+
+		<div class="a-form-row status">
+		  <label><?php echo __('Page Status', null, 'apostrophe') ?></label>
+		  	<div class="a-page-settings-status">
+			    <?php echo $form['archived'] ?>
+          <?php if(isset($form['cascade_archived'])): ?>
+            <?php // If you want your <em> back here, do it in the translation file ?>
+            <?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
+          <?php endif ?> 
+				</div>
+		</div>			
+
+		<div class="a-form-row privacy">
+		  <label><?php echo __('Page Privacy', null, 'apostrophe') ?></label>
+		  	<div class="a-page-settings-status">
+					<?php echo $form['view_is_secure'] ?>
+					<?php if(isset($form['cascade_view_is_secure'])): ?>
+              <?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
+          <?php endif ?> 
+				</div>
+		</div>
+
+	</div>
+
+	<div class="a-page-settings-section page-permissions">
 		<h4><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
 	
 		<div class="a-page-permissions">
@@ -63,42 +89,20 @@
 		      'label' => 'Managers', 'inherited' => $inherited['manage'],
 		      'admin' => $admin['manage'])) ?>
 			</div>
-  </div>
+	</div>
 
-	<div class="a-form-row template" id="a-page-template">
-	  <label><?php echo __('Page Template', null, 'apostrophe') ?></label>
-	  <?php echo $form['template'] ?>
-	  <?php echo $form['template']->renderError() ?>
+	<div class="a-page-settings-section page-submit">
+			  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
+				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
+
+			<?php if ($page->userHasPrivilege('manage')): ?>
+				<?php $childMessage = ''; ?>
+				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
+	      <?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete nobg mini')) ?>
+			<?php endif ?>
+		</ul>
 	</div>
 	
-	<div class="a-form-row engine">
-	  <label><?php echo __('Page Engine', null, 'apostrophe') ?></label>
-	  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
-	  <?php echo $form['engine']->renderError() ?>
-	</div>
-	<div id="a_settings_engine_settings">
-	  <?php if (isset($engineSettingsPartial)): ?>
-	    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
-    <?php endif ?>
-	</div>
-	
-	<ul id="a-page-settings-footer" class="a-controls a-page-settings-form-controls">
-		<li>
-		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-submit" id="a-page-settings-submit" />
-		</li>
-		<li>
-			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
-		</li>
-		<?php if ($page->userHasPrivilege('manage')): ?>
-		<li>
-			<?php $childMessage = ''; ?>
-			<?php if($page->hasChildren()): ?>
-			<?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?>
-			<?php endif; ?>
-      <?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete')) ?>
-    </li>
-		<?php endif ?>
-	</ul>
 
 </form>
 <script type="text/javascript" charset="utf-8">

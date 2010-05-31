@@ -42,7 +42,7 @@
 		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
 		<ul class="a-controls a-media-edit-footer">
 			<li><input type="submit" name="submit" value="<?php echo __('Save Images', null, 'apostrophe') ?>" class="a-submit" /></li>
-			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resume", array("class"=>"a-cancel a-btn icon event-default")) ?></li>
+			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resume", array("class"=>"a-cancel a-btn icon")) ?></li>
 		</ul>
 		</form>
 	</div>

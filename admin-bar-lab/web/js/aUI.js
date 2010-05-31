@@ -127,56 +127,51 @@ function aIE6(authenticated, message)
 	$('input[type="radio"]').addClass('checkbox');
 }
 
-function menuToggle(button, menu, classname, overlay){
-	// Usage: menuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False)
-		
-	if (typeof button == "string") 
-	{
-		button = $(button);
-	};
-
-	if (typeof menu == "string") 
-	{
-		menu = $(menu);
-	};
+function aMenuToggle(button, menu, classname, overlay)
+{	
+	/* Usage: aMenuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False) */
+	if (typeof button == "string") { button = $(button); }
+	if (typeof menu == "string") { menu = $(menu); }
+	if (typeof classname == "undefined" || classname == '') { classname = "show-options";	}
+	if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); }
 	
-	if (typeof classname == "undefined" || classname == '')
-	{
-		classname = "show-options";
-	}
-	
-	if (typeof overlay == "undefined")
-	{
-		overlay = false;
-	}	
-	
-	button.click(function(){
-		if (button.hasClass('active')) 
+	button.unbind('click').click(function(){
+		if (!button.hasClass('aActiveMenu')) 
 		{
-			button.removeClass('active');
-			menu.removeClass(classname);
-			if (overlay) { $('.a-page-overlay').fadeOut(); };			
+			menuOpen();
 		}
 		else
 		{
-			button.addClass('active');
-			menu.addClass(classname);			
-			if (overlay) { $('.a-page-overlay').stop().show();	}
-		};
-
-		$(document).click(function(e){
-			var target = e.target, // e.target grabs the node that triggered the event.
-			$target = $(target);  // wraps the node in a jQuery object
-			// If the ID of the target does not match the menu or the Menu
-			// ANd you're not clicking on any of the menu items then hide the menu because that means you're clicking off the menu
-			// This javascript doesn't work right now
-				if (!(target.id === button.attr('id')) && !($(target).parents(menu).length > 0)) {
-					button.removeClass('active');
-					menu.removeClass(classname);
-					if (overlay) { $('.a-page-overlay').fadeOut(); };
-				}
-		});
+			menuClose();
+		}
 	});
+	
+	function menuOpen()
+	{
+		button.addClass('aActiveMenu');
+		menu.addClass(classname);			
+		if (overlay) { overlay.stop().show(); }
+		$(document).mouseup(function(e){
+			var target = e.target, // e.target grabs the node that triggered the event.
+			target = $(target);  // wraps the node in a jQuery object
+			if (target.hasClass('.a-page-overlay')) {
+				menuClose();
+			}
+			// if (target.id !== button.attr('id')) {
+				// menuClose();
+			// }
+			
+			// There needs to be better TARGET logic for knowing if you're clicking on something that's not part of the menu
+		});
+	}
+	
+	function menuClose()
+	{
+		button.removeClass('aActiveMenu');
+		menu.removeClass(classname);
+		if (overlay) { overlay.fadeOut(); }
+		$(document).unbind('click'); // Clear out click event
+	}
 }
 
 

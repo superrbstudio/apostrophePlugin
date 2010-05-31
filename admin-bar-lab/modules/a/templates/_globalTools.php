@@ -49,15 +49,19 @@ These are mostly links to independent modules.
 		  	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>			
 					<li>
 						<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button">Page Settings</a>			
+				 		<div id="a-page-settings" class="dropshadow"></div>
 					</li>				
 					<li><?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
 				<?php endif ?>
   		</ul>
   	</div>
 
-  	<div class="a-global-toolbar-user-settings a-personal-settings-container">
+		<?php if (0): ?>
+  	<?php // user profile container for a feature we haven't built / and aren't using yet ?>
+			<div class="a-global-toolbar-user-settings a-personal-settings-container">
 			<div id="a-personal-settings"></div>
     </div>
+		<?php endif ?>
 
 	<?php endif ?>
 
@@ -66,7 +70,6 @@ These are mostly links to independent modules.
 			<?php include_partial("a/login") ?>
 		</div>
 		
- 		<div id="a-page-settings" class="dropshadow"></div>
   	
 </div>
 
@@ -77,7 +80,7 @@ These are mostly links to independent modules.
 <script type="text/javascript">
 	$(document).ready(function() {
 				
-		menuToggle('#a-page-settings-button', '#a-page-settings', '', true);
+		aMenuToggle('#a-page-settings-button', '#a-page-settings', 'open', true);
 		
 		var aPageSettingsButton = $('#a-page-settings-button');
 		
@@ -97,11 +100,9 @@ These are mostly links to independent modules.
 		  var pos = aPageSettingsButton.offset();  
 		  var width = aPageSettingsButton.width();
 			  //show the menu directly over the placeholder
-		  $("#a-page-settings").css( { "left": pos.left-5 + "px", "top":pos.top-5 + "px" } );
-			
+		  // $("#a-page-settings").css( { "left": pos.left-5 + "px", "top":pos.top-5 + "px" } );			
 			
 		});
-
 	});
 </script>
 

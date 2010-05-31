@@ -55,12 +55,6 @@
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
 				
-				<script type="text/javascript" charset="utf-8">
-					$(document).ready(function() {
-						menuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>',$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parents('.a-area'))
-					});
-				</script>				
-						
 			</li>	
 			<?php include_slot('a-history-controls') ?>
 			<?php include_slot('a-cancel') ?>
@@ -201,18 +195,20 @@
 		<?php if ($editable): ?>
 
 			<?php if ($infinite): ?>
+				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>',$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'add-slot-now', false);
+
 				<?php // Add Slot Dropdown ?>
-				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
-					var area = $(this).parents('.a-area');
-					area.toggleClass('add-slot-now');
-					$(document).click(function(e){
-						var target = e.target, // e.target grabs the node that triggered the event.
-						$target = $(target);  // wraps the node in a jQuery object
-							if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
-								area.removeClass('add-slot-now');
-							}
-					});
-				});			
+				// $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
+				// 	var area = $(this).parents('.a-area');
+				// 	area.toggleClass('add-slot-now');
+				// 	$(document).click(function(e){
+				// 		var target = e.target, // e.target grabs the node that triggered the event.
+				// 		$target = $(target);  // wraps the node in a jQuery object
+				// 			if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
+				// 				area.removeClass('add-slot-now');
+				// 			}
+				// 	});
+				// });			
 			<?php endif ?>
 
 			<?php if (!$infinite): ?>

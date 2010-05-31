@@ -97,7 +97,14 @@ class aPageSettingsForm extends aPageForm
 
     $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true), array('required' => 'The slug cannot be empty.',
         'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. Also, you cannot change a slug to conflict with an existing slug.')));
+		
+		$this->setWidget('slug', new sfWidgetFormInputText());
 
+    $this->setValidator('title', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
+
+		$this->setWidget('title', new sfWidgetFormInputText());
+		$this->setDefault('title',$this->getObject()->getTitle());
+		
     $this->setValidator('template', new sfValidatorChoice(array(
       'required' => true,
       'choices' => array_keys(aTools::getTemplates())

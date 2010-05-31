@@ -80,7 +80,7 @@
 
        <?php $id = $item->getId() ?>
 
-     	<li class="a-controls-item cancel"><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
+     	<li class="a-controls-item cancel"><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?></li>
 
       <li class="a-controls-item delete">
 			<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
