@@ -133,7 +133,7 @@ function aMenuToggle(button, menu, classname, overlay)
 	if (typeof button == "string") { button = $(button); }
 	if (typeof menu == "string") { menu = $(menu); 
 		if (menu.attr('id') == '') {
-			menu.attr('id' == button.attr('id')+'-menu');
+			menu.attr('id', button.attr('id')+'-menu');
 		};
 	}
 	if (typeof classname == "undefined" || classname == '') { classname = "show-options";	}
