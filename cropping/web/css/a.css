@@ -3833,8 +3833,8 @@ margin-bottom: 20px;
 
 .a-media-toolbar
 {
-padding-bottom: 20px;
-border-bottom: 1px solid #ddd;
+padding-bottom: 0px;
+background:url("/apostropheBlogPlugin/images/a-blog-td-bg.png") repeat-x scroll 0 bottom transparent;
 }
 
 .a-media-footer
@@ -3844,11 +3844,25 @@ float: right;
 margin: 20px 0;
 }
 
-.a-media-toolbar .a-media-controls,
 .a-media-toolbar .a-media-slideshow-controls
 {
 clear: both;
 }
+
+.a-media-library .a-controls.a-media-controls
+{
+	clear:both;
+	float:left;
+	display:inline;
+	margin-bottom:20px !important;
+}
+
+.a-media-library .a-controls.a-media-controls li
+{
+	margin:0 !important;
+}
+
+
 
 .a-media-toolbar h3
 {
@@ -3953,26 +3967,10 @@ display: inline;
 padding-bottom:10px;
 }
 
-#a-media-selection-preview
-{
-	display:inline;
-	float:left;
-	width:100%;
-	margin:20px 0;
-}
-
-#a-media-selection-preview li
-{
-	display:inline;
-	float:left;
-	width:auto;
-	margin-left:160px;
-}
-
 #a-media-selection-list
 {
 float: left;
-margin: 10px 0;
+margin-top:10px;
 }
 
 .a-media-selection-list-item
@@ -4015,11 +4013,20 @@ float: left;
   width:100%;
   float:left;
 }
-#a-media-selection-preview li {
-  display: none;
+
+#a-media-selection-preview
+{
+	display:inline;
+	float:left;
+	width:100%;
+	margin:20px 0;
 }
-#a-media-selection-preview li.current {
-  display: block;
+
+li.a-media-selection-preview-item {
+  display:block;
+	float:left;
+	width:auto;
+	margin-left:160px;
 }
 
 #a-media-plugin #a-media-edit-form,

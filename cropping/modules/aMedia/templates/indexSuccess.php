@@ -25,32 +25,34 @@
 
 	<?php endif ?>
 
-  <?php if (aMediaTools::userHasUploadPrivilege()): ?>
+</div>
+
+<?php endif ?>
+
+<div class="a-media-library">
+	
+	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
 
    <ul class="a-controls a-media-controls">
      <?php $selecting = aMediaTools::isSelecting() ?>
      <?php $type = aMediaTools::getAttribute('type') ?>
 
      <?php if (!($selecting && $type && ($type !== 'image'))): ?>
-     <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon big a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
      <?php if (!($selecting && $type && ($type !== 'video'))): ?>
-     <li><a href="<?php echo url_for("aMedia/newVideo") ?>" class="a-btn icon a-add"><?php echo __('Add Video', null, 'apostrophe') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/newVideo") ?>" class="a-btn icon big a-add"><?php echo __('Add Video', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
      <?php if (!($selecting && $type && ($type !== 'pdf'))): ?>
-     <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
+     <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon big a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
      <?php endif ?>
 
    </ul>
 
   <?php endif ?>
-</div>
-
-<?php endif ?>
-
-<div class="a-media-library">
+	
  <?php for ($n = 0; ($n < count($results)); $n += 2): ?>
    <div class="a-media-row">
    	<?php for ($i = $n; ($i < min(count($results), $n + 2)); $i++): ?>

@@ -15,13 +15,13 @@
 
   <ul id="a-media-selection-preview">
   <?php foreach ($items as $item): ?>
-    <li id="a-media-selection-preview-<?php echo $item->getId() ?>">
+    <li id="a-media-selection-preview-<?php echo $item->getId() ?>" class="a-media-selection-preview-item">
       <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('crop_constraints'))) ?>" />
     </li>
   <?php endforeach; ?>
   </ul>
   
-  <ul class="a-controls">
+  <ul class="a-controls a-media-crop-controls">
 		<li><?php echo link_to(__("Set Crop", null, 'apostrophe'), "aMedia/crop", array("class"=>"a-btn save")) ?></li>
  	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/foo", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
   </ul>
@@ -42,3 +42,11 @@
 </div>
 	<br class="c"/>
 	
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+  aCrop.init({
+    aspectRatio: <?php echo $aspectRatio ?>
+  });
+	$('.a-media-crop-controls').appendTo('.jcrop-holder div:first');
+});
+</script>
