@@ -73,7 +73,7 @@
 
 			<ul class="a-controls a-media-upload-form-footer" id="a-media-video-add-by-url-form-submit">
         <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
-        <li><?php echo link_to_function(__("Cancel", null, 'apostrophe'), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-cancel a-btn icon event-default")) ?></li>
+        <li><?php echo link_to_function(__("Cancel", null, 'apostrophe'), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-cancel a-btn icon")) ?></li>
       </ul>
 		
      </form>

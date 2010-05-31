@@ -58,7 +58,6 @@ function a_remote_dialog_toggle($options)
 		$before =	"$('.$id-button.open').hide(); $('.$id-loading').show();";		
 	}
 
-
   $s = '';
   $s .= jq_link_to_remote(__($label, null, 'apostrophe'), 
     array(

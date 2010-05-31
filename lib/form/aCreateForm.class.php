@@ -17,10 +17,15 @@ class aCreateForm extends BaseForm
   public function configure()
   {
     $this->setWidget('parent', new sfWidgetFormInputHidden(array('default' => $this->page->getSlug())));
-    // It's not sfFormWidgetInput anymore in 1.4
     $this->setWidget('title', new sfWidgetFormInputText(array(), array('class' => 'a-breadcrumb-create-childpage-title a-breadcrumb-input')));
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
+    $this->setWidget('engine', new sfWidgetFormSelect(array('choices' => aTools::getEngines())));
+    $this->widgetSchema['engine']->setLabel('Page Type');
+
+    $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
+    $this->widgetSchema['template']->setLabel('Page Template');
+    
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
 }
 

@@ -127,6 +127,72 @@ function aIE6(authenticated, message)
 	$('input[type="radio"]').addClass('checkbox');
 }
 
+function aMenuToggle(button, menu, classname, overlay)
+{	
+	/* Usage: aMenuToggle(Object|ID(String), Object|ID(String), Undefined|String, Undefined|True|False) */
+	if (typeof button == "string") { button = $(button); }
+	if (typeof menu == "string") { menu = $(menu); }
+	if (typeof classname == "undefined" || classname == '') { classname = "show-options";	}
+	if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); }
+	
+	if (menu.attr('id') == '') {
+		// We need an ID for the menu. If the menu doesn't have one, we create it by appending 'menu' to the Button ID
+		newID = button.attr('id')+'-menu';
+		menu.attr('id', newID);
+	}
+	
+	button.unbind('click').click(function()
+	{
+		// Button Toggle
+		if (!button.hasClass('aActiveMenu')) 
+		{ 
+			menuOpen(); 
+		}
+		else 
+		{
+			menuClose();
+		}
+	});
+	
+
+	function menuOpen()
+	{
+		// Open Menu, Create Listener
+		button.addClass('aActiveMenu');
+		menu.addClass(classname);			
+		if (overlay) { overlay.stop().show(); }
+		$(document).click(function(e){
+			var target = e.target; 
+			target = $(target);  
+			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) {
+				menuClose();
+			}
+			if (!target.parents().is('#'+menu.attr('id'))) {
+				menuClose();
+			}
+		});
+	}
+	
+	function menuClose()
+	{
+		// Close Menu, Destroy Listener
+		button.removeClass('aActiveMenu');
+		menu.removeClass(classname);
+		if (overlay) { overlay.fadeOut(); }
+		$(document).unbind('click'); // Clear out click event
+	}
+}
+
+function aAccordion(header)
+{
+	if (typeof header == "string") { header = $(header); }
+	header.click(function() {
+		$(this).parent().toggleClass('open');
+		return false;
+	}).parent().addClass('a-accordion');
+}
+
+
 function aBrowseHistory(area)
 {
 	var areaControls = area.find('ul.a-area-controls');
@@ -161,4 +227,8 @@ function aCloseHistory()
 
 $(document).ready(function(){
 	aUI();
+	
+	jQuery.fn.isChildOf = function(b){
+	  return (this.parents(b).length > 0);
+	};	
 });

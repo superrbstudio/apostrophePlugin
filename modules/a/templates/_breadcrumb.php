@@ -56,7 +56,7 @@
   <?php else: ?>
   	<li class="a-breadcrumb-slash">/</li>
     <li id="a-breadcrumb-create-childpage" class="a-breadcrumb-create-childpage">
-			<?php include_partial('a/createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?>
+			<?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?>
     </li>	
   <?php endif ?>
 <?php endif ?>

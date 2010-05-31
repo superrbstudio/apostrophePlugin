@@ -20,7 +20,7 @@
 
 	<ul class="a-controls a-media-slideshow-controls">
 		<li><?php echo link_to(__("Save", null, 'apostrophe'), "aMedia/selected", array("class"=>"a-btn save")) ?></li>
- 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
+ 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel")) ?></li>
 	</ul>
 	
 </div>

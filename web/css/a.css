@@ -240,8 +240,15 @@ a.a-btn.nobg:hover
 	text-shadow:none !important;
 }
 
+.a-accordion .content
+{
+	display: none;
+}
 
-
+.a-accordion.open .content
+{
+	display: block;
+}
 
 
 
@@ -437,9 +444,17 @@ position: relative;
 a.a-multiple-select-remove span
 {
 position: absolute;
+display: inline;
+float: left;
+overflow: hidden;
 top: 0;
 left: 100%;
+width: 20px;
+height: 20px;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
 }
+
 
 
 
@@ -1355,8 +1370,16 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png);
 	background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat;	
 }
 
+.icon.a-page-settings
+{
+background-image: url(/apostrophePlugin/images/a-icon-page-settings.png);
+}
 
-
+.alt .icon.a-page-settings,
+.icon.a-page-settings.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-page-settings.png);
+}
 
 
 
@@ -1571,64 +1594,27 @@ clear: right;
 	text-transform: none;
 }
 
-#a-breadcrumb input.a-breadcrumb-input:focus,
-#a-breadcrumb input#a-breadcrumb-create-title
+input.a-breadcrumb-input:focus,
+input#a-breadcrumb-create-title
 {
 	color: #000;
 	background: #e6e6e6;
 	border: 1px inset #666;
 }
 
-#a-breadcrumb input#a-breadcrumb-create-title.a-default-value
+input#a-breadcrumb-create-title.a-default-value
 {
 	color: #888;
 }
 
-#a-breadcrumb input.a-breadcrumb-create-childpage-title
+input.a-breadcrumb-create-childpage-title
 {
 width: 180px;
 }
 
-#a-breadcrumb input#a-breadcrumb-rename-title
+input#a-breadcrumb-rename-title
 {
 	width: 1px;
-}
-
-#a-breadcrumb a.a-page-settings-button
-{
-float: left;
-display: inline;
-height: 20px;
-width: 20px;
-line-height: 20px;
-margin: 0;
-overflow: hidden;
-text-indent: -9999px;
-background: url(/apostrophePlugin/images/a-icon-personal-settings.png) no-repeat 0 0;
-position: relative;
-}
-
-#a-breadcrumb a.a-page-settings-button:hover
-{
-background-position: 0 -40px;
-}
-
-#a-breadcrumb a.a-page-settings-button.close
-{
-display: none;
-background-position: 0 -20px;
-}
-
-#a-breadcrumb .a-page-settings-loading
-{
-	float: left;
-	display: inline;
-}
-
-.a-login .a-personal-settings-loading
-{
-float:right;
-margin:0 0 0 5px
 }
 
 #a-breadcrumb .a-breadcrumb-add-controls
@@ -1941,265 +1927,210 @@ margin-right: 5px;
 /* 12. Page Settings Panel
 -------------------------------------*/
 
-#a-global-toolbar li.a-page-settings-container,
-#a-global-toolbar li.a-personal-settings-container
+#a-page-settings
 {
-position: absolute;
-top: 29px;
-left: 0;
-background-color: #fff;
-float: left;
-display: inline;
-width: 100%;
-height: auto;
+	position: absolute;
+}
+
+.show-options #a-page-settings
+{
+	z-index: 998;
+}
+
+.show-options #a-page-settings .a-options
+{
+	display: block;
+	min-width: 0;
+}
+
+.show-options #a-page-settings-button
+{
+position: relative;
 z-index: 999;
 }
 
-#a-page-settings #a-page-settings-shadow img
+.a-page-settings-menu
 {
-height: 11px;
-width: 100%;
+	width: 360px;
 }
 
-#a-page-settings,
-#a-personal-settings
+.a-page-settings-section
 {
-position: relative;
-display: none;
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-page-settings-section .content
+{
+	margin: 0 16px;
+}
+
+.a-page-settings-section h4
+{
+	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+	cursor: pointer;
+	text-indent: 16px;
+	line-height: 20px;
+	width: 100%;
+	position: relative;
+	margin: 0 0 5px 0;
+}
+
+.a-page-settings-section h4:hover
+{
+	background-position: -6px 0;
+}
+
+.a-page-settings-section.open h4
+{
+	background-position: -6px -20px;
+}
+
+.a-page-settings-section.open h4:hover
+{
+	background-position: -6px -60px;	
+}
+
+
+
+.a-page-settings-section h5
+{
+	font-size: 12px;
+	font-weight: normal;
+	padding: 5px 0;
+	margin-bottom: 5px;
+}
+
+.a-page-settings-section.page-submit
+{
+	margin: 10px 0 5px 0;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-cancel
+{
+	float: left !important;
+	clear: none !important;
+	margin-left: 2px;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-delete
+{
+	clear: none;
+	float: right !important;
+}
+
+.a-page-settings-menu hr
+{
+/* these are copied from aBlog.css, could be combined */
 float: left;
+clear: both;
 width: 100%;
-margin: 0;
-padding: 0;
-color: #333;
-/*border-top: 1px solid #ddd;*/
-/*border-bottom: solid 10px #ddd;*/
-min-width: 960px;
+height: 2px;
+border: 0;
+background: rgba(0,0,0,0.05);
+border-top: 1px inset rgba(0,0,0,0.1);
+border-right: 1px inset rgba(0,0,0,0.1);
+margin: 10px 0;
 }
 
-#a-page-settings-form,
-#a-personal-settings-form
-{
-width: auto;
-float: left;
-display: inline;
-margin: 0 24px;
-padding: 20px 0;
-}
-
-#a-page-settings em
-{
-	font-style: normal;
-	color: #000;
-}
-
-#a-page-settings-heading,
-#a-personal-settings-heading
-{
-margin: 20px 0 0 0;
-font-size: 16px;
-}
-
-#a-personal-settings-heading
-{
-	margin: 0 0 10px;
-}
-
-#a-page-settings h3
+.a-form-row.title
 {
 	margin-top: 0;
 }
 
-#a-page-settings h4
+.a-form-row.title label
 {
-font-size: 12px;
-margin: 0 0 10px 0;
+	display: none;
 }
 
-#a-page-settings-left,
-#a-page-settings-right
+.a-form-row.title input#a_settings_settings_title
 {
 float: left;
-width: 450px;
-margin: 10px 0 0 0;
-}
-
-#a-page-settings-left
-{
-margin-right: 20px;
-}
-
-#a-page-settings-right h4
-{
-margin-top: 10px;
-line-height: 20px;
-}
-
-#a-page-settings .a-page-permissions
-{
-	float: left;
-	clear: both;
-	padding: 10px;
-	border: 1px solid #e0e0e0;
-}
-
-#a-page-settings-footer,
-#a-personal-settings-footer
-{
-float: left;
-margin-top: 10px;
-padding-top: 10px;
-width: 100%;
-}
-
-#a-page-settings-footer li
-{
-height: auto;
-padding: 0;
-line-height: 24px;
-}
-
-#a-page-settings-footer li.last
-/* float the delete button all the way right*/
-{
-float: right;
-}
-
-#a-page-settings-form #settings_slug
-{
-width: 240px;
-}
-
-#a-page-settings-form .a-page-settings-status
-{
-float: left;
-line-height: 20px;
-clear: right;
-width: 320px;
-}
-
-#a-page-settings-form #a-page-settings-note
-{
-float: left;
-clear: both;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
 width: 360px;
-font-size: 11px;
-color: #888;
-margin-top: 10px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.1);
 }
 
-#a-page-settings #a-page-settings-right .a-page-settings-inherited-editors,
-#a-page-settings #a-page-settings-right .a-page-settings-local-editors
-{
-width: 170px;
-float: left;
-}
-
-#a-page-settings .a-radio-select-container
-{
-display: block;
-float: left;
-width: 100%;
-}
-
-#a-page-settings .radio_list
+.a-form-row.title input#a_settings_settings_title:hover
 {
 float: left;
-width: 100%;
-clear: both;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.35);
 }
 
-#a-page-settings .radio_list li
+.a-form-row.title input#a_settings_settings_title:focus
 {
-float: left;
-position: relative;
-width: 120px;
-/*	clear: both;*/
-	margin: 0 0 10px 0;
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
-#a-page-settings .radio_list li input
+
+
+/* Admin Bar CSS - Create Page Form
+--------------------------------------*/
+#a-create-page-button.aActiveMenu
 {
-position: relative;
-float: left;
-line-height: 20px;
-margin: 3px 0 !important;
+	z-index: 999;
 }
 
-#a-page-settings .radio_list li label
+#a-create-page-form
 {
-width: auto;
-position: absolute;
-top: 0;
-left: 20px;
-line-height: 20px;
-margin: 0;
+	padding: 30px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 100px;
+	width: auto !important;
+	width: 100px;	
 }
 
-#a-page-settings .a-page-settings-local-editors a
-{
-color: #333;
-}
-
-#a-page-settings .a-page-settings-local-editors a:hover
-{
-	text-decoration: underline;
-}
-
-#a-page-settings .a-page-settings-local-editors li
-{
-width: 180px;
-height: 20px;
-padding: 0;
-margin: 0;
-}
-
-#a-page-settings .a-page-settings-local-editors a
-{
-position: relative;
-float: left;
-width: 100%;
-height: 20px;
-line-height: 20px;
-}
-
-#a-page-settings .a-page-settings-local-editors a span,
-a.a-multiple-select-remove span
-{
-display: inline;
-position: absolute;
-float: left;
-width: 20px;
-height: 20px;
-text-indent: -9999px;
-overflow: hidden;
-background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
-}
-
-#a-page-settings .a-page-settings-local-editors a:hover
-{
-text-decoration: none;
-color: #333;
-}
-
-#a-page-settings .a-page-settings-local-editors a:hover span,
-a.a-multiple-select-remove:hover span
-{
-background-position: 0 -20px;
-}
-
-#a-page-settings #a_settings_engine_settings .a-form-help-text
-{
-	margin: 2px 0 0 120px;
-}
-
-#a-page-settings #a-page-template
+#a-create-page-button-menu.show-options
 {
 	position: relative;
+	z-index: 998;
 }
 
+.show-options #a-create-page-form
+{
+	display: block;
+}
 
-
-
+#a-create-page-title
+{
+	width: 240px;
+	border: 1px solid #999;
+	font-size: 18px;
+	padding: 2px 3px;
+	font-family: Arial, Helvetica, Sans-serif;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	margin-bottom: 5px;
+}
 
 
 
@@ -2432,47 +2363,6 @@ margin: -6px 0 6px -5px;
 display: none;
 position: relative;
 overflow: hidden;
-}
-
-.a-area.add-slot-now
-{
-	z-index:999;
-}
-
-.a-area.add-slot-now .a-new-slot
-{
-	display: block;
-	height: 25px;
-}
-
-.a-area .a-new-slot p
-{
-	position: relative;	
-	text-align: center;
-	width: 100%;
-	font-size: 16px;
-	line-height: 20px;
-	top: 50%;
-	margin-top: -10px;
-	color: #eee;
-}
-
-.a-area.add-slot-now .a-add-slot
-{
-	color: #fff !important;
-	background-color: #333;
-	z-index:999;
-}
-
-.a-area.add-slot-now .slots .a-options
-{
-	display: block;
-}
-
-.a-area.over .a-new-slot
-{
-	display: block;
-	height: 25px;
 }
 
 .a-slots
@@ -3341,6 +3231,22 @@ ul.a-controls .a-variant-options.loading
 	width: 120px;
 }
 
+.add-slot-now
+{
+	z-index:999;
+}
+
+.add-slot-now .a-add-slot
+{
+	color: #fff !important;
+	background-color: #333;
+	z-index:999;
+}
+
+.add-slot-now .a-options
+{
+	display: block !important;
+}
 
 
 /* 15. Apostrophe Login Form

@@ -335,7 +335,7 @@ class aTools
     {
       $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
         array('users' => array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
-          'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
+          'reorganize' => array('label' => 'Page Tree', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
       // Eventually this one too. Reorganize will probably get moved into it
       // ('Settings', 'a/globalSettings', 'a-settings')
