@@ -2,6 +2,14 @@
 
 <?php $imageInfo = aMediaTools::getAttribute('imageInfo') ?>
 <?php $ids = aArray::getIds(aMediaTools::getSelection()) ?>
+<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-width') ?
+    aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') : 0 ?>
+<?php $selectedConstraints = aMediaTools::getOption('selected_constraints') ?>
+<?php $selectedConstraints = array_merge(
+       $selectedConstraints, 
+       array('height' => floor($selectedConstraints['width'] / $aspectRatio))
+      )
+?>
 
 <?php foreach ($items as $item): ?>
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
@@ -18,9 +26,9 @@
 		</li>
 	</ul>	
 
-	<?/*<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>*/?>
+	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
 	<div class="a-media-selected-item-overlay"></div>
-  <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('selected_constraints'))) ?>" />
+  <img src="<?php echo url_for($item->getScaledUrl($selectedConstraints)) ?>" />
 
 </li>
 <?php endforeach ?>
@@ -62,15 +70,17 @@
 	});
 
 	$(document).ready(function() { // On page ready indicate selected items
-		aMediaItemsIndicateSelected(
-      {
-        ids: <?php echo $ids ?>,
-        aspectRatio: <?php echo $aspectRatio ?>,
-        minimumWidth: <?php echo aMediaTools::getAttribute('minimum-width') ?>,
-        minimumHeight: <?php echo aMediaTools::getAttribute('minimum-height') ?>,
-        <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
-        imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
-      });
+	  var cropOptions = {
+      ids: <?php echo json_encode($ids) ?>,
+      aspectRatio: <?php echo $aspectRatio ?>,
+      minimumWidth: <?php echo aMediaTools::getAttribute('minimum-width') ?>,
+      minimumHeight: <?php echo aMediaTools::getAttribute('minimum-height') ?>,
+      <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
+      imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
+    };
+	  	  
+		aMediaItemsIndicateSelected(cropOptions);
+		
 		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
 		$('.a-media-selection-list-item').hover(function(){
 			$(this).addClass('over');

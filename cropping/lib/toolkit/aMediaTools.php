@@ -140,8 +140,7 @@ class aMediaTools
     "selected_constraints" => array(
         "width" => 134,
         "height" => false,
-        "resizeType" => "s",
-				'flexHeight' => true,),
+        "resizeType" => "c",),
     "show_constraints" => array(
         "width" => 720,
         "height" => false,

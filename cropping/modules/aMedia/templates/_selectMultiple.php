@@ -10,9 +10,6 @@
   <?php endif ?>
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
-<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-width') ?
-    aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') : 0 ?>
-
   <ul id="a-media-selection-preview">
   <?php foreach ($items as $item): ?>
     <li id="a-media-selection-preview-<?php echo $item->getId() ?>" class="a-media-selection-preview-item">
@@ -23,7 +20,7 @@
   
   <ul class="a-controls a-media-crop-controls">
 		<li><?php echo link_to(__("Set Crop", null, 'apostrophe'), "aMedia/crop", array("class"=>"a-btn save")) ?></li>
- 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/foo", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
+ 	  <li><?php echo jq_link_to_function(__("Reset", null, 'apostrophe'), "aCrop.resetCrop()", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
   </ul>
 
 	<ul id="a-media-selection-list">
@@ -41,12 +38,4 @@
 	
 </div>
 	<br class="c"/>
-	
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function(){
-  aCrop.init({
-    aspectRatio: <?php echo $aspectRatio ?>
-  });
-	$('.a-media-crop-controls').appendTo('.jcrop-holder div:first');
-});
-</script>
+

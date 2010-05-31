@@ -1,6 +1,5 @@
 aCrop = {
-  slideshowApi: [],
-  previewApi: [],
+  api: null,
   
   options: {},
   
@@ -15,32 +14,41 @@ aCrop = {
     $(aCrop.el.previewList).find('li').eq(0).addClass('current');
     
     $.extend(aCrop.options, options);
-        
-    aCrop.slideshowApi = $(aCrop.el.slideshowImages).each(function(){
-      //aCrop.slideshowApi.push($.Jcrop(this));
-      var api = $.Jcrop(this);
-      api.setOptions({allowResize: false});
-      aCrop.setAspectMask(api, this);
-      api.disable();
-    });
     
-    aCrop.previewApi = $(aCrop.el.previewImages).each(function(){
-      //aCrop.previewApi.push($.Jcrop(this));
-      var api = $.Jcrop(this);
-      api.setOptions({aspectRatio: aCrop.options.aspectRatio});
-      aCrop.setAspectMask(api, this);
-    });
+    aCrop.startCrop();
     
-    $(aCrop.el.slideshowList).find('li').click(function(){
-      var mediaId = $(this).attr('id').split('-');
-      mediaId = mediaId[mediaId.length-1];
-      $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
-    });
+    $(aCrop.el.slideshowList).find('li').click(aCrop.thumbnailClickHandler);
   },
   
-  setAspectMask: function(api, el){
-    var bounds = api.getBounds();
+  startCrop: function(cropEl){
+    if (!cropEl) {
+      var cropEl = $(aCrop.el.previewList).find('li.current img');
+    }
     
+    aCrop.stopCrop();
+        
+    aCrop.api = $.Jcrop(cropEl);
+    aCrop.api.setOptions({aspectRatio: aCrop.options.aspectRatio});
+    aCrop.setAspectMask(cropEl);
+    
+    $('.a-media-crop-controls').clone().appendTo('.jcrop-holder div:first').show();
+  },
+  
+  stopCrop: function(){
+    if (aCrop.api) {
+      aCrop.api.destroy();
+    }
+  },
+  
+  thumbnailClickHandler: function(e){
+    var mediaId = $(e.currentTarget).attr('id').split('-');
+    mediaId = mediaId[mediaId.length-1];
+    $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
+    
+    aCrop.startCrop();
+  },
+  
+  setAspectMask: function(el){    
     if (aCrop.options.aspectRatio > 1) {
       var cropWidth = $(el).width();
       var cropHeight = cropWidth / aCrop.options.aspectRatio;
@@ -58,6 +66,10 @@ aCrop = {
       cropY + cropHeight
     ];
     
-    api.setSelect(coords);
+    aCrop.api.setSelect(coords);
+  },
+  
+  resetCrop: function(){
+    
   }
 }
