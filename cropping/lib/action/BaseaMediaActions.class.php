@@ -109,37 +109,30 @@ class BaseaMediaActions extends aEngineActions
     // Cheap insurance that these are integers
     $aspectWidth = floor(aMediaTools::getAttribute('aspect-width'));
     $aspectHeight = floor(aMediaTools::getAttribute('aspect-height'));
-    // TODO: performance of these is not awesome (it's a linear search). 
-    // It would be more awesome with the right kind of indexing. For the 
-    // aspect ratio test to be more efficient we'd have to store the lowest 
-    // common denominator aspect ratio and index that.
-    if ($aspectWidth && $aspectHeight)
-    {
-      $params['aspect-width'] = $aspectWidth;
-      $params['aspect-height'] = $aspectHeight;
-    }
 
+    // Now that we provide cropping tools, width and height should only exclude images
+    // that are too small to ever be cropped to that size
     $minimumWidth = floor(aMediaTools::getAttribute('minimum-width'));
-    if ($minimumWidth)
-    {
-      $params['minimum-width'] = $minimumWidth;
-    }
-    $minimumHeight = floor(aMediaTools::getAttribute('minimum-height'));
-    if ($minimumHeight)
-    {
-      $params['minimum-height'] = $minimumHeight;
-    }
     $width = floor(aMediaTools::getAttribute('width'));
-    if ($width)
-    {
-      $params['width'] = $width;
-    }
+    $minimumWidth = max($minimumWidth, $width);
+    $minimumHeight = floor(aMediaTools::getAttribute('minimum-height'));
     $height = floor(aMediaTools::getAttribute('height'));
-    if ($height)
+    $minimumHeight = max($minimumHeight, $height);
+    // Careful, aspect ratio can impose a bound on the other dimension
+    if ($minimumWidth && $aspectWidth)
     {
-      $params['height'] = $height;
+      $minimumHeight = max($minimumHeight, $minimumWidth * $aspectHeight / $aspectWidth);
     }
-
+    if ($minimumHeight && $aspectHeight)
+    {
+      $minimumWidth = max($minimumWidth, $minimumHeight * $aspectWidth / $aspectHeight);
+    }
+    // We've updated these with implicit constraints from the aspect ratio, the width and height params, etc.
+    aMediaTools::setAttribute('minimum-width', $minimumWidth);
+    aMediaTools::setAttribute('minimum-height', $minimumHeight);
+    $params['minimum-width'] = $minimumWidth;
+    $params['minimum-height'] = $minimumHeight;
+    
     // The media module is now an engine module. There is always a page, and that
     // page might have a restricted set of categories associated with it
     $mediaCategories = aTools::getCurrentPage()->MediaCategories;
@@ -158,6 +151,7 @@ class BaseaMediaActions extends aEngineActions
     $this->pager->setPage($page);
     $this->pager->init();
     $this->results = $this->pager->getResults();
+
     aMediaTools::setSearchParameters(
       array("tag" => $tag, "type" => $type, 
         "search" => $search, "page" => $page, 'category' => $category));
@@ -171,12 +165,7 @@ class BaseaMediaActions extends aEngineActions
       {
         $this->label = aMediaTools::getAttribute("label");
       }
-      $this->limitSizes = false;
-      if ($aspectWidth || $aspectHeight || $minimumWidth || $minimumHeight ||
-        $width || $height)
-      {
-        $this->limitSizes = true;
-      }
+      $this->limitSizes = ($minimumWidth || $minimumHeight);
     }
   }
   

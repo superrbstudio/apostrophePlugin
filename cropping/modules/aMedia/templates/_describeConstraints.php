@@ -1,12 +1,9 @@
 <?php // Yes, this is template code, but we use regular PHP syntax because we are building a sentence and the introduction of ?>
-<?php // newlines wrecks the punctuation. ?>
+<?php // newlines wrecks the punctuation. (OK, we're building a ul list now...) ?>
 <?php 
 use_helper('I18N');
 $clauses = array();
-if (aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-height'))
-{
-  $clauses[] = __('A %w%x%h% aspect ratio', array('%w%' => aMediaTools::getAttribute('aspect-width'), '%h%' => aMediaTools::getAttribute('aspect-height')), 'apostrophe');
-}
+// We don't describe the aspect ratio or fixed width and height anymore, since we allow the user to crop to achieve them
 if (aMediaTools::getAttribute('minimum-width'))
 {
   $clauses[] = __('A minimum width of %mw% pixels', array('%mw%' => aMediaTools::getAttribute('minimum-width')), 'apostrophe');
@@ -14,14 +11,6 @@ if (aMediaTools::getAttribute('minimum-width'))
 if (aMediaTools::getAttribute('minimum-height'))
 {
   $clauses[] = __('A minimum height of %mh% pixels', array('%mh%' => aMediaTools::getAttribute('minimum-height')), 'apostrophe');
-}
-if (aMediaTools::getAttribute('width'))
-{
-  $clauses[] = __('A width of exactly %w% pixels', array('%w%' => aMediaTools::getAttribute('width')), 'apostrophe');
-}
-if (aMediaTools::getAttribute('height'))
-{
-  $clauses[] = __('A height of exactly %h% pixels', array('%h%' => aMediaTools::getAttribute('height')), 'apostrophe');
 }
 if (aMediaTools::getAttribute('type'))
 {
