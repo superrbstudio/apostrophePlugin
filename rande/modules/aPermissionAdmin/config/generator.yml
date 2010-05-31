@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           sfGuardPermission
+    theme:                 aAdmin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          a_permission_admin
+    with_doctrine_route:     1
+    i18n_catalogue: apostrophe
+
+    config:
+      list:
+        title: Permission list
+        display: [=name, description, created_at, updated_at]
+
+      edit:
+        title: Editing Permission "%%name%%"
+
+      new:
+        title: New Permission
+
+      form:
+        class: aPermissionAdminForm
+        display: [name, description, groups_list, users_list]
