@@ -9,12 +9,14 @@ aCrop = {
    
   init: function(){
     aCrop.cropApi = $(aCrop.el.cropImages).each(function(){
-      $.Jcrop(this);
+      return $.Jcrop(this);
     });
     
-    aCrop.previewApi = $(aCrop.el.cropImages).each(function(){
-      $.Jcrop(this);
+    aCrop.previewApi = $(aCrop.el.previewImages).each(function(){
+      return $.Jcrop(this);
     });
-    //aCrop.previewApi.setOptions({allowResize: false});
+    aCrop.previewApi.each(function(i,e){
+      //e.setOptions({allowResize: false});
+    });
   }
 }
