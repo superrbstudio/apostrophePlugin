@@ -1,0 +1,73 @@
+*
+{
+		font: 12px/1 Arial;
+}
+
+.blend {
+	font-family: courier new;
+	font-size: 10pt;
+	border: 0;
+	margin-bottom:-1;
+}
+.normalLabel {
+	font-size:12px;
+}
+.normalText {
+	font-family:arial, helvetica, sans-serif;
+	font-size:12px;
+	color:#000;
+	background-color:#fff;
+}
+.plainText {
+	font-family: courier new, courier, monospace;
+	font-size: 10pt;
+	color:#000;
+	background-color:#fff;
+}
+.controlWindowBody {
+	font-family:arial, helvetica, sans-serif;
+	font-size:12px;
+	padding: 7px ;		/* by FredCK */
+	margin: 0px ;		/* by FredCK */
+}
+.readonlyInput {
+	background-color:#f5f5f5;
+	color:#666;
+	font: 12px/1 Arial;
+	padding: 2px;
+	width:100%;
+	border: 1px solid #e2e2e2;
+}
+.textDefault {
+	font-size:12px;
+	width: 200px;
+}
+.buttonDefault {
+	width:80px;
+	height:22px;
+	color: #333;
+	border: 1px solid #333;
+	font: 12px/1 Arial;
+}
+.buttonDefault:hover
+{
+	background-color: #fff;
+	color: #000;
+	cursor: pointer;
+}
+
+.suggSlct {
+	width:200px;
+	margin-top:2;
+	font-size: 12px;
+}
+
+.suggSlct option {
+padding: 2px 0;
+}
+
+td span
+{
+	display: block;
+	margin: 4px 0;
+}

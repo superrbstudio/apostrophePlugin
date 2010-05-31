@@ -1,0 +1,630 @@
+# For all tables: use INNODB, which gives us better
+# foreign key handling and support for transactions
+
+options:
+  type: INNODB
+
+aPage:
+  tableName: a_page
+  actAs:
+    - Timestampable
+    - NestedSet
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    slug:
+      # Even though we are not big fans of 1000 character URLs, they are legal in all
+      # browsers and sharp limits on slug length make it very difficult to import
+      # from other CMSes. 1000 is the limit of unique index key lengths in MySQL
+      # (NOTE: this figure must also appear in the specification of the index, below)
+      type: string(1000)
+      # NOTE: we set unique on the index, not the column. If we set it on the column
+      # Doctrine will do it as part of the create of the column, which creates an
+      # implicit index before we ever get to the index section below, and fails because
+      # the key length is not specfied
+    template:
+      type: string(100)
+    # Must log in to see. (Sometimes with particular credentials, see documentation)
+    view_is_secure: boolean
+    # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
+    archived: boolean
+    # 'admin' pages are hidden from all normal navigation and from search. They are linked to directly from
+    # the apostrophe menu as needed. This is useful when functionality implemented as an engine
+    # is sometimes user-accessible (sites in which the media area is directly browsable as a tab)
+    # and sometimes not (sites in which the media area is exclusively for site editors).
+    # These pages are never returned by getChildren() or the getXYZInfo() methods.
+    admin: 
+      type: boolean
+      default: false
+    author_id:
+      type: integer(4)
+    deleter_id:
+      type: integer(4)
+    engine:
+      type: string(255)
+  indexes:
+    slugindex:
+      fields:
+        # ACHTUNG: this must match the length of the field! Note that
+        # 1000 is the maximum in MySQL. Some databases might ignore this,
+        # that's fine if they also have no limit on unique key lengths
+        slug:
+          length: 1000
+          unique: true
+    engineindex:
+      fields: [engine]
+  relations:
+    Author:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+    Deleter:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+
+aArea:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_area
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    page_id:
+      type: integer(4)
+    name:
+      type: string(100)
+    culture:
+      type: string(7)
+    latest_version:
+      type: integer(4)
+  indexes:
+    page_index:
+      fields: [page_id] 
+  relations:
+    Page:
+      type: one
+      class: aPage
+      foreign: id
+      onDelete: cascade
+      local: page_id
+      foreignAlias: Areas
+
+aAreaVersion:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_area_version
+  actAs:
+    - Timestampable
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    area_id: 
+      type: integer(4)
+    version:
+      type: integer(4)
+    author_id:
+      type: integer(4)
+    diff:
+      type: string(200)
+  indexes:
+    area_index:
+      fields: [area_id] 
+  relations:
+    Area:
+      type: one
+      class: aArea
+      foreign: id
+      onDelete: cascade
+      local: area_id
+      foreignAlias: AreaVersions
+    Author:
+      class: sfGuardUser
+      foreign: id
+      local: author_id
+      type: one
+      # Note that this means history display code must allow for the
+      # possibility of deleted users
+      onDelete: SET NULL
+
+aAreaVersionSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_area_version_slot
+  columns:
+    slot_id:  
+      type: integer(4)
+    area_version_id:  
+      type: integer(4)
+    # Permanently unique id of this subslot within this area
+    permid:
+      type: integer(4)
+      # Handy in fixtures
+      default: 1
+    # Current visual ordering within this area on this page.
+    rank:
+      type: integer(4)
+      default: 1
+  indexes:
+    area_version_index:
+      fields: [area_version_id]
+  relations:
+    AreaVersion:
+      type: one
+      class: aAreaVersion
+      foreign: id
+      onDelete: cascade
+      local: area_version_id
+      foreignAlias: AreaVersionSlots
+    Slot:
+      type: one
+      class: aSlot
+      foreign: id
+      onDelete: cascade
+      local: slot_id
+      foreignAlias: AreaVersionSlots
+
+# Slots are always stored and rendered as HTML.
+# However, templates can specify specific editor options 
+# when rendering them (e.g. the use of a particular FCK toolbar).
+
+aSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_slot
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+      
+    # If type is aRichText, then there
+    # MUST BE an aRichTextSlot module and an aRichTextSlot 
+    # class with Doctrine column aggregation inheritance from aSlot
+    # (although it doesn't actually have to define new columns if it's
+    # happy storing its data entirely in the value string, typically via serialize()).
+    type:
+      type: string(100)
+      
+    # When not null, and present in app_a_slot_variants['type']['variants'], this is set
+    # as a CSS class on the outermost wrapper of the slot. Also, any options specified
+    # in app_a_slot_variants['type']['variants'][$variant]['options'] are passed
+    # to the slot, allowing behavior to be influenced in other slot-dependent ways
+    variant:
+      type: string(100)
+      
+    # Most slots just use this to store their data, often via PHP's serialize() function
+    value:
+      # Allows much larger data than string
+      type: clob
+  relations:
+    MediaItems:
+      class: aMediaItem
+      foreign: media_item_id
+      local: slot_id
+      refClass: aSlotMediaItem
+
+aTextSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aText'
+
+aRichTextSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aRichText'
+
+aRawHTMLSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aRawHTML'
+
+aAccess:
+  tableName: a_access
+  columns:
+    page_id: integer(4)
+    # currently just edit or view
+    privilege: string(100)
+    user_id: integer(4)
+  relations:
+    User:
+      class: sfGuardUser
+      foreign: id
+      local: user_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+  indexes:
+    pageindex:
+      fields: [page_id]
+
+aLuceneUpdate:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_lucene_update
+  columns:
+    page_id:
+      type: integer(4)
+    culture:
+      type: string(7)
+  indexes:
+    page_and_culture_index:
+      fields: [page_id, culture]
+  relations:
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      onDelete: cascade
+
+aImageSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aImage'
+
+aButtonSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aButton'
+
+aSlideshowSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aSlideshow'
+
+aVideoSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aVideo'
+
+aMediaBrowserSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aMediaBrowser'
+
+aPDFSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aPDF'
+
+aMediaItem:
+  tableName: a_media_item
+  actAs:
+    Timestampable: ~
+    Taggable: ~
+    Sluggable:
+      fields: [title]
+      unique: true
+      # We unified this
+      builder: aTools::slugify
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    # Audio is not implemented
+    type:
+      type: enum
+      notnull: true
+      values: [image, video, audio, pdf]  
+    # URL on YouTube
+    service_url:
+      type: string(200)
+    # Original image format. For video this is the format of the thumbnail
+    # (JPEG). Null if no thumbnail exists. You can ask for any size and any 
+    # format and you'll get it, as a conversion of the original (which is 
+    # then cached). If you ask for the "original" in a different format that 
+    # will result in a conversion as well.
+
+    # We don't use an enum here because this is briefly null when a 
+    # new image is first saved.
+    format:
+      type: string(10)
+    # Preferred still image or video dimensions. For a still image
+    # these are the dimensions of the original. For video they are
+    # the dimensions of the video stream. For PDF they are undefined.
+    width:
+      type: integer(4)
+    height:
+      type: integer(4)
+
+    # If this field is non-null, it contains HTML embed/object code to
+    # be used without alteration (except for replacing _WIDTH_ and _HEIGHT_)
+    # when embedding the video. This is used to allow embedding of 
+    # video hosted on services whose APIs are not directly supported
+    # by apostrophePlugin (i.e. anything except YouTube, as of this writing).
+    # Note that this can actually be used to embed any scalable 
+    # applet (Flash, Java, etc) supported by embed/object/applet/param tags
+    # although our intention is simply to support black-box Flash players.
+    # 
+    # The user is required to manually supply a thumbnail when 
+    # embedding a video in this way.
+    embed:
+      type: string(1000)
+
+    title:
+      type: string(200)
+      notnull: true
+    description:
+      type: string
+    credit:
+      type: string(200)
+    owner_id:
+      type: integer(4)
+    # This is not implemented in a high-security way at all, you can
+    # still directly access media URLs. This is normal on media sites
+    # for performance reasons.
+    view_is_secure:
+      type: boolean
+      notnull: true
+      default: false
+      
+  relations:
+    Owner:
+      class: sfGuardUser
+      foreign: id
+      local: owner_id
+      type: one
+      onDelete: set null
+      foreignAlias: MediaItems
+    Slots:
+      class: aSlot
+      local: media_item_id
+      foreign: slot_id
+      refClass: aSlotMediaItem
+              
+# A simple relationship between slots and media. Since media are so universal
+# to all of our sites it makes sense to define this relationship in the database 
+# and join with it routinely. The details of the relationship, including
+# rank within a slideshow, are still serialized data in the media slots.
+# Here we just keep what we must have to achieve data integrity and good query performance.
+
+aSlotMediaItem:
+  tableName: a_slot_media_item
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    media_item_id:
+      type: integer(4)
+      primary: true
+    slot_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaItem:
+      local: media_item_id
+      onDelete: CASCADE
+    aSlot:
+      local: slot_id
+      onDelete: CASCADE
+      
+aMediaCategory:
+  tableName: a_media_category
+  actAs:
+    Timestampable: ~
+    Sluggable: ~
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      unique: true
+    description:
+      type: string
+  relations:
+    MediaItems:
+      class: aMediaItem
+      local: media_category_id
+      foreign: media_item_id
+      foreignAlias: MediaCategories
+      refClass: aMediaItemCategory
+    # Used to implement media engine pages dedicated to displaying one or more
+    # specific categories
+    Pages:
+      class: aPage
+      local: media_category_id
+      foreign: page_id
+      foreignAlias: MediaCategories
+      refClass: aMediaPageCategory
+
+
+aMediaItemCategory:
+  tableName: a_media_item_category
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    media_item_id:
+      type: integer(4)
+      primary: true
+    media_category_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaItem:
+      local: media_item_id
+      onDelete: CASCADE
+    aMediaCategory:
+      local: media_category_id
+      onDelete: CASCADE
+
+aMediaPageCategory:
+  tableName: a_media_page_category
+  options:
+    symfony:
+      form:   false
+      filter: false
+  columns:
+    page_id:
+      type: integer(4)
+      primary: true
+    media_category_id:
+      type: integer(4)
+      primary: true
+  relations:
+    aMediaCategory:
+      local: media_category_id
+      onDelete: CASCADE
+    aPage:
+      local: page_id
+      onDelete: CASCADE
+      
+aFeedSlot:
+  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+  # and slots often use serialization into the value column... the Doctrine forms are not
+  # of much use here and they clutter the project
+  options:
+    symfony:
+      form:   false
+      filter: false
+
+  # columns:
+  #
+  # You can add columns here. However, if you do not need foreign key relationships it is
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+  # their names must be unique across all slots in your project, so use a unique prefix 
+  # for your company.
+    
+  # This is how we are able to retrieve slots of various types with a single query from
+  # a single table
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aFeed'
+
+aRedirect:
+  tableName: a_redirect
+  actAs:
+    Timestampable: ~
+    Taggable: ~
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    page_id:
+      type: integer(4)
+    slug:
+      type: string(255)
+      unique: true
+  indexes:
+    slugindex:
+      fields: [slug]
+  relations:
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      onDelete: cascade
+      
+
+aNewRichTextSlot:
+  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+  # and slots often use serialization into the value column... the Doctrine forms are not
+  # of much use here and they clutter the project
+  options:
+    symfony:
+      form:   false
+      filter: false
+
+  # columns:
+  #
+  # You can add columns here. However, if you do not need foreign key relationships it is
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+  # their names must be unique across all slots in your project, so use a unique prefix 
+  # for your company.
+    
+  # This is how we are able to retrieve slots of various types with a single query from
+  # a single table
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aNewRichText'
