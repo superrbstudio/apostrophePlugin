@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * PluginaRichTextSlot form.
+ *
+ * @package    filters
+ * @subpackage aRichTextSlot *
+ * @version    SVN: $Id: sfDoctrineFormTemplate.php 6174 2007-11-27 06:22:40Z fabien $
+ */
+abstract class PluginaRichTextSlotFormFilter extends BaseaRichTextSlotFormFilter
+{
+}
