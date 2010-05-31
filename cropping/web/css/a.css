@@ -3995,6 +3995,11 @@ z-index: 199;
 float: left;
 }
 
+#a-media-selection-preview {
+  width:100%;
+  float:left;
+}
+
 #a-media-plugin #a-media-edit-form,
 #a-media-plugin .a-media-item-edit-form
 {

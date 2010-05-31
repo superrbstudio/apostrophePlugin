@@ -10,8 +10,16 @@
   <?php endif ?>
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
+  <ul id="a-media-selection-preview">
+    <?php foreach ($items as $item): ?>
+      <li id="a-media-selection-preview-<?php echo $item->getId() ?>">
+      <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('selected_constraints'))) ?>" />
+    </li>
+    <?php endforeach; ?>
+  </ul>
+
 	<ul id="a-media-selection-list">
-	<?php include_component("aMedia", "multipleList") ?>
+	<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
 	</ul>
 
 	<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder")) ?>
@@ -25,3 +33,17 @@
 	
 </div>
 	<br class="c"/>
+	
+<script type="text/javascript" charset="utf-8">
+var JcropAPI;
+function initCropping()
+{
+  JcropAPI = $('#a-media-selection-preview img').each(function(){
+    $.Jcrop(this);
+  });
+}
+
+$(document).ready(function(){
+  initCropping();
+});
+</script>

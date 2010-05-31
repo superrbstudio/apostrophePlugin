@@ -18,7 +18,7 @@
     <?php include_partial('aMedia/describeConstraints') ?>
 
 	  <?php if (aMediaTools::isMultiple()): ?>
-	    <?php include_partial('aMedia/selectMultiple', array('limitSizes' => $limitSizes)) ?>
+	    <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes)) ?>
 	  <?php else: ?>
 	    <?php include_partial('aMedia/selectSingle', array('limitSizes' => $limitSizes)) ?>
 	  <?php endif ?>
