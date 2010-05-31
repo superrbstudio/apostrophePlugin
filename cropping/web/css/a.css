@@ -4025,11 +4025,21 @@ float: left;
 li.a-media-selection-preview-item {
   display:none;
 	float:left;
+	position:relative;
 	width:auto;
+	height:auto;
 	margin-left:160px;
 }
 li.a-media-selection-preview-item.current {
-  display: block;
+  display: block !important;
+}
+
+.a-media-crop-controls
+{
+	position:relative;
+	top:1px;
+	left:1px;
+	width: 150px;
 }
 
 #a-media-plugin #a-media-edit-form,
