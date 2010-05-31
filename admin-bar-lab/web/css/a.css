@@ -1950,6 +1950,11 @@ z-index: 999;
 	width: 100%;
 }
 
+.a-page-settings-section .content
+{
+	margin-left:16px;
+}
+
 h4.a-page-settings-section-head
 {
 	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
