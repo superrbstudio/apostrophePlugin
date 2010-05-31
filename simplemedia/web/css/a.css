@@ -1,0 +1,1477 @@
+/* == */
+/* == Apostrophe UI Controls == */
+/* == */
+
+.a-area
+{
+/*	z-index:599;*/
+position: relative;
+float: left;
+width: 100%;
+margin: 10px 0;
+}
+
+.a-slots
+{
+position: relative;
+float: left;
+width: 100%;
+}
+
+
+/* Area History Table */
+
+.a-history-browser
+{/*This positions history vertically inside the browser */
+position: absolute;
+top: 0px; /* This changes with history button offset*/
+left: 50%;
+margin-left: -480px;
+float: left;
+width: 960px;
+clear: both;
+z-index: 999;
+overflow: hidden;
+display: none;
+border: 1px solid #ac3;
+}
+
+.a-history-browser h3
+{
+font-size: 16px;
+color: #666;
+float: left;
+/*	width: 100%;*/
+width: 100%;
+margin: 0;
+padding: 10px;
+clear: both;
+background-color: #fff;
+}
+
+a.a-history-browser-view-more
+{
+float: left;
+/*width: 100%;*/
+/*height: 100%;*/
+display: inline;
+padding: 8px;
+line-height: 20px;
+position: relative;
+}
+
+a.a-history-browser-view-more .spinner
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: -16px;
+	display: none;
+}
+
+a.a-history-browser-all:hover
+{
+background-color: #ddd;
+}
+
+.a-history-browser-crop
+{/*This CAN make history a scrollable box, sets width to be width of site */
+width: 100%;
+margin: 0;
+border-top: 1px solid #ddd;
+float: left;
+clear: both;
+}
+
+.a-history-browser table
+{
+width: 100%;
+table-layout: fixed;
+border-bottom: 1px solid #ddd;
+font-size: 11px;
+color: #333;
+background-color: #fff;
+}
+
+.a-history-browser thead th
+{
+font-weight: bold;
+padding: 8px 4px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-browser tbody tr:hover
+{
+background-color: #e2e2e2;
+}
+
+.a-history-browser tbody td
+{
+overflow: hidden;
+white-space: nowrap;
+height: 30px;
+vertical-align: middle;
+padding: 0 4px;
+}
+
+.a-history-browser tfoot td
+{
+border-top: 1px solid #ddd;
+/*	padding: 8px 4px;*/
+}
+
+/* This was commented out in the partial at some point - 1/7/2010 */
+/*.a-history-browser .id
+{
+width: 10%;
+}
+*/
+.a-history-browser .date
+{
+width: 15%;
+}
+
+.a-history-browser .editor
+{
+width: 15%;
+}
+
+.a-history-browser .preview
+{
+/*width: 60%;*/
+width: 70%;
+}
+
+.a-history-preview-notice
+{
+display: none;
+position: absolute;
+top: 0px;
+left: 0px;
+width: 100%;
+z-index: 999;
+background: #fff;
+color: #d4c;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-preview-notice div
+{
+float: left;
+margin: 10px;
+}
+
+.a-page-overlay /*This will inherently have issues with IE7 that will need to be resolved later. */
+{
+z-index: 998;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+height: 100%;
+width: 100%;
+display: none;
+background-color: #fff;
+}
+/* == */
+/* == SLOT STYLES == */
+/* == */
+
+.a-slot
+{/* .a-slot is the class for ALL Slots */
+position: relative;
+float: left;
+width: 100%;
+min-height: 20px;
+margin-bottom: 10px;
+font-size: 12px;
+display: inline;
+}
+
+
+/* a-messages ?? The idea that a message, help, or something needs to be communicated about a slot */
+.a-messages
+{
+}
+
+.a-messages .background .a-i
+{
+display: none;
+}
+
+/* Temporarily Hide a-messages for slot types that aren't using them */
+.aVideo .a-messages,
+.aSlideshow .a-messages,
+.aImage .a-messages,
+.aText .a-messages,
+.aRawHTML .a-messages
+{
+display: none;
+}
+
+/* Rich Text Slots Use the .a-messages structure */
+.aRichText .a-slot-messages
+{/*This is the double-click-to-edit thing */
+	float: left;
+display: none;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+height: 100%;
+width: 100%;
+z-index: 1;
+cursor: pointer;
+}
+
+.aRichText .a-slot-messages li
+{
+height: 20px;
+width: 200px;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-top: -10px;
+margin-left: -100px;
+line-height: 20px;
+text-align: center;
+font-size: 12px;
+color: #fff;
+}
+
+
+.aRichText .a-slot-messages .background
+{/* Content Fade-Out Overlay */
+position: absolute;
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+background: #fff;
+margin: 0;
+padding: 0;
+height: auto;
+width: auto;
+}
+
+.aRichText .a-slot-messages .message
+{
+position: relative;
+z-index: 1;
+}
+
+.aRichText b,
+.aRichText strong
+{
+font-weight: bold;
+}
+
+.aRichText h3
+{
+font-size: 150%;
+}
+
+.aRichText h4
+{
+font-size: 125%;
+}
+
+.aRichText h5
+{
+font-size: 90%;
+}
+
+.aRichText h6
+{
+font-size: 90%;
+}
+
+.aRichText ol
+{
+list-style: inside decimal;
+}
+
+.aRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot-is-editable.aRichText:hover .a-slot-messages
+{
+display: block;
+}
+
+/* TBB: some specific slot types should not superimpose the buttons on the content. But ALL standard editing forms should not. */
+/* For certain slot types we don't want the buttons superimposed directly on the start (for instance, it's bad with text) */
+.a-slot-is-editable.aRichText .a-slot-content-container,
+.a-slot-is-editable.aText .a-slot-content-container,
+.a-slot-is-editable.aBlogPost .a-slot-content-container,
+.a-slot-is-editable.aBlogCalendar .a-slot-content-container,
+.a-slot-is-editable.aBlogEvent .a-slot-content-container,
+.a-slot-is-editable.aRawHTML .a-slot-content-container
+{
+	padding: 22px 0 0 0 !important;
+}
+
+.a-slot-form
+{/* Creates space for buttons to sit on top of forms when logged-in-editing */
+	padding-top: 22px !important;
+	float: left;
+	width: 100%;
+}
+
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
+.a-slot.aRichText h3,
+.a-slot.aRichText h4,
+.a-slot.aRichText h5,
+.a-slot.aRichText h6,
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aRichText table th,
+.a-slot.aRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aRichText.a-edit-view
+{
+}
+
+.a-slot.aRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aRichText.a-edit-view:hover .a-controls,
+.a-slot.aRichText.a-edit-view:hover .a-messages
+{
+display: block;
+}
+
+.aTextSlot,
+.aRawHTMLSlot
+{
+width: 100%;
+}
+
+textarea.aRawHTMLSlotTextarea
+{
+	float: left;
+	width: 99%;
+	border: 1px solid #333;
+	padding: 2px;
+	height: 200px;
+	font: 12px/1.2 Monospace;
+	background: #efefef;
+}
+
+.aSlideshow
+{
+margin-top: 24px; /* Space for the Arrow Controls*/
+	margin-bottom: 40px;
+}
+
+.aSlideshow .a-slideshow-description,
+.aPDF .a-pdf-description
+{
+	font-size: 11px;
+	margin: 5px 0;
+}
+
+/* == */
+/* == Global Toolbar */
+/* == */
+
+#a-global-toolbar
+{
+position: relative;
+display: inline;
+float: left;
+width: 100%;
+border-bottom: 1px solid #ddd;
+padding: 5px 0 2px 0;
+margin-bottom: 5px;
+clear: both;
+z-index: 999;
+background:#fff;
+}
+
+#a-global-toolbar li
+{
+display: inline;
+float: left;
+position: relative;
+/*height: 24px;*/
+}
+
+#a-global-toolbar #the-apostrophe
+{
+float: left;
+height: 20px;
+width: 20px;
+text-indent: -9999px;
+background: #ac9 url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat;
+overflow: hidden;
+margin: 2px;
+}
+
+#a-global-toolbar #the-apostrophe.open
+{
+	background-color:#000;
+}
+
+#a-global-toolbar #the-apostrophe:hover,
+#a-global-toolbar #the-apostrophe.open:hover
+{
+	background-color: #666;
+}
+
+#a-global-toolbar .a-global-toolbar-buttons
+{
+display: none;
+float: left;
+margin-right: 5px;
+}
+
+#a-global-toolbar .a-login
+{
+	float: right;
+	display: inline;
+	margin-right:5px;
+	line-height: 20px;
+}
+
+#a-global-toolbar #a-logged-in-as
+{
+	float: left;
+	line-height: 20px;
+	padding-right: 5px;
+}
+
+#a-global-toolbar #a-logged-in-as a
+{
+	text-decoration: underline;
+}
+
+#a-global-toolbar #a-logged-in-as a:hover
+{
+	color: #000;
+}
+
+
+#a-global-toolbar .a-global-toolbar-breadcrumb
+/* == */
+/* Apostrophe BREADCRUMB =========================== */
+/* == */
+
+#a-breadcrumb
+{
+position: relative;
+width: auto;
+float: left;
+font-size: 12px;
+line-height: 20px;
+height: 20px;
+}
+
+#a-breadcrumb a
+{
+color: #333;
+text-decoration: none;
+float: left;
+display: inline;
+}
+
+#a-breadcrumb a:hover
+{
+text-decoration: underline;
+}
+
+#a-breadcrumb form
+{
+display: inline;
+float: left;
+width: auto;
+z-index: 2;
+}
+
+#a-breadcrumb h2
+{
+font-size: 18px;
+}
+
+#a-breadcrumb li
+{
+margin-right: 5px;
+}
+
+#a-breadcrumb .a-breadcrumb-title
+{
+float: left;
+display: inline;
+width: auto;
+line-height: 24px;
+}
+
+#a-breadcrumb .a-breadcrumb-title.current-page,
+#a-breadcrumb .a-breadcrumb-width
+{
+font-size: 18px;
+line-height: 20px;
+height: 20px;
+letter-spacing: -.0125em;
+font-weight: normal;
+position: relative;
+text-transform: capitalize;
+margin-right: 0px;
+}
+
+#a-breadcrumb .current-page .epc-rename-button
+{
+padding: 0px 3px 0 3px;
+white-space: nowrap;
+cursor:text;
+}
+
+#a-breadcrumb .a-breadcrumb-slash
+{
+float: left;
+display: inline;
+width: auto;
+height: 20px;
+top: 2px;
+margin: 0 8px 0 5px;
+font-size: 14px;
+color: #333;
+}
+
+#a-breadcrumb a.epc-rename-button:hover
+{
+background-color: #ddd;
+text-decoration: none;
+/*border-bottom: 1px solid #ddd;*/
+}
+
+#a-breadcrumb .epc-form
+{
+background: #fff;
+float: left;
+/* Width set with JQuery in _breadcrumb.php */
+}
+
+#a-breadcrumb .epc-form a,
+#a-breadcrumb .epc-form input
+{
+float: left;
+display: inline;
+font-size: 12px;
+/*margin: 0 2px;*/
+}
+
+#a-breadcrumb .epc-form #id
+{
+/*display: none;*/
+}
+
+#a-breadcrumb .epc-form span,
+#a-breadcrumb .epc-form-cancel
+{
+font-size: 12px;
+letter-spacing: 0 !important;
+line-height: 20px;
+}
+
+#a-breadcrumb .epc-form-cancel
+{
+color: #333;
+text-transform: lowercase; /* LOL @ Rick */
+}
+
+#a-breadcrumb .epc-form-cancel:hover
+{
+text-decoration: underline;
+}
+
+#a-breadcrumb .a-form-controls
+{
+background-color: #fff;
+padding-left: 1px;
+float: left;
+display: inline;
+}
+
+#a-breadcrumb .a-form-controls *
+{
+display: inline;
+float: left;
+}
+
+#a-breadcrumb .a-form-controls li
+{
+margin-right: 1px;
+position: relative;
+}
+
+#a-breadcrumb .a-form-controls .a-i
+{
+margin: auto;
+}
+
+#a-breadcrumb input.a-breadcrumb-input
+{
+position: relative;
+top: -1px;
+background: #fff;
+color: #333;
+font-family: Arial, Sans-serif;
+font-size: 17px;
+letter-spacing: -.0125em;
+float: left;
+padding: 0 2px;
+margin: 0;
+width: 100%;
+border: 1px solid #fff;
+clear: right;
+}
+
+#a-breadcrumb-title-rename,
+#a-breadcrumb-page-settings,
+#a-breadcrumb-create-childpage
+{
+	top: 1px;
+}
+
+#a-breadcrumb-rename-title-spacer
+{
+	font-family: Arial, Sans-serif;
+	font-size: 17px;
+	letter-spacing: -.0125em;	
+	padding: 0 2px;
+	margin: 0;
+	border: 1px solid #fff;
+	text-transform: none;
+}
+
+#a-breadcrumb input.a-breadcrumb-input:focus,
+#a-breadcrumb input#a-breadcrumb-create-title
+{
+	color: #000;
+	background: #e6e6e6;
+	border: 1px inset #777;
+}
+
+#a-breadcrumb input#a-breadcrumb-create-title.a-default-value
+{
+	color: #999;
+}
+
+#a-breadcrumb input.a-breadcrumb-create-childpage-title
+{
+width: 180px;
+}
+
+#a-breadcrumb input#a-breadcrumb-rename-title
+{
+	width: 1px;
+}
+
+#a-breadcrumb a.a-page-settings-button
+{
+float: left;
+display: inline;
+height: 20px;
+width: 20px;
+line-height: 20px;
+margin: 0;
+overflow: hidden;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-icon-page-settings.png) no-repeat 0 0;
+position: relative;
+}
+
+#a-breadcrumb a.a-page-settings-button:hover
+{
+background-position: 0 -40px;
+}
+
+#a-breadcrumb a.a-page-settings-button.close
+{
+display: none;
+background-position: 0 -20px;
+}
+
+#a-breadcrumb .a-page-settings-loading
+{
+	float: left;
+	display: inline;
+}
+
+.a-login a.a-personal-settings-button
+{
+/*float: left;
+display: inline;
+height: 20px;
+width: 20px;
+line-height: 20px;
+margin: 0;
+overflow: hidden;
+text-indent: -9999px;
+background: #666 url(/apostrophePlugin/images/a-icon-settings.png) top left no-repeat;
+position: relative;
+*/}
+
+.a-login a.a-personal-settings-button:hover
+{
+/*background-color:#333;*/
+}
+
+.a-login a.a-personal-settings-button.close
+{
+/*display: none;*/
+/*background-color: #333;*/
+}
+
+.a-login a.a-personal-settings-button.close:hover
+{
+/*	background-color: #666;*/
+}
+
+.a-login .a-personal-settings-loading
+{
+float:right;
+margin:0 0 0 5px
+}
+
+#a-breadcrumb .a-breadcrumb-add-controls
+{
+display: inline;
+float: left;
+width: 110px;
+}
+
+#a-breadcrumb .a-breadcrumb-add-controls input,
+#a-breadcrumb .a-breadcrumb-add-controls span,
+#a-breadcrumb .a-breadcrumb-add-controls a
+{
+float: left;
+line-height: 20px;
+vertical-align: baseline;
+}
+
+
+/* == */
+/* Apostrophe #a-page-settings =========================== */
+/* == */
+
+#a-global-toolbar li.a-page-settings-container,
+#a-global-toolbar li.a-personal-settings-container
+{
+position: absolute;
+top: 29px;
+left: 0;
+background-color: #fff;
+float: left;
+display: inline;
+width: 100%;
+height: auto;
+z-index: 999;
+}
+
+#a-page-settings #a-page-settings-shadow img
+{
+height: 11px;
+width: 100%;
+}
+
+#a-page-settings,
+#a-personal-settings
+{
+position: relative;
+display: none;
+float: left;
+width: 100%;
+margin: 10px 0 0;
+padding: 0;
+color: #333;
+border-top: 1px solid #ddd;
+border-bottom: solid 10px #ddd;
+min-width: 960px;
+}
+
+#a-page-settings-form,
+#a-personal-settings-form
+{
+width: auto;
+float: left;
+display: inline;
+margin: 0 20px;
+padding: 20px 0;
+}
+
+#a-page-settings em
+{
+	font-style: normal;
+	color: #000;
+}
+
+#a-page-settings-heading,
+#a-personal-settings-heading
+{
+margin: 20px 0 0 0;
+font-size: 16px;
+}
+
+#a-personal-settings-heading
+{
+	margin: 0 0 10px;
+}
+
+#a-personal-settings-heading span
+{
+	color:#ac3;
+}
+
+#a-page-settings h3
+{
+	margin-top: 0;
+}
+
+#a-page-settings h4
+{
+font-size: 12px;
+margin: 0 0 10px 0;
+}
+
+#a-page-settings .a-form-row,
+#a-personal-settings .a-form-row
+{
+margin: 10px 0px 10px 0;
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+}
+
+#a-page-settings .a-form-row label,
+#a-personal-settings .a-form-row label
+{
+/*position: relative;
+top: 1em;
+left: -120px;
+display: block;
+width: 120px;*/
+float:left;
+width: 120px;
+line-height: 20px;
+}
+
+#a-page-settings-left,
+#a-page-settings-right
+{
+float: left;
+width: 450px;
+margin: 10px 0 0 0;
+}
+
+#a-page-settings-left
+{
+margin-right: 20px;
+}
+
+#a-page-settings-right h4
+{
+margin-top: 10px;
+line-height: 20px;
+}
+
+#a-page-settings .a-page-permissions
+{
+	float: left;
+	clear: both;
+	padding: 10px;
+	border: 1px solid #e0e0e0;
+}
+
+#a-page-settings-footer,
+#a-personal-settings-footer
+{
+float: left;
+margin-top: 10px;
+padding-top: 10px;
+width: 100%;
+}
+
+#a-page-settings-footer li
+{
+height: auto;
+padding: 0;
+line-height: 24px;
+}
+
+#a-page-settings-footer li.last
+/* float the delete button all the way right*/
+{
+float: right;
+}
+
+#a-page-settings-form #settings_slug
+{
+width: 240px;
+}
+
+#a-page-settings-form .a-form-row input,
+#a-page-settings-form .a-form-row select,
+#a-page-settings-form .a-form-row textarea,
+#a-personal-settings-form .a-form-row input,
+#a-personal-settings-form .a-form-row select,
+#a-personal-settings-form .a-form-row textarea
+{
+font-size: 12px;
+font-family: arial, sans-serif;
+border: 1px solid #e2e2e2;
+padding: 2px 1px;
+}
+
+#a-page-settings-form .a-page-settings-status
+{
+float: left;
+line-height: 20px;
+clear: right;
+width: 320px;
+}
+
+#a-page-settings-form #a-page-settings-note
+{
+float: left;
+clear: both;
+width: 360px;
+font-size: 11px;
+color: #888;
+margin-top: 10px;
+}
+
+#a-page-settings #a-page-settings-right .a-page-settings-inherited-editors,
+#a-page-settings #a-page-settings-right .a-page-settings-local-editors
+{
+width: 170px;
+float: left;
+}
+
+#a-page-settings .a-radio-select-container
+{
+display: block;
+float: left;
+width: 100%;
+}
+
+#a-page-settings .radio_list
+{
+float: left;
+width: 100%;
+clear: both;
+}
+
+#a-page-settings .radio_list li
+{
+float: left;
+position: relative;
+width: 120px;
+/*	clear: both;*/
+	margin: 0 0 10px 0;
+}
+
+#a-page-settings .radio_list li input
+{
+position: relative;
+float: left;
+line-height: 20px;
+margin: 3px 0 !important;
+}
+
+#a-page-settings .radio_list li label
+{
+width: auto;
+position: absolute;
+top: 0;
+left: 20px;
+line-height: 20px;
+margin: 0;
+}
+
+#a-page-settings .a-page-settings-local-editors a
+{
+color: #333;
+}
+
+#a-page-settings .a-page-settings-local-editors a:hover
+{
+	text-decoration: underline;
+}
+
+#a-page-settings .a-page-settings-local-editors li
+{
+width: 180px;
+height: 20px;
+padding: 0;
+margin: 0;
+}
+
+#a-page-settings .a-page-settings-local-editors a
+{
+position: relative;
+float: left;
+width: 100%;
+height: 20px;
+line-height: 20px;
+}
+
+#a-page-settings .a-page-settings-local-editors a span,
+a.a-multiple-select-remove span
+{
+display: inline;
+position: absolute;
+float: left;
+width: 20px;
+height: 20px;
+text-indent: -9999px;
+overflow: hidden;
+background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
+}
+
+#a-page-settings .a-page-settings-local-editors a:hover
+{
+text-decoration: none;
+color: #333;
+}
+
+#a-page-settings .a-page-settings-local-editors a:hover span,
+a.a-multiple-select-remove:hover span
+{
+background-position: 0 -20px;
+}
+
+/* == */
+/* == a_tab_navigation == */
+/* == */
+#a-tab-navigation
+{
+	float: left;
+	display: inline;
+	width: 100%;
+	clear: both;
+	margin: 20px 0;
+}
+
+#a-tab-navigation .a-tab-nav-item
+{
+	float: left;
+	display: inline;
+	width: 118px;
+	height: 20px;
+	line-height: 20px;
+	border: 1px solid #ddd;
+	border-bottom: 0;
+	border-right: 0;
+}
+
+#a-tab-navigation .a-tab-nav-item.last
+{
+	border-right: 1px solid #ddd;
+}
+
+#a-tab-navigation .a-tab-nav-item a
+{
+	float: left;
+	display: inline;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	color: #333;
+	text-align: center;	
+}
+
+#a-tab-navigation .a-tab-nav-item.a-current-page a,
+#a-tab-navigation .a-tab-nav-item a:hover
+{
+	background-color: #ddd;
+	color:#000;
+}
+
+/* [START] a SEARCH ==================================================================== */
+
+#a-search
+{
+float: left;
+display: inline;
+width: 100%;
+height: 20px;
+margin: 10px 0;
+clear: both;
+}
+
+#a-search-global
+{
+width: 240px;
+height: 20px;
+float: right;
+display: inline;
+}
+
+.a-search-form
+{
+position: relative;
+background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;
+width: 240px;
+height: 20px;
+}
+
+
+.a-search-form input.submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+
+/* == SEARCH BOX == */
+
+.a-search-form
+{
+position: relative;
+height: 20px;
+width: 240px;
+}
+
+.a-search-form span.a-search-field
+{
+position: absolute;
+top: 0;
+left: 0;
+background: url(/apostrophePlugin/images/a-search-bg-240.png) no-repeat 0 0;
+width: 240px;
+height: 20px;
+}
+
+.a-search-form span.a-search-field input
+{
+position: absolute;
+top: 0;
+left: 9px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px 0 0 0;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form span.a-search-submit
+{
+position: absolute;
+right: 0;
+top: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+}
+
+.a-search-form input.a-search-submit
+{
+padding: 0;
+width: 29px;
+height: 20px;
+border: none !important;
+position: absolute;
+top: 0;
+right: 0;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+.a-search-form input.a-search-submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+/* Search Results*/
+#a-search-results-container,
+.a-search-results,
+.result-title,
+.result-url,
+.result-summary
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	overflow:hidden;
+}
+
+.result-title
+{
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.result-url
+{
+font-size: 11px;
+margin-top: 5px;
+margin-bottom: 15px;
+color: #666;
+}
+
+/* [END] a SEARCH ==================================================================== */
+
+
+/* [START] a-feedback-form ==================================================================== */
+
+#feedback-form-container
+{
+display: none;
+position: absolute;
+right: 0;
+bottom: 0;
+z-index: 999;
+background: #fff;
+padding: 10px;
+border: 1px solid #ddd;
+}
+
+#a-feedback-form
+{
+margin: 10px 0;
+}
+
+#a-feedback-form .form-row label
+{
+display: block;
+float: left;
+text-align: left;
+width: 120px;
+color: #666;
+font-weight: normal !important;
+text-transform: capitalize;
+}
+
+#a-feedback-form .form-row.submit
+{
+margin-left: 120px;
+}
+
+#feedback-link
+{
+text-align: right;
+text-transform: capitalize;
+}
+
+#feedback-submitted
+{
+text-align: right;
+}
+
+/* == */
+/* ==  PK-SUBNAV ==================================================================== */
+/* == */
+
+#a-subnav
+{
+}
+
+#a-subnav .a-search-form
+{
+margin-bottom: 20px;
+float: left;
+display:inline;
+}
+
+#a-subnav .a-search-form
+{
+background: url(/apostrophePlugin/images/a-search-bg-180.png) no-repeat 0 0;
+width: 180px;
+}
+
+#a-subnav .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+#a-subnav .a-navcolumn li
+{
+position: relative;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+#a-subnav .a-navcolumn li .a-drag
+{
+float: right;
+position: relative;
+margin-left: 10px;
+cursor:move;
+}
+
+.a-archived-page
+{ /* aUI(); Makes Unpublished pages 50% Opacity */
+text-decoration: line-through;
+}
+
+/* == */
+/* ==  attribution footer ==================================================================== */
+/* == */
+
+.a-attribution
+{
+	float:left;
+	display:inline;
+	line-height:10px;
+	padding-bottom:6px;
+	padding-left:20px;
+	color:#666;
+	font-size:11px;
+	background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left;
+}
+
+.a-attribution a
+{
+	color:#0000ff;
+	text-decoration:none;
+}
+
+.a-attribution a:hover
+{
+	text-decoration:underline;
+}
+
+/* == */
+/* ==  style for bundled layout.php ==================================================================== */
+/* == */
+
+#a-wrapper
+{
+	width: 960px;
+	margin: 0 auto;
+}
+
+#a-header,
+#a-content
+{
+	float: left;
+	display: inline;
+	position: relative;
+	clear: both;
+	width: 100%;
+}
+
+#a-subnav
+{
+	width: 200px;
+	margin: 0 40px 0 0;
+	float:left;
+	display:inline;
+	position:relative;
+}
+
+.a-logged-in-as
+{
+	padding-right: 10px;
+	line-height: 20px;
+}
+
+.a-logged-in-as span
+{
+	color: #666;
+}
+
+/* Home Template */
+
+/* Default Template */
+
+.a-default #a-content
+{
+	clear: none;
+	float: left;
+	width: auto;
+}
+
+.a-default #a-area-body
+{
+	width: 480px;
+}
+
+#a-login-form-container
+{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	padding: 0;
+	background: #fff;
+	border: 1px solid #999;
+	z-index:999;
+	display: none;
+	-moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+	-khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;	
+	box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+}
+
+#a-signin-form .a-form-row
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	position: relative;
+	margin: 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+	float: left;
+	display: inline;
+	width: auto;
+	clear:none;
+	position: relative;
+	margin-right: 5px;
+}
+
+#a-signin-form input.a-submit {
+border:none;
+color:#fff;
+font-family:Arial,Sans-serif;
+font-size:12px;
+margin: 0;
+text-transform: capitalize;
+width: auto;
+}
+
+#a-signin-form .a-form-row.submit .cancel
+{
+	margin-left: 5px;
+}
