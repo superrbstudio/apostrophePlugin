@@ -11,7 +11,6 @@
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
 <?php $aspectRatio = aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') ?>
-<?php echo $aspectRatio ?>
 
   <ul id="a-media-selection-preview">
   <?php foreach ($items as $item): ?>
@@ -19,6 +18,11 @@
       <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('crop_constraints'))) ?>" />
     </li>
   <?php endforeach; ?>
+  </ul>
+  
+  <ul class="a-controls">
+		<li><?php echo link_to(__("Set Crop", null, 'apostrophe'), "aMedia/crop", array("class"=>"a-btn save")) ?></li>
+ 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/foo", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
   </ul>
 
 	<ul id="a-media-selection-list">
@@ -39,6 +43,8 @@
 	
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function(){
-  aCrop.init();
+  aCrop.init({
+    aspectRatio: <?php echo $aspectRatio ?>
+  });
 });
 </script>
