@@ -203,4 +203,8 @@ class BaseaComponents extends BaseaSlotComponents
 	  $this->form = new $class();
 	}
 
+  public function executeCreatePage(sfWebRequest $request)
+  {
+  	$this->form = new aCreateForm($this->page);
+  }
 }

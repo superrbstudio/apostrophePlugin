@@ -4,10 +4,11 @@
 
 <form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-create-page-form dropshadow">
 
-	<?php $form = new aCreateForm($page) ?>
 	<?php echo $form->renderHiddenFields() ?>
 	<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
 	<?php echo $form['title']->render(array('id' => 'a-create-page-title', )) ?>
+	<?php echo $form['engine']->renderRow(array('id' => 'a-create-page-title', )) ?>
+	<?php echo $form['template']->renderRow(array('id' => 'a-create-page-title', )) ?>
 
 	<ul class="a-controls">
 	  <li>
@@ -44,7 +45,7 @@
 
 				var renameButton = $('#a-create-page-button');
 				renameButton.addClass('a-disabled')
-					.after('<span id="a-create-page-childpage-max-message"><?php echo (sfConfig::get("app_a_max_page_limit_message"))? sfConfig::get("app_a_max_page_limit_message") : __('Cannot create pages here.', null, 'apostrophe') ?> ?></span>')
+					.after('<span id="a-create-page-childpage-max-message"><?php echo (sfConfig::get("app_a_max_page_limit_message")) ? sfConfig::get("app_a_max_page_limit_message") : __('Cannot create pages here.', null, 'apostrophe') ?></span>')
 					.mousedown(function(){
 						var message = $('#a-create-page-childpage-max-message');
 						message.show();

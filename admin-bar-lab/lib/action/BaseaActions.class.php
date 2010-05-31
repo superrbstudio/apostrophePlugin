@@ -1,19 +1,19 @@
 <?php
 
 /**
- a actions.
+ * a actions.
  *
- @package    apostrophe
- @subpackage a
- @author     Your name here
- @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
+ * @package    apostrophe
+ * @subpackage a
+ * @author     Your name here
+ * @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
  */
 class BaseaActions extends sfActions
 {
  /**
-  Executes index action
+  * Executes index action
   *
-  @param sfWebRequest $request A request object
+  * @param sfWebRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
@@ -216,9 +216,10 @@ class BaseaActions extends sfActions
     return $this->redirect($page->getUrl());
   }
 
-  public function executeCreate()
+  public function executeCreate(sfWebRequest $request)
   {
-    $this->flunkUnless($this->getRequest()->getMethod() == sfRequest::POST);
+    $this->flunkUnless($request->getMethod() == sfRequest::POST);
+
     $parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
     $title = trim($this->getRequestParameter('title'));
     $this->flunkUnless(strlen($title));
@@ -237,10 +238,14 @@ class BaseaActions extends sfActions
 
     $page->setSlug($slug);
     $existingPage = aPageTable::retrieveBySlug($slug);
-    if ($existingPage) {
+    
+    if ($existingPage)
+    {
       // TODO: an error in addition to displaying the existing page?
       return $this->redirect($existingPage->getUrl());
-    } else { 
+    }
+    else
+    { 
       $page->getNode()->insertAsFirstChildOf($parent);
 
       // Figure out what template this new page should use based on
@@ -248,22 +253,24 @@ class BaseaActions extends sfActions
       //
       // The default rule assigns default to everything.
 
-      $rule = aRules::select(
-        sfConfig::get('app_a_template_rules', 
-        array(
-          array('rule' => '*',
-            'template' => 'default'))), $slug);
+      $rule = aRules::select(sfConfig::get('app_a_template_rules', array(array(
+        'rule' => '*',
+        'template' => 'default'
+      ))), $slug);
+
       if (!$rule)
       {
-        $template = 'default';
+        $template = $request->getParameter('template', 'default');
       }
       else
       {
         $template = $rule['template'];
       }
+
       $page->template = $template;
       // Must save the page BEFORE we call setTitle, which has the side effect of
       // refreshing the page object
+      $page->engine = $request->getParameter('engine', '');
       $page->save();
       $page->setTitle(htmlspecialchars($title));
       return $this->redirect($page->getUrl());

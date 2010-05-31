@@ -50,7 +50,7 @@ These are mostly links to independent modules.
 					<li>
 						<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button">Page Settings</a>			
 					</li>				
-					<li><?php include_partial('a/createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
+					<li><?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?></li>
 				<?php endif ?>
   		</ul>
   	</div>
