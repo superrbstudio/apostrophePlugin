@@ -11,15 +11,11 @@
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
   <ul id="a-media-selection-preview">
-  <?php foreach ($items as $item): ?>
-    <li id="a-media-selection-preview-<?php echo $item->getId() ?>" class="a-media-selection-preview-item">
-      <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('crop_constraints'))) ?>" />
-    </li>
-  <?php endforeach; ?>
+  <?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
   </ul>
   
   <ul class="a-controls a-media-crop-controls">
-		<li><?php echo link_to(__("Set Crop", null, 'apostrophe'), "aMedia/crop", array("class"=>"a-btn save")) ?></li>
+		<li><?php echo jq_link_to_function(__("Set Crop", null, 'apostrophe'), "aCrop.setCrop('".url_for('aMedia/multipleCrop')."')", array("class"=>"a-btn save")) ?></li>
  	  <li><?php echo jq_link_to_function(__("Reset", null, 'apostrophe'), "aCrop.resetCrop()", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
   </ul>
 

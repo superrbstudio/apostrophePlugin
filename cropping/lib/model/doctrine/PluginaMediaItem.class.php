@@ -221,8 +221,48 @@ EOM
   {
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
 
-    return "aMediaBackend/image?" . http_build_query(
-      array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
-        "resizeType" => $options['resizeType'], "format" => $options['format']));
+    $params = array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
+      "resizeType" => $options['resizeType'], "format" => $options['format']);
+
+    // check for null because 0 is valid
+    if (!is_null($options['cropLeft']) && !is_null($options['cropTop']) && !is_null($options['cropWidth']) && !is_null($options['cropHeight']))
+    {
+      $params = array_merge(
+        $params,
+        array("cropLeft" => $options['cropLeft'], "cropTop" => $options['cropTop'],
+          "cropWidth" => $options['cropWidth'], "cropHeight" => $options['cropHeight'])
+      );
+    }
+
+    return "aMediaBackend/image?" . http_build_query($params);
+  }
+  
+  public function getCropThumbnailUrl()
+  {    
+    $selectedConstraints = aMediaTools::getOption('selected_constraints');
+    
+    if ($aspectRatio = aMediaTools::getAspectRatio()) // this returns 0 if aspect-width and aspect-height were not set
+    {
+      $selectedConstraints = array_merge(
+        $selectedConstraints, 
+        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
+      );
+      
+      $imageInfo = aMediaTools::getAttribute('imageInfo');
+      if (isset($imageInfo[$this->id]) && isset($imageInfo[$this->id]['cropLeft']) && isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
+      {
+        $selectedConstraints = array_merge(
+          $selectedConstraints, 
+          array(
+            'cropLeft' => $imageInfo[$this->id]['cropLeft'],
+            'cropTop' => $imageInfo[$this->id]['cropTop'],
+            'cropWidth' => $imageInfo[$this->id]['cropWidth'],
+            'cropHeight' => $imageInfo[$this->id]['cropHeight']
+          )
+        );
+      }
+    }
+    
+    return $this->getScaledUrl($selectedConstraints);
   }
 }

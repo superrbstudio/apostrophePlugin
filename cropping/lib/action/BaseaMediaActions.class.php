@@ -47,7 +47,7 @@ class BaseaMediaActions extends aEngineActions
     foreach ($items as $item)
     {
       $ids[] = $item->getId();
-      $info = array('width' => $item->getWidth(), $item->getHeight());
+      $info = array('width' => $item->getWidth(), 'height' => $item->getHeight());
       if ($request->hasParameter('crops'))
       {
         $crops = $request->getParameter('crops');
@@ -210,7 +210,7 @@ class BaseaMediaActions extends aEngineActions
   }
   
   // Accept and store cropping information for a particular image which must already be part of the selection
-  public function executeCrop(sfRequest $request)
+  protected function setCrop(sfRequest $request)
   {
     $selection = aMediaTools::getSelection();
     $id = $request->getParameter('id');
@@ -224,12 +224,17 @@ class BaseaMediaActions extends aEngineActions
     $cropWidth = floor($request->getParameter('cropWidth'));
     $cropHeight = floor($request->getParameter('cropHeight'));
     $imageInfo = aMediaTools::getAttribute('imageInfo');
-    $imageInfo[$item->id]['cropLeft'] = $cropLeft;
-    $imageInfo[$item->id]['cropTop'] = $cropTop;
-    $imageInfo[$item->id]['cropWidth'] = $cropWidth;
-    $imageInfo[$item->id]['cropHeight'] = $cropHeight;
+    $imageInfo[$id]['cropLeft'] = $cropLeft;
+    $imageInfo[$id]['cropTop'] = $cropTop;
+    $imageInfo[$id]['cropWidth'] = $cropWidth;
+    $imageInfo[$id]['cropHeight'] = $cropHeight;
     aMediaTools::setAttribute('imageInfo', $imageInfo);
-    return sfView::NONE;
+  }
+  
+  public function executeMultipleCrop(sfRequest $request)
+  {
+    $this->setCrop($request);
+    return $this->renderComponent('aMedia', 'multipleList');
   }
   
   public function executeMultipleAdd(sfRequest $request)
@@ -249,8 +254,8 @@ class BaseaMediaActions extends aEngineActions
     aMediaTools::setSelection($selection);
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     // Make no attempt to scrub out a previous crop, which could be handy
-    $imageInfo[$id]['width'] = $item->getOriginalWidth();
-    $imageInfo[$id]['height'] = $item->getOriginalHeight();
+    $imageInfo[$id]['width'] = $item->getWidth();
+    $imageInfo[$id]['height'] = $item->getHeight();
     aMediaTools::setAttribute('imageInfo', $imageInfo);
     return $this->renderComponent("aMedia", "multipleList");
   }
@@ -293,6 +298,12 @@ class BaseaMediaActions extends aEngineActions
     $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");
     aMediaTools::setSelection($selection);
     return $this->renderComponent("aMedia", "multipleList");
+  }
+  
+  public function executeUpdateMultiplePreview()
+  {
+    $items = aMediaTools::getSelectedItems();
+    return $this->renderPartial('multiplePreview', array('items' => $items));
   }
   
   public function executeSelected(sfRequest $request)

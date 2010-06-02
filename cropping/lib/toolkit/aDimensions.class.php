@@ -23,6 +23,10 @@ class aDimensions
       throw new sfException("No resizeType parameter in options");
     }
     $resizeType = $options['resizeType'];
+    $cropLeft = isset($options['cropLeft']) ? $options['cropLeft'] : null;
+    $cropTop = isset($options['cropTop']) ? $options['cropTop'] : null;
+    $cropWidth = isset($options['cropWidth']) ? $options['cropWidth'] : null;
+    $cropHeight = isset($options['cropHeight']) ? $options['cropHeight'] : null;
     if (!(isset($options['forceScale']) && $options['forceScale']))
     {
       // Never exceed original size, but don't exceed requested size on the other axis
@@ -53,6 +57,7 @@ class aDimensions
       $format = 'jpg';
     }
     
-    return array("width" => $width, "height" => $height, "format" => $format, "resizeType" => $resizeType);
+    return array("width" => $width, "height" => $height, "format" => $format, "resizeType" => $resizeType,
+      "cropLeft" => $cropLeft, "cropTop" => $cropTop, "cropWidth" => $cropWidth, "cropHeight" => $cropHeight);
   }
 }

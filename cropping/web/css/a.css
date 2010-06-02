@@ -3965,6 +3965,9 @@ margin-bottom: 10px;
 float: left;
 display: inline;
 padding-bottom:10px;
+background-color: #eee;
+border: 1px solid #ccc;
+padding: 10px;
 }
 
 #a-media-selection-list
@@ -3979,6 +3982,7 @@ float: left;
 margin: 0 10px 10px 0;
 cursor: move;
 position: relative;
+background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
 }
 
 .a-media-selection-list-item .a-media-selected-item-drag-overlay,
@@ -4040,6 +4044,7 @@ li.a-media-selection-preview-item.current {
 	top:1px;
 	left:1px;
 	width: 150px;
+	display: none;
 }
 
 #a-media-plugin #a-media-edit-form,

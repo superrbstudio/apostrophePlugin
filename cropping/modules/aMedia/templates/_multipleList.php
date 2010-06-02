@@ -2,14 +2,7 @@
 
 <?php $imageInfo = aMediaTools::getAttribute('imageInfo') ?>
 <?php $ids = aArray::getIds(aMediaTools::getSelection()) ?>
-<?php $aspectRatio = aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-width') ?
-    aMediaTools::getAttribute('aspect-width') / aMediaTools::getAttribute('aspect-height') : 0 ?>
-<?php $selectedConstraints = aMediaTools::getOption('selected_constraints') ?>
-<?php $selectedConstraints = array_merge(
-       $selectedConstraints, 
-       array('height' => floor($selectedConstraints['width'] / $aspectRatio))
-      )
-?>
+<?php $aspectRatio = aMediaTools::getAspectRatio() ?>
 
 <?php foreach ($items as $item): ?>
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
@@ -19,7 +12,7 @@
     array(
       'url' => 'aMedia/multipleRemove?id='.$id,
       'update' => 'a-media-selection-list',
-			'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.')', 
+			'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.'); aMediaUpdatePreview()', 
     ), array(
 			'class'=> 'a-btn icon a-delete no-label',
 			'title' => __('Remove', null, 'apostrophe'), )) ?>
@@ -28,7 +21,7 @@
 
 	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
 	<div class="a-media-selected-item-overlay"></div>
-  <img src="<?php echo url_for($item->getScaledUrl($selectedConstraints)) ?>" />
+  <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" />
 
 </li>
 <?php endforeach ?>
@@ -57,6 +50,16 @@
 		});
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
+	}
+	
+	function aMediaUpdatePreview()
+	{
+	  $('#a-media-selection-preview').load('<?php echo url_for('aMedia/updateMultiplePreview') ?>', function(){
+  	  // the preview images are by default set to display:none
+	    $('#a-media-selection-preview li:first').addClass('current');
+	    // set up cropping again; do hard reset to reinstantiate Jcrop
+	    aCrop.resetCrop(true);
+	  });
 	}
 
 	function aMediaDeselectItem(id)

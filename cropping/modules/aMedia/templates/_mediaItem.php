@@ -10,7 +10,7 @@
     <?php $linkAttributes = 'href = "#" onClick="'. 
       jq_remote_function(array(
 				"update" => "a-media-selection-list",
-				'complete' => "aUI('a-media-selection-list');",  
+				'complete' => "aUI('a-media-selection-list'); aMediaUpdatePreview();",  
         "url" => "aMedia/multipleAdd?id=$id")).'; return false;"' ?>
   <?php else: ?>
     <?php $linkAttributes = 'href = "' . url_for("aMedia/selected?id=$id") . '"' ?>
