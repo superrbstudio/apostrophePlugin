@@ -162,7 +162,7 @@ EOM
       $controller = sfContext::getInstance()->getController();
       $slug = $this->getSlug();
       // Use named routing rule to ensure the desired result (and for speed)
-      return "<img alt=\"$title\" src='" . $controller->genUrl("@a_media_image?" . 
+      return "<img alt=\"$title\" width=\"$width\" height=\"$height\" src='" . $controller->genUrl("@a_media_image?" . 
         http_build_query(
           array("slug" => $slug, 
             "width" => $width, 
