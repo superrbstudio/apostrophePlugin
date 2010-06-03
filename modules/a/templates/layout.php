@@ -11,8 +11,8 @@
 	<?php include_metas() ?>
 	<?php include_title() ?>
 	<?php // 1.3 and up don't do this automatically (no common filter) ?>
-	<?php include_javascripts() ?>
   <?php include_stylesheets() ?>
+	<?php include_javascripts() ?>
 	<link rel="shortcut icon" href="/favicon.ico" />
 
 	<!--[if lt IE 7]>
