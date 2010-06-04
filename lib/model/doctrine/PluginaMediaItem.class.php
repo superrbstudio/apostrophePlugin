@@ -159,23 +159,38 @@ EOM
     }
     elseif (($this->getType() == 'image') || ($this->getType() == 'pdf'))
     {
-      $controller = sfContext::getInstance()->getController();
-      $slug = $this->getSlug();
       // Use named routing rule to ensure the desired result (and for speed)
-      return "<img alt=\"$title\" width=\"$width\" height=\"$height\" src='" . $controller->genUrl("@a_media_image?" . 
-        http_build_query(
-          array("slug" => $slug, 
-            "width" => $width, 
-            "height" => $height, 
-            "resizeType" => $resizeType,
-            "format" => $format)), $absolute) .
-            "' />";
+      return "<img alt=\"$title\" width=\"$width\" height=\"$height\" src='" . htmlspecialchars($this->getImgSrcUrl($width, $height, $resizeType, $format, $absolute)) . "' />";
     }
     else
     {
       throw new Exception("Unknown media type in getEmbedCode: " . $this->getType() . " id is " . $this->id . " is new? " . $this->isNew());
     }
   }
+  
+  // This is currently allowed for all types, although a PDF will give you a plain white box if you
+  // don't have ghostscript available
+  
+  public function getImgSrcUrl($width, $height, $resizeType, $format = 'jpg', $absolute = false)
+  {
+    if ($height === false)
+    {
+      // Scale the height. I had this backwards
+      $height = floor(($width * $this->height / $this->width) + 0.5); 
+    }
+
+    $controller = sfContext::getInstance()->getController();
+    $slug = $this->getSlug();
+    // Use named routing rule to ensure the desired result (and for speed)
+    return $controller->genUrl("@a_media_image?" . 
+      http_build_query(
+        array("slug" => $slug, 
+          "width" => $width, 
+          "height" => $height, 
+          "resizeType" => $resizeType,
+          "format" => $format)), $absolute);
+  }
+  
   protected function youtubeUrlToEmbeddedUrl($url)
   {
     $url = str_replace("/watch?v=", "/v/", $url);
