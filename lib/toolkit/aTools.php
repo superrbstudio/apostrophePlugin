@@ -567,6 +567,31 @@ class aTools
   
   static public function getVariantsForSlotType($type, $options = array())
   {
+    // 1. By default, all variants of the slot are allowed.
+    // 2. If app_a_allowed_variants is set and a specific list of allowed variants
+    // is provided for this slot type, those variants are allowed.
+    // 3. If app_a_allowed_variatns is set and a specific list is not present for this slot type,
+    // no variants are allowed for this slot type.
+    // 4. An allowed_variants option in an a_slot or a_area call overrides all of the above.
+    
+    // This makes it easy to define lots of variants, then disable them by default for 
+    // templates that don't explicitly enable them. This is useful because variants are often
+    // specific to the dimensions or other particulars of a particular template
+
+    if (sfConfig::has('app_a_allowed_slot_variants'))
+    {
+      $allowedVariantsAll = sfConfig::get('app_a_allowed_slot_variants', array());
+      $allowedVariants = array();
+      if (isset($allowedVariantsAll[$type]))
+      {
+        $allowedVariants = $allowedVariantsAll[$type];
+      }
+    }
+    if (isset($options['allowed_variants']))
+    {
+      $allowedVariants = $options['allowed_variants'];
+    }
+    
     $variants = sfConfig::get('app_a_slot_variants');
     if (!is_array($variants))
     {
@@ -577,9 +602,9 @@ class aTools
       return array();
     }
     $variants = $variants[$type];
-    if (isset($options['allowed_variants']))
+    if (isset($allowedVariants))
     {
-      $allowed = array_flip($options['allowed_variants']);
+      $allowed = array_flip($allowedVariants);
       $keep = array();
       foreach ($variants as $name => $value)
       {
