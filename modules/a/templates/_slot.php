@@ -72,14 +72,12 @@
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls-item variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(view).find('.editing-now').removeClass('editing-now');
  			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
   	});
 
 		// SAVE 
   	$('#a-slot-form-submit-<?php echo $id ?>').click(function(){
-  			$(this).parents('.a-slot').find('.a-slot-controls .edit').removeClass('editing-now');
-  			$(this).parents('.a-area.editing-now').removeClass('editing-now').find('.a-area-controls .edit').removeClass('editing-now'); // for singletons
+  			$(this).parents('.a-area').find('.editing-now').removeClass('editing-now');
   			window.apostrophe.callOnSubmit('<?php echo $id ?>');
   			return true;
   	});
