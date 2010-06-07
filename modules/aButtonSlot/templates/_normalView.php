@@ -14,11 +14,22 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
+  	<li class="a-controls-item choose-image">
+  	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+  	</li>
 			<?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page, 'controlsSlot' => false)) ?>
-	  	<li class="a-controls-item choose-image">
-	  	  <?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
-	  	</li>
-<?php end_slot() ?>
+  <?php end_slot() ?>
+<?php endif ?>
+
+<?php if (!$item): ?>
+	<?php if (isset($options['singleton']) != true): ?>
+		<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
+		<?php (isset($options['height']))? $height = $options['height'] : $height = ((isset($options['width']))? floor($options['width']*.56):'100'); ?>		
+		<?php $style .= 'height:'.$height.'px;' ?>
+		<div class="a-media-placeholder" style="<?php echo $style ?>">
+			<span style="line-height:<?php echo $height ?>px;"><?php echo __("Create a Button", null, 'apostrophe') ?></span>
+		</div>
+	<?php endif ?>
 <?php endif ?>
 
 <?php if ($item): ?>
@@ -26,7 +37,7 @@
     <li class="a-button-image">
     <?php $embed = str_replace(
       array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-      array($dimensions['width'],
+      array($dimensions['width'], 
         $dimensions['height'],
         $dimensions['resizeType'],
         $dimensions['format']),
@@ -43,7 +54,8 @@
       <li class="a-button-description"><?php echo $item->description ?></li>
     <?php endif ?>
   </ul>
-<?php elseif ($defaultImage): ?>
+<?php else: ?>
+  <?php if ($defaultImage): ?>
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
@@ -54,34 +66,27 @@
         <?php endif ?>
       </li>
     </ul>
-<?php else: ?>
-   <?php if ($link): ?>
-			<a class="a-button-link" href="<?php echo $link ?>"><?php echo $img_title ?></a>
-    <?php endif ?>
-		<?php if ($editable && !($link)): ?>
-		  <?php echo __('Click edit to add a link.', null, 'apostrophe') ?>
-		<?php endif ?>
+  <?php endif ?>
 <?php endif ?>
 
-
-
+<?php // TODO: Get this JS out of here and into an external JS file ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 
 		var btnImg = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> li.a-button-image a img');
-		var btnTitle = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> a.a-button-link');
+		var btnTitle = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> a.a-button-link');		
 
 		btnImg.hover(function(){
 			btnImg.fadeTo(0,.5);
 		},function(){
-			btnImg.fadeTo(0,1);
+			btnImg.fadeTo(0,1);			
 		});
 
 		btnTitle.hover(function(){
 			btnImg.fadeTo(0,.5);
 		},function(){
-			btnImg.fadeTo(0,1);
-		});
-
+			btnImg.fadeTo(0,1);			
+		});		
+		
 	});
 </script>
