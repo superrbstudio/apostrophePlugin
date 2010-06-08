@@ -28,11 +28,12 @@
 
 <script type="text/javascript" charset="utf-8">
 
-	function aMediaItemsIndicateSelected(params)
+	function aMediaItemsIndicateSelected(cropOptions)
 	{
-	  var ids = params.ids;
-	  aCrop.init(params);
-		$('.a-media-selected-overlay').remove();
+	  var ids = cropOptions.ids;
+	  aCrop.init(cropOptions);
+		$('.a-media-selected-overlay').remove();		
+		$('.a-media-selected').removeClass('a-media-selected');
 		
 	  var i;
 	  for (i = 0; (i < ids.length); i++)
@@ -81,7 +82,7 @@
       <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
       imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
     };
-	  	  
+	  
 		aMediaItemsIndicateSelected(cropOptions);
 		
 		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay

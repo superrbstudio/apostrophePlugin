@@ -5,8 +5,6 @@ aCrop = {
   options: {
     ids: [],
     aspectRatio: 0,
-    minimumWidth: 0,
-    minimumHeight: 0,
     imageInfo: {}
   },
   
@@ -18,28 +16,31 @@ aCrop = {
   },
    
   init: function(options){
+    aCrop.setOptions(options);
     
     if (!aCrop.api) { // don't do this stuff after each ajax crop
-      $(aCrop.el.previewList).find('li').eq(0).addClass('current');
-    
-      $.extend(aCrop.options, options);
-    
+      $(aCrop.el.previewList).find('li').eq(0).addClass('current');    
       aCrop.startCrop();
     }
     
     $(aCrop.el.slideshowList).find('li').click(aCrop.thumbnailClickHandler);
   },
   
+  setOptions: function(options){
+    $.extend(aCrop.options, options);
+  },
+  
   startCrop: function(){
     aCrop.stopCrop();
     
     var cropEl = aCrop.findPreviewImage();
+    var imageInfo = aCrop.getCurrentImageInfo();
         
     aCrop.api = $.Jcrop(cropEl);
     aCrop.api.setOptions({
       allowSelect: false,
       aspectRatio: aCrop.options.aspectRatio,
-      minSize: [aCrop.options.minimumWidth, aCrop.options.minimumHeight]
+      maxSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
     
@@ -54,6 +55,15 @@ aCrop = {
   
   findPreviewImage: function(){
     return $(aCrop.el.previewList).find('li.current img');
+  },
+  
+  getCurrentImageInfo: function(){
+    var id = aCrop.getPreviewMediaId();
+    if (id && aCrop.options.imageInfo && aCrop.options.imageInfo[id])
+    {
+      return aCrop.options.imageInfo[id];
+    }
+    return false;
   },
   
   getPreviewMediaId: function(){
@@ -73,22 +83,28 @@ aCrop = {
     aCrop.startCrop();
   },
   
-  setAspectMask: function(el){    
-    if (aCrop.options.aspectRatio > 1) {
-      var cropWidth = $(el).width();
-      var cropHeight = cropWidth / aCrop.options.aspectRatio;
-    } else {
-      var cropHeight = $(el).height();
-      var cropWidth = cropHeight * aCrop.options.aspectRatio;
+  setAspectMask: function(el){
+    var imageInfo = aCrop.getCurrentImageInfo();
+
+    if (!imageInfo || !imageInfo.cropWidth) {
+      var imageInfo = {};
+      if (aCrop.options.aspectRatio > 1) {
+        imageInfo.cropWidth = $(el).width();
+        imageInfo.cropHeight = Math.floor(imageInfo.cropWidth / aCrop.options.aspectRatio);
+      } else {
+        imageInfo.cropHeight = $(el).height();
+        imageInfo.cropWidth = Math.floor(imageInfo.cropHeight * aCrop.options.aspectRatio);
+      }
+
+      imageInfo.cropLeft = 0;
+      imageInfo.cropTop = Math.floor(($(el).height() - imageInfo.cropHeight) / 2);
     }
     
-    var cropY = ($(el).height() - cropHeight) / 2;
-        
     var coords = [
-      0,
-      cropY,
-      cropY + cropWidth,
-      cropY + cropHeight
+      imageInfo.cropLeft,
+      imageInfo.cropTop,
+      imageInfo.cropLeft + imageInfo.cropWidth,
+      imageInfo.cropTop + imageInfo.cropHeight
     ];
     
     aCrop.api.setSelect(coords);
@@ -97,22 +113,28 @@ aCrop = {
   setCrop: function(url){
     var mediaId = aCrop.getPreviewMediaId();  
     var coords = aCrop.api.tellSelect();
+    var $img = aCrop.findPreviewImage();
+    var $tmb = $(aCrop.el.slideshowList).find('li.a-media-selection-list-item').eq(0);
     var params = {
       id: mediaId,
       cropLeft: coords.x,
       cropTop: coords.y,
       cropWidth: coords.w,
-      cropHeight: coords.h
+      cropHeight: coords.h,
+      scaleWidth: $img.width(),
+      scaleHeight: $img.height()
     };
         
     var thumbWH = {
-      width: $(aCrop.el.slideshowList).find('li.a-media-selection-list-item').eq(0).width() + 'px',
-      height: $(aCrop.el.slideshowList).find('li.a-media-selection-list-item').eq(0).height() + 'px'
+      width: $tmb.width() + 'px',
+      height: $tmb.height() + 'px'
     };
     
     $.post(url, params, function(response){
       $(aCrop.el.slideshowList).html(response)
         .find('li.a-media-selection-list-item').css(thumbWH); // set width/height on <li> so while image loads there isn't a jump
+      // make sure delete button is visible
+      aUI("a-media-selection-list");
     });
   },
   

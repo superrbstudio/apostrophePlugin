@@ -226,7 +226,7 @@ EOM
 
     // check for null because 0 is valid
     if (!is_null($options['cropLeft']) && !is_null($options['cropTop']) && !is_null($options['cropWidth']) && !is_null($options['cropHeight']))
-    {
+    {      
       $params = array_merge(
         $params,
         array("cropLeft" => $options['cropLeft'], "cropTop" => $options['cropTop'],
@@ -249,11 +249,14 @@ EOM
       );
       
       $imageInfo = aMediaTools::getAttribute('imageInfo');
-      if (isset($imageInfo[$this->id]) && isset($imageInfo[$this->id]['cropLeft']) && isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
+      if (isset($imageInfo[$this->id]['scaleWidth']) && isset($imageInfo[$this->id]['scaleHeight']) && isset($imageInfo[$this->id]['cropLeft']) &&
+          isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
       {
         $selectedConstraints = array_merge(
           $selectedConstraints, 
           array(
+            'scaleWidth' => $imageInfo[$this->id]['scaleWidth'],
+            'scaleHeight' => $imageInfo[$this->id]['scaleHeight'],
             'cropLeft' => $imageInfo[$this->id]['cropLeft'],
             'cropTop' => $imageInfo[$this->id]['cropTop'],
             'cropWidth' => $imageInfo[$this->id]['cropWidth'],

@@ -219,11 +219,18 @@ class BaseaMediaActions extends aEngineActions
     {
       $this->forward404();
     }
+    $scaleWidth = floor($request->getParameter('scaleWidth'));
+    $scaleHeight = floor($request->getParameter('scaleHeight'));
     $cropLeft = floor($request->getParameter('cropLeft'));
     $cropTop = floor($request->getParameter('cropTop'));
     $cropWidth = floor($request->getParameter('cropWidth'));
     $cropHeight = floor($request->getParameter('cropHeight'));
     $imageInfo = aMediaTools::getAttribute('imageInfo');
+    $items = aMediaItemTable::retrieveByIds(array($id));
+    $imageInfo[$id]['width'] = $items[0]->getWidth();
+    $imageInfo[$id]['height'] = $items[0]->getHeight();
+    $imageInfo[$id]['scaleWidth'] = $scaleWidth;
+    $imageInfo[$id]['scaleHeight'] = $scaleHeight;
     $imageInfo[$id]['cropLeft'] = $cropLeft;
     $imageInfo[$id]['cropTop'] = $cropTop;
     $imageInfo[$id]['cropWidth'] = $cropWidth;
@@ -249,7 +256,8 @@ class BaseaMediaActions extends aEngineActions
     // the way reordering and deletion work (probably go by index).
     if ($index === false)
     {
-      $selection[] = $id;
+      // $id must be a string or else it comes back null from aArray::getIds()
+      $selection[] = strval($id);
     }
     aMediaTools::setSelection($selection);
     $imageInfo = aMediaTools::getAttribute('imageInfo');
