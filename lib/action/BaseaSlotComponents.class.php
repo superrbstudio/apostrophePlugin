@@ -56,10 +56,10 @@ class BaseaSlotComponents extends sfComponents
         // having side effects on each other's option sets
         $user->setAttribute("slot-original-options-$id-$name-$permid", 
           $this->options, 'apostrophe');
-        if (isset($this->options['allowed_variants']))
-        {
-          $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $this->options['allowed_variants'], 'apostrophe');
-        }
+
+        // Refactored to get rid of duplicate logic
+        $allowedVariants = array_keys(aTools::getVariantsForSlotType($this->type, $this->options));
+        $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $allowedVariants, 'apostrophe');
       }
       $user->setAttribute("slot-options-$id-$name-$permid", 
         $this->options, 'apostrophe');

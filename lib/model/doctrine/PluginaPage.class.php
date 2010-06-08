@@ -573,15 +573,17 @@ abstract class PluginaPage extends BaseaPage
     $ancestors = $this->getAncestorsInfo();
     
     // Dump ancestors we don't care about
+    $found = false;
     for ($i = 0; ($i < count($ancestors)); $i++)
     {
       if ($ancestors[$i]['slug'] === $root)
       {
         $ancestors = array_slice($ancestors, $i);
+        $found = true;
         break;
       }
     }
-    if ($i === count($ancestors))
+    if (!$found)
     {
       throw new sfException("Root slug $root never found among ancestors in getAccordionInfo");
     }
