@@ -89,7 +89,7 @@ class BaseaSlotActions extends sfActions
     $this->page->newAreaVersion(
       $this->name, 
       $this->newSlot ? 'add' : 'update', 
-      array('permid' => $this->permid, 'slot' => $this->slot));
+      array('permid' => $this->permid, 'slot' => $this->slot,  'top' => sfConfig::get('app_a_new_slots_top', true)));
     if ($this->getRequestParameter('noajax'))
     {
       return $this->redirectToPage();
