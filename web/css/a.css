@@ -2552,15 +2552,6 @@ margin: 20px 40px;
 font-style: italic;
 }
 
-.a-slot.aRichText blockquote
-{
-	display: block;
-	float: left;
-	clear: both;
-	display: inline;	
-	margin: 20px 40px;
-}
-
 .a-slot.aRichText h3
 {
 font-size: 150%;
