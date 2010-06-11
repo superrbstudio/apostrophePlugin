@@ -23,6 +23,7 @@ class aNavigationTabs extends aNavigation
       }
     }
     $this->nav = $this->rootInfo;
+    $this->traverse($this->nav);
   }
   
   public function getNav()

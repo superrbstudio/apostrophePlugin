@@ -31,5 +31,32 @@ abstract class aNavigation
 
     $this->buildNavigation();
   }
+
+  public function traverse(&$tree)
+  {
+    foreach($tree as $pos => &$node)
+    {
+      if( isset($node['children']) && count($node['children']) )
+        $this->traverse($node['children']);
+
+      if($node['lft'] < $this->active['lft'] && $node['rgt'] > $this->active['rgt'])
+      {
+        $node['ancestor'] = true;
+        foreach($tree as $pos => &$peer)
+        {
+          if($peer != $node)
+          {
+            $peer['ancestor-peer'] = true;
+          }
+        }
+      }
+
+      if($node['archived'] == true)
+      {
+        if($this->livingOnly)
+          unset($tree[$pos]);
+      }
+    }
+  }
   
 }

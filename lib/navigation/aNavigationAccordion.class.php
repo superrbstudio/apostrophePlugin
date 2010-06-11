@@ -23,21 +23,6 @@ class aNavigationAccordion extends aNavigation
     $this->traverse($this->nav);
   }
   
-  public function traverse(&$tree)
-  {
-    foreach($tree as $pos => &$node)
-    { 
-      if( isset($node['children']) && count($node['children']) )
-        $this->traverse($node['children']);
-        
-      if($node['archived'] == true)
-      {
-        if($this->livingOnly)
-          unset($tree[$pos]);
-      }
-    }  
-  }
-  
   public function getNav()
   {
     return $this->nav;
