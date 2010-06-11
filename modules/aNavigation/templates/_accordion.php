@@ -3,6 +3,9 @@
   <?php foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;
         if($item['slug'] == $active) echo ' a-current-page';
+        if(isset($item['ancestor'])) echo ' ancestor';
+        //Most people probably don't want this class, lets not clutter things up too much
+        //if(isset($item['ancestor-peer'])) echo ' ancestor-peer';
         if(isset($item['extra'])) echo ' a-extra-page';
         if($item['archived']) echo ' a-archived-page';
         if($item['view_is_secure']) echo ' a-secure-page';
