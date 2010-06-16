@@ -36,6 +36,7 @@
 	      $('#a-slot-form-<?php echo $id ?>').serialize(), 
 	      function(data) {
 	        $('#a-slot-content-<?php echo $id ?>').html(data);
+					aUI($('#a-slot-<?php echo $id ?>'));
 	      }, 
 	      'html'
 	    );
@@ -72,14 +73,16 @@
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls-item variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
+  		$(view).find('.editing-now').removeClass('editing-now');
  			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
   	});
 
 		// SAVE 
   	$('#a-slot-form-submit-<?php echo $id ?>').click(function(){
-  			$(this).parents('.a-area').find('.editing-now').removeClass('editing-now');
-  			window.apostrophe.callOnSubmit('<?php echo $id ?>');
-  			return true;
+  		$(view).find('.editing-now').removeClass('editing-now');
+ 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+ 			window.apostrophe.callOnSubmit('<?php echo $id ?>');
+ 			return true;
   	});
 
 	<?php if ($showEditor): ?>
@@ -121,8 +124,8 @@
   <?php if (isset($validationData['form']) && !$validationData['form']->isValid()): ?>
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
-      aUI();
-    })
+			aUI($('#a-slot-<?php echo $id ?>'));
+	   });
   </script>
   <?php endif; ?>
 
