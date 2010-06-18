@@ -1,0 +1,24 @@
+.tree-punk li.open { background-image:url("minus.gif"); background-position:2px 5px; }
+.tree-punk li.closed, #jstree-dragged.tree-punk li li.open { background-image:url("plus.gif"); background-position:2px 5px; }
+.tree-punk li a, .tree-punk li.alive a, .tree-punk li span { background-image:url("/apostrophePlugin/images/a-icon-page.png"); }
+.tree-punk li.archived a, .tree-punk li.archived span { background-image:url("/apostrophePlugin/images/a-icon-page-archived.png"); }
+.tree-punk li.archived a, .tree-punk li.engine-aBlog a { background-image:url("/apostrophePlugin/images/a-icon-page-blog.png"); }
+.tree-punk li.archived a, .tree-punk li.engine-aEvent a { background-image:url("/apostrophePlugin/images/a-icon-page-events.png"); }
+.tree-punk li.archived a, .tree-punk li.engine-aMedia a { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }
+.tree-punk .rtl li.closed, #jstree-dragged.tree-punk .rtl li li.open { background-image:url("plus_rtl.gif"); }
+.tree-punk li a:hover { background-color:#999; border-color:#999; color:#fff; }
+.tree-punk li a.clicked, .tree-punk li a.clicked:hover, .tree-punk li span.clicked { background-color:#333; border-color:#333; color:#fff; }
+/* RIGHT TO LEFT SUPPORT */
+.tree-punk .rtl li.open { background:url("minus_rtl.gif") right 6px no-repeat;  }
+.tree-punk .rtl li.closed { background:url("plus_rtl.gif") right 4px no-repeat; }
+.tree-punk .rtl li li.open, .tree-punk .rtl li li.closed { padding-right:19px; margin-right:-3px; }
+#jstree-dragged.tree-punk .rtl li li.open { background:url("plus_rtl.gif") right 4px no-repeat; }
+
+/* SCROLLING BACKGROUND */
+.tree-punk .ltr, .tree-punk .rtl { background:url("bg.jpg") left top repeat; min-width:100%; _width:100%; margin-left:0; margin-right:0; }
+.tree-punk .ltr > li.leaf, .tree-punk .rtl > li.leaf { background-image:none; }
+.tree-punk > ul > li.last { height:auto !important; margin-bottom:auto !important; background-image:none; }
+#jstree-dragged.tree-punk .rtl, #jstree-dragged.tree-punk .ltr { min-width:auto; _width:auto; }
+
+/* IE6 
+* html .tree-punk ul li.leaf { _background-image: expression(/DIV/.test(this.parentNode.parentNode.tagName) ? "none" : "inherit"); }*/

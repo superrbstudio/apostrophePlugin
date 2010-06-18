@@ -1,0 +1,1 @@
+<?php // Rendered when there is no engine active for the page or the engine has no settings form ?>
