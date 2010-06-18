@@ -12,7 +12,7 @@ class aEngineTools
     // Figure out where we are all over again, because there seems to be no clean way
     // to get the same controller-free URL that the routing engine gets. TODO:
     // ask Fabien how we can do that.
-    $uri = $actions->getRequest()->getUri();
+    $uri = urldecode($actions->getRequest()->getUri());
     $uriPrefix = $actions->getRequest()->getUriPrefix();
     $uri = substr($uri, strlen($uriPrefix));
     if (preg_match("/^\/[^\/]+\.php(.*)$/", $uri, $matches))
