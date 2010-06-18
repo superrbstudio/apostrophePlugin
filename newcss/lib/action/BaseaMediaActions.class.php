@@ -19,9 +19,7 @@ class BaseaMediaActions extends aEngineActions
 				$this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
 			}
     }
-    
- 		//$this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
-   	$this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
+    $this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
     $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
     $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		

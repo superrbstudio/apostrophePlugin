@@ -112,6 +112,9 @@ function aUI(target)
 	{ 
 		aOverrides(); 	
 	}
+	
+	$('.a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form, .a-controls, .a-options').addClass('clearfix');
+	
 }
 
 function aIE6(authenticated, message)
@@ -183,13 +186,19 @@ function aMenuToggle(button, menu, classname, overlay)
 	}
 }
 
-function aAccordion(header)
+function aAccordion(heading)
 {
-	if (typeof header == "string") { header = $(header); }
-	header.click(function() {
+	if (typeof heading == "string") { heading = $(heading); }
+	heading.click(function() {
 		$(this).parent().toggleClass('open');
 		return false;
 	}).parent().addClass('a-accordion');
+	/* Example Mark-up 
+	<div class="a-accordion-item">
+		<h3>Heading</h3>    header = $('.a-accordion-item h3)
+		<div>Content</div>
+	</div>
+	*/
 }
 
 

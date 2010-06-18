@@ -16,7 +16,6 @@ function _a_required_assets()
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
   {
-    // $response->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
     $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
   }
 
