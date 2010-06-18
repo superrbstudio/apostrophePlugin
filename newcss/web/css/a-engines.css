@@ -84,10 +84,7 @@ padding-right: 20px;
 background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
 }
 
-.a-subnav-wrapper a.selected:hover
-{
-background-position: bottom right;
-}
+.a-subnav-wrapper a.selected:hover { background-position: 100% 100%; }
 
 .a-subnav-wrapper hr
 {
@@ -173,11 +170,7 @@ clear: left;
 width: 150px;
 }
 
-.a-search-form input.submit:hover
-{
-background-position: 0 -20px;
-cursor: pointer;
-}
+.a-search-form input.submit:hover { background-position: 0 -20px; cursor: pointer; }
 
 a#a-media-search-remove
 {
@@ -195,10 +188,7 @@ overflow: hidden;
 text-indent: -9999px !important;
 }
 
-a#a-media-search-remove:hover
-{
-background-position: bottom left;
-}
+a#a-media-search-remove:hover { background-position: 0 100%; }
 
 .a-search-video
 {
@@ -882,21 +872,11 @@ width: 100%;
 margin-bottom: 10px;
 }
  
-.a-tag-sidebar-list li
-{
-margin: 0 0 5px 0;
-}
+.a-tag-sidebar-list li { margin: 0 0 5px 0; }
 
-.a-tag-sidebar .a-tag-sidebar-tag-count
-{
-color: #fff;
-}
+.a-tag-sidebar .a-tag-sidebar-tag-count { color: #fff; }
 
-.a-tag-sidebar .a-tag-sidebar-title
-{
-	float: left;
-	width: 100%;
-}
+.a-tag-sidebar .a-tag-sidebar-title { float: left; 	width: 100%; }
 
 .a-subnav-section .a-tag-sidebar-title.all-tags,
 .a-tag-sidebar .a-tag-sidebar-title.all-tags
@@ -911,28 +891,15 @@ margin: 10px 0 5px 0;
 }
 
 .a-subnav-section .a-tag-sidebar-title.all-tags.open,
-.a-tag-sidebar .a-tag-sidebar-title.all-tags.open
-{
-background-position: -6px -20px;
-}
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open { background-position: -6px -20px; }
 
 .a-subnav-section .a-tag-sidebar-title.all-tags.over,
-.a-tag-sidebar .a-tag-sidebar-title.all-tags.over
-{
-color: #333;
-background-position: -6px 0px;
-}
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.over { color: #333; background-position: -6px 0px; }
 
 .a-subnav-section .a-tag-sidebar-title.all-tags.open.over,
-.a-tag-sidebar .a-tag-sidebar-title.all-tags.open.over
-{
-background-position: -6px -60px;
-}
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open.over { background-position: -6px -60px; }
 
-.a-tag-sidebar-list.all-tags
-{
-display: none;
-}
+.a-tag-sidebar-list.all-tags { display: none; }
 
 
 

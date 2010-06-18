@@ -70,7 +70,12 @@ background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-rep
 text-indent: -9999px;
 }
 
-.a-archived-page a
-{ /* aUI(); Makes Unpublished pages 50% Opacity */
-text-decoration: line-through;
+.a-accordion .content
+{ /* Works with aAccordion() in aUI.js */
+	display: none;
+}
+
+.a-accordion.open .content
+{
+	display: block;
 }

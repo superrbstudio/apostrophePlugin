@@ -27,6 +27,7 @@ border-radius: 2px;
 	border:1px solid rgba(20,20,20,.2);	
 }
 
+#the-apostrophe:hover,
 .a-btn:focus,
 .a-btn:hover,
 .a-btn:hover span
@@ -71,6 +72,7 @@ ul.a-controls .a-variant-options
 border-color: rgb(255,150,0);
 }
 
+.a-attribution a,
 .a-admin .a-admin-content a:link, 
 .a-admin .a-admin-content a:visited,
 #a-global-toolbar #a-logged-in-as span,

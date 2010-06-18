@@ -185,10 +185,7 @@ background-position: 0 0;
 cursor: pointer;
 }
 
-ul.a-slideshow-controls li.over
-{
-	background-position: 0 -20px;
-}
+ul.a-slideshow-controls li.over { background-position: 0 -20px; }
 
 ul.a-slideshow-controls a
 {
@@ -816,7 +813,6 @@ ul.a-controls .a-variant-options.loading
 {
 	padding: 0;
 }
-
 
 .aBlogSingle .a-blogsingle-input
 {

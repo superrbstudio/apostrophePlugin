@@ -113,6 +113,7 @@ function aUI(target)
 		aOverrides(); 	
 	}
 	
+	// Temporary clearfix test
 	$('.a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form, .a-controls, .a-options').addClass('clearfix');
 	
 }
