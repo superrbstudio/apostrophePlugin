@@ -1302,7 +1302,7 @@ abstract class PluginaPage extends BaseaPage
     {
       return;
     }
-    $this->slug = $newPath;
+    $this->slug = $this->findAndFixSlugConflict($newPath);
     $this->save();
     Doctrine::getTable('aRedirect')->update($path, $this);
     $children = $this->getChildren();
@@ -1336,7 +1336,7 @@ abstract class PluginaPage extends BaseaPage
     if ($this->slug !== $newSlug)
     {
       Doctrine::getTable('aRedirect')->update($this->slug, $this);
-      $this->slug = $newSlug;
+      $this->slug = $this->findAndFixSlugConflict($newSlug);
       $this->save();
       $children = $this->getChildren();
       foreach ($children as $child)
@@ -1384,7 +1384,7 @@ abstract class PluginaPage extends BaseaPage
     
     if ($slug !== $newSlug)
     {
-      $this->slug = $newSlug;
+      $this->slug = $this->findAndFixSlugConflict($newSlug);
       Doctrine::getTable('aRedirect')->update($slug, $this);
       $this->save();
       $children = $this->getChildren();
@@ -1393,7 +1393,31 @@ abstract class PluginaPage extends BaseaPage
         $child->updateParentSlug($slug, $newSlug);
       }
     }
-  }  
+  }
+
+  /**
+   * When renaming a page this function finds any potential conflicts that the
+   * new slug might create and fixes the slug by appending numerical digits to
+   * the slug.
+   * @param <type> $newSlug
+   * @return <type> $fixedSlug
+   */
+  protected function findAndFixSlugConflict($newSlug)
+  {
+    $query = Doctrine::getTable('aPage')->createQuery()
+      ->where('slug = ?');
+    $n = 2;
+    $fixedSlug = $newSlug;
+    do{
+      $conflicts = $query->execute($fixedSlug);
+      if(count($conflicts))
+      {
+        $fixedSlug = $newSlug."-$n";
+      }
+      $n++;
+    } while(count($conflicts));
+    return $fixedSlug;
+  }
 
   // We may need this before we're done
   // protected function str_replace($old, $new, $content)
