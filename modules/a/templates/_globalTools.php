@@ -11,6 +11,7 @@ These are mostly links to independent modules.
 <?php $page = aTools::getCurrentPage() ?>
 <?php $pageEdit = ($page && $page->userHasPrivilege('edit')) || empty($page) ?>
 <?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
+<?php $thisPage = $page && (!$page->admin) && ($cmsAdmin || $pageEdit) ?>
 
 <?php use_helper('I18N') ?>
 
@@ -26,7 +27,7 @@ These are mostly links to independent modules.
   		<?php echo link_to(__('Apostrophe Now', null, 'apostrophe'),'@homepage', array('id' => 'the-apostrophe')) ?>
   		<ul class="a-global-toolbar-buttons a-controls">
 	
-				<?php if ($page && !$page->admin): ?>
+				<?php if ($thisPage): ?>
 					<li><a href="#" class="a-btn icon a-page-small" onclick="return false;" id="a-this-page-toggle"><?php echo __('This Page', null, 'apostrophe') ?></a></li>
 				<?php endif ?>
   			<?php foreach ($buttons as $button): ?>
@@ -50,7 +51,7 @@ These are mostly links to independent modules.
 	</div>
 		
 	<?php // Administrative Breadcrumb ?>
- 	<?php if ($page && (!$page->admin) && $cmsAdmin && $pageEdit): ?>
+ 	<?php if ($thisPage): ?>
 	<div class="a-global-toolbar-this-page" id="a-global-toolbar-this-page">
  		<?php include_component('a', 'breadcrumb') # Breadcrumb Navigation ?>
  		<div id="a-page-settings"></div>
