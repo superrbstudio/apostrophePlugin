@@ -1,11 +1,6 @@
 <?php
 
-class aMediaSearchForm extends BaseForm
+class aMediaSearchForm extends BaseaMediaSearchForm
 {
-  public function configure()
-  {
-    $this->setWidget('search', new sfWidgetFormInputText(array(), array('id' => 'a-media-search', 'class' => 'a-search-field')));
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
-  }
+  // You can override me with a project-level version that also extends BaseaMediaSearchForm
 }
