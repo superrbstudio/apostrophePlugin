@@ -52,8 +52,24 @@
       <?php echo $form['credit']->render() ?>
     </div>
 
+    <div class="a-form-row categories">
+			<?php echo $form['media_categories_list']->renderLabel() ?>
+			<?php echo $form['media_categories_list']->renderError() ?>
+			<?php echo $form['media_categories_list']->render() ?>
+		</div>
+
+    <div class="a-form-row tags help">
+    <?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
+    </div>
+
+    <div class="a-form-row tags">
+      <?php echo $form['tags']->renderLabel() ?>
+      <?php echo $form['tags']->renderError() ?>
+      <?php echo $form['tags']->render() ?>
+    </div>
+
     <div class="a-form-row permissions help">
-			<?php echo __('Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
+			<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
     </div>
 
 		<div class="a-form-row permissions">
@@ -71,22 +87,6 @@
 			<?php endif ?>
 
 		</div>
-
-    <div class="a-form-row categories">
-			<?php echo $form['media_categories_list']->renderLabel() ?>
-			<?php echo $form['media_categories_list']->renderError() ?>
-			<?php echo $form['media_categories_list']->render() ?>
-		</div>
-
-    <div class="a-form-row tags help">
-    <?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
-    </div>
-
-    <div class="a-form-row tags">
-      <?php echo $form['tags']->renderLabel() ?>
-      <?php echo $form['tags']->renderError() ?>
-      <?php echo $form['tags']->render() ?>
-    </div>
 
    <?php if ($item): ?>
     <ul class="a-controls a-media-form-footer">

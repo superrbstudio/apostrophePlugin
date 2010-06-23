@@ -55,12 +55,6 @@
       <?php echo $form['credit']->render() ?>
     </div>
 
-    <div class="a-form-row permissions">
-      <?php echo $form['view_is_secure']->renderLabel() ?>
-      <?php echo $form['view_is_secure']->renderError() ?>
-      <?php echo $form['view_is_secure']->render() ?>
-    </div>
-
     <div class="a-form-row categories">
 			<?php echo $form['media_categories_list']->renderLabel() ?>
 			<?php echo $form['media_categories_list']->renderError() ?>
@@ -75,6 +69,12 @@
       <?php echo $form['tags']->renderLabel() ?>
       <?php echo $form['tags']->renderError() ?>
       <?php echo $form['tags']->render(array("id" => "a-media-pdf-tags")) ?>
+    </div>
+
+    <div class="a-form-row permissions">
+      <?php echo $form['view_is_secure']->renderLabel() ?>
+      <?php echo $form['view_is_secure']->renderError() ?>
+      <?php echo $form['view_is_secure']->render() ?>
     </div>
 
     <ul class="a-controls a-media-edit-footer">
