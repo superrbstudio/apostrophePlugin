@@ -78,21 +78,10 @@
 		</div>
 	</div>
 	
-	<hr/>
-
 	<div class="a-page-settings-section page-permissions">
 		<h4 class="a-page-settings-section-head header"><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
+    <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin)) ?>
 	
-		<div class="a-page-permissions content">
-		  <?php include_partial('a/privileges', 
-		    array('form' => $form, 'widget' => 'editors',
-		      'label' => 'Editors', 'inherited' => $inherited['edit'],
-		      'admin' => $admin['edit'])) ?>
-		  <?php include_partial('a/privileges', 
-		    array('form' => $form, 'widget' => 'managers',
-		      'label' => 'Managers', 'inherited' => $inherited['manage'],
-		      'admin' => $admin['manage'])) ?>
-			</div>
 	</div>
 
 	<hr/>
