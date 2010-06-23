@@ -1002,6 +1002,7 @@ abstract class PluginaPage extends BaseaPage
   {
     $this->slotCache = false;
   }
+
   public function getAccessesById($privilege)
   {
     $candidateGroup = sfConfig::get('app_a_' . $privilege . '_candidate_group', false);

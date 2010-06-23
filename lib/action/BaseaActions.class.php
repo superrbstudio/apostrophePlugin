@@ -450,6 +450,14 @@ class BaseaActions extends sfActions
     $mainFormValid = false;
     
     $engine = $this->page->engine;
+
+    // This might make more sense in some kind of read-only form control.
+    // TODO: cache the first call that the form makes so this doesn't
+    // cause more db traffic.
+    $this->inherited = array();
+    $this->admin = array();
+    $this->addPrivilegeLists('edit');
+    $this->addPrivilegeLists('manage');
     
     if ($request->hasParameter('settings'))
     {
@@ -501,14 +509,6 @@ class BaseaActions extends sfActions
         }
       }
     }
-    
-    // This might make more sense in some kind of read-only form control.
-    // TODO: cache the first call that the form makes so this doesn't
-    // cause more db traffic.
-    $this->inherited = array();
-    $this->admin = array();
-    $this->addPrivilegeLists('edit');
-    $this->addPrivilegeLists('manage');
   }
   
   public function executeEngineSettings(sfWebRequest $request)
@@ -535,7 +535,7 @@ class BaseaActions extends sfActions
       }
     }    
   }
-
+  
   protected function addPrivilegeLists($privilege)
   {
     list($all, $selected, $inherited, $sufficient) = $this->page->getAccessesById($privilege);

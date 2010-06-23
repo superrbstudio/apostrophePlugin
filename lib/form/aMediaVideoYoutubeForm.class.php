@@ -1,17 +1,6 @@
 <?php
 
-class aMediaVideoYoutubeForm extends aMediaVideoForm
+class aMediaVideoYoutubeForm extends BaseaMediaVideoYoutubeForm
 {
-  public function configure()
-  {
-    parent::configure();
-    unset($this['embed']);
-    $this->setValidator('service_url',
-      new sfValidatorUrl(
-        array('required' => true, 'trim' => true),
-        array('required' => "Not a valid YouTube URL")));
-    $this->widgetSchema->setFormFormatterName('aAdmin');
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
-  }
+  // You can override me with a project-level version that also extends BaseaMediaVideoYoutubeForm
 }
