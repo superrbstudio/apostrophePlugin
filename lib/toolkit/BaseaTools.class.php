@@ -1,21 +1,21 @@
 <?php
 
-class aTools
+class BaseaTools
 {
   // ALL static variables must go here
   
   // We need a separate flag so that even a non-CMS page can
   // restore its state (i.e. set the page back to null)
-  static private $global = false;
+  static protected $global = false;
   // We now allow fetching of slots from multiple pages, which can be
   // normal pages or outside-of-navigation pages like 'global' that are used
   // solely for this purpose. This allows efficient fetching of only slots that are
   // relevant to your needs, rather than fetching all 'global' slots at once
-  static private $globalCache = array();
-  static private $currentPage = null;
-  static private $savedCurrentPage = null;
+  static protected $globalCache = array();
+  static protected $currentPage = null;
+  static protected $savedCurrentPage = null;
   static protected $globalButtons = false;
-  static private $allowSlotEditing = true;
+  static protected $allowSlotEditing = true;
   static protected $realUrl = null;
   
   // Must reset ALL static variables to their initial state
@@ -618,7 +618,7 @@ class aTools
     return $variants;
   }
   
-  static private function i18nDummy()
+  static protected function i18nDummy()
   {
     __('Reorganize', null, 'apostrophe');
     __('Users', null, 'apostrophe');

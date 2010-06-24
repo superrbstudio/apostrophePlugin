@@ -122,8 +122,6 @@
 	  }
 	}
 	aUpdateEngineAndTemplate();
-	<?php // you can do this: { remove: 'custom html for remove button' } ?>
-	$(function() { aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) });
 
 	<?php // you can do this: { linkTemplate: "<a href='#'>_LABEL_</a>",  ?>
 	<?php //                    spanTemplate: "<span>_LINKS_</span>",     ?>
