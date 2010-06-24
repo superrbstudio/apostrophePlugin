@@ -3259,7 +3259,7 @@ ul.a-controls .a-variant-options.loading
 	width: auto;
 	margin-left: 20px;
 	padding: 0 6px 0 0;
-	background: rgba(0,0,0,1);
+	background: #000;
 	color: #ccc;
 	line-height: 21px;
 	-moz-border-radius: 0 4px 4px 0px;
