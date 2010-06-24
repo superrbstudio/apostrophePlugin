@@ -56,3 +56,10 @@ background: #444;
 {
 	background: #000;
 }
+
+.dropshadow
+{
+	border: 1px solid #ccc;
+	border-bottom-color:#888;
+	border-right-color:#888;
+}
