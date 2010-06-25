@@ -123,11 +123,8 @@
 	  }
 	}
 	aUpdateEngineAndTemplate();
-	<?php // TODO: Document aMultipleSelect in the WIKI, not here! ?>
-	<?php // you can do this: { remove: 'custom html for remove button' } ?>
 
 	$(document).ready(function() {
-		aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) 
 		aAccordion('.a-page-settings-section-head');
 	});
 
