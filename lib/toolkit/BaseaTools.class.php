@@ -13,7 +13,7 @@ class BaseaTools
   // relevant to your needs, rather than fetching all 'global' slots at once
   static protected $globalCache = array();
   static protected $currentPage = null;
-  static protected $savedCurrentPage = null;
+  static protected $pageStack = array();
   static protected $globalButtons = false;
   static protected $allowSlotEditing = true;
   static protected $realUrl = null;
@@ -24,7 +24,7 @@ class BaseaTools
     self::$global = false;
     self::$globalCache = false;
     self::$currentPage = null;
-    self::$savedCurrentPage = null;
+    self::$pageStack = array();
     self::$globalButtons = false;
     self::$allowSlotEditing = true;
     aNavigation::simulateNewRequest();
@@ -139,18 +139,11 @@ class BaseaTools
     }
     if (isset($options['slug']))
     {
-      $page = self::getCurrentPage();
-      if ($page)
-      {
-        if ($page->slug === $options['slug'])
-        {
-          // Nothing to do. This can happen if, for instance, a template used on all pages
-          // including the chemistry home page fetches a footer from the chemistry home page
-          return;
-        }
-      }
+      // Note that we push onto the stack even if the page specified is the same page
+      // we're looking at. This doesn't hurt because of caching, and it allows us
+      // to keep the stack count properly
       $slug = $options['slug'];
-      self::$savedCurrentPage = self::getCurrentPage();
+      self::$pageStack[] = self::getCurrentPage();
       // Caching the global page speeds up pages with two or more global slots
       if (isset(self::$globalCache[$slug]))
       {
@@ -176,10 +169,8 @@ class BaseaTools
   {
     if (self::$global)
     {
-      self::setCurrentPage(self::$savedCurrentPage);
-      // Set to null not false
-      self::$savedCurrentPage = null;
-      self::$global = false;
+      self::setCurrentPage(array_pop(self::$pageStack));
+      self::$global = (count(self::$pageStack));
     }
   }
 
@@ -250,9 +241,9 @@ class BaseaTools
   }
   static public function getRealPage()
   {
-    if (self::$savedCurrentPage)
+    if (count(self::$pageStack))
     {
-      return self::$savedCurrentPage;
+      return reset(self::$pageStack);
     }
     elseif (self::$currentPage)
     {
