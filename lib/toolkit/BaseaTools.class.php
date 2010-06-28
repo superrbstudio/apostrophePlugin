@@ -243,7 +243,15 @@ class BaseaTools
   {
     if (count(self::$pageStack))
     {
-      return reset(self::$pageStack);
+      $page = self::$pageStack[0];
+      if ($page)
+      {
+        return $page;
+      }
+      else
+      {
+        return false;
+      }
     }
     elseif (self::$currentPage)
     {
