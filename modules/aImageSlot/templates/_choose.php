@@ -5,7 +5,9 @@
     array(
       "slot" => $name, 
       "slug" => $slug, 
-      "actual_slug" => aTools::getRealPage()->getSlug(),
+      // TODO: remove this parameter entirely in 1.5, it is strictly for backwards compatibility
+      // with any existing overrides out there
+      "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
       "actual_url" => aTools::getRealUrl(),
       "permid" => $permid,
       "noajax" => 1)) ?>
