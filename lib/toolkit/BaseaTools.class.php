@@ -449,7 +449,7 @@ class BaseaTools
 
       }
     }
-    if ($page->archived && (!$page->userHasPrivilege('edit|manage')))
+    if ($page->archived && (!$page->userHasPrivilege('edit')))
     {
       $action->forward404();
     }    
