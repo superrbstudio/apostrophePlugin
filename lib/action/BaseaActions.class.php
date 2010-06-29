@@ -49,31 +49,31 @@ class BaseaActions extends sfActions
 
 	}
   
-  protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit|manage')
+  protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit')
   {
     return $this->retrievePageForEditingById($this->getRequestParameter($parameter));
   }
   
-  protected function retrievePageForEditingById($id, $privilege = 'edit|manage')
+  protected function retrievePageForEditingById($id, $privilege = 'edit')
   {
     $page = aPageTable::retrieveByIdWithSlots($id);
     $this->validAndEditable($page, $privilege);
     return $page;
   }
 
-  protected function retrievePageForEditingBySlugParameter($parameter = 'slug', $privilege = 'edit|manage')
+  protected function retrievePageForEditingBySlugParameter($parameter = 'slug', $privilege = 'edit')
   {
     return $this->retrievePageForEditingBySlug($this->getRequestParameter($parameter));
   }
 
-  protected function retrievePageForEditingBySlug($slug, $privilege = 'edit|manage')
+  protected function retrievePageForEditingBySlug($slug, $privilege = 'edit')
   {
     $page = aPageTable::retrieveBySlugWithSlots($slug);
     $this->validAndEditable($page, $privilege);
     return $page;
   }
 
-  protected function validAndEditable($page, $privilege = 'edit|manage')
+  protected function validAndEditable($page, $privilege = 'edit')
   {
     $this->flunkUnless($page);
     $this->flunkUnless($page->userHasPrivilege($privilege));
@@ -186,7 +186,7 @@ class BaseaActions extends sfActions
   {
     $page = $this->retrievePageForEditingByIdParameter();
     $this->flunkUnless($page);
-    $this->flunkUnless($page->userHasPrivilege('edit|manage'));    
+    $this->flunkUnless($page->userHasPrivilege('edit'));    
     $form = new aRenameForm($page);
     $form->bind($request->getParameter('aRenameForm'));
     if ($form->isValid())

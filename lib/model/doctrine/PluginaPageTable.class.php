@@ -413,11 +413,6 @@ class PluginaPageTable extends Doctrine_Table
       $username = $user->getGuardUser()->getUsername();
     }
 
-    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
-    {
-      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
-    }
-
     // Archived pages can only be visited by users who are permitted to edit them.
     // This trumps the less draconian privileges for viewing pages, locked or otherwise
     if (($privilege === 'view') && $pageOrInfo['archived'])
@@ -435,6 +430,17 @@ class PluginaPageTable extends Doctrine_Table
       }
     }
 
+    // If you can manage, you can also edit. Implement this 
+    // in one place so we don't have to say it explicitly all over
+    if ($privilege === 'edit')
+    {
+      $privilege = 'edit|manage';
+    }
+
+    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
+    {
+      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
+    }
     $result = $this->checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username);
     self::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
     return $result;
