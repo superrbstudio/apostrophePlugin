@@ -26,7 +26,7 @@
                     "slot" => $name, 
                     "slug" => $slug, 
                     "permid" => $permid,
-                    "actual_slug" => aTools::getRealPage()->getSlug(),
+                    "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
                     'actual_url' => aTools::getRealUrl(),
                     "noajax" => 1))))),
         'class' => 'a-btn icon a-media')) ?>
