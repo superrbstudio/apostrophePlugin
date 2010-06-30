@@ -42,7 +42,7 @@ class aString
 		}
 		if ($append_ellipsis == true && $num_words > $word_limit)
 		{
-			$string .= '...';
+			$string .= '&hellip';
 		}
 		
 		return $string;
