@@ -36,7 +36,7 @@ if (count($clauses))
 {
   // Markup change: for I18N it's better to use a list here rather than
   // trying to create a sentence with commas and 'and'
-  echo('<h3>' . __("Displaying only %t% with:", array('%t%' => $type), 'apostrophe') . '</h3>');
+  echo('<h3 class="a-constraints-description">' . __("Displaying only %t% with:", array('%t%' => $type), 'apostrophe') . '</h3>');
   echo('<ul class="a-constraints">');
   foreach ($clauses as $clause)
   {
