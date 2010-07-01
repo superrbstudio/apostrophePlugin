@@ -45,7 +45,7 @@ class aRoute extends sfRoute
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
     if ($slug)
     {
-      $defaults = $route->getDefaults();
+      $defaults = $this->getDefaults();
       $engine = $defaults['module'];
       aRouteTools::popTargetEnginePage($engine);
     }
