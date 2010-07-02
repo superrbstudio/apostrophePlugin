@@ -553,15 +553,6 @@ class BaseaTools
       // No login required
       return true;
     }      
-  
-    // Rule 6: when minimum but not sufficient credentials are present,
-    // check for an explicit grant of privileges to this user, on
-    // this page or on any ancestor page.
-    $result = $this->userHasExplicitPrivilege($privilege);
-    if ($result)
-    {
-      return true;
-    }
   }
   
   static public function getVariantsForSlotType($type, $options = array())
