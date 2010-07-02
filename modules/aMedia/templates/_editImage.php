@@ -54,7 +54,9 @@
 
     <div class="a-form-row categories">
 			<?php echo $form['media_categories_list']->renderLabel() ?>
-			<?php echo $form['media_categories_list']->renderError() ?>
+  		<?php if (!$firstPass): ?>
+  			<?php echo $form['media_categories_list']->renderError() ?>
+  		<?php endif ?>
 			<?php echo $form['media_categories_list']->render() ?>
 		</div>
 
