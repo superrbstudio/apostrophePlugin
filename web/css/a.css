@@ -1333,12 +1333,6 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-event.png);
 background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0;
 }
 
-.alt .icon.a-drag,
-.icon.a-drag.alt
-{
-background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat;
-}
-
 .alt .icon.a-event,
 .alt .icon.a-eventsingle,
 .icon.a-event.alt,
