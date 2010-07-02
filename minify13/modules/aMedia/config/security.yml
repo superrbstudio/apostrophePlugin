@@ -1,0 +1,23 @@
+default:
+  is_secure: true
+
+index:
+  is_secure: false
+
+image:
+  is_secure: false
+
+show:
+  is_secure: false
+
+tags:
+  is_secure: false
+  
+# Credentials for uploading, implemented in the code: you must
+# be a member of the group specified by app_aMedia_upload_group.
+# If that setting does not exist, then any logged-in user can upload.
+
+# Credentials for editing, implemented in the code: you can edit if you are
+# the person who put it there in the first place, or you are a member
+# of the app_aMedia_admin_group. (If that is not configured, any
+# logged-in user is a media admin.)
