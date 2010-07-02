@@ -12,6 +12,9 @@ class BaseaMediaVideoForm extends aMediaItemForm
   
   public function configure()
   {
+    // This call was missing, preventing easy extension of all media item edit forms at the project level
+    parent::configure();
+    
     unset($this['id'], $this['type'], $this['slug'], $this['width'], $this['height'], $this['format']);
     $object = $this->getObject();
 //    if ($object->embed)

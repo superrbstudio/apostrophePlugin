@@ -95,8 +95,8 @@ class BaseaPageSettingsForm extends aPageForm
     $this->addPrivilegeWidget('edit', 'editors');
     $this->addPrivilegeWidget('manage', 'managers');
 
-    $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true), array('required' => 'The slug cannot be empty.',
-        'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. Also, you cannot change a slug to conflict with an existing slug.')));
+    $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The slug cannot be empty.',
+        'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a slug to conflict with an existing slug.')));
 		
 		$this->setWidget('slug', new sfWidgetFormInputText());
 
