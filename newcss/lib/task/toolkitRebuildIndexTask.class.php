@@ -66,6 +66,10 @@ EOF;
       if ($index === 'aPage')
       {
         aZendSearch::purgeLuceneIndex($table);
+        // We're about to request updates of all page/culture combinations. Don't
+        // add that to an existing workload which could result in a huge pileup of
+        // repeat requests if someone starts interrupting this task and trying again, etc.
+        $this->query('DELETE FROM a_lucene_update');
         $pages = Doctrine::getTable('aPage')->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
         foreach ($pages as $page)
         {

@@ -111,7 +111,6 @@ class aImageConverter
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       if (!$result)
       {
-        sfContext::getInstance()->getLogger()->info("netpbm failed, not available? Trying gd");        
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
     }
@@ -222,7 +221,7 @@ class aImageConverter
     $cmd = "(PATH=$path:\$PATH; export PATH; $input < " . escapeshellarg($fileIn) . " " . ($extraInputFilters ? "| $extraInputFilters" : "") . " " . ($scaleParameters ? "| pnmscale $scaleString " : "") . "| $filter " .
       "> " . escapeshellarg($fileOut) . " " .
       ") 2> /dev/null";
-    sfContext::getInstance()->getLogger()->info("$cmd");
+    // sfContext::getInstance()->getLogger()->info("$cmd");
     system($cmd, $result);
     if ($result != 0) 
     {
@@ -239,6 +238,29 @@ class aImageConverter
     
     // (if you can install ghostview, you can install netpbm too, so there's no middle case)
     
+    // Special case to emit the original. This preserves transparency in GIFs and is faster for everything. (PNGs can always preserve 
+    // alpha channel in anything under 1024x768 or when gd is the only backend enabled.) WARNING: keep this up to date if new
+    // capabilities are added - we need to make sure they are not active etc. before using this trick. TODO: check for this in
+    // netpbm land too, right now in a typical configuration it's not checked over 1024x768    
+    
+    $imageInfo = getimagesize($fileIn);
+    // Don't panic on a PDF, fall through to the fake handler for that.
+    if ($imageInfo)
+    {
+      $width = $imageInfo[0];
+      $height = $imageInfo[1];
+      
+      $infoIn = pathinfo($fileIn);    
+      $infoOut = pathinfo($fileOut);    
+      
+      // Must use == because for some reason imagesize returns floats rather than integers
+      if (((!count($scaleParameters)) || (isset($scaleParameters['xysize']) && $scaleParameters['xysize'][0] == $width && $scaleParameters['xysize'][1] == $height)) && (strtolower($infoIn['extension']) === strtolower($infoOut['extension'])) && (!count($cropParameters)))
+      {
+        copy($fileIn, $fileOut);
+        return true;
+      }
+    }
+    
     if (preg_match('/\.pdf$/i', $fileIn))
     {
       $in = self::createTrueColorAlpha(100, 100);
@@ -248,6 +270,18 @@ class aImageConverter
     {
       $in = self::imagecreatefromany($fileIn);
     }
+    
+    if (preg_match("/\.(\w+)$/i", $fileOut, $matches))
+    {
+      $extension = $matches[1];
+      $extension = strtolower($extension);
+    }
+    else
+    {
+      imagedestroy($in);
+      return false;
+    }
+    
     $top = 0;
     $left = 0;
     $width = imagesx($in);
@@ -321,6 +355,7 @@ class aImageConverter
       {
         $width = $scaleParameters['xysize'][0];
         $height = $scaleParameters['xysize'][1];
+        
         if (($width / $height) > ($swidth / $sheight))
         {
           // Wider than the original. So it will be shorter than requested
@@ -343,28 +378,25 @@ class aImageConverter
       $out = $cropped;
       $cropped = null;
     }
-
-    if (preg_match("/\.(\w+)$/i", $fileOut, $matches))
+    
+    $extension = strtolower($infoOut['extension']);
+    if ($extension === 'gif')
     {
-      $extension = $matches[1];
-      $extension = strtolower($extension);
-      if ($extension === 'gif')
-      {
-        imagegif($out, $fileOut);
-      }
-      elseif (($extension === 'jpg') || ($extension === 'jpeg'))
-      {
-        imagejpeg($out, $fileOut, $quality);
-      }
-      elseif ($extension === 'png')
-      {
-        imagepng($out, $fileOut);
-      }
-      else
-      {
-        return false;
-      }
+      imagegif($out, $fileOut);
     }
+    elseif (($extension === 'jpg') || ($extension === 'jpeg'))
+    {
+      imagejpeg($out, $fileOut, $quality);
+    }
+    elseif ($extension === 'png')
+    {
+      imagepng($out, $fileOut);
+    }
+    else
+    {
+      return false;
+    }
+      
     imagedestroy($out);
     $out = null;
     return true;
@@ -417,7 +449,7 @@ class aImageConverter
       }
       // Bounding box goes to stderr, not stdout! Charming
       $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit) 2>&1";
-      sfContext::getInstance()->getLogger()->info("PDFINFO: $cmd");
+      // sfContext::getInstance()->getLogger()->info("PDFINFO: $cmd");
       $in = popen($cmd, "r");
       $data = stream_get_contents($in);
       pclose($in);

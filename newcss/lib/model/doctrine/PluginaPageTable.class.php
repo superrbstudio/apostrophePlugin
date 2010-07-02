@@ -380,6 +380,8 @@ class PluginaPageTable extends Doctrine_Table
     return $data[0]['slug'];
   }
   
+  // Wnat to extend privilege checks? Override checkUserPrivilegeBody(). Read on for details
+  
   // Check whether the user has sufficient privileges to access a page. This includes
   // checking explicit privileges in the case of pages that have them on sites where
   // there is a 'candidate group' for that privilege. $pageOrInfo can be a
@@ -389,7 +391,16 @@ class PluginaPageTable extends Doctrine_Table
   
   static $privilegesCache = array();
   
+  // Static methods are tricky to override in PHP. Get an instance of the table and call a new
+  // non-static version
+  
   static public function checkPrivilege($privilege, $pageOrInfo, $user = false)
+  {
+    $table = Doctrine::getTable('aPage');
+    return $table->checkUserPrivilege($privilege, $pageOrInfo, $user);
+  }
+  
+  public function checkUserPrivilege($privilege, $pageOrInfo, $user)
   {
     if ($user === false)
     {
@@ -400,11 +411,6 @@ class PluginaPageTable extends Doctrine_Table
     if ($user->getGuardUser())
     {
       $username = $user->getGuardUser()->getUsername();
-    }
-
-    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
-    {
-      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
     }
 
     // Archived pages can only be visited by users who are permitted to edit them.
@@ -424,6 +430,29 @@ class PluginaPageTable extends Doctrine_Table
       }
     }
 
+    // If you can manage, you can also edit. Implement this 
+    // in one place so we don't have to say it explicitly all over
+    if ($privilege === 'edit')
+    {
+      $privilege = 'edit|manage';
+    }
+
+    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
+    {
+      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
+    }
+    $result = $this->checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username);
+    self::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
+    return $result;
+  }
+  
+  // The privilege name has already been transformed if appropriate. The username has already been fetched
+  // (false for a logged out user). The cache has already been checked. The return value of this call will
+  // be cached by the checkUserPrivilege method. Override this method, calling the parent first and then
+  // adding further checks as you deem necessary
+  
+  public function checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username)
+  {
     $result = false;
     
     // Rule 1: admin can do anything
@@ -515,7 +544,6 @@ class PluginaPageTable extends Doctrine_Table
         }
       }
     }
-    self::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
     return $result;
   }
 }

@@ -50,21 +50,31 @@
     </div>
 
     <div class="a-form-row credit">
-      <?php echo $form['credit']->renderRow() ?>
+      <?php echo $form['credit']->renderLabel() ?>
+      <?php echo $form['credit']->renderError() ?>
+      <?php echo $form['credit']->render() ?>
     </div>
 
-    <div class="a-form-row permissions">
-      <?php echo $form['view_is_secure']->renderRow() ?>
-    </div>
-
-    <div class="a-form-row categories"><?php echo $form['media_categories_list']->renderRow() ?></div>
+    <div class="a-form-row categories">
+			<?php echo $form['media_categories_list']->renderLabel() ?>
+			<?php echo $form['media_categories_list']->renderError() ?>
+			<?php echo $form['media_categories_list']->render() ?>
+		</div>
 
     <div class="a-form-row about-tags">
     <?php echo __('Tags should be separated by commas. Example: student life, chemistry, laboratory', null, 'apostrophe') ?>
     </div>
 
     <div class="a-form-row tags">
-      <?php echo $form['tags']->renderRow(array("id" => "a-media-pdf-tags")) ?>
+      <?php echo $form['tags']->renderLabel() ?>
+      <?php echo $form['tags']->renderError() ?>
+      <?php echo $form['tags']->render(array("id" => "a-media-pdf-tags")) ?>
+    </div>
+
+    <div class="a-form-row permissions">
+      <?php echo $form['view_is_secure']->renderLabel() ?>
+      <?php echo $form['view_is_secure']->renderError() ?>
+      <?php echo $form['view_is_secure']->render() ?>
     </div>
 
     <ul class="a-controls a-media-edit-footer">
