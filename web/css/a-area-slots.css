@@ -1,0 +1,842 @@
+
+
+/* 14. Areas and Slots
+-------------------------------------*/
+
+.a-area,
+.a-slots,
+.a-slot,
+.a-slot-content,
+.a-slot-content-container,
+.a-slot-form
+{ /* An Area is the outer most wrapper for a collection of Slots */
+position: relative;
+}
+
+.a-area.editing-now,
+.a-slot.editing-now
+{
+	z-index: 900;
+}
+
+.a-slot
+{
+min-height: 20px;
+}
+
+.a-slot-form.a-options
+{
+	position: relative;
+	margin-bottom: -27px;
+}
+
+/* Rich Text Slot Styles */
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
+.a-slot.aRichText h3,
+.a-slot.aRichText h4,
+.a-slot.aRichText h5,
+.a-slot.aRichText h6,
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
+{
+margin: 0 0 10px 0;
+}
+
+.a-slot.aRichText b,
+.a-slot.aRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aRichText blockquote
+{
+display: block;
+float: left;
+clear: both;
+display: inline;	
+margin: 20px 40px;
+}
+
+.a-slot.aRichText em,
+.a-slot.aRichText i
+{
+font-style: italic;
+}
+
+.a-slot.aRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aRichText table th,
+.a-slot.aRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+.a-slot.aText textarea.aTextSlot
+{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
+{
+	float: left;
+	width: 99%;
+	border: 1px solid #333;
+	padding: 2px;
+	height: 200px;
+	font: 12px/1.2 Monospace;
+	background: #efefef;
+}
+
+/* aSlideshow Slot Styles */
+
+.a-slot.aSlideshow
+{
+margin-top: 24px; /* Space for the Arrow Controls*/
+margin-bottom: 40px;
+}
+
+.a-slot.aSlideshow.single-image
+{
+	margin-top:0px; /* Removes Space for the Arrow Controls When There is One Image*/
+}
+
+.a-slideshow-meta
+{
+	font-size: 11px;
+	margin: 5px 0;
+}
+
+ul.a-slideshow-controls
+{/* Slideshow Controls */
+position: absolute;
+top: -24px;
+right: 0;
+float: left;
+display: inline;
+margin-right: 1px;
+width: auto;
+height: auto;
+border: none;
+list-style: none;
+}
+
+.a-arrow-btn
+{
+float: left;
+border: 0;
+background-position: 0 0;
+cursor: pointer;
+}
+
+ul.a-slideshow-controls li.over { background-position: 0 -20px; }
+
+ul.a-slideshow-controls a
+{
+z-index: 1;
+}
+
+.a-slideshow,
+.a-slideshow-item .a-slideshow-meta
+{
+	overflow: auto;
+}
+
+.a-slideshow-item
+{
+	overflow: hidden;
+	display: none;
+}
+
+.a-slideshow-item .a-slideshow-title
+{
+	margin: 5px 0;
+}
+
+.a-slideshow-item .a-slideshow-image
+{
+	line-height:0 !important; /* RB: fixes the bit of whitespace after img */
+}
+
+.a-media-placeholder
+{ 
+/* Height and Width are defined in the template and applied inline in _normalView.php */
+/* Placeholder is used in aImage, aVideo, aSlideshow*/
+}
+
+.a-media-placeholder span
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: 1px dashed #ccc;
+	margin: -1px 0 0 -1px;
+	background: rgba(0,0,0,0.025);
+}
+
+/* aButton Slot Styles */
+
+.a-slot.aButton .a-button, 
+.a-slot.aButton .a-button .a-button-image,
+.a-slot.aButton .a-button .a-button-image .a-button-link,
+.a-slot.aButton .a-button .a-button-title
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+
+.a-slot.aButton .a-button
+{ /* Fixes IE6 Bug */
+	background: none;
+}
+
+/* aButton Slot Bundled Variant Style */
+
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
+{ 
+position: absolute;
+top: 0;
+left: 0;
+top: 50%;
+left: 0;
+line-height: 20px;
+margin-top: -10px;	
+}
+
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a,
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a:hover
+{
+	position: absolute;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	font-size: 16px;
+	color: #fff;
+	white-space: nowrap;
+	text-shadow: 0 0 6px rgba(0,0,0,0.80);	
+}
+
+/* aImage Slot Styles */
+
+.a-slot.aImage .a-media-image,
+.a-slot.aImage .a-image-embed
+{
+	float: left;
+	clear: both;
+	line-height: 0;
+}
+
+/* aVideo Slot Styles */
+
+/* aFeed Slot Styles */
+
+.a-slot.aFeed .a-feed,
+.a-slot.aFeed .a-feed .a-feed-item
+{
+	float: left;
+	display: inline;
+	position: relative;
+	clear: both;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .title
+{
+	font-size: 14px;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .date
+{
+	margin: 5px 0;
+	color: #999;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .date,
+.a-slot.aFeed .a-feed .a-feed-item .description
+{
+	font-size: 11px;
+	line-height: 1.4;
+}
+
+/*aPDF Slot Styles*/
+
+.a-slot.aPDF
+{
+	margin:20px 0px;
+}
+
+.a-pdf-slot
+{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+.a-pdf-slot .a-pdf-meta
+{
+	position:relative;
+	margin:5px 0;
+}
+
+.a-pdf-title
+{
+	width:100%;
+	font-size: 16px;
+}
+
+.a-pdf-description
+{
+	margin-top:0px;
+	color:#666;
+	width:100%;
+	margin:5px 0;
+}
+
+.a-pdf-download
+{
+	margin-left:-3px;
+}
+
+.a-pdf-download a
+{
+	background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center;
+	padding-left:20px;
+}
+
+/*ICON ONLY*/
+
+.a-pdf-slot.no-label
+{
+	height: auto !important;
+	height: 43px;
+}
+
+.a-pdf-slot.no-label .a-media-pdf-icon
+{
+	position:absolute;
+	height:43px;
+	width:34px;
+	margin-top:5px;
+	top:0;
+	left:0;
+	z-index:10;
+}
+
+.a-pdf-slot.no-label .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.a-pdf-slot.no-label .a-pdf-meta
+{
+	padding-left:45px;
+	text-indent: 0 !important;
+}
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.no-label .a-media-pdf-icon
+{
+	display:inline;
+	position:absolute;
+	top:0;
+	left:0;
+	height:20px;
+	width:20px;
+	margin-top:4px;
+	z-index:10;
+}
+
+.compact .a-pdf-slot.no-label .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.no-label .a-pdf-meta
+{
+	padding-left:25px;
+}
+
+.compact .a-pdf-title
+{
+	width:100%;
+	font-size: 14px;
+}
+
+.compact .a-pdf-description
+{
+	display:none;
+}
+
+.compact .a-pdf-download
+{
+	display:none;
+}
+
+
+/*PDF PREVIEW*/
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon img
+{
+	border:1px solid #ccc;
+	margin-right:10px;
+	margin-bottom:5px;
+	height:70px;
+	width:56px;
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon
+{
+	position:absolute;
+	top:0;
+	left:0;
+	height:70px;
+	width:56px;
+	margin-top:5px;
+	z-index:10;
+	overflow:hidden;	
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon a
+{
+	float:left;
+	height:100%;
+	width:100%;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.with-preview .a-pdf-meta
+{
+	padding-left:70px;
+}
+
+
+/* 9. Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+list-style: none;
+}
+
+.a-slot.editing-now ul.a-controls,
+.a-area.singleton.editing-now ul.a-controls
+{ /* Controls sit on top when editing a singleton slot or a slot in an area */
+z-index: 899;
+}
+
+ul.a-controls.a-slot-save-cancel-controls
+{
+	clear: both;
+}
+
+ul.a-controls li
+{ /* All controls buttons are wrapped in a list. */
+float: left;
+display: inline;
+position: relative;
+margin: 0px 2px 2px 0 !important;
+width: auto;
+height: auto;
+border: none;
+list-style: none;
+}
+
+ul.a-controls li.last
+{ /* .last option has no margin */
+	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+/*	float: right;*/
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{
+position: relative;
+margin-bottom: 10px !important;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 799;
+margin: 0 !important;
+}
+
+.a-area.singleton.aRichText ul.a-controls.a-area-controls,
+.a-area.singleton.aText ul.a-controls.a-area-controls,
+.a-area.singleton.aBlog ul.a-controls.a-area-controls,
+.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aEvent ul.a-controls.a-area-controls,
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
+{ /* Singleton Slots that don't allow controls to sit on top of their content */
+	position: relative;
+	margin-bottom: 0 !important;
+}
+
+ul.a-controls li.add-slot-now
+{
+	margin: 0 4px 0 0 !important;
+}
+
+ul.a-controls.a-slot-controls
+{
+	width: 100%;
+}
+
+.aImage ul.a-controls.a-slot-controls,
+.aSlideshow ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+width: auto;
+}
+
+ul.a-controls.a-media-edit-links
+{
+	width: 100%;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-controls .a-area-options,
+ul.a-controls .a-history-options
+{
+z-index: 899;
+display: none;
+}
+
+.history-preview a.a-btn.a-add-slot
+{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
+ display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+/* Variants Controls */
+
+ul.a-controls .a-controls-item.variant .a-variant-options-toggle
+{
+	position: relative;
+	z-index: 100;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
+{
+	background-color: #333;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
+{
+	background-color: #999;
+}
+
+.a-options
+{
+	padding: 35px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 120px;
+	width: auto;
+}
+
+ul.a-controls .a-options
+{
+	min-width: 124%;
+}
+
+ul.a-controls .a-options li,
+ul.a-controls .a-options li.last
+{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 4px 0 !important;
+	list-style: none;	
+}
+
+.a-options a
+{
+float: left;
+clear: both;
+color: #777;
+}
+
+.a-options a:hover,
+.a-options span
+{
+	color: #000 !important;
+}
+
+.a-options a.a-btn
+{
+	float: none !important;
+	display: block !important;
+	display: block !important;
+	-moz-border-radius: 2px !important;
+	text-shadow:none;	
+}
+
+.a-options a.a-btn:hover
+{
+	background-color: #f5f5f5	 !important;
+	color: #000 !important;
+	border-color: #ddd !important;
+	text-shadow:none;
+}
+
+.a-options .a-multiple-select a
+{
+	color: #777 !important;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options
+{
+	width: auto;
+	display: block;
+}
+
+ul.a-controls .a-variant-options.loading
+{
+	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-options.a-slot-form
+{
+	width: 100%;
+	top: -27px;
+}
+
+.a-options.a-slot-form .a-slot-form-title
+{
+	position:absolute;
+	float:right;
+	right:7px;
+	top:0;
+	line-height:27px;
+}
+
+.a-options.a-slot-form .a-form-row
+{
+	line-height: 20px;
+	margin: 0 0 15px 0;
+	padding: 0 10px;
+	width: auto;
+	clear: both;
+}
+
+.a-options.a-slot-form .a-form-row:hover .a-form-help-text
+{
+	display: block;
+}
+
+.a-options.a-slot-form .a-form-help-text
+{
+	position: absolute;
+	top: 0;
+	left: 100%;
+	white-space: nowrap;
+	width: auto;
+	margin-left: 20px;
+	padding: 0 6px 0 0;
+	background: rgba(0,0,0,1);
+	color: #ccc;
+	line-height: 21px;
+	-moz-border-radius: 0 4px 4px 0px;
+	-webkit-border-radius: 0 4px 4px 0px;
+	border-radius: 0 4px 4px 0px;
+	-moz-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-webkit-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-opera-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-khtml-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	display: none;
+}
+
+.a-help-arrow
+{
+	position: absolute;
+	top: 0;
+	left: -15px;
+	float: left;
+	height: 21px;
+	width: 15px;
+	margin: 0 5px 0 0;
+	background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
+}
+
+.a-options.a-slot-form .a-form-row label
+{
+	width: 80px;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #666;
+}
+
+.a-options.a-slot-form .a-form-field
+	{
+	float: left;
+}
+
+.a-controls.a-blog-post-controls
+{
+	width: 100%;
+	float: left;
+	margin: 10px 0 5px 0 !important;
+}
+
+.aBlog .a-options.a-slot-form,
+.aEvent .a-options.a-slot-form
+{
+	width: 300px;
+}
+
+.aBlog .a-options.a-slot-form .a-form-row.tags input,
+.aEvent .a-options.a-slot-form .a-form-row.tags input
+{
+	width: 180px;
+}
+
+.aBlogSingle .a-options.a-slot-form .a-form-row
+{
+	padding: 0;
+}
+
+.aBlogSingle .a-blogsingle-input
+{
+	width: 180px
+}
+
+.aBlogSingle .a-form-row.search label
+{
+	width: 120px;
+}
+
+.add-slot-now
+{
+	z-index:999;
+}
+
+.add-slot-now .a-add-slot
+{
+	color: #fff !important;
+	background-color: #333;
+	z-index:999;
+}
+
+.add-slot-now .a-options
+{
+	display: block !important;
+}
