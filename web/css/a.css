@@ -1348,12 +1348,6 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-event.png);
 background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0;
 }
 
-.alt .icon.a-drag,
-.icon.a-drag.alt
-{
-background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat;
-}
-
 .alt .icon.a-event,
 .alt .icon.a-eventsingle,
 .icon.a-event.alt,
@@ -3149,7 +3143,7 @@ ul.a-controls .a-variant-options.loading
 	width: auto;
 	margin-left: 20px;
 	padding: 0 6px 0 0;
-	background: #000;
+	background: rgba(0,0,0,1);
 	color: #ccc;
 	line-height: 21px;
 	-moz-border-radius: 0 4px 4px 0px;
