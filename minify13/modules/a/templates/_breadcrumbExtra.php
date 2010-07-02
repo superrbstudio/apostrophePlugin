@@ -1,1 +1,0 @@
-<?php // A place to add extra lis to the breadcrumb. $page is available to check privileges ?>
