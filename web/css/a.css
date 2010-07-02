@@ -1,22 +1,5594 @@
 @charset "utf-8";
-@import url('/apostrophePlugin/css/a-reset.css');
-@import url('/apostrophePlugin/css/a-utility.css');
-@import url('/apostrophePlugin/css/a-forms.css');
-@import url('/apostrophePlugin/css/a-buttons.css');
-@import url('/apostrophePlugin/css/a-navigation.css');
-@import url('/apostrophePlugin/css/a-components.css');
-@import url('/apostrophePlugin/css/a-area-slots.css');
-@import url('/apostrophePlugin/css/a-engines.css');
-@import url('/apostrophePlugin/css/a-admin.css');
-@import url('/apostrophePlugin/css/a-colors.css');
 
-/* a-reset -- Reset Stylesheet [CLEANED] */ 
-/* a-utility -- Utility css classes for general use throughout apostrophe [CLEANED] */
-/* a-forms -- Apostrophe form styles */
-/* a-buttons -- Apostrophe Button Library */
-/* a-navigation -- Apostrophe Navigation Styles */
-/* a-components -- Apostrophe Components: Global Toolbar, History Browser, etc. */
-/* a-area-slots -- Apostrophe Area and Slot Styles: aRichText, aSlideshow, aVideo, etc. */
-/* a-engines -- Engine styles shared by Media, Blog, etc. */
-/* a-admin -- Symfony admin generator styles */
-/* a-colors -- Apostrophe UI colors can be changed / themed per site */
+/*
+	
+	*  Table Of Sections
+	*
+	*** Base Styles
+	*  1. Reset  - do NOT modify!
+	*  2. Basic Elements
+	*  3. Generic Classes
+	*  4. Basic Global Layout
+	*  5. Basic Form Styles
+
+	*** aUI - Interface Related Styles
+	*  6. aUI Buttons
+	*  7. aUI Button Icons
+	*  8. aUI Breadcrumb - Rename Page / Add Page
+	*  9. aUI Area and Slot Controls
+	* 10. aUI Pager Navigation
+
+	*** Components Styles
+	* 11. Global Toolbar
+	* 12. Page Settings Panel
+	* 13. History Browser
+	* 14. Areas and Slots
+	* 15. Apostrophe Login Form
+	* 16. Apostrophe Signin Form
+	* 17. General Navigation Styles 
+	* 18. Site Search
+	* 19. Search Results
+	* 20. Apostrophe Feedback Form
+	
+	*** Media Engine Styles
+	* 21. Media Engine
+	* 22. Media Engine - Video Search
+
+	*** Blog Engine Styles
+	* 23. Blog Engine
+
+	*** Shared Component / Engine Styles
+	* 24. Shared Subnav
+	* 25. Shared Tag Sidebar
+	* 26. Shared Tag Suggestions
+
+	*** pkAdmin Generator Styles
+	* 27. Admin Generator
+	* 28. Admin Generator - Filters
+	*** Misc Styles
+	* 29. jQuery Autocomplete	
+
+	*** Always Override Styles
+	* 30. Bundled Templates
+	* 31. Login button and language switcher
+	* 32. New lightweight rich text slot
+	* 33. Some Admin Generator Styles
+	* 34. aUI & Admin Colors - Default
+	
+*/
+
+
+
+
+/* 1. Reset  - do NOT modify! -- Eric Meyer's Reset CSS -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+-------------------------------------*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+
+* { margin: 0; padding: 0; font-weight: normal; } /* Safari seems to ignore a lot of the reset style sheet and I am not sure why. this stuff overrides where I need it to */
+
+:focus { outline: 0; } /* remember to define focus styles! */
+
+/* remember to highlight inserts somehow! */
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+
+ol, ul { list-style: none; }
+
+table { border-collapse: separate; border-spacing: 0; } /* tables still need 'cellspacing="0"' in the markup */
+
+caption, th, td { text-align: left; font-weight: normal; }
+
+blockquote:before, 
+blockquote:after,
+q:before, 
+q:after
+{
+content: "";
+}
+
+blockquote, 
+q
+{
+quotes: "" "";
+}
+
+
+
+
+/* 2. Basic Elements
+-------------------------------------*/
+html, body { height: 100%; }
+
+body { font: 12px/1.4 arial, sans-serif; color: #333; }
+
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
+
+p { line-height: 1.4; }
+
+input[type="checkbox"],
+input[type="radio"]
+{
+	width: auto !important;
+	border: none !important;
+}
+
+object { float: left; clear: both; }
+
+br.c 
+{
+ background: none;
+ border: 0;
+ clear: both;
+ display: block;
+ float: none;
+ font-size: 0p;
+ margin: 0;
+ padding: 0;
+ position: static;
+ overflow: hidden;
+ visibility: hidden;
+ width: 0;
+ height: 0;
+}
+
+
+
+/* 3. General Classes
+-------------------------------------*/
+
+.dropshadow
+{ /* This is just for fun right now */
+-moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-opera-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+-khtml-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);	
+box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.a-overlay
+{
+	position:absolute;
+	top:0;
+	left:0;
+	display:none;
+	float:left;
+	background-color:#fff;
+	height:100%;
+	width:100%;
+	z-index:999;
+}
+
+.a-page-overlay
+{
+z-index: 998;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+height: 100%;
+width: 100%;
+display: none;
+background: rgba(255,255,255,0.5);
+}
+
+.a-spinner
+{
+float: left;
+display: inline;
+clear: none;
+height: 20px;
+width: 20px;
+border: 0;
+margin: 0;
+padding: 0;
+background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+text-indent: -9999px;
+}
+
+.a-attribution
+{
+float:left;
+display:inline;
+clear: both;
+line-height:10px;
+padding-bottom:6px;
+padding-left:20px;
+color:#666;
+font-size:11px;
+background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left;
+margin: 20px 0;
+}
+
+.a-attribution a
+{
+color:#0000ff;
+text-decoration:none;
+}
+
+.a-attribution a:hover
+{
+text-decoration:underline;
+}
+
+.text-only
+{
+	background: none !important;
+	-moz-box-shadow:0 0 0 0 transparent !important;
+	-webkit-box-shadow:0 0 0 transparent !important;
+	-opera-box-shadow:0 0 0 transparent !important;
+	-khtml-box-shadow:0 0 0 transparent !important;
+	box-shadow:0 0 0 transparent !important;	
+	padding: 0;
+	margin: 0;	
+}
+
+.nobg,
+.nobg:hover,
+a.a-btn.nobg,
+a.a-btn.nobg:hover
+{
+	background-color: transparent !important;
+	-moz-box-shadow: 0 0 0 transparent !important;
+	-webkit-box-shadow: 0 0 0 transparent !important;
+	-opera-box-shadow: 0 0 0 transparent !important;
+	-khtml-box-shadow: 0 0 0 transparent !important;
+	box-shadow: 0 0 0 transparent !important;
+	-moz-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	border: 0 !important;
+	text-shadow:none !important;
+}
+
+.a-accordion .content
+{
+	display: none;
+}
+
+.a-accordion.open .content
+{
+	display: block;
+}
+
+
+
+/* 4. Basic Global Layout
+-------------------------------------*/
+
+#a-wrapper
+{
+width: 960px;
+margin: 0 auto;
+}
+
+#a-header
+{
+float: left;
+display: inline;
+position: relative;
+clear: both;
+width: 100%;
+}
+
+#a-content
+{
+	float: left;
+	position: relative;
+	display: inline;
+	clear: none;
+	width: 720px;
+}
+
+.a-area-footer
+{
+	position: relative;
+	display: inline;
+	clear: both;
+}
+
+#ie6-warning
+{
+	float: left;
+	width: 100%;
+	background: #f00;
+	color: #fff;
+	position: relative;
+	z-index:9999;
+}
+
+#ie6-warning h2
+{
+	float: left;
+	padding: 5px;
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+#ie6-warning h2 a
+{
+	color: #fff;
+	text-decoration: underline;
+}
+
+#ie6-warning h2 a:hover
+{
+	color: #222;
+}
+
+.ie6 .a-controls,
+.ie6 .a-btn.icon,
+.ie6 .a-global-toolbar-breadcrumb
+{
+	display: none !important;
+}
+
+
+
+
+
+
+/* 5. Basic Form Styles
+-------------------------------------*/
+.a-form-row
+{
+position: relative;
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+margin: 10px 0px 10px 0;
+}
+
+.a-form-row label
+{
+float:left;
+text-align: left;
+font-weight: normal;
+text-transform: capitalize;
+width: 120px;
+line-height: 20px;
+}
+
+.a-form-row input[type="text"],
+.a-form-row input[type="password"],
+.a-form-row select,
+.a-form-row textarea
+{
+font-family: arial, sans-serif;
+font-size: 12px;
+border: 1px solid #ddd;
+padding: 3px;
+}
+
+.a-form-row.submit
+{
+margin-left: 120px;
+}
+
+.a-form-row .a-form-field,
+.a-form-row .a-form-error,
+.a-form-row .a-form-help-text
+{
+	position: relative;	
+	float: left;
+	display: inline;
+}
+
+.a-form-row.help,
+.a-form-row .help,
+.a-form-help-text
+{
+float: left;
+clear: both;
+line-height: 20px;
+font-size: 11px;
+color: #888;
+}
+
+.a-form-row .error_list
+{
+width: 100%;
+float: left;
+margin: 0;
+font-size: 11px;
+color: #900;
+}
+
+.a-form-row .error_list li
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin: 5px 0;
+}
+
+
+/* Tom's Form Multi-Select*/
+.a-multiple-select-list
+{
+	float: left;
+	clear: both;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+
+.a-multiple-select .add
+{
+	position: relative;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin: 5px 0;
+}
+
+.a-multiple-select .add input
+{
+	float: left;
+	width: 120px;
+	border: 1px solid #ddd;
+	padding: 3px;
+	margin: -1px 0 0 0;
+}
+
+.a-multiple-select .add .a-btn
+{
+	margin-left: 2px;
+}
+
+a.a-multiple-select-remove
+{
+position: relative;	
+}
+
+a.a-multiple-select-remove span
+{
+position: absolute;
+display: inline;
+float: left;
+overflow: hidden;
+top: 0;
+left: 100%;
+width: 20px;
+height: 20px;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
+}
+
+
+
+
+/* 6. aUI Buttons
+-------------------------------------*/
+
+.a-btn
+{
+position: relative;
+float: left;
+display: inline;
+color: #fff !important;
+text-decoration: none !important;
+font-family: arial, sans-serif;
+font-size: 12px;
+cursor: pointer;
+padding: 0 4px;
+white-space: nowrap;
+text-transform: capitalize;
+height: 18px;
+line-height: 18px;
+border:none;
+}
+
+.a-btn.a-disabled,
+.a-btn.a-disabled *
+{
+	background-color: #ddd !important;
+	color: #fff !important;
+	cursor: default !important;
+}
+
+.a-btn.icon
+{
+padding: 0 4px 0 20px;
+background-position: center left;
+background-repeat: no-repeat;
+}
+
+.a-btn.no-label,
+.no-label
+{
+background-position: center center;
+background-repeat: no-repeat;
+text-indent: -9999px;
+padding: 0;
+width: 18px;
+}
+
+.a-btn.big
+{
+	font-size:18px;
+	height:24px;
+	line-height:24px;
+	background-position: center left;
+}
+
+.a-btn.big.no-label
+{
+	width: 24px;
+	background-position: center center;
+}
+
+.a-btn.mini
+{
+	font-size: 10px !important;
+	height: 16px;
+	line-height: 16px !important;
+	background-position: center left;
+}
+
+.a-btn.mini.no-label
+{
+	width: 16px;
+	background-position: center center;
+}
+
+.a-btn.flag.icon.expanded,
+.a-btn.flag.no-label.expanded
+{
+	background-position: -1px center;
+	width: auto;
+}
+
+.a-btn.flag.icon
+{
+	padding: 0 0 0 18px;
+}
+
+.a-btn.flag.icon.no-label
+{
+	padding: 0;
+}
+
+.a-btn.no-label:hover
+{
+	text-indent: -9999px;
+}
+
+.a-btn.flag:hover,
+.a-btn.flag.no-label:hover
+{ /* Hovering Flag Buttons - Pop to the top */
+	z-index:9999;
+	padding: 0 0 0 18px;	
+}
+
+.a-btn .flag-label
+{
+display:none;
+line-height:18px;
+padding: 0 4px;
+white-space:nowrap;
+text-indent:0 !important;
+}
+
+.a-btn:hover .flag-label
+{
+	background-color: transparent !important;
+}
+
+.a-btn.flag-left .flag-label
+{
+	position:absolute;
+	left: auto;
+	right: 100%;
+	margin-right: 3px;
+}
+
+.a-btn.flag-right .flag-label
+{
+	position:absolute;
+	right: auto;
+	left: 100%;
+	margin-left: 3px;	
+}
+
+.a-btn.flag-left:hover .flag-label,
+.a-btn.flag-right:hover .flag-label
+{
+	font-size: 11px;
+	color: #fff;
+	background: rgba(0,0,0,0.75) !important;
+	background: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
+	text-shadow: none;
+	height: 18px;
+	line-height: 18px;
+	margin-top: 0px;
+}
+
+.a-btn.expanded .flag-label
+{
+	display: block;
+}
+
+.a-arrow-btn.icon.a-arrow-left,
+.a-arrow-btn.icon.a-arrow-right
+{ /* Arrow Buttons do not use .a-btn */
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+height: 20px;
+}
+
+
+/* 7. aUI Button Icons
+-------------------------------------*/
+
+.icon.a-feed
+{
+background-image: url(/apostrophePlugin/images/a-icon-feed.png);
+}
+
+.icon.a-page-small
+{
+background-image: url(/apostrophePlugin/images/a-icon-page-small.png);
+}
+
+.icon.a-unchecked
+{
+background-image: url(/apostrophePlugin/images/a-icon-unchecked.png);
+}
+
+.icon.a-checked
+{
+background-image: url(/apostrophePlugin/images/a-icon-checked.png);	
+}
+
+.icon.a-blog,
+.icon.a-blog-btn,
+.icon.a-blogpost,
+.icon.a-blogsingle
+{
+background-image: url(/apostrophePlugin/images/a-icon-blog.png);
+}
+
+.icon.a-blog
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-blog-many.png) !important;	
+}
+
+.icon.a-video
+{
+background-image: url(/apostrophePlugin/images/a-icon-video.png);
+}
+
+.icon.a-image
+{
+background-image: url(/apostrophePlugin/images/a-icon-photo.png);
+}
+
+.icon.a-slideshow
+{
+width: auto !important;
+background-image: url(/apostrophePlugin/images/a-icon-slideshow.png);
+}
+
+.icon.a-richtext,
+.icon.a-text
+{
+background-image: url(/apostrophePlugin/images/a-icon-text.png);
+}
+
+.icon.a-add
+{
+background-image: url(/apostrophePlugin/images/a-icon-add.png);
+}
+
+.icon.a-history-btn,
+.icon.a-history-revert
+{
+color: #111 !important;
+background-color: #fff !important;	
+background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
+}
+
+.a-cancel
+{
+color: #fff !important;
+padding: 0 4px 0 20px;
+background: url(/apostrophePlugin/images/a-icon-cancel.png);
+background-position:left center;
+background-repeat:no-repeat;
+background-color: #999 !important;
+padding-left:20px !important;
+}
+
+.a-cancel:hover
+{
+background-color: #333 !important;
+text-decoration: none !important;
+}
+
+.no-label.a-cancel
+{
+padding: 0 !important;
+}
+
+.icon.a-settings
+{
+background-image: url(/apostrophePlugin/images/a-icon-settings.png);
+}
+
+.icon.a-templates
+{
+background-image: url(/apostrophePlugin/images/a-icon-templates.png);
+}
+
+.icon.a-users
+{
+background-image: url(/apostrophePlugin/images/a-icon-users.png);
+}
+
+.icon.a-media
+{
+background-image: url(/apostrophePlugin/images/a-icon-media.png);
+}
+
+.icon.a-reorganize
+{
+background-image: url(/apostrophePlugin/images/a-icon-sitemap.png);
+}
+
+.icon.a-button
+{
+background-image: url(/apostrophePlugin/images/a-icon-button.png);
+}
+
+.icon.a-pdf
+{
+background-image: url(/apostrophePlugin/images/a-icon-pdf.png);
+}
+
+.icon.a-rawhtml
+{
+	background-image: url(/apostrophePlugin/images/a-icon-rawhtml.png);
+/*padding: 0 4px;*/
+}
+
+.icon.a-download
+{
+background-image: url(/apostrophePlugin/images/a-icon-download.png);
+}
+
+.icon.a-publish,
+.icon.a-edit
+{
+background-image: url(/apostrophePlugin/images/a-icon-edit.png);
+}
+
+.icon.a-arrow-up
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png);
+}
+
+.icon.a-arrow-down
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png);
+}
+
+.icon.a-arrow-left
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png);
+}
+
+.icon.a-arrow-right
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png);
+}
+
+.icon.a-arrow-up,
+.icon.a-arrow-down
+{
+	background-position:center;
+	text-indent: -9999px;
+	padding: 0;
+	width: 18px;	
+}
+
+.icon.a-arrow-left:hover,
+.icon.a-arrow-right:hover
+{
+background-color: transparent;
+background-position: 0 -20px;
+}
+
+.icon.a-arrow-left.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);	
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-right.thin
+{
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-left.thin:hover,
+.icon.a-arrow-right.thin:hover
+{
+background-position: 0 center !important;
+}
+
+.icon.a-delete
+{
+color: #111 !important;
+background-color: #fff !important;
+background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
+}
+
+.icon.a-calendar
+{
+background-image: url(/apostrophePlugin/images/a-icon-event.png);
+}
+
+.icon.a-close
+{
+background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
+float: left;
+overflow: hidden;
+height: 20px;
+line-height: 20px;
+padding: 0;
+text-indent: -9999px;
+width: 20px;
+}
+
+.icon.a-close:hover
+{
+background-position: bottom;
+}
+
+.icon.a-drag
+{
+background: url(/apostrophePlugin/images/a-icon-drag.png) 0 0 no-repeat;
+float: left;
+display: block;
+position: absolute;
+right:0;
+cursor:move;
+text-indent: -9999px;
+height: 20px;
+width: 20px;
+padding: 0;
+margin: 0;
+border: 0;
+-moz-box-shadow:0 0 0 transparent;
+-webkit-box-shadow:0 0 0 transparent;
+-opera-box-shadow:0 0 0 transparent;
+-khtml-box-shadow:0 0 0 transparent;
+box-shadow:0 0 0 transparent;
+-moz-border-radius: 10px !important;
+-webkit-border-radius: 10px !important;
+border-radius: 10px !important;
+}
+
+.icon.a-drag:hover
+{
+background-color: #888;
+background-position: 0 -20px;
+}
+
+.icon.a-drag.alt
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-drag.alt:hover
+{
+	background-position: 0 0;
+}
+
+.icon.a-events
+{
+	padding-left: 0 !important;
+}
+
+.icon.a-event,
+.icon.a-eventsingle,
+.icon.a-events span.day
+{
+float: left;
+height: 18px;
+width: 18px;
+background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
+}
+
+.icon.a-events:hover span.day
+{
+	background-color: transparent !important;
+}
+
+.icon.a-events.day-1 span.day
+{
+	background-position: 0 0px;
+}
+
+.icon.a-events.day-2 span.day
+{
+	background-position: 0 -21px;
+}
+
+.icon.a-events.day-3 span.day
+{
+	background-position: 0 -41px;
+}
+
+.icon.a-events.day-4 span.day
+{
+	background-position: 0 -61px;
+}
+
+.icon.a-events.day-5 span.day
+{
+	background-position: 0 -81px;
+}
+
+.icon.a-events.day-6 span.day
+{
+	background-position: 0 -101px;
+}
+
+.icon.a-events.day-7 span.day 
+{
+	background-position: 0 -121px;
+}
+
+.icon.a-events.day-8 span.day
+{
+	background-position: 0 -141px;
+}
+
+.icon.a-events.day-9 span.day
+{
+	background-position: 0 -161px;
+}
+
+.icon.a-events.day-10 span.day
+{
+	background-position: 0 -181px;
+}
+
+.icon.a-events.day-11 span.day
+{
+	background-position: 0 -201px;
+}
+
+.icon.a-events.day-12 span.day
+{
+	background-position: 0 -221px;
+}
+
+.icon.a-events.day-13 span.day
+{
+	background-position: 0 -241px;
+}
+
+.icon.a-events.day-14 span.day
+{
+	background-position: 0 -261px;
+}
+
+.icon.a-events.day-15 span.day
+{
+	background-position: 0 -281px;
+}
+
+.icon.a-events.day-16 span.day
+{
+	background-position: 0 -301px;
+}
+
+.icon.a-events.day-17 span.day
+{
+	background-position: 0 -321px;
+}
+
+.icon.a-events.day-18 span.day
+{
+	background-position: 0 -341px;
+}
+
+.icon.a-events.day-19 span.day
+{
+	background-position: 0 -361px;
+}
+
+.icon.a-events.day-20 span.day
+{
+	background-position: 0 -381px;
+}
+
+.icon.a-events.day-21 span.day
+{
+	background-position: 0 -401px;
+}
+
+.icon.a-events.day-22 span.day
+{
+	background-position: 0 -421px;
+}
+
+.icon.a-events.day-23 span.day
+{
+	background-position: 0 -441px;
+}
+
+.icon.a-events.day-24 span.day
+{
+	background-position: 0 -461px;
+}
+
+.icon.a-events.day-25 span.day
+{
+	background-position: 0 -481px;
+}
+
+.icon.a-events.day-26 span.day
+{
+	background-position: 0 -501px;
+}
+
+.icon.a-events.day-27 span.day
+{
+	background-position: 0 -521px;
+}
+
+.icon.a-events.day-28 span.day
+{
+	background-position: 0 -541px;
+}
+
+.icon.a-events.day-29 span.day
+{
+	background-position: 0 -561px;
+}
+
+.icon.a-events.day-30 span.day
+{
+	background-position: 0 -581px;
+}
+
+.icon.a-event,
+.icon.a-eventsingle,
+.icon.a-events.day-31 span.day
+{
+	background-position: 0 -601px;
+}
+
+.icon.a-sort-arrow
+{
+	background-position: 0 0;
+}
+
+.icon.a-sort-arrow.sorting,
+.icon.a-sort-arrow:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);	
+}
+
+.icon.a-sort-arrow.desc
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+
+.icon.a-sort-arrow.sorting:hover
+{
+	background-position: 0 -20px;
+}
+
+.icon.a-sort-arrow.asc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);	
+}
+.icon.a-sort-arrow.desc.sorting:hover
+{
+	background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);		
+}
+
+
+input.a-submit,
+input.a-cancel
+{ /* Format ALL Submit Buttons */
+float: left;
+position: relative;
+color: #fff;
+font: 12px/normal arial, sans-serif;
+padding:0px 4px;
+z-index: 2;
+width: auto;
+cursor: pointer;
+min-height:20px;
+}
+
+ul.a-form-row.submit .a-btn
+{
+	height:auto;
+}
+
+input.a-submit:hover
+{
+background-color: #888!important;
+cursor: pointer;
+}
+
+.a-default-value
+{
+color: #888;
+}
+
+.a-rss-feed
+{
+	display: block;
+	float: left;
+	padding-left: 20px;
+	background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat;	
+}
+
+/* 7.5 aUI Button Icons ALT (Black)
+-------------------------------------*/
+
+.alt .icon.a-feed,
+.icon.a-feed.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png);
+}
+
+.alt .icon.a-page-small,
+.icon.a-page-small.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-page-small.png);
+}
+
+.alt .icon.a-unchecked,
+.icon.a-unchecked.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png);
+}
+
+.alt .icon.a-checked,
+.icon.a-checked.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png);	
+}
+
+.alt .icon.a-blog-btn,
+.alt .icon.a-blog,
+.alt .icon.a-blogpost,
+.alt .icon.a-blogsingle,
+.icon.a-blog-btn.alt,
+.icon.a-blog.alt,
+.icon.a-blogpost.alt,
+.icon.a-blogsingle.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png);
+}
+
+.alt .icon.a-video,
+.icon.a-video.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-video.png);
+}
+
+.alt .icon.a-image,
+.icon.a-image.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png);
+}
+
+.alt .icon.a-slideshow,
+.icon.a-slideshow.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-slideshow.png);
+}
+
+.alt .icon.a-richtext,
+.alt .icon.a-text,
+.icon.a-richtext.alt,
+.icon.a-text.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-text.png);
+}
+
+.alt .icon.a-add,
+.icon.a-add.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-add.png);
+}
+
+.alt .icon.a-history-btn,
+.alt .icon.a-history-revert,
+.icon.a-history-btn.alt,
+.icon.a-history-revert.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
+}
+
+.alt .a-cancel,
+.a-cancel.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-cancel.png);
+}
+
+.alt .icon.a-settings,
+.icon.a-settings.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png);
+}
+
+.alt .icon.a-templates,
+.icon.a-templates.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png);
+}
+
+.alt .icon.a-users,
+.icon.a-users.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-users.png);
+}
+
+.alt .icon.a-media,
+.icon.a-media.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-media.png);
+}
+
+.alt .icon.a-reorganize,
+.icon.a-reorganize.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-sitemap.png);
+}
+
+.alt .icon.a-button,
+.icon.a-button.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-button.png);
+}
+
+.alt .icon.a-pdf,
+.icon.a-pdf.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-pdf.png);
+}
+
+.alt .icon.a-rawhtml,
+.icon.a-rawhtml.alt
+{
+	background-image: url(/apostrophePlugin/images/a-icon-alt-rawhtml.png);
+}
+
+.alt .icon.a-download,
+.icon.a-download.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-download.png);
+}
+
+.alt .icon.a-publish,
+.alt .icon.a-edit,
+.icon.a-publish.alt,
+.icon.a-edit.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png);
+}
+
+.alt .icon.a-arrow-up,
+.icon.a-arrow-up.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-up.png);
+}
+
+.alt .icon.a-arrow-down,
+.icon.a-arrow-down.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-down.png);
+}
+
+.alt .icon.a-arrow-left,
+.icon.a-arrow-left.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left.png);
+}
+
+.alt .icon.a-arrow-right,
+.icon.a-arrow-right.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right.png);
+}
+
+.alt .icon.a-arrow-left.thin,
+.icon.a-arrow-left.thin.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple.png);	
+}
+
+.alt .icon.a-arrow-right.thin,
+.icon.a-arrow-right.thin.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png);
+}
+
+.alt .icon.a-delete,
+.icon.a-delete.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
+}
+
+.alt .icon.a-calendar,
+.icon.a-calendar.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-event.png);
+}
+
+.alt .icon.a-close,
+.icon.a-close.alt
+{
+background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0;
+}
+
+.alt .icon.a-event,
+.alt .icon.a-eventsingle,
+.icon.a-event.alt,
+.icon.a-eventsingle.alt,
+.alt .icon.a-events span.day,
+.icon.a-events.alt span.day
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png);
+}
+
+.alt .a-rss-feed,
+.a-rss-feed.alt
+{
+	background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat;	
+}
+
+.icon.a-page-settings
+{
+background-image: url(/apostrophePlugin/images/a-icon-page-settings.png);
+}
+
+.alt .icon.a-page-settings,
+.icon.a-page-settings.alt
+{
+background-image: url(/apostrophePlugin/images/a-icon-alt-page-settings.png);
+}
+
+
+
+
+
+/* 8. aUI Breadcrumb - Rename Page / Add Page
+ **** To be deprecated when we develop new Global Toolbar functionality - 2/3/2010
+-------------------------------------*/
+
+#a-breadcrumb
+{
+position: absolute;
+width: 100%;
+float: left;
+clear: both;
+font-size: 12px;
+line-height: 20px;
+height: 20px;
+left: 24px;
+top: -100px;
+margin: 0;
+/*display: none;*/
+}
+
+#a-breadcrumb.show
+{
+	position: relative;
+	top: 0;
+}
+
+#a-breadcrumb.home-page
+{
+	left: 21px;
+}
+
+#a-breadcrumb a
+{
+color: #333;
+text-decoration: none;
+float: left;
+display: inline;
+}
+
+#a-breadcrumb a:hover
+{
+text-decoration: underline;
+}
+
+#a-breadcrumb form
+{
+display: inline;
+float: left;
+width: auto;
+z-index: 2;
+}
+
+#a-breadcrumb h2
+{
+font-size: 18px;
+}
+
+#a-breadcrumb li
+{
+float: left;
+margin-right: 5px;
+}
+
+#a-breadcrumb .a-breadcrumb-title
+{
+float: left;
+display: inline;
+width: auto;
+line-height: 24px;
+}
+
+#a-breadcrumb .a-breadcrumb-title.current-page,
+#a-breadcrumb .a-breadcrumb-width
+{
+font-size: 18px;
+line-height: 20px;
+height: 20px;
+letter-spacing: -.0125em;
+font-weight: normal;
+position: relative;
+text-transform: capitalize;
+margin-right: 0px;
+}
+
+#a-breadcrumb .current-page .epc-rename-button
+{
+padding: 0px 3px 0 3px;
+white-space: nowrap;
+cursor:text;
+}
+
+#a-breadcrumb .a-breadcrumb-slash
+{
+float: left;
+display: inline;
+width: auto;
+height: 20px;
+top: 2px;
+margin: 0 8px 0 5px;
+font-size: 14px;
+color: #333;
+}
+
+#a-breadcrumb a.epc-rename-button:hover
+{
+background-color: #ddd;
+text-decoration: none;
+/*border-bottom: 1px solid #ddd;*/
+}
+
+#a-breadcrumb .epc-form
+{
+background: #fff;
+float: left;
+/* Width set with JQuery in _breadcrumb.php */
+}
+
+#a-breadcrumb .epc-form a,
+#a-breadcrumb .epc-form input
+{
+float: left;
+display: inline;
+font-size: 12px;
+/*margin: 0 2px;*/
+}
+
+#a-breadcrumb .epc-form #id
+{
+/*display: none;*/
+}
+
+#a-breadcrumb .epc-form span,
+#a-breadcrumb .epc-form-cancel
+{
+font-size: 12px;
+letter-spacing: 0 !important;
+line-height: 20px;
+}
+
+#a-breadcrumb .epc-form-cancel
+{
+color: #333;
+text-transform: lowercase;
+}
+
+#a-breadcrumb .epc-form-cancel:hover
+{
+text-decoration: underline;
+}
+
+#a-breadcrumb .a-form-controls
+{
+background-color: #fff;
+padding-left: 1px;
+float: left;
+display: inline;
+}
+
+#a-breadcrumb .a-form-controls *
+{
+display: inline;
+float: left;
+}
+
+#a-breadcrumb .a-form-controls li
+{
+margin-right: 1px;
+position: relative;
+}
+
+#a-breadcrumb .a-form-controls .a-i
+{
+margin: auto;
+}
+
+#a-breadcrumb input.a-breadcrumb-input
+{
+position: relative;
+top: -1px;
+background: #fff;
+color: #333;
+font-family: Arial, Sans-serif;
+font-size: 17px;
+letter-spacing: -.0125em;
+float: left;
+padding: 0 2px;
+margin: 0;
+width: 100%;
+border: 1px solid #fff;
+clear: right;
+}
+
+#a-breadcrumb-title-rename,
+#a-breadcrumb-page-settings,
+#a-breadcrumb-create-childpage
+{
+	top: 1px;
+}
+
+#a-breadcrumb-rename-title-spacer
+{
+	font-family: Arial, Sans-serif;
+	font-size: 17px;
+	letter-spacing: -.0125em;	
+	padding: 0 2px;
+	margin: 0;
+	border: 1px solid #fff;
+	text-transform: none;
+}
+
+input.a-breadcrumb-input:focus,
+input#a-breadcrumb-create-title
+{
+	color: #000;
+	background: #e6e6e6;
+	border: 1px inset #666;
+}
+
+input#a-breadcrumb-create-title.a-default-value
+{
+	color: #888;
+}
+
+input.a-breadcrumb-create-childpage-title
+{
+width: 180px;
+}
+
+input#a-breadcrumb-rename-title
+{
+	width: 1px;
+}
+
+#a-breadcrumb .a-breadcrumb-add-controls
+{
+display: inline;
+float: left;
+width: 110px;
+}
+
+#a-breadcrumb .a-breadcrumb-add-controls input,
+#a-breadcrumb .a-breadcrumb-add-controls span,
+#a-breadcrumb .a-breadcrumb-add-controls a
+{
+float: left;
+line-height: 20px;
+vertical-align: baseline;
+}
+
+#a-breadcrumb-create-childpage-max-message
+{
+	float: left;
+	display: block;
+	position: relative;
+	white-space: nowrap;
+	text-transform: capitalize;
+	height: 20px;
+	font-size: 11px;	
+	line-height: 20px;
+	padding: 0 4px 0 20px;
+	margin-left: 1px;
+	color: #eee;
+	background: #444 url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png) top left no-repeat !important;
+	background-color: #444 !important;
+	z-index:999;
+	display: none;
+}
+
+
+
+/* 10. aUI Pager Navigation
+-------------------------------------*/
+
+.a-pager-navigation
+{
+float: left;
+display: inline;
+overflow: hidden;
+margin: 10px 0;
+font-size: 11px;
+width: 100%;
+}
+
+.a-pager-navigation a,
+.a-pager-navigation span
+{
+display: inline;
+float: left;
+height: 20px;
+line-height: 20px;
+}
+
+.a-pager-navigation .a-page-navigation-number
+{
+padding: 0 6px;
+}
+
+.a-pager-navigation span.a-page-navigation-number.a-pager-navigation-disabled
+{
+background-color: #e2e2e2;
+}
+
+.a-pager-navigation a.a-page-navigation-number:hover
+{
+color: #000;
+background-color: #e2e2e2;
+}
+
+.a-pager-navigation .a-pager-navigation-image
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+display: inline;
+float: left;
+width: 22px;
+height: 20px;
+text-indent: -9999px;
+}
+
+.a-pager-navigation a.a-pager-navigation-image.disabled
+{
+cursor: default;
+}
+
+.a-pager-navigation a.a-pager-navigation-first
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation a.a-pager-navigation-first:hover
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+}
+.a-pager-navigation a.a-pager-navigation-previous
+{
+background-position: -22px 0;
+width: 19px;
+margin-right: 5px;
+margin-left:1px;
+}
+.a-pager-navigation a.a-pager-navigation-previous:hover
+{
+background-position: -22px -40px !important;
+}
+.a-pager-navigation a.a-pager-navigation-next
+{
+background-position: -41px 0;
+width: 19px;
+margin-left: 5px;
+margin-right: 1px;
+}
+.a-pager-navigation a.a-pager-navigation-next:hover
+{
+background-position: -41px -60px;
+}
+.a-pager-navigation a.a-pager-navigation-last
+{
+background-position: -60px 0;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+.a-pager-navigation a.a-pager-navigation-last:hover
+{
+background-position: -60px -80px;
+}
+
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-right: 5px;
+margin-left:1px;
+
+}
+
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background-position:-60px -80px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-left: 5px;
+margin-right:1px;
+}
+
+
+.a-pager-navigation a.a-pager-navigation-first,
+.a-pager-navigation a.a-pager-navigation-previous,
+.a-pager-navigation a.a-pager-navigation-next,
+.a-pager-navigation a.a-pager-navigation-last,
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
+{
+	background-color:#e2e2e2;
+}
+
+.a-pager-navigation a.a-pager-navigation-first:hover,
+.a-pager-navigation a.a-pager-navigation-previous:hover,
+.a-pager-navigation a.a-pager-navigation-next:hover,
+.a-pager-navigation a.a-pager-navigation-last:hover
+{
+	background-color:#e2e2e2;
+}
+
+
+
+
+
+
+/* 11. aUI Global Toolbar
+-------------------------------------*/
+
+#a-global-toolbar
+{
+position: relative;
+display: inline;
+float: left;
+width: 100%;
+border-bottom: 1px solid #ddd;
+padding: 5px 0 2px 0;
+margin-bottom: 5px;
+clear: both;
+z-index: 999;
+background:#fff;
+min-height: 24px;
+}
+
+#a-global-toolbar #the-apostrophe
+{
+float: left;
+height: 20px;
+width: 20px;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat;
+overflow: hidden;
+margin: 2px;
+}
+
+#a-global-toolbar #the-apostrophe:hover
+{
+	background-color: #444;
+}
+
+#a-global-toolbar .a-global-toolbar-buttons
+{
+float: left;
+margin-right: 5px;
+}
+
+#a-global-toolbar .a-login
+{
+	float: right;
+	display: inline;
+	margin-right:5px;
+	line-height: 20px;
+}
+
+#a-global-toolbar #a-logged-in-as
+{
+	float: left;
+	line-height: 20px;
+	padding-right: 10px;
+}
+
+#a-global-toolbar #a-logged-in-as a
+{
+	text-decoration: underline;
+}
+
+#a-global-toolbar #a-logged-in-as a:hover
+{
+	color: #000;
+}
+
+#a-global-toolbar .a-global-toolbar-this-page
+{
+	position: relative;
+	display: inline;
+	float:left;
+	clear: both;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#a-global-toolbar .a-global-toolbar-this-page.ok
+{
+	padding: 8px 0;
+}
+
+#a-this-page-toggle.open
+{
+	background-color: #333;
+}
+
+
+
+
+
+
+
+/* 12. Page Settings Panel
+-------------------------------------*/
+
+#a-page-settings
+{
+	position: absolute;
+}
+
+.show-options #a-page-settings
+{
+	z-index: 998;
+}
+
+.show-options #a-page-settings .a-options
+{
+	display: block;
+	min-width: 0;
+}
+
+.show-options #a-page-settings-button
+{
+position: relative;
+z-index: 999;
+}
+
+.a-page-settings-menu
+{
+	width: 360px;
+}
+
+.a-page-settings-section
+{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-page-settings-section .content
+{
+	margin: 0 16px;
+}
+
+.a-page-settings-section h4
+{
+	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+	cursor: pointer;
+	text-indent: 16px;
+	line-height: 20px;
+	width: 100%;
+	position: relative;
+	margin: 0 0 5px 0;
+}
+
+.a-page-settings-section h4:hover
+{
+	background-position: -6px 0;
+}
+
+.a-page-settings-section.open h4
+{
+	background-position: -6px -20px;
+}
+
+.a-page-settings-section.open h4:hover
+{
+	background-position: -6px -60px;	
+}
+
+
+
+.a-page-settings-section h5
+{
+	font-size: 12px;
+	font-weight: normal;
+	padding: 5px 0;
+	margin-bottom: 5px;
+}
+
+.a-page-settings-section.page-submit
+{
+	margin: 10px 0 5px 0;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-cancel
+{
+	float: left !important;
+	clear: none !important;
+	margin-left: 2px;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-delete
+{
+	clear: none;
+	float: right !important;
+}
+
+.a-page-settings-menu hr
+{
+/* these are copied from aBlog.css, could be combined */
+float: left;
+clear: both;
+width: 100%;
+height: 2px;
+border: 0;
+background: rgba(0,0,0,0.05);
+border-top: 1px inset rgba(0,0,0,0.1);
+border-right: 1px inset rgba(0,0,0,0.1);
+margin: 10px 0;
+}
+
+.a-form-row.title
+{
+	margin-top: 0;
+}
+
+.a-form-row.title label
+{
+	display: none;
+}
+
+.a-form-row.title input#a_settings_settings_title
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.1);
+}
+
+.a-form-row.title input#a_settings_settings_title:hover
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.35);
+}
+
+.a-form-row.title input#a_settings_settings_title:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+}
+
+
+
+/* Admin Bar CSS - Create Page Form
+--------------------------------------*/
+#a-create-page-button.aActiveMenu
+{
+	z-index: 999;
+}
+
+#a-create-page-form
+{
+	padding: 30px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 100px;
+	width: auto !important;
+	width: 100px;	
+}
+
+#a-create-page-button-menu.show-options
+{
+	position: relative;
+	z-index: 998;
+}
+
+.show-options #a-create-page-form
+{
+	display: block;
+}
+
+#a-create-page-title
+{
+	width: 240px;
+	border: 1px solid #999;
+	font-size: 18px;
+	padding: 2px 3px;
+	font-family: Arial, Helvetica, Sans-serif;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	margin-bottom: 5px;
+}
+
+
+
+
+/* 13. History Browser
+-------------------------------------*/
+
+.a-history-browser
+{ /*This positions history vertically inside the browser */
+position: absolute;
+top: 0px; /* This changes with history button offset*/
+left: 50%;
+margin-left: -480px;
+float: left;
+width: 960px;
+clear: both;
+z-index: 999;
+overflow: hidden;
+display: none;
+background: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+.a-history-browser h3
+{
+font-size: 16px;
+color: #666;
+float: left;
+/*	width: 100%;*/
+width: 100%;
+margin: 0;
+padding: 10px;
+clear: both;
+}
+
+.a-history-browser-heading
+{
+	float: left;
+	clear: both;
+	width: 100%;
+	position: relative;
+}
+
+.a-history-browser #a-history-close-button
+{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -10px;
+	height: 20px;
+	width: 20px;
+	background-position: 0 0;
+	z-index: 999;
+}
+
+.a-history-browser #a-history-close-button span
+{
+	color: #333 !important;
+	text-shadow: none !important;
+}
+
+.a-history-browser #a-history-close-button:hover
+{
+	background-position: 0 -20px;
+}
+
+span#a-history-browser-number-of-revisions,
+a.a-history-browser-view-more
+{
+float: left;
+display: inline;
+padding: 0 8px;
+line-height: 20px;
+position: relative;
+line-height: 1.2;
+}
+
+a.a-history-browser-view-more
+{
+	border-left: 1px solid #ccc;
+}
+
+a.a-history-browser-view-more .spinner
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: -16px;
+	display: none;
+}
+
+a.a-history-browser-all:hover
+{
+background-color: #ddd;
+}
+
+.a-history-browser-crop
+{ /*This CAN make history a scrollable box, sets width to be width of site */
+width: 100%;
+margin: 0;
+border-top: 1px solid #ddd;
+float: left;
+clear: both;
+}
+
+.a-history-browser table
+{
+width: 100%;
+table-layout: fixed;
+font-size: 11px;
+color: #333;
+}
+
+.a-history-browser thead th
+{
+font-weight: bold;
+padding: 8px 4px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-browser tbody tr:hover
+{
+background-color: #e2e2e2;
+}
+
+.a-history-browser tbody td
+{
+overflow: hidden;
+white-space: nowrap;
+height: 30px;
+vertical-align: middle;
+padding: 0 4px;
+}
+
+.a-history-browser tfoot td
+{
+border-top: 1px solid #ddd;
+padding: 8px 4px;
+}
+
+.a-history-browser .date
+{
+width: 15%;
+}
+
+.a-history-browser .editor
+{
+width: 15%;
+}
+
+.a-history-browser .preview
+{
+width: 70%;
+}
+
+.a-history-preview-notice
+{
+display: none;
+position: fixed;
+top: 55px;
+left: 20px;
+z-index: 9999;
+background: #fff;
+color: #900;
+border-bottom: 1px solid #ddd;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+float: left;
+width: 250px;
+}
+
+.a-history-preview-notice h4,
+.a-history-preview-notice p,
+.a-history-preview-notice .a-history-options
+{
+float: left;
+clear: both;
+margin: 0 10px 10px;
+}
+
+.a-history-preview-notice h4
+{
+	margin-top: 10px;
+}
+
+.a-history-options .a-history-revert
+{
+	margin-right: 2px !important;
+}
+
+
+
+
+
+
+
+
+/* 14. Areas and Slots
+-------------------------------------*/
+
+.a-area
+{ /* An Area is the outer most wrapper for a collection of Slots */
+position: relative;
+float: left;
+width: 100%;
+margin: 10px 0;
+/*	z-index:599;*/
+}
+
+.a-area.editing-now,
+.a-slot.editing-now
+{
+	z-index: 900;
+}
+
+.a-area .a-new-slot
+{
+float: left;
+clear: both;
+width: 100%;
+height: 1px;
+z-index: 799;
+border: 1px dashed rgba(0,0,0,0.2);
+padding: 5px;
+margin: -6px 0 6px -5px;
+-moz-border-radius: 2px;
+display: none;
+position: relative;
+overflow: hidden;
+}
+
+.a-slots
+{ /* Slots Container wraps all Slots in an Area*/
+position: relative;
+float: left;
+width: 100%;
+}
+
+.a-slot
+{ /* Individual Slots */
+position: relative;
+float: left;
+width: 100%;
+min-height: 20px;
+margin-bottom: 10px;
+font-size: 12px;
+display: inline;
+}
+
+.a-slot-content,
+.a-slot-content-container
+{
+position: relative;
+float: left;
+width: 100%;
+clear: both;
+}
+
+.a-slot-form
+{
+	float: left;
+	width: 100%;
+}
+
+.a-slot-form.a-options
+{
+	position: relative;
+	margin-bottom: -27px;
+}
+
+/* Rich Text Slot Styles */
+.a-slot.aRichText h1,
+.a-slot.aRichText h2,
+.a-slot.aRichText h3,
+.a-slot.aRichText h4,
+.a-slot.aRichText h5,
+.a-slot.aRichText h6,
+.a-slot.aRichText p,
+.a-slot.aRichText ul,
+.a-slot.aRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aRichText b,
+.a-slot.aRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aRichText blockquote
+{
+display: block;
+float: left;
+clear: both;
+display: inline;	
+margin: 20px 40px;
+}
+
+.a-slot.aRichText em,
+.a-slot.aRichText i
+{
+font-style: italic;
+}
+
+.a-slot.aRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aRichText table th,
+.a-slot.aRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+.a-slot.aText,
+.a-slot.aRawHTML
+{
+width: 100%;
+}
+
+.a-slot.aText textarea.aTextSlot
+{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-slot.aRawHTML textarea.aRawHTMLSlotTextarea
+{
+	float: left;
+	width: 99%;
+	border: 1px solid #333;
+	padding: 2px;
+	height: 200px;
+	font: 12px/1.2 Monospace;
+	background: #efefef;
+}
+
+/* aSlideshow Slot Styles */
+
+.a-slot.aSlideshow
+{
+margin-top: 24px; /* Space for the Arrow Controls*/
+margin-bottom: 40px;
+}
+
+.a-slot.aSlideshow.single-image
+{
+	margin-top:0px; /* Removes Space for the Arrow Controls When There is One Image*/
+}
+
+.a-slideshow-meta
+{
+	font-size: 11px;
+	margin: 5px 0;
+}
+
+ul.a-slideshow-controls
+{/* Slideshow Controls */
+position: absolute;
+top: -24px;
+right: 0;
+float: left;
+display: inline;
+margin-right: 1px;
+width: auto;
+height: auto;
+border: none;
+}
+
+.a-arrow-btn
+{
+float: left;
+border: 0;
+background-position: 0 0;
+cursor: pointer;
+}
+
+ul.a-slideshow-controls li.over
+{
+	background-position: 0 -20px;
+}
+
+ul.a-slideshow-controls a
+{
+z-index: 1;
+}
+
+.a-slideshow
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	display: inline;
+}
+
+.a-slideshow-item
+{
+display: none;
+float: left;
+clear: both;
+}
+
+.a-slideshow-item .a-slideshow-meta
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: block;
+}
+
+.a-slideshow-item .a-slideshow-title
+{
+	margin: 5px 0;
+}
+
+.a-slideshow-item .a-slideshow-image
+{
+	line-height:0 !important; /* RB: fixes the bit of whitespace after img */
+}
+
+.a-media-placeholder
+{ 
+/* Height and Width are defined in the template and applied inline in _normalView.php */
+/* Placeholder is used in aImage, aVideo, aSlideshow*/
+}
+
+.a-media-placeholder span
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: 1px dashed #ccc;
+	margin: -1px 0 0 -1px;
+	background: rgba(0,0,0,0.025);
+}
+
+/* aButton Slot Styles */
+
+.a-slot.aButton .a-button, 
+.a-slot.aButton .a-button .a-button-image,
+.a-slot.aButton .a-button .a-button-image .a-button-link,
+.a-slot.aButton .a-button .a-button-title
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;
+	width: 100%;
+	margin: 0;
+}
+
+.a-slot.aButton .a-button
+{ /* Fixes IE6 Bug */
+	background: none;
+}
+
+/* aButton Slot Bundled Variant Style */
+
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title
+{ 
+position: absolute;
+top: 0;
+left: 0;
+top: 50%;
+left: 0;
+line-height: 20px;
+margin-top: -10px;	
+}
+
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a,
+.a-slot.aButton.useTitleAsButtonText .a-button .a-button-title a:hover
+{
+	position: absolute;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	font-size: 16px;
+	color: #fff;
+	white-space: nowrap;
+	text-shadow: 0 0 6px rgba(0,0,0,0.80);	
+}
+
+/* aImage Slot Styles */
+
+.a-slot.aImage .a-media-image,
+.a-slot.aImage .a-image-embed
+{
+	float: left;
+	clear: both;
+	line-height: 0;
+}
+
+/* aVideo Slot Styles */
+
+/* aFeed Slot Styles */
+
+.a-slot.aFeed .a-feed,
+.a-slot.aFeed .a-feed .a-feed-item
+{
+	float: left;
+	display: inline;
+	position: relative;
+	clear: both;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .title
+{
+	font-size: 14px;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .date
+{
+	margin: 5px 0;
+	color: #999;
+}
+
+.a-slot.aFeed .a-feed .a-feed-item .date,
+.a-slot.aFeed .a-feed .a-feed-item .description
+{
+	font-size: 11px;
+	line-height: 1.4;
+}
+
+/*aPDF Slot Styles*/
+
+.a-slot.aPDF
+{
+	margin:20px 0px;
+}
+
+.a-pdf-slot
+{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+.a-pdf-slot .a-pdf-meta
+{
+	position:relative;
+	margin:5px 0;
+}
+
+.a-pdf-title
+{
+	width:100%;
+	font-size: 16px;
+}
+
+.a-pdf-description
+{
+	margin-top:0px;
+	color:#666;
+	width:100%;
+	margin:5px 0;
+}
+
+.a-pdf-download
+{
+	margin-left:-3px;
+}
+
+.a-pdf-download a
+{
+	background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center;
+	padding-left:20px;
+}
+
+/*ICON ONLY*/
+
+.a-pdf-slot.no-label
+{
+	height: auto !important;
+	height: 43px;
+}
+
+.a-pdf-slot.no-label .a-media-pdf-icon
+{
+	position:absolute;
+	height:43px;
+	width:34px;
+	margin-top:5px;
+	top:0;
+	left:0;
+	z-index:10;
+}
+
+.a-pdf-slot.no-label .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.a-pdf-slot.no-label .a-pdf-meta
+{
+	padding-left:45px;
+	text-indent: 0 !important;
+}
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.no-label .a-media-pdf-icon
+{
+	display:inline;
+	position:absolute;
+	top:0;
+	left:0;
+	height:20px;
+	width:20px;
+	margin-top:4px;
+	z-index:10;
+}
+
+.compact .a-pdf-slot.no-label .a-media-pdf-icon a
+{
+	float:left;
+	background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.no-label .a-pdf-meta
+{
+	padding-left:25px;
+}
+
+.compact .a-pdf-title
+{
+	width:100%;
+	font-size: 14px;
+}
+
+.compact .a-pdf-description
+{
+	display:none;
+}
+
+.compact .a-pdf-download
+{
+	display:none;
+}
+
+
+/*PDF PREVIEW*/
+
+/*COMPACT*/
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon img
+{
+	border:1px solid #ccc;
+	margin-right:10px;
+	margin-bottom:5px;
+	height:70px;
+	width:56px;
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon
+{
+	position:absolute;
+	top:0;
+	left:0;
+	height:70px;
+	width:56px;
+	margin-top:5px;
+	z-index:10;
+	overflow:hidden;	
+}
+
+.compact .a-pdf-slot.with-preview .a-media-pdf-icon a
+{
+	float:left;
+	height:100%;
+	width:100%;
+	text-indent: -9999px;
+}
+
+.compact .a-pdf-slot.with-preview .a-pdf-meta
+{
+	padding-left:70px;
+}
+
+
+/* 9. Area and Slot Controls
+-------------------------------------*/
+
+ul.a-controls
+{
+float: left;
+visibility: hidden;
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+.a-slot.editing-now ul.a-controls,
+.a-area.singleton.editing-now ul.a-controls
+{ /* Controls sit on top when editing a singleton slot or a slot in an area */
+z-index: 899;
+}
+
+ul.a-controls.a-slot-save-cancel-controls
+{
+	clear: both;
+}
+
+ul.a-controls li
+{ /* All controls buttons are wrapped in a list. */
+float: left;
+display: inline;
+position: relative;
+margin: 0px 2px 2px 0 !important;
+width: auto;
+height: auto;
+border: none;
+}
+
+ul.a-controls li.last
+{ /* .last option has no margin */
+	margin: 0 0 2px 0 !important;
+}
+
+ul.a-controls li.last.delete
+{
+/*	float: right;*/
+}
+
+ul.a-controls .a-controls-item.cancel
+{ /* Hide All Cancel Buttons */
+display: none;
+}
+
+ul.a-controls.a-area-controls
+{
+position: relative;
+float: left;
+width: 100%;
+margin-bottom: 10px !important;
+}
+
+.a-area.singleton ul.a-controls.a-area-controls
+{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 799;
+margin: 0 !important;
+}
+
+.a-area.singleton.aRichText ul.a-controls.a-area-controls,
+.a-area.singleton.aText ul.a-controls.a-area-controls,
+.a-area.singleton.aBlog ul.a-controls.a-area-controls,
+.a-area.singleton.aBlogSingle ul.a-controls.a-area-controls,
+.a-area.singleton.aEvent ul.a-controls.a-area-controls,
+.a-area.singleton.aEventSingle ul.a-controls.a-area-controls
+{ /* Singleton Slots that don't allow controls to sit on top of their content */
+	position: relative;
+	margin-bottom: 0 !important;
+}
+
+ul.a-controls li.add-slot-now
+{
+	margin: 0 4px 0 0 !important;
+}
+
+ul.a-controls.a-slot-controls
+{
+	width: 100%;
+}
+
+.aImage ul.a-controls.a-slot-controls,
+.aSlideshow ul.a-controls.a-slot-controls,
+ul.a-controls.a-media-edit-links,
+ul.a-controls.a-media-multiple-list-controls
+{ /* Image, Button, and Slideshow Slot Controls - Sit ON TOP of associated slot */
+position: absolute;
+z-index: 799;
+top: 0;
+left: 0;
+width: auto;
+}
+
+ul.a-controls.a-media-edit-links
+{
+	width: 100%;
+}
+
+ul.a-controls ul.a-controls-item
+{ /* Control Subsets */
+position: relative;
+}
+
+ul.a-controls .a-area-options,
+ul.a-controls .a-history-options
+{
+z-index: 899;
+display: none;
+}
+
+.history-preview a.a-btn.a-add-slot
+{ /* When we are previewing a history instance we shouldn't be able to add new slots so let's hide the button! */
+ display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-controls
+{
+display: none !important;
+}
+
+.a-area.previewing-history .a-slots .a-slot.singleton .a-controls
+{
+display: block !important;
+}
+
+/* Variants Controls */
+
+ul.a-controls .a-controls-item.variant .a-variant-options-toggle
+{
+	position: relative;
+	z-index: 100;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle
+{
+	background-color: #333;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options-toggle:hover
+{
+	background-color: #999;
+}
+
+.a-options
+{
+	padding: 35px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 120px;
+	width: auto;
+}
+
+ul.a-controls .a-options
+{
+	min-width: 124%;
+}
+
+ul.a-controls .a-options li,
+ul.a-controls .a-options li.last
+{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 4px 0 !important;
+	list-style: none;	
+}
+
+.a-options a
+{
+float: left;
+clear: both;
+color: #777;
+}
+
+.a-options a:hover,
+.a-options span
+{
+	color: #000 !important;
+}
+
+.a-options a.a-btn
+{
+	float: none !important;
+	display: block !important;
+	display: block !important;
+	-moz-border-radius: 2px !important;
+	text-shadow:none;	
+}
+
+.a-options a.a-btn:hover
+{
+	background-color: #f5f5f5	 !important;
+	color: #000 !important;
+	border-color: #ddd !important;
+	text-shadow:none;
+}
+
+.a-options .a-multiple-select a
+{
+	color: #777 !important;
+}
+
+ul.a-controls .a-controls-item.variant.open .a-variant-options
+{
+	width: auto;
+	display: block;
+}
+
+ul.a-controls .a-variant-options.loading
+{
+	background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-options.a-slot-form
+{
+	width: 100%;
+	top: -27px;
+}
+
+.a-options.a-slot-form .a-slot-form-title
+{
+	position:absolute;
+	float:right;
+	right:7px;
+	top:0;
+	line-height:27px;
+}
+
+.a-options.a-slot-form .a-form-row
+{
+	line-height: 20px;
+	margin: 0 0 15px 0;
+	padding: 0 10px;
+	width: auto;
+	clear: both;
+}
+
+.a-options.a-slot-form .a-form-row:hover .a-form-help-text
+{
+	display: block;
+}
+
+.a-options.a-slot-form .a-form-help-text
+{
+	position: absolute;
+	top: 0;
+	left: 100%;
+	white-space: nowrap;
+	width: auto;
+	margin-left: 20px;
+	padding: 0 6px 0 0;
+	background: rgba(0,0,0,1);
+	color: #ccc;
+	line-height: 21px;
+	-moz-border-radius: 0 4px 4px 0px;
+	-webkit-border-radius: 0 4px 4px 0px;
+	border-radius: 0 4px 4px 0px;
+	-moz-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-webkit-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-opera-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	-khtml-box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	box-shadow:rgba(255,255,255,0.25) 0px 0px 2px;
+	display: none;
+}
+
+.a-help-arrow
+{
+	position: absolute;
+	top: 0;
+	left: -15px;
+	float: left;
+	height: 21px;
+	width: 15px;
+	margin: 0 5px 0 0;
+	background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
+}
+
+.a-options.a-slot-form .a-form-row label
+{
+	width: 80px;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #666;
+}
+
+.a-options.a-slot-form .a-form-field
+	{
+	float: left;
+}
+
+.a-controls.a-blog-post-controls
+{
+	width: 100%;
+	float: left;
+	margin: 10px 0 5px 0 !important;
+}
+
+.aBlog .a-options.a-slot-form,
+.aEvent .a-options.a-slot-form
+{
+	width: 300px;
+}
+
+.aBlog .a-options.a-slot-form .a-form-row.tags input,
+.aEvent .a-options.a-slot-form .a-form-row.tags input
+{
+	width: 180px;
+}
+
+.aBlogSingle .a-options.a-slot-form .a-form-row
+{
+	padding: 0;
+}
+
+
+.aBlogSingle .a-blogsingle-input
+{
+	width: 180px
+}
+
+.aBlogSingle .a-form-row.search label
+{
+	width: 120px;
+}
+
+.add-slot-now
+{
+	z-index:999;
+}
+
+.add-slot-now .a-add-slot
+{
+	color: #fff !important;
+	background-color: #333;
+	z-index:999;
+}
+
+.add-slot-now .a-options
+{
+	display: block !important;
+}
+
+
+/* 15. Apostrophe Login Form
+ **** This floats in the upper right corner when we use a login button
+-------------------------------------*/
+
+#a-login-form-container
+{
+position: absolute;
+left: auto;
+top: 5px;
+right: 5px;
+padding: 0;
+z-index:9999 !important;
+width: 222px;
+min-width: 0;
+}
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover
+{
+color: #fff;
+}
+
+
+
+
+/* 16. Apostrophe Signin Form
+ **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
+-------------------------------------*/
+
+#a-signin
+{
+float: left;
+position: relative;
+overflow: hidden;
+display: block;
+clear: both;
+width: 220px;
+}
+    
+#a-signin-form
+{
+float: left;
+position: relative;
+overflow:hidden;
+display: inline;
+clear: both;
+float: left;
+width: 180px;
+padding: 20px;
+}
+ 
+#a-signin-form label
+{
+	font-size: 16px;
+}
+
+#a-signin-form .a-form-row input[type="text"],
+#a-signin-form .a-form-row input[type="password"]
+{
+	width: 155px;	
+}
+
+#a-signin-form .a-form-row.submit input
+{
+	color:#fff;
+}
+
+#a-signin-form .a-form-row
+{
+margin: 0 10px 10px 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+float: left;
+display: inline;
+width: auto;
+clear:none;
+position: relative;
+margin-right: 5px;
+}
+
+
+
+
+
+/* 17. General Navigation Styles 
+-------------------------------------*/
+
+.a-nav .a-archived-page a
+{ /* aUI(); Makes Unpublished pages 50% Opacity */
+text-decoration: line-through;
+}
+
+
+
+
+
+
+/* 18. Site Search
+-------------------------------------*/
+
+#a-search
+{
+float: left;
+display: inline;
+width: 100%;
+height: 20px;
+margin: 10px 0;
+clear: both;
+}
+
+#a-search-global
+{
+width: 240px;
+height: 20px;
+float: right;
+display: inline;
+}
+
+.a-search-form,
+.a-search-form span.a-search-field
+{ /* Removed background image in favor of border radius 2/3/2010 */
+position: relative;
+width: 238px;
+height: 20px;
+background: #fff;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+}
+
+.a-search-form input.submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+.a-search-form span.a-search-field
+{
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.a-search-form input.a-search-field
+{
+position: absolute;
+top: 0;
+left: 6px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form span.a-search-field input
+{
+position: absolute;
+top: 0;
+left: 9px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px 0 0 0;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form span.a-search-submit
+{
+position: absolute;
+right: 0;
+top: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+}
+
+.a-search-form input.a-search-submit
+{
+padding: 0;
+width: 29px;
+height: 20px;
+border: none !important;
+position: absolute;
+top: 0;
+right: 0;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+.a-search-form input.a-search-submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+.a-search-form input.submit
+{
+position: absolute;
+top: 0;
+right: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+padding: 0;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+
+
+
+
+
+
+/* 19. Search Results
+-------------------------------------*/
+
+#a-search-results-container,
+.a-search-results,
+.result-title,
+.result-url,
+.result-summary
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.result-title
+{
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.result-url
+{
+font-size: 11px;
+margin-top: 5px;
+margin-bottom: 15px;
+color: #666;
+}
+
+
+
+
+
+
+
+/* 20. Apostrophe Feedback Form
+-------------------------------------*/
+
+#feedback-form-container
+{
+display: none;
+position: absolute;
+right: 0;
+bottom: 0;
+z-index: 999;
+background: #fff;
+padding: 10px;
+border: 1px solid #ddd;
+}
+
+#a-feedback-form
+{
+margin: 10px 0;
+}
+
+#feedback-link
+{
+text-align: right;
+text-transform: capitalize;
+}
+
+#feedback-submitted
+{
+text-align: right;
+}
+
+
+
+
+
+
+
+/* 21. Media Engine
+-------------------------------------*/
+
+#a-media-wrapper
+{
+width: 960px;
+margin: 40px auto;
+}
+
+#a-media-wrapper h1
+{
+margin: 40px 0;
+width: 118px;
+height: 200px;
+text-indent: -9999px;
+background: url(../images/apostrophePlugin-logo.png) top left;
+}
+
+#a-media-plugin
+{
+float: left;
+width: 100%;
+display: inline;
+position: relative;
+}
+
+.a-subnav-wrapper.media,
+.a-media-library,
+.a-media-toolbar,
+.a-media-footer
+{
+display: inline;
+float: left;
+}
+
+.a-subav-wrapper.media
+{
+clear: left;
+}
+
+.a-subnav-wrapper.media .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+.a-search-form input.submit:hover
+{
+background-position: 0 -20px;
+cursor: pointer;
+}
+
+a#a-media-search-remove
+{
+float: left;
+display: none;
+position: absolute;
+top: 0;
+right: 0;
+width: 20px;
+height: 20px;
+text-indent: -9999;
+background: url(/apostrophePlugin/images/a-icon-close.png) top left no-repeat;
+color: #fff;
+overflow: hidden;
+text-indent: -9999px !important;
+}
+
+a#a-media-search-remove:hover
+{
+background-position: bottom left;
+}
+
+.a-search-video
+{
+width: 222px;
+font-family: Arial, sans-serif;
+font-size: 12px;
+padding: 0 3px;
+float: left;
+clear: both;
+margin: 5px 0;
+background: #fff;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+}
+
+.a-search-field
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.a-media-row
+{
+float: left;
+display: inline;
+margin-bottom: 60px;
+width: 100%;
+}
+
+.a-media-toolbar,
+.a-media-library
+{
+width: 720px;
+float: right;
+margin-bottom: 20px;
+/*overflow: hidden;*/
+}
+
+.a-media-toolbar
+{
+padding-bottom: 20px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-media-footer
+{
+width: 720px;
+float: right;
+margin: 20px 0;
+}
+
+.a-media-toolbar .a-media-controls,
+.a-media-toolbar .a-media-slideshow-controls
+{
+clear: both;
+}
+
+.a-media-toolbar h3
+{
+	/*This made it tough to show constraints etc., if you really need it do it at app level */
+	/*float: left;*/
+	margin: 0 0 10px 0;
+}
+
+.a-media-toolbar .a-constraints
+{
+  font-size: 110%;
+  padding-bottom: 10px;
+}
+
+.a-media-toolbar h3 .a-cancel
+{
+	background: none !important;
+	padding: 0 !important;
+	color: #900 !important;
+	border: 0;
+	text-shadow: none;
+	float: none;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+.a-media-toolbar h3 .a-cancel:hover
+{
+	color: #333 !important;
+}
+
+.a-media-item
+{
+float: left;
+display: inline;
+position: relative;
+width: 340px;
+margin-bottom: 20px;
+}
+
+.a-media-item.even
+{
+	margin-right: 40px;
+}
+
+.a-media-item-meta
+{
+margin: 0 0 10px 0;
+}
+
+.a-media-item-thumbnail,
+.a-media-item-title,
+.a-media-item-description,
+.a-media-item-meta
+{
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+position: relative;
+margin: 0 0 10px 0;
+}
+
+.a-media-item-link span
+{
+float: left;
+width: 98px;
+line-height: 22px;
+}
+
+.a-media-item-link input
+{
+float: right;
+width: 214px;
+border: 1px solid #666;
+padding: 2px 3px;
+font: 11px Arial, Sans-serif;
+}
+
+.a-media-item.even
+{
+/*margin-right: 20px;*/
+}
+
+.a-media-item-title h3 a
+{
+text-decoration: none;
+font-size: 18px;
+}
+
+#a_media_item_media_categories_list .a-multiple-select-list
+{
+	width: 214px;
+	margin: 10px 0 0 120px;
+}
+
+.a-media-select
+{
+margin-bottom: 10px;
+float: left;
+display: inline;
+padding-bottom:10px;
+}
+
+#a-media-selection-list
+{
+float: left;
+margin: 10px 0;
+}
+
+.a-media-selection-list-item
+{
+float: left;
+margin: 0 16px 16px 0;
+cursor: move;
+position: relative;
+}
+
+.a-media-selection-list-item .a-media-selected-item-drag-overlay,
+.a-media-selection-list-item .a-media-selected-item-overlay
+{
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: none;
+}
+
+.a-media-selection-list-item.over .a-media-selected-item-drag-overlay
+{
+background: url(/apostrophePlugin/images/a-icon-drag-simple.png) center center no-repeat;
+z-index: 299;
+}
+
+.a-media-selection-list-item.over .a-media-selected-item-overlay
+{
+background-color: #000;
+z-index: 199;
+}
+
+.a-media-selection-list-item img
+{
+float: left;
+}
+
+#a-media-plugin #a-media-edit-form,
+#a-media-plugin .a-media-item-edit-form
+{
+float: left;
+display: inline;
+position: relative;
+margin-bottom: 30px;
+width: 50%;
+}
+
+#a-media-plugin .a-form-row.categories .a-form-field
+{
+	float:none;
+}
+
+#a-media-plugin .a-form-row.permissions .radio_list
+{
+float: left;
+display: inline;
+position: relative;
+}
+
+#a-media-plugin .a-form-row.permissions .radio_list li
+{
+float: left;
+display: inline;
+position: relative;
+width: 120px;
+}
+
+#a-media-plugin .a-form-row.permissions .radio_list li label
+{
+position: absolute;
+top: 0;
+left: 25px;
+}
+
+#a-media-plugin .a-form-row.permissions .radio_list li input
+{
+float: left;
+}
+
+#a-media-plugin .a-form-row input[type="text"],
+#a-media-plugin .a-form-row select,
+#a-media-plugin .a-form-row textarea
+{
+float: left;
+width: 214px;
+}
+
+#a-media-plugin .a-form-row textarea
+{
+line-height: 1.6;
+}
+
+#a-media-plugin .a-form-row select
+{
+	width: auto;
+	min-width: 214px;
+	max-width: 214px;
+}
+
+
+#a-media-plugin .a-form-row.image
+{
+position: relative;
+}
+
+#a-media-plugin .a-form-row.image input
+{
+position: absolute;
+top: 10px;
+left: 10px;
+}
+
+#a-media-plugin .a-media-upload-controls,
+#a-media-plugin .a-media-upload-form-footer,
+#a-media-plugin .a-media-edit-controls,
+#a-media-plugin .a-media-edit-footer
+{
+clear: both;
+float: left;
+margin-bottom: 10px;
+}
+
+#a-media-plugin ul.a-controls.a-media-form-footer
+{
+	width: 340px;
+}
+
+#a-media-plugin ul.a-controls.a-media-form-footer .a-controls-item.cancel
+{
+display: block;
+}
+
+#a-media-plugin ul.a-controls.a-media-form-footer .a-controls-item.delete
+{
+float: right;
+}
+
+#a-media-plugin .a-form-row.newfile .a-btn.a-close
+{
+float: left;
+}
+
+#a-media-plugin .a-form-row.description
+{
+width: 343px;
+}
+
+#a-media-video-search-heading,
+#a-media-video-add-by-url-heading,
+#a-media-video-add-by-embed-heading,
+#a-media-video-search-form,
+#a-media-video-add-by-url-form,
+#a-media-video-add-by-embed-form,
+#a-media-video-search-results-container
+{
+display: none;
+position: relative;
+clear: both;
+}
+
+#a-media-video-search-form
+{
+float: left;
+}
+
+#a-media-video-search-form.a-search-form input.a-search-field
+{
+float: left;
+position: relative;
+width: 220px;
+height: 20px;
+margin-bottom: 10px;
+}
+
+#a-media-video-search-form .a-form-row.submit
+{
+position: absolute;
+top: 0;
+left: 240px;
+width: 100px;
+padding: 0;
+}
+
+#a-media-video-add-by-url-form .a-form-row
+{
+padding: 0;
+margin: 0;
+}
+
+#a-media-video-add-by-url-form .a-form-row.example
+{
+position: relative;
+float: left;
+width: 100%;
+}
+
+.a-form-row.example p
+{
+font-size: 11px;
+color: #888;
+padding: 5px 0 15px 0;
+}
+
+#editing-disabled
+{
+display: none;
+}
+
+.a-media-video-heading
+{
+float: left;
+clear: both;
+display: inline;
+position: relative;
+font-size: 14px;
+}
+
+
+.a-media-thumb-link
+{
+position: relative;
+float: left;
+}
+
+.a-media-play-btn
+{
+position: absolute;
+z-index: 10;
+width: 100%;
+height: 100%;
+background: url(/apostrophePlugin/images/a-media-play-btn.png) no-repeat 50% 50%;
+}
+
+.a-media-pdf-btn
+{
+position: absolute;
+z-index: 10;
+width: 100%;
+height: 100%;
+background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
+}
+
+.a-media-icon-as-thumbnail
+{
+	display:block;
+	padding-top: 22px;
+}
+
+.a-media-item-source .a-media-icon-as-thumbnail
+{
+	padding-top: 66px;
+}
+
+.a-media-thumb-link img
+{
+position: relative;
+z-index: 0;
+}
+
+.a-media-item-content
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;
+	width: 100%;
+}
+
+.a-media-item-content li
+{
+position: relative;
+float: left;
+clear: both;
+display: inline;
+width: 100%;
+}
+
+.a-media .a-media-selected-overlay
+{
+position: absolute;
+z-index: 699;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+background-color: #fff;
+cursor: default !important;
+}
+
+.subnav-categories-header,
+#a-media-edit-categories
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+#a-media-edit-categories
+{
+/*margin-top: 10px;*/
+}
+
+#a-media-edit-categories-button
+{
+	margin-left: 5px;
+	float: left;
+}
+
+#a-category-sidebar-list,
+#a-media-categories-list,
+#a-media-categories-list .category,
+.a-category-sidebar-selected-categories,
+.a-tag-sidebar-selected-tags
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: inline;
+	margin: 0 0 5px 0;
+	padding: 0;
+	width: 100%;
+	line-height: 20px;
+}
+
+#a-category-sidebar-list li
+{
+	list-style: none outside; /* ie7 is dumb */
+}
+
+#a-media-categories-list .category li.name
+{
+	float: left;
+	margin: 0 5px 0 0;
+	white-space: nowrap;
+}
+
+#a-media-categories-list .category li.actions
+{
+	float: right;
+}
+
+#a-media-category-form
+{
+	float: left;
+	clear: both;
+	display: inline;
+	width: 100%;
+	margin-top: -5px;
+}
+
+#a-media-category-form .a-form-row
+{
+	margin: 0;
+}
+
+#a-media-category-form label
+{ /* This is temporary, label should be output by form lib */
+	display: none;
+}
+
+#a-media-category-form .hide-description
+{ /* This is temporary, description should be off by default, enabled in app.yml */
+	display: none;
+}
+
+#a-media-category-form .a-form-row,
+#a-media-category-form .a-form-row input
+{
+	float: left;
+	clear: none;
+	width: 133px;	
+}
+
+#a-media-category-form input#a_media_category_name
+{
+	border: none;
+	margin-left: -4px;
+	background: rgba(255,255,255,0.75);
+}
+
+#a-media-category-form .a-form-row.submit
+{
+	width: auto;
+	float: right;
+	clear: none;
+}
+
+#a-media-category-form .a-form-row.submit input
+{
+	width: 20px;
+	margin-right:2px;
+}
+
+#media-library-back-button
+{
+	clear: both;
+	margin-bottom: 10px;
+	height:24px;
+}
+
+
+
+
+
+
+/* 22. Media Engine - Video Search
+-------------------------------------*/
+
+#a-media-video-search-results,
+#a-media-plugin-search-results
+{
+width: 720px;
+float: left;
+}
+
+#a-media-video-search-results li
+{
+float: left;
+/*width: 240px;
+height: 200px;*/
+}
+
+#a-media-video-search-results li a
+{
+display: block;
+}
+
+#a-media-video-search-pagination li
+{
+display: inline;
+margin-right: 20px;
+}
+
+.a-media-search-select
+{
+display: none;
+}
+
+#a-media-video-search-results li
+{
+padding: 10px 0;
+margin: 0 20px 0 0;
+float: left;
+}
+
+#a-media-video-search-results li.right-side
+{
+margin-right: 0;
+}
+
+#a-media-video-search-results a
+{
+margin-bottom: 10px;
+}
+
+#a-media-search-loading
+{
+padding-top: 10px;
+padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* 24. 	 Subnav Wrapper and Bundled Subnav Navigation
+-------------------------------------*/
+
+.a-subnav-wrapper
+{
+	width: 200px;
+	margin: 0 40px 0 0;
+	float:left;
+	display:inline;
+	position:relative;
+}
+
+.a-subnav-inner
+{
+	width: 180px;
+	padding: 10px;
+	float: left;
+	display: inline;
+	position: relative;
+	clear: both;
+}
+
+.a-subnav-section
+{
+color: #000;
+text-decoration: none;
+float: left;
+clear: both;
+width: 100%;
+margin: 0 0 10px 0;
+}
+
+.a-subnav-section h4
+{
+float: left;
+width: 100%;
+clear: both;
+margin-bottom: 5px;
+}
+
+.a-subnav-section.categories h4
+{
+	width: auto;
+	line-height: 20px;
+}
+
+
+.a-subnav-wrapper .a-search-form
+{
+margin: 10px 0;
+float: left;
+display:inline;
+width: 178px;
+}
+
+.a-subnav-wrapper .a-search-form .a-search-field
+{
+width: 150px;
+}
+
+.a-subnav-wrapper .a-filter-options .a-filter-option a 
+{
+float: left;
+width: 100%;
+clear: both;
+}
+
+.a-subnav-wrapper .a-filter-options .a-filter-option a
+{
+float: left;
+clear: both;
+line-height: 20px;
+height: 20px;
+width: auto;
+}
+
+.a-subnav-wrapper a.selected
+{
+float: left;
+display: inline;
+clear: both;
+line-height: 20px;
+padding-right: 20px;
+background: url(/apostrophePlugin/images/a-icon-close.png) top right no-repeat;
+}
+
+.a-subnav-wrapper a.selected:hover
+{
+background-position: bottom right;
+}
+
+.a-subnav-wrapper hr
+{
+	float: left;
+	clear: both;
+	position: relative;
+	display: inline;
+	margin: 10px 0;
+	width: 100%;
+	height: 1px;
+	border: none;
+	background: #999;
+}
+
+.a-nav-subnav .a-nav-item
+{
+float: left;
+width: 100%;
+clear: both;
+position: relative;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+.a-nav-subnav .a-nav-item.last
+{
+	margin-bottom: 0;
+}
+
+.a-nav-subnav .a-nav-item a
+{
+	float: left;
+	width: 155px;
+	height: 100%;
+	padding: 0 20px 0 5px;
+}
+
+
+/* 25. Shared Tag Sidebar
+-------------------------------------*/
+
+.a-tag-sidebar
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 20px 0 0 0;
+}
+
+.a-tag-sidebar h3,
+.a-tag-sidebar ul
+{
+float: left;
+width: 100%;
+clear: both;
+}
+
+.a-tag-sidebar ul
+{
+list-style: none;
+list-style-position: outside !important;
+}
+
+.a-tag-sidebar ul li
+{
+margin: 0;
+}
+
+.a-tag-sidebar ul li.selected
+{
+position: relative;
+float: left;
+width: 100%;
+line-height: 20px;
+margin-bottom: 5px;
+}
+
+.a-tag-sidebar ul li.selected .a-tag-sidebar-tag
+{
+display: inline;
+float: left;
+}
+
+.a-tag-sidebar-list,
+.a-blog-selected-tag
+{
+float: left;
+width: 100%;
+margin-bottom: 10px;
+}
+ 
+.a-tag-sidebar-list li
+{
+margin: 0 0 5px 0;
+}
+
+.a-tag-sidebar .a-tag-sidebar-tag-count
+{
+color: #fff;
+}
+
+.a-tag-sidebar .a-tag-sidebar-title
+{
+	float: left;
+	width: 100%;
+}
+
+.a-subnav-section .a-tag-sidebar-title.all-tags,
+.a-tag-sidebar .a-tag-sidebar-title.all-tags
+{
+background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+cursor: pointer;
+text-indent: 16px;
+line-height: 20px;
+width: 100%;
+position: relative;
+margin: 10px 0 5px 0;
+}
+
+.a-subnav-section .a-tag-sidebar-title.all-tags.open,
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open
+{
+background-position: -6px -20px;
+}
+
+.a-subnav-section .a-tag-sidebar-title.all-tags.over,
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.over
+{
+color: #333;
+background-position: -6px 0px;
+}
+
+.a-subnav-section .a-tag-sidebar-title.all-tags.open.over,
+.a-tag-sidebar .a-tag-sidebar-title.all-tags.open.over
+{
+background-position: -6px -60px;
+}
+
+.a-tag-sidebar-list.all-tags
+{
+display: none;
+}
+
+
+
+/* 26. Shared Tag Suggestions
+-------------------------------------*/
+
+div.tag-suggestions
+{
+position: relative;
+display: block;
+float: left;
+clear: both;
+width: 100%;
+margin: 0;
+z-index: 9999;
+font-size: 11px;
+width: 100%;
+height: 1px;
+}
+
+.tubes-tags div.tag-suggestions,
+.a_admin_form_field_tags div.tag-suggestions
+{
+	width: 360px;
+}
+
+#a-media-edit-form div.tag-suggestions
+{
+	margin-left: 120px;
+	width: 222px;
+}
+
+div.tag-suggestions .tag-spacer
+{
+	display: none;
+}
+
+div.tag-suggestions ul
+{
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+float: left;
+width: 100%;
+z-index: 999;
+}
+
+div.tag-suggestions li
+{
+float: left;
+clear: both;
+width: 100%;
+margin: 0;
+visibility: hidden;
+}
+	
+	
+.ac_results {
+	padding: 0px;
+	border: 1px solid black;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;
+	font-size: 12px;
+	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background: white url('indicator.gif') right center no-repeat;
+}
+
+.ac_odd {
+	background-color: #eee;
+}
+
+.ac_over {
+	background-color: #0A246A;
+	color: white;
+}
+	
+	
+div.tag-suggestions li a,
+div.tag-suggestions li a:link,
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+float: left;
+display: block;
+visibility: visible;
+width: 100%;
+line-height: 20px;
+text-indent: 4px;
+background: rgba(0,0,0,0.65);
+color: #fff !important;
+text-decoration: none !important;
+font-size: 11px;
+}
+
+div.tag-suggestions li a:hover,
+.ac_results .ac_over
+{
+background-color: #000;
+color: #fff !important;
+text-decoration:none;
+cursor: pointer;
+}
+
+.ac_results{
+z-index: 9999;
+font-size: 11px;
+border: none;
+min-width: 120px;
+}
+
+.ac_results ul{
+overflow: visible !important;
+}
+
+.ac_results li
+{
+font-family: arial, sans-serif;
+}
+
+.ac_results .ac_even,
+.ac_results .ac_odd
+{
+white-space: nowrap;
+padding: 0 4px;
+overflow: hidden;
+}
+
+
+
+
+
+
+/* 27. Admin Generator
+-------------------------------------*/
+
+.a-admin a img,
+.a-admin a:link img,
+.a-admin a:visited img
+{
+border: none;
+}
+
+.a-admin a:link, 
+.a-admin a:visited
+{
+text-decoration: none;
+}
+
+.a-admin a:hover
+{
+color: #333;
+}
+
+.a-admin td
+{
+margin: 0;
+vertical-align: middle;
+}
+
+.a-admin-content
+{
+float: left;
+display: inline;
+margin: 0;
+width: 720px;
+}
+
+.a-admin #a-admin-list-actions
+{
+	width:100%;
+	padding-bottom:20px;
+	margin-bottom:20px;
+	border-bottom:1px solid #ddd;
+}
+
+.a-admin .notice
+{
+color: #666;
+font-size: 18px;
+line-height: 18px;
+margin-bottom: 20px;
+}
+
+.a-admin fieldset h2
+{
+padding: 10px 0 0;
+margin: 0 0 10px 0;
+color: #333;
+background-color: transparent;
+font-size: 14px;
+text-transform: capitalize;
+border-top: 1px #ddd solid;
+}
+
+.a-admin .a-admin-text input
+{
+	float: left;
+	clear: both;
+}
+
+.a-admin .a-admin-batch-actions-choice select
+{
+float: left;
+margin-right: 10px;
+}
+
+.a-admin .save-ok
+{
+margin-bottom: 10px;
+border: 1px solid #73B65A;
+}
+
+.a-admin .save-ok h2
+{
+margin: 0 !important;
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
+}
+
+.a-admin .a-form-row td
+{
+margin-bottom: 10px;
+float: left;
+clear: both;
+position: relative;
+}
+
+.a-admin-footer
+{
+width: 720px;
+float: right;
+line-height: 1.5;
+margin: 20px 0;
+}
+
+.a-admin label.required
+{
+color: #333 !important;
+font-weight: bold !important;
+}
+
+.a-admin .form-error
+{
+color: #f33;
+}
+
+.a-admin ul.a-admin-td-actions
+{
+list-style-type: none;
+}
+
+.a-admin ul.a-admin-td-actions li
+{
+list-style-type: none;
+display: block;
+float: left;
+width: auto;
+margin: 0 1px 5px 0;
+}
+
+.a-admin ul.a-admin-actions
+{
+float:left;
+display:inline;
+width:100%;
+margin: 0 0 10px 0;
+list-style-type: none;
+padding-top: 20px;
+}
+
+.a-admin ul.a-admin-actions a
+{
+color: #333;
+}
+
+.a-admin ul.a-admin-actions li
+{
+list-style-type: none;
+display: inline;
+float: left;
+margin-right:1px !important;
+}
+
+.a-admin.sfGuardUser a.icon.a-add
+{
+	background-image: url(/apostrophePlugin/images/a-icon-users.png);
+}
+
+.a-admin ul.a-admin-actions li.a-admin-batch-actions-choice
+{
+float: left;
+}
+
+.a-admin ul.a-admin-actions input
+{
+padding: 2px;
+color: #333;
+font-size: 11px;
+font-family: Arial, sans-serif;
+border: 0px;
+border-right: 4px solid #888;
+background-color: #ffc;
+cursor: hand;
+cursor: pointer;
+width: auto;
+}
+
+.a-admin .a-admin-default-action
+{
+background-color: #fc6 !important;
+font-weight: bold !important;
+}
+
+.a-admin-form-container,
+#a-admin-form,
+#a-admin-batch-form,
+.a-admin-list,
+.a-admin-list table
+{
+float: left;
+clear: both;
+width: 100%;
+border-bottom: 0px;
+border-right: 0px;
+margin: 0;
+padding: 0;
+}
+
+.a-admin-form-container .a-admin-form-container
+{
+	margin-top: 40px;
+	margin-left: -120px;
+	
+}
+
+#a-admin-list-batch-actions
+{
+width: 20px;
+}
+
+#a-admin-list-batch-actions *
+{
+display: block;
+}
+
+#a-admin-list-th-actions
+{
+width: 100px;
+}
+
+.a-admin-list th,
+.a-admin-list td
+{
+padding: 8px 5px;
+border: none;
+}
+
+.a-admin-list thead th
+{
+font-size: 14px;
+text-align: left;
+border-bottom: 1px solid #e2e2e2;
+line-height: 24px;
+vertical-align: middle;
+}
+
+.a-admin-list thead th *
+{
+float: left;
+}
+
+.a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded, 
+.a-admin-list thead th .a-btn.flag.no-label.a-sort-arrow.expanded
+{ /* Gotta Force the Sort Arrows to look right because they're sprites */
+	background-position: 0 -20px;
+}
+
+.a-admin-list tfoot th
+{
+border: 1px solid #e2e2e2;
+border-left: none;
+border-right: none;
+}
+
+.a-admin-filter li
+{
+list-style-type: none;
+}
+
+.a-admin-row td
+{
+border-left: 1px solid #e5e5e5;
+}
+
+.a-admin-row.odd td
+{
+background-color: #f7f7f7;
+}
+
+.a-admin .a-admin-row-1 td
+{
+border-top: 1px solid #e2e2e2;
+}
+
+.a-admin-row td.first
+{
+	border-left: 0;
+}
+
+.a-admin .a-admin-edit-help
+{
+color: #aaa;
+}
+
+.a-admin select.a-admin-multiple, 
+.a-admin select.a-admin-multiple-selected
+{
+width: 12em;
+}
+
+.a-admin ul.a-admin-checklist li
+{
+list-style: none;
+list-style-position: outside !important;
+line-height: 1.5em;
+}
+
+.a-admin ul.a-admin-checklist li label
+{
+display: inline;
+float: none;
+}
+
+.admin ul.a-controls li
+{
+display: block;
+float: left;
+width: 100%;
+margin: 0;
+}
+
+.a-admin-actions input
+{
+border: 1px solid #ccc !important;
+padding: 3px;
+background: #fff !important;
+font-size: 12px !important;
+vertical-align: baseline !important;
+}
+
+.a-admin-actions input:hover
+{
+border-color: #666 !important;
+}
+
+.a-admin-date select
+{
+}
+
+.a-admin-list-results
+{
+float: left;
+font-size: 14px;
+color: #333;
+height: 20px;
+line-height: 20px;
+margin: 10px 0;
+width: 100px;
+}
+
+.a-admin-bar
+{
+position: relative;
+float: left;
+display: inline;
+clear: both;
+margin: 0 0 20px 0;
+width: 100%;
+}
+
+.a-admin-bar .a-admin-title
+{
+color: #666;
+font-size: 24px;
+line-height: 24px;
+float: left;
+top: 0;
+text-transform: capitalize;
+}
+
+.a-admin-bar .a-admin-controls
+{
+margin-left: 10px;
+float: left;
+}
+
+.a-admin-bar .a-admin-controls li
+{
+float: left;
+display: inline;
+line-height: 30px;
+margin: 0 10px 0 0;
+}
+
+/* JQ Date Picker Fix */
+#ui-datepicker-div
+{
+z-index: 9999;
+}
+
+.a-date-wrapper,
+.a-time-wrapper
+{
+	margin-bottom:4px;
+	float: left;
+	clear: both;
+}
+
+.a-date-wrapper input,
+.a-time-wrapper input
+{
+	float: left;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	padding:1px;
+	-moz-border-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-radius: 3px;
+	
+}
+
+.ui-timepicker-trigger,
+.ui-datepicker-trigger
+{
+position: relative;
+float: left;
+padding: 0 3px;
+cursor: pointer;
+}
+
+.ui-datepicker-trigger:hover
+{
+cursor: pointer;
+}
+
+.a-admin-controls
+{
+position: relative;
+float: left;
+width: 720px !important;
+border-bottom: 0;
+}
+
+.a-admin .a-admin-flashes
+{/* We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice */
+color: #EF9920;
+float: left;
+clear: both;
+width: 100%;
+margin: 0 0 20px 0;
+padding-bottom: 10px;
+border-bottom: 1px solid #ddd;
+font-size: 14px;
+line-height: 20px;
+text-indent: 24px;
+background: transparent url(/apostrophePlugin/images/a-icon-error.png) no-repeat scroll left top;
+}
+
+.a-admin form .a-form-row .error_list li
+{
+padding-left: 24px;
+line-height: 20px;
+}
+
+.a-admin form .a-form-row .error_list
+{
+display: block;
+font-size: 11px;
+}
+
+.a-admin form .error_list li
+{
+height: 20px;
+line-height: 24px;
+padding-left: 20px;
+background: url(/apostrophePlugin/images/a-icon-error.png) top left no-repeat;
+list-style: none;
+list-style-position: outside;
+}
+
+
+
+
+
+
+
+
+/* 28. Admin Generator - Filters
+-------------------------------------*/
+
+.a-admin #a-admin-filters-container
+{
+display: none;
+float: left;
+clear: both;
+
+width: 100%;
+margin-bottom: 24px;
+color: #333;
+border: 1px solid #e2e2e2;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form
+{
+padding: 10px;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row
+{
+	padding:0;
+	margin:3px 0 2px 0;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+{
+	width:120px;
+	float:left;
+	display:inline;
+
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label label
+{
+float:left;
+display:inline;
+
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+{
+	float:left;
+	display:inline;
+	margin:0 0 0 120px;
+	width: 580px;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+{
+	position: relative !important;
+	display: block;
+	float: left;
+}
+
+
+
+
+
+/* 30. Bundled Templates
+-------------------------------------*/
+
+/* -- Default Template -- */
+
+.a-default #a-content
+{
+clear: none;
+float: left;
+width: auto;
+}
+
+.a-default .a-area-body
+{
+width: 480px;
+}
+
+
+
+
+
+/* 31. Login button and language switcher
+-------------------------------------*/
+
+.a-login ul
+{
+	list-style: none;
+}
+
+.a-login li
+{
+	float: left;
+}
+
+.a-login li#a-language-switch
+{
+	padding-right: 10px;
+}
+
+
+
+
+/* 32. New lightweight rich text slot
+-------------------------------------*/
+
+.a-slot.aNewRichText h1,
+.a-slot.aNewRichText h2,
+.a-slot.aNewRichText h3,
+.a-slot.aNewRichText h4,
+.a-slot.aNewRichText h5,
+.a-slot.aNewRichText h6,
+.a-slot.aNewRichText p,
+.a-slot.aNewRichText ul,
+.a-slot.aNewRichText ol
+{
+float: left;
+width: 100%;
+clear: both;
+margin: 0 0 10px 0;
+}
+
+.a-slot.aNewRichText b,
+.a-slot.aNewRichText strong
+{
+font-weight: bold;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText em,
+.a-slot.aNewRichText i
+{
+font-style: italic;
+}
+
+.a-slot.aNewRichText blockquote
+{
+	display: block;
+	float: left;
+	clear: both;
+	display: inline;	
+	margin: 20px 40px;
+}
+
+.a-slot.aNewRichText h3
+{
+font-size: 150%;
+}
+
+.a-slot.aNewRichText h4
+{
+font-size: 125%;
+}
+
+.a-slot.aNewRichText h5
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText h6
+{
+font-size: 90%;
+}
+
+.a-slot.aNewRichText ol
+{
+list-style: inside decimal;
+}
+
+.a-slot.aNewRichText ul
+{
+list-style: inside disc;
+}
+
+.a-slot.aNewRichText table
+{
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-right: none;
+}
+
+.a-slot.aNewRichText table th,
+.a-slot.aNewRichText table td
+{
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.2;
+}
+
+.a-slot.aNewRichText.a-edit-view .a-controls
+{
+display: none;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover
+{
+color: #888;
+}
+
+.a-slot.aNewRichText.a-edit-view:hover .a-controls
+{
+display: block;
+}
+
+.aNewRichText.a-slot-is-editable ul.a-controls.a-slot-save-cancel-controls
+{
+	margin-top:10px!important;
+}
+
+.a-slot.aNewRichText
+{
+width: 100%;
+}
+
+
+/* 33. Some Admin Generator Styles
+-------------------------------------*/
+
+.a-admin-generator .a-form-row input, 
+.a-admin-generator .a-form-row textarea
+{
+min-width: 160px;
+max-width: 358px;
+}
+
+.a-admin-generator .a-form-row select,
+.a-admin-generator .a-form-row input[type="checkbox"],
+.a-admin-generator .a-form-row input[type="radio"]
+{
+width: auto;
+}
+
+.a-admin-generator .a-form-row
+{
+/*min-width:590px;*/
+/*width: auto !important;*/
+/*width: 590px;*/
+}
+
+.a-admin-generator .a-form-row label
+{
+/*float: left;*/
+/*text-align: left;*/
+/*width: 120px;*/
+/*color: #666;/*/
+/*font-weight: normal !important;*/
+/*text-transform: capitalize;*/
+/*position: absolute !important;*/
+/*top: 0;*/
+/*left: 0;*/
+/*line-height: 20px;*/
+/*display: block;*/
+}
+
+.a-admin-generator .a-form-row .checkbox_list label
+{
+margin:-2px 0 0 5px;
+}
+
+.a-admin-generator .a-form-row .checkbox_list li
+{
+float: left;
+display: inline;
+width: 100%;
+position: relative;
+}
+
+.a-admin-generator .a-form-help-text
+{
+display: block;
+clear: both;
+margin: 10px 0 20px 120px;
+font-size: 11px;
+color: #888;
+}
+
+.a-admin-generator .form-errors
+{
+margin-bottom: 10px;
+border: 1px solid #f33;
+background-color: #ffc;
+}
+
+.a-admin-generator .form-errors h2
+{
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #f33 url(../images/error.png) no-repeat 5px 2px;
+}
+
+.a-admin-generator .form-errors dl
+{
+padding: 5px;
+}
+
+.a-admin-generator .form-errors dt
+{
+font-weight: bold;
+float: left;
+padding-right: 5px;
+}
+
+.a-admin-generator .form-errors dd
+{
+margin: 0;
+}
+
+.a-admin-generator fieldset
+{
+margin-bottom: 3px;
+background-color: #fff;
+border: none;
+}
+
+
+
+
+/* 34. aUI & Admin Colors - Default
+-------------------------------------*/
+
+#a-global-toolbar #the-apostrophe
+{ /* Apostrophe */
+	background-color: rgb(255,150,0);
+	background-color: rgba(255,150,0,0.75);	
+}
+
+.a-btn,
+.a-submit,
+.a-cancel,
+.a-admin-list th a
+{ /* Button Border Radius */
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+
+.a-btn,
+.a-submit,
+.a-cancel
+{ /* Button Styles */
+	background-color: rgb(255,150,0);
+	background-color: rgba(255,150,0,0.75);	
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	border:1px solid rgba(20,20,20,.2);	
+}
+
+.a-btn:focus,
+.a-btn:hover,
+.a-btn:hover span
+{/*Button Hover Style*/
+color: #fff !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #888 !important;
+text-decoration: none !important;
+}
+
+.a-btn:active,
+.a-btn:active span
+{/*Button Hover Style*/
+color: #eee !important;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+background-color: #111 !important;
+text-decoration: none !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt
+{ /* Button Styles */
+color: #444 !important;
+text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+background-color: #fff !important;
+}
+
+.a-btn.alt:hover,
+.a-submit.alt:hover,
+.a-cancel.alt:hover
+{ /* Button Styles */
+background-color: #E0E0E0 !important;
+}
+
+.a-btn.alt,
+.a-submit.alt,
+.a-cancel.alt,
+.a-history-browser,
+ul.a-controls .a-variant-options
+{ /* Border Color */
+border-color: rgb(255,150,0);
+}
+
+.a-admin .a-admin-content a:link, 
+.a-admin .a-admin-content a:visited,
+#a-global-toolbar #a-logged-in-as span,
+#a-personal-settings-heading span
+{ /* Text Color */
+color: rgb(255,150,0);
+}
