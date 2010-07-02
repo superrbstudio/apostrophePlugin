@@ -233,7 +233,8 @@ class BaseaActions extends sfActions
     $slug = "$base/$pathComponent";
 
     $page = new aPage();
-    $page->setArchived(!sfConfig::get('app_a_default_on', true));
+    // Allow both the old pkContextCMS name and a more intuitive name for this option
+    $page->setArchived(!sfConfig::get('app_a_default_published', sfConfig::get('app_a_default_on', true)));
 
     $page->setSlug($slug);
     $existingPage = aPageTable::retrieveBySlug($slug);
