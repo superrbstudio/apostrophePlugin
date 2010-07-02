@@ -195,7 +195,7 @@
 		<?php if ($editable): ?>
 
 			<?php if ($infinite): ?>
-				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'add-slot-now', false);
+				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'a-options-open', false);
 			<?php endif ?>
 
 			<?php if (!$infinite): ?>

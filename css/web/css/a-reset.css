@@ -24,10 +24,3 @@ table { border-collapse: separate; border-spacing: 0; } /* tables still need 'ce
 blockquote:before, blockquote:after, q:before, q:after { content: ""; }
 
 blockquote, q { quotes: "" ""; }
-
-h1 { font-size: 200%; }
-h2 { font-size: 175%; }
-h3 { font-size: 150%; }
-h4 { font-size: 125%; }
-h5 { font-size: 100%; }
-h6 { font-size: 100%; }
