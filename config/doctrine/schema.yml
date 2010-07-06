@@ -382,6 +382,9 @@ aMediaItem:
       type: integer(4)
       primary: true
       autoincrement: true
+    lucene_dirty:
+      type: boolean
+      default: false
     # Audio is not implemented
     type:
       type: enum

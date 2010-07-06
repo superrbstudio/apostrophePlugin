@@ -93,22 +93,43 @@ EOF;
             break;
           }
           $this->logSection('toolkit', "$count pages remain to be indexed, starting another update pass...");
-          $this->update();
+          $this->update('aPage');
         }
       }
       else
       {
-        // We don't have a deferred update feature for other tables,
-        // so we'll have to get them done in the memory available
-        $table->rebuildLuceneIndex();
+        if ($table->hasField('lucene_dirty'))
+        {
+          aZendSearch::purgeLuceneIndex($table);
+          $tableSqlName = $table->getTableName();
+          $this->query("UPDATE $tableSqlName SET lucene_dirty = true");
+          while (true)
+          {
+            $result = $this->query("SELECT COUNT(id) AS total FROM $tableSqlName WHERE lucene_dirty = true");
+            $count = $result[0]['total'];
+            if ($count == 0)
+            {
+              break;
+            }
+            $this->logSection('toolkit', "$count $index objects remain to be indexed, starting another update pass...");
+            $this->update($index);
+          }
+        }
+        else
+        {
+          echo("BUMMER\n");
+          // We don't have a deferred update feature for other tables,
+          // so we'll have to get them done in the memory available
+          $table->rebuildLuceneIndex();
+        }
       }
       $this->logSection('toolkit', sprintf('Index for "%s" rebuilt', $index));
     }
   }
   
-  protected function update()
+  protected function update($index)
   {
-    $this->logSection('toolkit', "Executing an update pass on aPage table...");
+    $this->logSection('toolkit', "Executing an update pass on $index...");
     
     // task->run is really nice, but doesn't help us with the PHP 5.2 + Doctrine out of memory issue
     
@@ -120,6 +141,7 @@ EOF;
     }
     $args[$taskIndex] = 'apostrophe:update-search-index';
     $args[] = '--limit=100';
+    $args[] = escapeshellarg("--table=$index");
     aProcesses::systemArray($args);
     
     // $task = new aupdateluceneTask($this->dispatcher, $this->formatter);
