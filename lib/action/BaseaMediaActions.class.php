@@ -7,7 +7,7 @@ class BaseaMediaActions extends aEngineActions
 	{
 	  // Establish engine context
     parent::preExecute();
-    
+  	$response = sfContext::getInstance()->getResponse();    
     // If this is the admin engine page for media, and you have no media uploading privileges
     // or page editing privileges, then you have no business being here. If it is not the admin page,
     // then the site admin has decided to add a public media engine page, and it's fine for anyone 
@@ -19,12 +19,15 @@ class BaseaMediaActions extends aEngineActions
 				$this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
 			}
     }
-    
- 		//$this->getResponse()->addStylesheet('/apostrophePlugin/css/aToolkit.css', 'first'); // Merged into a.css 2/3/2010
-   	$this->getResponse()->addStylesheet('/apostrophePlugin/css/a.css', 'first');	
-    $this->getResponse()->addJavascript('/apostrophePlugin/js/aControls.js');	
-    $this->getResponse()->addJavascript('/apostrophePlugin/js/aUI.js');
-    $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
+
+	  if (sfConfig::get('app_a_use_bundled_stylesheet', true))
+	  {
+	    $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
+	  }
+
+    $response->addJavascript('/apostrophePlugin/js/aControls.js');	
+    $response->addJavascript('/apostrophePlugin/js/aUI.js');
+    $response->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 	}
 
   public function executeSelect(sfRequest $request)
