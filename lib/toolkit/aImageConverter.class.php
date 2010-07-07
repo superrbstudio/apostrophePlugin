@@ -448,23 +448,43 @@ class aImageConverter
         }
       }
       // Bounding box goes to stderr, not stdout! Charming
-      $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit) 2>&1";
+      // 5 second timeout for reading dimensions. Keeps us from getting stuck on
+      // PDFs that just barely work in Adobe but are noncompliant and hang ghostscript.
+      // Read the output one line at a time so we can catch the happy
+      // bounding box message without hanging
+      
+      // Problem: this doesn't work. We regain control but the process won't die for some reason. It helps
+      // with import but for now go with the simpler standard invocation and hope they fix gs
+
+      $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit ) 2>&1";
+      
+      // $cmd = "ME=$$; export ME; (PATH=$path:\$PATH; export PATH; ( sleep 5; echo 'TIMEOUT'; kill \$ME ) & gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit; kill $! ) 2>&1";
       // sfContext::getInstance()->getLogger()->info("PDFINFO: $cmd");
       $in = popen($cmd, "r");
-      $data = stream_get_contents($in);
-      pclose($in);
-      // Actual nonfatal errors in the bbox output mean it's not safe to just
-      // read this naively with fscanf, look for the good part
-      if (preg_match("/%%BoundingBox: \d+ \d+ (\d+) (\d+)/", $data, $matches))
+      while (($line = fgets($in)) !== false)
       {
-        $result['width'] = $matches[1];
-        $result['height'] = $matches[2];
+        $data .= $line;
+        if (preg_match("/%%BoundingBox: \d+ \d+ (\d+) (\d+)/", $data, $matches))
+        {
+          $result['width'] = $matches[1];
+          $result['height'] = $matches[2];
+          break;
+        }
+        // Without this we get hung up trying to read another line even after the timeout kill
+        if (preg_match('/TIMEOUT/', $data))
+        {
+          break;
+        }
       }
-      else
+      // Hopefully this will kill all of the processes involved
+      pclose($in);
+      if (!isset($result['width']))
       {
         // Bad PDF
         return false;
       }
+      // Actual nonfatal errors in the bbox output mean it's not safe to just
+      // read this naively with fscanf, look for the good part
       return $result;
     }
     else
