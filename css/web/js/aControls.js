@@ -153,6 +153,16 @@ function aMultipleSelect(target, options)
 				return false;
 			});
 			container.find('.add-add').click(function() {
+				doSaveAdd();
+			});
+			container.find('.add-text').keypress(function(event){
+				if (event.keyCode == '13') {
+					event.preventDefault(); 									
+					doSaveAdd();					
+				};
+			});
+			function doSaveAdd()
+			{
 				container.find('.add').hide();
 				var addText = container.find('.add-text');
 				var v = addText.val();
@@ -173,8 +183,8 @@ function aMultipleSelect(target, options)
 					remover.show();
 					onChange();
 				}
-				return false;
-			});
+				return false;				
+			}
       var select = $("#" + id + " select");
       var k;
       var items = $('#' + id + ' ul li');

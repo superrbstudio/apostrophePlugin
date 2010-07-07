@@ -12,6 +12,8 @@ class BaseaMediaImageForm extends aMediaItemForm
   
   public function configure()
   {
+    // This call was missing, preventing easy extension of all media item edit forms at the project level
+    parent::configure();
     unset($this['type']);
     unset($this['service_url']);
     unset($this['slug']);

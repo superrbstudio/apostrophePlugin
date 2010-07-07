@@ -73,7 +73,9 @@
 
     <div class="a-form-row categories">
 			<?php echo $form['media_categories_list']->renderLabel() ?>
-			<?php echo $form['media_categories_list']->renderError() ?>
+			<?php if (!$sf_params->get('first_pass')): ?>
+			  <?php echo $form['media_categories_list']->renderError() ?>
+			<?php endif ?>
 			<?php echo $form['media_categories_list']->render() ?>
 		</div>
 

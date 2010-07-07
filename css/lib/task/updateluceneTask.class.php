@@ -14,12 +14,13 @@ class aupdateluceneTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('limit', null, sfCommandOption::PARAMETER_REQUIRED, 'Max pages to update on this pass', false),
+      new sfCommandOption('table', null, sfCommandOption::PARAMETER_REQUIRED, 'Table to update', 'aPage'),
       // add your own options here
     ));
 
     $this->namespace        = 'apostrophe';
     $this->name             = 'update-search-index';
-    $this->briefDescription = 'update search indexes for recently modified pages';
+    $this->briefDescription = 'update search indexes for recently modified objects';
     $this->detailedDescription = <<<EOF
 The [a:update-lucene|INFO] task updates the Lucene search indexes for
 recently modified pages in the CMS. You should call it from cron or another
@@ -29,6 +30,11 @@ five minutes).
 Call it like this:
 
   [php /path/to/your/project/symfony a:update-lucene|INFO]
+  
+The task is also called for other object types like media items as an internal
+part of the rebuild-search-index task. The --table=aMediaItem option is used
+to trigger this. You don't need to schedule cron jobs for that as media items are
+normally updated at save time (as are pages, by default, but that can be disabled).
 EOF;
   }
 
@@ -39,7 +45,14 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
     // PDO connection not so useful, get the doctrine one
     $conn = Doctrine_Manager::connection();
-    $q = Doctrine::getTable('aLuceneUpdate')->createQuery('u');
+    if ($options['table'] === 'aPage')
+    {
+      $q = Doctrine::getTable('aLuceneUpdate')->createQuery('u');
+    }
+    else
+    {
+      $q = doctrine::getTable($options['table'])->createQuery('o')->where('o.lucene_dirty IS TRUE');
+    }
     if ($options['limit'] !== false)
     {
       $q->limit($options['limit'] + 0);
@@ -49,13 +62,23 @@ EOF;
     foreach ($updates as $update)
     {
       $i++;
-      $page = aPageTable::retrieveByIdWithSlots($update->page_id, $update->culture);
-      // Careful, pages die
-      if ($page)
+      if ($options['table'] === 'aPage')
       {
-        $page->updateLuceneIndex(); 
+        $page = aPageTable::retrieveByIdWithSlots($update->page_id, $update->culture);
+        // Careful, pages die
+        if ($page)
+        {
+          $page->updateLuceneIndex(); 
+        }
+        $update->delete();
       }
-      $update->delete();
+      else
+      {
+        // The actual object
+        $update->updateLuceneIndex();
+        $update->lucene_dirty = false;
+        $update->save();
+      }
     }
   }
 }

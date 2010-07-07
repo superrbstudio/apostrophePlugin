@@ -50,8 +50,20 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       'title' => $this->getTitle(),
       'description' => $this->getDescription(),
       'credit' => $this->getCredit(),
+      'categories' => implode(", ", $this->getMediaCategoryNames()),
       'tags' => implode(", ", $this->getTags())
     ));
+  }
+  
+  public function getMediaCategoryNames()
+  {
+    $categories = $this->getMediaCategories();
+    $result = array();
+    foreach ($categories as $category)
+    {
+      $result[] = $category->getName();
+    }
+    return $result;
   }
   
   public function getOriginalPath($format = false)
