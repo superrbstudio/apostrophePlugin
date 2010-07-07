@@ -108,6 +108,7 @@
     <?php if ($editable): ?>
 		<ul class="a-controls a-slot-controls">		
       <?php if ($infinite): ?>
+				<?php if (!$slot->isNew()): ?>
           <?php if ($i > 0): ?>
 						<li class="move-up">
             <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
@@ -124,7 +125,6 @@
 						)) ?>
 						</li>
           <?php endif ?>
-
           <?php if (($i + 1) < count($slots)): ?>
 						<li class="move-down">
             <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
@@ -139,7 +139,8 @@
 										'title' => __('Move Down', null, 'apostrophe'), 
 						)) ?>
             </li>
-        <?php endif ?>
+					<?php endif ?>        
+				<?php endif ?>
       <?php endif ?>
 
       <?php // Include slot-type-specific controls if the slot has any ?>
