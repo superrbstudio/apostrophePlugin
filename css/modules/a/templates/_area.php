@@ -103,7 +103,7 @@
  <?php end_slot() ?>
 
  <?php // Wraps an individual slot, with its controls ?>
-	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?> <?php echo $outlineEditableClass ?>" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
+	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?> <?php echo $outlineEditableClass ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?>" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
     <?php // John shouldn't we suppress this entirely if !$editable? ?>
     <?php // Controls for that individual slot ?>
     <?php if ($editable): ?>
@@ -196,6 +196,13 @@
 
 			<?php if ($infinite): ?>
 				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'a-options-open', false);
+
+				var newSlot = $('.a-new-slot');
+				if (newSlot.length) {
+					newSlot.effect("highlight", {}, 1000)
+					$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent().trigger('toggleClosed');
+				};
+				
 			<?php endif ?>
 
 			<?php if (!$infinite): ?>

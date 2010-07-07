@@ -150,17 +150,15 @@ function aMenuToggle(button, menu, classname, overlay)
 		// Button Toggle
 		if (!button.hasClass('aActiveMenu')) 
 		{ 
-			menuOpen(); 
+			menu.trigger('toggleOpen'); 
 		}
 		else 
 		{
-			menuClose();
+			menu.trigger('toggleClosed');
 		}
 	});
-	
 
-	function menuOpen()
-	{
+	menu.bind('toggleOpen', function(){
 		// Open Menu, Create Listener
 		button.addClass('aActiveMenu');
 		menu.addClass(classname);			
@@ -169,22 +167,22 @@ function aMenuToggle(button, menu, classname, overlay)
 			var target = e.target; 
 			target = $(target);  
 			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) {
-				menuClose();
+				menu.trigger('toggleClosed');
 			}
 			if (!target.parents().is('#'+menu.attr('id'))) {
-				menuClose();
+				menu.trigger('toggleClosed');
 			}
-		});
-	}
+		});	
+	});
 	
-	function menuClose()
-	{
+	menu.bind('toggleClosed', function(){
 		// Close Menu, Destroy Listener
 		button.removeClass('aActiveMenu');
 		menu.removeClass(classname);
 		if (overlay) { overlay.fadeOut(); }
-		$(document).unbind('click'); // Clear out click event
-	}
+		$(document).unbind('click'); // Clear out click event		
+	});
+
 }
 
 function aAccordion(heading)
@@ -240,8 +238,7 @@ function aCloseHistory()
 }
 
 $(document).ready(function(){
-	aUI();
-	
+	aUI();	
 	jQuery.fn.isChildOf = function(b){
 	  return (this.parents(b).length > 0);
 	};	
