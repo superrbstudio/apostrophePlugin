@@ -108,38 +108,36 @@
     <?php if ($editable): ?>
 		<ul class="a-controls a-slot-controls">		
       <?php if ($infinite): ?>
-				<?php if (!$slot->isNew()): ?>
-          <?php if ($i > 0): ?>
-						<li class="move-up">
-            <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
-                "url" => "a/moveSlot?" .http_build_query(array(
-									"id" => $page->id,
-									"name" => $name,
-									"up" => 1,
-									"permid" => $permid)),
-									"update" => "a-slots-$pageid-$name",
-									'complete' => 'aUI()'), 
-									array(
-										'class' => 'a-btn icon a-arrow-up', 
-										'title' => __('Move Up', null, 'apostrophe'), 
-						)) ?>
-						</li>
-          <?php endif ?>
-          <?php if (($i + 1) < count($slots)): ?>
-						<li class="move-down">
-            <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
-                "url" => "a/moveSlot?" .http_build_query(array(
-									"id" => $page->id,
-									"name" => $name,
-									"permid" => $permid)),
-									"update" => "a-slots-$pageid-$name",
-									'complete' => 'aUI()'), 
-									array(
-										'class' => 'a-btn icon a-arrow-down', 
-										'title' => __('Move Down', null, 'apostrophe'), 
-						)) ?>
-            </li>
-					<?php endif ?>        
+         <?php if ($i > 0): ?>
+					<li class="move-up">
+           <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
+               "url" => "a/moveSlot?" .http_build_query(array(
+								"id" => $page->id,
+								"name" => $name,
+								"up" => 1,
+								"permid" => $permid)),
+								"update" => "a-slots-$pageid-$name",
+								'complete' => 'aUI()'), 
+								array(
+									'class' => 'a-btn icon a-arrow-up', 
+									'title' => __('Move Up', null, 'apostrophe'), 
+					)) ?>
+					</li>
+         <?php endif ?>
+         <?php if (($i + 1) < count($slots)): ?>
+					<li class="move-down">
+           <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
+               "url" => "a/moveSlot?" .http_build_query(array(
+								"id" => $page->id,
+								"name" => $name,
+								"permid" => $permid)),
+								"update" => "a-slots-$pageid-$name",
+								'complete' => 'aUI()'), 
+								array(
+									'class' => 'a-btn icon a-arrow-down', 
+									'title' => __('Move Down', null, 'apostrophe'), 
+					)) ?>
+           </li>
 				<?php endif ?>
       <?php endif ?>
 
