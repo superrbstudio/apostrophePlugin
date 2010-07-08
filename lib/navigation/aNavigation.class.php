@@ -2,10 +2,10 @@
 
 abstract class aNavigation
 {
-  
+
   public static $tree = null;
   public static $hash = null;
-  
+
   // Functional testing reuses the same PHP session, we must
   // accurately simulate a new one. This method is called by
   // an event listener in aTools. Add more calls there for other
@@ -14,17 +14,17 @@ abstract class aNavigation
   {
     if (sfConfig::get('app_a_many_pages', false))
     {
-      
+
     }
   }
-  
+
   protected abstract function buildNavigation();
-  
+
   public function __construct(aPage $root, aPage $active, $options = array())
   {
     $this->user = sfContext::getInstance()->getUser();
     $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'apostrophe'));
-    
+
     $this->root = $root;
     $this->active = $active;
     $this->options = $options;
@@ -50,13 +50,7 @@ abstract class aNavigation
           }
         }
       }
-
-      if($node['archived'] == true)
-      {
-        if($this->livingOnly)
-          unset($tree[$pos]);
-      }
     }
   }
-  
+
 }
