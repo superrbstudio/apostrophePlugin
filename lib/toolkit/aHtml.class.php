@@ -542,7 +542,6 @@ class aHtml
 
     $new_str = '';
 
-    error_log("ESCAPING: $str\n");
     for($i = 0; ($i < strlen($str)); $i++) {
       $new_str .= '\\x' . dechex(ord(substr($str, $i, 1)));
     }
