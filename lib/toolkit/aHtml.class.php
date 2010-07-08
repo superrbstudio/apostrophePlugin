@@ -513,25 +513,26 @@ class aHtml
     # this method smarter. Also consider just wrapping the link in
     # a span or div, which will not lose its class, id, etc. TBB
 
-    return preg_replace("/\<a[^\>]*?href=\"mailto\:(.*?)\@(.*?)\".*?\>(.*?)\<\/a\>/ise", 
-      "aHtml::obfuscateMailtoInstance(\"$1\", \"$2\", \"$3\")",
+    return preg_replace_callback("/\<a[^\>]*?href=\"mailto\:(.*?)\@(.*?)\".*?\>(.*?)\<\/a\>/is", 
+      array('aHtml', 'obfuscateMailtoInstance'),
       $html);
   }
   
-  public static function obfuscateMailtoInstance($user, $domain, $label)
+  public static function obfuscateMailtoInstance($args)
   {
-      // We get some weird escaping problems without the trims
-      $user = trim($user);
-      $domain = trim($domain);
-      $guid = aGuid::generate();
-      $href = self::jsEscape("mailto:$user@$domain");
-      $label = self::jsEscape(trim($label));
-      // ACHTUNG: this is carefully crafted to avoid introducing extra whitespace
-      return "<a href='#' id='$guid'></a><script type='text/javascript' charset='utf-8'>
-    	  var e = document.getElementById('$guid');
-        e.setAttribute('href', '$href');
-        e.innerHTML = '$label';
-        </script>";
+    list($user, $domain, $label) = array_slice($args, 1);
+    // We get some weird escaping problems without the trims
+    $user = trim($user);
+    $domain = trim($domain);
+    $guid = aGuid::generate();
+    $href = self::jsEscape("mailto:$user@$domain");
+    $label = self::jsEscape(trim($label));
+    // ACHTUNG: this is carefully crafted to avoid introducing extra whitespace
+    return "<a href='#' id='$guid'></a><script type='text/javascript' charset='utf-8'>
+  	  var e = document.getElementById('$guid');
+      e.setAttribute('href', '$href');
+      e.innerHTML = '$label';
+      </script>";
   }
 
   // This is intentionally obscure for use in mailto: obfuscators.
@@ -541,6 +542,7 @@ class aHtml
 
     $new_str = '';
 
+    error_log("ESCAPING: $str\n");
     for($i = 0; ($i < strlen($str)); $i++) {
       $new_str .= '\\x' . dechex(ord(substr($str, $i, 1)));
     }
