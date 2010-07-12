@@ -20,6 +20,8 @@ generator:
       list:
         title:   User list
         display: [=username, created_at, updated_at, last_login]
+      filter:
+        class: aUserAdminFilter
       form:
         class: aUserAdminForm
         display:
