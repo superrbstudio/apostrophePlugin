@@ -18,6 +18,8 @@ generator:
       form:
         class: aGroupAdminForm
         display: [name, description, users_list, permissions_list]
+      filter:
+        class: aGroupAdminFilter
       edit:
         title: Editing Group "%%name%%"
 
