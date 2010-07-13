@@ -436,25 +436,23 @@ color: #900;
 	margin-left: 2px;
 }
 
-a.a-multiple-select-remove
+.a-multiple-select-item
 {
 position: relative;	
-}
-
-a.a-multiple-select-remove span
-{
-position: absolute;
-display: inline;
 float: left;
-overflow: hidden;
-top: 0;
-left: 100%;
-width: 20px;
-height: 20px;
-text-indent: -9999px;
-background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
+line-height: 20px;
+clear: both;
 }
 
+.a-multiple-select-item span
+{
+float: left;
+}
+
+.a-multiple-select-item .a-close-small
+{
+float: left;
+}
 
 
 
@@ -839,7 +837,8 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 background-image: url(/apostrophePlugin/images/a-icon-event.png);
 }
 
-.icon.a-close
+.icon.a-close,
+.icon.a-close-small
 {
 background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
 float: left;
@@ -851,7 +850,13 @@ text-indent: -9999px;
 width: 20px;
 }
 
-.icon.a-close:hover
+.icon.a-close-small
+{
+	background-image: url(/apostrophePlugin/images/a-icon-close-small.png);
+}
+
+.icon.a-close:hover,
+.icon.a-close-small:hover
 {
 background-position: bottom;
 }
@@ -4714,7 +4719,58 @@ overflow: hidden;
 
 
 
+/* New Taggable Widget */
 
+.assigned-tags,
+.add-tags,
+.popular-tags
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin:0 0 5px 0;
+}
+
+.assigned-tags h5,
+.popular-tags h5
+{
+	margin-bottom: 5px;
+}
+
+
+.assigned-tags ul
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.assigned-tags li
+{
+	float: left;
+	margin-right: 5px;
+}
+
+.assigned-tags li span
+{
+	float: left;
+	line-height: 20px;
+}
+
+.add-tags .a-submit
+{
+	margin-left: 2px;
+	float: left;
+}
+
+.add-tags-help
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin: 5px 0;
+	color: #999;
+}
 
 
 /* 27. Admin Generator
