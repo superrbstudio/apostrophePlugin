@@ -56,10 +56,10 @@
     <?php echo $embed ?>
     </li>
     <?php if ($title): ?>
-      <li class="a-image-meta a-image-title"><?php echo $item->title ?></li>
+      <li class="a-media-meta a-image-title"><?php echo $item->title ?></li>
     <?php endif ?>
     <?php if ($description): ?>
-      <li class="a-image-meta a-image-description"><?php echo $item->description ?></li>
+      <li class="a-media-meta a-image-description"><?php echo $item->description ?></li>
     <?php endif ?>
   </ul>
 <?php endif ?>
