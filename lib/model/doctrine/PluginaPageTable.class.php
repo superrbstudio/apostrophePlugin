@@ -529,6 +529,17 @@ class PluginaPageTable extends Doctrine_Table
     
         // The explicit case
     
+        // Explicit privileges on virtual pages are not permitted. We don't let admins set them anyway,
+        // you should be implementing them yourself with the 'edit' flag to a_area or a_slot, and if we
+        // use the DQL below to look at a page where 'lft' is NULL Doctrine drops that entire clause
+        // and the query matches everything, granting everybody with any editing privileges 
+        // the right to edit global slots
+        
+        if ($pageOrInfo['lft'])
+        {
+          continue;
+        }
+        
         $user_id = $user->getGuardUser()->getId();
         
         $accesses = Doctrine_Query::create()->
