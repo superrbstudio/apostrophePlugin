@@ -399,9 +399,12 @@ abstract class PluginaPage extends BaseaPage
   protected $ancestorsInfo;
 
   // Careful, the cache must hold the entire path including the item itself, we lop off the last element
-	// before returning in those cases where it is not wanted.
-  public function getAncestorsInfo($includeSelf = false)
+	// before returning in those cases where it is not wanted. Note that $livingOnly does NOT change the 'level'
+	// field for each returned ancestor
+  public function getAncestorsInfo($includeSelf = false, $livingOnly = false)
   {
+    // We cache the results of one simple query that gets the whole lineage, and permute that a little
+    // for the includeSelf and livingOnly cases
     if (!isset($this->ancestorsInfo))
     {
       $id = $this->id;
@@ -414,6 +417,18 @@ abstract class PluginaPage extends BaseaPage
 		{
 			$ancestorsInfo = $this->ancestorsInfo;
 			array_pop($ancestorsInfo);
+		}
+		if ($livingOnly)
+		{
+		  $newAncestorsInfo = array();
+		  foreach ($ancestorsInfo as $ancestor)
+		  {
+		    if (!$ancestor['archived'])
+		    {
+		      $newAncestorsInfo[] = $ancestor;
+		    }
+		  }
+		  $ancestorsInfo = $newAncestorsInfo;
 		}
 		return $ancestorsInfo;
   }
@@ -571,7 +586,6 @@ abstract class PluginaPage extends BaseaPage
     // want the ancestors to show up, you probably shouldn't be using
     // an accordion contro. in the first place
     $ancestors = $this->getAncestorsInfo();
-    
     // Dump ancestors we don't care about
     $found = false;
     for ($i = 0; ($i < count($ancestors)); $i++)
@@ -591,6 +605,10 @@ abstract class PluginaPage extends BaseaPage
     // Ancestor levels
     foreach ($ancestors as $ancestor)
     {
+      if ($livingOnly && ($ancestor['archived']))
+      {
+        continue;
+      }
       $lineage[] = $ancestor['id'];
       if ($ancestor['level'] == 0)
       {
