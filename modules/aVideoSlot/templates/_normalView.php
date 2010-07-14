@@ -43,10 +43,10 @@
   <?php echo $embed ?>
 	</li>
   <?php if ($title): ?>
-    <li class="a-media-video-title"><?php echo $item->title ?></li>
+    <li class="a-media-meta a-media-video-title"><?php echo $item->title ?></li>
   <?php endif ?>
   <?php if ($description): ?>
-    <li class="a-media-video-description"><?php echo $item->description ?></li>
+    <li class="a-media-meta a-media-video-description"><?php echo $item->description ?></li>
   <?php endif ?>
   </ul>
 <?php endif ?>
