@@ -9,6 +9,6 @@
 		</li>
     <?php $date = $feedItem->getPubDate() ?>
     <li class="date"><?php echo $dateFormat ? date($dateFormat, $date) : aDate::pretty($date) . ' ' . aDate::time($date) ?></li>
-    <li class="description"><?php echo aHtml::simplify($feedItem->getDescription(), $markup) ?></li>
+    <li class="description"><?php echo aHtml::simplify($feedItem->getDescription(), $markup, false, (isset($attributes)? $attributes:false), (isset($styles)? $styles:false)) ?></li>
   </ul>
 </li>
