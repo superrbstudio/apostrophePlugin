@@ -10,15 +10,19 @@ class aMediaTools
     $items = aMediaItemTable::retrieveByIds($selection);
     $ids = array();
     $imageInfo = array();
+    $selection = array();
     foreach ($items as $item)
     {
-      $id = $item->id;
-      $ids[] = $id;
-      $info = array('width' => $item->width, $item->height);
-      if (isset($options['croppingInfo'][$id]))
+      $croppingInfo = array();
+      if ($item->isCrop())
       {
-        $info = array_merge($info, $options['croppingInfo'][$id]);
+        $croppingInfo = $item->getCroppingInfo();
+        $item = $item->getCropOriginal();
       }
+      $id = $item->id;
+      $selection[] = $id;
+      $info = array('width' => $item->width, 'height' => $item->height);
+      $info = array_merge($info, $croppingInfo);
       $imageInfo[$item->id] = $info;
     }
     

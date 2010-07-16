@@ -309,7 +309,7 @@ class BaseaMediaActions extends aEngineActions
         {
           // We need to make a crop
           $item = $items[$id];
-          $crop = $item->createCrop($imageInfo[$id]);
+          $crop = $item->findOrCreateCrop($imageInfo[$id]);
           $crop->save();
           $newSelection[] = $crop->id;
         }

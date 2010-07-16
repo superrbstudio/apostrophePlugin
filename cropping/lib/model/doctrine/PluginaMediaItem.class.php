@@ -304,12 +304,40 @@ EOM
     }
   }
   
-  public function createCrop($info)
+  public function findOrCreateCrop($info)
   {
-    $crop = $this->copy(false);
-    $crop->slug = $this->slug . '.' . $info['cropLeft'] . '.' . $info['cropTop'] . '.' . $info['cropWidth'] . '.' . $info['cropHeight'];
-    $crop->width = $info['cropWidth'];
-    $crop->height = $info['cropHeight'];
+    $slug = $this->slug . '.' . $info['cropLeft'] . '.' . $info['cropTop'] . '.' . $info['cropWidth'] . '.' . $info['cropHeight'];
+    $crop = $this->getTable()->findOneBySlug($slug);
+    if (!$crop)
+    {
+      $crop = $this->copy(false);
+      $crop->slug = $slug;
+      $crop->width = $info['cropWidth'];
+      $crop->height = $info['cropHeight'];
+    }
     return $crop;
+  }
+  
+  public function getCroppingInfo()
+  {
+    $p = preg_split('/\./', $this->slug);
+    if (count($p) == 5)
+    {
+      return array('cropLeft' => $p[1], 'cropTop' => $p[2], 'cropWidth' => $p[3], 'cropHeight' => $p[4]);
+    }
+    else
+    {
+      return array();
+    }
+  }
+  
+  public function getCropOriginal()
+  {
+    if (!$this->isCrop())
+    {
+      return $this;
+    }
+    $p = preg_split('/\./', $this->slug);
+    return $this->getTable()->findOneBySlug($p[0]);
   }
 }
