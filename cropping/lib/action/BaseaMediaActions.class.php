@@ -265,6 +265,11 @@ class BaseaMediaActions extends aEngineActions
     return $this->renderComponent("aMedia", "multipleList");
   }
 
+  public function executeUpdateMultiplePreview(sfRequest $request)
+  {
+    return $this->renderPartial('aMedia/multiplePreview', array('items' => aMediaTools::getSelectedItems()));
+  }
+  
   public function executeMultipleOrder(sfRequest $request)
   {
     $this->logMessage("*****MULTIPLE ORDER", "info");
