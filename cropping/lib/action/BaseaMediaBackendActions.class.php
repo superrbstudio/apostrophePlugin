@@ -50,10 +50,12 @@ class BaseaMediaBackendActions extends sfActions
       $cropTop = ceil($cropTop + 0);
       $cropWidth = ceil($cropWidth + 0);
       $cropHeight = ceil($cropHeight + 0);
+      // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
+      // and only the cropOriginal method actually supports cropping parameters, so
       $resizeType = 'c';
       
       $output = $this->getDirectory() . 
-        DIRECTORY_SEPARATOR . "$slug.$width.$height.$cropLeft.$cropTop.$cropWidth.$cropHeight.$resizeType.$format";      
+        DIRECTORY_SEPARATOR . "$slug.$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";      
     }
     else
     {

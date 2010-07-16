@@ -40,7 +40,9 @@ aCrop = {
     aCrop.api.setOptions({
       allowSelect: false,
       aspectRatio: aCrop.options.aspectRatio,
-      maxSize: [imageInfo.width, imageInfo.height]
+			minSize: aCrop.options.minimumSize ? aCrop.options.minimumSize : [1,1],
+      maxSize: aCrop.options.maximumSize ? aCrop.options.maximumSize : [imageInfo.width, imageInfo.height],
+			trueSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
     
@@ -120,9 +122,7 @@ aCrop = {
       cropLeft: coords.x,
       cropTop: coords.y,
       cropWidth: coords.w,
-      cropHeight: coords.h,
-      scaleWidth: $img.width(),
-      scaleHeight: $img.height()
+      cropHeight: coords.h
     };
         
     var thumbWH = {

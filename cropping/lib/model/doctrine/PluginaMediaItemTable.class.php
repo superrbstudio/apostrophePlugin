@@ -163,6 +163,9 @@ class PluginaMediaItemTable extends Doctrine_Table
     {
       $query->andWhere('aMediaItem.height = ?', array($params['height'] + 0));
     }
+    // No crops in the browser please
+    $query->andWhere("aMediaItem.slug NOT LIKE '%.%'");
+    
     return $query;
   }
   

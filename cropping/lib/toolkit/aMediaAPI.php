@@ -1,6 +1,10 @@
 <?php
 
-// Conveniences for Symfony code that uses the API.
+// DEPRECATED: based on the old REST API, which we do not enable by default and found
+// to be a serious maintenance hassle as our client projects simply don't call for
+// shared media repositories.
+
+// Conveniences for Symfony code that uses the REST API.
 
 class aMediaAPI
 {

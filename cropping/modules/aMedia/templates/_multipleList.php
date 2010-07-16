@@ -77,8 +77,8 @@
 	  var cropOptions = {
       ids: <?php echo json_encode($ids) ?>,
       aspectRatio: <?php echo $aspectRatio ?>,
-      minimumWidth: <?php echo aMediaTools::getAttribute('minimum-width') ?>,
-      minimumHeight: <?php echo aMediaTools::getAttribute('minimum-height') ?>,
+      minimumSize: [<?php echo aMediaTools::getAttribute('minimum-width') ?>, <?php echo aMediaTools::getAttribute('minimum-height') ?>],
+      maximumSize: [<?php echo aMediaTools::getAttribute('maximum-width') ?>, <?php echo aMediaTools::getAttribute('maximum-height') ?>],
       <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
       imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
     };

@@ -2,18 +2,35 @@
 
 class aMediaTools
 {
-  // These are used internally. If you want to select something
-  // with the media module please see the README, do not use these 
-  // methods directly
+  // These are used internally. See aMediaSelect for the methods you probably want
 
   static public function setSelecting($after, $multiple, $selection, 
     $options = array())
   {
+    $items = aMediaItemTable::retrieveByIds($selection);
+    $ids = array();
+    $imageInfo = array();
+    foreach ($items as $item)
+    {
+      $id = $item->id;
+      $ids[] = $id;
+      $info = array('width' => $item->width, $item->height);
+      if (isset($options['croppingInfo'][$id]))
+      {
+        $info = array_merge($info, $options['croppingInfo'][$id]);
+      }
+      $imageInfo[$item->id] = $info;
+    }
+    
+    $cropping = isset($options['cropping']) && $options['cropping'];
+
     self::clearSelecting();
     self::setAttribute("selecting", true);
     self::setAttribute("after", $after);
     self::setAttribute("multiple", $multiple);
+    self::setAttribute("cropping", $cropping);
     self::setAttribute("selection", $selection);
+    self::setAttribute("imageInfo", $imageInfo);
     foreach ($options as $key => $val)
     {
       self::setAttribute($key, $val);

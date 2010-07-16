@@ -1,4 +1,7 @@
 <?php use_helper('I18N') ?>
+<?php use_javascript("/apostrophePlugin/js/plugins/jquery.jCrop.min.js") ?>
+<?php use_javascript("/apostrophePlugin/js/aCrop.js") ?>
+<?php use_stylesheet("/apostrophePlugin/css/Jcrop/jquery.Jcrop.css") ?>
 <div class="a-media-select">
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php if (!$type): ?>
@@ -15,7 +18,7 @@
   </ul>
   
   <ul class="a-controls a-media-crop-controls">
-		<li><?php echo jq_link_to_function(__("Set Crop", null, 'apostrophe'), "aCrop.setCrop('".url_for('aMedia/multipleCrop')."')", array("class"=>"a-btn save")) ?></li>
+		<li><?php echo jq_link_to_function(__("Set Crop", null, 'apostrophe'), "aCrop.setCrop('".url_for('aMedia/crop')."')", array("class"=>"a-btn save")) ?></li>
  	  <li><?php echo jq_link_to_function(__("Reset", null, 'apostrophe'), "aCrop.resetCrop()", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
   </ul>
 

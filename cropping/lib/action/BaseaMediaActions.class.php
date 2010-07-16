@@ -27,6 +27,9 @@ class BaseaMediaActions extends aEngineActions
     $this->getResponse()->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 	}
 
+  // Supported for backwards compatibility. See also 
+  // aMediaSelect::select()
+  
   public function executeSelect(sfRequest $request)
   {
     $after = $request->getParameter('after');
@@ -41,20 +44,6 @@ class BaseaMediaActions extends aEngineActions
     {
       $selection = array($request->getParameter('aMediaId') + 0);
     } 
-    $items = aMediaItemTable::retrieveByIds($selection);
-    $ids = array();
-    $imageInfo = array();
-    foreach ($items as $item)
-    {
-      $ids[] = $item->getId();
-      $info = array('width' => $item->getWidth(), 'height' => $item->getHeight());
-      if ($request->hasParameter('crops'))
-      {
-        $crops = $request->getParameter('crops');
-        // TODO how shall we handle this?
-      }
-      $imageInfo[$item->id] = $info;
-    }
     $options = array();
     $optional = array('type', 'aspect-width', 'aspect-height',
       'minimum-width', 'minimum-height', 'width', 'height', 'label');
@@ -65,7 +54,7 @@ class BaseaMediaActions extends aEngineActions
         $options[$option] = $request->getParameter($option);
       }
     }
-    aMediaTools::setSelecting($after, $multiple, $ids, $options);
+    aMediaTools::setSelecting($after, $multiple, $selection, $options);
       
     return $this->redirect("aMedia/index");
   }
@@ -210,38 +199,26 @@ class BaseaMediaActions extends aEngineActions
   }
   
   // Accept and store cropping information for a particular image which must already be part of the selection
-  protected function setCrop(sfRequest $request)
+  public function executeCrop(sfRequest $request)
   {
     $selection = aMediaTools::getSelection();
     $id = $request->getParameter('id');
     $index = array_search($id, $selection);
     if ($index === false)
     {
+      error_log("ID is $id and not found in index which is " . implode(',', $selection));
       $this->forward404();
     }
-    $scaleWidth = floor($request->getParameter('scaleWidth'));
-    $scaleHeight = floor($request->getParameter('scaleHeight'));
     $cropLeft = floor($request->getParameter('cropLeft'));
     $cropTop = floor($request->getParameter('cropTop'));
     $cropWidth = floor($request->getParameter('cropWidth'));
     $cropHeight = floor($request->getParameter('cropHeight'));
     $imageInfo = aMediaTools::getAttribute('imageInfo');
-    $items = aMediaItemTable::retrieveByIds(array($id));
-    $imageInfo[$id]['width'] = $items[0]->getWidth();
-    $imageInfo[$id]['height'] = $items[0]->getHeight();
-    $imageInfo[$id]['scaleWidth'] = $scaleWidth;
-    $imageInfo[$id]['scaleHeight'] = $scaleHeight;
     $imageInfo[$id]['cropLeft'] = $cropLeft;
     $imageInfo[$id]['cropTop'] = $cropTop;
     $imageInfo[$id]['cropWidth'] = $cropWidth;
     $imageInfo[$id]['cropHeight'] = $cropHeight;
     aMediaTools::setAttribute('imageInfo', $imageInfo);
-  }
-  
-  public function executeMultipleCrop(sfRequest $request)
-  {
-    $this->setCrop($request);
-    return $this->renderComponent('aMedia', 'multipleList');
   }
   
   public function executeMultipleAdd(sfRequest $request)
@@ -256,8 +233,7 @@ class BaseaMediaActions extends aEngineActions
     // the way reordering and deletion work (probably go by index).
     if ($index === false)
     {
-      // $id must be a string or else it comes back null from aArray::getIds()
-      $selection[] = strval($id);
+      $selection[] = $id;
     }
     aMediaTools::setSelection($selection);
     $imageInfo = aMediaTools::getAttribute('imageInfo');
@@ -308,12 +284,6 @@ class BaseaMediaActions extends aEngineActions
     return $this->renderComponent("aMedia", "multipleList");
   }
   
-  public function executeUpdateMultiplePreview()
-  {
-    $items = aMediaTools::getSelectedItems();
-    return $this->renderPartial('multiplePreview', array('items' => $items));
-  }
-  
   public function executeSelected(sfRequest $request)
   {
     $controller = $this->getController();
@@ -321,27 +291,44 @@ class BaseaMediaActions extends aEngineActions
     if (aMediaTools::isMultiple())
     {
       $selection = aMediaTools::getSelection();
+      $imageInfo = aMediaTools::getAttribute('imageInfo');
+      // Get all the items in preparation for possible cropping
+      if (count($selection))
+      {
+        $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
+      }
+      else
+      {
+        $items = array();
+      }
+      $items = aArray::listToHashById($items);
+      $newSelection = array();
+      foreach ($selection as $id)
+      {
+        if (isset($imageInfo[$id]['cropLeft']))
+        {
+          // We need to make a crop
+          $item = $items[$id];
+          $crop = $item->createCrop($imageInfo[$id]);
+          $crop->save();
+          $newSelection[] = $crop->id;
+        }
+        else
+        {
+          $newSelection[] = $id;
+        }
+      }
       // Ooops best to get this before clearing it huh
       $after = aMediaTools::getAfter();
       // Oops I forgot to call this in the multiple case
       aMediaTools::clearSelecting();
-      
-      // TODO: rework this to do a POST via JavaScript so that we can
-      // safely send all of the additional data that goes into describing
-      // the cropping parameters of a complete slideshow
-      
-      
-      // I thought about submitting this like a multiple select,
-      // but there's no clean way to implement that feature in
-      // addParam, and it wastes URL space anyway
-      // (remember the 1024-byte limit)
       
       // addParamsNoDelete never attempts to eliminate a field just because
       // its value is empty. This is how we distinguish between cancellation
       // and selecting zero items
       return $this->redirect(
         aUrl::addParamsNoDelete($after,
-        array("aMediaIds" => implode(",", $selection))));
+        array("aMediaIds" => implode(",", $newSelection))));
     }
     // Single select
     $id = $request->getParameter('id');

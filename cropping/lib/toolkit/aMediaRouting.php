@@ -25,7 +25,7 @@ class aMediaRouting
         'module' => 'aMediaBackend',
         'action' => 'original'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(jpg|png|gif|pdf)$')));
-      
+
       $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'image'
@@ -37,8 +37,8 @@ class aMediaRouting
         'format' => '^(jpg|png|gif)$'
       ));
       $r->prependRoute('a_media_image', $route);
-      
-      $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:cropLeft.:cropTop.:cropWidth.:cropHeight.:resizeType.:format', array(
+
+      $route = new sfRoute('/uploads/media_items/:slug.:cropLeft.:cropTop.:cropWidth.:cropHeight.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'image'
       ), array(
