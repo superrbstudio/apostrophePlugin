@@ -223,17 +223,23 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeMultipleAdd(sfRequest $request)
   {
-    $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id') + 0;
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item); 
     $selection = aMediaTools::getSelection();
-    $index = array_search($id, $selection);
-    // One occurrence each. If this changes we'll have to rethink
-    // the way reordering and deletion work (probably go by index).
-    if ($index === false)
+    if (!aMediaTools::isMultiple())
     {
-      $selection[] = $id;
+      $selection = array($id);
+    }
+    else
+    {
+      $index = array_search($id, $selection);
+      // One occurrence each. If this changes we'll have to rethink
+      // the way reordering and deletion work (probably go by index).
+      if ($index === false)
+      {
+        $selection[] = $id;
+      }
     }
     aMediaTools::setSelection($selection);
     $imageInfo = aMediaTools::getAttribute('imageInfo');
@@ -246,7 +252,6 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleRemove(sfRequest $request)
   {
-    $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id');
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item); 
@@ -288,57 +293,63 @@ class BaseaMediaActions extends aEngineActions
   {
     $controller = $this->getController();
     $this->forward404Unless(aMediaTools::isSelecting());
-    if (aMediaTools::isMultiple())
+    $selection = aMediaTools::getSelection();
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    // Get all the items in preparation for possible cropping
+    if (count($selection))
     {
-      $selection = aMediaTools::getSelection();
-      $imageInfo = aMediaTools::getAttribute('imageInfo');
-      // Get all the items in preparation for possible cropping
-      if (count($selection))
+      $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
+    }
+    else
+    {
+      $items = array();
+    }
+    $items = aArray::listToHashById($items);
+    $newSelection = array();
+    foreach ($selection as $id)
+    {
+      if (isset($imageInfo[$id]['cropLeft']))
       {
-        $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
+        // We need to make a crop
+        $item = $items[$id];
+        $crop = $item->findOrCreateCrop($imageInfo[$id]);
+        $crop->save();
+        $newSelection[] = $crop->id;
       }
       else
       {
-        $items = array();
+        $newSelection[] = $id;
       }
-      $items = aArray::listToHashById($items);
-      $newSelection = array();
-      foreach ($selection as $id)
-      {
-        if (isset($imageInfo[$id]['cropLeft']))
-        {
-          // We need to make a crop
-          $item = $items[$id];
-          $crop = $item->findOrCreateCrop($imageInfo[$id]);
-          $crop->save();
-          $newSelection[] = $crop->id;
-        }
-        else
-        {
-          $newSelection[] = $id;
-        }
-      }
-      // Ooops best to get this before clearing it huh
-      $after = aMediaTools::getAfter();
-      // Oops I forgot to call this in the multiple case
-      aMediaTools::clearSelecting();
-      
-      // addParamsNoDelete never attempts to eliminate a field just because
-      // its value is empty. This is how we distinguish between cancellation
-      // and selecting zero items
-      return $this->redirect(
-        aUrl::addParamsNoDelete($after,
-        array("aMediaIds" => implode(",", $newSelection))));
     }
-    // Single select
-    $id = $request->getParameter('id');
-    $item = Doctrine::getTable("aMediaItem")->find($id);
-    $this->forward404Unless($item); 
+    // Ooops best to get this before clearing it huh
     $after = aMediaTools::getAfter();
-    $after = aUrl::addParams($after, 
-      array("aMediaId" => $id));
-    aMediaTools::clearSelecting();
-    return $this->redirect($after);
+    
+    // addParamsNoDelete never attempts to eliminate a field just because
+    // its value is empty. This is how we distinguish between cancellation
+    // and selecting zero items
+    
+    if (!aMediaTools::isMultiple())
+    {
+      // Call this too soon and you lose isMultiple
+      aMediaTools::clearSelecting();
+      if (count($newSelection))
+      {
+        $after = aUrl::addParams($after, 
+          array("aMediaId" => $newSelection[0]));
+        return $this->redirect($after);
+      }
+      else
+      {
+        $this->forward404();
+      }
+    }
+    else
+    {
+      aMediaTools::clearSelecting();
+      $url = aUrl::addParamsNoDelete($after,
+      array("aMediaIds" => implode(",", $newSelection)));
+      return $this->redirect($url);
+    }
   }
 
   public function executeSelectCancel(sfRequest $request)

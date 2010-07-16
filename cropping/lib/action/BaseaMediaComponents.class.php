@@ -116,10 +116,6 @@ class BaseaMediaComponents extends sfComponents
   
   public function executeSelectMultiple()
   {
-    if (!aMediaTools::isMultiple())
-    {
-      throw new Exception("multiple list component, but multiple is off"); 
-    }
     $selection = aMediaTools::getSelection();
     if (!is_array($selection))
     {

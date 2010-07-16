@@ -217,10 +217,6 @@ class aMediaTools
   // for executeUpdateMultiplePreview() for cropping slideshow items
   static public function getSelectedItems()
   {
-    if (!self::isMultiple())
-    {
-      throw new Exception("multiple list component, but multiple is off"); 
-    }
     $selection = self::getSelection();
     if (!is_array($selection))
     {
