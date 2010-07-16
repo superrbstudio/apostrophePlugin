@@ -4838,24 +4838,36 @@ overflow: hidden;
 	margin-bottom: 5px;
 }
 
-
 .assigned-tags ul
 {
+	display: block;
 	float: left;
 	width: 100%;
 	clear: both;
+	position: relative;
 }
 
 .assigned-tags li
 {
+	display: inline-block;
 	float: left;
-	margin-right: 5px;
+	position: relative;
+	margin: 0 5px 0 0;
 }
 
 .assigned-tags li span
 {
 	float: left;
+	display: block;
+	position: relative;
 	line-height: 20px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+.assigned-tags li a.a-btn
+{
+	margin-left: -20px;
 }
 
 .add-tags .a-submit
