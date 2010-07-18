@@ -60,6 +60,7 @@
 	    $('#a-media-selection-preview li:first').addClass('current');
 	    // set up cropping again; do hard reset to reinstantiate Jcrop
 	    aCrop.resetCrop(true);
+	    aCrop.startCrop();
 	  });
 	}
 

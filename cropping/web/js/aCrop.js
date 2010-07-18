@@ -35,7 +35,10 @@ aCrop = {
     
     var cropEl = aCrop.findPreviewImage();
     var imageInfo = aCrop.getCurrentImageInfo();
-        
+		if (!imageInfo)
+		{
+			return;
+		}
     aCrop.api = $.Jcrop(cropEl);
     aCrop.api.setOptions({
       allowSelect: false,
@@ -45,7 +48,6 @@ aCrop = {
 			trueSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
-    
     $('.a-media-crop-controls').clone().appendTo('.jcrop-holder div:first').show();
   },
   
@@ -74,14 +76,21 @@ aCrop = {
   },
   
   getMediaIdForLi: function(li){
-    var mediaId = $(li).attr('id').split('-');
+		var s = $(li).attr('id');
+		if (!s)
+		{
+			return false;
+		}
+    var mediaId = s.split('-');
     return mediaId[mediaId.length-1];
   },
   
   thumbnailClickHandler: function(e){
     var mediaId = aCrop.getMediaIdForLi(e.currentTarget);
-    $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
-    
+		if (mediaId)
+		{
+	    $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
+    }
     aCrop.startCrop();
   },
   
