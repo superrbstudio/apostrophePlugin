@@ -250,6 +250,10 @@ a.a-btn.nobg:hover
 	display: block;
 }
 
+.a-hidden
+{
+	display: none;
+}
 
 
 /* 4. Basic Global Layout
