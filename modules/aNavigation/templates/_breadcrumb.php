@@ -2,7 +2,7 @@
 	<?php foreach($nav as $pos => $item): ?>
 		<?php if (!$item['archived'] || $draggable): ?>
 			<li class="<?php echo $class;
-				if($item['slug'] == $active) echo ' a-current-page'; ?>"><?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?><?php if($pos+1 < count($nav)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>' ?>
+				if($item['slug'] == $active) echo ' a-current-page'; ?>"><?php echo link_to(htmlentities($item['title']), aTools::urlForPage($item['slug'])) ?><?php if($pos+1 < count($nav)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>' ?>
 			</li>
 		<?php endif ?>		
 	<?php endforeach ?>
