@@ -16,9 +16,9 @@
     ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $item['id']?>">
 
       <?php if(isset($item['external']) && $item['external']): ?>
-        <?php echo link_to(htmlentities($item['title']), $item['slug']) ?>
+        <?php echo link_to($item['title'], $item['slug']) ?>
       <?php else: ?>
-        <?php echo link_to(htmlentities($item['title']), aTools::urlForPage($item['slug'], array('absolute' => true))) ?>
+        <?php echo link_to($item['title'], aTools::urlForPage($item['slug'], array('absolute' => true))) ?>
       <?php endif ?>
 
       <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
