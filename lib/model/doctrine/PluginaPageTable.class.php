@@ -535,7 +535,9 @@ class PluginaPageTable extends Doctrine_Table
         // and the query matches everything, granting everybody with any editing privileges 
         // the right to edit global slots
         
-        if ($pageOrInfo['lft'])
+        // Sigh, I had this backwards
+        
+        if (!$pageOrInfo['lft'])
         {
           continue;
         }
