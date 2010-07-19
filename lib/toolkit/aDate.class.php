@@ -195,4 +195,14 @@ class aDate
     // leap seconds and/or daylight savings time
     return floor(($date1 - $date2) / 86400 + 0.5);
   }
+  
+  static public function mysql($when = null)
+  {
+    if (is_null($when))
+    {
+      $when = time();
+    }
+    $when = self::normalize($when);
+    return date('Y-m-d H:i:s', $when);
+  }
 }
