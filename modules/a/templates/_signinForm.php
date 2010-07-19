@@ -16,9 +16,14 @@
     	<?php echo $form['password']->renderError() ?>
 		</div>
 
+		<?php if (0): ?>
+		<?php // When this thing starts working, it can get displayed. ?>
 		<div class="a-form-row">
-    	<?php echo $form['remember']->renderRow() ?>
+    	<?php echo $form['remember']->renderLabel() ?>
+			<?php echo $form['remember']->render() ?>
+			<?php echo $form['remember']->renderError() ?>
 		</div>
+		<?php endif ?>
 		
 		<ul class="a-form-row submit">
     	<li>
