@@ -2159,15 +2159,6 @@ padding: 0;
 margin: 0;
 }
 
-#a-page-settings .a-page-settings-local-editors a
-{
-position: relative;
-float: left;
-width: 100%;
-height: 20px;
-line-height: 20px;
-}
-
 #a-page-settings .a-page-settings-local-editors a span,
 a.a-multiple-select-remove span
 {
