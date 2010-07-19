@@ -240,9 +240,10 @@ a.a-btn.nobg:hover
 	text-shadow:none !important;
 }
 
-
-
-
+.a-hidden
+{
+	display: none;
+}
 
 
 /* 4. Basic Global Layout
