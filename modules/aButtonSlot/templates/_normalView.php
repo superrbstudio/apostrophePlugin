@@ -47,10 +47,10 @@
     <?php endif ?>
     <?php echo $embed ?>
     </li>
-    <?php if (isset($img_title)): ?>
+    <?php if (isset($img_title) && $img_title != ''): ?>
       <li class="a-button-title"><a class="a-button-link" href="<?php echo $link ?>"><?php echo $img_title ?></a></li>
     <?php endif ?>
-    <?php if ($description): ?>
+    <?php if (isset($description)): ?>
       <li class="a-button-description"><?php echo $item->description ?></li>
     <?php endif ?>
   </ul>
