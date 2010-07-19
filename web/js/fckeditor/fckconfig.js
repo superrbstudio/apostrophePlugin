@@ -128,7 +128,8 @@ FCKConfig.ToolbarSets["Main"] = [
 
 FCKConfig.ToolbarSets["Sidebar"] = [
 	['FontFormat', 'Bold','Italic', 'Blockquote'],
-	['OrderedList','UnorderedList','-','Link','Unlink','Anchor','-','SpellCheck','Source']
+	['OrderedList','UnorderedList','-','Link','Unlink','Anchor'],
+	['SpellCheck','FitWindow','Source']
 ] ;
 
 FCKConfig.ToolbarSets["Media"] = [
