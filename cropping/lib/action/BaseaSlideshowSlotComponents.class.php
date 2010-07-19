@@ -31,10 +31,6 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
         }
       }
       $this->itemIds = aArray::getIds($this->items);
-      foreach ($this->items as $item)
-      {
-        $this->itemIds[] = $item->id;
-      }
       if ($this->getOption('random', false))
       {
         shuffle($this->items);
