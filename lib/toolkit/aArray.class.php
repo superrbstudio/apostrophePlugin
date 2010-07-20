@@ -386,7 +386,21 @@ class aArray
     
     return ($s1 < $s2) ? -1 : 1;
   }
-
+  
+  // Is this a numerically indexed array without gaps?
+  public static function isFlat($array)
+  {
+    $n = 0;
+    foreach ($array as $key => $val)
+    {
+      if ($key !== $n)
+      {
+        return false;
+      }
+      $n++;
+    }
+    return true;
+  }
 }
 
 
