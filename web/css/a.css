@@ -4768,6 +4768,11 @@ overflow: hidden;
 	white-space: nowrap;
 }
 
+.assigned-tags li a.a-btn
+{
+	margin-left: -20px;
+}
+
 .add-tags .a-submit
 {
 	margin-left: 2px;
