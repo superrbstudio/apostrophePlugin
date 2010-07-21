@@ -427,7 +427,7 @@ class aHtml
     "input" => true
   );
 
-	public static function limitWords($string, $word_limit)
+	public static function limitWords($string, $word_limit, $options = array())
 	{
     # TBB: tag-aware, doesn't split in the middle of tags 
     # (we will probably use fancier tags with attributes later,
@@ -442,6 +442,7 @@ class aHtml
     $open = array();
     $result = "";
     $count = 0;
+		$num_words = count($words);
     foreach ($words as $word) {
       if ($count >= $word_limit) {
         break;
@@ -478,6 +479,17 @@ class aHtml
         }
       }
     }
+
+		$append_ellipsis = false;
+		if (isset($options['append_ellipsis']))
+		{
+			$append_ellipsis = $options['append_ellipsis'];
+		}
+		if ($append_ellipsis == true && $num_words > $word_limit)
+		{
+			$result .= '&hellip;';
+		}
+
     for ($i = count($open) - 1; ($i >= 0); $i--) {
       $result .= "</" . $open[$i] . ">";
     }
