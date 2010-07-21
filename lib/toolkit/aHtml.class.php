@@ -427,62 +427,74 @@ class aHtml
     "input" => true
   );
 
-	public static function limitWords($string, $word_limit)
+	public static function limitWords($string, $word_limit, $options = array())
 	{
-    # TBB: tag-aware, doesn't split in the middle of tags 
-    # (we will probably use fancier tags with attributes later,
-    # so this is important). Tags must be valid XHTML unless
-    # all allowed tags 
+	  # TBB: tag-aware, doesn't split in the middle of tags 
+	  # (we will probably use fancier tags with attributes later,
+	  # so this is important). Tags must be valid XHTML unless
+	  # all allowed tags 
 	  $words = preg_split("/(\<.*?\>|\s+)/", $string, -1, 
-      PREG_SPLIT_DELIM_CAPTURE);
-    $wordCount = 0;
-    # Balance tags that need balancing. We don't have strict XHTML
-    # coming from OpenOffice (oh, if only) so we'll have to keep a
-    # list of the tags that are containers.
-    $open = array();
-    $result = "";
-    $count = 0;
-    foreach ($words as $word) {
-      if ($count >= $word_limit) {
-        break;
-      } elseif (preg_match("/\<.*?\/\>/", $word)) {
-        # XHTML non-container tag, we don't have to guess
-        $result .= $word;
-        continue;
-      } elseif (preg_match("/\<(\w+)/s", $word, $matches)) {
-        $tag = $matches[1];
-        $result .= $word;
-        if (isset(aHtml::$nonContainerTags[$tag])) {
-          continue;
-        }
-        $open[] = $tag;
-      } elseif (preg_match("/\<\/(\w+)/s", $word, $matches)) {
-        $tag = $matches[1];
-        if (!count($open)) {
-          # Groan, extra close tag, ignore
-          continue;
-        }
-        $last = array_pop($open);    
-        if ($last !== $tag) {
-          # They closed the wrong tag. Again, ignore for now, but 
-          # we might want to work on a better solution
-          continue;
-        }
-        $result .= $word;
-      } elseif (preg_match("/^\s+$/s", $word)) {
-        $result .= $word;
-      } else {
-        if (strlen($word)) {
-          $count++;
-          $result .= $word;
-        }
-      }
-    }
-    for ($i = count($open) - 1; ($i >= 0); $i--) {
-      $result .= "</" . $open[$i] . ">";
-    }
-    return $result;
-  }
+	    PREG_SPLIT_DELIM_CAPTURE);
+	  $wordCount = 0;
+	  # Balance tags that need balancing. We don't have strict XHTML
+	  # coming from OpenOffice (oh, if only) so we'll have to keep a
+	  # list of the tags that are containers.
+	  $open = array();
+	  $result = "";
+	  $count = 0;
+		$num_words = count($words);
+	  foreach ($words as $word) {
+	    if ($count >= $word_limit) {
+	      break;
+	    } elseif (preg_match("/\<.*?\/\>/", $word)) {
+	      # XHTML non-container tag, we don't have to guess
+	      $result .= $word;
+	      continue;
+	    } elseif (preg_match("/\<(\w+)/s", $word, $matches)) {
+	      $tag = $matches[1];
+	      $result .= $word;
+	      if (isset(aHtml::$nonContainerTags[$tag])) {
+	        continue;
+	      }
+	      $open[] = $tag;
+	    } elseif (preg_match("/\<\/(\w+)/s", $word, $matches)) {
+	      $tag = $matches[1];
+	      if (!count($open)) {
+	        # Groan, extra close tag, ignore
+	        continue;
+	      }
+	      $last = array_pop($open);    
+	      if ($last !== $tag) {
+	        # They closed the wrong tag. Again, ignore for now, but 
+	        # we might want to work on a better solution
+	        continue;
+	      }
+	      $result .= $word;
+	    } elseif (preg_match("/^\s+$/s", $word)) {
+	      $result .= $word;
+	    } else {
+	      if (strlen($word)) {
+	        $count++;
+	        $result .= $word;
+	      }
+	    }
+	  }
+
+		$append_ellipsis = false;
+		if (isset($options['append_ellipsis']))
+		{
+			$append_ellipsis = $options['append_ellipsis'];
+		}
+		if ($append_ellipsis == true && $num_words > $word_limit)
+		{
+			$result .= '&hellip;';
+		}
+
+	  for ($i = count($open) - 1; ($i >= 0); $i--) {
+	    $result .= "</" . $open[$i] . ">";
+	  }
+	  return $result;
+	}
 
   public static function toText($html)
   {
