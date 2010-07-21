@@ -59,14 +59,14 @@
       <li class="a-pdf-description"><?php echo $item->description ?>
 			</li>
     <?php endif ?>
-			<p class="a-pdf-download">
+			<li class="a-pdf-download">
 	      <?php echo link_to(__("Download PDF", null, 'apostrophe'), "aMediaBackend/original?" .
 								http_build_query(
 								array(
 								"slug" => $item->getSlug(),
 	              "format" => $item->getFormat()
 	 							))) ?>
-		    </p>
+		   </li>
   </ul>
 </div>
 
