@@ -108,21 +108,20 @@ color: #900;
 	margin-left: 2px;
 }
 
-a.a-multiple-select-remove
+.a-multiple-select-item
 {
 position: relative;	
+float: left;
+line-height: 20px;
+clear: both;
 }
 
-a.a-multiple-select-remove span
+.a-multiple-select-item span
 {
-position: absolute;
-display: inline;
 float: left;
-overflow: hidden;
-top: 0;
-left: 100%;
-width: 20px;
-height: 20px;
-text-indent: -9999px;
-background: url(/apostrophePlugin/images/a-icon-close-small.png) 0 0 no-repeat;
+}
+
+.a-multiple-select-item .a-close-small
+{
+float: left;
 }

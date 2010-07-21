@@ -70,6 +70,11 @@ background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-rep
 text-indent: -9999px;
 }
 
+.a-hidden
+{
+display: none;
+}
+
 .a-accordion .content
 { /* Works with aAccordion() in aUI.js */
 	display: none;

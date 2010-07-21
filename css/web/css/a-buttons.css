@@ -261,7 +261,9 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 
 .icon.a-calendar { background-image: url(/apostrophePlugin/images/a-icon-event.png); }
 
-.icon.a-close {
+.icon.a-close,
+.icon.a-close-small
+{
 background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
 float: left;
 overflow: hidden;
@@ -272,7 +274,16 @@ text-indent: -9999px;
 width: 20px;
 }
 
-.icon.a-close:hover { background-position: left bottom; }
+.icon.a-close-small
+{
+	background-image: url(/apostrophePlugin/images/a-icon-close-small.png);
+}
+
+.icon.a-close:hover,
+.icon.a-close-small:hover
+{
+background-position: bottom;
+}
 
 .icon.a-drag {
 background: url(/apostrophePlugin/images/a-icon-drag.png) 0 0 no-repeat;

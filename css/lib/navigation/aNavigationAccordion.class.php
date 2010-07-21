@@ -2,17 +2,17 @@
 
 class aNavigationAccordion extends aNavigation
 {
-  protected $cssClass = 'a-nav-item'; 
+  protected $cssClass = 'a-nav-item';
 
   public function buildNavigation()
   {
     $this->activeInfo = $this->active->getInfo();
     if($this->active['slug'] != $this->root['slug'])
     {
-      $this->rootInfo = $this->active->getAccordionInfo(false, null, $this->root['slug']);
+      $this->rootInfo = $this->active->getAccordionInfo($this->livingOnly, null, $this->root['slug']);
     }else
     {
-      $this->rootInfo = $this->root->getTreeInfo(false, 1);
+      $this->rootInfo = $this->root->getTreeInfo($this->livingOnly, 1);
     }
     // This rootInfo is already an array of kids
     $this->nav = $this->rootInfo;
@@ -22,10 +22,10 @@ class aNavigationAccordion extends aNavigation
     // complicated the implementation
     $this->traverse($this->nav);
   }
-  
+
   public function getNav()
   {
     return $this->nav;
   }
-  
+
 }

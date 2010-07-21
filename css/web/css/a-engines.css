@@ -1057,3 +1057,63 @@ white-space: nowrap;
 padding: 0 4px;
 overflow: hidden;
 }
+
+/* New Taggable Widget */
+
+.assigned-tags,
+.add-tags,
+.popular-tags
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin:0 0 5px 0;
+}
+
+.assigned-tags h5,
+.popular-tags h5
+{
+	margin-bottom: 5px;
+}
+
+.assigned-tags ul
+{
+	display: block;
+	float: left;
+	width: 100%;
+	clear: both;
+	position: relative;
+}
+
+.assigned-tags li
+{
+	display: inline-block;
+	float: left;
+	position: relative;
+	margin: 0 5px 0 0;
+}
+
+.assigned-tags li span
+{
+	float: left;
+	display: block;
+	position: relative;
+	line-height: 20px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+.add-tags .a-submit
+{
+	margin-left: 2px;
+	float: right;
+}
+
+.add-tags-help
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin: 5px 0;
+	color: #999;
+}
