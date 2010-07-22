@@ -540,8 +540,9 @@ class aHtml
     $href = self::jsEscape("mailto:$user@$domain");
     $label = self::jsEscape(trim($label));
     // ACHTUNG: this is carefully crafted to avoid introducing extra whitespace
-    return "<a href='#' id='$guid'></a><script type='text/javascript' charset='utf-8'>
-  	  var e = document.getElementById('$guid');
+		// Note: $guid was returning IDs with leading numbers. This threw validation errors so I appended a 'g-' to the ID - JB 7.22.10
+    return "<a href='#' id='g-".$guid."'></a><script type='text/javascript' charset='utf-8'>
+  	  var e = document.getElementById('g-".$guid."');
       e.setAttribute('href', '$href');
       e.innerHTML = '$label';
       </script>";
