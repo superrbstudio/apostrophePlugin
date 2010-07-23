@@ -11,13 +11,7 @@
 <div class="a-media-toolbar">
 	<?php if (aMediaTools::isSelecting()): ?>
 
-    <?php if (isset($label)): ?>
-      <h3><?php echo htmlspecialchars($label) ?> or <?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn a-cancel text-only")) ?></h3>
-    <?php endif ?>
-
-    <?php include_partial('aMedia/describeConstraints') ?>
-
-    <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes)) ?>
+    <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
 
 	<?php endif ?>
 
@@ -27,8 +21,13 @@
 
 <div class="a-media-library">
 	
+	<h3>Media Library</h3>
+	
+	<?php if ($limitSizes): ?>
+	<h4 class="a-help"><?php echo __('Some %typeplural% in your media library may not be large enough to be selected. Only %typeplural% that can be used are displayed currently.', array('%typeplural%' => __($type . 's')), 'apostrophe') ?></h4>
+	<?php endif ?>
+	
 	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-
    <ul class="a-controls a-media-controls">
      <?php $selecting = aMediaTools::isSelecting() ?>
      <?php $type = aMediaTools::getAttribute('type') ?>
@@ -44,9 +43,7 @@
      <?php if (!($selecting && $type && ($type !== 'pdf'))): ?>
      <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon big a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
      <?php endif ?>
-
    </ul>
-
   <?php endif ?>
 	
  <?php for ($n = 0; ($n < count($results)); $n += 2): ?>

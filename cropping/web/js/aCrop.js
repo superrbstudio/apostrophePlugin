@@ -23,7 +23,7 @@ aCrop = {
       aCrop.startCrop();
     }
     
-    $(aCrop.el.slideshowList).find('li').click(aCrop.thumbnailClickHandler);
+    $(aCrop.el.slideshowList).find('li .a-crop').click(aCrop.thumbnailClickHandler);
   },
   
   setOptions: function(options){
@@ -39,16 +39,26 @@ aCrop = {
 		{
 			return;
 		}
+
+		// TODO: Make this work -- 
+		// This would set the initial crop selection to be the maximum size, centered for the image being cropped
+		// This would work except it's using the full image dimensions, not the dimensions of the crop image workspace
+		// setSelectCenter = imageInfo.height / 2;
+		// setSelectHeight = imageInfo.width * aCrop.options.aspectRatio;
+		// setSelectY1 = setSelectHeight / 2;
+		// setSelectY2 = setSelectY1 + setSelectHeight;
+
     aCrop.api = $.Jcrop(cropEl);
     aCrop.api.setOptions({
       allowSelect: false,
       aspectRatio: aCrop.options.aspectRatio,
+			// setSelect: [0,setSelectY1,imageInfo.width,setSelectY2],
 			minSize: aCrop.options.minimumSize ? aCrop.options.minimumSize : [1,1],
       maxSize: aCrop.options.maximumSize ? aCrop.options.maximumSize : [imageInfo.width, imageInfo.height],
 			trueSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
-    $('.a-media-crop-controls').clone().appendTo('.jcrop-holder div:first').show();
+    // $('.a-media-crop-controls').appendTo('.jcrop-holder div:first').show();
   },
   
   stopCrop: function(){
@@ -86,10 +96,11 @@ aCrop = {
   },
   
   thumbnailClickHandler: function(e){
-    var mediaId = aCrop.getMediaIdForLi(e.currentTarget);
+    var mediaId = aCrop.getMediaIdForLi($(e.currentTarget).parents('.a-media-selection-list-item'));
 		if (mediaId)
 		{
 	    $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
+			$('.a-crop-workspace').fadeIn();
     }
     aCrop.startCrop();
   },
@@ -144,6 +155,7 @@ aCrop = {
         .find('li.a-media-selection-list-item').css(thumbWH); // set width/height on <li> so while image loads there isn't a jump
       // make sure delete button is visible
       aUI("a-media-selection-list");
+			$(".a-crop-workspace").fadeTo(500,1).fadeOut();
     });
   },
   
@@ -168,5 +180,6 @@ aCrop = {
     ];
     
     aCrop.api.setSelect(coords);
+		$(".a-crop-workspace").fadeTo(500,1).fadeOut();
   }
 }

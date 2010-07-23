@@ -8,6 +8,9 @@
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
   <ul class="a-controls a-media-multiple-list-controls">	
+		<li>
+			<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label">Crop</a>
+		</li>
 	  <li><?php echo jq_link_to_remote(__("remove this item", null, 'apostrophe'),
     array(
       'url' => 'aMedia/multipleRemove?id='.$id,
@@ -21,7 +24,7 @@
 
 	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
 	<div class="a-media-selected-item-overlay"></div>
-  <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" />
+  <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" />
 
 </li>
 <?php endforeach ?>
