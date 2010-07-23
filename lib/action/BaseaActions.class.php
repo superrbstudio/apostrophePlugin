@@ -590,7 +590,14 @@ class BaseaActions extends sfActions
       $q = $replacements[$key];
     }
 
-    $values = aZendSearch::searchLuceneWithValues(Doctrine::getTable('aPage'), $q, aTools::getUserCulture());
+    try
+    {
+      $values = aZendSearch::searchLuceneWithValues(Doctrine::getTable('aPage'), $q, aTools::getUserCulture());
+    } catch (Exception $e)
+    {
+      // Lucene search error. TODO: display it nicely if they are always safe things to display. For now: just don't crash
+      $values = array();
+    }
 
     $nvalues = array();
 
