@@ -102,9 +102,7 @@ function aUI(target)
 	// 	// }
 	// })
 
-	//aContext Slot / Area Controls Setup
 	$('.a-controls li:last-child').addClass('last'); // Add 'last' Class To Last Option
-	$('.a-controls').css('visibility','visible'); // Display Controls After They Have Been Styled
 	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
 	// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
