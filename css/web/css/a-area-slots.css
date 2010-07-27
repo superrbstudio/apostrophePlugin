@@ -357,7 +357,7 @@ padding-left: 70px;
 /* 9. Controls for Areas and Slots
 -------------------------------------*/
 
-ul.a-controls
+.a-ui.a-controls
 { 
 position: relative;
 margin: 0;
@@ -365,7 +365,7 @@ padding: 0;
 list-style: none;
 }
 
-ul.a-controls li
+.a-ui.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
 display: inline;
@@ -377,18 +377,18 @@ border: none;
 list-style: none;
 }
 
-ul.a-controls li.last
+.a-ui.a-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
 }
 
-.a-area > ul.a-controls
+.a-area > .a-ui.a-controls
 { 
 margin: 0 0 10px;
 background: #0e0;
 }
 
-.a-area.singleton > ul.a-controls
+.a-area.singleton > .a-ui.a-controls
 { 
 position: absolute;
 top: 0;
@@ -397,12 +397,12 @@ z-index: 799;
 margin: 0 !important;
 }
 
-.a-area.singleton.aRichText > ul.a-controls,
-.a-area.singleton.aText > ul.a-controls,
-.a-area.singleton.aBlog > ul.a-controls,
-.a-area.singleton.aBlogSingle > ul.a-controls,
-.a-area.singleton.aEvent > ul.a-controls,
-.a-area.singleton.aEventSingle > ul.a-controls
+.a-area.singleton.aRichText > .a-ui.a-controls,
+.a-area.singleton.aText > .a-ui.a-controls,
+.a-area.singleton.aBlog > .a-ui.a-controls,
+.a-area.singleton.aBlogSingle > .a-ui.a-controls,
+.a-area.singleton.aEvent > .a-ui.a-controls,
+.a-area.singleton.aEventSingle > .a-ui.a-controls
 { /* Some Singleton Slots don't want Area Controls to sit on top of their content */
 position: relative;
 margin-bottom: 0;
@@ -443,7 +443,7 @@ display: none !important;
 
 /* Options Element -- This creates a box for menu options and for slot options */
 
-.a-options
+.a-ui .a-options
 { 
 padding: 35px 5px 2px 5px;
 position: absolute;

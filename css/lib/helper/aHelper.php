@@ -16,7 +16,16 @@ function _a_required_assets()
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
   {
-    $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
+    $response->addStylesheet('/apostrophePlugin/css/a-reset.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-utility.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-forms.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-buttons.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-navigation.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-components.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-area-slots.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-engines.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-admin.css');
+    $response->addStylesheet('/apostrophePlugin/css/a-colors.css');
   }
 
   $response->addJavascript('/apostrophePlugin/js/aUI.js');
