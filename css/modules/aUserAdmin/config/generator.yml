@@ -1,15 +1,15 @@
 generator:
   class: sfDoctrineGenerator
   param:
-    model_class:           sfGuardUser
-    theme:                 aAdmin
-    non_verbose_templates: true
-    with_show:             false
-    singular:              ~
-    plural:                ~
-    route_prefix:          a_user_admin
-    with_doctrine_route:     1
-    i18n_catalogue: apostrophe
+    model_class:            sfGuardUser
+    theme:                  aAdmin
+    non_verbose_templates:  true
+    with_show:              false
+    singular:               ~
+    plural:                 ~
+    route_prefix:           a_user_admin
+    with_doctrine_route:    1
+    i18n_catalogue:         apostrophe
 
     config:
       actions: ~

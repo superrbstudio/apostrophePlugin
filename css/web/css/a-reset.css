@@ -1,26 +1,4 @@
-/* Eric Meyer's Reset CSS 
+/* Apostrophe UI Reset based on Eric Meyer's Reset CSS 
 -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------------------------------------------- */
-* { margin: 0; padding: 0; font-weight: normal; } /* Safari seems to ignore a lot of the reset style sheet and I am not sure why. */
-
-html, body, div, span, applet, object, iframe, 
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, 
-abbr, acronym, address, big, cite, code, del, dfn, 
-em, font, img, ins, kbd, q, s, samp, small, strike, 
-strong, sub, sup, tt, var, b, u, i, center, 
-dl, dt, dd, ol, ul, li, fieldset, form, label, 
-legend, table, caption, tbody, tfoot, thead, tr, th, td 
-{ 
-	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; 
-}
-
-:focus { outline: 0; } /* remember to define focus styles! */
-
-ins { text-decoration: none; } /* remember to highlight inserts somehow! */
-del { text-decoration: line-through; }
-
-table { border-collapse: separate; border-spacing: 0; } /* tables still need 'cellspacing="0"' in the markup */
-
-blockquote:before, blockquote:after, q:before, q:after { content: ""; }
-
-blockquote, q { quotes: "" ""; }
+.a-ui div, .a-ui span, .a-ui applet, .a-ui object, .a-ui iframe, .a-ui h1, .a-ui h2, .a-ui h3, .a-ui h4, .a-ui h5, .a-ui h6, .a-ui p, .a-ui blockquote, .a-ui pre, .a-ui a, .a-ui abbr, .a-ui acronym,.a-ui address,.a-ui big, .a-ui cite, .a-ui code, .a-ui del, .a-ui dfn, .a-ui em, .a-ui font, .a-ui img, .a-ui ins, .a-ui kbd, .a-ui q, .a-ui s, .a-ui samp, .a-ui small, .a-ui strike, .a-ui strong, .a-ui sub, .a-ui sup, .a-ui tt, .a-ui var, .a-ui b, .a-ui u, .a-ui i, .a-ui center, .a-ui dl, .a-ui dt, .a-ui dd, .a-ui ol, .a-ui ul, .a-ui li, .a-ui fieldset, .a-ui form, .a-ui label, .a-ui legend, .a-ui table, .a-ui caption, .a-ui tbody, .a-ui tfoot, .a-ui thead, .a-ui tr, .a-ui th, .a-ui td  { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }

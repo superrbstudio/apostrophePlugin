@@ -56,7 +56,15 @@
         <?php if (has_slot('a-logo')): ?>
           <?php include_slot('a-logo') ?>
         <?php else: ?>
-          <?php a_slot("logo", 'aButton', array("global" => true, "width" => 360, "flexHeight" => true, "resizeType" => "s", "link" => "/", "defaultImage" => "/apostrophePlugin/images/cmstest-sample-logo.png")) ?>
+          <?php a_slot('logo', 'aButton', array(
+						'global' => true, 
+						'edit' => isset($page) ? true : false,				
+						'width' => 360, 
+						'flexHeight' => true, 
+						'resizeType' => 's', 
+						'link' => '/', 
+						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png'
+					)) ?>
         <?php endif ?>
       </div>
     <?php endif ?>
