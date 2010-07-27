@@ -1,7 +1,7 @@
 <?php use_helper('I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<?php use_helper('jQuery') ?>
+<?php use_helper('jQuery','a') ?>
 
 <div id="a-media-plugin">
 

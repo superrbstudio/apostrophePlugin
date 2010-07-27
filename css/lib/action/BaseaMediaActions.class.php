@@ -20,14 +20,6 @@ class BaseaMediaActions extends aEngineActions
 			}
     }
 
-	  if (sfConfig::get('app_a_use_bundled_stylesheet', true))
-	  {
-	    $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
-	  }
-
-    $response->addJavascript('/apostrophePlugin/js/aControls.js');	
-    $response->addJavascript('/apostrophePlugin/js/aUI.js');
-    $response->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 	}
 
   public function executeSelect(sfRequest $request)
