@@ -8,6 +8,7 @@
 function _a_required_assets()
 {
   $response = sfContext::getInstance()->getResponse();
+  $user = sfContext::getInstance()->getUser();
 
   sfContext::getInstance()->getConfiguration()->loadHelpers(
     array("Url", "jQuery", "I18N", 'PkDialog'));
@@ -16,7 +17,14 @@ function _a_required_assets()
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
   {
-    $response->addStylesheet('/apostrophePlugin/css/a-reset.css');
+	
+		// This could be used as a way to manage what styles are included when logged in / out.	
+		// But it really seems like we use pieces of every one of these when logged in and out.
+		if ($user->isAuthenticated()) 
+		{ 
+	    $response->addStylesheet('/apostrophePlugin/css/a-reset.css');
+		} 
+
     $response->addStylesheet('/apostrophePlugin/css/a-utility.css');
     $response->addStylesheet('/apostrophePlugin/css/a-forms.css');
     $response->addStylesheet('/apostrophePlugin/css/a-buttons.css');

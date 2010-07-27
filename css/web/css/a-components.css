@@ -1,6 +1,5 @@
 /* Attribution */
 /* IE6 Warning */
-/* Breadcrumb */
 /* Pager / Pagination */
 /* Global Toolbar */
 /* Global Toolbar  - Page Settings*/
@@ -166,30 +165,27 @@ margin-right:1px;
 /* 11. aUI Global Toolbar
 -------------------------------------*/
 
-#a-global-toolbar
+.a-global-toolbar
 {
 position: relative;
 display: inline;
 float: left;
 width: 100%;
 border-bottom: 1px solid #ddd;
-padding: 5px 0 2px 0;
 margin-bottom: 5px;
 clear: both;
 z-index: 999;
 background:#fff;
-min-height: 24px;
 }
 
-#the-apostrophe { float: left; margin: 2px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
+.the-apostrophe { float: left; margin: 2px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
 
-#a-global-toolbar .a-global-toolbar-buttons
+.a-global-toolbar > .a-controls
 {
-float: left;
-margin-right: 5px;
+	margin-top: 5px;
 }
 
-#a-global-toolbar .a-login
+.a-global-toolbar .a-login
 {
 	float: right;
 	display: inline;
@@ -197,7 +193,7 @@ margin-right: 5px;
 	line-height: 20px;
 }
 
-#a-global-toolbar .a-global-toolbar-this-page
+.a-global-toolbar .a-global-toolbar-this-page
 {
 	position: relative;
 	display: inline;
@@ -209,7 +205,7 @@ margin-right: 5px;
 	overflow: hidden;
 }
 
-#a-global-toolbar .a-global-toolbar-this-page.ok
+.a-global-toolbar .a-global-toolbar-this-page.ok
 {
 	padding: 8px 0;
 }

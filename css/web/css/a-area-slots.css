@@ -46,15 +46,6 @@ margin: -1px 0 0 -1px;
 background: rgba(0,0,0,0.025);
 }
 
-.a-arrow-btn
-{ 
-float: left;
-/*border: 0;
-background-position: 0 0;*/
-cursor: pointer;
-}
-
-
 .a-slot.aRawHTML textarea
 { 
 float: left;
@@ -357,7 +348,7 @@ padding-left: 70px;
 /* 9. Controls for Areas and Slots
 -------------------------------------*/
 
-.a-ui.a-controls
+.a-controls
 { 
 position: relative;
 margin: 0;
@@ -365,7 +356,7 @@ padding: 0;
 list-style: none;
 }
 
-.a-ui.a-controls li
+.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
 display: inline;
@@ -377,18 +368,17 @@ border: none;
 list-style: none;
 }
 
-.a-ui.a-controls li.last
+.a-controls li.last
 { /* .last option has no margin */
 	margin: 0 0 2px 0 !important;
 }
 
-.a-area > .a-ui.a-controls
+.a-area > .a-controls
 { 
 margin: 0 0 10px;
-background: #0e0;
 }
 
-.a-area.singleton > .a-ui.a-controls
+.a-area.singleton > .a-controls
 { 
 position: absolute;
 top: 0;
@@ -397,12 +387,12 @@ z-index: 799;
 margin: 0 !important;
 }
 
-.a-area.singleton.aRichText > .a-ui.a-controls,
-.a-area.singleton.aText > .a-ui.a-controls,
-.a-area.singleton.aBlog > .a-ui.a-controls,
-.a-area.singleton.aBlogSingle > .a-ui.a-controls,
-.a-area.singleton.aEvent > .a-ui.a-controls,
-.a-area.singleton.aEventSingle > .a-ui.a-controls
+.a-area.singleton.aRichText > .a-controls,
+.a-area.singleton.aText > .a-controls,
+.a-area.singleton.aBlog > .a-controls,
+.a-area.singleton.aBlogSingle > .a-controls,
+.a-area.singleton.aEvent > .a-controls,
+.a-area.singleton.aEventSingle > .a-controls
 { /* Some Singleton Slots don't want Area Controls to sit on top of their content */
 position: relative;
 margin-bottom: 0;
@@ -443,7 +433,8 @@ display: none !important;
 
 /* Options Element -- This creates a box for menu options and for slot options */
 
-.a-ui .a-options
+.a-ui .a-options,
+.a-options
 { 
 padding: 35px 5px 2px 5px;
 position: absolute;

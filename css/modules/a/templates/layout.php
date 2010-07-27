@@ -58,7 +58,7 @@
         <?php else: ?>
           <?php a_slot('logo', 'aButton', array(
 						'global' => true, 
-						'edit' => isset($page) ? true : false,				
+						'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
 						'width' => 360, 
 						'flexHeight' => true, 
 						'resizeType' => 's', 

@@ -1,7 +1,7 @@
 /* 34. aUI & Admin Colors - Default
 -------------------------------------*/
 
-#a-global-toolbar #the-apostrophe
+.a-global-toolbar .the-apostrophe
 { /* Apostrophe */
 	background-color: rgb(255,150,0);
 	background-color: rgba(255,150,0,0.75);	
@@ -17,9 +17,9 @@
 border-radius: 2px;
 }
 
-.a-btn,
-.a-submit,
-.a-cancel
+.a-ui .a-btn,
+.a-ui .a-submit,
+.a-ui .a-cancel
 { /* Button Styles */
 	background-color: rgb(255,150,0);
 	background-color: rgba(255,150,0,0.75);	
@@ -27,7 +27,7 @@ border-radius: 2px;
 	border:1px solid rgba(20,20,20,.2);	
 }
 
-#the-apostrophe:hover,
+.the-apostrophe:hover,
 .a-btn:focus,
 .a-btn:hover,
 .a-btn:hover span
@@ -75,7 +75,7 @@ border-color: rgb(255,150,0);
 .a-attribution a,
 .a-admin .a-admin-content a:link, 
 .a-admin .a-admin-content a:visited,
-#a-global-toolbar #a-logged-in-as span,
+.a-global-toolbar #a-logged-in-as span,
 #a-personal-settings-heading span
 { /* Text Color */
 color: rgb(255,150,0);

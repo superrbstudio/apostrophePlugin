@@ -5,13 +5,13 @@
 <?php $pageEdit = ($page && $page->userHasPrivilege('edit')) || empty($page) ?>
 <?php $cmsAdmin = $sf_user->hasCredential('cms_admin') ?>
 
-<div id="a-global-toolbar">
+<div class="a-ui a-global-toolbar">
 
 	<ul class="a-ui a-controls">
 
 	  <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
 
-			<li><?php echo link_to(__('Apostrophe Now', null, 'apostrophe'),'@homepage', array('id' => 'the-apostrophe')) ?></li>
+			<li><?php echo link_to(__('Apostrophe Now', null, 'apostrophe'),'@homepage', array('class' => 'the-apostrophe')) ?></li>
 
 			<?php foreach ($buttons as $button): ?>
 				<?php if ($button->getTargetEnginePage()): ?><?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?><?php endif ?>
