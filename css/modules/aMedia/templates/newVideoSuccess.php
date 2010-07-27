@@ -1,4 +1,5 @@
-<?php use_helper('jQuery', 'I18N') ?>
+<?php use_helper('jQuery', 'I18N','a') ?>
+
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <div id="a-media-plugin">
