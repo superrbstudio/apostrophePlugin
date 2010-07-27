@@ -446,6 +446,12 @@ float: left;
 .a-multiple-select-item .a-close-small
 {
 float: left;
+clear: none;
+}
+
+.categories .a-multiple-select-item
+{
+	width: 100%;
 }
 
 
