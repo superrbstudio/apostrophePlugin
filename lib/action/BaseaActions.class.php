@@ -1,19 +1,19 @@
 <?php
 
 /**
- a actions.
+ * a actions.
  *
- @package    apostrophe
- @subpackage a
- @author     Your name here
- @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
+ * @package    apostrophe
+ * @subpackage a
+ * @author     Your name here
+ * @version    SVN: $Id: actions.class.php 12479 2008-10-31 10:54:40Z fabien $
  */
 class BaseaActions extends sfActions
 {
  /**
-  Executes index action
+  * Executes index action
   *
-  @param sfWebRequest $request A request object
+  * @param sfWebRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
@@ -46,7 +46,12 @@ class BaseaActions extends sfActions
 
 	public function executeError404(sfWebRequest $request)
 	{
+		// Apostrophe Bundled 404 
+	}
 
+	public function executeSecure(sfWebRequest $request)
+	{
+		// Apostrophe Bundled Secure
 	}
   
   protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit')
