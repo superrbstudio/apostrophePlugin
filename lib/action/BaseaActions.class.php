@@ -46,7 +46,12 @@ class BaseaActions extends sfActions
 
 	public function executeError404(sfWebRequest $request)
 	{
+		// Apostrophe Bundled 404 
+	}
 
+	public function executeSecure(sfWebRequest $request)
+	{
+		// Apostrophe Bundled Secure
 	}
   
   protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit')
