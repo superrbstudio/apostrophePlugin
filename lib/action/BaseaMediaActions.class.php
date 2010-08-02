@@ -378,40 +378,51 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->item = $item;
     $this->form = new aMediaPdfForm($item);
-    if ($request->isMethod('post'))
+    try
     {
-      $this->firstPass = $request->getParameter('first_pass');
-      $parameters = $request->getParameter('a_media_item');
-      $files = $request->getFiles('a_media_item');
-      $this->form->bind($parameters, $files);
-      if ($this->form->isValid())
+      if ($request->isMethod('post'))
       {
-        $file = $this->form->getValue('file');
-        unset($this->form['file']);
-        $object = $this->form->getObject();
-        if ($file)
+        $this->firstPass = $request->getParameter('first_pass');
+        $parameters = $request->getParameter('a_media_item');
+        $files = $request->getFiles('a_media_item');
+        $this->form->bind($parameters, $files);
+        if ($this->form->isValid())
         {
+          $file = $this->form->getValue('file');
+          $object = $this->form->getObject();
+          if ($file)
+          {
+            // This actually has to be shimmed in at a much lower level as an option if
+            // gs is not available. We can't just use a fake thumbnail as an 'original' as we
+            // do for foreign video because that would break 'download original'
+            // copy(sfConfig::get('sf_root_dir') . '/plugins/apostrophePlugin/web/images/a-media-pdf-btn-small.png', $previewFile);
+          
+            // Everything except the actual copy which can't succeed
+            // until the slug is cast in stone
+            if (!$object->preSaveImage($file->getTempName()))
+            {
+              // Ideally this doesn't happen, in practice sometimes a PDF has
+              // a good signature but bad content or ghostscript hates it
+              throw new sfException('Defective PDF file');
+            }
+          }
           // The base implementation for saving files gets confused when 
           // $file is not set, a situation that our code tolerates as useful 
           // because if you're updating a record containing a PDF you 
           // often don't need to submit a new one.
-          
-          // This actually has to be shimmed in at a much lower level as an option if
-          // gs is not available. We can't just use a fake thumbnail as an 'original' as we
-          // do for foreign video because that would break 'download original'
-          // copy(sfConfig::get('sf_root_dir') . '/plugins/apostrophePlugin/web/images/a-media-pdf-btn-small.png', $previewFile);
-          
-          // Everything except the actual copy which can't succeed
-          // until the slug is cast in stone
-          $object->preSaveImage($file->getTempName());
+          unset($this->form['file']);
+          $this->form->save();
+          if ($file)
+          {
+            $object->saveImage($file->getTempName());
+          }
+          return $this->redirect("aMedia/resumeWithPage");
         }
-        $this->form->save();
-        if ($file)
-        {
-          $object->saveImage($file->getTempName());
-        }
-        return $this->redirect("aMedia/resumeWithPage");
       }
+    } catch (Exception $e)
+    {
+      $this->serviceError = $e->getMessage();
+      // TODO make this visible somehow
     }
   }
 
