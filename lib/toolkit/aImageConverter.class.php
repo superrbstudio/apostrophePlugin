@@ -456,10 +456,16 @@ class aImageConverter
       // Problem: this doesn't work. We regain control but the process won't die for some reason. It helps
       // with import but for now go with the simpler standard invocation and hope they fix gs
 
-      $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit ) 2>&1";
+      // $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit ) 2>&1";
       
-      // $cmd = "ME=$$; export ME; (PATH=$path:\$PATH; export PATH; ( sleep 5; echo 'TIMEOUT'; kill \$ME ) & gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit; kill $! ) 2>&1";
-      // sfContext::getInstance()->getLogger()->info("PDFINFO: $cmd");
+      $cmd = "( PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit & GS=$!; ( sleep 5; kill \$GS ) & TIMEOUT=\$!; wait \$GS; kill \$TIMEOUT ) 2>&1";
+
+      // For some reason system() does not get the same result when killing subshells as I get when executing
+      // $cmd directly. I don't know why this is this the case but it's easily reproduced
+      
+      $script = aFiles::getTemporaryFilename() . '.sh';
+      file_put_contents($script, $cmd);
+      $cmd = "/bin/sh " . escapeshellarg($script);
       $in = popen($cmd, "r");
       while (($line = fgets($in)) !== false)
       {
@@ -470,13 +476,7 @@ class aImageConverter
           $result['height'] = $matches[2];
           break;
         }
-        // Without this we get hung up trying to read another line even after the timeout kill
-        if (preg_match('/TIMEOUT/', $data))
-        {
-          break;
-        }
       }
-      // Hopefully this will kill all of the processes involved
       pclose($in);
       if (!isset($result['width']))
       {
