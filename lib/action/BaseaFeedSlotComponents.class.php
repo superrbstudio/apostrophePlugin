@@ -31,7 +31,7 @@ class BaseaFeedSlotComponents extends BaseaSlotComponents
         $this->invalid = true;
       }
 
-      $this->posts = $this->getOption('posts', '5');
+      $this->posts = $this->getOption('posts', 5);
       $this->links = $this->getOption('links', true);
       $this->markup = $this->getOption('markup', '<strong><em><p><br><ul><li>');
 			$this->attributes = $this->getOption('attributes', false);
