@@ -20,7 +20,6 @@ all:
     templates:
       home: Home Page
       default: Default Page
-      twoColumn: Two Column Page
     # Use the provided stylesheet (recommended)
     use_bundled_stylesheet: true
   # Media plugin related options
