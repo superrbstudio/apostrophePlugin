@@ -58,7 +58,7 @@ aCrop = {
 			trueSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
-    // $('.a-media-crop-controls').appendTo('.jcrop-holder div:first').show();
+    $('.a-media-crop-controls').clone().appendTo('.jcrop-holder div:first').show();
   },
   
   stopCrop: function(){

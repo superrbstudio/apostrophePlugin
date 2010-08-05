@@ -1,15 +1,11 @@
 <?php use_helper('I18N', 'jQuery') ?>
 
-<?php $imageInfo = aMediaTools::getAttribute('imageInfo') ?>
-<?php $ids = aArray::getIds(aMediaTools::getSelection()) ?>
-<?php $aspectRatio = aMediaTools::getAspectRatio() ?>
-
 <?php foreach ($items as $item): ?>
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
   <ul class="a-controls a-media-multiple-list-controls">	
 		<li>
-			<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label">Crop</a>
+			<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label" title="<?php echo __('Crop', null, 'apostrophe') ?>"><?php echo __('Crop', null, 'apostrophe') ?></a>
 		</li>
 	  <li><?php echo jq_link_to_remote(__("remove this item", null, 'apostrophe'),
     array(
@@ -48,7 +44,7 @@
 	      $(selector).addClass('a-media-selected');
 			}
 		}
-	
+			
 		$('.a-media-item.a-media-selected').each(function(){
 			$(this).children('.a-media-item-thumbnail').prepend('<div class="a-media-selected-overlay"></div>');
 		});
@@ -79,12 +75,12 @@
 
 	$(document).ready(function() { // On page ready indicate selected items
 	  var cropOptions = {
-      ids: <?php echo json_encode($ids) ?>,
-      aspectRatio: <?php echo $aspectRatio ?>,
+      ids: <?php echo json_encode(aMediaTools::getSelection()) ?>,
+      aspectRatio: <?php echo aMediaTools::getAspectRatio() ?>,
       minimumSize: [<?php echo aMediaTools::getAttribute('minimum-width') ?>, <?php echo aMediaTools::getAttribute('minimum-height') ?>],
       maximumSize: [<?php echo aMediaTools::getAttribute('maximum-width') ?>, <?php echo aMediaTools::getAttribute('maximum-height') ?>],
       <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
-      imageInfo: <?php echo json_encode($imageInfo) ?>
+      imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
     };
 	  
 		aMediaItemsIndicateSelected(cropOptions);

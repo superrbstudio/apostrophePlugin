@@ -276,7 +276,7 @@ class BaseaMediaActions extends aEngineActions
   {
     $this->logMessage("*****MULTIPLE ORDER", "info");
     $order = $request->getParameter('a-media-selection-list-item');
-    $oldSelection = aMediaTools::getSelection();
+    $oldSelection = aMediaTools::getSelection();    
     $keys = array_flip($oldSelection);
     $selection = array();
     foreach ($order as $id)
@@ -291,7 +291,7 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless(isset($keys[$item->getId()]));
       $this->logMessage(">>>KEEPING " . $item->getId(), "info");
     }
-    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");
+    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");    
     aMediaTools::setSelection($selection);
     return $this->renderComponent("aMedia", "multipleList");
   }
