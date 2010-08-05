@@ -338,7 +338,6 @@ margin: 10px 0px 10px 0;
 float:left;
 text-align: left;
 font-weight: normal;
-text-transform: capitalize;
 width: 120px;
 line-height: 20px;
 }
@@ -470,7 +469,6 @@ font-size: 12px;
 cursor: pointer;
 padding: 0 4px;
 white-space: nowrap;
-text-transform: capitalize;
 height: 18px;
 line-height: 18px;
 border:none;
@@ -1454,7 +1452,6 @@ height: 20px;
 letter-spacing: -.0125em;
 font-weight: normal;
 position: relative;
-text-transform: capitalize;
 margin-right: 0px;
 }
 
@@ -1516,7 +1513,6 @@ line-height: 20px;
 #a-breadcrumb .epc-form-cancel
 {
 color: #333;
-text-transform: lowercase;
 }
 
 #a-breadcrumb .epc-form-cancel:hover
@@ -1581,7 +1577,6 @@ clear: right;
 	padding: 0 2px;
 	margin: 0;
 	border: 1px solid #fff;
-	text-transform: none;
 }
 
 #a-breadcrumb input.a-breadcrumb-input:focus,
@@ -1666,7 +1661,6 @@ vertical-align: baseline;
 	display: block;
 	position: relative;
 	white-space: nowrap;
-	text-transform: capitalize;
 	height: 20px;
 	font-size: 11px;	
 	line-height: 20px;
@@ -3365,7 +3359,6 @@ left: 50%;
 margin-left: -110px;
 margin-top: -200px;
 font-size: 16px;
-text-transform: lowercase;
 }
 
 #a-login-form table
@@ -3700,7 +3693,6 @@ margin: 10px 0;
 #feedback-link
 {
 text-align: right;
-text-transform: capitalize;
 }
 
 #feedback-submitted
@@ -4941,7 +4933,6 @@ margin: 0 0 10px 0;
 color: #333;
 background-color: transparent;
 font-size: 14px;
-text-transform: capitalize;
 border-top: 1px #ddd solid;
 }
 
@@ -5240,7 +5231,6 @@ font-size: 24px;
 line-height: 24px;
 float: left;
 top: 0;
-text-transform: capitalize;
 }
 
 .a-admin-bar .a-admin-controls
@@ -5590,28 +5580,6 @@ max-width: 358px;
 .a-admin-generator .a-form-row input[type="radio"]
 {
 width: auto;
-}
-
-.a-admin-generator .a-form-row
-{
-/*min-width:590px;*/
-/*width: auto !important;*/
-/*width: 590px;*/
-}
-
-.a-admin-generator .a-form-row label
-{
-/*float: left;*/
-/*text-align: left;*/
-/*width: 120px;*/
-/*color: #666;/*/
-/*font-weight: normal !important;*/
-/*text-transform: capitalize;*/
-/*position: absolute !important;*/
-/*top: 0;*/
-/*left: 0;*/
-/*line-height: 20px;*/
-/*display: block;*/
 }
 
 .a-admin-generator .a-form-row .checkbox_list label
