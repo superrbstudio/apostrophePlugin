@@ -185,14 +185,10 @@
   </div>  <?php // Closes the div wrapping all of the slots ?>
 </div> <?php // Closes the div wrapping all of the slots AND the area controls ?>
 <?php endif ?>
-<!-- END SLOT -->
 
-
-
+<?php if ($editable): ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
-		<?php if ($editable): ?>
 
 			<?php if ($infinite): ?>
 				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'add-slot-now', false);
@@ -211,8 +207,6 @@
 				};				
 			<?php endif ?>
 
-		<?php endif ?>
-
 		<?php if ($preview): ?>
 			<?php // Previewing History for Area ?>
 			$('.a-history-preview-notice').fadeIn();
@@ -221,3 +215,4 @@
 		
 	});
 </script>
+<?php endif ?>
