@@ -1,1 +1,1 @@
-<?php include_partial("aMedia/multipleList", array("items" => aMediaTools::getSelectedItems())) ?>
+<?php include_component("aMedia", "multipleList") ?>
