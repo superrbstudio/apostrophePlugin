@@ -11,7 +11,10 @@
 <?php endif ?>
 	<h3><?php echo $label ?></h3>
 
-	<ul id="a-media-selection-list">
+	<div id="a-media-selection-list-caption">
+	  <h4>Preview your selected images here.</h4>
+	</div>
+	<ul id="a-media-selection-list" style="min-height:<?php echo aMediaTools::getSelectedThumbnailHeight() + 10 ?>px;">
 	<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
 	</ul>
 
@@ -25,8 +28,8 @@
 	  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
 	  </ul>
 	  <ul class="a-controls a-media-crop-controls">
-			<li><?php echo jq_link_to_function(__("Set Crop", null, 'apostrophe'), "aCrop.setCrop('".url_for('aMedia/crop')."')", array("class"=>"a-btn save")) ?></li>
-	 	  <li><?php echo jq_link_to_function(__("Reset", null, 'apostrophe'), "aCrop.resetCrop()", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
+			<li><?php echo jq_link_to_function(__("Crop", null, 'apostrophe'), "aCrop.setCrop('".url_for('aMedia/crop')."')", array("class"=>"a-btn save")) ?></li>
+	 	  <li><?php echo jq_link_to_function(__("Cancel", null, 'apostrophe'), "aCrop.resetCrop()", array("class"=>"a-btn icon a-cancel event-default")) ?></li>
 	  </ul>
 	</div>
 

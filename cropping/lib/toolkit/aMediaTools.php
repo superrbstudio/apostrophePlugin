@@ -264,4 +264,18 @@ class aMediaTools
     }
     return 0;
   }
+  
+  static public function getSelectedThumbnailHeight()
+  {
+    $selectedConstraints = self::getOption('selected_constraints');
+    if (false === $selectedConstraints['height'])
+    {
+      if ($aspectRatio = self::getAspectRatio())
+      {
+        return $selectedConstraints['width'] / $aspectRatio;
+      }
+      return 0; // Let's not divide by zero.
+    }
+    return $selectedConstraints['height'];
+  }
 }

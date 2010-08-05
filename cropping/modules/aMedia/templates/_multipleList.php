@@ -48,6 +48,11 @@
 		$('.a-media-item.a-media-selected').each(function(){
 			$(this).children('.a-media-item-thumbnail').prepend('<div class="a-media-selected-overlay"></div>');
 		});
+		
+		$('#a-media-selection-list-caption').hide();
+		if (!ids.length) {
+      $('#a-media-selection-list-caption').show();
+		}
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
 	}
