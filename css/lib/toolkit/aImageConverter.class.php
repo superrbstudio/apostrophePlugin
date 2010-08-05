@@ -448,8 +448,24 @@ class aImageConverter
         }
       }
       // Bounding box goes to stderr, not stdout! Charming
-      $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit) 2>&1";
-      // sfContext::getInstance()->getLogger()->info("PDFINFO: $cmd");
+      // 5 second timeout for reading dimensions. Keeps us from getting stuck on
+      // PDFs that just barely work in Adobe but are noncompliant and hang ghostscript.
+      // Read the output one line at a time so we can catch the happy
+      // bounding box message without hanging
+      
+      // Problem: this doesn't work. We regain control but the process won't die for some reason. It helps
+      // with import but for now go with the simpler standard invocation and hope they fix gs
+
+      // $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit ) 2>&1";
+      
+      $cmd = "( PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit & GS=$!; ( sleep 5; kill \$GS ) & TIMEOUT=\$!; wait \$GS; kill \$TIMEOUT ) 2>&1";
+
+      // For some reason system() does not get the same result when killing subshells as I get when executing
+      // $cmd directly. I don't know why this is this the case but it's easily reproduced
+      
+      $script = aFiles::getTemporaryFilename() . '.sh';
+      file_put_contents($script, $cmd);
+      $cmd = "/bin/sh " . escapeshellarg($script);
       $in = popen($cmd, "r");
       $data = stream_get_contents($in);
       pclose($in);
@@ -460,7 +476,7 @@ class aImageConverter
         $result['width'] = $matches[1];
         $result['height'] = $matches[2];
       }
-      else
+      if (!isset($result['width']))
       {
         // Bad PDF
         return false;

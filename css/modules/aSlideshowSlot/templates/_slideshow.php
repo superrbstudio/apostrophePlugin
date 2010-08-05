@@ -164,7 +164,7 @@
 <script type="text/javascript" charset="utf-8">
   <?php // Make sure a single-image slideshow is not hidden entirely ?>
 	$(document).ready(function() {
-     $('#a-slideshow-item-<?php echo $id ?>-0').show().parents(".aSlideshow").addClass("single-image");
+    $('#a-slideshow-item-<?php echo $id ?>-0').show().parents(".a-slideshow, .aSlideshow").addClass("single-image");
 	});
 </script>
 <?php endif ?>
