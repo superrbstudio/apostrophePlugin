@@ -68,6 +68,7 @@ aCrop = {
   },
   
   findPreviewImage: function(){
+    // find the first image in the current list-item; subsequent images may be Jcrop clones
     return $(aCrop.el.previewList).find('li.current img');
   },
   
@@ -108,18 +109,17 @@ aCrop = {
   setAspectMask: function(el){
     var imageInfo = aCrop.getCurrentImageInfo();
 
-    if (!imageInfo || !imageInfo.cropWidth) {
-      var imageInfo = {};
+    if (!imageInfo.cropWidth) {
       if (aCrop.options.aspectRatio > 1) {
-        imageInfo.cropWidth = $(el).width();
-        imageInfo.cropHeight = Math.floor(imageInfo.cropWidth / aCrop.options.aspectRatio);
+        imageInfo.cropWidth = imageInfo.width;
+        imageInfo.cropHeight = Math.floor(imageInfo.width / aCrop.options.aspectRatio);
       } else {
-        imageInfo.cropHeight = $(el).height();
-        imageInfo.cropWidth = Math.floor(imageInfo.cropHeight * aCrop.options.aspectRatio);
+        imageInfo.cropHeight = imageInfo.height;
+        imageInfo.cropWidth = Math.floor(imageInfo.height * aCrop.options.aspectRatio);
       }
-
+      
       imageInfo.cropLeft = 0;
-      imageInfo.cropTop = Math.floor(($(el).height() - imageInfo.cropHeight) / 2);
+      imageInfo.cropTop = Math.floor((imageInfo.height - imageInfo.cropHeight) / 2);
     }
     
     var coords = [
@@ -128,13 +128,14 @@ aCrop = {
       imageInfo.cropLeft + imageInfo.cropWidth,
       imageInfo.cropTop + imageInfo.cropHeight
     ];
-    
+        
     aCrop.api.setSelect(coords);
   },
   
   setCrop: function(url){
-    var mediaId = aCrop.getPreviewMediaId();  
+    var mediaId = aCrop.getPreviewMediaId();
     var coords = aCrop.api.tellSelect();
+    var imageInfo = aCrop.getCurrentImageInfo();
     var $img = aCrop.findPreviewImage();
     var $tmb = $(aCrop.el.slideshowList).find('li.a-media-selection-list-item').eq(0);
     var params = {
@@ -142,7 +143,9 @@ aCrop = {
       cropLeft: coords.x,
       cropTop: coords.y,
       cropWidth: coords.w,
-      cropHeight: coords.h
+      cropHeight: coords.h,
+      width: imageInfo.width,
+      height: imageInfo.height
     };
         
     var thumbWH = {
@@ -163,7 +166,7 @@ aCrop = {
     if (hardReset) { // reinstantiate crop
       aCrop.startCrop();
     }
-    
+        
     var mediaId = aCrop.getPreviewMediaId();
     
     if (!aCrop.options.imageInfo) return;
