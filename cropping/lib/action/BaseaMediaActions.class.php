@@ -211,11 +211,15 @@ class BaseaMediaActions extends aEngineActions
     $cropTop = floor($request->getParameter('cropTop'));
     $cropWidth = floor($request->getParameter('cropWidth'));
     $cropHeight = floor($request->getParameter('cropHeight'));
+    $width = floor($request->getParameter('width'));
+    $height = floor($request->getParameter('height'));
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     $imageInfo[$id]['cropLeft'] = $cropLeft;
     $imageInfo[$id]['cropTop'] = $cropTop;
     $imageInfo[$id]['cropWidth'] = $cropWidth;
     $imageInfo[$id]['cropHeight'] = $cropHeight;
+    $imageInfo[$id]['width'] = $width;
+    $imageInfo[$id]['height'] = $height;
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
   
@@ -265,7 +269,7 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeUpdateMultiplePreview(sfRequest $request)
   {
-    return $this->renderPartial('aMedia/multiplePreview', array('items' => aMediaTools::getSelectedItems()));
+    return $this->renderComponent('aMedia', 'multiplePreview');
   }
   
   public function executeMultipleOrder(sfRequest $request)

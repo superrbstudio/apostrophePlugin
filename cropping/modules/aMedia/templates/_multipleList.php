@@ -84,7 +84,7 @@
       minimumSize: [<?php echo aMediaTools::getAttribute('minimum-width') ?>, <?php echo aMediaTools::getAttribute('minimum-height') ?>],
       maximumSize: [<?php echo aMediaTools::getAttribute('maximum-width') ?>, <?php echo aMediaTools::getAttribute('maximum-height') ?>],
       <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
-      imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
+      imageInfo: <?php echo json_encode($imageInfo) ?>
     };
 	  
 		aMediaItemsIndicateSelected(cropOptions);

@@ -1,7 +1,7 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('I18N','jQuery') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
-
-<?php use_helper('jQuery') ?>
+<?php $type = aMediaTools::getAttribute('type') ?>
+<?php $selecting = aMediaTools::isSelecting() ?>
 
 <div id="a-media-plugin">
 
@@ -29,8 +29,6 @@
 	
 	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
    <ul class="a-controls a-media-controls">
-     <?php $selecting = aMediaTools::isSelecting() ?>
-     <?php $type = aMediaTools::getAttribute('type') ?>
 
      <?php if (!($selecting && $type && ($type !== 'image'))): ?>
      <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon big a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>
