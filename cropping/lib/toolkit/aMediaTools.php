@@ -167,7 +167,7 @@ class aMediaTools
         "height" => false,
         "resizeType" => "s"),
     "crop_constraints" => array(
-        "width" => 698,
+        "width" => 679,
         "height" => 400,
         "resizeType" => "s"),
     'routes_register' => true,
