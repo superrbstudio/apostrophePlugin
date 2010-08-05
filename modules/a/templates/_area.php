@@ -183,43 +183,38 @@
   </div>  <?php // Closes the div wrapping all of the slots ?>
 </div> <?php // Closes the div wrapping all of the slots AND the area controls ?>
 <?php endif ?>
-<!-- END SLOT -->
 
+<?php if ($editable): ?>
 
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
 
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
+		<?php if ($infinite): ?>
+			<?php // Add Slot Dropdown ?>
+			$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
+				var area = $(this).parents('.a-area');
+				area.toggleClass('add-slot-now');
+				$(document).click(function(e){
+					var target = e.target, // e.target grabs the node that triggered the event.
+					$target = $(target);  // wraps the node in a jQuery object
+						if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
+							area.removeClass('add-slot-now');
+						}
+				});
+			});			
+		<?php endif ?>
 
-		<?php if ($editable): ?>
-
-			<?php if ($infinite): ?>
-				<?php // Add Slot Dropdown ?>
-				$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').unbind('click').click(function(){ 
-					var area = $(this).parents('.a-area');
-					area.toggleClass('add-slot-now');
-					$(document).click(function(e){
-						var target = e.target, // e.target grabs the node that triggered the event.
-						$target = $(target);  // wraps the node in a jQuery object
-							if (target.id !== 'a-add-slot-<?php echo $pageid.'-'.$name ?>') {
-								area.removeClass('add-slot-now');
-							}
-					});
-				});			
-			<?php endif ?>
-
-			<?php if (!$infinite): ?>
-				<?php // Singleton Slot Controls ?>
-				$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton <?php echo $options['type'] ?>');
-				if ($('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls-moved').length) {	<?php // This is far from optimal. We are still using jQuery to "toss up" the slot controls if it's a Singleton slot. ?>
-					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').remove(); <?php // If the slot controls have already been pushed up, remove any new instances from an Ajax return ?>
-				}
-				else
-				{
-					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	<?php // Move up the slot controls and give them some class names. ?>
-					$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big'); // Singleton Slots can't have big history buttons, Sorry Charlie!
-				};				
-			<?php endif ?>
-
+		<?php if (!$infinite): ?>
+			<?php // Singleton Slot Controls ?>
+			$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton <?php echo $options['type'] ?>');
+			if ($('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls-moved').length) {	<?php // This is far from optimal. We are still using jQuery to "toss up" the slot controls if it's a Singleton slot. ?>
+				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').remove(); <?php // If the slot controls have already been pushed up, remove any new instances from an Ajax return ?>
+			}
+			else
+			{
+				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	<?php // Move up the slot controls and give them some class names. ?>
+				$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big'); // Singleton Slots can't have big history buttons, Sorry Charlie!
+			};				
 		<?php endif ?>
 
 		<?php if ($preview): ?>
@@ -228,5 +223,7 @@
 			$('body').addClass('history-preview');
 		<?php endif ?>
 		
-	});
-</script>
+		});
+	</script>
+
+<?php endif ?>
