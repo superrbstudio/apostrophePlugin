@@ -145,7 +145,7 @@
       <?php // Now we can include the slot ?>
       <?php include_slot("a-slot-content-$pageid-$name-$permid") ?>
   	</div>
-	</div><!-- END SLOT -->
+	</div>
 
 <?php $i++; endforeach ?>
 
@@ -154,11 +154,9 @@
 </div> <?php // Closes the div wrapping all of the slots AND the area controls ?>
 <?php endif ?>
 
-
+<?php if ($editable): ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
-		<?php if ($editable): ?>
 
 			<?php if ($infinite): ?>
 				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'a-options-open', false);
@@ -184,8 +182,6 @@
 				};				
 			<?php endif ?>
 
-		<?php endif ?>
-
 		<?php if ($preview): ?>
 			<?php // Previewing History for Area ?>
 			$('.a-history-preview-notice').fadeIn();
@@ -194,3 +190,4 @@
 		
 	});
 </script>
+<?php endif ?>
