@@ -4054,6 +4054,7 @@ li.a-media-selection-preview-item.current {
 	top:1px;
 	left:1px;
 	width: 150px;
+	display:none;
 }
 
 .a-crop-workspace
