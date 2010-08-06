@@ -16,7 +16,11 @@
 	</div>
 	<div id="a-media-selection-wrapper">
 		<ul id="a-media-selection-list" style="min-height:<?php echo ($thumbHeight = aMediaTools::getSelectedThumbnailHeight()) ? $thumbHeight + 10 : 85 ?>px;">
-		<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
+			<?php if($items): ?>
+				<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
+			<?php else: ?>
+				<li class="a-media-selection-placeholder">Add images to your slideshow</li>
+		 	<?php endif ?>
 		</ul>
 
 		<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder")) ?>
