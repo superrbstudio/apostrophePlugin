@@ -72,6 +72,8 @@ class PluginaMediaItemTable extends Doctrine_Table
     "jpg" => "image/jpeg",
     "pdf" => "application/pdf"
   );
+
+	static public $formats = array("image" => array("gif", "png" , "jpg"));
   
   // Returns a query matching media items satisfying the specified parameters, all of which
   // are optional:

@@ -20,11 +20,15 @@ class aMediaRouting
         'action' => 'show'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$')));
 
+			$formats = array_keys(aMediaItemTable::$mimeTypes);
+			$imageFormats = aMediaItemTable::$formats['image'];
+			$formatString = implode('|', $formats);
+			$imageFormatString = implode('|', $imageFormats);
       // Allow permalinks for PDF originals
       $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'original'
-      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(jpg|png|gif|pdf)$')));
+      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(' . $formatString . ')$')));
       
       $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
@@ -34,7 +38,7 @@ class aMediaRouting
         'width' => '^\d+$',
         'height' => '^\d+$',
         'resizeType' => '^\w$',
-        'format' => '^(jpg|png|gif)$'
+        'format' => '^(' . $imageFormatString . ')$'
       ));
       $r->prependRoute('a_media_image', $route);
       
