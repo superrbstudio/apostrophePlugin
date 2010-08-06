@@ -58,6 +58,8 @@ aCrop = {
 			trueSize: [imageInfo.width, imageInfo.height]
     });
     aCrop.setAspectMask(cropEl);
+    
+    $('.a-media-crop-controls').clone().appendTo('.a-media-selection-preview-item.current .jcrop-holder').show();
   },
   
   stopCrop: function(){

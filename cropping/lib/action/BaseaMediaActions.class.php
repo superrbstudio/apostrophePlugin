@@ -249,6 +249,11 @@ class BaseaMediaActions extends aEngineActions
     $imageInfo[$id]['width'] = $item->getWidth();
     $imageInfo[$id]['height'] = $item->getHeight();
     aMediaTools::setAttribute('imageInfo', $imageInfo);
+    // If no previous crop info is set, we must set an intial cropping mask
+    // so that the cropped media item id gets linked instead of the original
+    // media item. This is a little dangerous because JavaScript computes an
+    // intial crop mask on the client side.
+    aMediaTools::setDefaultCropDimensions($item);
     return $this->renderComponent("aMedia", "multipleList");
   }
 
@@ -298,7 +303,6 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeSelected(sfRequest $request)
   {
-    $controller = $this->getController();
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
     $imageInfo = aMediaTools::getAttribute('imageInfo');

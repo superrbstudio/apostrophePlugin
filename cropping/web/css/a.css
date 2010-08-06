@@ -3997,7 +3997,7 @@ background-color: #e6e6e6;
 .a-media-selection-list-item
 {
 float: left;
-margin: 5px 5px 5px 0;
+margin: 5px 10px 5px 0;
 cursor: move;
 position: relative;
 background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
@@ -4041,17 +4041,12 @@ float: left;
   color: #999;
 }
 
-#a-media-selection-preview {
-  width:100%;
-  float:left;
-}
-
 #a-media-selection-preview
 {
 	display:inline;
 	float:left;
 	width:100%;
-	margin:10px 0;
+	margin:10px 0 0;
 }
 
 li.a-media-selection-preview-item {
@@ -4066,14 +4061,14 @@ li.a-media-selection-preview-item.current {
 
 li.a-media-selection-preview-item .jcrop-holder {
   margin: 0 auto;
+  margin-bottom: 24px;
 }
 
-.a-media-crop-controls
+ul.a-media-crop-controls
 {
-	position:relative;
-	top:1px;
-	left:1px;
-	width: 150px;
+	position: absolute;
+	display: none;
+	bottom: -24px;
 }
 
 .a-crop-workspace
