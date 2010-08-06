@@ -35,7 +35,7 @@
 
 	<ul class="a-controls a-media-slideshow-controls">
 		<li><?php echo link_to(__("Save Slideshow", null, 'apostrophe'), "aMedia/selected", array("class"=>"a-btn save big")) ?></li>
- 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel big no-label")) ?></li>
+ 	  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel big")) ?></li>
 	</ul>
 	
 </div>

@@ -98,6 +98,8 @@ aCrop = {
   },
   
   thumbnailClickHandler: function(e){
+		$('.cropping-now').removeClass('cropping-now');
+		$(e.target).addClass('cropping-now');
     var mediaId = aCrop.getMediaIdForLi($(e.currentTarget).parents('.a-media-selection-list-item'));
 		if (mediaId)
 		{
