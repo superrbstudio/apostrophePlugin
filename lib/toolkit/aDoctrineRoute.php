@@ -35,7 +35,22 @@ class aDoctrineRoute extends sfDoctrineRoute
    */
   public function generate($params, $context = array(), $absolute = false)
   {
-    // Note that you must pass false to parent::generate for the $absolute parameter
-    return aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
+    $slug = null;
+    if (isset($params['engine-slug']))
+    {
+      $slug = $params['engine-slug'];
+      aRouteTools::pushTargetEnginePage($slug);
+      unset($params['engine-slug']);
+    }
+    
+    $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
+    if ($slug)
+    {
+      $defaults = $this->getDefaults();
+      $engine = $defaults['module'];
+      aRouteTools::popTargetEnginePage($engine);
+    }
+    return $result;
   } 
 }
+
