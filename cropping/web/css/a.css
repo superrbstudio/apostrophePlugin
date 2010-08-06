@@ -3981,7 +3981,7 @@ overflow: auto;
 	width:680px;
 	padding:10px;
 	margin-bottom: 20px;
-	background-color: #222;
+	background-color: #333;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -4074,7 +4074,7 @@ li.a-media-selection-preview-item.current {
 }
 
 li.a-media-selection-preview-item .jcrop-holder {
-  margin-bottom: 28px;
+  margin: 0 auto 28px;
 }
 
 ul.a-media-crop-controls
@@ -4104,6 +4104,7 @@ ul.a-media-crop-controls
 {
 	color:#ddd;
 	margin-bottom:10px;
+	text-align: center;
 }
 
 #a-media-plugin #a-media-edit-form,
