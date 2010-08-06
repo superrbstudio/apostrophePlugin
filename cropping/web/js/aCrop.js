@@ -150,12 +150,15 @@ aCrop = {
       width: imageInfo.width,
       height: imageInfo.height
     };
-        
-    var thumbWH = {
-      width: $tmb.width() + 'px',
-      height: $tmb.height() + 'px'
-    };
     
+    var thumbWH = {};
+    if (aCrop.options.aspectRatio){
+      thumbWH = {
+        width: $tmb.width() + 'px',
+        height: $tmb.height() + 'px'
+      };
+    }
+
     $.post(url, params, function(response){
       $(aCrop.el.slideshowList).html(response)
         .find('li.a-media-selection-list-item').css(thumbWH); // set width/height on <li> so while image loads there isn't a jump

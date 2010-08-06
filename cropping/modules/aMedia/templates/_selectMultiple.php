@@ -12,9 +12,9 @@
 	<h3><?php echo $label ?></h3>
 
 	<div id="a-media-selection-list-caption">
-	  <h4>Preview your selected images here.</h4>
+	  <h4><?php echo __("Preview your selected image%plural% here.", array('%plural%' => aMediaTools::isMultiple() ? 's':' '), 'apostrophe') ?></h4>
 	</div>
-	<ul id="a-media-selection-list" style="min-height:<?php echo aMediaTools::getSelectedThumbnailHeight() + 10 ?>px;">
+	<ul id="a-media-selection-list" style="min-height:<?php echo ($thumbHeight = aMediaTools::getSelectedThumbnailHeight()) ? $thumbHeight + 10 : 85 ?>px;">
 	<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
 	</ul>
 

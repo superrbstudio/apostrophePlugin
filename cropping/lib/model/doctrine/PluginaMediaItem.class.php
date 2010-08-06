@@ -260,23 +260,24 @@ EOM
         $selectedConstraints, 
         array('height' => floor($selectedConstraints['width'] / $aspectRatio))
       );
-      
-      $imageInfo = aMediaTools::getAttribute('imageInfo');
-      if (isset($imageInfo[$this->id]['cropLeft']) &&
-          isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
-      {
-        $selectedConstraints = array_merge(
-          $selectedConstraints, 
-          array(
-            'cropLeft' => $imageInfo[$this->id]['cropLeft'],
-            'cropTop' => $imageInfo[$this->id]['cropTop'],
-            'cropWidth' => $imageInfo[$this->id]['cropWidth'],
-            'cropHeight' => $imageInfo[$this->id]['cropHeight']
-          )
-        );
-      }
     }
     
+    
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    if (isset($imageInfo[$this->id]['cropLeft']) &&
+        isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
+    {
+      $selectedConstraints = array_merge(
+        $selectedConstraints, 
+        array(
+          'cropLeft' => $imageInfo[$this->id]['cropLeft'],
+          'cropTop' => $imageInfo[$this->id]['cropTop'],
+          'cropWidth' => $imageInfo[$this->id]['cropWidth'],
+          'cropHeight' => $imageInfo[$this->id]['cropHeight']
+        )
+      );
+    }
+      
     return $this->getScaledUrl($selectedConstraints);
   }
   

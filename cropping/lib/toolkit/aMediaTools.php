@@ -286,20 +286,29 @@ class aMediaTools
   {
     $imageInfo = self::getAttribute('imageInfo');
     $aspectRatio = self::getAspectRatio();
-    if ($aspectRatio > 1)
-    {
-      $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
-      $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
+    
+    if ($aspectRatio)
+    {    
+      if ($aspectRatio > 1)
+      {
+        $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
+        $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
+      }
+      else
+      {
+        $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
+        $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
+      }
     }
     else
     {
+      $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
       $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
-      $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
     }
-      
+    
     $imageInfo[$mediaItem->id]['cropLeft'] = 0;
     $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
-    
+        
     self::setAttribute('imageInfo', $imageInfo);
   }
 }
