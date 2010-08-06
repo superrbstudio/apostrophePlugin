@@ -4,3 +4,11 @@
     <img src="<?php echo url_for($item->getScaledUrl(aMediaTools::getOption('crop_constraints'))) ?>" />
   </li>
 <?php endforeach; ?>
+<script type="text/javascript" charset="utf-8">
+  $(function() { 
+	  // the preview images are by default set to display:none
+    $('#a-media-selection-preview li:first').addClass('current');
+    // set up cropping again; do hard reset to reinstantiate Jcrop
+    aCrop.resetCrop(true);
+  });
+</script>

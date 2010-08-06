@@ -18,7 +18,9 @@
 		</li>
 	</ul>	
 
-	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
+  <?php if (aMediaTools::isMultiple()): ?>
+  	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
+  <?php endif ?>
 	<div class="a-media-selected-item-overlay"></div>
   <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" />
 </li>
@@ -63,7 +65,6 @@
 	    $('#a-media-selection-preview li:first').addClass('current');
 	    // set up cropping again; do hard reset to reinstantiate Jcrop
 	    aCrop.resetCrop(true);
-	    aCrop.startCrop();
 	  });
 	}
 
