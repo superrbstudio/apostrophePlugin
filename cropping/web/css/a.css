@@ -4048,7 +4048,8 @@ float: left;
 #a-media-selection-list-caption {
   display: none;
   position: absolute;
-  padding: 35px;
+  padding: 45px;
+  z-index: 1;
 }
 #a-media-selection-list-caption h4 {
   font-size: 1.2em;
