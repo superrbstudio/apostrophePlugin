@@ -164,6 +164,7 @@ aCrop = {
         .find('li.a-media-selection-list-item').css(thumbWH); // set width/height on <li> so while image loads there isn't a jump
       // make sure delete button is visible
       aUI("a-media-selection-list");
+			$('.cropping-now').removeClass('cropping-now');
 			$(".a-crop-workspace").fadeTo(500,1).fadeOut();
     });
   },
@@ -189,6 +190,8 @@ aCrop = {
     ];
     
     aCrop.api.setSelect(coords);
+  	aUI("a-media-selection-list");
+		$('.cropping-now').removeClass('cropping-now');
 		$(".a-crop-workspace").fadeTo(500,1).fadeOut();
   }
 }

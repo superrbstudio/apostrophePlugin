@@ -3838,7 +3838,7 @@ float: right;
 
 .a-media-toolbar
 {
-padding-bottom: 0px;
+padding-bottom: 15px;
 background:url("/apostropheBlogPlugin/images/a-blog-td-bg.png") repeat-x scroll 0 bottom transparent;
 }
 
@@ -3947,11 +3947,6 @@ padding: 2px 3px;
 font: 11px Arial, Sans-serif;
 }
 
-.a-media-item.even
-{
-/*margin-right: 20px;*/
-}
-
 .a-media-item-title h3 a
 {
 text-decoration: none;
@@ -3974,24 +3969,37 @@ background-color: #efefef;
 -moz-border-radius: 4px;
 -webkit-border-radius: 4px;
 border-radius: 4px;
-/*-moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
--webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);*/
 border: 1px solid #ccc;
 overflow: auto;
 }
 
+#a-media-selection-wrapper
+{
+	display: inline;
+	position: relative;
+	float: left;
+	width:680px;
+	padding:10px;
+	margin-bottom: 20px;
+	background-color: #222;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	box-shadow:inset 0 0 10px #000000;
+  -moz-box-shadow:inset 0 0 10px #000000;
+  -webkit-box-shadow:inset 0 0 10px #000000;
+}
+
 #a-media-selection-list
 {
-margin: 10px 0;
 display: block;
 overflow: hidden;
 padding: 0 5px;
-border: 1px dashed #999;
+/*border: 1px dashed #999;*/
 -moz-border-radius: 4px;
 -webkit-border-radius: 4px;
 border-radius: 4px;
-background-color: #e6e6e6;
+/*background-color: #e6e6e6;*/
 }
 
 .a-media-selection-list-item
@@ -4000,7 +4008,13 @@ float: left;
 margin: 5px 10px 5px 0;
 cursor: move;
 position: relative;
-background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+background: #fff url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+border: 2px solid #222;
+}
+
+.cropping-now
+{
+	border: 2px solid #ddd;
 }
 
 .a-media-selection-list-item .a-media-selected-item-drag-overlay,
@@ -4060,37 +4074,36 @@ li.a-media-selection-preview-item.current {
 }
 
 li.a-media-selection-preview-item .jcrop-holder {
-  margin: 0 auto;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 ul.a-media-crop-controls
 {
 	position: absolute;
 	display: none;
-	bottom: -24px;
+	bottom: -29px;
 }
 
 .a-crop-workspace
 {
 	overflow: hidden;
 	display: none;
-/*	width: 100%;
-	margin: 20px 10px 20px 10px ;*/
-	margin: 0 0 10px;
+/*margin: 0 0 10px;
 	padding: 10px;
-	background-color: #444;
+	background-color: #222;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	box-shadow:inset 0 0 10px #000000;
   -moz-box-shadow:inset 0 0 10px #000000;
-  -webkit-box-shadow:inset 0 0 10px #000000;
+  -webkit-box-shadow:inset 0 0 10px #000000;*/
 }
+
 
 .a-crop-workspace h4
 {
 	color:#ddd;
+	margin-bottom:10px;
 }
 
 #a-media-plugin #a-media-edit-form,

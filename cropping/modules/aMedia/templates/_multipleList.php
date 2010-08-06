@@ -21,7 +21,6 @@
 	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
 	<div class="a-media-selected-item-overlay"></div>
   <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" />
-
 </li>
 <?php endforeach ?>
 
