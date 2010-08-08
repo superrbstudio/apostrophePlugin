@@ -1,3 +1,10 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid", null, 'apostrophe') ?>
 <?php $variants = aTools::getVariantsForSlotType($slot->type, $options) ?>

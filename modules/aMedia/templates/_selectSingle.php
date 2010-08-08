@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $limitSizes = isset($limitSizes) ? $sf_data->getRaw('limitSizes') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php if (!$type): ?>

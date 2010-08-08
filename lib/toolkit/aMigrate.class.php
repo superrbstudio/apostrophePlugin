@@ -43,5 +43,24 @@ class aMigrate
     }
     return (isset($data[0]['Create Table']));    
   }
-
+  
+  public function columnExists($tableName, $columnName)
+  {
+    if (!preg_match('/^\w+$/', $tableName))
+    {
+      die("Bad table name in columnExists: $tableName\n");
+    }
+    if (!preg_match('/^\w+$/', $columnName))
+    {
+      die("Bad table name in columnExists: $columnName\n");
+    }
+    $data = array();
+    try
+    {
+      $data = $this->conn->query("SHOW COLUMNS FROM $tableName LIKE '$columnName'")->fetchAll();
+    } catch (Exception $e)
+    {
+    }
+    return (isset($data[0]['Field']));
+  }
 }

@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php use_helper('jQuery', 'I18N') ?>
 
 <div id="a-signin">

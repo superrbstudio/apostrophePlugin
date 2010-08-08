@@ -1,3 +1,9 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $admin = isset($admin) ? $sf_data->getRaw('admin') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
+?>
 <?php if (isset($form['editors']) || isset($form['managers'])): ?>
 	<h4><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
 	<div class="a-page-permissions">

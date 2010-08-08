@@ -1,4 +1,8 @@
 <?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
+<?php
   // Displays the slot's contents in an editable form. An HTML form
   // tag is already open at this point (see _slot.php).
   //

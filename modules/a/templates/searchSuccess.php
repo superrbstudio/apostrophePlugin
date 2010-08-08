@@ -1,3 +1,9 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
+  $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
+  $results = isset($results) ? $sf_data->getRaw('results') : null;
+?>
 <?php use_helper('a', 'I18N') ?>
 <?php slot('body_class') ?>a-search-results<?php end_slot() ?>
 

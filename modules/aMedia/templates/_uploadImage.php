@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $first = isset($first) ? $sf_data->getRaw('first') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php $previewable = aValidatorFilePersistent::previewAvailable($form['file']->getValue()) ?>
 <?php $errors = $form['file']->hasError() ?>

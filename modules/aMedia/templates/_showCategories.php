@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $categories = isset($categories) ? $sf_data->getRaw('categories') : null;
+?>
 <?php use_helper('I18N') ?>
   
 <?php $links = array() ?>

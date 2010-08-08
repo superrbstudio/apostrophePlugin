@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $treeData = isset($treeData) ? $sf_data->getRaw('treeData') : null;
+?>
 <?php use_helper('jQuery', 'I18N') ?>
 
 <?php slot('body_class','a-admin') ?>

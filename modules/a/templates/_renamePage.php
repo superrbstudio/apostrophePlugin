@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $edit = isset($edit) ? $sf_data->getRaw('edit') : null;
+?>
 <?php use_helper('jQuery', 'Url', 'I18N') ?>
 
 <?php $page = aTools::getCurrentPage() ?>

@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $search = isset($search) ? $sf_data->getRaw('search') : null;
+  $videoSearchForm = isset($videoSearchForm) ? $sf_data->getRaw('videoSearchForm') : null;
+?>
 <?php use_helper('jQuery', 'I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

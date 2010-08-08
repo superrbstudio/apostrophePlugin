@@ -1,3 +1,22 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
+  $defaultImage = isset($defaultImage) ? $sf_data->getRaw('defaultImage') : null;
+  $description = isset($description) ? $sf_data->getRaw('description') : null;
+  $dimensions = isset($dimensions) ? $sf_data->getRaw('dimensions') : null;
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $itemId = isset($itemId) ? $sf_data->getRaw('itemId') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
+  $pdfPreview = isset($pdfPreview) ? $sf_data->getRaw('pdfPreview') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
+  $title = isset($title) ? $sf_data->getRaw('title') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>

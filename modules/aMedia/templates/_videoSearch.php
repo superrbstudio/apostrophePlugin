@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $results = isset($results) ? $sf_data->getRaw('results') : null;
+?>
 <?php use_helper('I18N', 'jQuery') ?>
 
 	<?php echo $form->render() ?>

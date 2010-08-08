@@ -1,3 +1,9 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+  $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
+?>
 <ul id="a-tab-navigation" >
 <?php // TBB: Let's stop pretending this makes sense in shorthand syntax. ?>
 <?php // When there's more logic than HTML, it's time to write real PHP. ?>

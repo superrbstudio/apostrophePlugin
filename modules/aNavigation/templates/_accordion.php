@@ -1,3 +1,15 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $active = isset($active) ? $sf_data->getRaw('active') : null;
+  $class = isset($class) ? $sf_data->getRaw('class') : null;
+  $dragIcon = isset($dragIcon) ? $sf_data->getRaw('dragIcon') : null;
+  $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
+  $maxDepth = isset($maxDepth) ? $sf_data->getRaw('maxDepth') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
+  $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
+  $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
+?>
 <ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
 
   <?php foreach($nav as $pos => $item): ?>

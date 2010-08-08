@@ -1,3 +1,18 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $dateFormat = isset($dateFormat) ? $sf_data->getRaw('dateFormat') : null;
+  $feed = isset($feed) ? $sf_data->getRaw('feed') : null;
+  $invalid = isset($invalid) ? $sf_data->getRaw('invalid') : null;
+  $itemTemplate = isset($itemTemplate) ? $sf_data->getRaw('itemTemplate') : null;
+  $links = isset($links) ? $sf_data->getRaw('links') : null;
+  $markup = isset($markup) ? $sf_data->getRaw('markup') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $posts = isset($posts) ? $sf_data->getRaw('posts') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $url = isset($url) ? $sf_data->getRaw('url') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
 <?php if (!isset($url)): ?>

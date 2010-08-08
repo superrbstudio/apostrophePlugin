@@ -1,3 +1,14 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $allTags = isset($allTags) ? $sf_data->getRaw('allTags') : null;
+  $current = isset($current) ? $sf_data->getRaw('current') : null;
+  $params = isset($params) ? $sf_data->getRaw('params') : null;
+  $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : null;
+  $search = isset($search) ? $sf_data->getRaw('search') : null;
+  $searchForm = isset($searchForm) ? $sf_data->getRaw('searchForm') : null;
+  $selectedCategory = isset($selectedCategory) ? $sf_data->getRaw('selectedCategory') : null;
+  $selectedTag = isset($selectedTag) ? $sf_data->getRaw('selectedTag') : null;
+?>
 <?php use_helper('I18N') ?>
   
 <?php // Entire media browser goes into what would otherwise be the regular apostrophe subnav ?>

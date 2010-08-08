@@ -1,3 +1,12 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $value = isset($value) ? $sf_data->getRaw('value') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid)) ?>
 

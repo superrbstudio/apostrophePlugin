@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $items = isset($items) ? $sf_data->getRaw('items') : null;
+?>
 <?php use_helper('I18N', 'jQuery') ?>
 
 <?php $ids = array() ?>

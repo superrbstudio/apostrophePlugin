@@ -76,6 +76,11 @@ but why take chances with your data?
   "CREATE TABLE IF NOT EXISTS a_redirect (id INT AUTO_INCREMENT, page_id INT, slug VARCHAR(255) UNIQUE, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX slugindex_idx (slug), INDEX page_id_idx (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
   "ALTER TABLE a_redirect ADD CONSTRAINT a_redirect_page_id_a_page_id FOREIGN KEY (page_id) REFERENCES a_page(id) ON DELETE CASCADE;"));
     }
+    if (!$this->migrate->columnExists('a_media_item', 'lucene_dirty'))
+    {
+      $this->migrate->sql(array(
+        "ALTER TABLE a_media_item ADD COLUMN lucene_dirty BOOLEAN DEFAULT false;"));
+    }
     if (!$this->migrate->getCommandsRun())
     {
       echo("Your database is already up to date.\n\n");

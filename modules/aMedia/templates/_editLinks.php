@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
+?>
 <?php use_helper('I18N', 'jQuery') ?>
 <?php if ($mediaItem->userHasPrivilege('edit')): ?>
 	<ul class="a-controls a-media-edit-links">

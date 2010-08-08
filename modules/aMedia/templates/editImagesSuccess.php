@@ -1,3 +1,9 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $active = isset($active) ? $sf_data->getRaw('active') : null;
+  $firstPass = isset($firstPass) ? $sf_data->getRaw('firstPass') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php use_helper('I18N', 'jQuery') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

@@ -1,3 +1,9 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $serviceError = isset($serviceError) ? $sf_data->getRaw('serviceError') : null;
+?>
 <?php use_helper('I18N', 'jQuery') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

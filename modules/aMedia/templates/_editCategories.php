@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $categoriesInfo = isset($categoriesInfo) ? $sf_data->getRaw('categoriesInfo') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php use_Helper('I18N') ?>
 <ul id="a-media-categories-list">
   <?php foreach ($categoriesInfo as $info): ?>

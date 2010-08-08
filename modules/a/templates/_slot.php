@@ -1,3 +1,21 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $editModule = isset($editModule) ? $sf_data->getRaw('editModule') : null;
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $normalModule = isset($normalModule) ? $sf_data->getRaw('normalModule') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+  $outlineEditable = isset($outlineEditable) ? $sf_data->getRaw('outlineEditable') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $realSlug = isset($realSlug) ? $sf_data->getRaw('realSlug') : null;
+  $showEditor = isset($showEditor) ? $sf_data->getRaw('showEditor') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
+  $type = isset($type) ? $sf_data->getRaw('type') : null;
+  $updating = isset($updating) ? $sf_data->getRaw('updating') : null;
+  $validationData = isset($validationData) ? $sf_data->getRaw('validationData') : null;
+?>
 <?php use_helper('jQuery', 'I18N') ?>
 
 <?php if ($editable): ?>

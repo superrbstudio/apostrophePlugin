@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $crumbs = isset($crumbs) ? $sf_data->getRaw('crumbs') : null;
+?>
 <div id="a-breadcrumb" class="media">
   <?php foreach ($crumbs as $crumb): ?>
     <?php if (!isset($crumb['first'])): ?>

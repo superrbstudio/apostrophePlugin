@@ -1,3 +1,10 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  $items = isset($items) ? $sf_data->getRaw('items') : null;
+  $n = isset($n) ? $sf_data->getRaw('n') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php if ($options['arrows'] && (count($items) > 1)): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">

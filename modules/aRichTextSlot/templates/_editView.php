@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+?>
 <?php echo $form->renderHiddenFields() ?>
 <?php echo $form['value']->render() ?>
 

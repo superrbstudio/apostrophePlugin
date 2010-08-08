@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

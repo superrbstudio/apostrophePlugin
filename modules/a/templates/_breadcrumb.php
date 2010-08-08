@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $ancestorsInfo = isset($ancestorsInfo) ? $sf_data->getRaw('ancestorsInfo') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+?>
 <?php use_helper('I18N') ?>
 <ul id="a-breadcrumb">
 

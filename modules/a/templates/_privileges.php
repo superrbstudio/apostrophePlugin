@@ -1,3 +1,11 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $executive = isset($executive) ? $sf_data->getRaw('executive') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
+  $label = isset($label) ? $sf_data->getRaw('label') : null;
+  $widget = isset($widget) ? $sf_data->getRaw('widget') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php if (isset($form[$widget])): ?>
     <div class="a-form-row">

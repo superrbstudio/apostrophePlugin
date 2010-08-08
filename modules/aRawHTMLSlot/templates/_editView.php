@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+?>
 <?php use_helper('I18N') ?>
 <ul class="a-raw-html-info">
 	<li>

@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $value = isset($value) ? $sf_data->getRaw('value') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php
   // Displays the slot's contents in a non-editable form.

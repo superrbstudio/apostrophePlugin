@@ -1,3 +1,11 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $all = isset($all) ? $sf_data->getRaw('all') : null;
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  $n = isset($n) ? $sf_data->getRaw('n') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $versions = isset($versions) ? $sf_data->getRaw('versions') : null;
+?>
 <?php use_helper('Url', 'jQuery', 'I18N', 'Date') ?>
 
 <?php $n=0; foreach ($versions as $version => $data): ?>

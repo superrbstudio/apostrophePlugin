@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php if ($form['url']->hasError()): ?>
   <div class="a-error"><?php echo __('Invalid URL. A valid example: http://www.punkave.com/', null, 'apostrophe') ?></div>

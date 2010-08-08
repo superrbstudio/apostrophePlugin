@@ -1,3 +1,12 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $firstPass = isset($firstPass) ? $sf_data->getRaw('firstPass') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $i = isset($i) ? $sf_data->getRaw('i') : null;
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $itemFormScripts = isset($itemFormScripts) ? $sf_data->getRaw('itemFormScripts') : null;
+  $n = isset($n) ? $sf_data->getRaw('n') : null;
+?>
 <?php use_helper('I18N') ?>
   
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>

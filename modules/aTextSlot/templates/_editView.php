@@ -1,3 +1,7 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+?>
 <?php if (0): ?>
 <?php // We could echo the entire form here, which would include validation errors etc., but raw HTML slots are unvalidated by definition ?>
 <?php echo $form ?>

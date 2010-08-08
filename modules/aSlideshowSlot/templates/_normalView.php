@@ -1,3 +1,16 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  $itemIds = isset($itemIds) ? $sf_data->getRaw('itemIds') : null;
+  $items = isset($items) ? $sf_data->getRaw('items') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+  $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>

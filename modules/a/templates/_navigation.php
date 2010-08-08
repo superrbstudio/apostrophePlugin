@@ -1,3 +1,12 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $classes = isset($classes) ? $sf_data->getRaw('classes') : null;
+  $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $navigation = isset($navigation) ? $sf_data->getRaw('navigation') : null;
+  $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+?>
 <?php use_helper('I18N') ?>
 <ul class="nav-level-depth-<?php echo $nest?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
 <?php foreach ($navigation as $id => $item): ?>

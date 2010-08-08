@@ -1,3 +1,11 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $label = isset($label) ? $sf_data->getRaw('label') : null;
+  $limitSizes = isset($limitSizes) ? $sf_data->getRaw('limitSizes') : null;
+  $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
+  $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
+  $results = isset($results) ? $sf_data->getRaw('results') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

@@ -1,3 +1,12 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $admin = isset($admin) ? $sf_data->getRaw('admin') : null;
+  $engineForm = isset($engineForm) ? $sf_data->getRaw('engineForm') : null;
+  $engineSettingsPartial = isset($engineSettingsPartial) ? $sf_data->getRaw('engineSettingsPartial') : null;
+  $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+?>
 <?php use_helper('Url', 'jQuery', 'I18N') ?>
 
 	<?php echo jq_form_remote_tag(

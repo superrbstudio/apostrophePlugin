@@ -1,3 +1,16 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $action = isset($action) ? $sf_data->getRaw('action') : null;
+  $buttonLabel = isset($buttonLabel) ? $sf_data->getRaw('buttonLabel') : null;
+  $class = isset($class) ? $sf_data->getRaw('class') : null;
+  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
+  $itemId = isset($itemId) ? $sf_data->getRaw('itemId') : null;
+  $label = isset($label) ? $sf_data->getRaw('label') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
+  $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
+  $type = isset($type) ? $sf_data->getRaw('type') : null;
+?>
 <?php // Make sure we target the administrative media engine page and not a public instance ?>
 <?php aRouteTools::pushTargetEnginePage('/admin/media') ?>
 <?php $after = url_for($action) . "?" .

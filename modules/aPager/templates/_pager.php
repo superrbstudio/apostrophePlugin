@@ -1,3 +1,8 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
+  $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
+?>
 <?php use_helper('I18N') ?>
 <?php # Not really a new pager - just a well-styled partial for use with ?>
 <?php # sfPager implementations (i.e. sfDoctrinePager). ?>

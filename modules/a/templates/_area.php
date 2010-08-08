@@ -1,3 +1,15 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
+  $infinite = isset($infinite) ? $sf_data->getRaw('infinite') : null;
+  $name = isset($name) ? $sf_data->getRaw('name') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+  $page = isset($page) ? $sf_data->getRaw('page') : null;
+  $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
+  $preview = isset($preview) ? $sf_data->getRaw('preview') : null;
+  $refresh = isset($refresh) ? $sf_data->getRaw('refresh') : null;
+  $slots = isset($slots) ? $sf_data->getRaw('slots') : null;
+?>
 <?php use_helper('a', 'jQuery', 'I18N') ?>
 
 <?php // We don't replace the area controls on an AJAX refresh, just the contents ?>

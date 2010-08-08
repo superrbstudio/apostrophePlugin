@@ -1,3 +1,10 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $n = isset($n) ? $sf_data->getRaw('n') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+?>
 <?php use_helper('I18N') ?>
 <ul>
   <li class="a-slideshow-image" style="height:<?php echo $options['height'] ?>;<?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
