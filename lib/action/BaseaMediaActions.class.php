@@ -30,6 +30,9 @@ class BaseaMediaActions extends aEngineActions
     $response->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 	}
 
+  // Supported for backwards compatibility. See also 
+  // aMediaSelect::select()
+  
   public function executeSelect(sfRequest $request)
   {
     $after = $request->getParameter('after');
@@ -44,12 +47,6 @@ class BaseaMediaActions extends aEngineActions
     {
       $selection = array($request->getParameter('aMediaId') + 0);
     } 
-    $items = aMediaItemTable::retrieveByIds($selection);
-    $ids = array();
-    foreach ($items as $item)
-    {
-      $ids[] = $item->getId();
-    }
     $options = array();
     $optional = array('type', 'aspect-width', 'aspect-height',
       'minimum-width', 'minimum-height', 'width', 'height', 'label');
@@ -60,7 +57,7 @@ class BaseaMediaActions extends aEngineActions
         $options[$option] = $request->getParameter($option);
       }
     }
-    aMediaTools::setSelecting($after, $multiple, $ids, $options);
+    aMediaTools::setSelecting($after, $multiple, $selection, $options);
       
     return $this->redirect("aMedia/index");
   }
@@ -112,37 +109,66 @@ class BaseaMediaActions extends aEngineActions
     // Cheap insurance that these are integers
     $aspectWidth = floor(aMediaTools::getAttribute('aspect-width'));
     $aspectHeight = floor(aMediaTools::getAttribute('aspect-height'));
-    // TODO: performance of these is not awesome (it's a linear search). 
-    // It would be more awesome with the right kind of indexing. For the 
-    // aspect ratio test to be more efficient we'd have to store the lowest 
-    // common denominator aspect ratio and index that.
-    if ($aspectWidth && $aspectHeight)
-    {
-      $params['aspect-width'] = $aspectWidth;
-      $params['aspect-height'] = $aspectHeight;
-    }
 
-    $minimumWidth = floor(aMediaTools::getAttribute('minimum-width'));
-    if ($minimumWidth)
+    if ($type === 'image')
     {
+      // Now that we provide cropping tools, width and height should only exclude images
+      // that are too small to ever be cropped to that size
+      $minimumWidth = floor(aMediaTools::getAttribute('minimum-width'));
+      $width = floor(aMediaTools::getAttribute('width'));
+      $minimumWidth = max($minimumWidth, $width);
+      $minimumHeight = floor(aMediaTools::getAttribute('minimum-height'));
+      $height = floor(aMediaTools::getAttribute('height'));
+      $minimumHeight = max($minimumHeight, $height);
+      // Careful, aspect ratio can impose a bound on the other dimension
+      if ($minimumWidth && $aspectWidth)
+      {
+        $minimumHeight = max($minimumHeight, $minimumWidth * $aspectHeight / $aspectWidth);
+      }
+      if ($minimumHeight && $aspectHeight)
+      {
+        $minimumWidth = max($minimumWidth, $minimumHeight * $aspectWidth / $aspectHeight);
+      }
+      // We've updated these with implicit constraints from the aspect ratio, the width and height params, etc.
+      aMediaTools::setAttribute('minimum-width', $minimumWidth);
+      aMediaTools::setAttribute('minimum-height', $minimumHeight);
       $params['minimum-width'] = $minimumWidth;
-    }
-    $minimumHeight = floor(aMediaTools::getAttribute('minimum-height'));
-    if ($minimumHeight)
-    {
       $params['minimum-height'] = $minimumHeight;
     }
-    $width = floor(aMediaTools::getAttribute('width'));
-    if ($width)
+    else
     {
-      $params['width'] = $width;
-    }
-    $height = floor(aMediaTools::getAttribute('height'));
-    if ($height)
-    {
-      $params['height'] = $height;
-    }
+      // TODO: performance of these is not awesome (it's a linear search). 
+      // It would be more awesome with the right kind of indexing. For the 
+      // aspect ratio test to be more efficient we'd have to store the lowest 
+      // common denominator aspect ratio and index that.
+      if ($aspectWidth && $aspectHeight)
+      {
+        $params['aspect-width'] = $aspectWidth;
+        $params['aspect-height'] = $aspectHeight;
+      }
 
+      $minimumWidth = floor(aMediaTools::getAttribute('minimum-width'));
+      if ($minimumWidth)
+      {
+        $params['minimum-width'] = $minimumWidth;
+      }
+      $minimumHeight = floor(aMediaTools::getAttribute('minimum-height'));
+      if ($minimumHeight)
+      {
+        $params['minimum-height'] = $minimumHeight;
+      }
+      $width = floor(aMediaTools::getAttribute('width'));
+      if ($width)
+      {
+        $params['width'] = $width;
+      }
+      $height = floor(aMediaTools::getAttribute('height'));
+      if ($height)
+      {
+        $params['height'] = $height;
+      }
+    }
+    
     // The media module is now an engine module. There is always a page, and that
     // page might have a restricted set of categories associated with it
     $mediaCategories = aTools::getCurrentPage()->MediaCategories;
@@ -161,6 +187,7 @@ class BaseaMediaActions extends aEngineActions
     $this->pager->setPage($page);
     $this->pager->init();
     $this->results = $this->pager->getResults();
+
     aMediaTools::setSearchParameters(
       array("tag" => $tag, "type" => $type, 
         "search" => $search, "page" => $page, 'category' => $category));
@@ -174,12 +201,7 @@ class BaseaMediaActions extends aEngineActions
       {
         $this->label = aMediaTools::getAttribute("label");
       }
-      $this->limitSizes = false;
-      if ($aspectWidth || $aspectHeight || $minimumWidth || $minimumHeight ||
-        $width || $height)
-      {
-        $this->limitSizes = true;
-      }
+      $this->limitSizes = ($minimumWidth || $minimumHeight);
     }
   }
   
@@ -214,28 +236,74 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect(aUrl::addParams("aMedia/index",
       $parameters));
   }
-
+  
+  // Accept and store cropping information for a particular image which must already be part of the selection
+  public function executeCrop(sfRequest $request)
+  {
+    $selection = aMediaTools::getSelection();
+    $id = $request->getParameter('id');
+    $index = array_search($id, $selection);
+    if ($index === false)
+    {
+      error_log("ID is $id and not found in index which is " . implode(',', $selection));
+      $this->forward404();
+    }
+    $cropLeft = floor($request->getParameter('cropLeft'));
+    $cropTop = floor($request->getParameter('cropTop'));
+    $cropWidth = floor($request->getParameter('cropWidth'));
+    $cropHeight = floor($request->getParameter('cropHeight'));
+    $width = floor($request->getParameter('width'));
+    $height = floor($request->getParameter('height'));
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    $imageInfo[$id]['cropLeft'] = $cropLeft;
+    $imageInfo[$id]['cropTop'] = $cropTop;
+    $imageInfo[$id]['cropWidth'] = $cropWidth;
+    $imageInfo[$id]['cropHeight'] = $cropHeight;
+    $imageInfo[$id]['width'] = $width;
+    $imageInfo[$id]['height'] = $height;
+    aMediaTools::setAttribute('imageInfo', $imageInfo);
+  }
+  
   public function executeMultipleAdd(sfRequest $request)
   {
-    $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id') + 0;
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item); 
     $selection = aMediaTools::getSelection();
-    $index = array_search($id, $selection);
-    // One occurrence each. If this changes we'll have to rethink
-    // the way reordering and deletion work (probably go by index).
-    if ($index === false)
+    if (!aMediaTools::isMultiple())
     {
-      $selection[] = $id;
+      $selection = array($id);
+    }
+    else
+    {
+      $index = array_search($id, $selection);
+      // One occurrence each. If this changes we'll have to rethink
+      // the way reordering and deletion work (probably go by index).
+      if ($index === false)
+      {
+        $selection[] = $id;
+      }
     }
     aMediaTools::setSelection($selection);
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    // Make no attempt to scrub out a previous crop, which could be handy
+    $imageInfo[$id]['width'] = $item->getWidth();
+    $imageInfo[$id]['height'] = $item->getHeight();
+    aMediaTools::setAttribute('imageInfo', $imageInfo);
+    // If no previous crop info is set, we must set an intial cropping mask
+    // so that the cropped media item id gets linked instead of the original
+    // media item. This is a little dangerous because JavaScript computes an
+    // intial crop mask on the client side.
+    aMediaTools::setDefaultCropDimensions($item);
+    if ((!aMediaTools::isMultiple()) && aMediaTools::getAttribute('type') !== 'image')
+    {
+      return $this->redirect('aMedia/selected');
+    }
     return $this->renderComponent("aMedia", "multipleList");
   }
 
   public function executeMultipleRemove(sfRequest $request)
   {
-    $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id');
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item); 
@@ -249,11 +317,16 @@ class BaseaMediaActions extends aEngineActions
     return $this->renderComponent("aMedia", "multipleList");
   }
 
+  public function executeUpdateMultiplePreview(sfRequest $request)
+  {
+    return $this->renderComponent('aMedia', 'multiplePreview');
+  }
+  
   public function executeMultipleOrder(sfRequest $request)
   {
     $this->logMessage("*****MULTIPLE ORDER", "info");
     $order = $request->getParameter('a-media-selection-list-item');
-    $oldSelection = aMediaTools::getSelection();
+    $oldSelection = aMediaTools::getSelection();    
     $keys = array_flip($oldSelection);
     $selection = array();
     foreach ($order as $id)
@@ -268,42 +341,71 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless(isset($keys[$item->getId()]));
       $this->logMessage(">>>KEEPING " . $item->getId(), "info");
     }
-    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");
+    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");    
     aMediaTools::setSelection($selection);
     return $this->renderComponent("aMedia", "multipleList");
   }
+  
   public function executeSelected(sfRequest $request)
   {
-    $controller = $this->getController();
     $this->forward404Unless(aMediaTools::isSelecting());
-    if (aMediaTools::isMultiple())
+    $selection = aMediaTools::getSelection();
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    // Get all the items in preparation for possible cropping
+    if (count($selection))
     {
-      $selection = aMediaTools::getSelection();
-      // Ooops best to get this before clearing it huh
-      $after = aMediaTools::getAfter();
-      // Oops I forgot to call this in the multiple case
-      aMediaTools::clearSelecting();
-      // I thought about submitting this like a multiple select,
-      // but there's no clean way to implement that feature in
-      // addParam, and it wastes URL space anyway
-      // (remember the 1024-byte limit)
-      
-      // addParamsNoDelete never attempts to eliminate a field just because
-      // its value is empty. This is how we distinguish between cancellation
-      // and selecting zero items
-      return $this->redirect(
-        aUrl::addParamsNoDelete($after,
-        array("aMediaIds" => implode(",", $selection))));
+      $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
     }
-    // Single select
-    $id = $request->getParameter('id');
-    $item = Doctrine::getTable("aMediaItem")->find($id);
-    $this->forward404Unless($item); 
+    else
+    {
+      $items = array();
+    }
+    $items = aArray::listToHashById($items);
+    $newSelection = array();
+    foreach ($selection as $id)
+    {
+      if (isset($imageInfo[$id]['cropLeft']))
+      {
+        // We need to make a crop
+        $item = $items[$id];
+        $crop = $item->findOrCreateCrop($imageInfo[$id]);
+        $crop->save();
+        $newSelection[] = $crop->id;
+      }
+      else
+      {
+        $newSelection[] = $id;
+      }
+    }
+    // Ooops best to get this before clearing it huh
     $after = aMediaTools::getAfter();
-    $after = aUrl::addParams($after, 
-      array("aMediaId" => $id));
-    aMediaTools::clearSelecting();
-    return $this->redirect($after);
+    
+    // addParamsNoDelete never attempts to eliminate a field just because
+    // its value is empty. This is how we distinguish between cancellation
+    // and selecting zero items
+    
+    if (!aMediaTools::isMultiple())
+    {
+      // Call this too soon and you lose isMultiple
+      aMediaTools::clearSelecting();
+      if (count($newSelection))
+      {
+        $after = aUrl::addParams($after, 
+          array("aMediaId" => $newSelection[0]));
+        return $this->redirect($after);
+      }
+      else
+      {
+        $this->forward404();
+      }
+    }
+    else
+    {
+      aMediaTools::clearSelecting();
+      $url = aUrl::addParamsNoDelete($after,
+      array("aMediaIds" => implode(",", $newSelection)));
+      return $this->redirect($url);
+    }
   }
 
   public function executeSelectCancel(sfRequest $request)

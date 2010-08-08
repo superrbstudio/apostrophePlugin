@@ -722,6 +722,11 @@ text-decoration: none !important;
 padding: 0 !important;
 }
 
+.icon.a-crop
+{
+background-image: url(/apostrophePlugin/images/a-icon-crop.png);
+}
+
 .icon.a-settings
 {
 background-image: url(/apostrophePlugin/images/a-icon-settings.png);
@@ -3724,14 +3729,14 @@ width: 100%;
 {
 width: 720px;
 float: right;
-margin-bottom: 20px;
+/*margin-bottom: 20px;*/
 /*overflow: hidden;*/
 }
 
 .a-media-toolbar
 {
-padding-bottom: 20px;
-border-bottom: 1px solid #ddd;
+padding-bottom: 15px;
+background:url("/apostropheBlogPlugin/images/a-blog-td-bg.png") repeat-x scroll 0 bottom transparent;
 }
 
 .a-media-footer
@@ -3741,17 +3746,32 @@ float: right;
 margin: 20px 0;
 }
 
-.a-media-toolbar .a-media-controls,
 .a-media-toolbar .a-media-slideshow-controls
 {
 clear: both;
 }
+
+.a-media-library .a-controls.a-media-controls
+{
+	clear:both;
+	float:left;
+	display:inline;
+	margin:15px 0 30px 0!important;
+}
+
+.a-media-library .a-controls.a-media-controls li
+{
+	margin:0 !important;
+}
+
+
 
 .a-media-toolbar h3
 {
 	/*This made it tough to show constraints etc., if you really need it do it at app level */
 	/*float: left;*/
 	margin: 0 0 10px 0;
+	color:#333;
 }
 
 .a-media-toolbar .a-constraints
@@ -3825,11 +3845,6 @@ padding: 2px 3px;
 font: 11px Arial, Sans-serif;
 }
 
-.a-media-item.even
-{
-/*margin-right: 20px;*/
-}
-
 .a-media-item-title h3 a
 {
 text-decoration: none;
@@ -3845,23 +3860,72 @@ font-size: 18px;
 .a-media-select
 {
 margin-bottom: 10px;
-float: left;
-display: inline;
 padding-bottom:10px;
+padding: 10px;
+margin: 0 0 20px -1px;
+background-color: #efefef;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+border: 1px solid #ccc;
+overflow: auto;
+}
+
+#a-media-selection-wrapper
+{
+	display: inline;
+	position: relative;
+	float: left;
+	width:680px;
+	padding:10px;
+	margin-bottom: 20px;
+	background-color: #222;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	box-shadow:inset 0 0 10px #000000;
+  -moz-box-shadow:inset 0 0 10px #000000;
+  -webkit-box-shadow:inset 0 0 10px #000000;
 }
 
 #a-media-selection-list
 {
-float: left;
-margin: 10px 0;
+display: block;
+overflow: hidden;
+position: relative;
+width:690px;
+left:-10px;
+/*border: 1px dashed #999;*/
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+/*background-color: #e6e6e6;*/
+}
+
+.a-media-selection-placeholder
+{
+	margin-left: 10px;
+	float: left;
+	width: 80px;
+	height: 50px;
+	border: 2px dashed #ddd;
+	padding: 10px;
+	color: #fff;
 }
 
 .a-media-selection-list-item
 {
 float: left;
-margin: 0 16px 16px 0;
+margin: 5px 0px 5px 10px;
 cursor: move;
 position: relative;
+background: #fff url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+border: 2px solid #222;
+}
+
+.cropping-now
+{
+	border: 2px solid #ddd;
 }
 
 .a-media-selection-list-item .a-media-selected-item-drag-overlay,
@@ -3890,6 +3954,68 @@ z-index: 199;
 .a-media-selection-list-item img
 {
 float: left;
+}
+
+#a-media-selection-list-caption {
+  display: none;
+  position: absolute;
+  padding: 45px;
+  z-index: 1;
+}
+#a-media-selection-list-caption h4 {
+  font-size: 1.2em;
+  color: #999;
+}
+
+#a-media-selection-preview
+{
+	display:inline;
+	float:left;
+	width:100%;
+	margin:10px 0 0;
+}
+
+li.a-media-selection-preview-item {
+  display:none;
+	position:relative;
+	width:auto;
+	height:auto;
+}
+li.a-media-selection-preview-item.current {
+  display: block !important;
+}
+
+li.a-media-selection-preview-item .jcrop-holder {
+  margin-bottom:28px;
+}
+
+ul.a-media-crop-controls
+{
+	position: absolute;
+	display: none;
+	bottom: -29px;
+}
+
+.a-crop-workspace
+{
+	overflow: hidden;
+	display: none;
+/*margin: 0 0 10px;
+	padding: 10px;
+	background-color: #222;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	box-shadow:inset 0 0 10px #000000;
+  -moz-box-shadow:inset 0 0 10px #000000;
+  -webkit-box-shadow:inset 0 0 10px #000000;*/
+}
+
+
+.a-crop-workspace h4
+{
+	color:#ddd;
+	margin-bottom:10px;
 }
 
 #a-media-plugin #a-media-edit-form,

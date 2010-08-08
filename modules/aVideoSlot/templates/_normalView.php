@@ -13,6 +13,7 @@
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
   $title = isset($title) ? $sf_data->getRaw('title') : null;
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
 ?>
 <?php use_helper('I18N') ?>
 <?php if ($editable): ?>

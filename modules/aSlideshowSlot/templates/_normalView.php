@@ -32,7 +32,7 @@
               array("multiple" => true,
               "aMediaIds" => implode(",", $itemIds),
               "type" => "image",
-              "label" => __("Create a Slideshow", null, 'apostrophe'),
+              "label" => __("You are creating a slideshow of images.", null, 'apostrophe'),
               "after" => url_for("aSlideshowSlot/edit") . "?" . 
                 http_build_query(
                   array(

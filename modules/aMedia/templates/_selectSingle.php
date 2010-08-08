@@ -16,8 +16,7 @@
   <?php echo __('Only appropriately sized %typeplural% are shown.', array('%typeplural%' => __($type . 's', null, 'apostrophe')), 'apostrophe') ?>
   <?php endif ?>
   </p>
-	<?php 
-		//removing this cancel link for now, it exists above in the header
-		// echo link_to("cancel", "aMedia/selectCancel", array("class"=>"a-cancel")) 
-	?>
+  <ul class="a-controls">
+    <li><?php echo link_to("cancel", "aMedia/selectCancel", array("class"=>"a-cancel")) ?></li>
+  </ul>
 </div>

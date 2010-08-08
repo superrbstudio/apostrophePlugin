@@ -2,18 +2,39 @@
 
 class aMediaTools
 {
-  // These are used internally. If you want to select something
-  // with the media module please see the README, do not use these 
-  // methods directly
+  // These are used internally. See aMediaSelect for the methods you probably want
 
   static public function setSelecting($after, $multiple, $selection, 
     $options = array())
   {
+    $items = aMediaItemTable::retrieveByIds($selection);
+    $ids = array();
+    $imageInfo = array();
+    $selection = array();
+    foreach ($items as $item)
+    {
+      $croppingInfo = array();
+      if ($item->isCrop())
+      {
+        $croppingInfo = $item->getCroppingInfo();
+        $item = $item->getCropOriginal();
+      }
+      $id = $item->id;
+      $selection[] = $id;
+      $info = array('width' => $item->width, 'height' => $item->height);
+      $info = array_merge($info, $croppingInfo);
+      $imageInfo[$item->id] = $info;
+    }
+    
+    $cropping = isset($options['cropping']) && $options['cropping'];
+
     self::clearSelecting();
     self::setAttribute("selecting", true);
     self::setAttribute("after", $after);
     self::setAttribute("multiple", $multiple);
+    self::setAttribute("cropping", $cropping);
     self::setAttribute("selection", $selection);
+    self::setAttribute("imageInfo", $imageInfo);
     foreach ($options as $key => $val)
     {
       self::setAttribute($key, $val);
@@ -139,11 +160,15 @@ class aMediaTools
         "resizeType" => "s"),
     "selected_constraints" => array(
         "width" => 100,
-        "height" => 75,
-        "resizeType" => "c"),
+        "height" => false,
+        "resizeType" => "c",),
     "show_constraints" => array(
         "width" => 720,
         "height" => false,
+        "resizeType" => "s"),
+    "crop_constraints" => array(
+        "width" => 679,
+        "height" => 400,
         "resizeType" => "s"),
     'routes_register' => true,
     'apipublic' => false,
@@ -186,5 +211,104 @@ class aMediaTools
     }  
     $actions->forward404Unless($item);
     return $item;
+  }
+  
+  // refactored this into this static method from executeMultipleList() because it is now needed
+  // for executeUpdateMultiplePreview() for cropping slideshow items
+  static public function getSelectedItems()
+  {
+    $selection = self::getSelection();
+    if (!is_array($selection))
+    {
+      throw new Exception("selection is not an array");
+    }
+    // Work around the fact that whereIn doesn't evaluate to AND FALSE
+    // when the array is empty (it just does nothing; which is an
+    // interesting variation on MySQL giving you an ERROR when the 
+    // list is empty, sigh)
+    if (count($selection))
+    {
+      // Work around the unsorted results of whereIn. You can also
+      // do that with a FIELD function
+      $unsortedItems = Doctrine_Query::create()->
+        from('aMediaItem i')->
+        whereIn('i.id', $selection)->
+        execute();
+      $itemsById = array();
+      foreach ($unsortedItems as $item)
+      {
+        $itemsById[$item->getId()] = $item;
+      }
+      $items = array();
+      foreach ($selection as $id)
+      {
+        if (isset($itemsById[$id]))
+        {
+          $items[] = $itemsById[$id];
+        }
+      }
+    }
+    else
+    {
+      $items = array();
+    }
+    
+    return $items;
+  }
+  
+  static public function getAspectRatio()
+  {
+    if (self::getAttribute('aspect-width') && self::getAttribute('aspect-width'))
+    {
+      return self::getAttribute('aspect-width') / self::getAttribute('aspect-height');
+    }
+    return 0;
+  }
+  
+  static public function getSelectedThumbnailHeight()
+  {
+    $selectedConstraints = self::getOption('selected_constraints');
+    if (false === $selectedConstraints['height'])
+    {
+      if ($aspectRatio = self::getAspectRatio())
+      {
+        return $selectedConstraints['width'] / $aspectRatio;
+      }
+      return 0; // Let's not divide by zero.
+    }
+    return $selectedConstraints['height'];
+  }
+  
+  /**
+   * This mirrors the default size math in aCrop.setAspectMask() in aCrop.js
+   */
+  static public function setDefaultCropDimensions($mediaItem)
+  {
+    $imageInfo = self::getAttribute('imageInfo');
+    $aspectRatio = self::getAspectRatio();
+    
+    if ($aspectRatio)
+    {    
+      if ($aspectRatio > 1)
+      {
+        $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
+        $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
+      }
+      else
+      {
+        $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
+        $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
+      }
+    }
+    else
+    {
+      $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
+      $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
+    }
+    
+    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
+        
+    self::setAttribute('imageInfo', $imageInfo);
   }
 }

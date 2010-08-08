@@ -17,7 +17,7 @@ class aDoctrine
   
   // Example: 
   //
-  // $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*'->whereIn('m.id', $ids);
+  // $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
   // $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
   
   static public function orderByList($query, $ids)

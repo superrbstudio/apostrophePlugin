@@ -38,8 +38,35 @@ class BaseaMediaBackendActions extends sfActions
       in_array($format, 
       array_keys(aMediaItemTable::$mimeTypes)));
     $this->forward404Unless(($resizeType !== 'c') || ($resizeType !== 's'));
-    $output = $this->getDirectory() . 
-      DIRECTORY_SEPARATOR . "$slug.$width.$height.$resizeType.$format";
+    // EDITED FOR ARBITRARY CROPPING
+    $cropLeft = $request->getParameter('cropLeft');
+    $cropTop = $request->getParameter('cropTop');
+    $cropWidth = $request->getParameter('cropWidth');
+    $cropHeight = $request->getParameter('cropHeight');
+    
+    if (!is_null($cropWidth) && !is_null($cropHeight) && !is_null($cropLeft) && !is_null($cropTop))
+    {
+      $cropLeft = ceil($cropLeft + 0);
+      $cropTop = ceil($cropTop + 0);
+      $cropWidth = ceil($cropWidth + 0);
+      $cropHeight = ceil($cropHeight + 0);
+      // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
+      // and only the cropOriginal method actually supports cropping parameters, so
+      $resizeType = 'c';
+      
+      $output = $this->getDirectory() . 
+        DIRECTORY_SEPARATOR . "$slug.$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";      
+    }
+    else
+    {
+      $cropLeft = null;
+      $cropTop = null;
+      $cropWidth = null;
+      $cropHeight = null;
+      $output = $this->getDirectory() . 
+        DIRECTORY_SEPARATOR . "$slug.$width.$height.$resizeType.$format";
+    }
+
     // If .htaccess has not been set up, or we are not running
     // from the default front controller, then we may get here
     // even though the file already exists. Tolerate that situation 
@@ -56,7 +83,6 @@ class BaseaMediaBackendActions extends sfActions
       {
         $method = 'scaleToFit';
       }
-      $quality = sfConfig::get('app_aMedia_jpeg_quality', 75);
       aImageConverter::$method(
         aMediaItemTable::getDirectory() .
           DIRECTORY_SEPARATOR .
@@ -64,7 +90,11 @@ class BaseaMediaBackendActions extends sfActions
         $output,
         $width,
         $height,
-        sfConfig::get('app_aMedia_jpeg_quality', 75));
+        sfConfig::get('app_aMedia_jpeg_quality', 75),
+        $cropLeft,
+        $cropTop,
+        $cropWidth,
+        $cropHeight);
     }
     // The FIRST time, we output this here. Later it
     // can come directly from the file if Apache is

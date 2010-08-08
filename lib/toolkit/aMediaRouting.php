@@ -25,7 +25,7 @@ class aMediaRouting
         'module' => 'aMediaBackend',
         'action' => 'original'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(jpg|png|gif|pdf)$')));
-      
+
       $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'image'
@@ -37,6 +37,22 @@ class aMediaRouting
         'format' => '^(jpg|png|gif)$'
       ));
       $r->prependRoute('a_media_image', $route);
+
+      $route = new sfRoute('/uploads/media_items/:slug.:cropLeft.:cropTop.:cropWidth.:cropHeight.:width.:height.:resizeType.:format', array(
+        'module' => 'aMediaBackend',
+        'action' => 'image'
+      ), array(
+        'slug' => '^' . aTools::getSlugRegexpFragment() . '$',
+        'width' => '^\d+$',
+        'height' => '^\d+$',
+        'cropLeft' => '^\d+$',
+        'cropTop' => '^\d+$',
+        'cropWidth' => '^\d+$',
+        'cropHeight' => '^\d+$',
+        'resizeType' => '^\w$',
+        'format' => '^(jpg|png|gif)$'
+      ));
+      $r->prependRoute('a_media_image_cropped', $route);
       
       // What we want:
       // /media   <-- everything

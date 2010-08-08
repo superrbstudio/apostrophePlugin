@@ -10,12 +10,11 @@
   $selectedTag = isset($selectedTag) ? $sf_data->getRaw('selectedTag') : null;
 ?>
 <?php use_helper('I18N') ?>
+<?php // Media is now an engine, so there's a page ?>
+<?php $page = aTools::getCurrentPage() ?>
   
 <?php // Entire media browser goes into what would otherwise be the regular apostrophe subnav ?>
 <?php slot('a-subnav') ?>
-
-<?php // Media is now an engine, so there's a page ?>
-<?php $page = aTools::getCurrentPage() ?>
 
 <?php // For backwards compatibility reasons it is best to implement these as before and after partials ?>
 <?php // rather than a wrapper partial. If we use a wrapper that passes on each variable individually to an inner partial, ?>

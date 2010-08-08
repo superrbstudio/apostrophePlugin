@@ -10,15 +10,17 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 
-  <?php if (aMediaTools::isMultiple()): ?>
+  <?php if (aMediaTools::isMultiple() || ($type === 'image')): ?>
     <?php $linkAttributes = 'href = "#" onClick="'. 
       jq_remote_function(array(
-				"update" => "a-media-selection-list",
-				'complete' => "aUI('a-media-selection-list');",  
+  			"update" => "a-media-selection-list",
+  			'complete' => "aUI('a-media-selection-list'); aMediaUpdatePreview();",  
         "url" => "aMedia/multipleAdd?id=$id")).'; return false;"' ?>
-  <?php else: ?>
-    <?php $linkAttributes = 'href = "' . url_for("aMedia/selected?id=$id") . '"' ?>
-  <?php endif ?>
+    <?php else: ?>
+      <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
+      <?php // and redirects to aMedia/selected after adding the media item ?>
+      <?php $linkAttributes = 'href = "' . url_for("aMedia/multipleAdd?id=$id") . '"' ?>
+    <?php endif ?>
 
 <?php else: ?>
 

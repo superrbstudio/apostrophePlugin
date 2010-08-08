@@ -54,8 +54,20 @@ class aImageConverter
     return self::scaleBody($fileIn, $fileOut, $scaleParameters, array(), $quality);
   }
 
-  static public function cropOriginal($fileIn, $fileOut, $width, $height, $quality = 75)
+  // $width and $height are the dimensions of the final rendered image. $quality is the JPEG quality setting (where needed).
+  // The $crop parameters, when not null (all four must be null or not null), are used to crop the original before scaling/distorting 
+  // to the specified width and height and are always in the original image's coordinates.
+  
+  // If cropping coordinates are not specified, the largest possible portion of the center of the original image is scaled to fit into the 
+  // destination image without distortion
+  
+  static public function cropOriginal($fileIn, $fileOut, $width, $height, $quality = 75, $cropLeft = null, $cropTop = null, $cropWidth = null,  $cropHeight = null)
   {
+    // Allow skipping of parameters
+    if (is_null($quality))
+    {
+      $quality = 75;
+    }
     $width = ceil($width);
     $height = ceil($height);
     $quality = ceil($quality);
@@ -66,6 +78,19 @@ class aImageConverter
     }
     $iratio = $iwidth / $iheight;
     $ratio = $width / $height;
+
+     // Spike's contribution: arbitrary cropping
+     if (!is_null($cropWidth) && !is_null($cropHeight) && !is_null($cropLeft) && !is_null($cropTop))
+     {
+       $cropTop = ceil($cropTop + 0);
+       $cropLeft = ceil($cropLeft + 0);
+       $cropWidth = ceil($cropWidth + 0);
+       $cropHeight = ceil($cropHeight + 0);
+       
+       $scale = array('xysize' => array($width + 0, $height + 0));
+       $crop = array('left' => $cropLeft, 'top' => $cropTop, 'width' => $cropWidth, 'height' => $cropHeight);
+       return self::scaleBody($fileIn, $fileOut, $scale, $crop, $quality);
+     }
 
     $scale = array('xysize' => array($width + 0, $height + 0));
     if ($iratio < $ratio)
@@ -355,16 +380,18 @@ class aImageConverter
       {
         $width = $scaleParameters['xysize'][0];
         $height = $scaleParameters['xysize'][1];
-        
+        // This was backwards until 05/31/2010, making things bigger rather than smaller if their
+        // aspect ratios differed from the original. Be consistent with netpbm which makes things
+        // smaller not bigger
         if (($width / $height) > ($swidth / $sheight))
         {
-          // Wider than the original. So it will be shorter than requested
-          $height = ceil($width * ($sheight / $swidth));
+          // Wider than the original. So it will be narrower than requested
+          $width = ceil($height * ($swidth / $sheight));
         }
         else
         {
-          // Taller than the original. So it will be narrower than requested
-          $width = ceil($height * ($swidth / $sheight));
+          // Taller than the original. So it will be shorter than requested
+          $height = ceil($width * ($sheight / $swidth));
         }
         $out = self::createTrueColorAlpha($width, $height);
         imagecopyresampled($out, $cropped, 0, 0, 0, 0, $width, $height, $swidth, $sheight);

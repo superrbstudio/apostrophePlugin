@@ -372,11 +372,22 @@ aMediaItem:
   actAs:
     Timestampable: ~
     Taggable: ~
+
+    # For virtual media items that are just croppings of others, we explicitly set slug.
+    # If this item is a crop of another item, the slug will
+    # look like this: original_slug.cropLeft.cropTop.cropWidth.cropHeight
+    # The aMediaBackend/image action then sees these extra
+    # parameters in the route and behaves accordingly
+    # and we can look directly at that file to finish the job
+    
+    # Otherwise we let the behavior do its job
+
     Sluggable:
       fields: [title]
       unique: true
       # We unified this
       builder: aTools::slugify
+
   columns:
     id:
       type: integer(4)
@@ -403,6 +414,7 @@ aMediaItem:
     # new image is first saved.
     format:
       type: string(10)
+      
     # Preferred still image or video dimensions. For a still image
     # these are the dimensions of the original. For video they are
     # the dimensions of the video stream. For PDF they are undefined.
@@ -410,7 +422,7 @@ aMediaItem:
       type: integer(4)
     height:
       type: integer(4)
-
+      
     # If this field is non-null, it contains HTML embed/object code to
     # be used without alteration (except for replacing _WIDTH_ and _HEIGHT_)
     # when embedding the video. This is used to allow embedding of 

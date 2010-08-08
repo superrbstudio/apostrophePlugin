@@ -19,7 +19,16 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       }
     }
     // Let the culture be the user's culture
-    return aZendSearch::saveInDoctrineAndLucene($this, null, $conn);
+    $result = aZendSearch::saveInDoctrineAndLucene($this, null, $conn);
+    $crops = $this->getCrops();
+    foreach ($crops as $crop)
+    {
+      $crop->setTitle($this->getTitle());
+      $crop->setDescription($this->getDescription());
+      $crop->setCredit($this->getCredit());
+      $crop->save();
+    }
+    return $result;
   }
 
   public function doctrineSave($conn)
@@ -32,6 +41,9 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   {
     $ret = aZendSearch::deleteFromDoctrineAndLucene($this, null, $conn);
     $this->clearImageCache();
+    
+    $this->deleteCrops();
+    
     // Don't even think about trashing the original until we know
     // it's gone from the db and so forth
     unlink($this->getOriginalPath());
@@ -131,6 +143,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
     $path = $this->getOriginalPath($this->getFormat());
     $result = copy($file, $path);
+    // Crops are invalid if you replace the original image
+    $this->deleteCrops();
     return $result;
   }
 
@@ -248,8 +262,110 @@ EOM
   {
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
 
-    return "aMediaBackend/image?" . http_build_query(
-      array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
-        "resizeType" => $options['resizeType'], "format" => $options['format']));
+    $params = array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
+      "resizeType" => $options['resizeType'], "format" => $options['format']);
+
+    // check for null because 0 is valid
+    if (!is_null($options['cropLeft']) && !is_null($options['cropTop']) && !is_null($options['cropWidth']) && !is_null($options['cropHeight']))
+    {      
+      $params = array_merge(
+        $params,
+        array("cropLeft" => $options['cropLeft'], "cropTop" => $options['cropTop'],
+          "cropWidth" => $options['cropWidth'], "cropHeight" => $options['cropHeight'])
+      );
+    }
+    return "aMediaBackend/image?" . http_build_query($params);
+  }
+  
+  public function getCropThumbnailUrl()
+  {    
+    $selectedConstraints = aMediaTools::getOption('selected_constraints');
+    
+    if ($aspectRatio = aMediaTools::getAspectRatio()) // this returns 0 if aspect-width and aspect-height were not set
+    {
+      $selectedConstraints = array_merge(
+        $selectedConstraints, 
+        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
+      );
+    }
+    
+    
+    $imageInfo = aMediaTools::getAttribute('imageInfo');
+    if (isset($imageInfo[$this->id]['cropLeft']) &&
+        isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
+    {
+      $selectedConstraints = array_merge(
+        $selectedConstraints, 
+        array(
+          'cropLeft' => $imageInfo[$this->id]['cropLeft'],
+          'cropTop' => $imageInfo[$this->id]['cropTop'],
+          'cropWidth' => $imageInfo[$this->id]['cropWidth'],
+          'cropHeight' => $imageInfo[$this->id]['cropHeight']
+        )
+      );
+    }
+      
+    return $this->getScaledUrl($selectedConstraints);
+  }
+  
+  // Crops of other images have periods in the slug. Real slugs are always [\w_]+ (well, the i18n equivalent)
+  public function isCrop()
+  {
+    return (strpos($this->slug, '.') !== false);
+  }
+  
+  public function getCrops()
+  {
+    // This should perform well because there is an index on the slug and
+    // indexes are great with prefix queries
+    return $this->getTable()->createQuery('m')->where('m.slug LIKE ?', array($this->slug . '.%'))->execute();
+    
+  }
+  
+  public function deleteCrops()
+  {
+    $crops = $this->getCrops();
+    // Let's make darn sure the PHP stuff gets called rather than using a delete all trick of some sort
+    foreach ($crops as $crop)
+    {
+      $crop->delete();
+    }
+  }
+  
+  public function findOrCreateCrop($info)
+  {
+    $slug = $this->slug . '.' . $info['cropLeft'] . '.' . $info['cropTop'] . '.' . $info['cropWidth'] . '.' . $info['cropHeight'];
+    $crop = $this->getTable()->findOneBySlug($slug);
+    if (!$crop)
+    {
+      $crop = $this->copy(false);
+      $crop->slug = $slug;
+      $crop->width = $info['cropWidth'];
+      $crop->height = $info['cropHeight'];
+    }
+    return $crop;
+  }
+  
+  public function getCroppingInfo()
+  {
+    $p = preg_split('/\./', $this->slug);
+    if (count($p) == 5)
+    {
+      return array('cropLeft' => $p[1], 'cropTop' => $p[2], 'cropWidth' => $p[3], 'cropHeight' => $p[4]);
+    }
+    else
+    {
+      return array();
+    }
+  }
+  
+  public function getCropOriginal()
+  {
+    if (!$this->isCrop())
+    {
+      return $this;
+    }
+    $p = preg_split('/\./', $this->slug);
+    return $this->getTable()->findOneBySlug($p[0]);
   }
 }
