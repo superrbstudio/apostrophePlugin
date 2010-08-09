@@ -8,6 +8,9 @@
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
   <ul class="a-controls a-media-multiple-list-controls">	
+	<li>
+		<?php echo link_to(__("Edit", null, 'apostrophe'), "aMedia/editImage", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
+	</li>
 		<li>
 			<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label" title="<?php echo __('Crop', null, 'apostrophe') ?>"><?php echo __('Crop', null, 'apostrophe') ?></a>
 		</li>

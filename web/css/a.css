@@ -2988,6 +2988,11 @@ left: 0;
 width: auto;
 }
 
+ul.a-controls.a-media-multiple-list-controls
+{ 
+	width:100%;
+}
+
 ul.a-controls.a-media-edit-links
 {
 	width: 100%;
@@ -4016,6 +4021,17 @@ ul.a-media-crop-controls
 {
 	color:#ddd;
 	margin-bottom:10px;
+}
+
+.a-crop-workspace h4 a
+{
+	color:#ddd;
+	text-decoration: underline;
+}
+
+.a-crop-workspace h4 a:hover
+{
+	color: ;
 }
 
 #a-media-plugin #a-media-edit-form,

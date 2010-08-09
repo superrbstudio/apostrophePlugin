@@ -32,9 +32,7 @@
 		 	<?php endif ?>
 		</ul>
 
-		<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder")) ?>
-	 	<br class="c"/>
-
+		<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder" )) ?>
 		<div class="a-crop-workspace">
 		  <ul id="a-media-selection-preview">
 		  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
