@@ -69,7 +69,7 @@ class BaseaPageSettingsForm extends aPageForm
       'default' => false
     )));
 
-    if ($this->getObject()->hasChildren())
+    if ($this->getObject()->hasChildren(false))
     {
       $this->setWidget('cascade_archived', new sfWidgetFormInputCheckbox());
       $this->setValidator('cascade_archived', new sfValidatorBoolean(array(
