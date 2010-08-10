@@ -214,7 +214,8 @@ class aHtml
       
     if ($complete)
     {
-      return $result;
+      // Don't allow whitespace to balloon
+      return trim($result);
     }
 
     $result = self::documentToFragment($result);
@@ -223,8 +224,9 @@ class aHtml
 
   static public function documentToFragment($s)
   {
-    return preg_replace(array('/^<!DOCTYPE.+?>/', '/<head>.*?<\/head>/i'), '', 
-      str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $s));
+    // Added trim call because otherwise size begins to balloon indefinitely
+    return trim(preg_replace(array('/^<!DOCTYPE.+?>/', '/<head>.*?<\/head>/i'), '', 
+      str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $s)));
   }
   
   static public function warningsHandler($errno, $errstr, $errfile, $errline) 
