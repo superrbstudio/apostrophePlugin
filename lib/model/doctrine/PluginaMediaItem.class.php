@@ -240,7 +240,7 @@ EOM
       }
       return true;
     }
-    if ($user->hasCredential('media_admin'))
+    if ($user->hasCredential(aMediaTools::getOption('admin_credential')))
     {
       return true;
     }

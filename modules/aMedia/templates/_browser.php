@@ -73,7 +73,7 @@
 				
    		<h4><?php echo __('Categories', null, 'apostrophe') ?></h4>
 
-	    <?php if ($sf_user->hasCredential('media_admin')): ?>
+	    <?php if ($sf_user->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
 	    	<?php // See the _editCategories partial ?>
@@ -101,7 +101,7 @@
 	      </ul>    
 	    <?php endif ?>
     
-    <?php if ($sf_user->hasCredential('media_admin')): ?>
+    <?php if ($sf_user->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
     	<?php // AJAX goodness warps into our universe here ?>
       <div id="a-media-edit-categories"></div>
     <?php endif ?>
