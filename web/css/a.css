@@ -3771,6 +3771,9 @@ background: url(/apostrophePlugin/images/a-icon-close.png) top left no-repeat;
 color: #fff;
 overflow: hidden;
 text-indent: -9999px !important;
+z-index: 2;
+margin: 0;
+padding: 0;
 }
 
 a#a-media-search-remove:hover
