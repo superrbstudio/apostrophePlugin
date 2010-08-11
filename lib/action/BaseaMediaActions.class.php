@@ -724,13 +724,13 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeEditCategories(sfWebRequest $request)
   {
-    $this->forward404Unless($this->getUser()->hasCredential('media_admin'));
+    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
     return $this->renderEditCategory();
   }
 
   public function executeDeleteCategory(sfWebRequest $request)
   {
-    $this->forward404Unless($this->getUser()->hasCredential('media_admin'));
+    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
     $slug = $request->getParameter('slug');
     $category = Doctrine::getTable('aMediaCategory')->createQuery('c')->where('c.slug = ?', array($slug))->fetchOne();
     if ($category)
@@ -742,7 +742,7 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeAddCategory(sfWebRequest $request)
   {
-    $this->forward404Unless($this->getUser()->hasCredential('media_admin'));
+    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
     $form = new aMediaCategoryForm();
     $form->bind($request->getParameter('a_media_category'));
     if ($form->isValid())
