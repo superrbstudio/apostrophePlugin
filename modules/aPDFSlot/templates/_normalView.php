@@ -51,29 +51,23 @@
 	    <?php endif ?>
 			</div>
 			
-  <ul class="a-pdf-meta">
-    <?php if ($title): ?>
-      <li class="a-pdf-title"><?php echo link_to(($item->title), "aMediaBackend/original?" .
-							http_build_query(
-							array(
-							"slug" => $item->getSlug(),
-              "format" => $item->getFormat()
- 							))) ?>
-			</li>
-    <?php endif ?>
-    <?php if ($description): ?>
-      <li class="a-pdf-description"><?php echo $item->description ?>
-			</li>
-    <?php endif ?>
-			<p class="a-pdf-download">
-	      <?php echo link_to(__("Download PDF", null, 'apostrophe'), "aMediaBackend/original?" .
-								http_build_query(
-								array(
-								"slug" => $item->getSlug(),
-	              "format" => $item->getFormat()
-	 							))) ?>
-		    </p>
-  </ul>
+		  <ul class="a-pdf-meta">
+		    <?php if ($title): ?>
+		      <li class="a-pdf-title"><?php echo $item->title ?></li>
+		    <?php endif ?>
+		    <?php if ($description): ?>
+		      <li class="a-pdf-description"><?php echo $item->description ?>
+					</li>
+		    <?php endif ?>
+					<li class="a-pdf-download">
+			      <?php echo link_to(__("Download PDF", null, 'apostrophe'), "aMediaBackend/original?" .
+										http_build_query(
+										array(
+										"slug" => $item->getSlug(),
+			              "format" => $item->getFormat()
+			 							))) ?>
+			    </li>
+		  </ul>
 </div>
 
 	<?php if ($pdfPreview): ?>
