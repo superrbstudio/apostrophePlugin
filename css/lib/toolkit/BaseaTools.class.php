@@ -721,4 +721,15 @@ class BaseaTools
     }
   }
   
+  static public function addStylesheetsIfDesired($array)
+  {
+    $response = sfContext::getInstance()->getResponse();
+    foreach ($array as $stylesheet)
+    {
+      if (sfConfig::get('app_a_use_bundled_stylesheet_' . $stylesheet, true))
+      {
+        $response->addStylesheet('/apostrophePlugin/css/a-' . $stylesheet . '.css');
+      }
+    }
+  }
 }

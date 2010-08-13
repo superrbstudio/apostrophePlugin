@@ -22,18 +22,9 @@ function _a_required_assets()
 		// But it really seems like we use pieces of every one of these when logged in and out.
 		if ($user->isAuthenticated()) 
 		{ 
-	    $response->addStylesheet('/apostrophePlugin/css/a-reset.css');
-		} 
-
-    $response->addStylesheet('/apostrophePlugin/css/a-utility.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-forms.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-buttons.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-navigation.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-components.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-area-slots.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-engines.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-admin.css');
-    $response->addStylesheet('/apostrophePlugin/css/a-colors.css');
+		  aTools::addStylesheetsIfDesired(array('reset'));
+ 		}
+ 		aTools::addStylesheetsIfDesired(array('utility', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors'));
   }
 
   $response->addJavascript('/apostrophePlugin/js/aUI.js');
