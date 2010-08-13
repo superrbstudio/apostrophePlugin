@@ -11,7 +11,7 @@
       "actual_url" => aTools::getRealUrl(),
       "permid" => $permid,
       "noajax" => 1)) ?>
-<?php echo link_to($buttonLabel,
+<li><?php echo link_to($buttonLabel,
   'aMedia/select',
   array('query_string' =>
     http_build_query(
@@ -22,5 +22,5 @@
         "type" => $type,
         "label" => $label,
         "after" => $after))),
-      'class' => $class)) ?>
+      'class' => $class)) ?></li>
 <?php aRouteTools::popTargetEnginePage('aMedia') ?>

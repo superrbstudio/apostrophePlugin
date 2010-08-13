@@ -1,5 +1,4 @@
 <?php use_helper('I18N') ?>
-<div class="a-chad"></div>
 
 <?php use_helper('Url', 'jQuery') ?>
 
@@ -22,9 +21,9 @@
 
 	<?php echo $form ?>
 	
-	<ul id="a-personal-settings-footer" class="a-controls a-personal-settings-form-controls">
+	<ul class="a-ui a-controls" id="a-personal-settings-footer">
 		<li>
-		  <input type="submit" name="a-personal-settings-submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" id="a-personal-settings-submit" class="a-submit" />
+		  <input type="submit" name="a-personal-settings-submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" id="a-personal-settings-submit" class="a-btn a-submit" />
 		</li>
 		<li>
 			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '
@@ -42,10 +41,5 @@
 </form>
 
 <script type="text/javascript" charset="utf-8">
-	<?php if (0): ?>
-	aMultipleSelect('#a-personal-settings', { });
-	aRadioSelect('.a-radio-select', { });
-	<?php endif ?>
-
 	$('#a-personal-settings').show();
 </script>

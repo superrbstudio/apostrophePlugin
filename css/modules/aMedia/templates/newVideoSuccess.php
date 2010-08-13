@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="a-media-library">				
-	 	<ul class="a-controls" id="a-media-video-buttons">
+	 	<ul class="a-ui a-controls" id="a-media-video-buttons">
 			<li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
 		  		"$('#a-media-video-search-form').show(); 
 			 		 $('#a-media-video-buttons').hide(); 
@@ -72,8 +72,8 @@
         <input type="hidden" name="first_pass" value="1" /> 
 			</div>
 
-			<ul class="a-controls a-media-upload-form-footer" id="a-media-video-add-by-url-form-submit">
-        <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
+			<ul class="a-ui a-controls" id="a-media-video-add-by-url-form-submit">
+        <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
         <li><?php echo link_to_function(__("Cancel", null, 'apostrophe'), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-cancel a-btn icon")) ?></li>
       </ul>
 		
@@ -97,8 +97,8 @@
 			</div>
 			
 
-			<ul class="a-controls a-media-upload-form-footer" id="a-media-video-add-by-embed-form-submit">
-        <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
+			<ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
+        <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
         <li>
 					<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
 					"$('#a-media-video-add-by-embed-form').hide(); 

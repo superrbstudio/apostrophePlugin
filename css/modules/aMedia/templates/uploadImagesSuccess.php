@@ -24,13 +24,13 @@
         <?php endfor ?>
       </div>
 
-			<ul class="a-controls a-media-upload-controls">
+			<ul class="a-ui a-controls">
       	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo __('Add Multiple Photos', null, 'apostrophe') ?></a></li>
 			</ul>
 			
 			<br class="c"/>
       
-			<ul class="a-controls a-media-form-footer">
+			<ul class="a-ui a-controls">
       	<li><?php echo link_to_function(__('Upload Photos', null, 'apostrophe'), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
       	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn a-cancel")) ?></li>
       </ul>

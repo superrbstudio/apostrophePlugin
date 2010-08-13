@@ -2,8 +2,8 @@
 
 	<?php echo $form->render() ?>
 
-<ul class="a-controls">
-  <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
+<ul class="a-ui a-controls">
+  <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 	<li>
 		<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
 			"$('#a-media-video-search-form').hide(); 

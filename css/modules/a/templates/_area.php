@@ -26,7 +26,7 @@
   <?php if ($editable): ?>
     <?php if ($infinite): ?>
 
-		<ul class="a-controls a-area-controls">
+		<ul class="a-ui a-controls a-area-controls">
 
 		<?php # Slot Controls ?>
 			<li>
@@ -75,7 +75,7 @@
 	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?>" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
 		<?php // Slot Controls ?>
     <?php if ($editable): ?>
-		<ul class="a-controls a-slot-controls">		
+		<ul class="a-ui a-controls a-slot-controls">		
       <?php if ($infinite): ?>
           <?php if ($i > 0): ?>
 						<li>
@@ -161,12 +161,11 @@
 			<?php if ($infinite): ?>
 				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'a-options-open', false);
 
-				var newSlot = $('.a-new-slot');
+				var newSlot = $('#a-area-<?php echo "$pageid-$name" ?>').find('.a-new-slot');
 				if (newSlot.length) {
 					newSlot.effect("highlight", {}, 1000)
 					$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent().trigger('toggleClosed');
 				};
-				
 			<?php endif ?>
 
 			<?php if (!$infinite): ?>

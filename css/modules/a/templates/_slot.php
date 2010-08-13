@@ -14,12 +14,12 @@
       "updating" => $updating,
       "validationData" => $validationData)) ?>
 
-	<ul class="a-controls a-slot-save-cancel-controls">  
+	<ul class="a-ui a-controls">  
 	  <li>
-			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="submit a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
+			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
 		</li>
 	  <li>
-			<?php echo link_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-btn a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
+			<?php echo link_to_function(__("Cancel", null, 'apostrophe'), "", array("class" => "a-btn icon a-cancel", 'id' => 'a-slot-form-cancel-' . $id )) ?>
 		</li>
 	</ul>
 
@@ -72,7 +72,7 @@
 		// CANCEL
 		$('#a-slot-form-cancel-<?php echo $id ?>').click(function(){
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-  		$(view).children('.a-controls-item variant').fadeIn();
+  		$(view).children('.a-controls li.variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
   		$(view).find('.editing-now').removeClass('editing-now');
  			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
@@ -113,7 +113,7 @@
           <?php endif ?>
           <?php // It's OK to show the variants menu once we've saved something ?>
           <?php if (!$slot->isNew()): ?>
-            outerWrapper.find('.a-controls-item.variant').show();
+            outerWrapper.find('.a-controls li.variant').show();
           <?php endif ?>
         <?php endforeach ?>
       });

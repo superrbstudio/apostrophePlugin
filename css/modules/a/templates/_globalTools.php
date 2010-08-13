@@ -42,7 +42,7 @@
  
 </div>
 
-<?php if (aTools::isPotentialEditor()): ?>
+<?php if (aTools::isPotentialEditor() && $page): ?>
 
 <?php include_partial('a/historyBrowser', array('page' => $page)) ?>
 

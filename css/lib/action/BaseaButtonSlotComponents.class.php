@@ -35,7 +35,7 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     $this->description = $this->getOption('description');
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
-    $this->link = false;
+    $this->link = $this->getOption('link', false);
     if (isset($data['url']))
     {
       $this->link = $data['url'];

@@ -173,7 +173,7 @@ function _a_navcolumn_body($page)
   $admin = $page->userHasPrivilege('edit');
   if ($admin)
   {
-    $sortHandle = "<div class='a-btn icon a-drag a-controls'></div>";
+    $sortHandle = "<div class='a-btn icon a-drag'></div>";
   }
   $result = "";
   // Inclusion of archived pages should be a bit generous to allow for tricky situations

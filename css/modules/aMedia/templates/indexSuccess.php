@@ -26,7 +26,7 @@
 
   <?php if (aMediaTools::userHasUploadPrivilege()): ?>
 
-   <ul class="a-controls a-media-controls">
+   <ul class="a-ui a-controls">
      <?php $selecting = aMediaTools::isSelecting() ?>
      <?php $type = aMediaTools::getAttribute('type') ?>
 
@@ -41,7 +41,6 @@
      <?php if (!($selecting && $type && ($type !== 'pdf'))): ?>
      <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
      <?php endif ?>
-
    </ul>
 
   <?php endif ?>

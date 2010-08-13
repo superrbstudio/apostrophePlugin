@@ -5,7 +5,7 @@
 <?php foreach ($items as $item): ?>
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
-  <ul class="a-controls a-media-multiple-list-controls">	
+  <ul class="a-ui a-controls">	
 	  <li><?php echo jq_link_to_remote(__("remove this item", null, 'apostrophe'),
     array(
       'url' => 'aMedia/multipleRemove?id='.$id,
