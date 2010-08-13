@@ -23,7 +23,7 @@
     <p><?php echo __('No matching videos were found. Try being less specific.', null, 'apostrophe') ?></p>
   <?php else: ?>
 
-    <ul id="a-media-video-search-results"></ul>
+    <ul class="a-ui" id="a-media-video-search-results"></ul>
     <br class="clear" />
 
     <div id="a-media-video-search-pagination" class="a-pager-navigation"></div>

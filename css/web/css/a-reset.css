@@ -1,6 +1,8 @@
 /* Apostrophe UI Reset based on Eric Meyer's Reset CSS 
 -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------------------------------------------- */
+body { margin: 0; padding: 0; }
+
 .a-ui div, .a-ui span, .a-ui iframe, 
 .a-ui pre, .a-ui a, .a-ui img, 
 .a-ui ol, .a-ui ul, .a-ui li, 

@@ -1,6 +1,6 @@
 <?php use_helper('I18N') ?>
 <?php if (count($items)): ?>
-	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow">
+	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix">
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
 	  <?php $dimensions = aDimensions::constrain(
 	    $item->width, 

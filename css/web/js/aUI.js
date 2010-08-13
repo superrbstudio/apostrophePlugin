@@ -77,31 +77,6 @@ function aUI(target)
 	// Cross Browser Opacity Settings
 	$('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
 
-	// // New Slot Box
-	// $('div.a-new-slot').remove();
-	// $('div.a-slots').prepend('<div class="a-new-slot"><p>+ Add Slot</p></div>');
-	// $('ul.a-controls a.a-add-slot').hover(function(){
-	// 	var thisArea = $(this).parents('div.a-area');
-	// 	thisArea.addClass('over');
-	// 	// We could animate this to slide open, or just toggle the visibility using CSS
-	// 	// thisArea.find('div.a-new-slot').animate({
-	// 	// 		display: 'block',
-	// 	//     height: '25px'
-	// 	//   }, 325, function() {
-	// 	// 	  });
-	// },function(){
-	// 	var thisArea = $(this).parents('div.a-area');
-	// 	thisArea.removeClass('over');
-	// 	// thisArea.find('div.a-new-slot').stop();
-	// 	// if (!thisArea.hasClass('a-options-open'))
-	// 	// {
-	// 	// 	thisArea.find('div.a-new-slot').css({
-	// 	// 		height:'1px',
-	// 	// 		display:'none',
-	// 	// 	});			
-	// 	// }
-	// })
-
 	$('.a-controls li:last-child').addClass('last'); // Add 'last' Class To Last Option
 	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
@@ -111,8 +86,8 @@ function aUI(target)
 		aOverrides(); 	
 	}
 	
-	// Temporary clearfix test
-	$('.a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form, .a-controls, .a-options').addClass('clearfix');
+	// apply clearfix on controls and options
+	$('.a-controls, .a-options').addClass('clearfix');
 	
 }
 

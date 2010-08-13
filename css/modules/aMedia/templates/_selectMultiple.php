@@ -1,5 +1,5 @@
 <?php use_helper('I18N') ?>
-<div class="a-media-select">
+<div class="a-media-select clearfix">
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php if (!$type): ?>
 <?php $type = "media item" ?>
@@ -10,7 +10,7 @@
   <?php endif ?>
   <?php echo __('When you\'re done, click "Save."', null, 'apostrophe') ?></p>
 
-	<ul id="a-media-selection-list">
+	<ul class="a-ui a-controls" id="a-media-selection-list">
 	<?php include_component("aMedia", "multipleList") ?>
 	</ul>
 
@@ -24,4 +24,4 @@
 	</ul>
 	
 </div>
-	<br class="c"/>
+<br class="c"/>

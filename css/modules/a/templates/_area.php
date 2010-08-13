@@ -20,13 +20,13 @@
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-ui a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?>">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>
     <?php if ($infinite): ?>
 
-		<ul class="a-ui a-controls a-area-controls">
+		<ul class="a-ui a-controls a-area-controls clearfix">
 
 		<?php # Slot Controls ?>
 			<li>
@@ -51,7 +51,7 @@
 
 <?php if (!$refresh): ?>
   <?php // Wraps all of the slots in the area ?>
-  <div id="a-slots-<?php echo "$pageid-$name" ?>" class="a-slots">
+  <div id="a-slots-<?php echo "$pageid-$name" ?>" class="a-slots clearfix">
 <?php endif ?>
 
 <?php // Loop through all of the slots in the area ?>
@@ -72,10 +72,10 @@
  <?php end_slot() ?>
 
 	<!-- START SLOT -->
-	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?>" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
+	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
 		<?php // Slot Controls ?>
     <?php if ($editable): ?>
-		<ul class="a-ui a-controls a-slot-controls">		
+		<ul class="a-ui a-controls a-slot-controls clearfix">		
       <?php if ($infinite): ?>
           <?php if ($i > 0): ?>
 						<li>
@@ -141,7 +141,7 @@
 	<?php // End Slot Controls ?>		
 				
     <?php // Wraps the actual content - edit and normal views for this individual slot ?>
-  	<div class="a-slot-content" id="a-slot-content-<?php echo "$pageid-$name-$permid" ?>">
+  	<div class="a-slot-content clearfix" id="a-slot-content-<?php echo "$pageid-$name-$permid" ?>">
       <?php // Now we can include the slot ?>
       <?php include_slot("a-slot-content-$pageid-$name-$permid") ?>
   	</div>

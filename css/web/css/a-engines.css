@@ -1,4 +1,5 @@
-/* 24. 	 Subnav Wrapper and Bundled Subnav Navigation
+
+/*  Subnav Wrapper and Bundled Subnav Navigation
 -------------------------------------*/
 
 .a-subnav-wrapper
@@ -123,9 +124,7 @@ margin-bottom: 5px;
 }
 
 
-
-
-/* 21. Media Engine
+/* Media Engine
 -------------------------------------*/
 
 #a-media-wrapper
@@ -251,8 +250,6 @@ clear: both;
 
 .a-media-toolbar h3
 {
-	/*This made it tough to show constraints etc., if you really need it do it at app level */
-	/*float: left;*/
 	margin: 0 0 10px 0;
 }
 
@@ -325,11 +322,6 @@ width: 214px;
 border: 1px solid #666;
 padding: 2px 3px;
 font: 11px Arial, Sans-serif;
-}
-
-.a-media-item.even
-{
-/*margin-right: 20px;*/
 }
 
 .a-media-item-title h3 a
@@ -654,11 +646,6 @@ cursor: default !important;
 	clear: both;
 }
 
-#a-media-edit-categories
-{
-/*margin-top: 10px;*/
-}
-
 #a-media-edit-categories-button
 {
 	margin-left: 5px;
@@ -683,7 +670,7 @@ cursor: default !important;
 
 #a-category-sidebar-list li
 {
-	list-style: none outside; /* ie7 is dumb */
+	list-style: none outside;
 }
 
 #a-media-categories-list .category li.name
@@ -758,10 +745,6 @@ cursor: default !important;
 }
 
 
-
-
-
-
 /* 22. Media Engine - Video Search
 -------------------------------------*/
 
@@ -775,8 +758,6 @@ float: left;
 #a-media-video-search-results li
 {
 float: left;
-/*width: 240px;
-height: 200px;*/
 }
 
 #a-media-video-search-results li a
@@ -817,6 +798,118 @@ margin-bottom: 10px;
 padding-top: 10px;
 padding-bottom: 10px;
 }
+
+
+/* Blog Engine Styles
+-------------------------------------*/
+
+#a-blog-main,
+.a-blog-item,
+.a-blog-item-title,
+.a-blog-item-meta,
+.a-blog-item-tags,
+.a-blog-item-media,
+.a-blog-item-body,
+.a-blog-item-excerpt-container
+{
+	float: left;
+	clear: both;
+	display: inline;
+	position: relative;	
+	width: 100%;
+}
+
+.a-blog-main hr
+{
+	float: left;
+	width: 100%;
+	margin-bottom:10px;
+	height: 1px;
+	border: none;
+	background: rgba(0,0,0,0.125);
+}
+
+.a-blog-item .a-area
+{
+	margin-top:0;
+}
+
+.a-blog-item-title,
+.a-blog-item-meta,
+.a-blog-item-tags,
+.a-blog-item-media,
+.a-blog-item-body,
+.a-blog-item-excerpt
+{
+	margin-bottom: 10px;
+}
+
+.a-blog-item-excerpt-container
+{
+	margin-bottom:20px;
+}
+
+.a-blog-item-body p
+{
+	margin-bottom: 10px;
+}
+
+.a-blog-item-tags li
+{
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+.a-blog-item-meta
+{
+	font-size: 11px;
+	color: #888;
+}
+
+.a-blog ul.a-slideshow-controls
+{
+	border:medium none;
+	display:inline;
+	float:left;
+	height:20px;
+	margin-right:1px;
+	position:absolute;
+	right:0;
+	top:-24px;
+	width:auto;
+}
+
+.addthis_toolbox
+{
+	float:left;
+	width: auto;
+	clear: both;
+	padding: 5px;
+	background: #fff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;	
+}
+
+.aEvent .addthis_toolbox
+{
+	margin-left: 140px;
+	font-size: 11px;
+	color: #999;
+}
+
+.a-event-date-range span
+{
+	float: left;
+	width: 100%;
+	color: #222;
+}
+
+.a-event-date-range .end_date
+{
+	margin-top: 5px;
+}
+
 
 
 /* 25. Shared Tag Sidebar
@@ -1101,6 +1194,7 @@ overflow: hidden;
 	line-height: 20px;
 	padding-right: 20px;
 	white-space: nowrap;
+	margin-right: -20px;
 }
 
 .add-tags .a-submit
