@@ -77,31 +77,6 @@ function aUI(target)
 	// Cross Browser Opacity Settings
 	$('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
 
-	// // New Slot Box
-	// $('div.a-new-slot').remove();
-	// $('div.a-slots').prepend('<div class="a-new-slot"><p>+ Add Slot</p></div>');
-	// $('ul.a-controls a.a-add-slot').hover(function(){
-	// 	var thisArea = $(this).parents('div.a-area');
-	// 	thisArea.addClass('over');
-	// 	// We could animate this to slide open, or just toggle the visibility using CSS
-	// 	// thisArea.find('div.a-new-slot').animate({
-	// 	// 		display: 'block',
-	// 	//     height: '25px'
-	// 	//   }, 325, function() {
-	// 	// 	  });
-	// },function(){
-	// 	var thisArea = $(this).parents('div.a-area');
-	// 	thisArea.removeClass('over');
-	// 	// thisArea.find('div.a-new-slot').stop();
-	// 	// if (!thisArea.hasClass('add-slot-now'))
-	// 	// {
-	// 	// 	thisArea.find('div.a-new-slot').css({
-	// 	// 		height:'1px',
-	// 	// 		display:'none',
-	// 	// 	});			
-	// 	// }
-	// })
-
 	$('.a-controls li:last-child').addClass('last'); // Add 'last' Class To Last Option
 	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
@@ -110,6 +85,10 @@ function aUI(target)
 	{ 
 		aOverrides(); 	
 	}
+	
+	// apply clearfix on controls and options
+	$('.a-controls, .a-options').addClass('clearfix');
+	
 }
 
 function aIE6(authenticated, message)
@@ -144,17 +123,15 @@ function aMenuToggle(button, menu, classname, overlay)
 		// Button Toggle
 		if (!button.hasClass('aActiveMenu')) 
 		{ 
-			menuOpen(); 
+			menu.trigger('toggleOpen'); 
 		}
 		else 
 		{
-			menuClose();
+			menu.trigger('toggleClosed');
 		}
 	});
-	
 
-	function menuOpen()
-	{
+	menu.bind('toggleOpen', function(){
 		// Open Menu, Create Listener
 		button.addClass('aActiveMenu');
 		menu.addClass(classname);			
@@ -163,31 +140,37 @@ function aMenuToggle(button, menu, classname, overlay)
 			var target = e.target; 
 			target = $(target);  
 			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) {
-				menuClose();
+				menu.trigger('toggleClosed');
 			}
 			if (!target.parents().is('#'+menu.attr('id'))) {
-				menuClose();
+				menu.trigger('toggleClosed');
 			}
-		});
-	}
+		});	
+	});
 	
-	function menuClose()
-	{
+	menu.bind('toggleClosed', function(){
 		// Close Menu, Destroy Listener
 		button.removeClass('aActiveMenu');
 		menu.removeClass(classname);
 		if (overlay) { overlay.fadeOut(); }
-		$(document).unbind('click'); // Clear out click event
-	}
+		$(document).unbind('click'); // Clear out click event		
+	});
+
 }
 
-function aAccordion(header)
+function aAccordion(heading)
 {
-	if (typeof header == "string") { header = $(header); }
-	header.click(function() {
+	if (typeof heading == "string") { heading = $(heading); }
+	heading.click(function() {
 		$(this).parent().toggleClass('open');
 		return false;
 	}).parent().addClass('a-accordion');
+	/* Example Mark-up 
+	<div class="a-accordion-item">
+		<h3>Heading</h3>    header = $('.a-accordion-item h3)
+		<div>Content</div>
+	</div>
+	*/
 }
 
 
@@ -212,6 +195,10 @@ function aBrowseHistory(area)
 		aCloseHistory();
 		$(this).unbind('click');
 	});
+	
+	$('#a-history-preview-notice-toggle').click(function(){
+		$('.a-history-preview-notice').children(':not(".a-history-options")').slideUp();
+	});
 }
 
 function aCloseHistory()
@@ -224,8 +211,7 @@ function aCloseHistory()
 }
 
 $(document).ready(function(){
-	aUI();
-	
+	aUI();	
 	jQuery.fn.isChildOf = function(b){
 	  return (this.parents(b).length > 0);
 	};	

@@ -864,6 +864,8 @@ padding-bottom: 10px;
 {
 	font-size: 11px;
 	color: #888;
+	margin: 0;
+	list-style-position: outside;
 }
 
 .a-blog ul.a-slideshow-controls
