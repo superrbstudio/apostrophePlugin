@@ -1,0 +1,5 @@
+.a-archived-page a
+{ 
+text-decoration: line-through;
+opacity: 0.5; /* aUI(); Makes Unpublished pages 50% Opacity */
+}

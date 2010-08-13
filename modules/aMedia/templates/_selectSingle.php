@@ -8,7 +8,7 @@
 <?php $type = "media item" ?>
 <?php endif ?>
 
-<div class="a-media-select">
+<div class="a-media-select clearfix">
   <?php // Thanks to Galileo for i18n corrections here ?>
   <p><?php echo __('Use the browsing and searching features to locate the %type% you want, then click on that %type% to select it.', array('%type%' => __($type, null, 'apostrophe')), 'apostrophe') ?>
   <?php if ($limitSizes): ?>

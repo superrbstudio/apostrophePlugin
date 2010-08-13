@@ -6,7 +6,7 @@
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
   $results = isset($results) ? $sf_data->getRaw('results') : null;
 ?>
-<?php use_helper('I18N','jQuery') ?>
+<?php use_helper('I18N','jQuery','a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>
@@ -37,7 +37,7 @@
 	<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>
 	
 	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-   <ul class="a-controls a-media-controls">
+   <ul class="a-ui a-controls">
 
      <?php if (!($selecting && $type && ($type !== 'image'))): ?>
      <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon big a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>

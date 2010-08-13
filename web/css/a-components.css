@@ -1,0 +1,980 @@
+/* Attribution */
+/* IE6 Warning */
+/* Pager / Pagination */
+/* Global Toolbar */
+/* Global Toolbar  - Page Settings*/
+/* Global Toolbar - Create Page */
+/* History Browser */
+
+.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left; }
+.a-attribution a:hover { text-decoration:underline; }
+
+#ie6-warning { background: #f00; color: #fff; position: relative; z-index:9999; overflow: auto; }
+#ie6-warning h2 { margin: 0; padding: 5px; font-size: 14px; }
+#ie6-warning h2 a { color: #fff; text-decoration: underline; }
+#ie6-warning h2 a:hover { color: #222; }
+.ie6 .a-controls, .ie6 .a-btn.icon, .ie6 .a-global-toolbar-breadcrumb { display: none !important; } /* Added precaution -- Let's hide any controls from IE7 */
+
+/* 10. aUI Pagination
+-------------------------------------*/
+
+.a-pager-navigation
+{
+float: left;
+display: inline;
+overflow: hidden;
+margin: 10px 0;
+font-size: 11px;
+width: 100%;
+}
+
+.a-pager-navigation a,
+.a-pager-navigation span
+{
+display: inline;
+float: left;
+height: 20px;
+line-height: 20px;
+}
+
+.a-pager-navigation .a-page-navigation-number { padding: 0 6px; }
+
+.a-pager-navigation a.a-page-navigation-number:hover { color: #000; }
+
+.a-pager-navigation .a-pager-navigation-image
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+display: inline;
+float: left;
+width: 22px;
+height: 20px;
+text-indent: -9999px;
+}
+
+.a-pager-navigation a.a-pager-navigation-first
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation a.a-pager-navigation-previous
+{
+background-position: -22px 0;
+width: 19px;
+margin-right: 5px;
+margin-left:1px;
+}
+
+.a-pager-navigation a.a-pager-navigation-next
+{
+background-position: -41px 0;
+width: 19px;
+margin-left: 5px;
+margin-right: 1px;
+}
+
+.a-pager-navigation a.a-pager-navigation-last
+{
+background-position: -60px 0;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-right: 5px;
+margin-left:1px;
+
+}
+
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background-position:-60px -80px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
+{
+background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-left: 5px;
+margin-right:1px;
+}
+
+.a-pager-navigation a.a-pager-navigation-first:hover { background-position: 0px -20px; }
+.a-pager-navigation a.a-pager-navigation-previous:hover { background-position: -22px -40px !important; }
+.a-pager-navigation a.a-pager-navigation-next:hover { background-position: -41px -60px; }
+.a-pager-navigation a.a-pager-navigation-last:hover { background-position: -60px -80px; }
+
+.a-pager-navigation a.a-pager-navigation-image.disabled { cursor: default; }
+
+.a-pager-navigation a.a-page-navigation-number:hover,
+.a-pager-navigation span.a-page-navigation-number.a-pager-navigation-disabled,
+.a-pager-navigation a.a-pager-navigation-first,
+.a-pager-navigation a.a-pager-navigation-previous,
+.a-pager-navigation a.a-pager-navigation-next,
+.a-pager-navigation a.a-pager-navigation-last,
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled,
+.a-pager-navigation a.a-pager-navigation-first:hover,
+.a-pager-navigation a.a-pager-navigation-previous:hover,
+.a-pager-navigation a.a-pager-navigation-next:hover,
+.a-pager-navigation a.a-pager-navigation-last:hover
+{
+	background-color:#e2e2e2;
+}
+
+
+
+/* 11. aUI Global Toolbar
+-------------------------------------*/
+
+.a-global-toolbar
+{
+position: relative;
+display: inline;
+float: left;
+width: 100%;
+border-bottom: 1px solid #ddd;
+margin-bottom: 5px;
+clear: both;
+z-index: 999;
+background:#fff;
+}
+
+.the-apostrophe { float: left; margin: 2px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
+
+.a-global-toolbar > .a-controls
+{
+	margin-top: 5px;
+}
+
+.a-global-toolbar .a-login
+{
+	float: right;
+	display: inline;
+	margin-right:5px;
+	line-height: 20px;
+}
+
+.a-global-toolbar .a-global-toolbar-this-page
+{
+	position: relative;
+	display: inline;
+	float:left;
+	clear: both;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.a-global-toolbar .a-global-toolbar-this-page.ok
+{
+	padding: 8px 0;
+}
+
+#a-logged-in-as
+{
+	float: left;
+	line-height: 20px;
+	padding-right: 10px;
+}
+
+#a-logged-in-as a
+{
+	text-decoration: underline;
+}
+
+#a-logged-in-as a:hover
+{
+	color: #000;
+}
+
+#a-this-page-toggle.open
+{
+	background-color: #333;
+}
+
+
+
+
+
+
+
+/* 12. Page Settings Panel
+-------------------------------------*/
+
+#a-page-settings
+{
+	position: absolute;
+}
+
+.show-options #a-page-settings
+{
+	z-index: 998;
+}
+
+.show-options #a-page-settings .a-options
+{
+	display: block;
+	min-width: 0;
+}
+
+.show-options #a-page-settings-button { position: relative; z-index: 999; }
+
+.a-page-settings-menu { width: 360px; }
+
+.a-page-settings-section
+{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-page-settings-section .content { margin: 0 16px; }
+
+.a-page-settings-section h4
+{
+	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+	cursor: pointer;
+	text-indent: 16px;
+	line-height: 20px;
+	width: 100%;
+	position: relative;
+	margin: 0 0 5px 0;
+}
+
+.a-page-settings-section h4:hover { background-position: -6px 0; }
+.a-page-settings-section.open h4 { background-position: -6px -20px; }
+.a-page-settings-section.open h4:hover { background-position: -6px -60px;	}
+
+.a-page-settings-section h5
+{
+	font-size: 12px;
+	font-weight: normal;
+	padding: 5px 0;
+	margin-bottom: 5px;
+}
+
+.a-page-settings-section.page-submit
+{
+	margin: 10px 0 5px 0;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-cancel
+{
+	float: left !important;
+	clear: none !important;
+	margin-left: 2px;
+}
+
+.a-page-settings-section.page-submit a.a-btn.a-delete
+{
+	clear: none;
+	float: right !important;
+}
+
+.a-page-settings-menu hr
+{
+/* these are copied from aBlog.css, could be combined */
+float: left;
+clear: both;
+width: 100%;
+height: 2px;
+border: 0;
+background: rgba(0,0,0,0.05);
+border-top: 1px inset rgba(0,0,0,0.1);
+border-right: 1px inset rgba(0,0,0,0.1);
+margin: 10px 0;
+}
+
+.a-form-row.title
+{
+	margin-top: 0;
+}
+
+.a-form-row.title label
+{
+	display: none;
+}
+
+.a-form-row.title input#a_settings_settings_title
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.1);
+}
+
+.a-form-row.title input#a_settings_settings_title:hover
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.35);
+}
+
+.a-form-row.title input#a_settings_settings_title:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+}
+
+
+
+/* Create Page Form
+--------------------------------------*/
+#a-create-page-button.aActiveMenu
+{
+	z-index: 999;
+}
+
+#a-create-page-form
+{
+	padding: 30px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+	min-width: 100px;
+	width: auto !important;
+	width: 100px;	
+}
+
+#a-create-page-button-menu.show-options
+{
+	position: relative;
+	z-index: 998;
+}
+
+.show-options #a-create-page-form
+{
+	display: block;
+}
+
+#a-create-page-title
+{
+	width: 240px;
+	border: 1px solid #999;
+	font-size: 18px;
+	padding: 2px 3px;
+	font-family: Arial, Helvetica, Sans-serif;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	margin-bottom: 5px;
+}
+
+
+
+
+/* 13. History Browser
+-------------------------------------*/
+
+.a-history-browser
+{ /*This positions history vertically inside the browser */
+position: absolute;
+top: 0px; /* This changes with history button offset*/
+left: 50%;
+margin-left: -480px;
+float: left;
+width: 960px;
+clear: both;
+z-index: 999;
+overflow: hidden;
+display: none;
+background: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+.a-history-browser h3
+{
+font-size: 16px;
+color: #666;
+float: left;
+/*	width: 100%;*/
+width: 100%;
+margin: 0;
+padding: 10px;
+clear: both;
+}
+
+.a-history-browser-heading
+{
+	float: left;
+	clear: both;
+	width: 100%;
+	position: relative;
+}
+
+.a-history-browser #a-history-close-button
+{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -10px;
+	height: 20px;
+	width: 20px;
+	background-position: 0 0;
+	z-index: 999;
+}
+
+.a-history-browser #a-history-close-button span
+{
+	color: #333 !important;
+	text-shadow: none !important;
+}
+
+.a-history-browser #a-history-close-button:hover { background-position: 0 -20px; }
+
+span#a-history-browser-number-of-revisions,
+a.a-history-browser-view-more
+{
+float: left;
+display: inline;
+padding: 0 8px;
+line-height: 20px;
+position: relative;
+line-height: 1.2;
+}
+
+a.a-history-browser-view-more
+{
+	border-left: 1px solid #ccc;
+}
+
+a.a-history-browser-view-more .spinner
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: -16px;
+	display: none;
+}
+
+a.a-history-browser-all:hover { background-color: #ddd; }
+
+.a-history-browser-crop
+{ /*This CAN make history a scrollable box, sets width to be width of site */
+width: 100%;
+margin: 0;
+border-top: 1px solid #ddd;
+float: left;
+clear: both;
+}
+
+.a-history-browser table
+{
+width: 100%;
+table-layout: fixed;
+font-size: 11px;
+color: #333;
+}
+
+.a-history-browser thead th
+{
+font-weight: bold;
+padding: 8px 4px;
+border-bottom: 1px solid #ddd;
+}
+
+.a-history-browser tbody tr:hover { background-color: #e2e2e2; }
+
+.a-history-browser tbody td
+{
+overflow: hidden;
+white-space: nowrap;
+height: 30px;
+vertical-align: middle;
+padding: 0 4px;
+}
+
+.a-history-browser tfoot td
+{
+border-top: 1px solid #ddd;
+padding: 8px 4px;
+}
+
+.a-history-browser .date
+{
+width: 15%;
+}
+
+.a-history-browser .editor
+{
+width: 15%;
+}
+
+.a-history-browser .preview
+{
+width: 70%;
+}
+
+.a-history-preview-notice
+{
+display: none;
+position: fixed;
+top: 55px;
+left: 20px;
+z-index: 9999;
+background: #fff;
+color: #900;
+border-bottom: 1px solid #ddd;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+float: left;
+width: 250px;
+}
+
+.a-history-preview-notice h4,
+.a-history-preview-notice p,
+.a-history-preview-notice .a-history-options
+{
+float: left;
+clear: both;
+margin-left: 10px;
+margin-right: 10px;
+}
+
+.a-history-preview-notice h4,
+.a-history-preview-notice .a-history-options
+{
+	margin: 10px;
+}
+
+.a-history-options .a-history-revert
+{
+	margin-right: 2px !important;
+}
+
+#a-history-preview-notice-toggle
+{
+color: #ccc;
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 11px;	
+}
+
+
+/* 15. Apostrophe Login Form
+ **** This floats in the upper right corner when we use a login button
+-------------------------------------*/
+
+#a-login-form-container
+{
+position: absolute;
+display: none;
+left: auto;
+top: 5px;
+right: 5px;
+padding: 0;
+z-index:9999 !important;
+width: 222px;
+min-width: 0;
+}
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover { color: #fff; }
+
+
+
+
+/* 16. Apostrophe Signin Form
+ **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
+-------------------------------------*/
+
+#a-signin
+{
+float: left;
+position: relative;
+overflow: hidden;
+display: block;
+clear: both;
+width: 220px;
+}
+    
+#a-signin-form
+{
+float: left;
+position: relative;
+overflow:hidden;
+display: inline;
+clear: both;
+float: left;
+width: 180px;
+padding: 20px;
+}
+ 
+#a-signin-form label
+{
+	font-size: 16px;
+}
+
+#a-signin-form .a-form-row input[type="text"],
+#a-signin-form .a-form-row input[type="password"]
+{
+	width: 155px;	
+}
+
+#a-signin-form .a-form-row.submit input
+{
+	color:#fff;
+}
+
+#a-signin-form .a-form-row
+{
+margin: 0 10px 10px 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+float: left;
+display: inline;
+width: auto;
+clear:none;
+position: relative;
+margin-right: 5px;
+}
+
+
+
+/* 18. Site Search
+-------------------------------------*/
+
+#a-search
+{
+float: left;
+display: inline;
+width: 100%;
+height: 20px;
+margin: 10px 0;
+clear: both;
+}
+
+#a-search-global
+{
+width: 240px;
+height: 20px;
+float: right;
+display: inline;
+}
+
+.a-search-form,
+.a-search-form span.a-search-field
+{ /* Removed background image in favor of border radius 2/3/2010 */
+position: relative;
+width: 238px;
+height: 20px;
+background: #fff;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+}
+
+.a-search-form input.submit:hover,
+.a-search-form input.a-search-submit:hover { background-position: 0 -20px; cursor: pointer; }
+
+.a-search-form span.a-search-field
+{
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.a-search-form input.a-search-field
+{
+position: absolute;
+top: 0;
+left: 6px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form span.a-search-field input
+{
+position: absolute;
+top: 0;
+left: 9px;
+font: 12px Arial, Helvetica, Sans-serif;
+border: 0 none;
+padding: 3px 0 0 0;
+width: 210px;
+background: transparent;
+}
+
+.a-search-form span.a-search-submit
+{
+position: absolute;
+right: 0;
+top: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+}
+
+.a-search-form input.a-search-submit
+{
+padding: 0;
+width: 29px;
+height: 20px;
+border: none !important;
+position: absolute;
+top: 0;
+right: 0;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+.a-search-form input.submit
+{
+position: absolute;
+top: 0;
+right: 0;
+height: 20px;
+width: 29px;
+display: block;
+border: none !important;
+z-index: 2;
+padding: 0;
+text-indent: -9999px;
+background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
+}
+
+
+
+
+
+/* 19. Search Results
+-------------------------------------*/
+
+#a-search-results-container,
+.a-search-results,
+.result-title,
+.result-url,
+.result-summary
+{
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.result-title
+{
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.result-url
+{
+font-size: 11px;
+margin-top: 5px;
+margin-bottom: 15px;
+color: #666;
+}
+
+
+
+
+
+/* 20. Apostrophe Feedback Form
+-------------------------------------*/
+
+#feedback-form-container
+{
+display: none;
+position: absolute;
+right: 0;
+bottom: 0;
+z-index: 999;
+background: #fff;
+padding: 10px;
+border: 1px solid #ddd;
+}
+
+#a-feedback-form
+{
+margin: 10px 0;
+}
+
+#feedback-link
+{
+text-align: right;
+text-transform: capitalize;
+}
+
+#feedback-submitted
+{
+text-align: right;
+}
+
+
+
+/* 31. Login button and language switcher
+-------------------------------------*/
+
+.a-login ul
+{
+	list-style: none;
+}
+
+.a-login li
+{
+	float: left;
+}
+
+.a-login li#a-language-switch
+{
+	padding-right: 10px;
+}
+

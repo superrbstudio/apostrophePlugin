@@ -4,7 +4,7 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
 <?php use_Helper('I18N') ?>
-<ul id="a-media-categories-list">
+<ul class="a-ui a-media-categories-list" id="a-media-categories-list">
   <?php foreach ($categoriesInfo as $info): ?>
     <li class="category">
       <ul>
@@ -27,8 +27,8 @@
 
 <?php echo $form ?>
 
-<div class="a-form-row submit">
-<input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-submit icon a-add no-label" />
+<div class="a-ui a-form-row submit">
+<input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-btn a-submit icon a-add no-label" />
 <?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon no-label a-cancel', )) ?>
 </div>
 </form>

@@ -4,7 +4,7 @@
 ?>
 <?php use_helper('I18N', 'jQuery') ?>
 <?php if ($mediaItem->userHasPrivilege('edit')): ?>
-	<ul class="a-controls a-media-edit-links">
+	<ul class="a-ui a-controls">
 
     <?php if ($mediaItem->getType() === 'video'): ?>
       <li><?php echo link_to(__("Edit", null, 'apostrophe'), "aMedia/editVideo", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => "a-btn icon a-edit")) ?></li>
@@ -26,9 +26,9 @@
 		</li>
 		<?php endif ?>
 
-
-		<li class="delete"><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+		<li><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
     	array("slug" => $mediaItem->getSlug())),
-    	array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete flag")) ?></li>
+    	array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label")) ?></li>
+
 	</ul>
 <?php endif ?>

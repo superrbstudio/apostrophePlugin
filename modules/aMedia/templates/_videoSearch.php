@@ -7,8 +7,8 @@
 
 	<?php echo $form->render() ?>
 
-<ul class="a-controls">
-  <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
+<ul class="a-ui a-controls">
+  <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 	<li>
 		<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
 			"$('#a-media-video-search-form').hide(); 
@@ -28,7 +28,7 @@
     <p><?php echo __('No matching videos were found. Try being less specific.', null, 'apostrophe') ?></p>
   <?php else: ?>
 
-    <ul id="a-media-video-search-results"></ul>
+    <ul class="a-ui" id="a-media-video-search-results"></ul>
     <br class="clear" />
 
     <div id="a-media-video-search-pagination" class="a-pager-navigation"></div>

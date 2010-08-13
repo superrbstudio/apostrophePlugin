@@ -100,22 +100,19 @@
 		</div>
 
    <?php if ($item): ?>
-    <ul class="a-controls a-media-form-footer">
+    <ul class="a-ui a-controls">
 
-     	<li class="a-controls-item submit"><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="pk-btn a-submit" /></li>
+     	<li><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 
-       <?php $id = $item->getId() ?>
+     	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
 
-     	<li class="a-controls-item cancel"><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
-
-      <li class="a-controls-item delete">
-			<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+			<li><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
          array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
-         array("target" => "_top")) ?>
-			</li>
+         array("target" => "_top")) ?></li>
 
    	</ul>
+
    	<?php echo $form->renderHiddenFields() ?>
   	
 	</form>

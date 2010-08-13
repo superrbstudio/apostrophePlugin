@@ -895,29 +895,16 @@ class BaseaActions extends sfActions
   // those actions for now, but this code is available for that purpose too if need be
   
   protected $lockfp;
-  
+
+  // These have been refactored
   protected function lockTree()
   {
-    $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
-    $file = "$dir/tree.lck";
-    while (true)
-    {
-      $this->lockfp = fopen($file, 'a');
-      if (!$this->lockfp)
-      {
-        sleep(1);
-      }
-      else
-      {
-        break;
-      }
-    } 
-    flock($this->lockfp, LOCK_EX);
+    aTools::lock('tree');
   }
   
   protected function unlockTree()
   {
-    fclose($this->lockfp);
+    aTools::unlock();
   }
 }
 

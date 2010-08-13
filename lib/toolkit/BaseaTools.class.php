@@ -21,12 +21,12 @@ class BaseaTools
   // Must reset ALL static variables to their initial state
   static public function listenToSimulateNewRequestEvent(sfEvent $event)
   {
-    self::$global = false;
-    self::$globalCache = false;
-    self::$currentPage = null;
-    self::$pageStack = array();
-    self::$globalButtons = false;
-    self::$allowSlotEditing = true;
+    aTools::$global = false;
+    aTools::$globalCache = false;
+    aTools::$currentPage = null;
+    aTools::$pageStack = array();
+    aTools::$globalButtons = false;
+    aTools::$allowSlotEditing = true;
     aNavigation::simulateNewRequest();
   }
   
@@ -36,7 +36,7 @@ class BaseaTools
     {
       return $culture;
     }
-    return self::getUserCulture();
+    return aTools::getUserCulture();
   }
   static public function getUserCulture($user = false)
   {
@@ -90,19 +90,19 @@ class BaseaTools
   
   static public function setCurrentPage($page)
   {
-    self::$currentPage = $page;
+    aTools::$currentPage = $page;
   }
   
   static public function getCurrentPage()
   {
-    return self::$currentPage;
+    return aTools::$currentPage;
   }
 
   // Similar to getCurrentPage, but returns null if the current page is an admin page,
   // and therefore not suitable for normal navigation like the breadcrumb and subnav
   static public function getCurrentNonAdminPage()
   {
-    $page = self::getCurrentPage();
+    $page = aTools::getCurrentPage();
     return $page ? ($page->admin ? null : $page) : null;
   }
 
@@ -119,12 +119,12 @@ class BaseaTools
     {
       foreach($pages as $page)
       {
-        self::$globalCache[$page['slug']] = $page;
+        aTools::$globalCache[$page['slug']] = $page;
       }
     }
     else
     {
-      self::$globalCache[$pages['slug']] = $pages;
+      aTools::$globalCache[$pages['slug']] = $pages;
     }
   }
 
@@ -143,11 +143,11 @@ class BaseaTools
       // we're looking at. This doesn't hurt because of caching, and it allows us
       // to keep the stack count properly
       $slug = $options['slug'];
-      self::$pageStack[] = self::getCurrentPage();
+      aTools::$pageStack[] = aTools::getCurrentPage();
       // Caching the global page speeds up pages with two or more global slots
-      if (isset(self::$globalCache[$slug]))
+      if (isset(aTools::$globalCache[$slug]))
       {
-        $global = self::$globalCache[$slug];
+        $global = aTools::$globalCache[$slug];
       }
       else
       {        
@@ -158,19 +158,19 @@ class BaseaTools
           $global->slug = $slug;
           $global->save();
         }
-        self::$globalCache[$slug] = $global;
+        aTools::$globalCache[$slug] = $global;
       }
-      self::setCurrentPage($global);
-      self::$global = true;
+      aTools::setCurrentPage($global);
+      aTools::$global = true;
     }
   }
 
   static public function globalShutdown()
   {
-    if (self::$global)
+    if (aTools::$global)
     {
-      self::setCurrentPage(array_pop(self::$pageStack));
-      self::$global = (count(self::$pageStack));
+      aTools::setCurrentPage(array_pop(aTools::$pageStack));
+      aTools::$global = (count(aTools::$pageStack));
     }
   }
 
@@ -241,9 +241,9 @@ class BaseaTools
   }
   static public function getRealPage()
   {
-    if (count(self::$pageStack))
+    if (count(aTools::$pageStack))
     {
-      $page = self::$pageStack[0];
+      $page = aTools::$pageStack[0];
       if ($page)
       {
         return $page;
@@ -253,9 +253,9 @@ class BaseaTools
         return false;
       }
     }
-    elseif (self::$currentPage)
+    elseif (aTools::$currentPage)
     {
-      return self::$currentPage;
+      return aTools::$currentPage;
     }
     else
     {
@@ -307,7 +307,7 @@ class BaseaTools
   
   static public function getOptionI18n($option, $default = false, $culture = false)
   {
-    $culture = self::cultureOrDefault($culture);
+    $culture = aTools::cultureOrDefault($culture);
     $values = sfConfig::get("app_a_$option", array());
     if (!is_array($values))
     {
@@ -353,23 +353,23 @@ class BaseaTools
   // To be called only in response to a a.getGlobalButtons event 
   static public function addGlobalButtons($array)
   {
-    self::$globalButtons = array_merge(self::$globalButtons, $array);
+    aTools::$globalButtons = array_merge(aTools::$globalButtons, $array);
   }
   
   static public function getGlobalButtons()
   {
-    if (self::$globalButtons !== false)
+    if (aTools::$globalButtons !== false)
     {
-      return self::$globalButtons;
+      return aTools::$globalButtons;
     }
     $buttonsOrder = sfConfig::get('app_a_global_button_order', false);
-    self::$globalButtons = array();
+    aTools::$globalButtons = array();
     // We could pass parameters here but it's a simple static thing in this case 
     // so the recipients just call back to addGlobalButtons
     sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
     
     $buttonsByName = array();
-    foreach (self::$globalButtons as $button)
+    foreach (aTools::$globalButtons as $button)
     {
       $buttonsByName[$button->getName()] = $button;
     }
@@ -390,14 +390,14 @@ class BaseaTools
       }
     }
     
-    self::$globalButtons = $orderedButtons;
+    aTools::$globalButtons = $orderedButtons;
     return $orderedButtons;
   }
   
   static public function globalToolsPrivilege()
   {
     // if you can edit the page, there are tools for you in the apostrophe
-    if (self::getCurrentPage() && self::getCurrentPage()->userHasPrivilege('edit'))
+    if (aTools::getCurrentPage() && aTools::getCurrentPage()->userHasPrivilege('edit'))
     {
       return true;
     }
@@ -419,11 +419,11 @@ class BaseaTools
   
   static public function setAllowSlotEditing($value)
   {
-    self::$allowSlotEditing = $value;
+    aTools::$allowSlotEditing = $value;
   }
   static public function getAllowSlotEditing()
   {
-    return self::$allowSlotEditing;
+    return aTools::$allowSlotEditing;
   }
   
   // Kick the user out to appropriate places if they don't have the proper 
@@ -628,16 +628,16 @@ class BaseaTools
   
   static public function getRealUrl()
   {
-    if(isset(self::$realUrl))
+    if(isset(aTools::$realUrl))
     {
-      return self::$realUrl;
+      return aTools::$realUrl;
     }
     return sfContext::getInstance()->getRequest()->getUri();
   }
   
   static public function setRealUrl($url)
   {
-    self::$realUrl = $url;
+    aTools::$realUrl = $url;
   }
   
   // Returns a regexp fragment that matches a valid slug in a UTF8-aware way.
@@ -721,4 +721,61 @@ class BaseaTools
     }
   }
   
+  static public function addStylesheetsIfDesired($array)
+  {
+    $response = sfContext::getInstance()->getResponse();
+    $preferences = sfConfig::get('app_a_use_bundled_stylesheets', array());
+    foreach ($array as $stylesheet)
+    {
+      $good = true;
+      if (isset($preferences[$stylesheet]))
+      {
+        $good = $preferences[$stylesheet];
+      }
+      if ($good)
+      {
+        $response->addStylesheet('/apostrophePlugin/css/a-' . $stylesheet . '.css');
+      }
+    }
+  }
+  
+  static protected $locks = array();
+
+  // Lock names must be \w+ 
+  static public function lock($name)
+  {
+    $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
+    if (!preg_match('/^\w+$/', $name))
+    {
+      throw new sfException("Lock name is empty or contains non-word characters");
+    }
+    $file = "$dir/$name.lck";
+    while (true)
+    {
+      $fp = fopen($file, 'a');
+      if (!$fp)
+      {
+        sleep(1);
+      }
+      else
+      {
+        break;
+      }
+    } 
+    flock($fp, LOCK_EX);
+    aTools::$locks[] = $fp;
+  }
+  
+  static public function unlock()
+  {
+    if (count(aTools::$locks))
+    {
+      $fp = array_pop($locks);
+      fclose($fp);
+    }
+    else
+    {
+      throw new sfException("aTools::unlock called with no locks extant");
+    }
+  }
 }

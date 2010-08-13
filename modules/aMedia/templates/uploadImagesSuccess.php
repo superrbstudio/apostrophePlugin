@@ -2,10 +2,8 @@
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('I18N','jQuery','a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
-
-<?php use_helper('jQuery') ?>
 
 <div id="a-media-plugin">
 
@@ -29,13 +27,13 @@
         <?php endfor ?>
       </div>
 
-			<ul class="a-controls a-media-upload-controls">
-      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo __('Add Another Photo', null, 'apostrophe') ?></a></li>
+			<ul class="a-ui a-controls">
+      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo __('Add Multiple Photos', null, 'apostrophe') ?></a></li>
 			</ul>
 			
 			<br class="c"/>
       
-			<ul class="a-controls a-media-form-footer">
+			<ul class="a-ui a-controls">
       	<li><?php echo link_to_function(__('Upload Photos', null, 'apostrophe'), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
       	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn a-cancel")) ?></li>
       </ul>
@@ -66,19 +64,8 @@
 	  // Move the first inactive element back to the active form
 	  $('#a-media-add-photo').click(function() {
 	      var elements = $('#a-media-upload-form-inactive .a-form-row');
-	      if (elements.length > 0)
-	      {
-	        var element = $(elements[0]).remove()[0];
-	        // Only really necessary the first time
-	        element.style.visibility = 'visible';
-	        $('#a-media-upload-form-subforms').append(element);
-	        aMediaUploadSetRemoveHandler(element);
-	      }
-	      // If that was the last one hide the add button for now
-	      if (elements.length == 1)
-	      {
+	        $('#a-media-upload-form-subforms').append(elements);
 	        $('#a-media-add-photo').hide();
-	      }
 	      return false;
 	    });
 	  // Move all the initially inactive elements to the inactive form

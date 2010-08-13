@@ -11,8 +11,8 @@
 <?php if (count($variants) > 1): ?>
   <?php // You can't switch variants until you've saved something for architectural reasons, however ?>
   <?php // we do need this menu waiting in the wings so that we can turn it on on the first save of an edit view ?>
-  <li class="a-controls-item variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
-		<?php echo jq_link_to_function(__('Options', null, 'apostrophe'), '$("#a-'.$pageid.'-'.$name.'-'.$permid.'-variant").toggleClass("open").children("ul.a-variant-options").toggle()', array('class' => 'a-variant-options-toggle a-btn icon a-settings', 'id' => 'a-' . $pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', )) ?>
+  <li class="variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
+		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><?php echo __('Options', null, 'apostrophe') ?></a>
     <ul class="a-options a-variant-options dropshadow">
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
@@ -42,6 +42,7 @@
     					$('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();
   				 });
 					$('<?php echo "#a-$pageid-$name-$permid-variant" ?>').children("ul.a-variant-options").hide();
+					aMenuToggle('#a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle', $('#a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle').parent(), 'a-options-open', false);
   			});
     		</script>
       <?php endforeach ?>

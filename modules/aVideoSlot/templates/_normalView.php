@@ -24,12 +24,18 @@
   <?php // to false causes the edit action to redirect to the newly ?>
   <?php // updated page. ?>
 
+  <?php // Wrap controls in a slot to be inserted in a slightly different ?>
+  <?php // context by the _area.php template ?>
+
+  <?php // Very short labels so sidebar slots don't have wrap in their controls. ?>
+  <?php // That spoils assumptions that are being made elsewhere that they will ?>
+  <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
+
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-    <li class="a-controls-item choose-video">
 	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => __('Choose Video', null, 'apostrophe'), 'label' => __('Select a Video', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
-	  </li>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
   <?php end_slot() ?>
+
 <?php endif ?>
 
 <?php if (!$item): ?>

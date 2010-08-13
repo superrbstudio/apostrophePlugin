@@ -25,15 +25,19 @@
   <?php // points to our slot's edit action. Setting the ajax parameter ?>
   <?php // to false causes the edit action to redirect to the newly ?>
   <?php // updated page. ?>
+
   <?php // Wrap controls in a slot to be inserted in a slightly different ?>
   <?php // context by the _area.php template ?>
 
-<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-	<li class="a-controls-item choose-image">
-	  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
-	</li>
-		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
-<?php end_slot() ?>
+  <?php // Very short labels so sidebar slots don't have wrap in their controls. ?>
+  <?php // That spoils assumptions that are being made elsewhere that they will ?>
+  <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
+
+	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
+		  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
+	<?php end_slot() ?>
+
 <?php endif ?>
 
 <?php // one set of code with or without a real item so I don't goof ?>

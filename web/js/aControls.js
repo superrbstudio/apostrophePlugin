@@ -158,7 +158,7 @@ function aMultipleSelect(target, options)
         html += " value=\"" + aHtmlEscape(values[j]) + 
           "\" style='display: none'/>";
       }
-      html += "<ul class='a-multiple-select-list'>";
+      html += "<ul class='a-ui a-multiple-select-list'>";
       if (!options['remove'])
       {
         options['remove'] = ' <span>Remove</span>';

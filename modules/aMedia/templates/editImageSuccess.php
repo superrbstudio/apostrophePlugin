@@ -3,7 +3,7 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $item = isset($item) ? $sf_data->getRaw('item') : null;
 ?>
-<?php use_helper('I18N', 'jQuery') ?>
+<?php use_helper('I18N', 'jQuery', 'a') ?>
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

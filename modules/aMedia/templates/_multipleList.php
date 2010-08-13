@@ -7,7 +7,7 @@
 <?php foreach ($items as $item): ?>
 <li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
-  <ul class="a-controls a-media-multiple-list-controls">	
+  <ul class="a-ui a-controls a-over">	
 	<li>
 		<?php echo link_to(__("Edit", null, 'apostrophe'), "aMedia/editImage", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
 	</li>

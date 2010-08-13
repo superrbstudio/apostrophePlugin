@@ -19,15 +19,6 @@ class BaseaMediaActions extends aEngineActions
 				$this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
 			}
     }
-
-	  if (sfConfig::get('app_a_use_bundled_stylesheet', true))
-	  {
-	    $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
-	  }
-
-    $response->addJavascript('/apostrophePlugin/js/aControls.js');	
-    $response->addJavascript('/apostrophePlugin/js/aUI.js');
-    $response->addJavascript('/apostrophePlugin/js/jquery.hotkeys-0.7.9.min.js');		
 	}
 
   // Supported for backwards compatibility. See also 

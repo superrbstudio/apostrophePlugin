@@ -17,7 +17,7 @@
 		"url" => url_for("a/addSlot") . '?' . http_build_query(array('name' => $name, 'id' => $id, 'type' => $type, 'actual_url' => $sf_request->getUri() )),
 		"update" => "a-slots-$id-$name",
 		'script' => true,
-		'complete' => 'aUI("#a-area-'.$id.'-'.$name.'"); $("#a-area-'.$id.'-'.$name.'").removeClass("add-slot-now");', 
+		'complete' => 'aUI("#a-area-'.$id.'-'.$name.'"); $("#a-area-'.$id.'-'.$name.'").removeClass("a-options-open");', 
 		), 
 		array(
 			'class' => 'a-btn alt icon nobg ' . $class .' slot', 

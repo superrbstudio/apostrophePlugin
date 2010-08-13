@@ -4,7 +4,7 @@
   $firstPass = isset($firstPass) ? $sf_data->getRaw('firstPass') : null;
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('I18N', 'jQuery') ?>
+<?php use_helper('I18N', 'jQuery', 'a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <div id="a-media-plugin">
@@ -46,8 +46,8 @@
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 
 		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
-		<ul class="a-controls a-media-edit-footer">
-			<li><input type="submit" name="submit" value="<?php echo __('Save Images', null, 'apostrophe') ?>" class="a-submit" /></li>
+		<ul class="a-ui a-controls">
+			<li><input type="submit" name="submit" value="<?php echo __('Save Images', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resume", array("class"=>"a-cancel a-btn icon")) ?></li>
 		</ul>
 		</form>

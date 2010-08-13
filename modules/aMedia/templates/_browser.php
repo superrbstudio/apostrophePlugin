@@ -41,18 +41,18 @@
 		<div class='a-subnav-section types'>
 	  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
 
-		  <ul class="a-filter-options type">
+		  <div class="a-filter-options type">
 				<?php $type = isset($type) ? $type : '' ?>
-				<li class="a-filter-option">
+				<div class="a-filter-option">
 					<?php echo link_to(__('Image', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
-				</li>
-				<li class="a-filter-option">
+				</div>
+				<div class="a-filter-option">
 					<?php echo link_to(__('Video', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
-				</li>
-				<li class="a-filter-option">
+				</div>
+				<div class="a-filter-option">
 					<?php echo link_to(__('PDF', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
-				</li>
-		  </ul>
+				</div>
+		  </div>
 		</div>
 
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
@@ -64,11 +64,11 @@
 
  		  <?php if (isset($selectedCategory)): ?>
  				<h5 class="a-category-sidebar-title selected-category">Selected Category</h5>  
- 	    	<ul class="a-category-sidebar-selected-categories">
- 	        <li class="selected">
+ 	    	<div class="a-category-sidebar-selected-categories">
+ 	        <div class="selected">
  						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
- 	        </li>
- 	    	</ul>
+ 	        </div>
+ 	    	</div>
 			<?php endif ?>
 				
    		<h4><?php echo __('Categories', null, 'apostrophe') ?></h4>
@@ -77,15 +77,15 @@
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
 	    	<?php // See the _editCategories partial ?>
+			<span class="a-ui">
 	    	<?php echo jq_link_to_remote(__('Edit', null, 'apostrophe'), array(
 					'url' => url_for('aMedia/editCategories'), 
 					'update' => 'a-media-edit-categories'), array(
-						'class' => 'a-btn icon a-edit no-label flag flag-right', 
+						'class' => 'a-btn icon a-edit no-label', 
 						'id' => 'a-media-edit-categories-button',
 					)) ?>
+			</span>
 	    <?php endif ?>
-
-
 			</div>
 
 	    <?php if (!count($categoriesInfo)): ?>
@@ -94,10 +94,13 @@
 
 			<?php else: ?>
 				
-	      <ul id="a-category-sidebar-list">
-	        <?php foreach ($categoriesInfo as $categoryInfo): ?>
-	  	       <li><a href="<?php echo url_for(aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?>"><span class="a-category-sidebar-category"><?php echo htmlspecialchars($categoryInfo['name']) ?></span> <span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span></a></li>
-	  	    <?php endforeach ?>
+	      <ul class="a-ui a-category-sidebar-list" id="a-category-sidebar-list">
+	        <?php $n=1; foreach ($categoriesInfo as $categoryInfo): ?>
+		  			<li <?php echo ($n == count($categoriesInfo) ? 'class="last"':'') ?>>
+								<span class="a-category-sidebar-category"><?php echo link_to($categoryInfo['name'], aUrl::addParams($current, array("category" => $categoryInfo['slug']))) ?></span>
+								<span class="a-category-sidebar-category-count"><?php echo $categoryInfo['count'] ?></span>
+						</li>
+	  	    <?php $n++; endforeach ?>	
 	      </ul>    
 	    <?php endif ?>
     
@@ -113,25 +116,31 @@
 
 		 <?php if (isset($selectedTag)): ?>
 				<h4 class="a-tag-sidebar-title selected-tag"><?php echo __('Selected Tag', null, 'apostrophe') ?></h4>  
-	    	<ul class="a-tag-sidebar-selected-tags">
-	        <li class="selected">
+	    	<div class="a-tag-sidebar-selected-tags">
+	        <div class="selected">
 						<?php echo link_to(htmlspecialchars($selectedTag), aUrl::addParams($current, array("tag" => false)), array('class' => 'selected',)) ?>
-	        </li>
-	    	</ul>
+	        </div>
+	    	</div>
       <?php endif ?>
    	
 			<h4 class="a-tag-sidebar-title popular"><?php echo __('Popular Tags', null, 'apostrophe') ?></h4>
-    	<ul class="a-tag-sidebar-list popular">
-      	<?php foreach ($popularTags as $tag => $count): ?>
-	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
-	      <?php endforeach ?>
+    	<ul class="a-ui a-tag-sidebar-list popular">
+      	<?php $n=1; foreach ($popularTags as $tag => $count): ?>
+	  			<li <?php echo ($n == count($tag) ? 'class="last"':'') ?>>
+						<span class="a-tag-sidebar-tag"><?php echo link_to($tag, aUrl::addParams($current, array("tag" => $tag))) ?></span>
+						<span class="a-tag-sidebar-tag-count"><?php echo $count ?></span>
+					</li>
+	      <?php $n++; endforeach ?>
     	</ul>
 
     	<h4 class="a-tag-sidebar-title all-tags"><?php echo __('All Tags', null, 'apostrophe') ?></h4>
-	    <ul class="a-tag-sidebar-list all-tags">
-	      <?php foreach ($allTags as $tag => $count): ?>
-	        <li><a href="<?php echo url_for(aUrl::addParams($current, array("tag" => $tag))) ?>"><span class="a-tag-sidebar-tag"><?php echo htmlspecialchars($tag) ?></span> <span class="a-tag-sidebar-tag-count"><?php echo $count ?></span></a></li>
-	      <?php endforeach ?>
+	    <ul class="a-ui a-tag-sidebar-list all-tags">
+	      <?php $n=1; foreach ($allTags as $tag => $count): ?>
+	  			<li <?php echo ($n == count($tag) ? 'class="last"':'') ?>>
+						<span class="a-tag-sidebar-tag"><?php echo link_to($tag, aUrl::addParams($current, array("tag" => $tag))) ?></span>
+						<span class="a-tag-sidebar-tag-count"><?php echo $count ?></span>
+					</li>
+	      <?php $n++; endforeach ?>
 	    </ul>
 
   	</div>

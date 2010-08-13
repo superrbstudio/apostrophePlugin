@@ -4,7 +4,7 @@
 ?>
 <?php use_helper('jQuery', 'I18N') ?>
 
-<div id="a-signin">
+<div class="a-ui a-signin" id="a-signin">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="a-signin-form" <?php echo ($form->hasErrors())? 'class="has-errors"':''; ?>>
 
 		<div class="a-form-row a-hidden">
@@ -34,7 +34,7 @@
 		
 		<ul class="a-form-row submit">
     	<li>
-				<input type="submit" class="a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
+				<input type="submit" class="a-btn a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
 			</li>
 			<li>
 				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-btn a-cancel', )) ?>

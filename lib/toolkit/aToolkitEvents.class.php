@@ -15,6 +15,16 @@ class aToolkitEvents
       $task->getFilesystem()->chmod($dirFinder->in($writable), 0777);
       $task->getFilesystem()->chmod($fileFinder->in($writable), 0666);
     }
+    if ($task->getFullName() === 'cache:clear')
+    {
+      $dir = aFiles::getUploadFolder(array('asset-cache'));
+      $files = glob("$dir/*");
+      foreach ($files as $file)
+      {
+        echo("Unlinked CSS cache file $file\n");
+        unlink($file);
+      }
+    }
   }
 }
 

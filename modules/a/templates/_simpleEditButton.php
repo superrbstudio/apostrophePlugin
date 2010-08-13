@@ -17,7 +17,7 @@
 	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 <?php endif ?>
 
-<li class="a-controls-item edit">
+<li>
 <?php echo jq_link_to_function(isset($label) ? __($label, null, 'apostrophe') : __("edit", null, 'apostrophe'), "", 
 			array(
 				'id' => "a-slot-edit-$pageid-$name-$permid",
@@ -34,7 +34,7 @@
 			editBtn.parents('.a-slot, .a-area').addClass('editing-now'); <?php // Apply a class to the Area and Slot Being Edited ?>
 			editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); <?php // Hide the Content Container ?>
 			editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); <?php // Fade In the Edit Form ?>
-			editSlot.children('.a-controls-item variant').hide(); <?php // Hide the Variant Options ?>
+			editSlot.children('.a-control li.variant').hide(); <?php // Hide the Variant Options ?>
 			aUI(editBtn.parents('.a-slot').attr('id')); <?php // Refresh the UI scoped to this Slot ?>
 			return false;
 		});

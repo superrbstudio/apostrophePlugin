@@ -8,6 +8,7 @@
 function _a_required_assets()
 {
   $response = sfContext::getInstance()->getResponse();
+  $user = sfContext::getInstance()->getUser();
 
   sfContext::getInstance()->getConfiguration()->loadHelpers(
     array("Url", "jQuery", "I18N", 'PkDialog'));
@@ -16,7 +17,10 @@ function _a_required_assets()
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
   {
-    $response->addStylesheet('/apostrophePlugin/css/a.css', 'first');
+	
+		// This could be used as a way to manage what styles are included when logged in / out.	
+		// But it really seems like we use pieces of every one of these when logged in and out.
+ 		aTools::addStylesheetsIfDesired(array('reset', 'utility', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors'));
   }
 
   $response->addJavascript('/apostrophePlugin/js/aUI.js');
@@ -165,7 +169,7 @@ function _a_navcolumn_body($page)
   $admin = $page->userHasPrivilege('edit');
   if ($admin)
   {
-    $sortHandle = "<div class='a-btn icon a-drag a-controls'></div>";
+    $sortHandle = "<div class='a-btn icon a-drag'></div>";
   }
   $result = "";
   // Inclusion of archived pages should be a bit generous to allow for tricky situations
@@ -225,4 +229,194 @@ function _a_navcolumn_body($page)
     $result .= jq_sortable_element('#a-navcolumn', array('url' => 'a/sort?page=' . $page->getId()));    
   }
   return $result;
+}
+
+function a_get_stylesheets()
+{
+  if (sfConfig::get('app_a_minify', false))
+  {
+    $response = sfContext::getInstance()->getResponse();
+    return _a_get_assets_body('stylesheets', $response->getStylesheets());
+  }
+  else
+  {
+    return get_stylesheets();
+  }
+}
+
+function a_get_javascripts()
+{
+  if (sfConfig::get('app_a_minify', false))
+  {
+    $response = sfContext::getInstance()->getResponse();
+    return _a_get_assets_body('javascripts', $response->getJavascripts());
+  }
+  else
+  {
+    return get_javascripts();
+  }
+}
+
+function _a_get_assets_body($type, $assets)
+{
+  // Note lock if you are tempted to return early anywhere
+  aTools::lock("assets_$type");
+  $gzip = sfConfig::get('app_a_minify_gzip', false);
+  sfConfig::set('symfony.asset.' . $type . '_included', true);
+
+  $html = '';
+  $sets = array();
+  $combinedFilename = '';
+  foreach ($assets as $file => $options)
+  {
+    /*
+     *
+     * Guts borrowed from stylesheet_tag and javascript_tag. We still do a tag if it's
+     * a conditional stylesheet
+     *
+     */
+
+    $absolute = false;
+    if (isset($options['absolute']))
+    {
+      unset($options['absolute']);
+      $absolute = true;
+    }
+
+    $condition = null;
+    if (isset($options['condition']))
+    {
+      $condition = $options['condition'];
+      unset($options['condition']);
+    }
+
+    if (!isset($options['raw_name']))
+    {
+      if ($type === 'stylesheets')
+      {
+        $file = stylesheet_path($file, $absolute);
+      }
+      else
+      {
+        $file = javascript_path($file, $absolute);
+      }
+    }
+    else
+    {
+      unset($options['raw_name']);
+    }
+
+    if ($type === 'stylesheets')
+    {
+      $options = array_merge(array('rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'screen', 'href' => $file), $options);
+    }
+    else
+    {
+      $options = array_merge(array('type' => 'text/javascript', 'src' => $file), $options);
+    }
+    
+    if (null !== $condition)
+    {
+      $tag = tag('link', $options);
+      $tag = comment_as_conditional($condition, $tag);
+      $html .= $tag . "\n";
+    }
+    else
+    {
+      unset($options['href'], $options['src']);
+      $optionGroupKey = json_encode($options);
+      $set[$optionGroupKey][] = $file;
+    }
+    // echo($file);
+    // $html .= "<style>\n";
+    // $html .= file_get_contents(sfConfig::get('sf_web_dir') . '/' . $file);
+    // $html .= "</style>\n";
+  }
+  
+  // CSS files with the same options grouped together to be loaded together
+
+  foreach ($set as $optionsJson => $files)
+  {
+    $groupFilename = '';
+    foreach ($files as $file)
+    {
+      $groupFilename .= $file;
+      // If your CSS files depend on clever aliases that won't work
+      // through the filesystem, we can get them by http. We're caching
+      // so that's not terrible, but it's usually simpler faster and less
+      // buggy to grab the file content.
+    }
+    // TODO: learn more about the safety/danger of using the md5 as an id all by itself.
+    // Otherwise we have to gzip or something, is that a bigger performance hit?
+    // I tried just using $groupFilename as is (after stripping dangerous stuff) 
+    // but it's too long for the OS if you include enough to make it unique
+    $groupFilename = md5($groupFilename);
+    $groupFilename .= (($type === 'stylesheets') ? '.css' : '.js');
+    if ($gzip)
+    {
+      $groupFilename .= 'gz';
+    }
+    $dir = aFiles::getUploadFolder(array('asset-cache'));
+    if (!file_exists($dir . '/' . $groupFilename))
+    {
+      $content  = '';
+      foreach ($files as $file)
+      {
+        if (sfConfig::get('app_a_stylesheet_cache_http', false))
+        {
+          $url = sfContext::getRequest()->getUriPrefix() . $file;
+          $content .= file_get_contents($url);
+        }
+        else
+        {
+          $content .= file_get_contents(sfConfig::get('sf_web_dir') . $file);
+        }
+      }
+      if ($type === 'stylesheets')
+      {
+        $content = Minify_CSS::minify($content);
+      }
+      else
+      {
+        $content = JSMin::minify($content);
+      }
+      if ($gzip)
+      {
+        _gz_file_put_contents($dir . '/' . $groupFilename, $content);
+      }
+      else
+      {
+        file_put_contents($dir . '/' . $groupFilename, $content);
+      }
+    }
+    $options = json_decode($optionsJson, true);
+    $options[($type === 'stylesheets') ? 'href' : 'src'] = '/uploads/asset-cache/' . $groupFilename;
+    if ($type === 'stylesheets')
+    {
+      $html .= tag('link', $options);
+    }
+    else
+    {
+      $html .= content_tag('script', '', $options); 
+    }
+  }
+  aTools::unlock();
+  return $html;
+}
+
+function a_include_stylesheets()
+{
+  echo(a_get_stylesheets());
+}
+
+function a_include_javascripts()
+{
+  echo(a_get_javascripts());
+}
+
+function _gz_file_put_contents($file, $contents)
+{
+  $fp = gzopen($file, 'wb');
+  gzwrite($fp, $contents);
+  gzclose($fp);
 }

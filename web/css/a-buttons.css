@@ -1,0 +1,536 @@
+/* 6. aUI Buttons
+-------------------------------------*/
+.a-ui .a-btn,
+.a-btn {
+position: relative;
+float: left;
+display: inline;
+color: #fff !important;
+text-decoration: none !important;
+font-family: arial, sans-serif;
+font-size: 12px;
+cursor: pointer;
+padding: 0 4px;
+white-space: nowrap;
+text-transform: capitalize;
+height: 18px;
+line-height: 18px;
+border: none;
+}
+
+.a-btn.a-disabled,
+.a-btn.a-disabled * {
+background-color: #ddd !important;
+color: #fff !important;
+cursor: default !important;
+}
+
+.a-btn.icon {
+padding: 0 4px 0 20px;
+background-position: center left;
+background-repeat: no-repeat;
+}
+
+.a-btn.no-label,
+.no-label {
+background-position: center center;
+background-repeat: no-repeat;
+text-indent: -9999px;
+padding: 0;
+width: 18px;
+}
+
+.a-btn.big {
+font-size: 18px;
+height: 24px;
+line-height: 24px;
+background-position: center left;
+}
+
+.a-btn.big.no-label { background-position: center center; width: 24px; }
+
+.a-btn.mini {
+font-size: 10px !important;
+height: 16px;
+line-height: 16px !important;
+background-position: center left;
+}
+
+.a-btn.mini.no-label { background-position: center center; width: 16px; }
+
+.a-btn.flag.icon.expanded,
+.a-btn.flag.no-label.expanded { background-position: -1px center; width: auto; }
+
+.a-btn.flag.icon { padding: 0 0 0 18px; }
+
+.a-btn.flag.icon.no-label { padding: 0; }
+
+.a-btn.no-label:hover { text-indent: -9999px; }
+
+.a-btn.flag:hover,
+.a-btn.flag.no-label:hover { z-index:9999; padding: 0 0 0 18px; } /* Hovering Flag Buttons - Pop to the top */
+
+.a-btn .flag-label {
+display: none;
+line-height: 18px;
+padding: 0 4px;
+white-space: nowrap;
+text-indent: 0 !important;
+}
+
+.a-btn:hover .flag-label { background-color: transparent !important; }
+
+.a-btn.flag-left .flag-label {
+position: absolute;
+left: auto;
+right: 100%;
+margin-right: 3px;
+}
+
+.a-btn.flag-right .flag-label {
+position: absolute;
+right: auto;
+left: 100%;
+margin-left: 3px;
+}
+
+.a-btn.flag-left:hover .flag-label,
+.a-btn.flag-right:hover .flag-label {
+font-size: 11px;
+color: #fff;
+background: rgba(0,0,0,0.75) !important;
+background: #000;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
+text-shadow: none;
+height: 18px;
+line-height: 18px;
+margin-top: 0px;
+}
+
+.a-btn.expanded .flag-label { display: block; }
+
+.a-arrow-btn
+{ 
+float: left;
+cursor: pointer;
+}
+
+.a-arrow-btn.icon.a-arrow-left,
+.a-arrow-btn.icon.a-arrow-right {
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+height: 20px;
+}
+
+.text-only {
+background: none !important;
+-moz-box-shadow: 0 0 0 0 transparent !important;
+-webkit-box-shadow: 0 0 0 transparent !important;
+-opera-box-shadow: 0 0 0 transparent !important;
+-khtml-box-shadow: 0 0 0 transparent !important;
+box-shadow: 0 0 0 transparent !important;
+padding: 0;
+margin: 0;
+}
+
+.nobg,
+.nobg:hover,
+a.a-btn.nobg,
+a.a-btn.nobg:hover {
+background-color: transparent !important;
+-moz-box-shadow: 0 0 0 transparent !important;
+-webkit-box-shadow: 0 0 0 transparent !important;
+-opera-box-shadow: 0 0 0 transparent !important;
+-khtml-box-shadow: 0 0 0 transparent !important;
+box-shadow: 0 0 0 transparent !important;
+-moz-border-radius: 0 !important;
+-webkit-border-radius: 0 !important;
+border: 0 !important;
+text-shadow: none !important;
+}
+
+
+/* 7. aUI Button Icons
+-------------------------------------*/
+
+.icon.a-feed { background-image: url(/apostrophePlugin/images/a-icon-feed.png); }
+
+.icon.a-page-small { background-image: url(/apostrophePlugin/images/a-icon-page-small.png); }
+
+.icon.a-unchecked { background-image: url(/apostrophePlugin/images/a-icon-unchecked.png); }
+
+.icon.a-checked { background-image: url(/apostrophePlugin/images/a-icon-checked.png); }
+
+.icon.a-blog,
+.icon.a-blog-btn,
+.icon.a-blogpost,
+.icon.a-blogsingle { background-image: url(/apostrophePlugin/images/a-icon-blog.png); }
+
+.icon.a-blog { background-image: url(/apostrophePlugin/images/a-icon-alt-blog-many.png) !important; }
+
+.icon.a-video { background-image: url(/apostrophePlugin/images/a-icon-video.png); }
+
+.icon.a-image { background-image: url(/apostrophePlugin/images/a-icon-photo.png); }
+
+.icon.a-slideshow { background-image: url(/apostrophePlugin/images/a-icon-slideshow.png); width: auto !important; }
+
+.icon.a-richtext,
+.icon.a-text { background-image: url(/apostrophePlugin/images/a-icon-text.png); }
+
+.icon.a-add { background-image: url(/apostrophePlugin/images/a-icon-add.png); }
+
+.icon.a-history-btn,
+.icon.a-history-revert { 
+color: #111 !important;
+background-color: #fff !important;
+background-image: url(/apostrophePlugin/images/a-icon-alt-history.png);
+}
+
+.a-cancel {
+color: #fff !important;
+padding: 0 4px 0 20px;
+background: url(/apostrophePlugin/images/a-icon-cancel.png);
+background-position: left center;
+background-repeat: no-repeat;
+background-color: #999 !important;
+padding-left: 20px !important;
+}
+
+.a-cancel:hover {
+background-color: #333 !important;
+text-decoration: none !important;
+}
+
+.no-label.a-cancel { padding: 0 !important; }
+
+.icon.a-publish,
+.icon.a-edit { background-image: url(/apostrophePlugin/images/a-icon-edit.png); }
+.icon.a-settings { background-image: url(/apostrophePlugin/images/a-icon-settings.png); }
+.icon.a-templates { background-image: url(/apostrophePlugin/images/a-icon-templates.png); }
+.icon.a-users { background-image: url(/apostrophePlugin/images/a-icon-users.png); }
+.icon.a-media { background-image: url(/apostrophePlugin/images/a-icon-media.png); }
+.icon.a-reorganize { background-image: url(/apostrophePlugin/images/a-icon-sitemap.png); }
+.icon.a-button { background-image: url(/apostrophePlugin/images/a-icon-button.png); }
+.icon.a-pdf { background-image: url(/apostrophePlugin/images/a-icon-pdf.png); }
+.icon.a-rawhtml { background-image: url(/apostrophePlugin/images/a-icon-rawhtml.png); }
+.icon.a-download { background-image: url(/apostrophePlugin/images/a-icon-download.png); }
+.icon.a-arrow-up { background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png); }
+.icon.a-arrow-down { background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png); }
+.icon.a-arrow-left { background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png); }
+.icon.a-arrow-right { background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png); }
+
+.icon.a-arrow-up,
+.icon.a-arrow-down {
+background-position: center;
+text-indent: -9999px;
+padding: 0;
+width: 18px;
+}
+
+.icon.a-arrow-left:hover,
+.icon.a-arrow-right:hover {
+background-color: transparent;
+background-position: 0 -20px;
+}
+
+.icon.a-arrow-left.thin {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-right.thin {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.icon.a-arrow-left.thin:hover,
+.icon.a-arrow-right.thin:hover { background-position: 0 center !important; }
+
+.icon.a-delete {
+color: #111 !important;
+background-color: #fff !important;
+background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
+}
+
+.icon.a-calendar { background-image: url(/apostrophePlugin/images/a-icon-event.png); }
+
+.icon.a-close,
+.icon.a-close-small
+{
+background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
+float: left;
+overflow: hidden;
+height: 20px;
+line-height: 20px;
+padding: 0;
+text-indent: -9999px;
+width: 20px;
+}
+
+.icon.a-close-small
+{
+	background-image: url(/apostrophePlugin/images/a-icon-close-small.png);
+}
+
+.icon.a-close:hover,
+.icon.a-close-small:hover
+{
+background-position: bottom;
+}
+
+.icon.a-drag {
+background: url(/apostrophePlugin/images/a-icon-drag.png) 0 0 no-repeat;
+float: left;
+display: block;
+position: absolute;
+right: 0;
+cursor: move;
+text-indent: -9999px;
+height: 20px;
+width: 20px;
+padding: 0;
+margin: 0;
+border: 0;
+-moz-box-shadow: 0 0 0 transparent;
+-webkit-box-shadow: 0 0 0 transparent;
+-opera-box-shadow: 0 0 0 transparent;
+-khtml-box-shadow: 0 0 0 transparent;
+box-shadow: 0 0 0 transparent;
+-moz-border-radius: 10px !important;
+-webkit-border-radius: 10px !important;
+border-radius: 10px !important;
+}
+
+.icon.a-drag:hover { background-position: 0 -20px; background-color: #888; }
+.icon.a-drag.alt { background-position: 0 -20px; }
+.icon.a-drag.alt:hover { background-position: 0 0; }
+
+.icon.a-events { padding-left: 0 !important; }
+
+.icon.a-event,
+.icon.a-eventsingle,
+.icon.a-events span.day {
+float: left;
+height: 18px;
+width: 18px;
+background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png);
+}
+
+.icon.a-events:hover span.day { background-color: transparent !important; }
+
+.icon.a-events.day-1 span.day { background-position: 0 0px; }
+.icon.a-events.day-2 span.day { background-position: 0 -21px; }
+.icon.a-events.day-3 span.day { background-position: 0 -41px; }
+.icon.a-events.day-4 span.day { background-position: 0 -61px; }
+.icon.a-events.day-5 span.day { background-position: 0 -81px; }
+.icon.a-events.day-6 span.day { background-position: 0 -101px; }
+.icon.a-events.day-7 span.day { background-position: 0 -121px; }
+.icon.a-events.day-8 span.day { background-position: 0 -141px; }
+.icon.a-events.day-9 span.day { background-position: 0 -161px; }
+.icon.a-events.day-10 span.day { background-position: 0 -181px; }
+.icon.a-events.day-11 span.day { background-position: 0 -201px; }
+.icon.a-events.day-12 span.day { background-position: 0 -221px; }
+.icon.a-events.day-13 span.day { background-position: 0 -241px; }
+.icon.a-events.day-14 span.day { background-position: 0 -261px; }
+.icon.a-events.day-15 span.day { background-position: 0 -281px; }
+.icon.a-events.day-16 span.day { background-position: 0 -301px; }
+.icon.a-events.day-17 span.day { background-position: 0 -321px; }
+.icon.a-events.day-18 span.day { background-position: 0 -341px; }
+.icon.a-events.day-19 span.day { background-position: 0 -361px; }
+.icon.a-events.day-20 span.day { background-position: 0 -381px; }
+.icon.a-events.day-21 span.day { background-position: 0 -401px; }
+.icon.a-events.day-22 span.day { background-position: 0 -421px; }
+.icon.a-events.day-23 span.day { background-position: 0 -441px; }
+.icon.a-events.day-24 span.day { background-position: 0 -461px; }
+.icon.a-events.day-25 span.day { background-position: 0 -481px; }
+.icon.a-events.day-26 span.day { background-position: 0 -501px; }
+.icon.a-events.day-27 span.day { background-position: 0 -521px; }
+.icon.a-events.day-28 span.day { background-position: 0 -541px; }
+.icon.a-events.day-29 span.day { background-position: 0 -561px; }
+.icon.a-events.day-30 span.day { background-position: 0 -581px; }
+.icon.a-event,
+.icon.a-eventsingle,
+.icon.a-events.day-31 span.day { background-position: 0 -601px; }
+
+.icon.a-sort-arrow { background-position: 0 0; }
+
+.icon.a-sort-arrow.sorting,
+.icon.a-sort-arrow:hover { background-position: 0 -20px; }
+
+.icon.a-sort-arrow.asc { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png); }
+
+.icon.a-sort-arrow.desc { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png); }
+
+.icon.a-sort-arrow.sorting:hover { background-position: 0 -20px; }
+
+.icon.a-sort-arrow.asc.sorting:hover { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png); }
+.icon.a-sort-arrow.desc.sorting:hover { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png); }
+
+
+input.a-submit,
+input.a-cancel {/* Format ALL Submit Buttons */
+float: left;
+position: relative;
+color: #fff;
+font: 12px/normal arial, sans-serif;
+padding: 0px 4px;
+z-index: 2;
+width: auto;
+cursor: pointer;
+min-height: 20px;
+}
+
+ul.a-form-row.submit .a-btn {
+height: auto;
+}
+
+input.a-submit:hover {
+background-color: #888!important;
+cursor: pointer;
+}
+
+.a-default-value {
+color: #888;
+}
+
+.a-rss-feed {
+display: block;
+float: left;
+padding-left: 20px;
+background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat;
+}
+
+/* 7.5 aUI Button Icons ALT (Black)
+-------------------------------------*/
+
+.alt .icon.a-feed,
+.icon.a-feed.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png); }
+
+.alt .icon.a-page-small,
+.icon.a-page-small.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-page-small.png); }
+
+.alt .icon.a-unchecked,
+.icon.a-unchecked.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png); }
+
+.alt .icon.a-checked,
+.icon.a-checked.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png); }
+
+.alt .icon.a-blog-btn,
+.alt .icon.a-blog,
+.alt .icon.a-blogpost,
+.alt .icon.a-blogsingle,
+.icon.a-blog-btn.alt,
+.icon.a-blog.alt,
+.icon.a-blogpost.alt,
+.icon.a-blogsingle.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png); }
+
+.alt .icon.a-video,
+.icon.a-video.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-video.png); }
+
+.alt .icon.a-image,
+.icon.a-image.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png); }
+
+.alt .icon.a-slideshow,
+.icon.a-slideshow.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-slideshow.png); }
+
+.alt .icon.a-richtext,
+.alt .icon.a-text,
+.icon.a-richtext.alt,
+.icon.a-text.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-text.png); }
+
+.alt .icon.a-add,
+.icon.a-add.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-add.png); }
+
+.alt .icon.a-history-btn,
+.alt .icon.a-history-revert,
+.icon.a-history-btn.alt,
+.icon.a-history-revert.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-history.png); }
+
+.alt .a-cancel,
+.a-cancel.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-cancel.png); }
+
+.alt .icon.a-settings,
+.icon.a-settings.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png); }
+
+.alt .icon.a-templates,
+.icon.a-templates.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png); }
+
+.alt .icon.a-users,
+.icon.a-users.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-users.png); }
+
+.alt .icon.a-media,
+.icon.a-media.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-media.png); }
+
+.alt .icon.a-reorganize,
+.icon.a-reorganize.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-sitemap.png); }
+
+.alt .icon.a-button,
+.icon.a-button.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-button.png); }
+
+.alt .icon.a-pdf,
+.icon.a-pdf.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-pdf.png); }
+
+.alt .icon.a-rawhtml,
+.icon.a-rawhtml.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-rawhtml.png); }
+
+.alt .icon.a-download,
+.icon.a-download.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-download.png); }
+
+.alt .icon.a-publish,
+.alt .icon.a-edit,
+.icon.a-publish.alt,
+.icon.a-edit.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png); }
+
+.alt .icon.a-arrow-up,
+.icon.a-arrow-up.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-up.png); }
+
+.alt .icon.a-arrow-down,
+.icon.a-arrow-down.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-down.png); }
+
+.alt .icon.a-arrow-left, 
+.icon.a-arrow-left.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left.png); }
+
+.alt .icon.a-arrow-right,
+.icon.a-arrow-right.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right.png); }
+
+.alt .icon.a-arrow-left.thin,
+.icon.a-arrow-left.thin.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple.png); }
+
+.alt .icon.a-arrow-right.thin,
+.icon.a-arrow-right.thin.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png); }
+
+.alt .icon.a-delete,
+.icon.a-delete.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png); }
+
+.alt .icon.a-calendar,
+.icon.a-calendar.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-event.png); }
+
+.alt .icon.a-close,
+.icon.a-close.alt { background: transparent url(/apostrophePlugin/images/a-icon-alt-close.png) no-repeat scroll 0 0; }
+
+.alt .icon.a-drag,
+.icon.a-drag.alt { background: url(/apostrophePlugin/images/a-icon-alt-drag.png) 0 0 no-repeat; }
+
+.alt .icon.a-event,
+.alt .icon.a-eventsingle,
+.icon.a-event.alt,
+.icon.a-eventsingle.alt,
+.alt .icon.a-events span.day,
+.icon.a-events.alt span.day { background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png); }
+
+.alt .a-rss-feed,
+.a-rss-feed.alt { background: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png) left center no-repeat; }
+
+.icon.a-page-settings { background-image: url(/apostrophePlugin/images/a-icon-page-settings.png); }
+
+.alt .icon.a-page-settings,
+.icon.a-page-settings.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-page-settings.png); }

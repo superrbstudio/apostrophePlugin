@@ -12,8 +12,8 @@
 	<?php echo $form['title']->render(array('id' => 'a-create-page-title', )) ?>
 	<?php echo $form['engine']->renderRow(array('id' => 'a-create-page-title', )) ?>
 	<?php echo $form['template']->renderRow(array('id' => 'a-create-page-title', )) ?>
-	<ul class="a-controls">
-	  <li><input type="submit" class="a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
+	<ul class="a-ui a-controls">
+	  <li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
 	  <li><a href="#" onclick="return false;" class="a-btn a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
 	</ul>
 </form>

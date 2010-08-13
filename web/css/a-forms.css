@@ -1,0 +1,133 @@
+
+/* 5. Basic Form Styles
+-------------------------------------*/
+.a-form-row
+{
+position: relative;
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+margin: 10px 0px 10px 0;
+}
+
+.a-form-row label
+{
+float:left;
+text-align: left;
+font-weight: normal;
+text-transform: capitalize;
+width: 120px;
+line-height: 20px;
+}
+
+.a-form-row input[type="text"],
+.a-form-row input[type="password"],
+.a-form-row select,
+.a-form-row textarea
+{
+font-family: arial, sans-serif;
+font-size: 12px;
+border: 1px solid #ddd;
+padding: 3px;
+}
+
+.a-form-row.submit
+{
+margin-left: 120px;
+}
+
+.a-form-row .a-form-field,
+.a-form-row .a-form-error,
+.a-form-row .a-form-help-text
+{
+	position: relative;	
+	float: left;
+	display: inline;
+}
+
+.a-form-row.help,
+.a-form-row .help,
+.a-form-help-text
+{
+float: left;
+clear: both;
+line-height: 20px;
+font-size: 11px;
+color: #888;
+}
+
+.a-form-row .error_list
+{
+width: 100%;
+float: left;
+margin: 0;
+font-size: 11px;
+color: #900;
+}
+
+.a-form-row .error_list li
+{
+	float: left;
+	width: 100%;
+	clear: both;
+	margin: 5px 0;
+}
+
+
+/* Tom's Form Multi-Select*/
+.a-multiple-select-list
+{
+	float: left;
+	clear: both;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+
+.a-multiple-select .add
+{
+	position: relative;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin: 5px 0;
+}
+
+.a-multiple-select .add input
+{
+	float: left;
+	width: 120px;
+	border: 1px solid #ddd;
+	padding: 3px;
+	margin: -1px 0 0 0;
+}
+
+.a-multiple-select .add .a-btn
+{
+	margin-left: 2px;
+}
+
+.a-multiple-select-item
+{
+position: relative;	
+float: left;
+line-height: 20px;
+clear: both;
+}
+
+.a-multiple-select-item span
+{
+float: left;
+}
+
+.a-multiple-select-item .a-close-small
+{
+float: left;
+clear: none;
+}
+
+.categories .a-multiple-select-item
+{
+	width: 100%;
+}

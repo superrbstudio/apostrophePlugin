@@ -6,20 +6,8 @@
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
 <?php use_helper('I18N') ?>
-<?php if ($options['arrows'] && (count($items) > 1)): ?>
-<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-	<li class="a-arrow-btn icon a-arrow-left"><?php echo __('Previous', null, 'apostrophe') ?></li>
-	<?php if ($options['position']): ?>
-		<li class="a-slideshow-position">
-			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
-		</li>
-	<?php endif ?>
-	<li class="a-arrow-btn icon a-arrow-right"><?php echo __('Next', null, 'apostrophe') ?></li>
-</ul>
-<?php endif ?>
-
 <?php if (count($items)): ?>
-	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow">
+	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix">
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
 	  <?php $dimensions = aDimensions::constrain(
 	    $item->width, 
@@ -41,6 +29,18 @@
 		</li>
 	<?php $first = false; $n++; endforeach ?>
 	</ul>
+<?php endif ?>
+
+<?php if ($options['arrows'] && (count($items) > 1)): ?>
+<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
+	<li class="a-arrow-btn icon a-arrow-left"><?php echo __('Previous', null, 'apostrophe') ?></li>
+	<?php if ($options['position']): ?>
+		<li class="a-slideshow-position">
+			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
+		</li>
+	<?php endif ?>
+	<li class="a-arrow-btn icon a-arrow-right"><?php echo __('Next', null, 'apostrophe') ?></li>
+</ul>
 <?php endif ?>
 
 <?php if (count($items) > 1): ?>

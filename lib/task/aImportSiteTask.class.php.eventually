@@ -1,0 +1,226 @@
+<?php
+
+/*
+ *
+ * THIS DOESN'T WORK YET. Work in progress. Borrowed bits from a client project where we did
+ * something similar. Need to refactor.
+ *
+ * This file is part of Apostrophe
+ * (c) 2009 P'unk Avenue LLC, www.punkave.com
+ */
+
+/**
+ * @package    apostrophePlugin
+ * @subpackage Tasks
+ * @author     Tom Boutell <tom@punkave.com>
+ */
+
+class aImportSiteTask extends sfBaseTask
+{
+  protected function configure()
+  {
+    $this->addOptions(array(
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev')
+      new sfCommandOption('pages', null, sfCommandOption::PARAMETER_REQUIRED, 'Your XML file of page data', null)
+      // add your own options here
+    ));
+
+    $this->namespace        = 'apostrophe';
+    $this->name             = 'import-site';
+    $this->briefDescription = 'Imports a site from an XML file';
+    $this->detailedDescription = <<<EOF
+This task imports a website from an XML file. This task is a work in progress and not yet ready
+for production use. The goal is to be able to import large sites, which Symfony fixtures currently
+cannot do. That's because Doctrine 1.2 is optimized for single web requests, not large datasets,
+and uses too much memory in such situations. This task therefore uses PDO for better speed and lower
+memory usage.
+
+Usage:
+
+php symfony apostrophe:import-site mypages.xml
+
+See the Wiki for documentation of the XML format required.
+EOF;
+  }
+
+  protected function execute($args = array(), $options = array())
+  {    
+    $conn = 'doctrine';
+
+    $dataDir = aFiles::getWritableDataFolder();
+    $uploadDir = aFiles::getUploadFolder();
+    
+    // TODO: eventually we might load this asynchronously to handle
+    // REALLY huge sites
+    $site = simplexml_load_file($options['pages']);
+    if (!$site)
+    {
+      throw new sfException("Could not parse " . $options['pages'] . " as XML. File is missing or has bad syntax.");
+    }
+    $roots = $site['Pages'];
+    if (!$roots)
+    {
+      throw new sfException("Site element has no Pages element, check your XML syntax.");
+    }
+    $media = $site['Media'];
+    if ($media)
+    {
+      $this->importMedia($media);
+    }
+    $blog = $site['Blog'];
+    if ($blog)
+    {
+      $this->importBlog($blog);
+    }
+    $events = $site['Events'];
+    if ($events)
+    {
+      $this->importBlog($events);
+    }
+  }
+  
+  protected function fastClearMediaItems()
+  {
+    $this->query('DELETE FROM a_media_item');
+  }
+  
+  // This is an implementation detail of findOrAddMediaItem which is your preferred API
+  protected function fastSaveMediaItem($a)
+  {
+    $data = $a->toArray();
+    $this->query('INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure) VALUES (NOW(), NOW(), :slug, :type, :format, :width, :height, :embed, :title, :description, :credit, :view_is_secure)', $data);
+    $a->id = $this->lastInsertId();
+    // TODO: taggings
+  }
+  
+  protected function fastSavePage(&$info, $title, $parentId)
+  {
+    echo("Saving for title $title\n");
+    if (isset($info['id']))
+    {
+      throw new sfException("fastSavePage doesn't know how to handle an existing page");
+    }
+    // This page needs to be the last child of its parent
+    $result = $this->query('SELECT lft, rgt, level FROM a_page WHERE id = :id', array('id' => $parentId));
+    list($lft, $rgt, $level) = array($result[0]['lft'], $result[0]['rgt'], $result[0]['level']);
+    $this->query('UPDATE a_page SET rgt = rgt + 2 WHERE lft <= :lft AND rgt >= :rgt', array('lft' => $lft, 'rgt' => $rgt));
+    $info['lft'] = $rgt;
+    $info['rgt'] = $rgt + 1;
+    $info['level'] = $level + 1;
+    if (!isset($info['view_is_secure']))
+    {
+      $info['view_is_secure'] = false;
+    }
+    if (!isset($info['archived']))
+    {
+      $info['archived'] = false;
+    }
+    if (!isset($info['engine']))
+    {
+      $info['engine'] = null;
+    }
+    $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, lft, rgt, level, engine) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :lft, :rgt, :level, :engine)', $info);
+    $info['id'] = $this->lastInsertId();
+    $this->fastSaveArea($info['id'], 'title', array(array('type' => 'aText', 'value' => $title)));
+  }
+
+  protected function lastInsertId()
+  {
+    return $this->getPDO()->lastInsertId();
+  }
+  protected function fastClearArea($aPageId, $name)
+  {
+    $this->query('DELETE FROM a_area WHERE name = :name AND page_id = :id', array('name' => $name, 'id' => $aPageId));
+  }
+  
+  // PLEASE NOTE:
+  // This method doesn't fully understand versioning, it is only suitable
+  // for initial import. Pass slotInfos as the value argument (an array
+  // with types and values for multiple slots in the area)
+  protected function fastSaveArea($aPageId, $name, $slotInfos)
+  {
+    $this->fastClearArea($aPageId, $name);
+    $slotIds = array();
+    if (!count($slotInfos))
+    {
+      // Nothing to do
+      return;
+    }
+    $this->query('INSERT INTO a_area (page_id, name, culture, latest_version) VALUES (:page_id, :name, :culture, 1)', array('page_id' => $aPageId, 'name' => $name, 'culture' => 'en'));
+    $areaId = $this->lastInsertId();
+    foreach ($slotInfos as $slotInfo)
+    {
+      $this->query('INSERT INTO a_slot (type, value) VALUES (:type, :value)', array('type' => $slotInfo['type'], 'value' => (is_array($slotInfo['value']) ? serialize($slotInfo['value']) : $slotInfo['value'])));
+      $slotId = $this->lastInsertId();
+      $slotIds[] = $slotId;
+      $class = $slotInfo['type'] . 'Slot';
+      if (method_exists($class, 'saveRelationsPdo'))
+      {
+        // TODO make this work in 5.2.x
+        $class::savePdo($aPdo, $slotInfo);
+      }
+      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') || ($slotInfo['type'] === 'callout'))
+      {
+        $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $slotInfo['mediaId'], 'slot_id' => $slotId));
+      }
+    }
+
+    $this->query('INSERT INTO a_area_version (area_id, version) VALUES(:area_id, 1)', array('area_id' => $areaId));
+    $areaVersionId = $this->lastInsertId();
+    $this->query('UPDATE a_area SET latest_version = :latest_version WHERE id = :id', array('id' => $areaId, 'latest_version' => 1));
+
+    $n = 1;
+    foreach ($slotIds as $slotId)
+    {
+      $this->query('INSERT INTO a_area_version_slot (slot_id, area_version_id, permid, rank) VALUES (:slot_id, :area_version_id, :permid, :rank)', array('slot_id' => $slotId, 'area_version_id' => $areaVersionId, 'permid' => $n, 'rank' => $n));
+      $n++;
+    }
+  }
+    
+  protected function getPDO()
+  {
+    $connection = Doctrine_Manager::connection();
+    $pdo = $connection->getDbh();
+    return $pdo;
+  }
+  
+  protected function query($s, $params = array())
+  {
+    $pdo = $this->getPDO();
+    $nparams = array();
+    // I like to use this with toArray() while not always setting everything,
+    // so I tolerate extra stuff. Also I don't like having to put a : in front 
+    // of every parameter name, which frustrates toArray()
+    foreach ($params as $key => $value)
+    {
+      if (preg_match("/:$key\b/"))
+      {
+        $nparams[":$key"] = $value;
+      }
+    }
+    $statement = $pdo->prepare($s);
+    try
+    {
+      $statement->execute($nparams);
+    }
+    catch (Exception $e)
+    {
+      echo($e);
+      echo("Statement: $s\n");
+      echo("Parameters:\n");
+      var_dump($params);
+      exit(1);
+    }
+    $result = true;
+    try
+    {
+      $result = $statement->fetchAll();
+    } catch (Exception $e)
+    {
+      // Oh no, we tried to fetchAll on a DELETE statement, everybody panic!
+      // Seriously PDO, you need to relax
+    }
+    return $result;
+  }
+  
+}

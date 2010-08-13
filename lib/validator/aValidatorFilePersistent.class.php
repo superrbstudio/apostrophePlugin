@@ -23,12 +23,13 @@ class aValidatorFilePersistent extends sfValidatorFile
     parent::configure($options, $messages);
     if (!$guessersSet)
     {
-      // Extend the default list from the parent class with a guesser that is
-      // robust on rackspace cloud sites and works fine elsewhere as well.
-      // Based on getimagesize. Also checks the PDF file signature. Everything
-      // else falls back to the other guessers
+      // Extend the default list from the parent class with guessers that are more
+      // robust about spotting files that can't be picked up if Unix file is 
+      // unavailable, mime type files are out of date, Unix file has a bug that
+      // hates on certain valid MP3s, etc. Everything else falls back to the other guessers
       $mimeTypeGuessers = $this->getOption('mime_type_guessers');
       array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
+      array_unshift($mimeTypeGuessers, array($this, 'guessFromID3'));
       $this->setOption('mime_type_guessers', $mimeTypeGuessers);
     }
   }
@@ -231,7 +232,8 @@ class aValidatorFilePersistent extends sfValidatorFile
   }
   
   /**
-   * Guess the file mime type with mime_content_type function (deprecated)
+   * Guess the file mime type with aImageConverter's getInfo method, which uses imagesize and
+   * magic numbers to be more robust than relying on a lot of badly configured external tools
    *
    * @param  string $file  The absolute path of a file
    *
@@ -250,5 +252,24 @@ class aValidatorFilePersistent extends sfValidatorFile
       return $formats[$info['format']];
     }
     return null;
+  }
+  /**
+   * Guess the file mime type of MP3 audio files based on the ID3 tag at the beginning, more robust
+   * than the file command's buggy support for MP3s that seems to dislike VBR files
+   *
+   * @param  string $file  The absolute path of a file
+   *
+   * @return string The mime type of the file (null if not guessable)
+   */
+  protected function guessFromID3($file)
+  {
+    $in = fopen($file, 'rb');
+    $magic = fread($in, 3);
+    fclose($in);
+    if ($magic !== 'ID3')
+    {
+      return null;
+    }
+    return 'audio/mpeg';
   }
 }

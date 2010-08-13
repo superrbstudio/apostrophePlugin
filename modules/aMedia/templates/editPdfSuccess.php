@@ -4,7 +4,7 @@
   $item = isset($item) ? $sf_data->getRaw('item') : null;
   $serviceError = isset($serviceError) ? $sf_data->getRaw('serviceError') : null;
 ?>
-<?php use_helper('I18N', 'jQuery') ?>
+<?php use_helper('I18N', 'jQuery', 'a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <div id="a-media-plugin">
@@ -83,8 +83,8 @@
       <?php echo $form['view_is_secure']->render() ?>
     </div>
 
-    <ul class="a-controls a-media-edit-footer">
-      <li><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-submit" /></li>
+    <ul class="a-ui a-controls">
+      <li><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
       <?php if ($item): ?>
       <li><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
           array("slug" => $slug)),
