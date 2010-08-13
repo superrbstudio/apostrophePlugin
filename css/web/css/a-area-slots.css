@@ -633,8 +633,8 @@ display: block !important;
 	padding: 0;
 }
 
-.aSlideshow ul,
-.aSlideshow li
+.aSlideshow .a-slideshow,
+.aSlideshow .a-slideshow li
 {
 	float: left;
 	width: 100%;
