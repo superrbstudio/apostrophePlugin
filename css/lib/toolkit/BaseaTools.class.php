@@ -724,9 +724,15 @@ class BaseaTools
   static public function addStylesheetsIfDesired($array)
   {
     $response = sfContext::getInstance()->getResponse();
+    $preferences = sfConfig::get('app_a_use_bundled_stylesheets', array());
     foreach ($array as $stylesheet)
     {
-      if (sfConfig::get('app_a_use_bundled_stylesheet_' . $stylesheet, true))
+      $good = true;
+      if (isset($preferences[$stylesheet]))
+      {
+        $good = $preferences[$stylesheet];
+      }
+      if ($good)
       {
         $response->addStylesheet('/apostrophePlugin/css/a-' . $stylesheet . '.css');
       }
