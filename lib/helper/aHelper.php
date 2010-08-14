@@ -259,8 +259,6 @@ function a_get_javascripts()
 
 function _a_get_assets_body($type, $assets)
 {
-  // Note lock if you are tempted to return early anywhere
-  aTools::lock("assets_$type");
   $gzip = sfConfig::get('app_a_minify_gzip', false);
   sfConfig::set('symfony.asset.' . $type . '_included', true);
 
@@ -382,12 +380,13 @@ function _a_get_assets_body($type, $assets)
       }
       if ($gzip)
       {
-        _gz_file_put_contents($dir . '/' . $groupFilename, $content);
+        _gz_file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
       }
       else
       {
-        file_put_contents($dir . '/' . $groupFilename, $content);
+        file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
       }
+      @rename($dir . '/' . $groupFilename . '.tmp', $dir . '/' . $groupFilename);
     }
     $options = json_decode($optionsJson, true);
     $options[($type === 'stylesheets') ? 'href' : 'src'] = '/uploads/asset-cache/' . $groupFilename;
@@ -400,7 +399,6 @@ function _a_get_assets_body($type, $assets)
       $html .= content_tag('script', '', $options); 
     }
   }
-  aTools::unlock();
   return $html;
 }
 
