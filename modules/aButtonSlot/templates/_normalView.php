@@ -16,6 +16,7 @@
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
 ?>
 <?php use_helper('I18N') ?>
 <?php if ($editable): ?>

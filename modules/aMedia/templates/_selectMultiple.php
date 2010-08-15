@@ -1,7 +1,7 @@
 <?php
   // Compatible with sf_escaping_strategy: true
   $limitSizes = isset($limitSizes) ? $sf_data->getRaw('limitSizes') : null;
-  $items = $sf_data->getRaw('items') ? $sf_data->getRaw('items') : null;
+  $items = isset($items) ? $sf_data->getRaw('items') : array();
 ?>
 <?php // Known as selectMultiple for historic reasons, but we use it for both single and multiple select now that ?>
 <?php // we have a need for cropping which requires a pause in both cases anyway. ?>
