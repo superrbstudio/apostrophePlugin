@@ -96,6 +96,9 @@
 	
 	  <?php include_partial('a/footer') ?>
 	</div>
-
+	<?php // Drop in the document.ready stuff at the bottom. ?>
+	<?php // If we try to do this sooner, it works for the template but ?>
+	<?php // doesn't yet know about any js calls relating to the layout. ?>
+  <?php a_include_js_calls() ?>
 </body>
 </html>

@@ -10,12 +10,14 @@
   $variant = isset($variant) ? $sf_data->getRaw('variant') : null;
 ?>
 <?php // 1.3 and up don't do this automatically (no common filter) ?>
-<?php // We're using renderPartial so there is no layout to call this for us ?>
-<?php include_javascripts() ?>
-<?php include_stylesheets() ?>
+<?php // Note that you cannot add more JS and CSS files in an ajax slot update. You are ?>
+<?php // expected to load those with the page. This avoids a lot of chicken and egg problems ?>
+<?php // with double-loading of CSS and JS files. Prior to this commit there was code here to ?>
+<?php // include CSS and JS, however it didn't work anyway - that code was run before a_slot_body and ?>
+<?php // therefore never had anything to add ?>
 <?php use_helper('a') ?>
 <?php a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen, true) ?>
-
+<?php a_include_js_calls() ?>
 <?php if (isset($variant)): ?>
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function() {

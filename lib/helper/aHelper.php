@@ -7,6 +7,14 @@
 
 function _a_required_assets()
 {
+  // Do not load redundant CSS and JS in an AJAX context. 
+  // These are already loaded on the page in which the AJAX action
+  // is operating. Please don't change this as it breaks or at least
+  // greatly slows updates
+  if (sfContext::getInstance()->getRequest()->isXmlHttpRequest())
+  {
+    return;
+  }
   $response = sfContext::getInstance()->getResponse();
   $user = sfContext::getInstance()->getUser();
 
@@ -417,4 +425,59 @@ function _gz_file_put_contents($file, $contents)
   $fp = gzopen($file, 'wb');
   gzwrite($fp, $contents);
   gzclose($fp);
+}
+
+// Call like this:
+
+// a_js_call('apostrophe.slideshow', array('id' => 'et-cetera', ...)
+
+// All calls made in this way are accumulated into a jQuery domready block which
+// appears at the end of the body element in our standard layout.php via a_include_js_calls.
+// We also insert these at the end when adding or updating a slot via AJAX. You can invoke it
+// yourself in other layouts etc.
+
+function a_js_call($callable, $args = null, $options = array())
+{
+  if (a_get_option($options, 'now'))
+  {
+    $html .= '<script type="text/javascript" charset="utf-8">' . "\n";
+    $html .= a_js_call($callable, $args);
+  }
+  else
+  {
+    aTools::$jsCalls[] = array('callable' => $callable, 'args' => $args, 'options' => $options);
+  }
+}
+
+function a_include_js_calls()
+{
+  echo(a_get_js_calls());
+}
+
+function a_get_js_calls()
+{
+  $html = '';
+  if (count(aTools::$jsCalls))
+  {
+    $html .= '<script type="text/javascript" charset="utf-8">' . "\n";
+    $html .= '$(function() {' . "\n";
+    foreach (aTools::$jsCalls as $call)
+    {
+      $html .= _a_js_call($call['callable'], $call['args']);
+    }
+    $html .= '});' . "\n";
+    $html .= '</script>' . "\n";
+  }
+  return $html;
+}
+
+function _a_js_call($callable, $args)
+{
+  return $callable . '(' . (is_null($args) ? '' : json_encode($args)) . ');' . "\n";
+}
+
+// i18n with less effort. Also more flexibility for the future in how we choose to do it  
+function a_($s, $params = null)
+{
+  return __($s, $params, 'apostrophe');
 }
