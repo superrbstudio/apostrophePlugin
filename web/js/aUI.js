@@ -17,34 +17,31 @@ function aUI(target)
 
 	if (!$.browser.msie) { // I know we're not supposed to use this.
 
-		var aBtn = $(target+' .a-btn, ' + target + ' .a-submit, ' + target + ' .a-cancel');
-		aBtn.each(function() {
+		var aBtns = $(target+' .a-btn, ' + target + ' .a-submit, ' + target + ' .a-cancel');
+		aBtns.each(function() {
+			var aBtn = $(this);
 
-			var backgroundImage = $(this).css('background-image');
-
-			// Setup Button Gradient Backgrounds
-			// We have to do it this way to preserve the icons as background images
-			if(!$(this).hasClass('nobg') && !$(this).data('a-gradient'))
+			// Setup Icons
+			if (aBtn.hasClass('icon')) 
 			{
-				$(this).data('a-gradient', 1); 
-				mozBackgroundImage = backgroundImage + ', -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%	)';
-				webkitBackgroundImage = backgroundImage + ', -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)))';
-				$(this).css('background-image', mozBackgroundImage);
-				$(this).css('background-image', webkitBackgroundImage);			
-			}
-		
-			// Setup Flag Buttons
-			if($(this).hasClass('flag'))
-			{
-				if (!$(this).children('span').size())
+				if (!aBtn.children('.icon').length) 
 				{
-					$(this).attr('title','').wrapInner('<span class="flag-label"></span>');		
+					aBtn.prepend('<span class="icon"></span>');						
+				};
+			};
+			
+			// Setup Flagging Buttons
+			if(aBtn.hasClass('flag'))
+			{
+				if (!aBtn.children('.flag-label').length)
+				{
+					aBtn.attr('title','').wrapInner('<span class="flag-label"></span>');		
 				}
 
-				$(this).hover(function () {
-					$(this).addClass('expanded');
+				aBtn.hover(function () {
+					aBtn.addClass('expanded');
 				},function () {
-					$(this).removeClass('expanded');
+					aBtn.removeClass('expanded');
 				});	
 			}
 		
