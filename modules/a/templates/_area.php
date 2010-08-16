@@ -175,7 +175,7 @@
 
 				var newSlot = $('#a-area-<?php echo "$pageid-$name" ?>').find('.a-new-slot');
 				if (newSlot.length) {
-					newSlot.effect("highlight", {}, 1000)
+					newSlot.effect("highlight", {}, 1000);
 					$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent().trigger('toggleClosed');
 				};
 			<?php endif ?>

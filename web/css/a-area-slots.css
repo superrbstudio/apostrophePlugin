@@ -611,6 +611,18 @@ z-index: 999;
 display: block !important;
 }
 
+.aRichText .a-slot-content strong,
+.aRichText .a-slot-content b
+{
+	font-weight: bold;
+}
+
+.aRichText .a-slot-content em,
+.aRichText .a-slot-content i
+{
+	font-style: italic;
+}
+
 .aRichText .a-slot-content ul,
 .aRichText .a-slot-content ol,
 .aText .a-slot-content ul,

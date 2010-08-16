@@ -21,7 +21,7 @@ class aToolkitEvents
       $files = glob("$dir/*");
       foreach ($files as $file)
       {
-        echo("Unlinked CSS cache file $file\n");
+        echo("Unlinked CSS/JS cache file $file\n");
         unlink($file);
       }
     }
