@@ -29,21 +29,30 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     $this->width = $this->getOption('width', 440);
     $this->height = $this->getOption('height', 330);
     $this->resizeType = $this->getOption('resizeType', 's');
-    $this->flexHeight = $this->getOption('flexHeight');
-    $this->defaultImage = $this->getOption('defaultImage');
-    $this->title = $this->getOption('title');
-    $this->description = $this->getOption('description');
+    $this->flexHeight = $this->getOption('flexHeight', true);
+    $this->defaultImage = $this->getOption('defaultImage', false);
+    $this->title = $this->getOption('title', true);
+    $this->description = $this->getOption('description', false);
+    $this->link = $this->getOption('link', false);
+
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
-    $this->link = false;
+
+		$this->button_title = false;
+    $this->button_link = false;
+
     if (isset($data['url']))
     {
-      $this->link = $data['url'];
+      $this->button_link = $data['url'];
     }
-    if (isset($data['title']))
-    {
-      $this->img_title = $data['title'];
-    }
+
+		if ($this->title) {
+	    if (isset($data['title']))
+	    {
+	      $this->button_title = $data['title'];
+	    }
+		}
+
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
     {
