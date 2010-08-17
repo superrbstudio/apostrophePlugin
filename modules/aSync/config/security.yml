@@ -1,0 +1,8 @@
+# Conventionally securing this module defeats its purpose. There is a separate
+# built-in password check, and it will refuse to run at all if you haven't set that
+# up in properties.ini, plus you shouldn't be enabling this module if you don't
+# want it. So there's no new security hole here
+
+default:
+  is_secure: false
+  
