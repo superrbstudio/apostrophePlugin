@@ -21,14 +21,14 @@ class aupdateluceneTask extends sfBaseTask
     $this->name             = 'update-search-index';
     $this->briefDescription = 'update search indexes for recently modified pages';
     $this->detailedDescription = <<<EOF
-The [a:update-lucene|INFO] task updates the Lucene search indexes for
+The [apostrophe:update-lucene|INFO] task updates the Lucene search indexes for
 recently modified pages in the CMS. You should call it from cron or another
 scheduled task manager on a regular basis (for instance, every
 five minutes).
 
 Call it like this:
 
-  [php /path/to/your/project/symfony a:update-lucene|INFO]
+  [php /path/to/your/project/symfony apostrophe:update-lucene|INFO]
 EOF;
   }
 
