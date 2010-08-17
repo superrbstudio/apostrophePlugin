@@ -44,7 +44,6 @@ class BaseaSyncActions extends sfActions
     if (!$syncPassword)
     {
       throw new sfException('Sync password is not set, sync module disabled');
-      return;
     }    
     if ($this->getRequestParameter('password') !== $syncPassword)
     {
