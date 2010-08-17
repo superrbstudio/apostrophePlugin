@@ -5,4 +5,4 @@
     <div><input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit" value="Search Pages" alt="Search" title="Search"/></div>
   </form>
 </div>
-<?php a_js_call('apostrophe.selfLabel', array('selector' => '#a-search-cms-field', 'title' => a_('Search'))) ?>
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-search-cms-field', 'title' => a_('Search'))) ?>
