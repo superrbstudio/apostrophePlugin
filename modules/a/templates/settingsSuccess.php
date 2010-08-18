@@ -26,9 +26,12 @@
 	<div class="a-page-settings-section page-info">
 
 		<div class="a-form-row title">
-			<?php echo $form['title']->renderLabel(__('Page Title', array(), 'apostrophe')) ?>
-			<?php echo $form['title']->render() ?>
-			<?php echo $form['title']->renderError() ?>
+		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. There is another ?>
+		  <?php // way but I think it might still try to initialize the field in an unwanted fashion even if it ?>
+		  <?php // allows them to be saved right ?>
+			<?php echo $form['realtitle']->renderLabel(__('Page Title', array(), 'apostrophe')) ?>
+			<?php echo $form['realtitle']->render() ?>
+			<?php echo $form['realtitle']->renderError() ?>
 		</div>
 
 		<?php if (isset($form['slug'])): ?>

@@ -16,7 +16,7 @@ class BaseaRenameForm extends BaseForm
   
   public function configure()
   {
-    $this->setWidget('title', new sfWidgetFormInputText(array('default' => $this->page->getTitle()), array('class' => 'epc-value a-breadcrumb-input')));
+    $this->setWidget('title', new sfWidgetFormInputText(array('default' => html_entity_decode($this->page->getTitle(), ENT_COMPAT, 'UTF-8')), array('class' => 'epc-value a-breadcrumb-input')));
     $this->setValidator('title', new sfValidatorString(array('required' => true)));
     $this->widgetSchema->setNameFormat('aRenameForm[%s]');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe'); 

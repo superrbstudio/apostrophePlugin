@@ -100,10 +100,15 @@ class BaseaPageSettingsForm extends aPageForm
 		
 		$this->setWidget('slug', new sfWidgetFormInputText());
 
-    $this->setValidator('title', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
+    // Named 'realtitle' to avoid excessively magic Doctrine form behavior.
+    // Unfortunately no amount of care will allow us to make &lt; appear in 
+    // a title (as opposed to a < ) due to Symfony's hard override of 
+    // double escaping. Fortunately, that's not a likely thing to want in a title
+    
+    $this->setValidator('realtitle', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
 
-		$this->setWidget('title', new sfWidgetFormInputText());
-		$this->setDefault('title',$this->getObject()->getTitle());
+    $title = $this->getObject()->getTitle();
+		$this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
 		
     $this->setValidator('template', new sfValidatorChoice(array(
       'required' => true,
@@ -186,6 +191,10 @@ class BaseaPageSettingsForm extends aPageForm
 
   public function updateObject($values = null)
   {
+    if (is_null($values))
+    {
+      $values = $this->getValues();
+    }
     $oldSlug = $this->getObject()->slug;
     $object = parent::updateObject($values);
     
@@ -227,6 +236,8 @@ class BaseaPageSettingsForm extends aPageForm
     $this->savePrivileges($object, 'edit', 'editors');
     $this->savePrivileges($object, 'manage', 'managers');
     
+    $this->getObject()->setTitle(htmlentities($values['realtitle'], ENT_COMPAT, 'UTF-8'));
+    
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites
     // our attempt to invalidate the routing cache [groan]
@@ -263,5 +274,5 @@ class BaseaPageSettingsForm extends aPageForm
       
       $object->setAccessesById($privilege, $editorIds);
     }
-  }
+  }  
 }

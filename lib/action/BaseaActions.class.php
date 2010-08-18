@@ -278,7 +278,7 @@ class BaseaActions extends sfActions
       // refreshing the page object
       $page->engine = $request->getParameter('engine', '');
       $page->save();
-      $page->setTitle(htmlspecialchars($title));
+      $page->setTitle(htmlentities($title, ENT_COMPAT, 'UTF-8'));
       return $this->redirect($page->getUrl());
     }
   }
