@@ -246,6 +246,20 @@ abstract class PluginaPage extends BaseaPage
     return $title;
   }
   
+  
+  public function getMetaDescription()
+  {
+  	$metaDescriptionSlot = $this->getSlot('metaDescription');
+  	
+  	$result = '';
+  	if ($metaDescriptionSlot)
+  	{
+  		$result = $metaDescriptionSlot->value;
+  	}
+  	return trim($result);
+  }
+  
+  
   public function getAreaVersions($name, $selectOptions = true, $limit = 10)
   {
     $q = Doctrine_Query::create()->
@@ -860,6 +874,21 @@ abstract class PluginaPage extends BaseaPage
         'permid' => 1, 
         'slot' => $slot));
   }
+  
+  
+  // Meta-Description Slot by Wes 8/18/2010
+  public function setMetaDescription($description)
+  {
+  	$slot = $this->createSlot('aText');
+  	$slot->value = $description;
+  	$slot->save();
+  	
+  	$this->newAreaVersion('metaDescription', 'update',
+  		array(
+  			'permid' => 1,
+  			'slot' => $slot));
+  	
+  }
 
   // SAVE ANY CHANGES to the actual page object FIRST before you call this method.
   
@@ -1183,6 +1212,8 @@ abstract class PluginaPage extends BaseaPage
     $title = $this->getTitle();
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
+    $tags = implode(',', $this->getTags());
+    $metaDescription = $this->getMetaDescription();
     $slug = $this->getSlug();
     $info = $this->getInfo();
     // Already a separate field, so don't store it twice.
@@ -1190,13 +1221,14 @@ abstract class PluginaPage extends BaseaPage
     // it lets us check explicit privileges
     unset($info['title']);
     aZendSearch::updateLuceneIndex($this, 
-      array('text' => $text),
+      array('text' => $text, 'tags' => $tags, 'metadescription' => $metaDescription),
       $this->getCulture(),
       array(
         'title' => $title,
         'summary' => $summary,
         'slug' => $slug,
-        'info' => serialize($info)));
+        'info' => serialize($info)),
+      array('tags' => 2.0, 'metadescription' => 1.2));
   }
 
   public function getSearchSummary()

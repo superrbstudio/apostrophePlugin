@@ -245,7 +245,7 @@ class aZendSearch
   // saves in both doctrine and Zend, wrapping the whole thing
   // in a Doctrine transaction and rolling back on any Lucene exceptions.
 
-  static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array())
+  static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array(), $boostsByField = array())
   {
     self::deleteFromLuceneIndex($object, $culture);
     $index = self::getLuceneIndex($object->getTable());
@@ -270,7 +270,12 @@ class aZendSearch
         $value = strtolower($value);
       }
       
-      $doc->addField(Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8'));
+      $field = Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8');
+      if (isset($boostsByField[$key]))
+      {
+      	$field->boost = $boostsByField[$key];
+      }
+      $doc->addField($field);
     }
 
     // store the data fields (a big performance win over hydrating things with Doctrine)

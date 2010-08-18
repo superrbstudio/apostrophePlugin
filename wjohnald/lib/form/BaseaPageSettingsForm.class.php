@@ -92,6 +92,19 @@ class BaseaPageSettingsForm extends aPageForm
       'default' => false
     )));
 
+	// Tags
+	$tagstring = implode(',', $this->getObject()->getTags());
+	$this->setWidget('tags', new sfWidgetFormTextArea(array('default' => $tagstring)));
+	$this->setValidator('tags', new sfValidatorString());
+
+
+	// Meta Description
+	$metaDescription = $this->getObject()->getMetaDescription();
+	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
+	$this->setValidator('meta_description', new sfValidatorString());
+
+
+
     $this->addPrivilegeWidget('edit', 'editors');
     $this->addPrivilegeWidget('manage', 'managers');
 
@@ -188,6 +201,18 @@ class BaseaPageSettingsForm extends aPageForm
   {
     $oldSlug = $this->getObject()->slug;
     $object = parent::updateObject($values);
+    
+    // Update tags on Page
+    if ($this->getValue('tags') != '')
+    {
+	    $this->getObject()->addTag($this->getValue('tags'));
+	}
+
+    // Update meta-description on Page
+    if ($this->getValue('meta_description') != '')
+    {
+	    $this->getObject()->setMetaDescription(htmlentities($this->getValue('meta_description')));
+	}    
     
     // Check for cascading operations
     if($this->getValue('cascade_archived') || $this->getValue('cascade_view_is_secure'))

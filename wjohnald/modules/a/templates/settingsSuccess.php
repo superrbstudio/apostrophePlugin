@@ -47,8 +47,20 @@
 
 		<div class="a-form-row template">
 			<?php echo $form['template']->renderLabel(__('Page Template', array(), 'apostrophe')) ?>
-		  <?php echo $form['template'] ?>
-		  <?php echo $form['template']->renderError() ?>
+		  	<?php echo $form['template'] ?>
+		  	<?php echo $form['template']->renderError() ?>
+		</div>
+
+		<div class="a-form-row tags">
+			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
+			<?php echo $form['tags'] ?>
+			<?php echo $form['tags']->renderError() ?>
+		</div>
+
+		<div class="a-form-row meta-description">
+			<?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?>
+			<?php echo $form['meta_description'] ?>
+			<?php echo $form['meta_description']->renderError() ?>
 		</div>
 
 		<div id="a_settings_engine_settings">
@@ -107,6 +119,7 @@
 	</div>
 	
 </form>
+
 <?php // TODO: Tom, clean this up. ?>
 <script type="text/javascript" charset="utf-8">
 <?php // TODO: Move this function down the a.js, pass in the json encoded stuff as a function parameter ?>

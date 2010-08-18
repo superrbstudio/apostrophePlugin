@@ -41,6 +41,10 @@ class BaseaActions extends sfActions
     $this->page = $page;
     $this->setTemplate($page->template);
 
+	$tagstring = implode(',', $page->getTags());
+	$this->getResponse()->addMeta('keywords', htmlspecialchars($tagstring));
+	$this->getResponse()->addMeta('description', $page->getMetaDescription());
+
     return 'Template';
   }
 
