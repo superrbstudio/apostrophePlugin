@@ -22,14 +22,14 @@ class aupdateluceneTask extends sfBaseTask
     $this->name             = 'update-search-index';
     $this->briefDescription = 'update search indexes for recently modified objects';
     $this->detailedDescription = <<<EOF
-The [a:update-lucene|INFO] task updates the Lucene search indexes for
+The [apostrophe:update-lucene|INFO] task updates the Lucene search indexes for
 recently modified pages in the CMS. You should call it from cron or another
 scheduled task manager on a regular basis (for instance, every
 five minutes).
 
 Call it like this:
 
-  [php /path/to/your/project/symfony a:update-lucene|INFO]
+  [php /path/to/your/project/symfony apostrophe:update-lucene|INFO]
   
 The task is also called for other object types like media items as an internal
 part of the rebuild-search-index task. The --table=aMediaItem option is used

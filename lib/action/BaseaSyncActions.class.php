@@ -1,8 +1,9 @@
 <?php
 
-// Cloud-oriented web APIs for syncing code and content may ultimately reside here.
-// For now there's just one API to clear the APC cache. For security all of this is
-// disabled unless configured in properties.ini. See the apostrophe:deploy task
+// Cloud-oriented web APIs. At the moment only the zipDemo action lives here. The
+// APC action was removed in favor of rsyncing more intelligently.
+
+// For security all of this is disabled unless configured in properties.ini.
 
 class BaseaSyncActions extends sfActions
 {
@@ -51,24 +52,6 @@ class BaseaSyncActions extends sfActions
     }
     // We want to give back script-friendly responses
     $this->setLayout(false);
-  }
-  
-  public function executeClearAPCCache(sfWebRequest $request)
-  {
-    if (!$this->get('clear_apc_cache', true))
-    {
-      throw new sfException('APC cache clear feature is disabled in properties.ini');
-    }
-    if (function_exists('apc_clear_cache'))
-    {
-      apc_clear_cache();
-    }
-    else
-    {
-      // This is NOT an error, it just means there is no APC on this site anyway,
-      // so there is no potential for cache-related problems
-      return 'NotActive';
-    }
   }
   
   public function executeZipDemo(sfWebRequest $request)
