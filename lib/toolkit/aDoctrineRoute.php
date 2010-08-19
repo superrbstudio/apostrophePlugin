@@ -41,6 +41,11 @@ class aDoctrineRoute extends sfDoctrineRoute
       $slug = $params['engine-slug'];
       aRouteTools::pushTargetEnginePage($slug);
       unset($params['engine-slug']);
+    } 
+    else if (method_exists($params['sf_subject'], 'getEngineSlug'))
+    {
+      $slug = $params['sf_subject']->getEngineSlug();
+      aRouteTools::pushTargetEnginePage($slug);
     }
     
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
