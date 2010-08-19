@@ -63,3 +63,12 @@ background: #444;
 	border-bottom-color:#888;
 	border-right-color:#888;
 }
+
+.a-pager-navigation .a-page-navigation-number
+{
+padding: 0 6px;
+text-indent: 0 !important;
+background-image: none !important;
+text-align: center !important;
+width: auto !important;
+}
