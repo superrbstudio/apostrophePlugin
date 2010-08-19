@@ -141,6 +141,32 @@ result in an error when it happens to be empty. Move along, nothing to see here.
     unlink($dump);
   }
   
+  // Even if you chmod everything with project:permissions before Apache starts
+  // to play with it, that doesn't mean Apache's umask() will play nice and ensure
+  // that things stay writable by the user who does command line tasks. So we
+  // have an action to ask Apache to clean up permissions making everything
+  // world-everything again. (Note that the original "everything is world everything"
+  // policy is a deep assumption all over Symfony, notably project:permissions. We did
+  // not introduce it and have actually submitted patches to change it in the past.
+  // But it makes good sense on a dedicated VM)
+  
+  public function executeFixPermissions(sfWebRequest $request)
+  {
+    $dirs = array(aFiles::getWritableDataFolder(), sfConfig::get('sf_upload_dir'));
+    $fs = new sfFilesystem();
+    foreach ($dirs as $dir)
+    {
+      $fs->chmod($dir, 0777);
+      $dirFinder = sfFinder::type('dir');
+      $fileFinder = sfFinder::type('file');
+      $fs->chmod($dirFinder->in($dir), 0777);
+      $fs->chmod($fileFinder->in($dir), 0666);
+    }
+    $this->setLayout(false);
+    echo("OK\nPermissions updated.\n");
+    return sfView::NONE;
+  }
+  
   static protected function zip($file, $dir)
   {
     if (file_exists($file))

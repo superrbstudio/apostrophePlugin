@@ -85,14 +85,6 @@ EOF;
     // NO TRAILING SLASH on this properties.ini setting please
     
     $data = $this->properties[$server];
-    if (isset($data['uristem']))
-    {
-      $uristem = $data['uristem'];
-    }
-    else
-    {
-      $uristem = 'http://' . $data['host'];
-    }
 
     $eserver = escapeshellarg($server);
     $eenv = escapeshellarg($env);
