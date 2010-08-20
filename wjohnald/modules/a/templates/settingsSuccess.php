@@ -40,7 +40,7 @@
 		<?php endif ?>
 
 		<div class="a-form-row engine">
-			<?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
+		  <?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
 		  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
 		  <?php echo $form['engine']->renderError() ?>
 		</div>
@@ -51,11 +51,12 @@
 		  	<?php echo $form['template']->renderError() ?>
 		</div>
 
-		<div class="a-form-row tags">
+		<div class="a-form-row tags-form-row">
 			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
 			<?php echo $form['tags'] ?>
 			<?php echo $form['tags']->renderError() ?>
 		</div>
+		<?php include_component('taggableComplete','inlineTagWidget', array('form' => $form)) ?>
 
 		<div class="a-form-row meta-description">
 			<?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?>
@@ -156,4 +157,10 @@
 	aRadioSelect('.a-radio-select', { });
 	$('#a-page-settings').show();
 	aUI();
+</script>
+
+<?php // Bring this script in for tag typeahead ?>
+<script src='/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'></script>
+<script>
+    pkTagahead(<?php echo json_encode(url_for("taggableComplete/complete")) ?>);
 </script>

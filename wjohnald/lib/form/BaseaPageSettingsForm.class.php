@@ -93,15 +93,16 @@ class BaseaPageSettingsForm extends aPageForm
     )));
 
 	// Tags
-	$tagstring = implode(',', $this->getObject()->getTags());
-	$this->setWidget('tags', new sfWidgetFormTextArea(array('default' => $tagstring)));
-	$this->setValidator('tags', new sfValidatorString());
+	$tagstring = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
+	// class tag-input enabled for typeahead support
+	$this->setWidget('tags', new sfWidgetFormInput(array('default' => $tagstring), array('class' => 'tags-input')));
+	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
 
 	// Meta Description
 	$metaDescription = $this->getObject()->getMetaDescription();
 	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
-	$this->setValidator('meta_description', new sfValidatorString());
+	$this->setValidator('meta_description', new sfValidatorString(array('required' => false)));
 
 
 
