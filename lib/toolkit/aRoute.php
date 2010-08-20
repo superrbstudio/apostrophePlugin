@@ -1,6 +1,6 @@
 <?php
 
-// Used by engine pages
+// Used by engine pages.
 
 class aRoute extends sfRoute 
 {
