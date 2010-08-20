@@ -509,6 +509,16 @@ class BaseaTools
     {
       return true;
     }
+
+    // The editor permission, which (like the editor group) makes you a candidate to edit
+    // if actually granted that privilege somewhere in the tree (via membership in a group
+    // that has the editor permission), is generally received from a group. In older installs the 
+    // editor group itself won't have it, so we still check by other means (see below). 
+    if ($user->isAuthenticated() && $user->hasCredential(sfConfig::get('app_a_group_editor_permission', 'editor')))
+    {
+      return true;
+    }
+    
     $sufficientCredentials = sfConfig::get("app_a_edit_sufficient_credentials", false);
     $sufficientGroup = sfConfig::get("app_a_edit_sufficient_group", false);
     $candidateGroup = sfConfig::get("app_a_edit_candidate_group", false);

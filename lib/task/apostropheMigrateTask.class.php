@@ -89,6 +89,30 @@ but why take chances with your data?
     {
       echo($this->migrate->getCommandsRun() . " SQL commands were run.\n\n");
     }
+    
+    if (!$this->migrate->tableExists('a_group_access'))
+    {
+      // They don't have a group access table yet. In theory, they don't have an editor permission
+      // to grant to groups yet either. However that is a likely name for them to invent on their
+      // own, so make sure we don't panic if there is already a permission called eidtor
+      $this->migrate->sql(array(
+        'CREATE TABLE a_group_access (id BIGINT AUTO_INCREMENT, page_id INT, privilege VARCHAR(100), group_id INT, INDEX pageindex_idx (page_id), INDEX group_id_idx (group_id), PRIMARY KEY(id)) ENGINE = INNODB;',
+        'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_page_id_a_page_id FOREIGN KEY (page_id) REFERENCES a_page(id) ON DELETE CASCADE;',
+        'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;',
+        'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;'));
+    }
+    if (!$this->migrate->tableExists('a_blog_category_group'))
+    {
+      $this->migrate->sql(array(
+        "CREATE TABLE a_blog_category_group (
+          blog_category_id int(11) NOT NULL DEFAULT '0',
+          group_id int(11) NOT NULL DEFAULT '0',
+          PRIMARY KEY (blog_category_id,group_id),
+          KEY a_blog_category_group_group_id_sf_guard_group_id (group_id),
+          CONSTRAINT a_blog_category_group_blog_category_id_a_blog_category_id FOREIGN KEY (blog_category_id) REFERENCES a_blog_category (id) ON DELETE CASCADE,
+          CONSTRAINT a_blog_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group (id) ON DELETE CASCADE
+        ) ENGINE=InnoDB;"));
+    }
     echo("Done!\n");
   }
 }

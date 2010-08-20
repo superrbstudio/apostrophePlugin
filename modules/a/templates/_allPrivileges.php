@@ -4,20 +4,29 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
 ?>
+<?php use_helper('a') ?>
 <?php if (isset($form['editors']) || isset($form['managers'])): ?>
 	<h4><?php echo __('Page Permissions', null, 'apostrophe') ?></h4>
-	<div class="a-page-permissions">
+	<div class="a-page-permissions a-page-permissions-by-group">
+	  <?php include_partial('a/privileges', 
+	    array('form' => $form, 'widget' => 'group_editors',
+	      'label' => 'Group Editors', 'inherited' => $inherited['group_edit'],
+	      'admin' => $admin['group_edit'])) ?>
+	  <?php include_partial('a/privileges', 
+	    array('form' => $form, 'widget' => 'group_managers',
+	      'label' => 'Group Managers', 'inherited' => $inherited['group_manage'],
+	      'admin' => $admin['group_manage'])) ?>
+	</div>
+	<div class="a-page-permissions a-page-permissions-by-user">
 	  <?php include_partial('a/privileges', 
 	    array('form' => $form, 'widget' => 'editors',
-	      'label' => 'Editors', 'inherited' => $inherited['edit'],
+	      'label' => 'Individual Editors', 'inherited' => $inherited['edit'],
 	      'admin' => $admin['edit'])) ?>
 	  <?php include_partial('a/privileges', 
 	    array('form' => $form, 'widget' => 'managers',
-	      'label' => 'Managers', 'inherited' => $inherited['manage'],
+	      'label' => 'Individual Managers', 'inherited' => $inherited['manage'],
 	      'admin' => $admin['manage'])) ?>
 	</div>
-	<script type="text/javascript" charset="utf-8">
-	<?php // you can do this: { remove: 'custom html for remove button' } ?>
-	$(function() { aMultipleSelect('#a-page-settings', { 'choose-one': <?php echo json_encode(__("Choose a User to Add", null, 'apostrophe')) ?>}) });
-	</script>
+	<?php a_js_call('aMultipleSelect(?, ?)', '.a-page-permissions-by-user', array('choose-one' => a_("Choose a User to Add"))) ?>
+	<?php a_js_call('aMultipleSelect(?, ?)', '.a-page-permissions-by-group', array('choose-one' => a_("Choose a Group to Add"))) ?>
 <?php endif ?>

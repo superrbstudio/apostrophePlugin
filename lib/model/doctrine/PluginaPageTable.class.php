@@ -519,35 +519,53 @@ class PluginaPageTable extends Doctrine_Table
           break;
         }
 
+        // Remaining cases require that the page be in the tree so explicit privileges can be applied
+        // Failure to check this grants blanket access to all global slots
+        if (!$pageOrInfo['lft'])
+        {
+          continue;
+        }
+
         // Rule 5: if there is a candidate group, make sure the user is a member
         // before checking for explicit privileges for that user
         if ($candidateGroup && 
           (!$user->hasGroup($candidateGroup)))
         {
-          continue;
+          // Nope
         }
-    
-        // The explicit case
-    
-        // Explicit privileges on virtual pages are not permitted. We don't let admins set them anyway,
-        // you should be implementing them yourself with the 'edit' flag to a_area or a_slot, and if we
-        // use the DQL below to look at a page where 'lft' is NULL Doctrine drops that entire clause
-        // and the query matches everything, granting everybody with any editing privileges 
-        // the right to edit global slots
+        else
+        {
+          // The explicit case for users
+          $user_id = $user->getGuardUser()->getId();
         
-        // Sigh, I had this backwards
+          $accesses = Doctrine_Query::create()->
+            select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
+            where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND " .
+              "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
+            limit(1)->
+            execute(array(), Doctrine::HYDRATE_ARRAY);
+          if (count($accesses) > 0)
+          {
+            $result = true;
+            break;
+          }
+        }
         
-        if (!$pageOrInfo['lft'])
+        // We don't have this privilege as an individual. How about via a group?
+        
+        // Get group memberships
+        $groupIds = aArray::getIds($user->getGroups());
+
+        if (!count($groupIds))
         {
           continue;
         }
-        
-        $user_id = $user->getGuardUser()->getId();
-        
+
+        // Make sure only groups that have the editor permission can win
         $accesses = Doctrine_Query::create()->
-          select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
-          where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND " .
-            "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
+          select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
+          where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND a.privilege = ?", array($privilege))->
+          andWhereIn("a.group_id", $groupIds)->
           limit(1)->
           execute(array(), Doctrine::HYDRATE_ARRAY);
         if (count($accesses) > 0)

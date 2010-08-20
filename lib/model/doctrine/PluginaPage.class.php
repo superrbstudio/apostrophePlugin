@@ -1132,6 +1132,89 @@ abstract class PluginaPage extends BaseaPage
     }
   }
  
+  public function getGroupAccessesById($privilege)
+  {
+    $query = Doctrine_Query::create();
+    $query->from("sfGuardGroup g");
+    // Don't give this permission to the admin or guest groups. That way they don't become
+    // candidates to receive page editing permissions (admin doesn't need them and guest
+    // should never have them). Don't give it to editor either, since that defeats the purpose
+    // of having a group of people who can be granted permissions individually
+    $query->innerJoin('g.permissions p WITH p.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'));
+    $query->orderBy("g.name asc");
+    $allResults = $query->execute();
+    $all = array();
+    foreach ($allResults as $actor)
+    {
+      $all[$actor->id] = $actor->name;
+    }
+    $query = Doctrine_Query::create();
+    $query->from("sfGuardGroup g");
+    $ancestors = $this->getAncestors();
+    $ancestorIds = array();
+    foreach ($ancestors as $ancestor)
+    {
+      $ancestorIds[] = $ancestor->id;
+    }
+    $ancestorIds[] = $this->id;
+    $query->innerJoin("g.Accesses a with a.page_id IN (" .
+      implode(",", $ancestorIds) . ") and a.privilege = ?", 
+      array($privilege));
+    $query->orderBy("g.name asc");
+    $selectedResults = $query->execute();
+    $selected = array();
+    $inherited = array();
+    $found = array();
+    foreach ($selectedResults as $group)
+    {
+      foreach ($group->Accesses as $access)
+      {
+        if (!isset($found[$group->id]))
+        {
+          if ($access->page_id !== $this->id)
+          {
+            $inherited[] = $group->id;
+            $found[$group->id] = true;
+          }
+          else
+          {
+            $selected[] = $group->id;
+            $found[$group->id] = true;
+          }
+        }
+      }
+    }
+    return array($all, $selected, $inherited);
+  }
+  
+  public function setGroupAccessesById($privilege, $ids)
+  {
+    // Could probably be more elegant using Doctrine collections
+    $query = Doctrine_Query::create();
+    // Make sure we select() only a.* so that we don't wind up
+    // reloading the page object and causing problems in updateObject().
+    $query->select('a.*')
+      ->from('aGroupAccess a')
+      ->innerJoin('a.Page p')
+      ->where('a.privilege = ? AND p.id = ?', array($privilege, $this->id));
+    $accesses = $query->execute();
+    foreach ($accesses as $access)
+    {
+      if ($access->privilege === $privilege)
+      {
+        $access->delete();
+      }
+    }
+    foreach ($ids as $id)
+    {
+      $access = new aGroupAccess();
+      $access->group_id = $id;
+      $access->privilege = $privilege;
+      $access->page_id = $this->id;
+      $access->save();
+    }
+  }
+  
   // The parent object comes back with a populated title slot.
   // The other slots are NOT populated for performance reasons
   // (is there a scenario where this would be a problem?)

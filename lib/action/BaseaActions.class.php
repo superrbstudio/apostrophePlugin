@@ -471,6 +471,11 @@ class BaseaActions extends sfActions
     $this->admin = array();
     $this->addPrivilegeLists('edit');
     $this->addPrivilegeLists('manage');
+    // This might make more sense in some kind of read-only form control.
+    // TODO: cache the first call that the form makes so this doesn't
+    // cause more db traffic.
+    $this->addGroupPrivilegeLists('edit');
+    $this->addGroupPrivilegeLists('manage');
     
     if ($request->hasParameter('settings'))
     {
@@ -564,6 +569,18 @@ class BaseaActions extends sfActions
     }
   }
 
+  protected function addGroupPrivilegeLists($privilege)
+  {
+    list($all, $selected, $inherited) = $this->page->getGroupAccessesById($privilege);
+    $this->inherited["group_$privilege"] = array();
+    foreach ($inherited as $groupId)
+    {
+      $this->inherited["group_$privilege"][] = $all[$groupId];
+    }
+    // Always empty. We don't display a list of admin groups anyway
+    $this->admin["group_$privilege"] = array();
+  }
+  
   public function executeDelete()
   {
     $page = $this->retrievePageForEditingByIdParameter('id', 'manage');

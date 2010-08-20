@@ -160,6 +160,36 @@ function aConstructor()
 	{
 		aInputSelfLabel(options['selector'], options['title']);
 	};
+	
+	this.updateEngineAndTemplate = function(options)
+	{
+		var id = options['id'];
+		var url = options['url'];
+		
+		var val = $('#a_settings_settings_engine').val();
+	  if (!val.length)
+	  {
+	    // $('#a_settings_settings_template').attr('disabled',false); // Symfony doesn't like this.
+			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
+	    $('#a_settings_engine_settings').html('');
+	  }
+	  else
+	  {
+			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
+			$('#a_settings_settings_template').before("<div class='a-overlay'></div>");
+			$('#a_settings_settings_template').siblings('div.a-overlay').fadeTo(0,0.5).css('display','block');
+	    // $('#a_settings_settings_template').attr('disabled','disabled'); // Symfony doesn't like this.
+	    // AJAX replace engine settings form as needed
+	    $.get(url, { id: id, engine: val }, function(data) {
+  	    $('#a_settings_engine_settings').html(data);
+	    });
+	  }
+	
+		aAccordion('.a-page-settings-section-head');
+		aRadioSelect('.a-radio-select', { });
+		$('#a-page-settings').show();
+		aUI();
+	}
 } 
 
 window.apostrophe = new aConstructor();

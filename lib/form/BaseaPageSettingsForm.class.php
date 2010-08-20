@@ -94,11 +94,16 @@ class BaseaPageSettingsForm extends aPageForm
 
     $this->addPrivilegeWidget('edit', 'editors');
     $this->addPrivilegeWidget('manage', 'managers');
-
-    $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The slug cannot be empty.',
-        'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a slug to conflict with an existing slug.')));
-		
-		$this->setWidget('slug', new sfWidgetFormInputText());
+    $this->addGroupPrivilegeWidget('edit', 'group_editors');
+    $this->addGroupPrivilegeWidget('manage', 'group_managers');
+    
+    // If you can delete the page, you can change the slug
+    if ($this->getObject()->userHasPrivilege('manage'))
+    {
+      $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The slug cannot be empty.',
+          'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a slug to conflict with an existing slug.')));
+    	$this->setWidget('slug', new sfWidgetFormInputText());
+	  }
 
     // Named 'realtitle' to avoid excessively magic Doctrine form behavior.
     // Unfortunately no amount of care will allow us to make &lt; appear in 
@@ -144,7 +149,8 @@ class BaseaPageSettingsForm extends aPageForm
     {
       unset($this['editors']);
       unset($this['managers']);
-      unset($this['slug']);
+      unset($this['group_editors']);
+      unset($this['group_managers']);
     }
     // We changed the form formatter name, so we have to reset the translation catalogue too 
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
@@ -177,6 +183,37 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget($widgetName, new sfWidgetFormSelect(array(
       // + operator is correct: we don't want renumbering when
       // ids are numeric
+      'choices' => $all,
+      'multiple' => true,
+      'default' => $selected
+    )));
+
+    $this->setValidator($widgetName, new sfValidatorChoice(array(
+      'required' => false, 
+      'multiple' => true,
+      'choices' => array_keys($all)
+    )));
+  }
+  
+  protected function addGroupPrivilegeWidget($privilege, $widgetName)
+  {
+    // For i18n-update we need to tolerate being run without a proper page
+    if ($this->getObject()->isNew())
+    {
+      $all = array();
+      $selected = array();
+      $inherited = array();
+    }
+    else
+    {
+      list($all, $selected, $inherited) = $this->getObject()->getGroupAccessesById($privilege);
+    }
+    foreach ($inherited as $userId)
+    {
+      unset($all[$userId]);
+    }
+
+    $this->setWidget($widgetName, new sfWidgetFormSelect(array(
       'choices' => $all,
       'multiple' => true,
       'default' => $selected
@@ -235,7 +272,9 @@ class BaseaPageSettingsForm extends aPageForm
     }
     $this->savePrivileges($object, 'edit', 'editors');
     $this->savePrivileges($object, 'manage', 'managers');
-    
+    $this->saveGroupPrivileges($object, 'edit', 'group_editors');
+    $this->saveGroupPrivileges($object, 'manage', 'group_managers');
+        
     $this->getObject()->setTitle(htmlentities($values['realtitle'], ENT_COMPAT, 'UTF-8'));
     
     // Has to be done on shutdown so it comes after the in-memory cache of
@@ -275,4 +314,18 @@ class BaseaPageSettingsForm extends aPageForm
       $object->setAccessesById($privilege, $editorIds);
     }
   }  
+  
+  protected function saveGroupPrivileges($object, $privilege, $widgetName)
+  {
+    if (isset($this[$widgetName]))
+    {
+      $editorIds = $this->getValue($widgetName);
+      // Happens when the list is empty (sigh)
+      if ($editorIds === null)
+      {
+        $editorIds = array();
+      }
+      $object->setGroupAccessesById($privilege, $editorIds);
+    }
+  }
 }

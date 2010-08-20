@@ -110,40 +110,6 @@
 	</div>
 	
 </form>
-<?php // TODO: Tom, clean this up. ?>
-<script type="text/javascript" charset="utf-8">
-<?php // TODO: Move this function down the a.js, pass in the json encoded stuff as a function parameter ?>
-	function aUpdateEngineAndTemplate()
-	{
-	  var val = $('#a_settings_settings_engine').val();
-	  if (!val.length)
-	  {
-	    // $('#a_settings_settings_template').attr('disabled',false); // Symfony doesn't like this.
-			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
-	    $('#a_settings_engine_settings').html('');
-	  }
-	  else
-	  {
-			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
-			$('#a_settings_settings_template').before("<div class='a-overlay'></div>");
-			$('#a_settings_settings_template').siblings('div.a-overlay').fadeTo(0,0.5).css('display','block');
-	    // $('#a_settings_settings_template').attr('disabled','disabled'); // Symfony doesn't like this.
-	    <?php // AJAX replace engine settings form as needed ?>
-	    $.get(<?php echo json_encode(url_for('a/engineSettings')) ?>, { id: <?php echo $page->id ?>, engine: val }, function(data) {
-  	    $('#a_settings_engine_settings').html(data);
-	    });
-	  }
-	}
-	aUpdateEngineAndTemplate();
-
-	$(document).ready(function() {
-		aAccordion('.a-page-settings-section-head');
-	});
-
-	<?php // you can do this: { linkTemplate: "<a href='#'>_LABEL_</a>",  ?>
-	<?php //                    spanTemplate: "<span>_LINKS_</span>",     ?>
-	<?php //                    betweenLinks: " " }                       ?>
-	aRadioSelect('.a-radio-select', { });
-	$('#a-page-settings').show();
-	aUI();
-</script>
+<?php a_js_call('apostrophe.updateEngineAndTemplate(?)', array('url' => url_for('a/engineSettings'), 'id' => $page->id)) ?>
+<?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
+<?php a_include_js_calls() ?>

@@ -32,7 +32,8 @@ generator:
           _list:
         fields:
           groups_list:
-            help:       '<p>If you want to grant a user the ability to edit a portion of the site, first add them to the <strong>editor</strong> group.</p><p>Then browse to that area of the site and click the gear to add them to the list of users who can edit in that particular area.</p><p>If you want a user to have full control over the entire site, add them to the <strong>admin</strong> group.</p>'
+            # HTML no longer works here with sf_output_escaping: true turned on
+            help:       'If you want to grant a user the ability to edit a portion of the site as an individual, first add them to the editor group. Then browse to that area of the site and click Page Settings to add them to the list of users who can edit in that particular area. You can also add them to a group that has the Editor permission and grant that group editing privileges anywhere in the site. If you want a user to have full control over the entire site, add them to the admin group.'
       edit:
         title: Editing User "%%username%%"
       new:

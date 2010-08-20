@@ -254,6 +254,10 @@ aRawHTMLSlot:
     keyValue: 'aRawHTML'
 
 aAccess:
+  options:
+    symfony:
+      form:   false
+      filter: false
   tableName: a_access
   columns:
     page_id: integer(4)
@@ -279,6 +283,36 @@ aAccess:
     pageindex:
       fields: [page_id]
 
+aGroupAccess:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  tableName: a_group_access
+  columns:
+    page_id: integer(4)
+    # currently just edit or view
+    privilege: string(100)
+    group_id: integer(4)
+  relations:
+    Group:
+      class: sfGuardGroup
+      foreign: id
+      local: group_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+    Page:
+      class: aPage
+      foreign: id
+      local: page_id
+      type: one
+      foreignAlias: Accesses
+      onDelete: cascade
+  indexes:
+    pageindex:
+      fields: [page_id]
+            
 aLuceneUpdate:
   options:
     symfony:
