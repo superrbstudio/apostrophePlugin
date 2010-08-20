@@ -38,14 +38,14 @@ class aRoute extends sfRoute
     if (isset($params['engine-slug']))
     {
       $slug = $params['engine-slug'];
-      aRouteTools::pushTargetEnginePage($slug);
+      aRouteTools::pushTargetEnginePage($slug, $defaults['module']);
       unset($params['engine-slug']);
     }
+    
     // Note that you must pass false to parent::generate for the $absolute parameter
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
     if ($slug)
     {
-      $defaults = $this->getDefaults();
       $engine = $defaults['module'];
       aRouteTools::popTargetEnginePage($engine);
     }
