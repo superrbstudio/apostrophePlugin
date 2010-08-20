@@ -101,18 +101,6 @@ but why take chances with your data?
         'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;',
         'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;'));
     }
-    if (!$this->migrate->tableExists('a_blog_category_group'))
-    {
-      $this->migrate->sql(array(
-        "CREATE TABLE a_blog_category_group (
-          blog_category_id int(11) NOT NULL DEFAULT '0',
-          group_id int(11) NOT NULL DEFAULT '0',
-          PRIMARY KEY (blog_category_id,group_id),
-          KEY a_blog_category_group_group_id_sf_guard_group_id (group_id),
-          CONSTRAINT a_blog_category_group_blog_category_id_a_blog_category_id FOREIGN KEY (blog_category_id) REFERENCES a_blog_category (id) ON DELETE CASCADE,
-          CONSTRAINT a_blog_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group (id) ON DELETE CASCADE
-        ) ENGINE=InnoDB;"));
-    }
     echo("Done!\n");
   }
 }
