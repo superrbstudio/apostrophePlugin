@@ -190,6 +190,11 @@ function aConstructor()
 		$('#a-page-settings').show();
 		aUI();
 	}
+	
+	this.afterAddingSlot = function(name)
+	{
+		$('#a-add-slot-form-' + name).hide();
+	}
 } 
 
 window.apostrophe = new aConstructor();

@@ -6,7 +6,7 @@
   $name = isset($name) ? $sf_data->getRaw('name') : null;
   $versions = isset($versions) ? $sf_data->getRaw('versions') : null;
 ?>
-<?php use_helper('Url', 'jQuery', 'I18N', 'Date') ?>
+<?php use_helper('a', 'Date') ?>
 
 <?php $n=0; foreach ($versions as $version => $data): ?>
 <tr class="a-history-item" id="a-history-item-<?php echo $data['version'] ?>">
@@ -149,3 +149,4 @@
 
 });
 </script>
+<?php a_include_js_calls() ?>
