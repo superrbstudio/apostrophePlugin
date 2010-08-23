@@ -9,8 +9,7 @@ class aMediaCMSSlotsTools
   {
     $mediaEnginePage = aPageTable::retrieveBySlug('/admin/media');
     // Only if we have suitable credentials
-    $user = sfContext::getInstance()->getUser();
-    if ($user->hasCredential(aMediaTools::getOption('admin_credential')) || $user->hasCredential(aMediaTools::getOption('upload_credential')))
+    if (aTools::userHasUploadPrivilege())
     {
       aTools::addGlobalButtons(array(
         new aGlobalButton('media', 'Media', 'aMedia/index', 'a-media', $mediaEnginePage)));

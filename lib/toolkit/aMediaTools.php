@@ -152,7 +152,7 @@ class aMediaTools
     "video_search_per_page" => 9,
     "video_search_preview_width" => 220,
     "video_search_preview_height" => 170,
-    "upload_credential" => false,
+    "upload_credential" => "media_upload",
     "admin_credential" => "media_admin",
     "gallery_constraints" => array(
         "width" => 340,
