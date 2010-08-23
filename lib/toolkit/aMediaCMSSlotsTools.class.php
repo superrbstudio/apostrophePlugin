@@ -9,7 +9,7 @@ class aMediaCMSSlotsTools
   {
     $mediaEnginePage = aPageTable::retrieveBySlug('/admin/media');
     // Only if we have suitable credentials
-    if (aTools::userHasUploadPrivilege())
+    if (aMediaTools::userHasUploadPrivilege())
     {
       aTools::addGlobalButtons(array(
         new aGlobalButton('media', 'Media', 'aMedia/index', 'a-media', $mediaEnginePage)));
