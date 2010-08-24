@@ -914,7 +914,7 @@ class BaseaActions extends sfActions
           break;
         }
       }
-      sleep(1);
+      sleep(1); 
     } 
   }
   
