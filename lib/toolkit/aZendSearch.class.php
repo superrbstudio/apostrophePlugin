@@ -245,7 +245,13 @@ class aZendSearch
   // saves in both doctrine and Zend, wrapping the whole thing
   // in a Doctrine transaction and rolling back on any Lucene exceptions.
 
-  static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array())
+  // The arguments are a bit messy for historical reasons (TODO: fix this in 2.0 with a nice options array).
+  // Note that really big things should never be storedAndIndexed, Lucene is not your database.
+  // That parameter is for fields that are all of the following: short, in need of storage for purposes
+  // of display in search results, and in need of searchability. For long things that must be searchable,
+  // use unStoredFields. For things that need not be indexed at all, like summaries, use unIndexedFields
+
+  static public function updateLuceneIndex(Doctrine_Record $object, $unStoredFields = array(), $culture = null, $unIndexedFields = array(), $storedAndIndexedFields = array())
   {
     self::deleteFromLuceneIndex($object, $culture);
     $index = self::getLuceneIndex($object->getTable());
@@ -257,8 +263,8 @@ class aZendSearch
     {
       $doc->addField(Zend_Search_Lucene_Field::Keyword('culture', $culture, 'UTF-8'));
     }
-    // index the search fields
-    foreach ($fields as $key => $value)
+    // index the UnStored fields
+    foreach ($unStoredFields as $key => $value)
     {
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
@@ -269,14 +275,28 @@ class aZendSearch
       {
         $value = strtolower($value);
       }
-      
       $doc->addField(Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8'));
     }
 
     // store the data fields (a big performance win over hydrating things with Doctrine)
-    foreach ($storedFields as $key => $value)
+    foreach ($unIndexedFields as $key => $value)
     {
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
+    }
+
+    // index and store the storedAndIndexed fields
+    foreach ($storedAndIndexedFields as $key => $value)
+    {
+      // Ugh: UTF8 Lucene is case sensitive work around this
+      if (function_exists('mb_strtolower'))
+      {
+        $value = mb_strtolower($value);
+      }
+      else
+      {
+        $value = strtolower($value);
+      }
+      $doc->addField(Zend_Search_Lucene_Field::Text($key, $value, 'UTF-8'));
     }
    
     // add item to the index

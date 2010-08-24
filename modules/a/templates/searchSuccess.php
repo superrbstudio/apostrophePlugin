@@ -10,7 +10,7 @@
 
 <div id="a-search-results-container">
 
-	<h2><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q'))), 'apostrophe') ?></h2>
+	<h2><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q', ESC_RAW))), 'apostrophe') ?></h2>
 	
 	<dl class="a-search-results">
 	<?php foreach ($results as $result): ?>

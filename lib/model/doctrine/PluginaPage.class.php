@@ -1272,14 +1272,20 @@ abstract class PluginaPage extends BaseaPage
     // Otherwise though the info structure is well worth it because
     // it lets us check explicit privileges
     unset($info['title']);
+    // These are indexed but not stored. Use for fat fields that
+    // would otherwise turn Lucene into a database (it's a terrible database)
     aZendSearch::updateLuceneIndex($this, 
       array('text' => $text),
       $this->getCulture(),
+      // These are stored, not indexed. They are used to present and filter summaries
+      array(
+        'summary' => $summary,
+        'info' => serialize($info)),
+      // These are stored AND indexed
       array(
         'title' => $title,
-        'summary' => $summary,
-        'slug' => $slug,
-        'info' => serialize($info)));
+        'slug' => $slug
+      ));
   }
 
   public function getSearchSummary()

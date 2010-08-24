@@ -766,14 +766,14 @@ class BaseaTools
     while (true)
     {
       $fp = fopen($file, 'a');
-      if (!$fp)
+      if ($fp)
       {
-        sleep(1);
+        if (flock($fp, LOCK_EX))
+        {
+          break;
+        }
       }
-      else
-      {
-        break;
-      }
+      sleep(1);
     } 
     flock($fp, LOCK_EX);
     aTools::$locks[] = $fp;
@@ -788,7 +788,8 @@ class BaseaTools
     }
     else
     {
-      throw new sfException("aTools::unlock called with no locks extant");
+      // It's OK to call with no lock, this greatly simplifies methods like flunkUnless()
+      // If you are using multiple names you are responsible for making sure you unlock consistently. 
     }
   }
 }
