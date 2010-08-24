@@ -223,6 +223,8 @@ class BaseaActions extends sfActions
 
   public function executeCreate()
   {
+    $this->lockTree();
+    
     $this->flunkUnless($this->getRequest()->getMethod() == sfRequest::POST);
     $parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
     $title = trim($this->getRequestParameter('title'));
@@ -245,10 +247,13 @@ class BaseaActions extends sfActions
     $existingPage = aPageTable::retrieveBySlug($slug);
     if ($existingPage) {
       // TODO: an error in addition to displaying the existing page?
+      $this->unlockTree();
       return $this->redirect($existingPage->getUrl());
     } else { 
+      // THIS is why we lock the tree. We do it early because we don't trust
+      // this code not to cheerfully accept the previously fetched lft and rgt of parent
       $page->getNode()->insertAsFirstChildOf($parent);
-
+      
       // Figure out what template this new page should use based on
       // the template rules. 
       //
@@ -272,6 +277,7 @@ class BaseaActions extends sfActions
       // refreshing the page object
       $page->save();
       $page->setTitle(htmlspecialchars($title));
+      $this->unlockTree();
       return $this->redirect($page->getUrl());
     }
   }
@@ -559,10 +565,12 @@ class BaseaActions extends sfActions
 
   public function executeDelete()
   {
+    $this->lockTree();
     $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
     $parent = $page->getParent();
     if (!$parent)
     {
+      $this->unlockTree();
       // You can't delete the home page, I don't care who you are; creates a chicken and egg problem
       return $this->redirect('@homepage');
     }
@@ -571,6 +579,8 @@ class BaseaActions extends sfActions
     // Note that this implicitly calls $page->delete()
     // (but the reverse was not true and led to problems).
     $page->getNode()->delete(); 
+    $this->unlockTree();
+    
     return $this->redirect($parent->getUrl());
   }
   
@@ -810,6 +820,7 @@ class BaseaActions extends sfActions
       return;
     }
     $this->logMessage("ZZ flunked", "info");
+    $this->unlockTree();
     $this->forward('a', 'cleanSignin');
   }
   
@@ -896,21 +907,26 @@ class BaseaActions extends sfActions
     while (true)
     {
       $this->lockfp = fopen($file, 'a');
-      if (!$this->lockfp)
+      if ($this->lockfp)
       {
-        sleep(1);
+        if (flock($this->lockfp, LOCK_EX))
+        {
+          break;
+        }
       }
-      else
-      {
-        break;
-      }
+      sleep(1);
     } 
-    flock($this->lockfp, LOCK_EX);
   }
   
+  // It's OK to call this if there is no lock.
+  // Eases its use in calls like flunkUnless
   protected function unlockTree()
   {
-    fclose($this->lockfp);
+    if (isset($this->lockfp))
+    {
+      fclose($this->lockfp);
+      $this->lockfp = null;
+    }
   }
 }
 
