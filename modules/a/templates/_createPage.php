@@ -8,13 +8,31 @@
 
 <form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-create-page-form dropshadow">
 	<?php echo $form->renderHiddenFields() ?>
+	
 	<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
-	<?php echo $form['title']->render(array('id' => 'a-create-page-title', )) ?>
-	<?php echo $form['engine']->renderRow(array('id' => 'a-create-page-title', )) ?>
-	<?php echo $form['template']->renderRow(array('id' => 'a-create-page-title', )) ?>
+	
+	<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-create-page-title')) ?>
+
+	<div class="a-create-page-options">	
+		<div class="a-form-row">
+			<?php echo $form['engine']->renderLabel() ?>
+			<div class="a-form-field">
+				<?php echo $form['engine']->render(array('id' => 'a-create-page-engine', )) ?>
+			</div>
+			<?php echo $form['engine']->renderError() ?>
+		</div>
+		<div class="a-form-row">
+			<?php echo $form['template']->renderLabel() ?>
+			<div class="a-form-field">
+				<?php echo $form['template']->render(array('id' => 'a-create-page-template', )) ?>
+			</div>
+			<?php echo $form['template']->renderError() ?>
+		</div>
+	</div>	
+	
 	<ul class="a-ui a-controls">
 	  <li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
-	  <li><a href="#" onclick="return false;" class="a-btn a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
+	  <li><a href="#" onclick="return false;" class="a-btn icon a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
 	</ul>
 </form>
 
