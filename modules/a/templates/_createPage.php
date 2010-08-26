@@ -11,13 +11,20 @@
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
 	</div>
+	<div class="a-form-row a-hidden">	
+		<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
+	</div>
 	
-	<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
+	<div class="a-form-row a-create-page-title">
+		<div class="a-form-field">
+			<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-create-page-title-field')) ?>
+		</div>
+		<?php echo $form['title']->renderError() ?>
+	</div>
 
-	<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-create-page-title')) ?>
 
 	<div class="a-create-page-options">	
-		<div class="a-form-row a-page-type">
+		<div class="a-form-row a-create-page-type">
 			<?php echo $form['engine']->renderLabel() ?>
 			<div class="a-form-field">
 				<?php echo $form['engine']->render(array('id' => 'a-create-page-type', )) ?>
@@ -25,7 +32,7 @@
 			<?php echo $form['engine']->renderError() ?>
 		</div>
 		
-		<div class="a-form-row a-page-template">
+		<div class="a-form-row a-create-page-template">
 			<?php echo $form['template']->renderLabel() ?>
 			<div class="a-form-field">
 				<?php echo $form['template']->render(array('id' => 'a-create-page-template', )) ?>
@@ -44,7 +51,7 @@
 	$(document).ready(function() {
 
 		var aPageTypeSelect = $('#a-create-page-type');
-		var aPageTemplateSelect = $('.a-page-template');
+		var aPageTemplateSelect = $('.a-create-page-template');
 
 		if (aPageTypeSelect.attr('selectedIndex')) 
 		{
