@@ -91,7 +91,7 @@
           array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'),
             "target" => "_top", "class"=>"a-btn icon a-delete")) ?></li>
       <?php endif ?>
-			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn a-cancel")) ?></li>
+			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
     </ul>
   </form>
 </div>

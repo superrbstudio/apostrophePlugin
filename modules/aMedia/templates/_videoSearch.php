@@ -15,7 +15,7 @@
 			 $('#a-media-video-search-results-container').hide(); 
 			 $('#a-media-video-search-heading').hide(); 
 			 $('#a-media-video-buttons').show();", 
-			array("class" => "a-btn a-cancel")) ?>
+			array("class" => "a-btn icon a-cancel")) ?>
 	</li>
 </ul>
 

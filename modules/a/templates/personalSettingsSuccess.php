@@ -36,7 +36,7 @@
 				$("#a-personal-settings-button-close").addClass("loading").hide()
 				$(".a-page-overlay").hide();', 
 				array(
-					'class' => 'a-btn a-cancel', 
+					'class' => 'a-btn icon a-cancel', 
 					'title' => 'cancel', 
 				)) ?>
 		</li>

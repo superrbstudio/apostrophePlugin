@@ -16,8 +16,6 @@ line-height: 18px;
 border: none;
 }
 
-.a-btn.a-disabled, .a-btn.a-disabled * { background-color: #ddd !important; color: #fff !important; cursor: default !important; }
-
 .a-btn.icon { padding: 0 4px 0 20px; }
 
 .a-btn.icon .icon
@@ -281,7 +279,7 @@ box-shadow: 0 0 0 transparent !important;
 -------------------------------------*/
 
 .a-cancel { color: #fff !important; padding: 0 4px 0 20px; background-color: #999 !important; padding-left: 20px !important; }
-.a-cancel:hover { background-color: #333 !important; text-decoration: none !important; }
+.a-btn.a-cancel:hover { background-color: #333 !important; text-decoration: none !important; }
 .a-cancel.no-label { padding: 0 !important; }
 
 

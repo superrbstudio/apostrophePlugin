@@ -67,7 +67,7 @@ function aUI(target)
 	});
 	
 	// Disabled Buttons
-	$('a.a-disabled').unbind("click").click(function(event){
+	$('.a-disabled').unbind('click').unbind('hover').click(function(event){
 		event.preventDefault();
 	}).attr('onclick','');
 

@@ -37,7 +37,7 @@
 	<a href="#" onclick="return false;" id="a-history-preview-notice-toggle">Hide</a>
 	<p><?php echo __('You are previewing another version of this content area. This will not become the current version unless you click "Save As Current Revision." If you change your mind, click "Cancel."', null, 'apostrophe') ?></p>
 	<div class="a-history-options">
-		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a>	<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn a-cancel"><?php echo __('Cancel', null, 'apostrophe') ?></a>
+		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a>	<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn icon a-cancel"><?php echo __('Cancel', null, 'apostrophe') ?></a>
 	</div>
 </div>
 

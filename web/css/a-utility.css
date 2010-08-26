@@ -1,5 +1,6 @@
+/* General Dropshadow class used on modal boxes */
 .dropshadow
-{ /* General Dropshadow class used on modal boxes */
+{
 -moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 -webkit-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 -opera-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
@@ -7,59 +8,26 @@
 box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
-.a-overlay
-{ /* General overlay class to create a translucent box overtop of a containing element */
-	position:absolute;
-	top:0;
-	left:0;
-	display:none;
-	background: rgba(255,255,255,0.5);
-	height:100%;
-	width:100%;
-	z-index:999;
-	overflow: hidden;
-}
+/* General overlay class to create a translucent box overtop of a containing element */
+.a-overlay { position:absolute; top:0; left:0; display:none; background: rgba(255,255,255,0.5); height:100%; width:100%; z-index:999; overflow: hidden; }
 
-.a-page-overlay
-{
-display: none;
-overflow: hidden;
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-height: 100%;
-width: 100%;
-background: rgba(255,255,255,0.5);
-z-index: 998;
-}
+/* Complete page overlay class to create a translucent box overtop of the entier page */
+.a-page-overlay { display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; background: rgba(255,255,255,0.5); z-index: 998; }
 
-.a-spinner
-{ /* A general class for Spinner gif */
-float: left;
-display: inline;
-clear: none;
-height: 20px;
-width: 20px;
-border: 0;
-margin: 0;
-padding: 0;
-background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
-text-indent: -9999px;
-}
+/* Put a spinner anywhere */
+/* <span class="a-spinner"></span> */
+.a-spinner { background: url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat; float: left; display: block; height: 20px; width: 20px; border: 0; margin: 0; padding: 0; text-indent: -9999px; overflow: hidden; }
 
-.a-hidden
-{
-display: none;
-}
+/* Hide any element */
+/* <div class="a-hidden"></div> */
+.a-hidden { display: none; }
 
-.a-accordion .content
-{ /* Works with aAccordion() in aUI.js */
-	display: none;
-}
+/* Default Value in form fields */
+/* <input type="text" value="default" class="a-default-value"/> */
+.a-default-value { color: #888; }
 
-.a-accordion.open .content
-{
-	display: block;
-}
+.a-disabled, .a-disabled * { cursor: default !important; opacity: 0.65; }
+
+/* Accordion works with aAccordion() in aUI.js */
+.a-accordion .content { display: none; } 
+.a-accordion.open .content { display: block; }

@@ -1,5 +1,5 @@
 
-/* 5. Basic Form Styles
+/* Apostrophe Form Styles
 -------------------------------------*/
 .a-form-row
 {
@@ -26,9 +26,11 @@ line-height: 20px;
 .a-form-row select,
 .a-form-row textarea
 {
-font-family: arial, sans-serif;
 font-size: 12px;
-border: 1px solid #ddd;
+-moz-border-radius:3px 3px 3px 3px;
+border:1px solid #ccc;
+float:left;
+font-family:Arial,sans-serif;
 padding: 3px;
 }
 
@@ -38,24 +40,6 @@ margin-left: 120px;
 }
 
 .a-form-row.submit .a-btn { height: auto; }
-
-.a-default-value { color: #888; }
-
-input.a-submit,
-input.a-cancel {
-/* Format ALL Submit Buttons */
-float: left;
-position: relative;
-color: #fff;
-font: 12px/normal arial, sans-serif;
-padding: 0px 4px;
-z-index: 2;
-width: auto;
-cursor: pointer;
-min-height: 20px;
-}
-
-input.a-submit:hover { background-color: #888!important; cursor: pointer; }
 
 .a-form-row .a-form-field,
 .a-form-row .a-form-error,
@@ -95,7 +79,9 @@ color: #900;
 }
 
 
-/* Tom's Form Multi-Select*/
+/* Apostrophe Multiple Select (aControls.js)
+-------------------------------------*/
+
 .a-multiple-select-list
 {
 	float: left;
@@ -151,3 +137,22 @@ clear: none;
 {
 	width: 100%;
 }
+
+
+/* Apostrophe Submit / Cancel 
+-------------------------------------*/
+
+input.a-submit,
+input.a-cancel {
+float: left;
+position: relative;
+color: #fff;
+font: 12px/normal arial, sans-serif;
+padding: 0px 4px;
+z-index: 2;
+width: auto;
+cursor: pointer;
+min-height: 20px;
+}
+
+input.a-submit:hover { background-color: #888!important; cursor: pointer; }

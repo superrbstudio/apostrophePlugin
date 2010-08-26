@@ -20,7 +20,7 @@
 				<input type="submit" class="a-btn a-submit" value="<?php echo __('Rename', null, 'apostrophe') ?>" />							
 			</li>
 	  	<li>
-				<?php echo jq_link_to_function(__("Cancel", null, 'apostrophe'), '', array('class' => 'a-btn a-cancel')) ?>
+				<?php echo jq_link_to_function(__("Cancel", null, 'apostrophe'), '', array('class' => 'a-btn icon a-cancel')) ?>
 	  	</li>
 	  </ul>
 

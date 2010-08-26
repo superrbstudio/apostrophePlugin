@@ -438,6 +438,11 @@ width: 214px;
 
 #a-media-plugin .a-form-row textarea
 {
+	height: 150px;
+}
+
+#a-media-plugin .a-form-row textarea
+{
 line-height: 1.6;
 }
 

@@ -474,6 +474,7 @@ display: block !important;
 display: block !important;
 -moz-border-radius: 2px !important;
 text-shadow: none;
+border: 0;
 }
 
 .a-options a.a-btn:hover

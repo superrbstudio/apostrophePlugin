@@ -74,7 +74,7 @@ background-color: #E0E0E0 !important;
 }
 
 /* Apostrophe Button - Alternative Border Color */
-.a-btn.alt, .a-submit.alt, .a-cancel.alt, .a-history-browser, ul.a-controls .a-variant-options { border:1px solid rgb(255,150,20) !important; }
+.a-btn.alt, .a-submit.alt, .a-cancel.alt, .a-history-browser { border:1px solid rgb(255,150,20) }
 
 /* Apostrophe Admin Link Color */
 .a-attribution a,

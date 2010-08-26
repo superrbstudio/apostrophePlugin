@@ -104,7 +104,7 @@
 
      	<li><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 
-     	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel event-default")) ?></li>
+     	<li><?php echo link_to(__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?></li>
 
 			<li><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
