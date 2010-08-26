@@ -28,7 +28,7 @@ function _a_required_assets()
 	
 		// This could be used as a way to manage what styles are included when logged in / out.	
 		// But it really seems like we use pieces of every one of these when logged in and out.
- 		aTools::addStylesheetsIfDesired(array('reset', 'utility', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors'));
+ 		aTools::addStylesheetsIfDesired(array('reset', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors', 'utility'));
   }
 
   $response->addJavascript('/apostrophePlugin/js/aUI.js');

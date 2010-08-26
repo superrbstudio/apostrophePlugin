@@ -1,5 +1,4 @@
-/* Apostrophe UI Reset based on Eric Meyer's Reset CSS 
--- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+/* Apostrophe UI Reset based on Eric Meyer's Reset CSS  -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 -------------------------------------------------------------------------- */
 body { margin: 0; padding: 0; }
 
@@ -13,3 +12,36 @@ body { margin: 0; padding: 0; }
 }
 
 .a-ui li, .a-ui ul, .a-ui ol { list-style: none; }
+
+
+/* Clear Fix
+-------------------------------------*/
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
+form .a-ui.clearfix
+{
+	display: inline-block;
+	float: left;
+	width: 100%;
+	clear: both;
+}
