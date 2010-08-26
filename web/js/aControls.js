@@ -646,8 +646,12 @@ function aInputSelfLabel(selector, label)
 		setLabelIfNeeded(this);
 		$(this).addClass('a-default-value');
 	});
+	
+	aInput.focus(function(){
+		aInput.aSetCursorPosition(0);
+	});
 
-	aInput.focus(function() {
+	aInput.keydown(function() {
 		clearLabelIfNeeded(this);
 	});
 
@@ -867,3 +871,17 @@ function aSelectToStatic(selector)
 	});
 }
 
+new function($) {
+	$.fn.aSetCursorPosition = function(pos) {
+		var $this = $(this).get(0);
+		if ($this.setSelectionRange) {
+			$this.setSelectionRange(pos, pos);
+		} else if ($this.createTextRange) {
+			var range = $this.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', pos);
+			range.moveStart('character', pos);
+			range.select();
+		}
+	}
+}(jQuery);

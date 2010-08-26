@@ -11,7 +11,6 @@ font-size: 12px;
 cursor: pointer;
 padding: 0 4px;
 white-space: nowrap;
-text-transform: capitalize;
 height: 18px;
 line-height: 18px;
 border: none;
@@ -305,7 +304,7 @@ background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png);
 .a-btn.a-close,
 .a-btn.a-close-small
 {
-background: transparent url(/apostrophePlugin/images/a-icon-close.png) no-repeat scroll 0 0;
+background: transparent no-repeat scroll 0 0;
 float: left;
 overflow: hidden;
 height: 20px;
@@ -315,10 +314,8 @@ text-indent: -9999px;
 width: 20px;
 }
 
-.a-btn.a-close-small
-{
-	background-image: url(/apostrophePlugin/images/a-icon-close-small.png);
-}
+.a-btn.a-close > .icon { background-image: url(/apostrophePlugin/images/a-icon-close.png); }
+.a-btn.a-close-small > .icon { background-image: url(/apostrophePlugin/images/a-icon-close-small.png); }
 
 .a-btn.a-close:hover,
 .a-btn.a-close-small:hover
