@@ -395,9 +395,3 @@ text-indent: 0;
 
 .a-rss-feed { background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat; display: block; float: left; padding-left: 20px; }
 .alt .a-rss-feed, .a-rss-feed.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png); }
-
-
-/* Apostrophe Submit Button Icons
--------------------------------------*/
-.a-submit.a-add.icon { background-image: url(/apostrophePlugin/images/a-icon-add.png); }
-.alt .a-submit.a-add.icon, .a-submit.a-add.icon.alt.icon { background-image: url(/apostrophePlugin/images/a-icon-alt-add.png); }
