@@ -246,6 +246,10 @@ abstract class PluginaPage extends BaseaPage
     return $title;
   }
   
+  // Changed in 1.5: returns a flat array, not an associative array indexed by version.
+  // The latter was not very useful and made it difficult to pass through JSON
+  // in a useful form
+  
   public function getAreaVersions($name, $selectOptions = true, $limit = 10)
   {
     $q = Doctrine_Query::create()->
@@ -269,7 +273,7 @@ abstract class PluginaPage extends BaseaPage
       }
       else
       {
-        $versions[$areaVersion->version] =
+        $versions[] =
           array("created_at" => $areaVersion->created_at, "author" => $areaVersion->Author ? $areaVersion->Author->username : "NONE", "diff" => $areaVersion->diff,
           "version" => $areaVersion['version']);
       }
