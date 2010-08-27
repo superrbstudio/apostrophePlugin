@@ -1,4 +1,4 @@
-	<?php use_helper('I18N') ?>
+<?php use_helper('a','I18N') ?>
 <div class="a-history-browser dropshadow">
 	<div class="a-history-browser-heading">
 		<a href="#big-history-button" class="a-btn icon a-history-btn big" id="a-history-heading-button" style="margin: 5px" id="" onclick="return false;"><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></a>
@@ -40,4 +40,3 @@
 		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a>	<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn icon a-cancel"><?php echo __('Cancel', null, 'apostrophe') ?></a>
 	</div>
 </div>
-

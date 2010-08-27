@@ -317,6 +317,28 @@ function aConstructor()
 			$(this).css('cursor','default');		
 		});
 	}
+
+	this.pageSettings = function(options)
+	{
+		var aPageSettingsURL = options['aPageSettingsURL'];
+		var aPageSettingsButton = $('#a-page-settings-button');		
+
+		aMenuToggle('#a-page-settings-button', $('#a-page-settings-button').parent(), '', true);
+
+		aPageSettingsButton.click(function() {
+		 $.ajax({
+				type:'POST',
+				dataType:'html',
+				success:function(data, textStatus){
+					$('#a-page-settings').html(data);
+				},
+				complete:function(XMLHttpRequest, textStatus){
+					aUI('#a-page-settings');
+				},
+				url: aPageSettingsURL
+			});	
+		});
+	}
 } 
 
 window.apostrophe = new aConstructor();
