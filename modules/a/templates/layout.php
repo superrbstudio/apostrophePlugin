@@ -6,6 +6,7 @@
 	<?php use_helper('a') ?>
 	<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
 	<?php $page = aTools::getCurrentNonAdminPage() ?>
+  <?php $root = aPageTable::retrieveBySlug('/') ?>
 <head>
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
@@ -75,13 +76,13 @@
      <?php if (has_slot('a-tabs')): ?>
        <?php include_slot('a-tabs') ?>
      <?php else: ?>
- 			<?php include_component('aNavigation', 'tabs', array('root' => '/', 'active' => $page['slug'], 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
+ 			<?php include_component('aNavigation', 'tabs', array('root' => $root, 'active' => $page, 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
  		<?php endif ?>
 
  		<?php if (has_slot('a-breadcrumb')): ?>
  				<?php include_slot('a-breadcrumb') ?>
  		<?php elseif ($page): ?>
- 				<?php include_component('aNavigation', 'breadcrumb', array('root' => '/', 'active' => $page['slug'], 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
+ 				<?php include_component('aNavigation', 'breadcrumb', array('root' => $root, 'active' => $page, 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
  		<?php endif ?>
 
      <?php if (has_slot('a-subnav')): ?>

@@ -4,12 +4,25 @@ class BaseaNavigationComponents extends sfComponents
 {
   public function navSetup()
   {
-    $this->root = isset($this->root)? $this->root : '/';
-    $this->rootPage = aPageTable::retrieveBySlug($this->root);
+    if(is_object($this->root) && $this->root instanceof aPage)
+    {
+      $this->rootPage = $this->root;
+    }
+    else
+    {
+      $this->root = isset($this->root)? $this->root : '/';
+      $this->rootPage = aPageTable::retrieveBySlug($this->root);
+    }
 
-    $this->active = !empty($this->active)? $this->active : $this->root;
-    $this->activePage = aPageTable::retrieveBySlug($this->active);
-   
+    if(is_object($this->active) && $this->active instanceof aPage)
+    {
+      $this->activePage = $this->active;
+    }
+    else
+    {
+      $this->active = !empty($this->active)? $this->active : $this->root;
+      $this->activePage = aPageTable::retrieveBySlug($this->active);
+    }
     $this->dragIcon = isset($this->dragIcon)? $this->dragIcon : false;    
     $this->draggable = isset($this->draggable)? $this->rootPage->userHasPrivilege('edit'): false;
 
