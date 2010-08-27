@@ -241,32 +241,9 @@ padding: 5px 0 1px;
 	display: none;
 }
 
-.a-form-row.title input#a_settings_settings_title:hover
-{
-float: left;
-font-size: 18px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-width: 360px;
-padding: 3px;
-font-family: Arial, sans-serif;
-border: 1px solid rgba(0,0,0,0.35);
-}
-
-.a-form-row.title input#a_settings_settings_title:focus
-{
-	border: 1px solid rgba(0,0,0,0.35);
-	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-}
-
 .a-ui .a-form-row input.a-page-title-field
 {
-	width: 240px;
+	width: 342px;
 	border: 1px solid #999;
 	font-size: 18px;
 	padding: 2px 3px;
@@ -274,6 +251,20 @@ border: 1px solid rgba(0,0,0,0.35);
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+}
+
+.a-ui .a-form-row input.a-page-title-field:hover
+{
+}
+
+.a-ui .a-form-row input.a-page-title-field:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
 .a-ui .a-page-options
@@ -319,7 +310,7 @@ border: 1px solid rgba(0,0,0,0.35);
 	width: 100%;
 }
 
-.a-page-settings-section .content { margin: 0 16px; }
+.a-page-settings-section .content { margin: 0 16px; float: left; }
 
 .a-page-settings-section h4
 {
@@ -342,6 +333,15 @@ border: 1px solid rgba(0,0,0,0.35);
 	font-weight: normal;
 	padding: 5px 0;
 	margin-bottom: 5px;
+	float: left;
+	width: 104px;
+}
+
+.a-ui .a-page-settings-status
+{
+	float: left;
+	width: 214px;
+	margin: 5px 0;
 }
 
 .a-page-settings-section.page-submit
@@ -362,7 +362,7 @@ border: 1px solid rgba(0,0,0,0.35);
 	float: right !important;
 }
 
-.a-page-settings-menu hr
+.a-ui .a-page-settings-menu hr
 {
 /* these are copied from aBlog.css, could be combined */
 float: left;
@@ -374,6 +374,14 @@ background: rgba(0,0,0,0.05);
 border-top: 1px inset rgba(0,0,0,0.1);
 border-right: 1px inset rgba(0,0,0,0.1);
 margin: 10px 0;
+}
+
+.a-ui .a-page-permissions-section
+{
+	float: left;
+	clear: both;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 /* Create Page Form
