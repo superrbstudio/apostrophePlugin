@@ -22,12 +22,9 @@ function aUI(target)
 			var aBtn = $(this);
 
 			// Setup Icons
-			if (aBtn.is('a') && aBtn.hasClass('icon')) 
+			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
 			{
-				if (!aBtn.children('.icon').length) 
-				{
-					aBtn.prepend('<span class="icon"></span>');						
-				};
+				aBtn.prepend('<span class="icon"></span>');						
 			};
 			
 			// Setup Flagging Buttons

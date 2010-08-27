@@ -1,36 +1,36 @@
-<?php
-  // Compatible with sf_escaping_strategy: true
+<?php // Compatible with sf_escaping_strategy: true
   $items = isset($items) ? $sf_data->getRaw('items') : null;
 ?>
+
 <?php use_helper('I18N', 'jQuery') ?>
 
 <?php foreach ($items as $item): ?>
-<li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
 	<?php $id = $item->getId() ?>
-  <ul class="a-ui a-controls a-over">	
-	<li>
-		<?php echo link_to(__("Edit", null, 'apostrophe'), "aMedia/editImage", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
+	<li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
+		<ul class="a-ui a-controls a-over">	
+			<li>
+				<?php echo link_to('<span class="icon"></span>'.__("Edit", null, 'apostrophe'), "aMedia/editImage", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
+			</li>
+			<li>
+				<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label" title="<?php echo __('Crop', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Crop', null, 'apostrophe') ?></a>
+			</li>
+			<li>
+				<?php echo jq_link_to_remote('<span class="icon"></span>'.__("remove this item", null, 'apostrophe'), array(
+					'url' => 'aMedia/multipleRemove?id='.$id,
+					'update' => 'a-media-selection-list',
+					'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.'); aMediaUpdatePreview()', 
+				), array(
+					'class'=> 'a-btn icon a-delete no-label',
+					'title' => __('Remove', null, 'apostrophe')
+				)) ?>
+			</li>
+		</ul>	
+	  <?php if (aMediaTools::isMultiple()): ?>
+	 		<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
+	  <?php endif ?>	
+		<div class="a-media-selected-item-overlay"></div>
+	  <div class="a-thumbnail-container" style="background: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;"><img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" style="visibility:hidden;" /></div>
 	</li>
-		<li>
-			<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label" title="<?php echo __('Crop', null, 'apostrophe') ?>"><?php echo __('Crop', null, 'apostrophe') ?></a>
-		</li>
-	  <li><?php echo jq_link_to_remote(__("remove this item", null, 'apostrophe'),
-    array(
-      'url' => 'aMedia/multipleRemove?id='.$id,
-      'update' => 'a-media-selection-list',
-			'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.'); aMediaUpdatePreview()', 
-    ), array(
-			'class'=> 'a-btn icon a-delete no-label',
-			'title' => __('Remove', null, 'apostrophe'), )) ?>
-		</li>
-	</ul>	
-
-  <?php if (aMediaTools::isMultiple()): ?>
-  	<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
-  <?php endif ?>
-	<div class="a-media-selected-item-overlay"></div>
-  <img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" />
-</li>
 <?php endforeach ?>
 
 <script type="text/javascript" charset="utf-8">

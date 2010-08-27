@@ -192,6 +192,6 @@ aCrop = {
     aCrop.api.setSelect(coords);
   	aUI("a-media-selection-list");
 		$('.cropping-now').removeClass('cropping-now');
-		$(".a-crop-workspace").fadeTo(500,1).fadeOut();
+		$(".a-crop-workspace").fadeOut();
   }
 }
