@@ -36,19 +36,17 @@ class aDoctrineRoute extends sfDoctrineRoute
   public function generate($params, $context = array(), $absolute = false)
   {
     $slug = null;
+    $defaults = $this->getDefaults();
     if (isset($params['engine-slug']))
     {
       $slug = $params['engine-slug'];
-      aRouteTools::pushTargetEnginePage($slug);
+      aRouteTools::pushTargetEngineSlug($slug, $defaults['module']);
       unset($params['engine-slug']);
     } 
-    
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
     if ($slug)
     {
-      $defaults = $this->getDefaults();
-      $engine = $defaults['module'];
-      aRouteTools::popTargetEnginePage($engine);
+      aRouteTools::popTargetEngine($defaults['module']);
     }
     return $result;
   } 

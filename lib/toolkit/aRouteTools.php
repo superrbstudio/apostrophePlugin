@@ -67,7 +67,7 @@ class aRouteTools
    * name, and you care which one the link points to, call this method to specify 
    * that page. 
    *
-   * A stack of target engine pages is maintained for each engine module name.
+   * A stack of target engine slugs is maintained for each engine module name.
    * This allows you to push a new engine page at the top of a partial or component
    * that potentially targets a different engine page than the template that
    * invoked it, and then pop that engine page at the end to ensure that any links
@@ -80,13 +80,33 @@ class aRouteTools
    *
    */
   
-  static public function pushTargetEnginePage($page)
+  static public function pushTargetEnginePage($page, $engine = null)
   {
     if (!(is_object($page) && ($page instanceof aPage)))
     {
-      $page = aPageTable::retrieveBySlug($page);
+      if(is_null($engine))
+      {
+        $page = aPageTable::retrieveBySlug($page);
+        $engine = $page->engine;
+      }
+      $slug = $page;
     }
-    self::$targetEnginePages[$page->engine][] = $page;
+    else
+    {
+      $slug = $page->slug;
+      $engine = $page->engine;
+    }
+    self::$targetEnginePages[$engine][] = $slug;
+  }
+
+  /**
+   *
+   * @param string $slug The target page slug for engine routes
+   * @param string $engine The type of engine the page is
+   */
+  static public function pushTargetEngineSlug($slug, $engine)
+  {
+    self::$targetEnginePages[$engine][] = $slug;
   }
 
   /**
@@ -96,8 +116,19 @@ class aRouteTools
    * @param  string $engine The engine name in question
    *
    */
-
   static public function popTargetEnginePage($engine)
+  {
+    self::popTargetEngine($engine);
+  }
+
+  /**
+   * Pops the most recent target engine page for the specified engine name.
+   * See aRouteTools::pushTargetEnginePage for more information.
+   *
+   * @param  string $engine The engine name in question
+   *
+   */
+  static public function popTargetEngine($engine)
   {
     array_pop(self::$targetEnginePages[$engine]);
   }
@@ -118,17 +149,17 @@ class aRouteTools
     $engine = $defaults['module'];
     if (isset(self::$targetEnginePages[$engine]) && count(self::$targetEnginePages[$engine]))
     {
-      $page = end(self::$targetEnginePages[$engine]);
+      $slug = end(self::$targetEnginePages[$engine]);
     }
     elseif ((!$currentPage) || ($currentPage->engine !== $defaults['module']))
     {
-      $page = aPageTable::getFirstEnginePage($defaults['module']);
+      $slug = aPageTable::getFirstEnginePage($defaults['module'])->slug;
     }
     else
     {
-      $page = $currentPage;
+      $slug = $currentPage->slug;
     }
-    if (!$page)
+    if (!$slug)
     {
       throw new sfException('Attempt to generate aRoute URL for module ' . $defaults['module'] . ' with no matching engine page on the site');
     }
@@ -142,7 +173,8 @@ class aRouteTools
     {
       $url = substr($url, 1);
     }
-    $pageUrl = $page->getUrl($absolute);
+    
+    $pageUrl = aTools::urlForPage($slug, $absolute);
     // Strip controller off so it doesn't duplicate the controller in the 
     // URL we just generated. We could use the slug directly, but that would
     // break if the CMS were not mounted at the root on a particular site.
