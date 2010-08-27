@@ -7,6 +7,12 @@
 
 function _a_required_assets()
 {
+  $response = sfContext::getInstance()->getResponse();
+  $user = sfContext::getInstance()->getUser();
+
+  sfContext::getInstance()->getConfiguration()->loadHelpers(
+    array("Url", "jQuery", "I18N", 'PkDialog'));
+
   // Do not load redundant CSS and JS in an AJAX context. 
   // These are already loaded on the page in which the AJAX action
   // is operating. Please don't change this as it breaks or at least
@@ -15,12 +21,6 @@ function _a_required_assets()
   {
     return;
   }
-  $response = sfContext::getInstance()->getResponse();
-  $user = sfContext::getInstance()->getUser();
-
-  sfContext::getInstance()->getConfiguration()->loadHelpers(
-    array("Url", "jQuery", "I18N", 'PkDialog'));
-
   jq_add_plugins_by_name(array("ui"));
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
