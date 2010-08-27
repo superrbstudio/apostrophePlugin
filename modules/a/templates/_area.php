@@ -16,7 +16,7 @@
 	<li>
 	  <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
 		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big"); ?>
-		<?php echo jq_link_to_remote(__("History", null, 'apostrophe'), array(
+		<?php echo jq_link_to_remote('<span class="icon"></span>'.__("History", null, 'apostrophe'), array(
 	      "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
 				'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
 										 $(".a-history-browser .a-history-items").attr("rel","a-area-'.$pageid.'-'.$name.'");
@@ -24,15 +24,15 @@
 										 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
 	      "update" => "a-history-items-$pageid-$name"), 
 				array(
-					'title' => 'Area History', 
-					'class' => 'a-btn icon a-history-btn '.$history_button_style, 
+					'title' => 'Area History'.$history_button_style, 
+					'class' => 'a-btn icon a-history-btn '.((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style), 
 		)); ?>					
 	</li>
 <?php end_slot() ?>
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?> clearfix">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?><?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>
@@ -43,7 +43,7 @@
 		<?php # Slot Controls ?>
 			<li>
 				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big"); ?>				
-				<?php echo link_to_function(__('Add Content', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
+				<?php echo link_to_function('<span class="icon"></span>'.__('Add Content', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
@@ -91,7 +91,7 @@
       <?php if ($infinite): ?>
           <?php if ($i > 0): ?>
 						<li>
-            <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
+            <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Move', null, 'apostrophe'), array(
                 "url" => "a/moveSlot?" .http_build_query(array(
 									"id" => $page->id,
 									"name" => $name,
@@ -107,7 +107,7 @@
           <?php endif ?>
           <?php if (($i + 1) < count($slots)): ?>
 						<li>
-            <?php echo jq_link_to_remote(__('Move', null, 'apostrophe'), array(
+            <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Move', null, 'apostrophe'), array(
                 "url" => "a/moveSlot?" .http_build_query(array(
 									"id" => $page->id,
 									"name" => $name,
@@ -133,7 +133,7 @@
 			<?php // Tom: Just a quick note about this -- Enabling the delete button for singleton slot works, it just clears out the value for that slot instead of deleting the slot. ?>
         <li>
 					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "no-label"); ?>
-          <?php echo jq_link_to_remote(__('Delete', null, 'apostrophe'), array(
+          <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Delete', null, 'apostrophe'), array(
             "url" => "a/deleteSlot?" .http_build_query(array(
               "id" => $page->id,
               "name" => $name,
@@ -182,7 +182,6 @@
 
 			<?php if (!$infinite): ?>
 				<?php // Singleton Slot Controls ?>
-				$('#a-area-<?php echo "$pageid-$name" ?>').addClass('singleton <?php echo $options['type'] ?>');
 				if ($('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls-moved').length) {	<?php // This is far from optimal. We are still using jQuery to "toss up" the slot controls if it's a Singleton slot. ?>
 					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').remove(); <?php // If the slot controls have already been pushed up, remove any new instances from an Ajax return ?>
 				}

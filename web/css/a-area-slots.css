@@ -16,8 +16,7 @@ position: relative;
 z-index: 900;
 }
 
-.logged-in .a-slot
-{
+.logged-in .a-slot {
 min-height: 20px;
 margin-bottom: 20px;
 }
@@ -378,6 +377,10 @@ left: 0;
 z-index: 799;
 margin: 0 !important;
 }
+
+/* There are no such thing as slot controls for singleton areas. 
+	 This prevents the page wiggle jump at load */
+.a-area.singleton .a-slot-controls { display: none; }
 
 .a-controls li.last
 { /* .last option has no margin */
