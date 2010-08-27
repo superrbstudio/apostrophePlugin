@@ -15,22 +15,24 @@
 	    'url' => 'a/settings',
 			'complete' => '$(".a-page-overlay").hide();', 
 	    'script' => true),
-	  array(
-	    'name' => 'a-page-settings-form', 
-	    'id' => 'a-page-settings-form',
-			'class' => 'dropshadow a-options', )) ?>
+	  	array(
+		    'name' => 'a-page-settings-form', 
+		    'id' => 'a-page-settings-form',
+				'class' => 'dropshadow a-options a-page-form', )) ?>
 
-	<?php echo $form->renderHiddenFields() ?>
+	<div class="a-form-row a-hidden">
+		<?php echo $form->renderHiddenFields() ?>
+	</div>
 	<?php echo $form->renderGlobalErrors() ?>
 
 	<div class="a-page-settings-section page-info">
 
-		<div class="a-form-row title">
-		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. There is another ?>
-		  <?php // way but I think it might still try to initialize the field in an unwanted fashion even if it ?>
-		  <?php // allows them to be saved right ?>
+		<div class="a-form-row a-page-title">
+		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. There is another way but I think it might still try to initialize the field in an unwanted fashion even if it allows them to be saved right ?>
 			<?php echo $form['realtitle']->renderLabel(__('Page Title', array(), 'apostrophe')) ?>
-			<?php echo $form['realtitle']->render() ?>
+			<div class="a-form-field">
+				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
+			</div>
 			<?php echo $form['realtitle']->renderError() ?>
 		</div>
 

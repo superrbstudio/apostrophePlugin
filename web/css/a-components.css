@@ -233,9 +233,59 @@ padding: 5px 0 1px;
 	background-color: #333;
 }
 
+/* Edit/Create Page Form Shared Styles
+--------------------------------------*/
 
+.a-form-row.a-page-title label
+{
+	display: none;
+}
 
+.a-form-row.title input#a_settings_settings_title:hover
+{
+float: left;
+font-size: 18px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 360px;
+padding: 3px;
+font-family: Arial, sans-serif;
+border: 1px solid rgba(0,0,0,0.35);
+}
 
+.a-form-row.title input#a_settings_settings_title:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+}
+
+.a-ui .a-form-row input.a-page-title-field
+{
+	width: 240px;
+	border: 1px solid #999;
+	font-size: 18px;
+	padding: 2px 3px;
+	font-family: Arial, Helvetica, Sans-serif;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.a-ui .a-page-options
+{
+	float: left;
+	margin: 10px 0;
+}
+
+.a-ui .a-page-form .a-form-row
+{
+	margin: 5px 0;
+}
 
 
 
@@ -326,54 +376,6 @@ border-right: 1px inset rgba(0,0,0,0.1);
 margin: 10px 0;
 }
 
-.a-form-row.title
-{
-	margin-top: 0;
-}
-
-.a-form-row.title label
-{
-	display: none;
-}
-
-.a-form-row.title input#a_settings_settings_title
-{
-float: left;
-font-size: 18px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-width: 360px;
-padding: 3px;
-font-family: Arial, sans-serif;
-border: 1px solid rgba(0,0,0,0.1);
-}
-
-.a-form-row.title input#a_settings_settings_title:hover
-{
-float: left;
-font-size: 18px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-width: 360px;
-padding: 3px;
-font-family: Arial, sans-serif;
-border: 1px solid rgba(0,0,0,0.35);
-}
-
-.a-form-row.title input#a_settings_settings_title:focus
-{
-	border: 1px solid rgba(0,0,0,0.35);
-	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-}
-
-
-
 /* Create Page Form
 --------------------------------------*/
 #a-create-page-button.aActiveMenu
@@ -410,31 +412,6 @@ border: 1px solid rgba(0,0,0,0.35);
 {
 	display: block;
 }
-
-.a-ui .a-form-row input[type="text"].a-create-page-title-field
-{
-	width: 240px;
-	border: 1px solid #999;
-	font-size: 18px;
-	padding: 2px 3px;
-	font-family: Arial, Helvetica, Sans-serif;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-}
-
-.a-ui .a-create-page-options
-{
-	float: left;
-	margin: 10px 0;
-}
-
-.a-ui .a-create-page-form .a-form-row
-{
-	margin: 5px 0;
-}
-
-
 
 /* 13. History Browser
 -------------------------------------*/

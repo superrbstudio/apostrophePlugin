@@ -6,34 +6,35 @@
 
 <a href="#" class="a-btn icon a-add" id="a-create-page-button" onclick="return false;"><?php echo __("Add Page", null, 'apostrophe') ?></a>
 
-<form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-create-page-form dropshadow">
+<form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-page-form dropshadow">
 	
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
 	</div>
+	<?php echo $form->renderGlobalErrors() ?>
 	<div class="a-form-row a-hidden">	
 		<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
 	</div>
 	
-	<div class="a-form-row a-create-page-title">
+	<div class="a-form-row a-page-title">
 		<div class="a-form-field">
-			<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-create-page-title-field')) ?>
+			<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-page-title-field')) ?>
 		</div>
 		<?php echo $form['title']->renderError() ?>
 	</div>
 
 
-	<div class="a-create-page-options">	
-		<div class="a-form-row a-create-page-type">
-			<?php echo $form['engine']->renderLabel() ?>
+	<div class="a-page-options">	
+		<div class="a-form-row a-page-type">
+			<?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
 			<div class="a-form-field">
 				<?php echo $form['engine']->render(array('id' => 'a-create-page-type', )) ?>
 			</div>
 			<?php echo $form['engine']->renderError() ?>
 		</div>
 		
-		<div class="a-form-row a-create-page-template">
-			<?php echo $form['template']->renderLabel() ?>
+		<div class="a-form-row a-page-template">
+			<?php echo $form['template']->renderLabel(__('Page Template', array(), 'apostrophe')) ?>
 			<div class="a-form-field">
 				<?php echo $form['template']->render(array('id' => 'a-create-page-template', )) ?>
 			</div>
