@@ -195,6 +195,119 @@ function aConstructor()
 	{
 		$('#a-add-slot-form-' + name).hide();
 	}
+	
+	this.historyOpen = function(options)
+	{
+		var id = options['id'];
+		var name = options['name'];
+		var versionsInfo = options['versionsInfo'];
+		var all = options['all'];
+		var revert = options['revert'];
+		var revisionsLabel = options['revisionsLabel'];
+	  for (i = 0; (i < versionsInfo.length); i++)
+		{
+			version = versionsInfo[i].version;
+	  	$("#a-history-item-" + version).data('params',
+	  		{ 'preview': 
+	  			{ 
+	  	      id: id,
+	  	      name: name,
+	  	      subaction: 'preview', 
+	  	      version: version
+	  	    },
+	  			'revert':
+	  			{
+	  	      id: id,
+	  	      name: name,
+	  	      subaction: 'revert', 
+	  	      version: version
+	  			},
+	  			'cancel':
+	  			{
+	  	      id: id,
+	  	      name: name,
+	  	      subaction: 'cancel', 
+	  	      version: version
+	  			}
+	  		});
+	  }
+		if ((versionsInfo.length == 10) && (!all))
+		{
+			$('#a-history-browser-view-more').show();
+		}
+		else
+		{
+			$('#a-history-browser-view-more').hide().before('&nbsp;');
+		}
+
+		$('#a-history-browser-number-of-revisions').text(versionsInfo.length + revisionsLabel);
+
+		$('.a-history-browser-view-more').mousedown(function(){
+			$(this).children('img').fadeIn('fast');
+		});
+
+		$('.a-history-item').click(function() {
+
+			$('.a-history-browser').hide();
+
+		  var params = $(this).data('params');
+
+			var targetArea = "#"+$(this).parent().attr('rel');								// this finds the associated area that the history browser is displaying
+			var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');	// this grabs the history button
+			var cancelBtn = $('#a-history-cancel-button');										// this grabs the cancel button for this area 
+			var revertBtn = $('#a-history-revert-button');										// this grabs the history revert button for this area 
+
+			$(historyBtn).siblings('.a-history-options').show();
+
+		  $.post( //User clicks to PREVIEW revision
+		    revert,
+		    params.preview,
+		    function(result)
+		    {
+					$('#a-slots-' + id + '-' + name).html(result);
+					$(targetArea).addClass('previewing-history');
+					historyBtn.addClass('a-disabled');				
+					$('.a-page-overlay').hide();
+					aUI(targetArea);
+		    }
+		  );
+
+			// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
+			revertBtn.click(function(){
+			  $.post( // User clicks Save As Current Revision Button
+			    revert,
+			    params.revert,
+			    function(result)
+			    {
+						$('#a-slots-' + id + '-' + name).html(result);			
+						historyBtn.removeClass('a-disabled');						
+						aCloseHistory();
+						aUI(targetArea, 'history-revert');
+			  	}
+				);	
+			});
+
+			cancelBtn.click(function(){ 
+			  $.post( // User clicks CANCEL
+			    revert,
+			    params.cancel,
+			    function(result)
+			    {
+			     	$('#a-slots-' + id + '-' + name).html(result);
+					 	historyBtn.removeClass('a-disabled');								
+						aCloseHistory();
+					 	aUI(targetArea);
+			  	}
+				);
+			});
+		});
+
+		$('.a-history-item').hover(function(){
+			$(this).css('cursor','pointer');
+		},function(){
+			$(this).css('cursor','default');		
+		});
+	}
 } 
 
 window.apostrophe = new aConstructor();
