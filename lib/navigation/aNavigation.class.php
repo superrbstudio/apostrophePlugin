@@ -20,7 +20,7 @@ abstract class aNavigation
 
   protected abstract function buildNavigation();
 
-  public function __construct(aPage $root, aPage $active, $options = array())
+  public function __construct($root, $active, $options = array())
   {
     $this->user = sfContext::getInstance()->getUser();
     $this->livingOnly = !(aTools::isPotentialEditor() &&  sfContext::getInstance()->getUser()->getAttribute('show-archived', true, 'apostrophe'));
