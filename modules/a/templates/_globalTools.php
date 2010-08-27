@@ -46,9 +46,6 @@
 
 <?php include_partial('a/historyBrowser', array('page' => $page)) ?>
 
-
-<?php include_partial('a/historyBrowser', array('page' => $page)) ?>
-
 <div class="a-page-overlay"></div>
 
 <script type="text/javascript">
