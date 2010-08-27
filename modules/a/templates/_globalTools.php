@@ -42,7 +42,9 @@
 </div>
 
 <?php if (aTools::isPotentialEditor()): ?>
-	<?php include_partial('a/historyBrowser', array('page' => $page)) ?>
+	<?php include_partial('a/historyBrowser') ?>
 	<div class="a-page-overlay"></div>
-	<?php a_js_call('apostrophe.pageSettings(?)', array('aPageSettingsURL' => url_for('a/settings?' . http_build_query(array('id' => $page->id))))) ?>
+	<?php if ($page): ?>
+		<?php a_js_call('apostrophe.pageSettings(?)', array('aPageSettingsURL' => url_for('a/settings?' . http_build_query(array('id' => $page->id))))) ?>	
+	<?php endif ?>	
 <?php endif ?>
