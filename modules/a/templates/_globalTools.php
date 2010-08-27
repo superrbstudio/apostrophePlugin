@@ -67,7 +67,7 @@
 				complete:function(XMLHttpRequest, textStatus){
 					aUI('#a-page-settings');
 				},
-				url:'/admin/a/settings/id/<?php echo $page->id; ?>'
+				url:<?php echo json_encode(url_for('a/settings?' . http_build_query(array('id' => $page->id)))) ?>,
 			});	
 		});
 	});
