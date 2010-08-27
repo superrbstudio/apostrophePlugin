@@ -223,10 +223,10 @@ text-decoration:underline;
 	margin: 0;	
 }
 
-.nobg,
-.nobg:hover,
-a.a-btn.nobg,
-a.a-btn.nobg:hover
+.no-bg,
+.no-bg:hover,
+a.a-btn.no-bg,
+a.a-btn.no-bg:hover
 {
 	background-color: transparent !important;
 	-moz-box-shadow: 0 0 0 transparent !important;

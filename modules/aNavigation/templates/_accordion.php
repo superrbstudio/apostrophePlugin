@@ -38,7 +38,7 @@
       <?php endif ?>
 
       <?php if ($dragIcon && $draggable): ?>
-        <span class="a-btn icon a-drag a-controls nobg"></span>
+        <span class="a-btn icon a-drag"></span>
       <?php endif ?>
 
     </li>

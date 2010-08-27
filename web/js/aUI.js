@@ -22,7 +22,7 @@ function aUI(target)
 			var aBtn = $(this);
 
 			// Setup Icons
-			if (aBtn.hasClass('icon')) 
+			if (aBtn.is('a') && aBtn.hasClass('icon')) 
 			{
 				if (!aBtn.children('.icon').length) 
 				{

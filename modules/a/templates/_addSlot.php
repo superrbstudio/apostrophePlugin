@@ -20,7 +20,7 @@
 		'complete' => 'aUI("#a-area-'.$id.'-'.$name.'"); $("#a-area-'.$id.'-'.$name.'").removeClass("a-options-open");', 
 		), 
 		array(
-			'class' => 'a-btn alt icon nobg ' . $class .' slot', 
+			'class' => 'a-btn alt icon no-bg ' . $class .' slot', 
 	));
 ?>	
 

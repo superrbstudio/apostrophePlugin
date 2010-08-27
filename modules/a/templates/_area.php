@@ -100,7 +100,7 @@
 									"update" => "a-slots-$pageid-$name",
 									'complete' => 'aUI()'), 
 									array(
-										'class' => 'a-btn icon a-arrow-up', 
+										'class' => 'a-btn icon a-arrow-up no-label', 
 										'title' => __('Move Up', null, 'apostrophe'), 
 						)) ?>
 						</li>
@@ -115,7 +115,7 @@
 									"update" => "a-slots-$pageid-$name",
 									'complete' => 'aUI()'), 
 									array(
-										'class' => 'a-btn icon a-arrow-down', 
+										'class' => 'a-btn icon a-arrow-down no-label', 
 										'title' => __('Move Down', null, 'apostrophe'), 
 						)) ?>
             </li>

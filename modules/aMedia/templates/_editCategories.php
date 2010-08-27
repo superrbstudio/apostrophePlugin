@@ -29,7 +29,7 @@
 
 <div class="a-ui a-form-row submit">
 <input type="submit" name="add" value="<?php echo __('add', null, 'apostrophe') ?>" class="a-btn a-submit icon a-add no-label" />
-<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '$("#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list").show(); $("#a-media-edit-categories").html("")', array('class' => 'a-btn icon a-cancel no-label', )) ?>
+<a href="#cancel" onclick="$('#a-media-edit-categories-button, #a-media-no-categories-message, #a-category-sidebar-list').show(); $('#a-media-edit-categories').html(''); return false;" class="a-btn icon a-cancel no-label"><span class="icon"></span><?php echo __('Cancel', null, 'apostrophe') ?></a>
 </div>
 </form>
 
