@@ -885,3 +885,23 @@ new function($) {
 		}
 	}
 }(jQuery);
+
+new function($) {
+	$.fn.aRemoteSubmit = function(update) {
+		var rBtn = $(this);
+		rBtn.click(function(event){
+			event.preventDefault();
+			var rForm = rBtn.closest('form');
+			var rFormURL = rForm.attr('action');
+			$.ajax({
+				type: 'POST',
+				url: rFormURL,
+				dataType: 'html',
+				data: rForm.serialize(),
+				success: function(data){
+					$(update).html(data);
+				}
+			});
+		});
+	}
+}(jQuery);

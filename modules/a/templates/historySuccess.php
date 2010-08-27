@@ -44,7 +44,4 @@
 	</tr>
 <?php endif ?>
 
-<script type="text/javascript" charset="utf-8">
-
-</script>
 <?php a_include_js_calls() ?>

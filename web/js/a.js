@@ -196,6 +196,15 @@ function aConstructor()
 		$('#a-add-slot-form-' + name).hide();
 	}
 	
+	this.mediaCategories = function(options) 
+	{	
+		var newCategoryLabel = options['newCategoryLabel'];	
+		aInputSelfLabel('#a_media_category_name', newCategoryLabel);	
+		$('#a-media-edit-categories-button, #a-media-no-categories-messagem, #a-category-sidebar-list').hide();
+		$('#a_media_category_description').parents('div.a-form-row').addClass('hide-description').parent().attr('id','a-media-category-form');
+		$('.a-remote-submit').aRemoteSubmit('#a-media-edit-categories');
+	}
+	
 	this.historyOpen = function(options)
 	{
 		var id = options['id'];
