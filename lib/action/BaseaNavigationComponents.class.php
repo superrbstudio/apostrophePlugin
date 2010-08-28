@@ -17,6 +17,7 @@ class BaseaNavigationComponents extends sfComponents
     if(is_object($this->active) && $this->active instanceof aPage)
     {
       $this->activePage = $this->active;
+      $this->active = $this->active->slug;
     }
     else
     {
