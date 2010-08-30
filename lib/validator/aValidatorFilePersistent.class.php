@@ -16,6 +16,23 @@
  */
 class aValidatorFilePersistent extends sfValidatorFile
 {
+  
+  protected function configure($options = array(), $messages = array())
+  {
+    $guessersSet = isset($options['mime_type_guessers']);
+    parent::configure($options, $messages);
+    if (!$guessersSet)
+    {
+      // Extend the default list from the parent class with guessers that are more
+      // robust about spotting files that can't be picked up if Unix file is 
+      // unavailable, mime type files are out of date, Unix file has a bug that
+      // hates on certain valid MP3s, etc. Everything else falls back to the other guessers
+      $mimeTypeGuessers = $this->getOption('mime_type_guessers');
+      array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
+      array_unshift($mimeTypeGuessers, array($this, 'guessFromID3'));
+      $this->setOption('mime_type_guessers', $mimeTypeGuessers);
+    }
+  }
 
   /**
    * The input value must be an array potentially containing two
@@ -212,5 +229,47 @@ class aValidatorFilePersistent extends sfValidatorFile
   static public function validPersistId($persistid)
   {
     return preg_match("/^[a-fA-F0-9]+$/", $persistid);
+  }
+  
+  /**
+   * Guess the file mime type with aImageConverter's getInfo method, which uses imagesize and
+   * magic numbers to be more robust than relying on a lot of badly configured external tools
+   *
+   * @param  string $file  The absolute path of a file
+   *
+   * @return string The mime type of the file (null if not guessable)
+   */
+  protected function guessFromImageconverter($file)
+  {
+    $info = aImageConverter::getInfo($file);
+    if (!$info)
+    {
+      return null;
+    }
+    $formats = array('jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'pdf' => 'application/pdf');
+    if (isset($formats[$info['format']]))
+    {
+      return $formats[$info['format']];
+    }
+    return null;
+  }
+  /**
+   * Guess the file mime type of MP3 audio files based on the ID3 tag at the beginning, more robust
+   * than the file command's buggy support for MP3s that seems to dislike VBR files
+   *
+   * @param  string $file  The absolute path of a file
+   *
+   * @return string The mime type of the file (null if not guessable)
+   */
+  protected function guessFromID3($file)
+  {
+    $in = fopen($file, 'rb');
+    $magic = fread($in, 3);
+    fclose($in);
+    if ($magic !== 'ID3')
+    {
+      return null;
+    }
+    return 'audio/mpeg';
   }
 }
