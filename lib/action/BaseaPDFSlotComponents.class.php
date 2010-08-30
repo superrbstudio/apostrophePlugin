@@ -31,13 +31,16 @@ class BaseaPDFSlotComponents extends BaseaSlotComponents
     {
       $this->item = $this->slot->MediaItems[0];
       $this->itemId = $this->item->id;
-      $this->dimensions = aDimensions::constrain(
-        $this->item->width, 
-        $this->item->height,
-        $this->item->format, 
-        array("width" => $this->width,
-          "height" => $this->flexHeight ? false : $this->height,
-          "resizeType" => $this->resizeType));
+      if ($this->pdfPreview)
+      {
+        $this->dimensions = aDimensions::constrain(
+          $this->item->width, 
+          $this->item->height,
+          $this->item->format, 
+          array("width" => $this->width,
+            "height" => $this->flexHeight ? false : $this->height,
+            "resizeType" => $this->resizeType));
+      }
       $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
   }
