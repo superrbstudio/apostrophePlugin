@@ -20,7 +20,7 @@
 
 			<?php foreach ($buttons as $button): ?>
 				<?php if ($button->getTargetEnginePage()): ?>
-					<?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage()) ?>
+					<?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage(), $button->getTargetEngine()) ?>
 				<?php endif ?>
 				<li><?php echo link_to(__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?></li>
 			<?php endforeach ?>

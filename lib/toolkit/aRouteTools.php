@@ -89,7 +89,7 @@ class aRouteTools
         $page = aPageTable::retrieveBySlug($page);
         $engine = $page->engine;
       }
-      $slug = $page->slug;
+      $slug = $page;
     }
     else
     {

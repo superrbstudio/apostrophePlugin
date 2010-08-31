@@ -12,7 +12,7 @@
   $type = isset($type) ? $sf_data->getRaw('type') : null;
 ?>
 <?php // Make sure we target the administrative media engine page and not a public instance ?>
-<?php aRouteTools::pushTargetEnginePage('/admin/media') ?>
+<?php aRouteTools::pushTargetEngineSlug('/admin/media', 'aMedia') ?>
 <?php $after = url_for($action) . "?" .
   http_build_query(
     array(
