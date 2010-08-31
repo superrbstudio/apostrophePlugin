@@ -223,6 +223,10 @@ text-decoration:underline;
 	margin: 0;	
 }
 
+.no-bg,
+.no-bg:hover,
+a.a-btn.no-bg,
+a.a-btn.no-bg:hover,
 .nobg,
 .nobg:hover,
 a.a-btn.nobg,
