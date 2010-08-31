@@ -107,22 +107,31 @@ class aMediaTools
   {
     return sfContext::getInstance()->getUser();
   }
-  // Symfony 1.2 has no namespaces for attributes for some reason
+
   static public function getAttribute($attribute, $default = null)
   {
+    // If you are logged out, you should have no attributes, as
+    // all attributes used in the media engine relate to selection
+    if (!self::getUser()->isAuthenticated())
+    {
+      return $default;
+    }
     $attribute = "aMedia-$attribute";
     return self::getUser()->getAttribute($attribute, $default, 'apostrophe_media');
   }
+  
   static public function setAttribute($attribute, $value = null)
   {
     $attribute = "aMedia-$attribute";
     self::getUser()->setAttribute($attribute, $value, 'apostrophe_media');
   }
+  
   static public function removeAttributes()
   {
     $user = self::getUser();
     $user->getAttributeHolder()->removeNamespace('apostrophe_media');
   }
+  
   // This is a good convention for plugin options IMHO
   static private $options = array(
     "batch_max" => 6,
