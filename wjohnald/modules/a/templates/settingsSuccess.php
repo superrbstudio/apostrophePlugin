@@ -56,7 +56,6 @@
 			<?php echo $form['tags'] ?>
 			<?php echo $form['tags']->renderError() ?>
 		</div>
-		<?php include_component('taggableComplete','inlineTagWidget', array('form' => $form)) ?>
 
 		<div class="a-form-row meta-description">
 			<?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?>
