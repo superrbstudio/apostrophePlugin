@@ -56,6 +56,18 @@
 		  <?php echo $form['template']->renderError() ?>
 		</div>
 
+		<div class="a-form-row keywords">
+			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
+			<?php echo $form['tags'] ?>
+			<?php echo $form['tags']->renderError() ?>
+		</div>
+
+		<div class="a-form-row meta-description">
+			<?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?>
+			<?php echo $form['meta_description'] ?>
+			<?php echo $form['meta_description']->renderError() ?>
+		</div>
+
 		<div id="a_settings_engine_settings">
 		  <?php if (isset($engineSettingsPartial)): ?>
 		    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>

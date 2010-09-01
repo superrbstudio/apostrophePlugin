@@ -1,4 +1,7 @@
 <?php
+  // Pull in the Symfony Text Helper
+  sfContext::getInstance()->getConfiguration()->loadHelpers(array('Text'));
+
   // Compatible with sf_escaping_strategy: true
   $attributes = isset($attributes) ? $sf_data->getRaw('attributes') : null;
   $dateFormat = isset($dateFormat) ? $sf_data->getRaw('dateFormat') : null;
@@ -18,6 +21,6 @@
 		</li>
     <?php $date = $feedItem->getPubDate() ?>
     <li class="date"><?php echo $dateFormat ? date($dateFormat, $date) : aDate::pretty($date) . ' ' . aDate::time($date) ?></li>
-    <li class="description"><?php echo aHtml::simplify($feedItem->getDescription(), $markup, false, (isset($attributes)? $attributes:false), (isset($styles)? $styles:false)) ?></li>
+    <li class="description"><?php echo auto_link_text(aHtml::simplify($feedItem->getDescription(), $markup, false, (isset($attributes)? $attributes:false), (isset($styles)? $styles:false))) ?></li>
   </ul>
 </li>

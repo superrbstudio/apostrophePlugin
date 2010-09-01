@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -12,5 +13,4 @@
  */
 abstract class PluginaFeedSlot extends BaseaFeedSlot
 {
-
 }

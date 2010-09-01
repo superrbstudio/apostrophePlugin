@@ -9,6 +9,7 @@ aPage:
   actAs:
     - Timestampable
     - NestedSet
+    - Taggable
   columns:
     id:
       type: integer(4)

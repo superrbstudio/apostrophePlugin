@@ -578,7 +578,7 @@ class aHtml
   static public function textToHtml($text)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
-    return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
+   	return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
   }
 
   // For any given HTML, returns only the img tags. If 

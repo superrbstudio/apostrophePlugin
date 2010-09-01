@@ -246,6 +246,20 @@ abstract class PluginaPage extends BaseaPage
     return $title;
   }
   
+  public function getMetaDescription()
+  {
+  	$metaDescriptionSlot = $this->getSlot('metaDescription');
+  	
+  	$result = '';
+  	if ($metaDescriptionSlot)
+  	{
+  		$result = $metaDescriptionSlot->value;
+  	}
+  	return trim($result);
+  }
+  
+  
+  
   // Changed in 1.5: returns a flat array, not an associative array indexed by version.
   // The latter was not very useful and made it difficult to pass through JSON
   // in a useful form
@@ -865,6 +879,20 @@ abstract class PluginaPage extends BaseaPage
         'slot' => $slot));
   }
 
+  public function setMetaDescription($description)
+  {
+  	$slot = $this->createSlot('aText');
+  	$slot->value = $description;
+  	$slot->save();
+  	
+  	$this->newAreaVersion('metaDescription', 'update',
+  		array(
+  			'permid' => 1,
+  			'slot' => $slot));
+  	
+  }
+
+
   // SAVE ANY CHANGES to the actual page object FIRST before you call this method.
   
   public function newAreaVersion($name, $action, $params = false)
@@ -1270,26 +1298,23 @@ abstract class PluginaPage extends BaseaPage
     $title = $this->getTitle();
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
+    $tags = implode(',', $this->getTags());
+    $metaDescription = $this->getMetaDescription();
     $slug = $this->getSlug();
     $info = $this->getInfo();
     // Already a separate field, so don't store it twice.
     // Otherwise though the info structure is well worth it because
     // it lets us check explicit privileges
     unset($info['title']);
-    // These are indexed but not stored. Use for fat fields that
-    // would otherwise turn Lucene into a database (it's a terrible database)
     aZendSearch::updateLuceneIndex($this, 
-      array('text' => $text),
+      array('text' => $text, 'tags' => $tags, 'metadescription' => $metaDescription),
       $this->getCulture(),
-      // These are stored, not indexed. They are used to present and filter summaries
-      array(
-        'summary' => $summary,
-        'info' => serialize($info)),
-      // These are stored AND indexed
       array(
         'title' => $title,
-        'slug' => $slug
-      ));
+        'summary' => $summary,
+        'slug' => $slug,
+        'info' => serialize($info)),
+      array('tags' => 2.0, 'metadescription' => 1.2));
   }
 
   public function getSearchSummary()

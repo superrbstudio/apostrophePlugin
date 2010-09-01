@@ -251,7 +251,7 @@ class aZendSearch
   // of display in search results, and in need of searchability. For long things that must be searchable,
   // use unStoredFields. For things that need not be indexed at all, like summaries, use unIndexedFields
 
-  static public function updateLuceneIndex(Doctrine_Record $object, $unStoredFields = array(), $culture = null, $unIndexedFields = array(), $storedAndIndexedFields = array())
+  static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array(), $boostsByField = array())
   {
     self::deleteFromLuceneIndex($object, $culture);
     $index = self::getLuceneIndex($object->getTable());
@@ -263,8 +263,8 @@ class aZendSearch
     {
       $doc->addField(Zend_Search_Lucene_Field::Keyword('culture', $culture, 'UTF-8'));
     }
-    // index the UnStored fields
-    foreach ($unStoredFields as $key => $value)
+    // index the search fields
+    foreach ($fields as $key => $value)
     {
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
@@ -275,35 +275,26 @@ class aZendSearch
       {
         $value = strtolower($value);
       }
-      $doc->addField(Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8'));
+      
+      $field = Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8');
+      if (isset($boostsByField[$key]))
+      {
+      	$field->boost = $boostsByField[$key];
+      }
+      $doc->addField($field);
     }
 
     // store the data fields (a big performance win over hydrating things with Doctrine)
-    foreach ($unIndexedFields as $key => $value)
+    foreach ($storedFields as $key => $value)
     {
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
-    }
-
-    // index and store the storedAndIndexed fields
-    foreach ($storedAndIndexedFields as $key => $value)
-    {
-      // Ugh: UTF8 Lucene is case sensitive work around this
-      if (function_exists('mb_strtolower'))
-      {
-        $value = mb_strtolower($value);
-      }
-      else
-      {
-        $value = strtolower($value);
-      }
-      $doc->addField(Zend_Search_Lucene_Field::Text($key, $value, 'UTF-8'));
     }
    
     // add item to the index
     $index->addDocument($doc);
     $index->commit();
   }
-
+  
   // This does a clean job of saving the object in both doctrine and zend
   // without a lot of duplicated code, reducing the potential for
   // bugs. However if you use it your class must implement 
