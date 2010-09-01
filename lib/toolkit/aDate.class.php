@@ -59,7 +59,7 @@ class aDate
       // Long date format is the closest I18N format to our proprietary version
       return format_date($date, 'p');
     }
-    return date('D, j M Y', $date);
+    return date('D, M j Y', $date);
   }
 
   // 9/4/09 4PM
