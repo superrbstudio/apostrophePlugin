@@ -33,7 +33,7 @@
 
 		<?php if (isset($form['slug'])): ?>
 		  <div class="a-form-row slug">
-				<?php echo $form['slug']->renderLabel(__('Page Slug', array(), 'apostrophe')) ?>
+			<?php echo $form['slug']->renderLabel(__('Page Slug', array(), 'apostrophe')) ?>
 		    <?php echo $form['slug'] ?>
 		    <?php echo $form['slug']->renderError() ?>
 		  </div>
@@ -51,7 +51,7 @@
 		  	<?php echo $form['template']->renderError() ?>
 		</div>
 
-		<div class="a-form-row tags-form-row">
+		<div class="a-form-row keywords">
 			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
 			<?php echo $form['tags'] ?>
 			<?php echo $form['tags']->renderError() ?>
@@ -156,10 +156,4 @@
 	aRadioSelect('.a-radio-select', { });
 	$('#a-page-settings').show();
 	aUI();
-</script>
-
-<?php // Bring this script in for tag typeahead ?>
-<script src='/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'></script>
-<script>
-    pkTagahead(<?php echo json_encode(url_for("taggableComplete/complete")) ?>);
 </script>
