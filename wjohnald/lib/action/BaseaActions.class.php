@@ -469,10 +469,6 @@ class BaseaActions extends sfActions
     }
     
     $this->form = new aPageSettingsForm($this->page);
-    
-    
-	// Generate a tag cloud for this page
-	$this->tags = PluginTagTable::getPopulars();
 
     $mainFormValid = false;
     
