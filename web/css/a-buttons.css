@@ -124,8 +124,8 @@ box-shadow: 0 0 0 transparent !important;
 .a-add > .icon { background-image: url(/apostrophePlugin/images/a-icon-add.png); }
 .a-arrow-up > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png); }
 .a-arrow-down > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png); }
-.a-arrow-left > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-left.png); }
-.a-arrow-right > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-right.png); }
+.a-arrow-left > .icon { background-image: url(/apostrophePlugin/images/a-icon-solid-arrow-left-simple.png); }
+.a-arrow-right > .icon { background-image: url(/apostrophePlugin/images/a-icon-solid-arrow-right-simple.png); }
 .a-blog > .icon,
 .a-blog-btn > .icon,
 .a-blogpost > .icon,
@@ -374,13 +374,13 @@ background: transparent url(/apostrophePlugin/images/a-icon-drag-simple.png) 50%
 .a-arrow-btn.a-arrow-left:hover,
 .a-arrow-btn.a-arrow-right:hover { opacity: 0.5; }
 
-.a-arrow-left.thin { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
+.a-arrow-btn.a-arrow-left.thin { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
 width: auto;
 padding: 0 4px 0 20px;
 text-indent: 0;
 }
 
-.a-arrow-right.thin {
+.a-arrow-btn.a-arrow-right.thin {
 background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
 width: auto;
 padding: 0 4px 0 20px;

@@ -165,7 +165,7 @@ margin-right:1px;
 /* 11. aUI Global Toolbar
 -------------------------------------*/
 
-.a-global-toolbar
+.a-ui.a-global-toolbar
 {
 position: relative;
 display: inline;
@@ -179,22 +179,11 @@ background:#fff;
 padding: 5px 0 1px;
 }
 
-.the-apostrophe { float: left; margin: 2px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
+.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
 
-.a-global-toolbar > .a-controls
-{
-	margin-top: 5px;
-}
+.a-global-toolbar > .a-controls { margin-top: 5px; }
 
-.a-global-toolbar .a-login
-{
-	float: right;
-	display: inline;
-	margin-right:5px;
-	line-height: 20px;
-}
-
-.a-global-toolbar .a-global-toolbar-this-page
+.a-ui.a-global-toolbar .a-global-toolbar-this-page
 {
 	position: relative;
 	display: inline;
@@ -206,24 +195,23 @@ padding: 5px 0 1px;
 	overflow: hidden;
 }
 
-.a-global-toolbar .a-global-toolbar-this-page.ok
-{
-	padding: 8px 0;
-}
+.a-global-toolbar .a-global-toolbar-this-page.ok { padding: 8px 0; }
 
-#a-logged-in-as
+.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
+
+.a-logged-in-user
 {
 	float: left;
 	line-height: 20px;
 	padding-right: 10px;
 }
 
-#a-logged-in-as a
+.a-logged-in-user a
 {
 	text-decoration: underline;
 }
 
-#a-logged-in-as a:hover
+.a-logged-in-user a:hover
 {
 	color: #000;
 }

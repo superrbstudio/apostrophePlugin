@@ -347,7 +347,7 @@ padding-left: 70px;
 /* 9. Controls for Areas and Slots
 -------------------------------------*/
 
-.a-controls
+.a-ui.a-controls
 { 
 position: relative;
 margin: 0 !important;
@@ -356,7 +356,7 @@ list-style: none;
 clear: both;
 }
 
-.a-controls li
+.a-ui.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
 display: inline;
@@ -366,6 +366,7 @@ width: auto;
 height: auto;
 border: none;
 list-style: none;
+clear: none;
 }
 
 .a-controls.a-over,

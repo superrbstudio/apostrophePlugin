@@ -27,7 +27,7 @@
 <?php // This was inside a ul which doesn't make sense ?>
 
 
-<?php echo link_to(__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left thin', 'id' => 'media-library-back-button', ))?>
+<?php echo link_to(__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left', 'id' => 'media-library-back-button', ))?>
 
 <ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
 	<li class="a-media-item-source">

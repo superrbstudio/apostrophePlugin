@@ -278,11 +278,13 @@ clear: both;
 
 .a-media-item
 {
+padding: 0;
 float: left;
 display: inline;
 position: relative;
 width: 340px;
 margin-bottom: 20px;
+padding: 0;
 }
 
 .a-media-item.even
@@ -296,6 +298,7 @@ margin: 0 0 10px 0;
 }
 
 .a-media-item-thumbnail,
+.a-media-item-source,
 .a-media-item-title,
 .a-media-item-description,
 .a-media-item-meta
@@ -555,7 +558,6 @@ display: none;
 .a-media-video-heading
 {
 float: left;
-clear: both;
 display: inline;
 position: relative;
 font-size: 14px;
@@ -601,6 +603,7 @@ background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
 {
 position: relative;
 z-index: 0;
+border: 0;
 }
 
 .a-media-item-content
@@ -610,13 +613,13 @@ z-index: 0;
 	display: inline;
 	position: relative;
 	width: 100%;
+	padding: 0;
 }
 
 .a-media-item-content li
 {
 position: relative;
 float: left;
-clear: both;
 display: inline;
 width: 100%;
 }
@@ -735,7 +738,7 @@ cursor: default !important;
 #media-library-back-button
 {
 	clear: both;
-	margin-bottom: 10px;
+	margin: 16px 0 0;
 	height:24px;
 }
 

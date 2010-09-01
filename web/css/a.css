@@ -1886,19 +1886,19 @@ margin-right: 5px;
 	line-height: 20px;
 }
 
-#a-global-toolbar #a-logged-in-as
+#a-global-toolbar .a-logged-in-user
 {
 	float: left;
 	line-height: 20px;
 	padding-right: 10px;
 }
 
-#a-global-toolbar #a-logged-in-as a
+#a-global-toolbar .a-logged-in-user a
 {
 	text-decoration: underline;
 }
 
-#a-global-toolbar #a-logged-in-as a:hover
+#a-global-toolbar .a-logged-in-user a:hover
 {
 	color: #000;
 }
@@ -5776,7 +5776,7 @@ border-color: rgb(255,150,0);
 
 .a-admin .a-admin-content a:link, 
 .a-admin .a-admin-content a:visited,
-#a-global-toolbar #a-logged-in-as span,
+#a-global-toolbar .a-logged-in-user span,
 #a-personal-settings-heading span
 { /* Text Color */
 color: rgb(255,150,0);

@@ -2,7 +2,7 @@
 -------------------------------------*/
 
 /* Apostrophe Mark - Color */
-.a-global-toolbar .the-apostrophe { background-color: rgb(255,150,0); background-color: rgba(255,150,0,0.75); }
+.a-ui.a-global-toolbar .the-apostrophe { background-color: rgb(29,34,128); background-color: rgba(29,34,128,0.75); }
 
 /* Apostrophe Button - Color */
 .a-btn,
@@ -29,8 +29,8 @@
 { 
 color: #fff !important;
 text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-background-color: #999 !important;
 text-decoration: none !important;
+background-color: #999 !important;
 }
 
 .a-cancel:hover,
@@ -80,7 +80,7 @@ background-color: #E0E0E0 !important;
 .a-attribution a,
 .a-admin .a-admin-content a:link, 
 .a-admin .a-admin-content a:visited,
-.a-global-toolbar #a-logged-in-as span,
+.a-global-toolbar .a-logged-in-user span,
 #a-personal-settings-heading span
 {
 color: rgb(255,150,0);
