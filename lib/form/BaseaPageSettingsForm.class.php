@@ -300,8 +300,10 @@ class BaseaPageSettingsForm extends aPageForm
     $this->savePrivileges($object, 'manage', 'managers');
     $this->saveGroupPrivileges($object, 'edit', 'group_editors');
     $this->saveGroupPrivileges($object, 'manage', 'group_managers');
+    
         
     $this->getObject()->setTitle(htmlentities($values['realtitle'], ENT_COMPAT, 'UTF-8'));
+    
     
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites

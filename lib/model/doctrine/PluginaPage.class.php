@@ -1030,21 +1030,56 @@ abstract class PluginaPage extends BaseaPage
     $this->requestSearchUpdate();
     $this->end();
   }
-  
-  public function requestSearchUpdate()
+    
+  public function requestSearchUpdate($allcultures = false)
   {
+  
+  	// we want to build an array so we can map the Lucene update across all elements
+  	$aPages = array($this);
+  	if ($allcultures)
+  	{
+  		$aPages = array();
+  		
+  		$cultures = array();
+		$page = Doctrine::getTable('aPage')
+			->createQuery('p')
+			->where('p.id = ?', $this->id)
+			->innerJoin('p.Areas a')
+			->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+ 
+ 		foreach ($page['Areas'] as $area)
+        {
+          $cultures[$area['culture']] = true; 
+        }
+        $cultures = array_keys($cultures);
+  	  	
+  	  	foreach ($cultures as $culture)
+  	  	{
+  	  		$aPages[] = aPageTable::retrieveByIdWithSlots($this->id, $culture);
+  	  	}
+  	}
+  	
+  	// save a variable for the update function
     if (sfConfig::get('app_a_defer_search_updates', false))
     {
-      // Deferred updates are sometimes nice for performance...
-      aLuceneUpdateTable::requestUpdate($this);
+		// Deferred updates are sometimes nice for performance...
+		foreach($aPages as $page)
+  		{
+		    aLuceneUpdateTable::requestUpdate($page);
+		}
     }
     else
     {
-      // ... But the average developer hates cron.
-      // Without this the changes we just made aren't visible to getSearchText,
-      // we need to trigger a thorough recaching
-      aPageTable::retrieveByIdWithSlots($this->id);
-      $this->updateLuceneIndex();
+		// ... But the average developer hates cron.
+   		
+   		// Without this the changes we just made aren't visible to getSearchText,
+		// we need to trigger a thorough recaching
+  	
+  		foreach($aPages as $page)
+  		{
+		  	aPageTable::retrieveByIdWithSlots($page->id);
+		    $page->updateLuceneIndex();   
+		}
     }
   }
   
@@ -1274,10 +1309,9 @@ abstract class PluginaPage extends BaseaPage
 
   public function save(Doctrine_Connection $conn = null)
   {
-    // We don't use saveInDoctrineAndLucene here because there are
-    // too many side effects and the performance is terrible. Asynchronous 
-    // indexing is the way to go
-    return parent::save($conn);
+    $result = parent::save($conn);
+    $this->requestSearchUpdate(true);
+    return $result;
   }
 
   public function doctrineSave(Doctrine_Connection $conn)
