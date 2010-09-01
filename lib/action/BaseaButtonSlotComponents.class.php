@@ -39,7 +39,7 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     $data = $this->slot->getArrayValue();
 
 		$this->button_title = false;
-    $this->button_link = false;
+    $this->button_link = $this->link;
 
     if (isset($data['url']))
     {
