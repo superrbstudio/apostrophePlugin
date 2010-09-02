@@ -6,8 +6,10 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
   $page = isset($page) ? $sf_data->getRaw('page') : null;
+  $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : null;
+  $existingTags = isset($existingTags) ? $sf_data->getRaw('existingTags') : null;
 ?>
-<?php use_helper('Url', 'jQuery', 'I18N') ?>
+<?php use_helper('Url', 'jQuery', 'I18N', 'a') ?>
 
 	<?php echo jq_form_remote_tag(
 	  array(
@@ -60,6 +62,7 @@
 			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
 			<?php echo $form['tags'] ?>
 			<?php echo $form['tags']->renderError() ?>
+			<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'typeahead-url' => url_for('taggableComplete/complete'))) ?>
 		</div>
 
 		<div class="a-form-row meta-description">
@@ -125,11 +128,12 @@
 </form>
 <?php a_js_call('apostrophe.updateEngineAndTemplate(?)', array('url' => url_for('a/engineSettings'), 'id' => $page->id)) ?>
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
-<?php a_include_js_calls() ?>
 
+<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
+<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
+<?php a_include_js_calls() ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
 		var aPageTypeSelect = $('#a_settings_settings_engine');
 		var aPageTemplateSelect = $('.a-edit-page-template');
 

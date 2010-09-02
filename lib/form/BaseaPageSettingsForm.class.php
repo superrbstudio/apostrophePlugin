@@ -26,8 +26,8 @@ class BaseaPageSettingsForm extends aPageForm
   
   public function configure()
   {
-    parent::configure();
-    
+    parent::configure();    
+   
     // We must explicitly limit the fields because otherwise tables with foreign key relationships
     // to the pages table will extend the form whether it's appropriate or not. If you want to do
     // those things on behalf of an engine used in some pages, define a form class called
@@ -97,7 +97,6 @@ class BaseaPageSettingsForm extends aPageForm
 	// class tag-input enabled for typeahead support
 	$this->setWidget('tags', new sfWidgetFormInput(array('default' => $tagstring), array('class' => 'tags-input')));
 	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
-
 
 	// Meta Description
 	$metaDescription = $this->getObject()->getMetaDescription();
