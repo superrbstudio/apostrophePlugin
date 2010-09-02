@@ -161,6 +161,24 @@ function aConstructor()
 		aInputSelfLabel(options['selector'], options['title']);
 	};
 	
+	this.aClickOnce = function(options)
+	{
+
+		// For some reason, this didn't work as a single click event. 
+		// Nesting the click event was the only way to get this to work properly.		
+
+		var selector = $(options['selector']);
+		selector.data('clicked',0); // Using .data() to keep track of the click
+		selector.unbind('click').click(function(){
+			if (!selector.data('clicked')) { // Is this is the first click ?
+				selector.unbind('click').click(function(event){ // Unbind the click event and reset it to preventDefault()
+					event.preventDefault();
+				});
+			selector.data('clicked',1);	// No longer the first click
+			}
+		});
+	}
+	
 	this.updateEngineAndTemplate = function(options)
 	{
 		var id = options['id'];
