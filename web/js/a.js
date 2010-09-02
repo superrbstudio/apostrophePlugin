@@ -163,6 +163,14 @@ function aConstructor()
 	
 	this.aClickOnce = function(options)
 	{
+		var selector = $(options['selector']);
+		selector.unbind('click').click(function(){   
+ 			selector.replaceWith("<span class='" + selector.attr('class') + "' id='"+selector.attr('id')+"'>" + selector.text() + "</span>");	
+		});
+	}
+	
+	this.aClickOnce_old = function(options)
+	{
 
 		// For some reason, this didn't work as a single click event. 
 		// Nesting the click event was the only way to get this to work properly.		
@@ -356,6 +364,14 @@ function aConstructor()
 				url: aPageSettingsURL
 			});	
 		});
+	}
+	
+	// console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
+	this.log = function(output)
+	{ 
+		if (window.console && console.log) {
+			console.log(output);
+		};
 	}
 } 
 

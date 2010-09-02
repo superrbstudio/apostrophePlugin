@@ -354,6 +354,7 @@ margin: 0 !important;
 padding: 0;
 list-style: none;
 clear: both;
+z-index: 699;
 }
 
 .a-ui.a-controls li
