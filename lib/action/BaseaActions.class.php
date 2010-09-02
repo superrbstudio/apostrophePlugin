@@ -22,10 +22,26 @@ class BaseaActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $slug = $this->getRequestParameter('slug');
+    
+    // remove trailing slashes from $slug
+    $pattern = '/\/$/';
+    if (preg_match($pattern, $slug) && ($slug != '/'))
+   	{
+    	sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
+    	
+	    $new_slug = preg_replace($pattern, '', $slug);
+	    $slug = addcslashes($slug, '/');
+		$new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
+		
+	    $this->redirect($new_uri);
+	}
+    
+    
     if (substr($slug, 0, 1) !== '/')
     {
       $slug = "/$slug";
     }
+    
     $page = aPageTable::retrieveBySlugWithSlots($slug);
     if (!$page)
     {
