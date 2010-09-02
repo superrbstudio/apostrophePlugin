@@ -6,7 +6,7 @@
 
 <a href="#" class="a-btn icon a-add" id="a-create-page-button" onclick="return false;"><?php echo __("Add Page", null, 'apostrophe') ?></a>
 
-<form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-page-form dropshadow">
+<form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-page-form a-create-page-form dropshadow">
 	
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>

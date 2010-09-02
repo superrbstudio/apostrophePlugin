@@ -266,6 +266,10 @@ padding: 5px 0 1px;
 	margin: 5px 0;
 }
 
+.a-ui .a-page-form .a-form-field
+{
+	width: 235px;
+}
 
 
 /* 12. Page Settings Panel
@@ -961,3 +965,42 @@ text-align: right;
 	padding-right: 10px;
 }
 
+.a-inline-taggable-widget-tag-container
+{
+	overflow: hidden;
+	clear: both;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag
+{
+	float: left;
+	display: block;
+	clear: both;
+	line-height: 18px;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag a
+{
+	cursor: pointer;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag a,
+.a-inline-taggable-widget-tag-container .a-tag span
+{
+	float: left;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular span
+{
+	color: #999;
+	margin-left: 5px;
+}
+
+.a-inline-taggable-widget-tag-container h4
+{
+	float: left;
+	clear: both;
+	background: none;
+	width: 100%;
+	text-indent: 0;
+}

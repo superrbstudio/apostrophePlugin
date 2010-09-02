@@ -459,20 +459,20 @@ min-width: 120px;
 width: auto;
 }
 
-.a-options a
+.a-options .a-options-item > a
 { 
 float: left;
 clear: both;
 color: #777;
 }
 
-.a-options a:hover,
-.a-options span
+.a-options .a-options-item > a:hover,
+.a-options .a-options-item > span
 { 
 color: #000 !important;
 }
 
-.a-options a.a-btn
+.a-options .a-options-item > a.a-btn
 { 
 float: none !important;
 display: block !important;
@@ -482,7 +482,7 @@ text-shadow: none;
 border: 0;
 }
 
-.a-options a.a-btn:hover
+.a-options .a-options-item > a.a-btn:hover
 { 
 background-color: #f5f5f5	 !important;
 color: #000 !important;

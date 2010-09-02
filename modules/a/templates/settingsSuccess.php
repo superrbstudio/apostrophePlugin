@@ -20,7 +20,7 @@
 	  	array(
 		    'name' => 'a-page-settings-form', 
 		    'id' => 'a-page-settings-form',
-				'class' => 'dropshadow a-options a-page-form', )) ?>
+				'class' => 'a-options a-page-form a-page-settings-form dropshadow', )) ?>
 
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
@@ -41,33 +41,43 @@
 		<?php if (isset($form['slug'])): ?>
 		  <div class="a-form-row a-page-slug">
 				<?php echo $form['slug']->renderLabel(__('Page Slug', array(), 'apostrophe')) ?>
-		    <?php echo $form['slug'] ?>
+				<div class="a-form-field">
+		    	<?php echo $form['slug'] ?>
+				</div>
 		    <?php echo $form['slug']->renderError() ?>
 		  </div>
 		<?php endif ?>
 
 		<div class="a-form-row engine a-page-type">
 			<?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
-		  <?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
+			<div class="a-form-field">
+		  	<?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
+			</div>
 		  <?php echo $form['engine']->renderError() ?>
 		</div>
 
 		<div class="a-form-row a-edit-page-template">
 			<?php echo $form['template']->renderLabel(__('Page Template', array(), 'apostrophe')) ?>
-		  <?php echo $form['template'] ?>
+			<div class="a-form-field">
+		  	<?php echo $form['template'] ?>
+			</div>
 		  <?php echo $form['template']->renderError() ?>
 		</div>
 
 		<div class="a-form-row keywords">
 			<?php echo $form['tags']->renderLabel(__('Page Tags', array(), 'apostrophe')) ?>
-			<?php echo $form['tags'] ?>
+			<div class="a-form-field">
+				<?php echo $form['tags'] ?>
+			</div>
 			<?php echo $form['tags']->renderError() ?>
 			<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'typeahead-url' => url_for('taggableComplete/complete'))) ?>
 		</div>
 
 		<div class="a-form-row meta-description">
 			<?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?>
-			<?php echo $form['meta_description'] ?>
+			<div class="a-form-field">
+				<?php echo $form['meta_description'] ?>
+			</div>
 			<?php echo $form['meta_description']->renderError() ?>
 		</div>
 

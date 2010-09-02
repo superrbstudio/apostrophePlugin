@@ -1033,7 +1033,6 @@ abstract class PluginaPage extends BaseaPage
     
   public function requestSearchUpdate($allcultures = false)
   {
-  
   	// we want to build an array so we can map the Lucene update across all elements
   	$aPages = array($this);
   	if ($allcultures)
@@ -1041,22 +1040,24 @@ abstract class PluginaPage extends BaseaPage
   		$aPages = array();
   		
   		$cultures = array();
-		$page = Doctrine::getTable('aPage')
-			->createQuery('p')
-			->where('p.id = ?', $this->id)
-			->innerJoin('p.Areas a')
-			->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+
+			$page = Doctrine::getTable('aPage')
+				->createQuery('p')
+				->where('p.id = ?', $this->id)
+				->leftJoin('p.Areas a')
+				->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
  
- 		foreach ($page['Areas'] as $area)
-        {
-          $cultures[$area['culture']] = true; 
-        }
-        $cultures = array_keys($cultures);
-  	  	
-  	  	foreach ($cultures as $culture)
-  	  	{
-  	  		$aPages[] = aPageTable::retrieveByIdWithSlots($this->id, $culture);
-  	  	}
+			foreach ($page['Areas'] as $area)
+			{
+				$cultures[$area['culture']] = true; 
+			}
+
+			$cultures = array_keys($cultures);
+
+			foreach ($cultures as $culture)
+			{
+				$aPages[] = aPageTable::retrieveByIdWithSlots($this->id, $culture);
+			}
   	}
   	
   	// save a variable for the update function
