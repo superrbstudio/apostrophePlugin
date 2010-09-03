@@ -22,9 +22,6 @@ class BaseaMediaImageForm extends aMediaItemForm
     unset($this['format']);
     
     $this->setWidget('file', new aWidgetFormInputFilePersistent(array(
-      // Not yet
-      // "iframe" => true,
-      // "progress" => "Uploading...",
       'image-preview' => aMediaTools::getOption('gallery_constraints')
     )));
 

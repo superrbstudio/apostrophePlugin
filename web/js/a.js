@@ -366,6 +366,21 @@ function aConstructor()
 		});
 	}
 	
+	this.mediaEnableRemoveButton = function(i)
+	{
+		var editor = $('#a-media-item-' + i);
+		editor.find('.a-media-remove-file').click(function()
+		{
+			editor.remove();
+			if ($('.a-media-item').length == 0)
+			{
+				// This is a bit hacky
+				document.location = $('.a-media-edit-multiple-cancel').attr('href');
+			}
+			return false;
+		});
+	}
+	
 	// console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
 	this.log = function(output)
 	{ 

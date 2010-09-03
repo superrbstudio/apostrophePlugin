@@ -10,9 +10,8 @@ class BaseaMediaBackendActions extends sfActions
   {
     $item = $this->getItem();
     $format = $request->getParameter('format');
-    $this->forward404Unless(
-      in_array($format, 
-      array_keys(aMediaItemTable::$mimeTypes)));
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    $this->forward404Unless(isset($mimeTypes[$format]));
     $path = $item->getOriginalPath($format);
     if (!file_exists($path))
     {
@@ -20,7 +19,7 @@ class BaseaMediaBackendActions extends sfActions
       aImageConverter::convertFormat($item->getOriginalPath(),
         $item->getOriginalPath($format));
     }
-    header("Content-type: " . aMediaItemTable::$mimeTypes[$format]);
+    header("Content-type: " . $mimeTypes[$format]);
     readfile($item->getOriginalPath($format));
     // Don't let the binary get decorated with crap
     exit(0);
@@ -34,9 +33,8 @@ class BaseaMediaBackendActions extends sfActions
     $height = ceil($request->getParameter('height') + 0);
     $resizeType = $request->getParameter('resizeType');
     $format = $request->getParameter('format');
-    $this->forward404Unless(
-      in_array($format, 
-      array_keys(aMediaItemTable::$mimeTypes)));
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    $this->forward404Unless(isset($mimeTypes[$format]));
     $this->forward404Unless(($resizeType !== 'c') || ($resizeType !== 's'));
     // EDITED FOR ARBITRARY CROPPING
     $cropLeft = $request->getParameter('cropLeft');
@@ -104,7 +102,7 @@ class BaseaMediaBackendActions extends sfActions
     // we don't generate the image again, but there is the
     // PHP interpreter hit to consider, so use those directives!
     header("Content-length: " . filesize($output));
-    header("Content-type: " . aMediaItemTable::$mimeTypes[$format]);
+    header("Content-type: " . $mimeTypes[$format]);
     readfile($output);
       // If I don't bail out manually here I get PHP warnings,
     // even if I return sfView::NONE

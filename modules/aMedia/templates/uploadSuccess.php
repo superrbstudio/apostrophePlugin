@@ -10,11 +10,12 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-toolbar">
-    <h3><?php echo __('Upload Images', null, 'apostrophe') ?></h3>
+  
+    <h3><?php echo a_('Upload ' . aMediaTools::getBestTypeLabel()) ?></h3>
 
     <?php echo $form->renderGlobalErrors() ?>
 
-    <form method="POST" action="<?php echo url_for("aMedia/uploadImages") ?>" enctype="multipart/form-data" id="a-media-upload-form">
+    <form method="POST" action="<?php echo url_for("aMedia/upload") ?>" enctype="multipart/form-data" id="a-media-upload-form">
       <?php echo $form->renderHiddenFields() ?>
     	
       <?php // I use this in js code, don't kill it please, style it if you want ?>
@@ -23,19 +24,19 @@
           <?php // What we're passing here is actually a widget schema ?>
           <?php // (they get nested when embedded forms are present), but ?>
           <?php // it supports the same methods as a form for rendering purposes ?>
-          <?php include_partial('aMedia/uploadImage', array("form" => $form["item-$i"], "first" => ($i == 0))) ?>
+          <?php include_partial('aMedia/upload', array("form" => $form["item-$i"], "first" => ($i == 0))) ?>
         <?php endfor ?>
       </div>
 
 			<ul class="a-ui a-controls">
-      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo __('Add Multiple Photos', null, 'apostrophe') ?></a></li>
+      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo a_('Add Multiple Files') ?></a></li>
 			</ul>
 			
 			<br class="c"/>
       
 			<ul class="a-ui a-controls">
-      	<li><?php echo link_to_function(__('Upload Photos', null, 'apostrophe'), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
-      	<li><?php echo link_to(__('cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
+      	<li><?php echo link_to_function(a_('Upload ' . aMediaTools::getBestTypeLabel()), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
+      	<li><?php echo link_to(a_('cancel'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
       </ul>
     </form>
 

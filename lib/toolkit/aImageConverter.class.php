@@ -257,6 +257,7 @@ class aImageConverter
   
   static private function scaleGd($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
   {
+    
     // gd version for those who can't install netpbm, poor buggers
     // "handles" PDF by rendering a blank white image. We already superimpose a PDF icon,
     // so this should work well 
@@ -294,6 +295,11 @@ class aImageConverter
     else
     {
       $in = self::imagecreatefromany($fileIn);
+    }
+    
+    if (!$in)
+    {
+      return false;
     }
     
     if (preg_match("/\.(\w+)$/i", $fileOut, $matches))
@@ -452,15 +458,22 @@ class aImageConverter
   
   // If the file does not have a valid header identifying it as one of these types, false is returned.
   
-  static public function getInfo($file)
+  // If the 'format-only' option is true, only the format field is returned. This is much faster if the
+  // file is a PDF.
+  
+  static public function getInfo($file, $options = array())
   {
+    $formatOnly = (isset($options['format-only']) && $options['format-only']);
     $result = array();
     $in = fopen($file, "rb");
     $data = fread($in, 4);
     fclose($in);
+    
+    
     if ($data === '%PDF')
     {
-      if (!aImageConverter::supportsInput('pdf'))
+      // format-only 
+      if ((!aImageConverter::supportsInput('pdf')) || $formatOnly)
       {
         // All we can do is confirm the format and allow
         // download of the original (which, for PDF, is
@@ -527,9 +540,13 @@ class aImageConverter
         return false;
       }
       $format = $formats[$data[2]];
+      $result['format'] = $format;
+      if ($formatOnly)
+      {
+        return $result;
+      }
       $result['width'] = $data[0];
       $result['height'] = $data[1];
-      $result['format'] = $format;
       return $result;
     }
   }

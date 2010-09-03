@@ -7,38 +7,40 @@
   $itemFormScripts = isset($itemFormScripts) ? $sf_data->getRaw('itemFormScripts') : null;
   $n = isset($n) ? $sf_data->getRaw('n') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
   
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
 
+<?php // if there is an $item then we're editing one exiting media item, if not ?>
+<?php // we're part of an annotation of potentially several new items in a bigger form ?>
+
 <?php if (!$item): ?>	
-<li class="a-media-item <?php echo ($n%2) ? "odd" : "even" ?>">
+<li class="a-media-item <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 	<div class="a-media-item-edit-form">
 <?php endif ?>
 
 <?php if ($item): ?>
 <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" 
-  action="<?php echo url_for(aUrl::addParams("aMedia/editImage",
+  action="<?php echo url_for(aUrl::addParams("aMedia/edit",
     array("slug" => $item->getSlug())))?>">
 <?php endif ?>
-
-		<?php $previewAvailable = aValidatorFilePersistent::previewAvailable($form['file']->getValue()) ?>
-		<?php if ($previewAvailable || $item): ?>
-
-		<div class="a-form-row image">
-		<?php if (0): ?>
-		  <?php // Maybe Rick doesn't want this... ?>
-		  <?php echo $form['file']->renderLabel() ?>
-		<?php endif ?>
-		<?php // But we must have this ?>
-		<?php echo $form['file']->renderError() ?>
-		<?php echo $form['file']->render() ?>
-		<?php else: ?>
-		<div class="a-form-row newfile">
-		<?php echo $form['file']->renderRow() ?>
-		</div>
-		<?php endif ?>
-		</div>
+    
+    <?php // This is how we get the preview (which might be a rendering or a large icon, depending on the type) ?>
+    <?php // outside of the widget. Jamming it into the widget made templating weird ?>
+    <div class="a-form-row preview">
+      <?php echo image_tag($form['file']->getWidget()->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints'))) ?>
+      <?php if (!$item): ?>
+        <a class="a-media-remove-file" href="#">x</a>
+        <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+      <?php endif ?>
+    </div>
+    
+    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
+		<div class="a-form-row file">
+      <?php echo $form['file']->renderLabel() ?>
+      <?php echo $form['file']->renderError() ?>
+      <?php echo $form['file']->render() ?>
+    </div>
 
 		<div class="a-form-row title">
 		<?php echo $form['title']->renderLabel() ?>
@@ -48,7 +50,6 @@
 		<?php echo $form['title']->render() ?>
 		</div>
 
-		<?php echo $form['id']->render() ?>
 		<div class="a-form-row description">
 			<?php echo $form['description']->renderLabel() ?>
 			<?php echo $form['description']->renderError() ?>

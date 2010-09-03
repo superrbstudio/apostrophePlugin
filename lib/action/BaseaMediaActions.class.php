@@ -58,6 +58,20 @@ class BaseaMediaActions extends aEngineActions
     $params = array();
     $tag = $request->getParameter('tag');
     $type = $request->getParameter('type');
+    $typeInfos = aMediaTools::getTypeInfos($type);
+    $this->embedAllowed = false;
+    $this->uploadAllowed = false;
+    foreach ($typeInfos as $typeInfo)
+    {
+      if ($typeInfo['embeddable'])
+      {
+        $this->embedAllowed = true;
+      }
+      if (count($typeInfo['extensions']))
+      {
+        $this->uploadAllowed = true;
+      }
+    }
     $category = $request->getParameter('category');
     if (aMediaTools::getType())
     {
@@ -408,7 +422,7 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect($after);
   }
 
-  public function executeEditImage(sfRequest $request)
+  public function executeEdit(sfRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
@@ -423,10 +437,9 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('edit'));
     }
     $this->item = $item;
-    $this->form = new aMediaImageForm($item);
+    $this->form = new aMediaEditForm($item);
     if ($request->isMethod('post'))
     {
-      $this->firstPass = $request->getParameter('first_pass');
       $parameters = $request->getParameter('a_media_item');
       $files = $request->getFiles('a_media_item');
       $this->form->bind($parameters, $files);
@@ -443,79 +456,15 @@ class BaseaMediaActions extends aEngineActions
         {
           // Everything except the actual copy which can't succeed
           // until the slug is cast in stone
-          $object->preSaveImage($file->getTempName());
+          $object->preSaveFile($file->getTempName());
         }
         $this->form->save();
         if ($file)
         {
-          $object->saveImage($file->getTempName());
+          $object->saveFile($file->getTempName());
         }
         return $this->redirect("aMedia/resumeWithPage");
       }
-    }
-  }
-
-  public function executeEditPdf(sfRequest $request)
-  {
-    $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
-    $item = null;
-    $this->slug = false;
-    if ($request->hasParameter('slug'))
-    {
-      $item = $this->getItem();
-      $this->slug = $item->getSlug();
-    }
-    if ($item)
-    {
-      $this->forward404Unless($item->userHasPrivilege('edit'));
-    }
-    $this->item = $item;
-    $this->form = new aMediaPdfForm($item);
-    try
-    {
-      if ($request->isMethod('post'))
-      {
-        $this->firstPass = $request->getParameter('first_pass');
-        $parameters = $request->getParameter('a_media_item');
-        $files = $request->getFiles('a_media_item');
-        $this->form->bind($parameters, $files);
-        if ($this->form->isValid())
-        {
-          $file = $this->form->getValue('file');
-          $object = $this->form->getObject();
-          if ($file)
-          {
-            // This actually has to be shimmed in at a much lower level as an option if
-            // gs is not available. We can't just use a fake thumbnail as an 'original' as we
-            // do for foreign video because that would break 'download original'
-            // copy(sfConfig::get('sf_root_dir') . '/plugins/apostrophePlugin/web/images/a-media-pdf-btn-small.png', $previewFile);
-          
-            // Everything except the actual copy which can't succeed
-            // until the slug is cast in stone
-            if (!$object->preSaveImage($file->getTempName()))
-            {
-              // Ideally this doesn't happen, in practice sometimes a PDF has
-              // a good signature but bad content or ghostscript hates it
-              throw new sfException('Defective PDF file');
-            }
-          }
-          // The base implementation for saving files gets confused when 
-          // $file is not set, a situation that our code tolerates as useful 
-          // because if you're updating a record containing a PDF you 
-          // often don't need to submit a new one.
-          unset($this->form['file']);
-          $this->form->save();
-          if ($file)
-          {
-            $object->saveImage($file->getTempName());
-          }
-          return $this->redirect("aMedia/resumeWithPage");
-        }
-      }
-    } catch (Exception $e)
-    {
-      $this->serviceError = $e->getMessage();
-      // TODO make this visible somehow
     }
   }
 
@@ -576,12 +525,12 @@ class BaseaMediaActions extends aEngineActions
           $object = $this->form->getObject();
           if ($thumbnail)
           {
-            $object->preSaveImage($thumbnail->getTempName());
+            $object->preSaveFile($thumbnail->getTempName());
           }
           $this->form->save();
           if ($thumbnail)
           {
-            $object->saveImage($thumbnail->getTempName());                     
+            $object->saveFile($thumbnail->getTempName());                     
           }
         }
         else
@@ -643,10 +592,10 @@ class BaseaMediaActions extends aEngineActions
           }
           $object = $this->form->getObject();
           $new = !$object->getId();
-          $object->preSaveImage($thumbnailCopy);
+          $object->preSaveFile($thumbnailCopy);
           $object->setServiceUrl($url);
           $this->form->save();
-          $object->saveImage($thumbnailCopy);
+          $object->saveFile($thumbnailCopy);
           unlink($thumbnailCopy);
         }
         return $this->redirect("aMedia/resumeWithPage");
@@ -654,11 +603,11 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
-  public function executeUploadImages(sfRequest $request)
+  public function executeUpload(sfRequest $request)
   {
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
-    $this->form = new aMediaUploadImagesForm();
+    $this->form = new aMediaUploadMultipleForm();
     if ($request->isMethod('post'))
     {
       $this->form->bind(
@@ -667,7 +616,6 @@ class BaseaMediaActions extends aEngineActions
       if ($this->form->isValid())
       {
         $request->setParameter('first_pass', true);
-        $active = array();
         // Saving embedded forms is weird. We can get the form objects
         // via getEmbeddedForms(), but those objects were never really
         // bound, so getValue will fail on them. We have to look at the
@@ -675,42 +623,49 @@ class BaseaMediaActions extends aEngineActions
         // validators of the embedded forms are rolled into it.
         // See:
         // http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
+        $items = $request->getParameter("a_media_items");
         for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++)
         {
           $values = $this->form->getValues();
-          if ($values["item-$i"]['file'])
+          $file = $values["item-$i"]['file'];
+          if ($file)
           {
-            $active[] = $i;
+            // Humanize the original filename
+            $title = $file->getOriginalName();
+            $title = preg_replace('/\.\w+$/', '', $title);
+            $title = aTools::slugify($title, false, false, ' ');
+            $items["item-$i"]['title'] = $title;
           }
           else
           {
             // So the editImagesForm validator won't complain about these
-            $items = $request->getParameter("a_media_items");
             unset($items["item-$i"]);
-            $request->setParameter("a_media_items", $items);
           }
         }
-        $request->setParameter('active', implode(",", $active));
-        // We'd like to just do this...
-        // $this->forward('aMedia', 'editImages');
-        // But we need to break out of the iframe, and 
-        // modern browsers ignore Window-target: _top which
-        // would otherwise be perfect for this.
-        // Fortunately, the persistent file upload widget can tolerate
-        // a GET-method redirect very nicely as long as we pass the
-        // persistids. So we make the current parameters available
-        // to a template that breaks out of the iframe via
-        // JavaScript and passes the prameters on.
-        $this->parameters = $request->getParameterHolder('a_media_items')->getAll();
-        // If I don't do this I just get redirected back to myself
-        unset($this->parameters['module']);
-        unset($this->parameters['action']);
-        return 'Redirect';
+        $request->setParameter("a_media_items", $items);
+        // We're not doing stupid iframe tricks anymore, so we can just forward
+        $this->forward('aMedia', 'editMultiple');
+        // 
+        // // We'd like to just do this...
+        // // $this->forward('aMedia', 'edit');
+        // // But we need to break out of the iframe, and 
+        // // modern browsers ignore Window-target: _top which
+        // // would otherwise be perfect for this.
+        // // Fortunately, the persistent file upload widget can tolerate
+        // // a GET-method redirect very nicely as long as we pass the
+        // // persistids. So we make the current parameters available
+        // // to a template that breaks out of the iframe via
+        // // JavaScript and passes the prameters on.
+        // $this->parameters = $request->getParameterHolder('a_media_items')->getAll();
+        // // If I don't do this I just get redirected back to myself
+        // unset($this->parameters['module']);
+        // unset($this->parameters['action']);
+        // return 'Redirect';
       }
     }
   }
 
-  public function executeEditImages(sfRequest $request)
+  public function executeEditMultiple(sfRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
 
@@ -721,15 +676,23 @@ class BaseaMediaActions extends aEngineActions
     // no actual restriction on multiple form objects inside a 
     // single HTML form element.
     $this->firstPass = $request->getParameter('first_pass');
-    $active = $request->getParameter('active');
-    $this->forward404Unless(preg_match("/^\d+[\d\,]*$/", $active));
-    $this->active = explode(",", $request->getParameter('active'));
+    $items = $request->getParameter('a_media_items');
+    // The active parameter was redundant, just look at the items that are present.
+    // This allows successive passes to prune out some items if desired
+    $active = array();
+    foreach ($items as $itemName => $item)
+    {
+      if (preg_match('/^item-(\d+)$/', $itemName, $matches))
+      {
+        $active[] = $matches[1];
+      }
+    }
 
-    $this->form = new aMediaEditImagesForm($this->active);
+    $this->form = new aMediaEditMultipleForm($active);
     $this->form->bind(
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
-    if ($this->form->isValid())
+    if ((!$this->firstPass) && $this->form->isValid())
     {
       $values = $this->form->getValues();
       // This is NOT automatic since this isn't a Doctrine form. http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
@@ -755,14 +718,37 @@ class BaseaMediaActions extends aEngineActions
         // Everything except the actual copy which can't succeed
         // until the slug is cast in stone
         $file = $values[$key]['file'];
-        $object->preSaveImage($file->getTempName());
+        
+        $format = $file->getExtension();
+        if (strlen($format))
+        {
+          // Starts with a .
+          $format = substr($format, 1);
+        }
+        $object->format = $format;
+        $types = aMediaTools::getOption('types');
+        foreach ($types as $type => $info)
+        {
+          $extensions = $info['extensions'];
+          if (in_array($format, $extensions))
+          {
+            $object->type = $type;
+          }
+        }
+        $object->preSaveFile($file->getTempName());
         $object->save();
-        $object->saveImage($file->getTempName());
+        $object->saveFile($file->getTempName());
       }
       return $this->redirect('aMedia/resume');
     }
   }
 
+  public function executeEmbed()
+  {
+    // TODO: rework this to be less video-oriented
+    return $this->redirect('aMedia/newVideo');
+  }
+  
   public function executeDelete()
   {
     $item = $this->getItem();

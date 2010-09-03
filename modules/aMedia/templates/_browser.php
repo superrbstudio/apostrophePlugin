@@ -43,15 +43,12 @@
 
 		  <div class="a-filter-options type">
 				<?php $type = isset($type) ? $type : '' ?>
-				<div class="a-filter-option">
-					<?php echo link_to(__('Image', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'image') ? '' : 'image')), array('class' => ($type=='image') ? 'selected' : '', )) ?>
-				</div>
-				<div class="a-filter-option">
-					<?php echo link_to(__('Video', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'video') ? '' : 'video')), array('class' => ($type=='video') ? 'selected' : '', )) ?>				
-				</div>
-				<div class="a-filter-option">
-					<?php echo link_to(__('PDF', null, 'apostrophe'), aUrl::addParams($current, array('type' => ($type == 'pdf') ? '' : 'pdf')), array('class' => ($type=='pdf') ? 'selected' : '', )) ?>
-				</div>
+		    <?php $typesInfo = aMediaTools::getOption('types') ?>
+				<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
+  				<div class="a-filter-option">
+  					<?php echo link_to(a_($typeInfo['label']), aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName)), array('class' => ($typeName == $type) ? 'selected' : '', )) ?>
+  				</div>
+  			<?php endforeach ?>
 		  </div>
 		</div>
 

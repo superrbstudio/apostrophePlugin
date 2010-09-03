@@ -107,7 +107,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
   }
   
-  public function preSaveImage($file)
+  public function preSaveFile($file)
   {
     // Refactored into aImageConverter for easier reuse of this should-be-in-PHP functionality
     $info = aImageConverter::getInfo($file);
@@ -122,21 +122,21 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       {
         $this->height = $info['height'];
       }
-      $this->format = $info['format'];
+      // Don't force this, but it's useful when we're not
+      // coming from a normal upload form
+      if (!isset($file->format))
+      {
+        $this->format = $info['format'];
+      }
       $this->clearImageCache(true);
-      return true;
-    }
-    else
-    {
-      return false;
     }
   }
 
-  public function saveImage($file)
+  public function saveFile($file)
   {
     if (!$this->width)
     {
-      if (!$this->preSaveImage($file))
+      if (!$this->preSaveFile($file))
       {
         return false;
       }
@@ -367,5 +367,17 @@ EOM
     }
     $p = preg_split('/\./', $this->slug);
     return $this->getTable()->findOneBySlug($p[0]);
+  }
+  
+  public function getDownloadable()
+  {
+    // Right now videos are always embedded and nothing else is
+    return ($this->type !== 'video');
+  }
+  
+  public function getEmbeddable()
+  {
+    // Right now videos are always embedded and nothing else is
+    return ($this->type === 'video');
   }
 }

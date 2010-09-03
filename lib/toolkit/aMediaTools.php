@@ -105,6 +105,20 @@ class aMediaTools
   {
     return self::getAttribute('type');
   }
+  
+  static public function getBestTypeLabel()
+  {
+    $type = aMediaTools::getType();
+    if ($type)
+    {
+      $typeInfo = aMediaTools::getTypeInfo($type);
+      return $typeInfo['label'];
+    }
+    else
+    {
+      return 'Media';
+    }
+  }
 
   static public function userHasUploadPrivilege()
   {
@@ -128,22 +142,31 @@ class aMediaTools
   {
     return sfContext::getInstance()->getUser();
   }
-  // Symfony 1.2 has no namespaces for attributes for some reason
+
   static public function getAttribute($attribute, $default = null)
   {
+    // If you are logged out, you should have no attributes, as
+    // all attributes used in the media engine relate to selection
+    if (!self::getUser()->isAuthenticated())
+    {
+      return $default;
+    }
     $attribute = "aMedia-$attribute";
     return self::getUser()->getAttribute($attribute, $default, 'apostrophe_media');
   }
+  
   static public function setAttribute($attribute, $value = null)
   {
     $attribute = "aMedia-$attribute";
     self::getUser()->setAttribute($attribute, $value, 'apostrophe_media');
   }
+  
   static public function removeAttributes()
   {
     $user = self::getUser();
     $user->getAttributeHolder()->removeNamespace('apostrophe_media');
   }
+  
   // This is a good convention for plugin options IMHO
   static private $options = array(
     "batch_max" => 6,
@@ -173,8 +196,61 @@ class aMediaTools
     'routes_register' => true,
     'apipublic' => false,
     'embed_codes' => false,
-    'apikeys' => array()
-  );
+    'apikeys' => array(),
+
+    // All mime types that are acceptable for upload to the media repository,
+    // keyed by the file extensions we save them under (regardless of the original name)
+    
+    'mime_types' => array(
+      "gif" => "image/gif",
+      "png" => "image/png",
+      "jpg" => "image/jpeg",
+      "pdf" => "application/pdf",
+      "mp3" => "mpeg/mp3",
+      'xls' => 'application/vnd.ms-excel',
+      'ppt' => 'application/vnd.ms-powerpoint',
+      'doc' => 'application/msword',
+      'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+      'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+      'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+      'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+      'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+      'txt' => 'text/plain',
+      'rtf' => 'text/rtf'
+      ),
+      
+    // You can override these to add more types to the system. These are the 
+    // major types one can filter by in the media repository. Adding something here
+    // doesn't necessarily mean browsers can display it or our slots are designed
+    // to render it, in particular don't add new audio formats to 'audio' without
+    // overriding our audio slots to play them (and keep in mind the browser probably
+    // knows nothing about them)
+    
+    // Video has no extensions because we don't provide processing of video uploads,
+    // which are in a dizzying array of formats most browsers won't play. That's why
+    // YouTube exists. Videos are brought into the system via "Embed Media," not "Upload Media"
+
+    // Typically the only section you'll override here is 'file'. You can add more
+    // accepted extensions and/or break it up into 'Office' and 'Other' etc
+
+    // Also see 'getDownloadable' and 'getEmbeddable' in aMediaItem
+
+    'types' => array(
+      'image' => array('label' => 'Image', 'extensions' => array('gif', 'png', 'jpg'), 'embeddable' => false),
+      'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false),
+      'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false),
+      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true),
+      
+      // A long whitelist of file formats that are usually benign and useful.
+      // No .exe, no .zip. You can add them via app.yml if you really want them.
+      // We list only the non-macro-enabled Microsoft extensions in an effort to
+      // honor their good-faith attempt to label more dangerous files
+      
+      'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false)));
+  
   static public function getOption($name)
   {
     if (isset(self::$options[$name]))
@@ -187,6 +263,24 @@ class aMediaTools
     {
       throw new Exception("Unknown option in apostrophePlugin: $name");
     }
+  }
+  
+  static public function getTypeInfo($name)
+  {
+    $types = aMediaTools::getOption('types');
+    return $types[$name];
+  }
+
+  // Returns an array of type infos, just the one if you specify a type, all if you don't.
+  // Handy when filtering
+  static public function getTypeInfos($type = null)
+  {
+    $types = aMediaTools::getOption('types');
+    if (is_null($type))
+    {
+      return $types;
+    }
+    return array($types[$type]);
   }
   
   // Implementation conveniences shared by the engine and backend media actions classes

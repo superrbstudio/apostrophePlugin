@@ -687,26 +687,30 @@ class BaseaTools
   // (or a slash, when allowed) is converted to a -. Consecutive -'s are reduced and leading and
   // trailing -'s are removed
   
-  static public function slugify($path, $allowSlashes = false)
+  // $betweenWords must not contain characters that have special meaning in a regexp.
+  // Usually it is - (the default) or ' '
+  
+  static public function slugify($path, $allowSlashes = false, $allowUnderscores = true, $betweenWords = '-')
   {
     // This is the inverse of the method above
     if (function_exists('mb_strtolower'))
     {
       // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
-      $alnum = '\p{L}\p{N}_';
+      $alnum = '\p{L}\p{N}' . ($allowUnderscores ? '_' : '');
       $modifier = 'u';
     }
     else
     {
-      $alnum = '\w';
+      $alnum = $allowUnderscores ? '\w' : '[A-Za-z0-9]';
       $modifier = '';
     }
     if ($allowSlashes)
     {
       $alnum .= '\/';
     }
-    $regexp = "/[^$alnum\-]+/$modifier";
-    $path = aTools::strtolower(preg_replace("/[^$alnum\-]+/$modifier", '-', $path));  
+    // Removing - here expands flexibility and shouldn't hurt because it's the replacement anyway
+    $regexp = "/[^$alnum]+/$modifier";
+    $path = aTools::strtolower(preg_replace($regexp, $betweenWords, $path));  
     if ($allowSlashes)
     {
       // No multiple consecutive /
@@ -715,7 +719,7 @@ class BaseaTools
       $path = preg_replace("/\/$/$modifier", '', $path);
     }
     // No consecutive dashes
-    $path = preg_replace("/-+/$modifier", '-', $path);
+    $path = preg_replace("/$betweenWords+/$modifier", $betweenWords, $path);
     // Leading and trailing dashes are silly. This has the effect of trim()
     // among other sensible things
     $path = preg_replace("/^-*(.*?)-*$/$modifier", '$1', $path);     

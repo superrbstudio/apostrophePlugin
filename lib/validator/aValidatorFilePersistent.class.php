@@ -16,6 +16,11 @@
  */
 class aValidatorFilePersistent extends sfValidatorFile
 {
+  // Make the original name available to guessers. It's a nice thought to
+  // avoid this but with Microsoft Office formats there are no reliable
+  // magic numbers, and those that do exist can be misleading because
+  // Word can contain Excel and vice versa
+  protected $originalName;
   
   protected function configure($options = array(), $messages = array())
   {
@@ -30,6 +35,7 @@ class aValidatorFilePersistent extends sfValidatorFile
       $mimeTypeGuessers = $this->getOption('mime_type_guessers');
       array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
       array_unshift($mimeTypeGuessers, array($this, 'guessFromID3'));
+      array_unshift($mimeTypeGuessers, array($this, 'guessRTF'));
       $this->setOption('mime_type_guessers', $mimeTypeGuessers);
     }
   }
@@ -122,9 +128,7 @@ class aValidatorFilePersistent extends sfValidatorFile
       $newFile = true;
       $cvalue = $value['newfile'];
     }
-    // This will throw an exception if there is a validation error.
-    // That's a good thing: we don't want to save it for reuse
-    // in that situation.
+    $this->originalName = $cvalue['name'];
     try
     {
       $result = parent::clean($cvalue);
@@ -154,6 +158,16 @@ class aValidatorFilePersistent extends sfValidatorFile
         $data = $cvalue;
         $data['newfile'] = true;
         $data['tmp_name'] = $filePath;
+        
+        // It's useful to know the mime type and true extension for 
+        // supplying previews and icons
+        $extensionsByMimeType = array_flip(aMediaTools::getOption('mime_types'));
+        $data['mime_type'] = $this->getMimeType($filePath, $cvalue['type']);
+        if (isset($extensionsByMimeType[$data['mime_type']]))
+        {
+          $data['extension'] = $extensionsByMimeType[$data['mime_type']];
+        }
+        
         self::putFileInfo($persistid, $data);
       }
     } elseif ($persistid !== false)
@@ -196,10 +210,30 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       $persistid = $value['persistid'];
       $info = self::getFileInfo($persistid);
+      // Only web images are reasonable for preview. We could do
+      // PDFs but in practice it's very slow, slower than you
+      // want to wait for when annotating; it's worth it later
+      // for display in the media repository
+      return $info['tmp_name'] && getimagesize($info['tmp_name']);
+    }
+    return false;
+  }
+
+  static public function alreadyPersisting($value)
+  {
+    if (isset($value['persistid']))
+    {
+      $persistid = $value['persistid'];
+      $info = self::getFileInfo($persistid);
+      // Only web images are reasonable for preview. We could do
+      // PDFs but in practice it's very slow, slower than you
+      // want to wait for when annotating; it's worth it later
+      // for display in the media repository
       return !!$info['tmp_name'];
     }
     return false;
   }
+
   
   static public function getFileInfo($persistid)
   {
@@ -216,7 +250,7 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
     else
     {
-      return false;
+      return false; 
     }
   }
 
@@ -271,5 +305,73 @@ class aValidatorFilePersistent extends sfValidatorFile
       return null;
     }
     return 'audio/mpeg';
+  }
+
+  protected function guessRTF($file)
+  {
+    $in = fopen($file, 'rb');
+    $magic = fread($in, 5);
+    fclose($in);
+    if ($magic !== '{\\rtf')
+    {
+      return null;
+    }
+    return 'text/rtf';
+  }
+  
+  protected function guessMicrosoft($file)
+  {
+    // We look at the original name to get the rest.
+    // Sorry, but there are no reliable magic numbers
+    // that don't sometimes mislead for Microsoft Office files.
+    $in = fopen($file, "rb");
+    $data = fread($in, 3);
+    fclose($in);
+    $maybeMicrosoft = false;
+    // Magic numbers: old Microsoft container and new zip-based Microsoft container
+    if (($data === sprintf("%c%c%c", 0xD0, 0xCF, 0x11)) || ($data === sprintf("%c%c%c", 0x50, 0x4B, 0x03)))
+    {
+      $maybeMicrosoft = true;
+    }
+    if (!$maybeMicrosoft)
+    {
+      return null;
+    }
+    $ms = array(
+      'xls' => 'application/vnd.ms-excel',
+      'ppt' => 'application/vnd.ms-powerpoint',
+      'doc' => 'application/msword',
+      'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+      'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+      'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+      'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+      'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template'
+    );
+    if (preg_match('/\.(\w+)$/', $this->originalName, $matches))
+    {
+      $extension = $matches[1];
+      if (isset($ms[$extension]))
+      {
+        return $ms[$extension];
+      }
+    }
+    return null;
+  }
+  
+  protected function getMimeType($file, $fallback)
+  {
+    // The microsoft guesser needs access to the original filename.
+    // For reasons I'm not sure of, it doesn't work as a dynamic method
+    // with call_user_func.
+    $match = $this->guessMicrosoft($file);
+    if (!is_null($match))
+    {
+      return $match;
+    }
+
+    return parent::getMimeType($file, $fallback);
   }
 }

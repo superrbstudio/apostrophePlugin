@@ -43,7 +43,6 @@
   </a>
 </li>
 
-<?php // Stored as HTML ?>
 <li class="a-media-item-title">
 	<h3>
 		<a <?php echo $linkAttributes ?>><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
@@ -51,6 +50,8 @@
 	</h3>
 </li>
 
+<?php // John: you could use $mediaItem->format to choose an icon here. Make sure ?>
+<?php // you have a default icon if it's not on your list of awesome icons ?>
 <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
 <?php if ($mediaItem->getWidth()): ?>
   <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
@@ -60,7 +61,7 @@
 <li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>
 <li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>
 
-<?php if ($mediaItem->getType() === 'pdf'): ?>
+<?php if ($mediaItem->getDownloadable()): ?>
   <li class="a-media-item-link a-media-item-meta">
 		<?php echo __('<span>URL:</span> %urlfield%', array('%urlfield%' => 
 		'<input type="text" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>

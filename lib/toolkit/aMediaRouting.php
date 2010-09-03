@@ -101,14 +101,19 @@ class aMediaRouting
         'action' => 'tags'
       )));
       
-      $r->prependRoute('a_media_upload_images', new aRoute('/uploadImages', array(
+      $r->prependRoute('a_media_upload', new aRoute('/upload', array(
         'module' => 'aMedia',
-        'action' => 'uploadImages'
+        'action' => 'upload'
       )));
       
-      $r->prependRoute('a_media_edit_images', new aRoute('/editImages', array(
+      $r->prependRoute('a_media_edit_multiple', new aRoute('/editMultiple', array(
         'module' => 'aMedia',
-        'action' => 'editImages'
+        'action' => 'editMultiple'
+      )));
+
+      $r->prependRoute('a_media_edit', new aRoute('/edit', array(
+        'module' => 'aMedia',
+        'action' => 'edit'
       )));
       
       $r->prependRoute('a_media_new_video', new aRoute('/newVideo', array(

@@ -16,7 +16,6 @@
 	</div>
 
 	<div class="a-media-library">			
-	<?php include_partial('aMedia/editImage', array('item' => $item, 'firstPass' => false, 'form' => $form)) ?>		
+	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form)) ?>		
 	</div>
-
 </div>

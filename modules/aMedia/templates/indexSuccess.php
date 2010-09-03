@@ -37,19 +37,15 @@
 	<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>
 	
 	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-   <ul class="a-ui a-controls">
+    <ul class="a-ui a-controls">
 
-     <?php if (!($selecting && $type && ($type !== 'image'))): ?>
-     <li><a href="<?php echo url_for("aMedia/uploadImages") ?>" class="a-btn icon big a-add"><?php echo __('Add Images', null, 'apostrophe') ?></a></li>
-     <?php endif ?>
-
-     <?php if (!($selecting && $type && ($type !== 'video'))): ?>
-     <li><a href="<?php echo url_for("aMedia/newVideo") ?>" class="a-btn icon big a-add"><?php echo __('Add Video', null, 'apostrophe') ?></a></li>
-     <?php endif ?>
-
-     <?php if (!($selecting && $type && ($type !== 'pdf'))): ?>
-     <li><a href="<?php echo url_for("aMedia/editPdf") ?>" class="a-btn icon big a-add"><?php echo __('Add PDF', null, 'apostrophe') ?></a></li>
-     <?php endif ?>
+      <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
+      <?php if ($uploadAllowed): ?>
+        <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
+      <?php endif ?>
+      <?php if ($embedAllowed): ?>
+        <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
+      <?php endif ?>
    </ul>
   <?php endif ?>
 	

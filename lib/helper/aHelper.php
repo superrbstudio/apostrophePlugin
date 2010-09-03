@@ -446,7 +446,6 @@ function _gz_file_put_contents($file, $contents)
 function a_js_call($callable /* , $arg1, $arg2, ... */ )
 {
   $args = array_slice(func_get_args(), 1);
-  
   a_js_call_array($callable, $args);
 }
 

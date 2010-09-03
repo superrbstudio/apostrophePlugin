@@ -66,19 +66,13 @@ class PluginaMediaItemTable extends Doctrine_Table
     aDoctrine::orderByList($q, $ids);
     return $q->execute();
   }
-  static public $mimeTypes = array(
-    "gif" => "image/gif",
-    "png" => "image/png",
-    "jpg" => "image/jpeg",
-    "pdf" => "application/pdf"
-  );
   
   // Returns a query matching media items satisfying the specified parameters, all of which
   // are optional:
   //
   // tag
   // search
-  // type (video or image)
+  // type (video, image, etc)
   // user (a username, to determine access rights)
   // aspect-width and aspect-height (returns only images with the specified aspect ratio)
   // minimum-width
