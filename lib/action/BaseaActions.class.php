@@ -493,14 +493,7 @@ class BaseaActions extends sfActions
     $this->form = new aPageSettingsForm($this->page);
 	$this->existingTags = $this->page->getTags();
 	$this->popularTags = PluginTagTable::getPopulars();
-	foreach ($this->popularTags as $key => $value)
-	{
-		if (isset($this->existingTags[$key]))
-		{
-			unset($this->popularTags[$key]);
-		}
-	}
-	
+
 	
 	
     $mainFormValid = false;
