@@ -72,3 +72,8 @@ background-image: none !important;
 text-align: center !important;
 width: auto !important;
 }
+
+table.a-calendar
+{
+	background-image:none;
+}
