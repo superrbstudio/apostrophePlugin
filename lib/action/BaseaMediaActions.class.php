@@ -607,60 +607,54 @@ class BaseaMediaActions extends aEngineActions
   {
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
+    
+    // This has been simplified. We no longer do real validation in the first pass,
+    // we just make sure there is at least one file. Then the validation of the annotation
+    // pass can take over to minimize duplicate code
     $this->form = new aMediaUploadMultipleForm();
+    $this->mustUploadSomething = false;
     if ($request->isMethod('post'))
     {
-      $this->form->bind(
-        $request->getParameter('a_media_items'),
-        $request->getFiles('a_media_items'));
-      if ($this->form->isValid())
+      $count = 0;
+      $request->setParameter('first_pass', true);
+      // Saving embedded forms is weird. We can get the form objects
+      // via getEmbeddedForms(), but those objects were never really
+      // bound, so getValue will fail on them. We have to look at the
+      // values array of the parent form instead. The widgets and
+      // validators of the embedded forms are rolled into it.
+      // See:
+      // http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
+      $items = $request->getParameter("a_media_items");
+      $files = $request->getFiles("a_media_items");
+      for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++)
       {
-        $request->setParameter('first_pass', true);
-        // Saving embedded forms is weird. We can get the form objects
-        // via getEmbeddedForms(), but those objects were never really
-        // bound, so getValue will fail on them. We have to look at the
-        // values array of the parent form instead. The widgets and
-        // validators of the embedded forms are rolled into it.
-        // See:
-        // http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
-        $items = $request->getParameter("a_media_items");
-        for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++)
+        $values = $this->form->getValues();
+        // This is how we check for the presence of a file upload without a full form validation
+        $file = $files["item-$i"]['file'];
+        if (isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
         {
-          $values = $this->form->getValues();
-          $file = $values["item-$i"]['file'];
-          if ($file)
-          {
-            // Humanize the original filename
-            $title = $file->getOriginalName();
-            $title = preg_replace('/\.\w+$/', '', $title);
-            $title = aTools::slugify($title, false, false, ' ');
-            $items["item-$i"]['title'] = $title;
-          }
-          else
-          {
-            // So the editImagesForm validator won't complain about these
-            unset($items["item-$i"]);
-          }
+          // Humanize the original filename
+          $title = $file['newfile']['name'];
+          $title = preg_replace('/\.\w+$/', '', $title);
+          $title = aTools::slugify($title, false, false, ' ');
+          $items["item-$i"]['title'] = $title;
+          $count++;
         }
-        $request->setParameter("a_media_items", $items);
+        else
+        {
+          // So the editImagesForm validator won't complain about these
+          unset($items["item-$i"]);
+        }
+      }
+      $request->setParameter("a_media_items", $items);
+      if ($count)
+      {
         // We're not doing stupid iframe tricks anymore, so we can just forward
         $this->forward('aMedia', 'editMultiple');
-        // 
-        // // We'd like to just do this...
-        // // $this->forward('aMedia', 'edit');
-        // // But we need to break out of the iframe, and 
-        // // modern browsers ignore Window-target: _top which
-        // // would otherwise be perfect for this.
-        // // Fortunately, the persistent file upload widget can tolerate
-        // // a GET-method redirect very nicely as long as we pass the
-        // // persistids. So we make the current parameters available
-        // // to a template that breaks out of the iframe via
-        // // JavaScript and passes the prameters on.
-        // $this->parameters = $request->getParameterHolder('a_media_items')->getAll();
-        // // If I don't do this I just get redirected back to myself
-        // unset($this->parameters['module']);
-        // unset($this->parameters['action']);
-        // return 'Redirect';
+      }
+      else
+      {
+        $this->mustUploadSomething = true;
       }
     }
   }

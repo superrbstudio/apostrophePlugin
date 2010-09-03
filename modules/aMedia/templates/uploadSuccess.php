@@ -15,6 +15,11 @@
 
     <?php echo $form->renderGlobalErrors() ?>
 
+    <?php // Error message if they don't select anything at all. This is the only validation done in this pass ?>
+    <?php if ($mustUploadSomething): ?>
+      <h4>You must select a file to upload with the Browse Files button.</h4>
+    <?php endif ?>
+    
     <form method="POST" action="<?php echo url_for("aMedia/upload") ?>" enctype="multipart/form-data" id="a-media-upload-form">
       <?php echo $form->renderHiddenFields() ?>
     	
