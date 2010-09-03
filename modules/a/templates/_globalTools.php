@@ -19,7 +19,7 @@
 
 			<?php if ($thisPage): ?> 	
 			<li>
-				<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button">Page Settings</a>			
+				<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>			
 				<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 			</li>				
 			<?php endif ?>
@@ -27,7 +27,7 @@
 			<?php foreach ($buttons as $button): ?>
 				<li>
 					<?php if ($button->getTargetEnginePage()): ?><?php aRouteTools::pushTargetEnginePage($button->getTargetEnginePage(), $button->getTargetEngine()) ?><?php endif ?>
-					<?php echo link_to(__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
+					<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
 				</li>
 			<?php endforeach ?>
 

@@ -217,7 +217,9 @@ box-shadow: 0 0 0 transparent !important;
 /* Apostrophe Events Sprite
 -------------------------------------*/
 
-.a-event, .a-eventsingle, .a-events > .icon { float: left; height: 18px; width: 18px; background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png); }
+.a-event > .icon,
+.a-eventsingle > .icon, 
+.a-events > .icon { float: left; height: 18px; width: 18px; background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png); }
 
 .alt .a-event > .icon,
 .alt .a-eventsingle > .icon,

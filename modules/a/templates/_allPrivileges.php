@@ -6,7 +6,8 @@
 ?>
 <?php use_helper('a') ?>
 <?php if (isset($form['editors']) || isset($form['managers'])): ?>
-	<h4 class="a-page-settings-section-head header"><?php echo a_('Page Permissions') ?></h4>
+	<h3><?php echo a_('Page Permissions') ?></h3>
+
 	<div class="a-page-permissions content">
 		<p class="a-form-help-text"><?php echo a_('Select Groups and Individuals to edit this page and it’s children') ?></p>
 		<div class="a-page-permissions-section a-page-permissions-by-group">

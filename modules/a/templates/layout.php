@@ -91,7 +91,7 @@
  		  <?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
  		<?php endif ?>
 
-		<div id="a-content">
+		<div id="a-content" class="a-content clearfix">
 			<?php echo $sf_data->getRaw('sf_content') ?>
 		</div>
 	

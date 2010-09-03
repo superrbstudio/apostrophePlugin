@@ -195,11 +195,11 @@ padding: 5px 0 1px;
 	overflow: hidden;
 }
 
-.a-global-toolbar .a-global-toolbar-this-page.ok { padding: 8px 0; }
+.a-ui.a-global-toolbar .a-global-toolbar-this-page.ok { padding: 8px 0; }
 
-.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
+.a-ui.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
 
-.a-logged-in-user
+.a-ui.a-global-toolbar .a-logged-in-user
 {
 	float: left;
 	line-height: 20px;
@@ -224,26 +224,9 @@ padding: 5px 0 1px;
 /* Edit/Create Page Form Shared Styles
 --------------------------------------*/
 
-.a-form-row.a-page-title label
-{
-	display: none;
-}
+.a-ui .a-page-form .a-form-row.a-page-title label { display: none; }
 
-.a-ui .a-form-row input.a-page-title-field
-{
-	width: 342px;
-	border: 1px solid #999;
-	font-size: 18px;
-	padding: 2px 3px;
-	font-family: Arial, Helvetica, Sans-serif;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-}
-
-.a-ui .a-form-row input.a-page-title-field:hover
-{
-}
+.a-ui .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
 
 .a-ui .a-form-row input.a-page-title-field:focus
 {
@@ -255,47 +238,49 @@ padding: 5px 0 1px;
 	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
+.a-ui.a-page-form .a-form-row
+{
+clear: both;
+display: block;
+float: none;
+overflow: hidden;
+padding: 10px;
+margin: 5px 0;
+width: auto;
+}
+
+.a-ui.a-page-form .a-form-row.focus
+{
+	background-color:#f0f0f0;
+	background-color: rgba(0,0,0,0.065);
+	border: 1px inset rgba(0,0,0,0.065);
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
 .a-ui .a-page-options
 {
 	float: left;
 	margin: 10px 0;
 }
 
-.a-ui .a-page-form .a-form-row
-{
-	margin: 5px 0;
-}
-
-.a-ui .a-page-form .a-form-field
-{
-	width: 235px;
-}
-
-
 /* 12. Page Settings Panel
 -------------------------------------*/
 
-#a-page-settings
+.a-ui.a-page-form
 {
 	position: absolute;
+	z-index: 998;	
 }
 
-.show-options #a-page-settings
+.a-ui.a-page-form .a-options
 {
-	z-index: 998;
-}
-
-.show-options #a-page-settings .a-options
-{
-	display: block;
+	display: block !important;
 	min-width: 0;
 }
 
-.show-options #a-page-settings-button { position: relative; z-index: 999; }
-
-.a-page-settings-menu { width: 360px; }
-
-.a-page-settings-section
+.a-ui.a-page-form .a-page-settings-section
 {
 	float: left;
 	clear: both;
@@ -332,8 +317,6 @@ padding: 5px 0 1px;
 .a-ui .a-page-settings-status
 {
 	float: left;
-	width: 214px;
-	margin: 5px 0;
 }
 
 .a-page-settings-section.page-submit
@@ -352,20 +335,6 @@ padding: 5px 0 1px;
 {
 	clear: none;
 	float: right !important;
-}
-
-.a-ui .a-page-settings-menu hr
-{
-/* these are copied from aBlog.css, could be combined */
-float: left;
-clear: both;
-width: 100%;
-height: 2px;
-border: 0;
-background: rgba(0,0,0,0.05);
-border-top: 1px inset rgba(0,0,0,0.1);
-border-right: 1px inset rgba(0,0,0,0.1);
-margin: 10px 0;
 }
 
 .a-ui .a-page-permissions-section
@@ -408,7 +377,7 @@ margin: 10px 0;
 	z-index: 998;
 }
 
-.show-options #a-create-page-form
+.a-ui .show-options .a-options
 {
 	display: block;
 }
@@ -946,8 +915,7 @@ text-align: right;
 }
 
 
-
-/* 31. Login button and language switcher
+/* Login button and language switcher
 -------------------------------------*/
 
 .a-login ul
@@ -965,6 +933,11 @@ text-align: right;
 	padding-right: 10px;
 }
 
+
+
+/* Inline Taggable Widget
+-------------------------------------*/
+
 .a-inline-taggable-widget-tag-container
 {
 	overflow: hidden;
@@ -975,8 +948,14 @@ text-align: right;
 {
 	float: left;
 	display: block;
-	clear: both;
+	font-size: 11px;
 	line-height: 18px;
+	margin-right: 5px;
+}
+
+.a-inline-taggable-widget-tag-container.a-popular .a-tag
+{
+	clear: both;
 }
 
 .a-inline-taggable-widget-tag-container .a-tag a

@@ -2,7 +2,7 @@
 -------------------------------------*/
 
 /* Apostrophe Mark - Color */
-.a-ui.a-global-toolbar .the-apostrophe { background-color: rgb(29,34,128); background-color: rgba(29,34,128,0.75); }
+.a-ui.a-global-toolbar .the-apostrophe { background-color: rgb(255,150,0); background-color: rgba(255,150,0,0.75); }
 
 /* Apostrophe Button - Color */
 .a-btn,
@@ -57,9 +57,8 @@ text-decoration: none !important;
 .a-submit.alt,
 .a-cancel.alt
 {
-color: #444 !important;
+color: #444;
 text-shadow: 0 1px 0px rgba(255,255,255,255.20);
-background-color: #fff !important;
 }
 
 /* Apostrophe Button - Alternative Hover & Focus */
@@ -70,7 +69,7 @@ background-color: #fff !important;
 .a-submit.alt:focus,
 .a-cancel.alt:focus
 { /* Button Styles */
-background-color: #E0E0E0 !important;
+background-color: #E0E0E0;
 }
 
 /* Apostrophe Button - Alternative Border Color */
