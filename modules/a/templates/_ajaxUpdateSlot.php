@@ -8,6 +8,7 @@
   $type = isset($type) ? $sf_data->getRaw('type') : null;
   $validationData = isset($validationData) ? $sf_data->getRaw('validationData') : null;
   $variant = isset($variant) ? $sf_data->getRaw('variant') : null;
+  $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
 ?>
 <?php // 1.3 and up don't do this automatically (no common filter) ?>
 <?php // Note that you cannot add more JS and CSS files in an ajax slot update. You are ?>
@@ -17,6 +18,10 @@
 <?php // therefore never had anything to add ?>
 <?php use_helper('a') ?>
 <?php a_slot_body($name, $type, $permid, $options, $validationData, $editorOpen, true) ?>
+<?php if (!$slot->isNew()): ?>
+  <?php a_js_call('apostrophe.slotNotNew(?, ?, ?)', $pageid, $name, $permid) ?>
+<?php endif ?>
+<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
 <?php a_include_js_calls() ?>
 <?php if (isset($variant)): ?>
 	<script type="text/javascript" charset="utf-8">

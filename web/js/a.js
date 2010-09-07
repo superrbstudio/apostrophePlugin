@@ -25,6 +25,15 @@ function aConstructor()
     }
   }
 
+	// Swap two DOM elements without cloning them
+	// http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
+	this.swapNodes = function(a, b) {
+    var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
+    b.parentNode.insertBefore(a, b); 
+    t.parentNode.insertBefore(b, t); 
+    t.parentNode.removeChild(t);
+	}	
+	
 	this.jsTree = function(options)
 	{
 		var treeData = options['treeData'];
@@ -87,6 +96,7 @@ function aConstructor()
 	    }  
 	  });
 	}
+
 
 	this.slideshow = function(options)
 	{
@@ -461,6 +471,70 @@ function aConstructor()
 		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
 		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
 		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
+	}
+	
+	this.areaUpdateMoveButtons = function(updateAction, id, name)
+	{
+		var area = $('#a-area-' + id + '-' + name);
+		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
+		var slots = area.children('.a-slots').children('.a-slot');
+		var newSlots = area.children('.a-slots').children('.a-new-slot');
+		if (newSlots.length)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			
+			// You have to save a new slot before you can do any reordering.
+			// TODO: with a little more finesse we could support saving it with
+			// a rank, but think about how messy that might get
+		  slots.find('.a-arrow-up,.a-arrow-down').hide();
+			return;
+		}
+		// I actually want a visible loop variable here
+		for (n = 0; (n < slots.length); n++)
+		{
+			var slot = slots[n];
+			// We use a nested function here because 
+			// a loop variable does *not* get captured
+			// in the closure at its current value otherwise
+			setButtons(slot, n, slots);
+			function setButtons(slot, n, slots)
+			{
+				if (n > 0)
+				{
+					// TODO: this is not sensitive enough to nested areas
+					$(slot).find('.a-arrow-up').show().unbind('click').click(function() {
+						// It would be nice to confirm success here in some way
+						$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
+						apostrophe.swapNodes(slot, slots[n - 1]);
+						apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+						return false;
+					});
+				}
+				else
+				{
+				  $(slot).find('.a-arrow-up').hide();
+				}
+				if (n < (slots.length - 1))
+				{
+					$(slot).find('.a-arrow-down').show().unbind('click').click(function() {
+						// It would be nice to confirm success here in some way
+						$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
+						apostrophe.swapNodes(slot, slots[n + 1]);
+						apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+						return false;
+					});
+				}
+				else
+				{
+					$(slot).find('.a-arrow-down').hide();
+				}
+			}
+		}
+	}
+	
+	this.slotNotNew = function(pageid, name, permid)
+	{
+		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
 	}
 } 
 

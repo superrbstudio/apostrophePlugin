@@ -85,41 +85,18 @@
 
 	<!-- START SLOT -->
 	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
+	  <?php // Make the slot aware of its permid for simpler JS later ?>
+	  <?php a_js_call('$(?).data(?, ?)', "#a-slot-$pageid-$name-$permid", 'a-permid', $permid) ?>
 		<?php // Slot Controls ?>
     <?php if ($editable): ?>
 		<ul class="a-ui a-controls a-slot-controls clearfix">		
       <?php if ($infinite): ?>
-          <?php if ($i > 0): ?>
-						<li>
-            <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Move', null, 'apostrophe'), array(
-                "url" => "a/moveSlot?" .http_build_query(array(
-									"id" => $page->id,
-									"name" => $name,
-									"up" => 1,
-									"permid" => $permid)),
-									"update" => "a-slots-$pageid-$name",
-									'complete' => 'aUI()'), 
-									array(
-										'class' => 'a-btn icon a-arrow-up no-label', 
-										'title' => __('Move Up', null, 'apostrophe'), 
-						)) ?>
-						</li>
-          <?php endif ?>
-          <?php if (($i + 1) < count($slots)): ?>
-						<li>
-            <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Move', null, 'apostrophe'), array(
-                "url" => "a/moveSlot?" .http_build_query(array(
-									"id" => $page->id,
-									"name" => $name,
-									"permid" => $permid)),
-									"update" => "a-slots-$pageid-$name",
-									'complete' => 'aUI()'), 
-									array(
-										'class' => 'a-btn icon a-arrow-down no-label', 
-										'title' => __('Move Down', null, 'apostrophe'), 
-						)) ?>
-            </li>
-        <?php endif ?>
+				<li class="a-move">
+				  <a href="#" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>"><span class="icon"></span><?php echo a_('Move Up') ?></a>
+				</li>
+				<li class="a-move">
+				  <a href="#" class="a-btn icon a-arrow-down no-label" title="<?php echo a_('Move Down') ?>"><span class="icon"></span><?php echo a_('Move Down') ?></a>
+				</li>
       <?php endif ?>
 
       <?php // Include slot-type-specific controls if the slot has any ?>
@@ -200,4 +177,5 @@
 		
 	});
 </script>
+<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
 <?php endif ?>

@@ -160,6 +160,9 @@ class BaseaSlotActions extends sfActions
         // If we don't specify the variant we won't get the default variant on 
         // a newly saved slot with an edit view
         "variant" => $variant,
+        // Having the actual slot makes it possible to check if it's new and
+        // shut off a-new-slot
+        "slot" => $this->slot,
         "validationData" => $this->validationData));
   }
 
