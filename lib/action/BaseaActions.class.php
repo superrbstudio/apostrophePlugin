@@ -459,7 +459,7 @@ class BaseaActions extends sfActions
     $this->cancel = ($subaction == 'cancel');
     $this->revert = ($subaction == 'revert');
   }
-
+  
   // Rights to edit an area are determined at rendering time and then cached in the session.
   // This allows an edit option to be passed to a_slot and a_area which is crucial for the
   // proper functioning of virtual pages that edit areas related to concepts external to the

@@ -238,7 +238,7 @@ EOM
     $openphp = '<?' . 'php';
     $closephp = '?' . '>';
     $this->ensureAndCreate($typeSlotNormalView, <<<EOM
-$openphp include_partial('a/simpleEditButton', array('name' => \$name, 'pageid' => \$pageid, 'permid' => \$permid)) $closephp
+$openphp include_partial('a/simpleEditButton', array('name' => \$name, 'slot' => \$slot, 'pageid' => \$pageid, 'permid' => \$permid)) $closephp
 $openphp if (isset(\$values['text'])): $closephp
   <h4>$openphp echo htmlspecialchars(\$values['text']) $closephp</h4>
 $openphp endif $closephp

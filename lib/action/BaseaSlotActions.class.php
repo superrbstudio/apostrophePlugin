@@ -15,12 +15,22 @@ class BaseaSlotActions extends sfActions
   protected function setup($editing = false)
   {
     $this->reopen = false;
-    $this->slug = $this->getRequestParameter('slug');
+    // Sometimes it's more convenient to call with a pageid rather than a slug
+    if ($this->hasRequestParameter('slug'))
+    {
+      $this->slug = $this->getRequestParameter('slug');
+      $this->page = aPageTable::retrieveBySlugWithSlots($this->slug);
+    }
+    else
+    {
+      $this->pageid = $this->getRequestParameter('id');
+      $this->page = aPageTable::retrieveByIdWithSlots($this->pageid);
+    }
+    
     $this->name = $this->getRequestParameter('slot');
     $this->value = $this->getRequestParameter('value');
     $this->permid = $this->getRequestParameter('permid');
     
-    $this->page = aPageTable::retrieveBySlugWithSlots($this->slug);
     $this->forward404Unless($this->page);    
     $this->pageid = $this->page->getId();
     aTools::setCurrentPage($this->page);
@@ -90,6 +100,10 @@ class BaseaSlotActions extends sfActions
       $this->name, 
       $this->newSlot ? 'add' : 'update', 
       array('permid' => $this->permid, 'slot' => $this->slot,  'top' => sfConfig::get('app_a_new_slots_top', true)));
+    // Refetch the page to reflect these changes before we
+    // rerender the slot
+    aTools::setCurrentPage(
+      aPageTable::retrieveByIdWithSlots($this->page->id));
     if ($this->getRequestParameter('noajax'))
     {
       return $this->redirectToPage();
@@ -126,17 +140,12 @@ class BaseaSlotActions extends sfActions
       $this->validationData['form'] = $this->form;
     }
     $result = $this->editAjax(true);
-    $this->logMessage('XXX editRetry finished', 'info');
     return $result;
   }
 
   protected function editAjax($editorOpen)
   {
-    // Refetch the page to reflect these changes before we
-    // rerender the slot
-    aTools::setCurrentPage(
-      aPageTable::retrieveByIdWithSlots($this->page->id));
-    // Symfony 1.2 can return partials rather than templates...
+    // Symfony 1.2+ can return partials rather than templates...
     // which gets us out of the "we need a template from some other
     // module" bind
     
@@ -166,6 +175,14 @@ class BaseaSlotActions extends sfActions
     $this->slot->value = $this->getRequestParameter('value-' . $this->id);
     return $this->editSave();
   }
+  
+  public function executeAjaxEditView(sfRequest $request)
+  {
+    // Refresh the view 
+    $this->editSetup();
+    return $this->editAjax(true);
+  }
+  
   protected function getOption($option, $default = false)
   {
     if (isset($this->options[$option]))
@@ -177,6 +194,7 @@ class BaseaSlotActions extends sfActions
       return $default;
     }
   }
+  
   protected function setValidationData($key, $val)
   {
     $this->validationData[$key] = $val;

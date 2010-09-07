@@ -18,8 +18,10 @@
 ?>
 <?php use_helper('jQuery', 'I18N') ?>
 
-<?php if ($editable): ?>
+<?php // We now render the edit view only when it is AJAXed into place on demand. This saves us the ?>
+<?php // considerable overhead of loading many instances of FCK we won't use ?>
 
+<?php if ($editable && $updating): ?>
   <form method="POST" action="#" class="a-slot-form a-edit-view clearfix" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
 
   <?php include_component($editModule, 
@@ -42,7 +44,7 @@
 	</ul>
 
   </form>
-
+  
 	<script type="text/javascript" charset="utf-8">
 		$('#a-slot-form-<?php echo $id ?>').submit(function() {
 	    $.post(

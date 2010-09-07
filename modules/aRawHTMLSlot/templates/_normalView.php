@@ -8,7 +8,7 @@
   $value = isset($value) ? $sf_data->getRaw('value') : null;
 ?>
 <?php use_helper('I18N') ?>
-<?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid)) ?>
+<?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 
 <?php if (!strlen($value)): ?>
 <ul class="a-raw-html-info">
