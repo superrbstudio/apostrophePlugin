@@ -39,7 +39,7 @@
   
   <?php include_partial('a/globalTools') ?>
 
-	<div id="a-wrapper">
+	<div id="a-wrapper" class="a-wrapper">
     <?php // Note that just about everything can be suppressed or replaced by setting a ?>
     <?php // Symfony slot. Use them - don't write zillions of layouts or do layout stuff ?>
     <?php // in the template (except by setting a slot). To suppress one of these slots ?>
@@ -54,7 +54,7 @@
     <?php if (has_slot('a-header')): ?>
       <?php include_slot('a-header') ?>
     <?php else: ?>
-      <div id="a-header">
+      <div id="a-header" class="a-header">
         <?php if (has_slot('a-logo')): ?>
           <?php include_slot('a-logo') ?>
         <?php else: ?>
