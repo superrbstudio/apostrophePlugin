@@ -36,15 +36,19 @@
   		var editBtn = $('#a-slot-edit-<?php echo "$pageid-$name-$permid" ?>');
   		var editSlot = $('#a-slot-<?php echo "$pageid-$name-$permid" ?>');
   		editBtn.click(function(event){
-  		  $.get(<?php echo json_encode(url_for($slot->type . 'Slot/ajaxEditView') . '?' . http_build_query(array('id' => $pageid, 'slot' => $name, 'permid' => $permid))) ?>, { }, function(data) { 
-  		    editSlot.children('.a-slot-content').html(data);
-    			editBtn.parents('.a-slot, .a-area').addClass('editing-now'); <?php // Apply a class to the Area and Slot Being Edited ?>
-    			editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); <?php // Hide the Content Container ?>
-    			editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); <?php // Fade In the Edit Form ?>
-    			editSlot.children('.a-control li.variant').hide(); <?php // Hide the Variant Options ?>
-    			aUI(editBtn.parents('.a-slot').attr('id')); <?php // Refresh the UI scoped to this Slot ?>
-  			  return false;
-  	    });
+  		  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
+  		  {
+    		  $.get(<?php echo json_encode(url_for($slot->type . 'Slot/ajaxEditView') . '?' . http_build_query(array('id' => $pageid, 'slot' => $name, 'permid' => $permid))) ?>, { }, function(data) { 
+  		      editSlot.children('.a-slot-content').html(data);
+  		      apostrophe.slotShowEditView(editBtn, editSlot);
+  		    });
+  		  }
+  		  else
+  		  {
+  		    // Reuse edit view
+		      apostrophe.slotShowEditView(editBtn, editSlot);
+  		  }
+  		  return false;
   		});
   	});
   </script>

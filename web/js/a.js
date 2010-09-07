@@ -388,6 +388,16 @@ function aConstructor()
 			console.log(output);
 		};
 	}
+	
+	// This is just the beginning of bigger refactoring needed in this area
+	this.slotShowEditView = function(editBtn, editSlot)
+	{
+		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
+		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
+		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
+		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
+		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
+	}
 } 
 
 window.apostrophe = new aConstructor();
