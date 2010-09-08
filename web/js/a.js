@@ -494,7 +494,7 @@ function aConstructor()
 			// You have to save a new slot before you can do any reordering.
 			// TODO: with a little more finesse we could support saving it with
 			// a rank, but think about how messy that might get
-		  slots.find('.a-arrow-up,.a-arrow-down').hide();
+		  slots.find('.a-slot-controls .a-move').hide();
 			return;
 		}
 		// I actually want a visible loop variable here
@@ -528,10 +528,14 @@ function aConstructor()
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{
+		var up = $(slot).find('.a-arrow-up');
+		var down = $(slot).find('.a-arrow-down');
+					
 		if (n > 0)
 		{
 			// TODO: this is not sensitive enough to nested areas
-			$(slot).find('.a-arrow-up').show().unbind('click').click(function() {
+			up.parent().show();
+			up.unbind('click').click(function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
 				apostrophe.swapNodes(slot, slots[n - 1]);
@@ -541,11 +545,13 @@ function aConstructor()
 		}
 		else
 		{
-		  $(slot).find('.a-arrow-up').hide();
+		  up.parent().hide();
 		}
 		if (n < (slots.length - 1))
 		{
-			$(slot).find('.a-arrow-down').show().unbind('click').click(function() {
+
+			down.parent().show();
+			down.unbind('click').click(function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
 				apostrophe.swapNodes(slot, slots[n + 1]);
@@ -555,9 +561,9 @@ function aConstructor()
 		}
 		else
 		{
-			$(slot).find('.a-arrow-down').hide();
+			down.parent().hide();
 		}
-	}
+	}sv
 	
 	function slotShowEditViewPreloaded(pageid, name, permid)
 	{
