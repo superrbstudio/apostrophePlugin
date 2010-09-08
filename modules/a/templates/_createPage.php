@@ -81,6 +81,5 @@
 		$('#a-create-page-button').click(function(){
 			$('#a-create-page-title').focus();
 		});		
-				
 	});
 </script>
