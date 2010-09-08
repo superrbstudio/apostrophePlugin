@@ -34,12 +34,11 @@
 <?php // body_class allows you to set a class for the body element from a template ?>
 <body class="<?php if (has_slot('body_class')): ?><?php include_slot('body_class') ?><?php endif ?><?php if (($sf_user->isAuthenticated())): ?> logged-in<?php endif ?>">
 
-  <?php // Everyone gets this now, but internally it determines which controls you should ?>
-  <?php // actually see ?>
-  
+	<?php include_partial('a/doNotEdit') ?>
   <?php include_partial('a/globalTools') ?>
 
 	<div id="a-wrapper" class="a-wrapper">
+
     <?php // Note that just about everything can be suppressed or replaced by setting a ?>
     <?php // Symfony slot. Use them - don't write zillions of layouts or do layout stuff ?>
     <?php // in the template (except by setting a slot). To suppress one of these slots ?>
@@ -59,20 +58,18 @@
           <?php include_slot('a-logo') ?>
         <?php else: ?>
           <?php a_slot('logo', 'aButton', array(
-						'global' => true, 
 						'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
+						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
+						'link' => '/', 
+						'global' => true, 
 						'width' => 360, 
 						'flexHeight' => true, 
 						'resizeType' => 's', 
-						'link' => '/', 
-						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png'
 					)) ?>
         <?php endif ?>
       </div>
     <?php endif ?>
 
-    <?php // Perhaps we want some of this on non-CMS pages like 'reorganize' but we can't ?>
-    <?php // spew PHP warnings, so fix that before you take away this if ?>
      <?php if (has_slot('a-tabs')): ?>
        <?php include_slot('a-tabs') ?>
      <?php else: ?>
@@ -97,9 +94,11 @@
 	
 	  <?php include_partial('a/footer') ?>
 	</div>
+
 	<?php // Drop in the document.ready stuff at the bottom. ?>
 	<?php // If we try to do this sooner, it works for the template but ?>
 	<?php // doesn't yet know about any js calls relating to the layout. ?>
   <?php a_include_js_calls() ?>
+
 </body>
 </html>

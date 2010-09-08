@@ -20,7 +20,7 @@
 	  	array(
 		    'name' => 'a-page-settings-form', 
 		    'id' => 'a-page-settings-form',
-				'class' => 'a-options a-page-form a-page-settings-form dropshadow')) ?>
+				'class' => 'a-ui a-options a-page-form a-page-settings-form dropshadow')) ?>
 
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
@@ -138,9 +138,10 @@
 
 	<hr/>
 
-	<div class="a-page-settings-section page-submit">
-			  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-page-settings-submit" />
-				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn icon a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
+	<div class="a-options-section">
+		<ul class="a-ui a-controls">		
+		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-page-settings-submit" />
+			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn icon a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
 			<?php if ($page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>

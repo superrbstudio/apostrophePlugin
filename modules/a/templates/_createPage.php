@@ -4,27 +4,27 @@
 ?>
 <?php use_helper('I18N') ?>
 
-<a href="#" class="a-btn icon a-add" id="a-create-page-button" onclick="return false;"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
+<a href="#" class="a-btn icon a-add a-create-page" id="a-create-page-button" onclick="return false;"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
 
 <form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-ui a-options a-page-form a-create-page-form dropshadow">
-	
-	<div class="a-form-row a-hidden">
-		<?php echo $form->renderHiddenFields() ?>
-	</div>
-	<?php echo $form->renderGlobalErrors() ?>
-	<div class="a-form-row a-hidden">	
-		<?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?>
-	</div>
-	
-	<div class="a-form-row a-page-title">
-		<div class="a-form-field">
-			<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-page-title-field')) ?>
+
+	<div class="a-form-row a-hidden"><?php echo $form->renderHiddenFields() ?></div>
+	<div class="a-form-row a-hidden"><?php echo $form['parent']->render(array('id' => 'a-create-page-parent', )) ?></div>
+
+	<?php echo $form->renderGlobalErrors() ?>	
+
+	<div class="a-options-section">	
+		<div class="a-form-row a-page-title">
+			<div class="a-form-field">
+				<?php echo $form['title']->render(array('id' => 'a-create-page-title',  'class' => 'a-page-title-field')) ?>
+			</div>
+			<?php echo $form['title']->renderError() ?>
 		</div>
-		<?php echo $form['title']->renderError() ?>
 	</div>
+	
+ 	<hr/>
 
-
-	<div class="a-page-options">	
+	<div class="a-options-section">	
 		<div class="a-form-row a-page-type">
 			<?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?>
 			<div class="a-form-field">
@@ -41,18 +41,23 @@
 			<?php echo $form['template']->renderError() ?>
 		</div>
 	</div>	
+
+	<hr/>	
+
+	<div class="a-options-section">
+		<ul class="a-ui a-controls">
+	  	<li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
+	  	<li><a href="#" onclick="return false;" class="a-btn icon a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
+		</ul>
+	</div>
 	
-	<ul class="a-ui a-controls">
-	  <li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
-	  <li><a href="#" onclick="return false;" class="a-btn icon a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
-	</ul>
 </form>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 
 		var aPageTypeSelect = $('#a-create-page-type');
-		var aPageTemplateSelect = $('.a-create-page-template');
+		var aPageTemplateSelect = $('.a-form-row.a-page-template');
 
 		if (aPageTypeSelect.attr('selectedIndex')) 
 		{

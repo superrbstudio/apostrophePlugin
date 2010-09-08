@@ -1,21 +1,168 @@
-/* Attribution */
-/* IE6 Warning */
-/* Pager / Pagination */
+/* Options Menu System */
+/* Reorganize Tree */
+/* Pagination */
 /* Global Toolbar */
 /* Global Toolbar  - Page Settings*/
 /* Global Toolbar - Create Page */
 /* History Browser */
+/* Search */
+/* Search Results */
+/* Feedback Form */
+/* Login Form - Floating Form */
+/* Signin Form - /login */
+/* Login button and language switcher */
+/* sfDoctrineActAsTaggable Inline Taggable Widget */
+/* Attribution */
+/* IE6 Warning */
 
-.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left; }
-.a-attribution a:hover { text-decoration:underline; }
 
-#ie6-warning { background: #f00; color: #fff; position: relative; z-index:9999; overflow: auto; }
-#ie6-warning h2 { margin: 0; padding: 5px; font-size: 14px; }
-#ie6-warning h2 a { color: #fff; text-decoration: underline; }
-#ie6-warning h2 a:hover { color: #222; }
-.ie6 .a-controls, .ie6 .a-btn.icon, .ie6 .a-global-toolbar-breadcrumb { display: none !important; } /* Added precaution -- Let's hide any controls from IE7 */
 
-/* 10. aUI Pagination
+/* aOptions Menu */
+
+.a-ui .a-options
+{ 
+padding: 35px 20px 20px 20px;
+position: absolute;
+float: left;
+display: none;
+top: -5px;
+left: -5px;
+z-index: 1;
+list-style: none;
+min-width: 120px;
+width: auto;
+margin: 0;
+background-color: #fff; /* TODO: Debug for IE */
+background-color: rgba(255,255,255,0.95);
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+-moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+border: 1px solid #ccc;
+overflow: hidden;
+}
+
+/* aOptions Menu Item */
+
+.a-ui .a-options .a-options-item,
+.a-ui .a-options .a-options-item.last
+{ 
+width: 100%;
+float: left;
+clear: both;
+margin: 0 0 4px 0;
+list-style: none;
+}
+
+.a-ui .a-options .a-options-item > a { float: left; clear: both; color: #777; }
+.a-ui .a-options .a-options-item > a .icon { opacity: .65; }
+.a-ui .a-options .a-options-item > a:hover .icon { opacity: 1; }
+.a-ui .a-options .a-options-item > a:hover,
+.a-ui .a-options .a-options-item > span { color: #222 !important; }
+
+.a-ui .a-options .a-options-item > a.a-btn
+{ 
+color: #222 !important;
+float: none !important;
+display: block !important;
+display: block !important;
+-moz-border-radius: 2px !important;
+text-shadow: none;
+border: 0;
+}
+
+.a-ui .a-options .a-options-item > a.a-btn:hover
+{ 
+color: #000 !important;
+border-color: #ddd !important;
+text-shadow: none;
+background-color: rgba(255,255,255,0.5) !important;
+}
+
+/* aOptions Multiple Select */
+
+.a-ui .a-options .a-multiple-select a {  color: #777 !important; }
+
+/* aOptions HR */
+
+.a-ui .a-options hr 
+{
+float: left;
+clear: both;
+width: 100%;
+height: 1px;
+border: 0;
+background-color: #efefef; /* TODO: Debug for IE */
+background-color: rgba(0,0,0,0.1);
+margin: 10px 0;
+}
+
+/* aOptions Open */
+
+.a-options-open {  z-index: 999; }
+.a-options-open .a-options {  display: block !important; }
+.a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 999; }
+
+
+
+
+/* Apostrophe Reorganize Tree
+---------------------------------------------------- */
+
+.a-reorganize .a-content
+{
+	display: block;
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-page-tree-container
+{
+	overflow: hidden;
+	position: relative;
+	margin: 20px 0;
+	padding: 20px;
+	border: 1px solid #ccc;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.a-page-tree-title
+{
+	margin-bottom: 20px;
+}
+
+.a-page-tree
+{
+	position: relative;
+	z-index: 1;
+}
+
+.a-page-tree-in-progress
+{
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255,255,255,0.75) url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+	display: none;
+}
+
+.a-page-tree-container.working .a-page-tree-in-progress
+{
+	display: block;
+}
+
+
+/* Apostrophe Pagination
 -------------------------------------*/
 
 .a-pager-navigation
@@ -162,7 +309,7 @@ margin-right:1px;
 
 
 
-/* 11. aUI Global Toolbar
+/* 11. Apostrophe Global Toolbar
 -------------------------------------*/
 
 .a-ui.a-global-toolbar
@@ -179,64 +326,19 @@ background:#fff;
 padding: 5px 0 1px;
 }
 
-.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
-
-.a-global-toolbar > .a-controls { margin-top: 5px; }
-
-.a-ui.a-global-toolbar .a-global-toolbar-this-page
-{
-	position: relative;
-	display: inline;
-	float:left;
-	clear: both;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-}
-
-.a-ui.a-global-toolbar .a-global-toolbar-this-page.ok { padding: 8px 0; }
+.a-ui.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
 
 .a-ui.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
 
-.a-ui.a-global-toolbar .a-logged-in-user
-{
-	float: left;
-	line-height: 20px;
-	padding-right: 10px;
-}
+.a-logged-in-user { float: left; line-height: 20px; padding-right: 10px; }
 
-.a-logged-in-user a
-{
-	text-decoration: underline;
-}
+.a-logged-in-user a { text-decoration: underline; }
 
-.a-logged-in-user a:hover
-{
-	color: #000;
-}
+.a-logged-in-user a:hover { color: #000; }
 
-#a-this-page-toggle.open
-{
-	background-color: #333;
-}
 
 /* Edit/Create Page Form Shared Styles
 --------------------------------------*/
-
-.a-ui .a-page-form .a-form-row.a-page-title label { display: none; }
-
-.a-ui .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
-
-.a-ui .a-form-row input.a-page-title-field:focus
-{
-	border: 1px solid rgba(0,0,0,0.35);
-	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-}
 
 .a-ui.a-page-form .a-form-row
 {
@@ -244,9 +346,20 @@ clear: both;
 display: block;
 float: none;
 overflow: hidden;
-padding: 10px;
+padding: 5px;
 margin: 5px 0;
 width: auto;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+border: 1px inset rgba(0,0,0,0);
+}
+
+.a-ui.a-page-form .a-form-row:hover
+{
+	background-color:#f6f6f6;
+	background-color: rgba(0,0,0,0.025);
+	border: 1px inset rgba(0,0,0,0.025);
 }
 
 .a-ui.a-page-form .a-form-row.focus
@@ -254,9 +367,20 @@ width: auto;
 	background-color:#f0f0f0;
 	background-color: rgba(0,0,0,0.065);
 	border: 1px inset rgba(0,0,0,0.065);
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
+}
+
+.a-ui .a-page-form .a-form-row.a-page-title label { display: none; }
+
+.a-ui .a-page-form .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
+
+.a-ui .a-page-form .a-form-row input.a-page-title-field:focus
+{
+	border: 1px solid rgba(0,0,0,0.35);
+	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
 .a-ui .a-page-options
@@ -268,28 +392,15 @@ width: auto;
 /* 12. Page Settings Panel
 -------------------------------------*/
 
-.a-ui.a-page-form
-{
-	position: absolute;
-	z-index: 998;	
-}
+.a-ui.a-page-form { position: absolute; z-index: 998;	}
 
-.a-ui.a-page-form .a-options
-{
-	display: block !important;
-	min-width: 0;
-}
+.a-ui.a-page-form .a-options { display: block !important; min-width: 0; }
 
-.a-ui.a-page-form .a-page-settings-section
-{
-	float: left;
-	clear: both;
-	width: 100%;
-}
+.a-ui.a-page-form .a-page-settings-section { float: left; clear: both; width: 100%; }
 
-.a-page-settings-section .content { margin: 0 16px; float: left; }
+.a-ui.a-page-form .a-page-settings-section .content { margin: 0 16px; float: left; }
 
-.a-page-settings-section h4
+.a-ui.a-page-form .a-page-settings-section h4
 {
 	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
 	cursor: pointer;
@@ -300,9 +411,9 @@ width: auto;
 	margin: 0 0 5px 0;
 }
 
-.a-page-settings-section h4:hover { background-position: -6px 0; }
-.a-page-settings-section.open h4 { background-position: -6px -20px; }
-.a-page-settings-section.open h4:hover { background-position: -6px -60px;	}
+.a-ui.a-page-form .a-page-settings-section h4:hover { background-position: -6px 0; }
+.a-ui.a-page-form .a-page-settings-section.open h4 { background-position: -6px -20px; }
+.a-ui.a-page-form .a-page-settings-section.open h4:hover { background-position: -6px -60px;	}
 
 .a-page-settings-section h5
 {
@@ -314,28 +425,11 @@ width: auto;
 	width: 104px;
 }
 
-.a-ui .a-page-settings-status
-{
-	float: left;
-}
+.a-ui .a-page-settings-status { float: left; }
 
-.a-page-settings-section.page-submit
-{
-	margin: 10px 0 5px 0;
-}
-
-.a-page-settings-section.page-submit a.a-btn.a-cancel
-{
-	float: left !important;
-	clear: none !important;
-	margin-left: 2px;
-}
-
-.a-page-settings-section.page-submit a.a-btn.a-delete
-{
-	clear: none;
-	float: right !important;
-}
+.a-page-settings-section.page-submit { margin: 10px 0 5px 0; }
+.a-page-settings-section.page-submit a.a-btn.a-cancel { float: left !important; clear: none !important; margin-left: 2px; }
+.a-page-settings-section.page-submit a.a-btn.a-delete { float: right !important; clear: none; }
 
 .a-ui .a-page-permissions-section
 {
@@ -347,12 +441,13 @@ width: auto;
 
 /* Create Page Form
 --------------------------------------*/
-#a-create-page-button.aActiveMenu
+.a-page-settings.aActiveMenu
+.a-create-page.aActiveMenu
 {
 	z-index: 999;
 }
 
-#a-create-page-form
+.a-create-page-form
 {
 	padding: 30px 5px 2px 5px;
 	position: absolute;
@@ -371,18 +466,17 @@ width: auto;
 	width: 100px;	
 }
 
-#a-create-page-button-menu.show-options
+.show-options > .aActiveMenu
 {
-	position: relative;
 	z-index: 998;
 }
 
 .a-ui .show-options .a-options
 {
-	display: block;
+	display: block !important;
 }
 
-/* 13. History Browser
+/* History Browser
 -------------------------------------*/
 
 .a-history-browser
@@ -574,174 +668,9 @@ font-size: 11px;
 }
 
 
-/* 15. Apostrophe Login Form
- **** This floats in the upper right corner when we use a login button
--------------------------------------*/
 
-#a-login-form-container
-{
-position: absolute;
-display: none;
-left: auto;
-top: 5px;
-right: 5px;
-padding: 0;
-z-index:9999 !important;
-width: 222px;
-min-width: 0;
-}
-
-#a-login-form
-{
-width: 220px;
-height: 400px;
-background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
-position: absolute;
-top: 50%;
-left: 50%;
-margin-left: -110px;
-margin-top: -200px;
-font-size: 16px;
-text-transform: lowercase;
-}
-
-#a-login-form table
-{
-width: 100%;
-margin-bottom: 10px;
-}
-
-#a-login-form h1
-{
-color: #fff;
-margin: 15px 0 5px 0;
-}
-
-#a-login-form th,
-#a-login-form td
-{
-width: 100%;
-float: left;
-display: inline;
-clear: both;
-padding-left: 20px;
-}
-
-#a-login-form td input
-{
-width: 175px;
-border: 0px;
-font-size: 12px;
-padding: 3px 2px;
-margin: 2px 0 8px;
-font-family: arial;
-}
-
-#a-login-form .remember th,
-#a-login-form .remember td
-{
-width: 80px;
-clear: none;
-}
-#a-login-form .remember td
-{
-padding: 0;
-}
-
-#a-login-form .remember td input
-{
-width: auto;
-margin: 2px;
-}
-
-#a-login-form .a-controls
-{
-width: 178px;
-margin: 0 22px
-}
-
-#a-login-form .a-controls li
-{
-float: right;
-}
-
-#a-login-form .a-controls li.last
-{
-float: left;
-}
-
-#a-login-form .a-reset-password
-{
-font-size: 11px;
-color: #333;
-}
-
-#a-login-form .a-reset-password:hover { color: #fff; }
-
-
-
-
-/* 16. Apostrophe Signin Form
- **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
--------------------------------------*/
-
-#a-signin
-{
-float: left;
-position: relative;
-overflow: hidden;
-display: block;
-clear: both;
-width: 220px;
-}
-    
-#a-signin-form
-{
-float: left;
-position: relative;
-overflow:hidden;
-display: inline;
-clear: both;
-float: left;
-width: 180px;
-padding: 20px;
-}
- 
-#a-signin-form label
-{
-	font-size: 16px;
-}
-
-#a-signin-form .a-form-row input[type="text"],
-#a-signin-form .a-form-row input[type="password"]
-{
-	width: 155px;	
-}
-
-#a-signin-form .a-form-row.submit input
-{
-	color:#fff;
-}
-
-#a-signin-form .a-form-row
-{
-margin: 0 10px 10px 10px;
-}
-
-#a-signin-form .a-form-row.submit li
-{
-float: left;
-display: inline;
-width: auto;
-clear:none;
-position: relative;
-margin-right: 5px;
-}
-
-
-
-/* 18. Site Search
--------------------------------------*/
+/* Apostrophe Search
+----------------------------------------------- */
 
 #a-search
 {
@@ -848,11 +777,8 @@ background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 0;
 }
 
 
-
-
-
-/* 19. Search Results
--------------------------------------*/
+/* Apostrophe Search Results
+--------------------------------------------- */
 
 #a-search-results-container,
 .a-search-results,
@@ -880,11 +806,8 @@ color: #666;
 }
 
 
-
-
-
-/* 20. Apostrophe Feedback Form
--------------------------------------*/
+/* Apostrophe Feedback Form
+------------------------------------------- */
 
 #feedback-form-container
 {
@@ -915,8 +838,172 @@ text-align: right;
 }
 
 
-/* Login button and language switcher
+
+/* Apostrophe Login Form **** This floats in the upper right corner when we use a login button
 -------------------------------------*/
+
+#a-login-form-container
+{
+position: absolute;
+display: none;
+left: auto;
+top: 5px;
+right: 5px;
+padding: 0;
+z-index:9999 !important;
+width: 222px;
+min-width: 0;
+}
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover { color: #fff; }
+
+
+
+
+/* Apostrophe Signin Form **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
+-------------------------------------*/
+
+#a-signin
+{
+float: left;
+position: relative;
+overflow: hidden;
+display: block;
+clear: both;
+width: 220px;
+}
+    
+#a-signin-form
+{
+float: left;
+position: relative;
+overflow:hidden;
+display: inline;
+clear: both;
+float: left;
+width: 180px;
+padding: 20px;
+}
+ 
+#a-signin-form label
+{
+	font-size: 16px;
+}
+
+#a-signin-form .a-form-row input[type="text"],
+#a-signin-form .a-form-row input[type="password"]
+{
+	width: 155px;	
+}
+
+#a-signin-form .a-form-row.submit input
+{
+	color:#fff;
+}
+
+#a-signin-form .a-form-row
+{
+margin: 0 10px 10px 10px;
+}
+
+#a-signin-form .a-form-row.submit li
+{
+float: left;
+display: inline;
+width: auto;
+clear:none;
+position: relative;
+margin-right: 5px;
+}
+
+
+/* Login button and language switcher
+------------------------------------------- */
 
 .a-login ul
 {
@@ -935,8 +1022,8 @@ text-align: right;
 
 
 
-/* Inline Taggable Widget
--------------------------------------*/
+/* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
+------------------------------------------- */
 
 .a-inline-taggable-widget-tag-container
 {
@@ -984,54 +1071,19 @@ text-align: right;
 	text-indent: 0;
 }
 
-/* Apostrophe Reorganize Tree */
 
-.a-reorganize .a-content
-{
-	display: block;
-	float: left;
-	clear: both;
-	width: 100%;
-}
+/* Apostrophe Attribution
+-------------------------------------*/
 
-.a-page-tree-container
-{
-	overflow: hidden;
-	position: relative;
-	margin: 20px 0;
-	padding: 20px;
-	border: 1px solid #ccc;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-}
+.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left; }
+.a-attribution a:hover { text-decoration:underline; }
 
-.a-page-tree-title
-{
-	margin-bottom: 20px;
-}
 
-.a-page-tree
-{
-	position: relative;
-	z-index: 1;
-}
+/* Apostrophe IE6 Warning for Admin
+-------------------------------------*/
 
-.a-page-tree-in-progress
-{
-	position: absolute;
-	z-index: 2;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(255,255,255,0.75) url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
-	display: none;
-}
-
-.a-page-tree-container.working .a-page-tree-in-progress
-{
-	display: block;
-}
+#ie6-warning { background: #f00; color: #fff; position: relative; z-index:9999; overflow: auto; }
+#ie6-warning h2 { margin: 0; padding: 5px; font-size: 14px; }
+#ie6-warning h2 a { color: #fff; text-decoration: underline; }
+#ie6-warning h2 a:hover { color: #222; }
+.ie6 .a-controls, .ie6 .a-btn { display: none !important; } /* Added precaution -- Let's hide any controls from IE6 */

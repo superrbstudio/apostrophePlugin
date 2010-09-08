@@ -437,79 +437,10 @@ min-width: 124%;
 display: none !important;
 }
 
-/* Options Element -- This creates a box for menu options and for slot options */
 
-.a-ui .a-options,
-.a-options
-{ 
-padding: 35px 20px 20px 20px;
-position: absolute;
-float: left;
-display: none;
-top: -5px;
-left: -5px;
-z-index: 1;
-list-style: none;
-min-width: 120px;
-width: auto;
-margin: 0;
-background-color: #fff; /* TODO: Debug for IE */
-background-color: rgba(255,255,255,0.9);
--moz-border-radius: 6px;
--webkit-border-radius: 6px;
-border-radius: 6px;
--moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
--webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
-border: 1px solid #ccc;
-overflow: hidden;
-}
 
-.a-ui .a-options.a-area-options { padding: 35px 10px 10px 10px; }
-
-.a-options .a-options-item > a .icon { opacity: .65; }
-
-.a-options .a-options-item > a:hover .icon { opacity: 1; }
-
-.a-options .a-options-item > a
-{ 
-float: left;
-clear: both;
-color: #777;
-}
-
-.a-options .a-options-item > a:hover,
-.a-options .a-options-item > span
-{ 
-color: #222 !important;
-}
-
-.a-ui .a-options .a-options-item > a.a-btn
-{ 
-color: #222 !important;
-float: none !important;
-display: block !important;
-display: block !important;
--moz-border-radius: 2px !important;
-text-shadow: none;
-border: 0;
-}
-
-.a-options .a-options-item > a.a-btn:hover
-{ 
-color: #000 !important;
-border-color: #ddd !important;
-text-shadow: none;
-background-color: rgba(255,255,255,0.5) !important;
-}
-
-.a-options .a-multiple-select a
-{ 
-color: #777 !important;
-}
-
-ul.a-controls .a-options li,
-ul.a-controls .a-options li.last
+ul.a-controls .a-options .a-options-item,
+ul.a-controls .a-options .a-options-item.last
 { 
 width: 100%;
 float: left;
