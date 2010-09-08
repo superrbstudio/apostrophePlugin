@@ -431,6 +431,8 @@ border: 1px inset rgba(0,0,0,0);
 	margin-bottom: 10px;
 }
 
+.a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
+
 /* Create Page Form
 --------------------------------------*/
 .a-page-settings.aActiveMenu
