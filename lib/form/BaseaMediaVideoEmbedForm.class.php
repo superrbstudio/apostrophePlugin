@@ -24,7 +24,7 @@ class BaseaMediaVideoEmbedForm extends aMediaVideoForm
   static public function validateEmbed($validator, $value, $arguments)
   {
     // Don't let this become a way to embed arbitrary HTML
-    $value = trim(strip_tags($value, "<embed><object><param><applet>"));
+    $value = trim(strip_tags($value, "<embed><object><param><applet><iframe>"));
     // Kill any text outside of tags
     if (preg_match_all("/<.*?>/", $value, $matches))
     {

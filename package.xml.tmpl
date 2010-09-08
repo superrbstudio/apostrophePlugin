@@ -77,6 +77,40 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
   <changelog>
     <release>
       <version>
+        <release>1.4.2</release>
+        <api>1.4.2</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2010-09-04</date>
+      <notes> 
+ * The most important fixes here are stability-related. This is a strongly recommended upgrade for all users of the 1.x series of Apostrophe or earlier
+ * Admin: fixed a bug with the cascade page settings form from not displaying when all child pages are unpublished
+ * Button slot: Fixed a few bugs with the button slot. If you set a title and a URL it will output a simple text link. It will also by default NOT output the image's full description, because that's the majority use case. If you want the image's full description along with the button, it can be enabled as an option
+ * Deployment: the apostrophe:deploy task now instructs rsync to checksum files rather than relying on modification times. This is critical when deployment happens from multiple development workstations. As a result we no longer need to clear the APC cache on every deployment, so that feature has been removed from the aSync module. rsync checksum is supposedly slow, but on modern systems performance is quite reasonable
+ * Deployment: new apostrophe:fix-remote-permissions task asks a remote production or staging server to chmod the Symfony-writable folders recursively to address the fact that umask() settings often prevent files created by Apache from being touched by command line tasks that need to do things like rebuilding the search index or syncing media content. Use this task to fix permissions "as Apache" without root access
+ * Documentation: README updated
+ * Documentation: package.xml.tmpl updates
+ * Engine page routing fixes
+ * JavaScript: removed an addJavascript call to jquery.hotkey because we do not use it and it was creating a 404 error
+ * Media: don't try to calculate dimensions if PDF preview is turned off. With netpbm turned off we can't do PDF preview and shouldn't try to fetch the dimensions, which are unknown
+ * Media: never return attributes for logged-out users in the media repository. We might have to revisit this if we decide to offer public filters of some sort that are attribute-based, but right now our attributes are designed for the image selection/management experience and should never be active after you log out. This was not a security hole, just a source of confusion
+ * Search: fixed bug with clear search button
+ * Search: new apostrophe:optimize-search-index task should be run nightly to reoptimize the Zend Search index
+ * Security: the app_aMedia_admin_credential and app_aMedia_upload_credential options were hardcoded to media_admin and media_upload in a bunch of places. All of these cases have been fixed to respect app.yml so you can change the media credentials if you wish
+ * Security: fixed security of aSync module, since it has its own password system it doesn't make sense to lock it with security.yml (also it is disabled by default)
+ * Stability: wrapped tree lock calls around page creation and deletion to address the fact that Doctrine doesn't seem to have concurrency locks for nested set operations. We had previously locked reorganize operations for similar reasons but did not realize that the fundamental insert and delete operations did not have locks either (transactions do not address the same issue)
+ * Stability: the repair-tree task has been overhauled. The task now uses PDO to avoid memory limitations of Doctrine, and is very fast now. There is now a method option which can be set to list or slug. The list option (well-tested) doesn't reorganize a messed-up page tree, but it does correct any errors in lft and rgt values such that it is now safe to manually reorganize it. The slug option infers the page tree from page slugs; this discards order of pages at the same level and doesn't work well if you heavily edit your slugs. A third approach is to specify the csv option, which should be set to a file containing a CSV dump with id, lft, rgt and level values (in that order, with no header) from a known-good database. Pages that did not exist in that good database become archived children of the homepage for easy cleanup in 'reorganize.' See the verbose help for the task for an example of how to create such a CSV file from a known-good backup
+ * Toolkit: don't allow whitespace to balloon in repeated calls to aHtml::simplify()
+ * Toolkit: added PEAR's Date module to 1.4 branch of apostrophe for use in the blog plugin
+ * UI: icon fixes
+ * UI: fixed an IE bug w/ pagination buttons
+</notes>
+    </release>
+    <release>
+      <version>
         <release>1.4.1</release>
         <api>1.4.1</api>
       </version>
