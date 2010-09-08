@@ -140,12 +140,12 @@
 
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
-		  <input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-page-settings-submit" />
-			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn icon a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?>
+		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-page-settings-submit" /></li>
+			<li><?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn icon a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?></li>
 			<?php if ($page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
-	      <?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete no-label', 'title' => __('Delete This Page', null, 'apostrophe'))) ?>
+	      <li><?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete no-label', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>
 			<?php endif ?>
 		</ul>
 	</div>
