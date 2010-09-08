@@ -563,7 +563,7 @@ function aConstructor()
 		{
 			down.parent().hide();
 		}
-	}sv
+	}
 	
 	function slotShowEditViewPreloaded(pageid, name, permid)
 	{
