@@ -376,11 +376,11 @@ border: 1px inset rgba(0,0,0,0);
 .a-ui .a-page-form .a-form-row input.a-page-title-field:focus
 {
 	border: 1px solid rgba(0,0,0,0.35);
-	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+/*	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 	-webkit-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 	-opera-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 	-khtml-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
-	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
+	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;*/
 }
 
 .a-ui .a-page-options
@@ -415,17 +415,9 @@ border: 1px inset rgba(0,0,0,0);
 .a-ui.a-page-form .a-page-settings-section.open h4 { background-position: -6px -20px; }
 .a-ui.a-page-form .a-page-settings-section.open h4:hover { background-position: -6px -60px;	}
 
-.a-page-settings-section h5
-{
-	font-size: 12px;
-	font-weight: normal;
-	padding: 5px 0;
-	margin-bottom: 5px;
-	float: left;
-	width: 104px;
-}
+.a-ui .a-page-settings-status { float: left; width: 230px; }
 
-.a-ui .a-page-settings-status { float: left; }
+.a-ui .a-page-settings-status .radio_list { float: left; width: 100%; }
 
 .a-page-settings-section.page-submit { margin: 10px 0 5px 0; }
 .a-page-settings-section.page-submit a.a-btn.a-cancel { float: left !important; clear: none !important; margin-left: 2px; }
