@@ -87,6 +87,7 @@
 	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
 	  <?php // Make the slot aware of its permid for simpler JS later ?>
 	  <?php a_js_call('$(?).data(?, ?)', "#a-slot-$pageid-$name-$permid", 'a-permid', $permid) ?>
+ 		
 		<?php // Slot Controls ?>
     <?php if ($editable): ?>
 		<ul class="a-ui a-controls a-slot-controls clearfix">		

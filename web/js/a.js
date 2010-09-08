@@ -463,14 +463,22 @@ function aConstructor()
 		};
 	}
 	
-	// This is just the beginning of bigger refactoring needed in this area
-	this.slotShowEditView = function(editBtn, editSlot)
-	{
-		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
-		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
-		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
-		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
-		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
+	this.slotShowEditView = function(pageid, name, permid)
+	{	
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editSlot = $('#a-slot-' + fullId);
+	  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
+	  {
+ 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid }, function(data) { 
+	      editSlot.children('.a-slot-content').html(data);
+	      slotShowEditViewPreloaded(pageid, name, permid);
+	    });
+	  }
+	  else
+	  {
+	    // Reuse edit view
+      slotShowEditViewPreloaded(pageid, name, permid);
+	  }
 	}
 	
 	this.areaUpdateMoveButtons = function(updateAction, id, name)
@@ -505,6 +513,18 @@ function aConstructor()
 		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
 	}
 	
+	this.slotEnableEditButton = function(pageid, name, permid, editUrl)
+	{
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editBtn = $('#a-slot-edit-' + fullId);
+ 		var editSlot = $('#a-slot-' + fullId);
+		editSlot.data('a-edit-url', editUrl);
+ 		editBtn.click(function(event) {
+			apostrophe.slotShowEditView(pageid, name, permid);
+ 		  return false;
+ 		});
+  }
+
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{
@@ -537,6 +557,19 @@ function aConstructor()
 		{
 			$(slot).find('.a-arrow-down').hide();
 		}
+	}
+	
+	function slotShowEditViewPreloaded(pageid, name, permid)
+	{
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editBtn = $('#a-slot-edit-' + fullId);
+ 		var editSlot = $('#a-slot-' + fullId);
+		
+		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
+		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
+		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
+		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
+		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
 	}
 } 
 

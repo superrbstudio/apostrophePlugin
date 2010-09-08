@@ -16,7 +16,10 @@ class BaseaSlotComponents extends sfComponents
     
     // TODO: remove this workaround in 1.5. All uses of actual_slug and real-slug need to go away
     // in favor of actual_url, we just don't want to break any old overrides in client projects.
-    $this->realSlug = aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global';
+    
+    // Gone in 1.5
+    
+    // $this->realSlug = aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global';
     
     $this->slot = $this->page->getSlot(
           $this->name, $this->permid);

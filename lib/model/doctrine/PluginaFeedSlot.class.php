@@ -12,4 +12,5 @@
  */
 abstract class PluginaFeedSlot extends BaseaFeedSlot
 {
+  protected $editDefault = true;
 }

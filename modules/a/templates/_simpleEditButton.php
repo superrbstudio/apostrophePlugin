@@ -22,36 +22,18 @@
   <?php endif ?>
 
   <li>
-  <?php echo jq_link_to_function(isset($label) ? __($label, null, 'apostrophe') : __("edit", null, 'apostrophe'), "", 
+  <?php // We want to eliminate jQuery helpers, but writing this link as raw HTML is tricky because ?>
+  <?php // of the need to quote the title option right. And link_to doesn't like '#' as a URL. So we use ?>
+  <?php // content_tag, Symfony's lower-level helper for outputting any tag and its content programmatically ?>
+  <?php echo content_tag('a', isset($label) ? a_($label) : a_("edit"), 
   			array(
+  			  'href' => '#',
   				'id' => "a-slot-edit-$pageid-$name-$permid",
   				'class' => isset($class) ? $class : 'a-btn icon a-edit', 
-  				'title' => isset($title) ? $title : __('Edit', null, 'apostrophe'), 
+  				'title' => isset($title) ? $title : a_('Edit'), 
   )) ?>
 
-  <script type="text/javascript" charset="utf-8">
-  <?php // TODO: Rewrite this as a button class scoped to ALL edit buttons so there's only a single instance of this Javascript ?>
-  	$(document).ready(function() {
-  	  <?php // This is now AJAX code to load the edit view on demand ?>
-  		var editBtn = $('#a-slot-edit-<?php echo "$pageid-$name-$permid" ?>');
-  		var editSlot = $('#a-slot-<?php echo "$pageid-$name-$permid" ?>');
-  		editBtn.click(function(event){
-  		  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
-  		  {
-    		  $.get(<?php echo json_encode(url_for($slot->type . 'Slot/ajaxEditView') . '?' . http_build_query(array('id' => $pageid, 'slot' => $name, 'permid' => $permid))) ?>, { }, function(data) { 
-  		      editSlot.children('.a-slot-content').html(data);
-  		      apostrophe.slotShowEditView(editBtn, editSlot);
-  		    });
-  		  }
-  		  else
-  		  {
-  		    // Reuse edit view
-		      apostrophe.slotShowEditView(editBtn, editSlot);
-  		  }
-  		  return false;
-  		});
-  	});
-  </script>
+  <?php a_js_call('apostrophe.slotEnableEditButton(?, ?, ?, ?)', $pageid, $name, $permid, url_for($slot->type . 'Slot/ajaxEditView')) ?>
   </li>
 	
   <?php if ($controlsSlot): ?>
