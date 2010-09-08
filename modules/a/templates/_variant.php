@@ -42,10 +42,11 @@
     					$('<?php echo "#a-$pageid-$name-$permid-variant-$variant-inactive" ?>').hide();
   				 });
 					$('<?php echo "#a-$pageid-$name-$permid-variant" ?>').children("ul.a-variant-options").hide();
-					aMenuToggle('#a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle', $('#a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle').parent(), 'a-options-open', false);
   			});
     		</script>
       <?php endforeach ?>
     </ul>
   </li>
 <?php endif ?>
+
+<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-'.$pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', 'classname' => 'a-options-open', 'overlay' => false)) ?>

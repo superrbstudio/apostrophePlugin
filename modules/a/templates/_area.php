@@ -93,10 +93,10 @@
 		<ul class="a-ui a-controls a-slot-controls clearfix">		
       <?php if ($infinite): ?>
 				<li class="a-move">
-				  <a href="#" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>"><span class="icon"></span><?php echo a_('Move Up') ?></a>
+				  <a href="#move-up" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Up') ?></a>
 				</li>
 				<li class="a-move">
-				  <a href="#" class="a-btn icon a-arrow-down no-label" title="<?php echo a_('Move Down') ?>"><span class="icon"></span><?php echo a_('Move Down') ?></a>
+				  <a href="#move-down" class="a-btn icon a-arrow-down no-label" title="<?php echo a_('Move Down') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Down') ?></a>
 				</li>
       <?php endif ?>
 
@@ -149,8 +149,6 @@
 	$(document).ready(function() {
 
 			<?php if ($infinite): ?>
-				aMenuToggle('#a-add-slot-<?php echo $pageid.'-'.$name ?>', $('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent(), 'a-options-open', false);
-
 				var newSlot = $('#a-area-<?php echo "$pageid-$name" ?>').find('.a-new-slot');
 				if (newSlot.length) {
 					newSlot.effect("highlight", {}, 1000);
@@ -179,4 +177,5 @@
 	});
 </script>
 <?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
+<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>
 <?php endif ?>

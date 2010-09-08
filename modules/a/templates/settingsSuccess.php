@@ -141,7 +141,7 @@
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
 		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-page-settings-submit" /></li>
-			<li><?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '',  array('class' => 'a-btn icon a-cancel', 'title' => __('Cancel', null, 'apostrophe'))) ?></li>
+			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a></li>
 			<?php if ($page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
@@ -156,7 +156,9 @@
 
 <script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
 <script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
+
 <?php a_include_js_calls() ?>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var aPageTypeSelect = $('#a_settings_settings_engine');

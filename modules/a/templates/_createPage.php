@@ -47,7 +47,7 @@
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">
 	  	<li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
-	  	<li><a href="#" onclick="return false;" class="a-btn icon a-cancel"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
+	  	<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
 		</ul>
 	</div>
 	
@@ -81,10 +81,10 @@
 
 		aInputSelfLabel('#a-create-page-title', <?php echo json_encode(__('Page Title', null, 'apostrophe')) ?>);
 
-		aMenuToggle($('#a-create-page-button'), $('#a-create-page-button').parent(), '', true);
-
 		$('#a-create-page-button').click(function(){
 			$('#a-create-page-title').focus();
 		});		
 	});
 </script>
+
+<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-create-page-button', 'classname' => '', 'overlay' => true)) ?>

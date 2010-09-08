@@ -1,9 +1,8 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php // This is a copy of apostrophePlugin/modules/a/templates/layout.php ?>
 <?php // It also makes a fine site-wide layout, which gives you global slots on non-page templates ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<?php use_helper('a') ?>
 	<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
 	<?php $page = aTools::getCurrentNonAdminPage() ?>
   <?php $root = aPageTable::retrieveBySlug('/') ?>
@@ -95,6 +94,8 @@
 	  <?php include_partial('a/footer') ?>
 	</div>
 
+	<?php include_partial('a/globalJavascripts') ?>
+	
 	<?php // Drop in the document.ready stuff at the bottom. ?>
 	<?php // If we try to do this sooner, it works for the template but ?>
 	<?php // doesn't yet know about any js calls relating to the layout. ?>
