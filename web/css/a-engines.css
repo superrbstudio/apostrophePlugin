@@ -1008,21 +1008,11 @@ ul.a-media-crop-controls
 	margin-bottom: 10px;
 }
 
-.a-blog-item-excerpt-container
-{
-	margin-bottom:20px;
-}
+.a-blog-item-excerpt-container { margin-bottom:20px; }
 
-.a-blog-item-body p
-{
-	margin-bottom: 10px;
-}
+.a-blog-item-body p {	margin-bottom: 10px; }
 
-.a-blog-item-tags li
-{
-	float: left;
-	margin: 0 5px 0 0;
-}
+.a-blog-item-tags li { float: left;	margin: 0 5px 0 0; }
 
 .a-blog-item-meta
 {
@@ -1031,6 +1021,8 @@ ul.a-media-crop-controls
 	margin: 0;
 	list-style-position: outside;
 }
+
+.a-blog .a-controls.a-blog-post-controls { margin: 10px 0 5px 0 !important; }
 
 .a-blog ul.a-slideshow-controls
 {
@@ -1057,24 +1049,11 @@ ul.a-media-crop-controls
 	border-radius: 4px;	
 }
 
-.aEvent .addthis_toolbox
-{
-	margin-left: 140px;
-	font-size: 11px;
-	color: #999;
-}
+.aEvent .addthis_toolbox { margin-left: 140px; font-size: 11px; color: #999; }
 
-.a-event-date-range span
-{
-	float: left;
-	width: 100%;
-	color: #222;
-}
+.a-event-date-range span { float: left;	width: 100%; color: #222; }
 
-.a-event-date-range .end_date
-{
-	margin-top: 5px;
-}
+.a-event-date-range .end_date { margin-top: 5px; }
 
 
 

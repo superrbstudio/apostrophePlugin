@@ -25,8 +25,8 @@ padding: 35px 20px 20px 20px;
 position: absolute;
 float: left;
 display: none;
-top: -5px;
-left: -5px;
+top: -6px;
+left: -6px;
 z-index: 1;
 list-style: none;
 min-width: 120px;
@@ -104,8 +104,6 @@ margin: 10px 0;
 .a-options-open {  z-index: 999; }
 .a-options-open .a-options {  display: block !important; }
 .a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 999; }
-
-
 
 
 /* Apostrophe Reorganize Tree
@@ -340,7 +338,12 @@ padding: 5px 0 1px;
 /* Edit/Create Page Form Shared Styles
 --------------------------------------*/
 
-.a-ui.a-page-form .a-form-row
+.a-ui .a-options.a-page-form
+{
+	display: none;
+}
+
+.a-ui .a-options.a-page-form .a-form-row
 {
 clear: both;
 display: block;
@@ -355,25 +358,25 @@ border-radius: 2px;
 border: 1px inset rgba(0,0,0,0);
 }
 
-.a-ui.a-page-form .a-form-row:hover
+.a-ui .a-options.a-page-form .a-form-row:hover
 {
 	background-color:#f6f6f6;
 	background-color: rgba(0,0,0,0.025);
 	border: 1px inset rgba(0,0,0,0.025);
 }
 
-.a-ui.a-page-form .a-form-row.focus
+.a-ui .a-options.a-page-form .a-form-row.focus
 {
 	background-color:#f0f0f0;
 	background-color: rgba(0,0,0,0.065);
 	border: 1px inset rgba(0,0,0,0.065);
 }
 
-.a-ui .a-page-form .a-form-row.a-page-title label { display: none; }
+.a-ui .a-options.a-page-form .a-form-row.a-page-title label { display: none; }
 
-.a-ui .a-page-form .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
+.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
 
-.a-ui .a-page-form .a-form-row input.a-page-title-field:focus
+.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field:focus
 {
 	border: 1px solid rgba(0,0,0,0.35);
 /*	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
@@ -392,7 +395,7 @@ border: 1px inset rgba(0,0,0,0);
 /* 12. Page Settings Panel
 -------------------------------------*/
 
-.a-ui.a-page-form { position: absolute; z-index: 998;	}
+.a-ui.a-page-form { position: absolute; z-index: 997;	}
 
 .a-ui.a-page-form .a-options { display: block !important; min-width: 0; }
 
