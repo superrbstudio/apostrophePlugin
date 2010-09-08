@@ -496,45 +496,47 @@ function aConstructor()
 			// We use a nested function here because 
 			// a loop variable does *not* get captured
 			// in the closure at its current value otherwise
-			setButtons(slot, n, slots);
-			function setButtons(slot, n, slots)
-			{
-				if (n > 0)
-				{
-					// TODO: this is not sensitive enough to nested areas
-					$(slot).find('.a-arrow-up').show().unbind('click').click(function() {
-						// It would be nice to confirm success here in some way
-						$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
-						apostrophe.swapNodes(slot, slots[n - 1]);
-						apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-						return false;
-					});
-				}
-				else
-				{
-				  $(slot).find('.a-arrow-up').hide();
-				}
-				if (n < (slots.length - 1))
-				{
-					$(slot).find('.a-arrow-down').show().unbind('click').click(function() {
-						// It would be nice to confirm success here in some way
-						$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
-						apostrophe.swapNodes(slot, slots[n + 1]);
-						apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-						return false;
-					});
-				}
-				else
-				{
-					$(slot).find('.a-arrow-down').hide();
-				}
-			}
+			slotUpdateMoveButtons(id, name, slot, n, slots, updateAction);
 		}
 	}
 	
 	this.slotNotNew = function(pageid, name, permid)
 	{
 		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
+	}
+	
+	// Private methods callable only from the above (no this.foo = bar)
+	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
+	{
+		if (n > 0)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			$(slot).find('.a-arrow-up').show().unbind('click').click(function() {
+				// It would be nice to confirm success here in some way
+				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
+				apostrophe.swapNodes(slot, slots[n - 1]);
+				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				return false;
+			});
+		}
+		else
+		{
+		  $(slot).find('.a-arrow-up').hide();
+		}
+		if (n < (slots.length - 1))
+		{
+			$(slot).find('.a-arrow-down').show().unbind('click').click(function() {
+				// It would be nice to confirm success here in some way
+				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
+				apostrophe.swapNodes(slot, slots[n + 1]);
+				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				return false;
+			});
+		}
+		else
+		{
+			$(slot).find('.a-arrow-down').hide();
+		}
 	}
 } 
 
