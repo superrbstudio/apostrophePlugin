@@ -29,17 +29,6 @@
     <?php // outside of the widget. Jamming it into the widget made templating weird ?>
     <div class="a-form-row preview">
       <?php echo image_tag($form['file']->getWidget()->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints'))) ?>
-      <?php if (!$item): ?>
-        <a class="a-media-remove-file" href="#">x</a>
-        <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
-      <?php endif ?>
-    </div>
-    
-    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
-		<div class="a-form-row file">
-      <?php echo $form['file']->renderLabel() ?>
-      <?php echo $form['file']->renderError() ?>
-      <?php echo $form['file']->render() ?>
     </div>
 
 		<div class="a-form-row title">
@@ -98,6 +87,23 @@
 			</script>
 			<?php endif ?>
 
+		</div>
+		
+		<div class="a-form-row replace">		
+	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
+			<div class="a-options-container a-ui">		
+				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon alt no-bg a-replace">Replace File</a>
+				<div class="a-options dropshadow">
+		      <?php echo $form['file']->renderLabel() ?>
+		      <?php echo $form['file']->renderError() ?>
+		      <?php echo $form['file']->render() ?>
+		    </div>
+			<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
+			</div>
+			<?php if (!$item): ?>
+	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
+	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+	    <?php endif ?>
 		</div>
 
    <?php if ($item): ?>

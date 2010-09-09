@@ -39,7 +39,7 @@
     <?php else: ?>
       <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
       <?php $type = $mediaItem->getType() ?>
-      <img class="a-media-icon-as-thumbnail" src="/apostrophePlugin/images/a-<?php echo $type ?>-icon-tiny.png" />
+			<span class="a-media-type"><b><?php echo $type ?></b></span>
     <?php endif ?>
   </a>
 </li>

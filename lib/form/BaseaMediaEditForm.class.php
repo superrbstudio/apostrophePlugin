@@ -35,7 +35,7 @@ class BaseaMediaEditForm extends aMediaItemForm
     // on something that may or may not be a preview or generally a good thing 
     // to try to read a button on top of
     
-    $this->getWidget('file')->setLabel('Replace File');
+    $this->getWidget('file')->setLabel('Select a new file');
     if (!$item->isNew())
     {
       $this->getWidget('file')->setOption('default-preview', $item->getOriginalPath());

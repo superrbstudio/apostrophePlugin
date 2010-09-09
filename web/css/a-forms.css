@@ -149,7 +149,7 @@ position: relative;
 color: #fff;
 font: 12px/normal arial, sans-serif;
 padding: 0px 4px;
-z-index: 2;
+/*z-index: 2;*/ /* TODO: Figure out why this is here */
 width: auto;
 cursor: pointer;
 min-height: 20px;

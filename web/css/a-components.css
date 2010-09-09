@@ -24,7 +24,7 @@
 padding: 35px 20px 20px 20px;
 position: absolute;
 float: left;
-display: none;
+display: none !important;
 top: -6px;
 left: -6px;
 z-index: 1;

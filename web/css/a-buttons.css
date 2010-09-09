@@ -157,6 +157,7 @@ box-shadow: 0 0 0 transparent !important;
 .a-unchecked > .icon { background-image: url(/apostrophePlugin/images/a-icon-unchecked.png); }
 .a-users > .icon { background-image: url(/apostrophePlugin/images/a-icon-users.png); }
 .a-video > .icon { background-image: url(/apostrophePlugin/images/a-icon-video.png); }
+.a-replace > .icon { background-image: url(/apostrophePlugin/images/a-icon-replace.png); }
 
 
 /* Apostrophe Alternate Button Icons
@@ -211,6 +212,7 @@ box-shadow: 0 0 0 transparent !important;
 .alt .a-unchecked > .icon, .a-unchecked.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png); }
 .alt .a-users > .icon, .a-users.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-users.png); }
 .alt .a-video > .icon, .a-video.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-video.png); }
+.alt .a-replace > .icon, .a-replace.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-replace.png); }
 
 
 
