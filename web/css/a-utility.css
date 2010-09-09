@@ -32,6 +32,13 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 /* Disabled - Fade and force default cursor */
 .a-disabled, .a-disabled * { cursor: default !important; opacity: 0.65; }
 
-/* Accordion works with aAccordion() in aUI.js */
-.a-accordion .content { display: none; } 
-.a-accordion.open .content { display: block; }
+/* Accordion works with apostrophe.accordion() */
+.a-accordion .a-accordion-content { display: none; } 
+.a-accordion.open .a-accordion-content { display: block; }
+
+.a-accordion-toggle.hover,
+.a-accordion-toggle:hover
+{
+	cursor: pointer;
+	color: #000;
+}

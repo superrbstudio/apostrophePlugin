@@ -285,7 +285,8 @@ function aConstructor()
 	    });
 	  }
 	
-		aAccordion('.a-page-settings-section-head');
+		// apostrophe.accordion({"accordion_toggle":".a-page-settings-section-head"});
+		
 		aRadioSelect('.a-radio-select', { });
 		$('#a-page-settings').show();
 		aUI();
@@ -711,6 +712,67 @@ function aConstructor()
 			};			
 		});
 
+	}
+	
+	this.IE6 = function(options)
+	{
+		var authenticated = options['authenticated'];
+		var message = options['message'];
+		// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+		if (authenticated)
+		{
+			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
+		}
+	}
+	
+	this.accordion = function(options)
+	{
+		var toggle = options['accordion_toggle'];
+		
+		if (typeof toggle == "undefined") {
+			apostrophe.log('[Apostrophe] Accordion Toggle is undefined.');
+		}
+		else
+		{
+			if (typeof toggle == "string") { toggle = $(toggle); }
+
+			var container = toggle.parent();
+			var content = toggle.next();
+
+			container.addClass('a-accordion');
+			content.addClass('a-accordion-content');
+
+			toggle.each(function() {
+				var t = $(this);
+				t.click(function(event){
+					event.preventDefault();					
+					t.closest('.a-accordion').toggleClass('open');
+				})
+				.hover(function(){
+					t.addClass('hover');
+				},function(){
+					t.removeClass('hover');
+				});			
+			}).addClass('a-accordion-toggle');
+		};
+		
+		/* Example Mark-up
+		<script>
+			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
+		</script> 
+
+		BEFORE:
+		<div>
+			<h3>Heading</h3>
+			<div>Content</div>
+		</div>
+
+		AFTER:
+		<div class="a-accordion">
+			<h3 class="a-accordion-toggle">Heading</h3>
+			<div class="a-accordion-content">Content</div>
+		</div>
+		*/
 	}
 	
 } 

@@ -350,7 +350,7 @@ display: block;
 float: none;
 overflow: hidden;
 padding: 5px;
-margin: 5px 0;
+margin: 8px 0;
 width: auto;
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
@@ -403,20 +403,7 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui.a-page-form .a-page-settings-section .content { margin: 0 16px; float: left; }
 
-.a-ui.a-page-form .a-page-settings-section h4
-{
-	background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
-	cursor: pointer;
-	text-indent: 16px;
-	line-height: 20px;
-	width: 100%;
-	position: relative;
-	margin: 0 0 5px 0;
-}
-
-.a-ui.a-page-form .a-page-settings-section h4:hover { background-position: -6px 0; }
-.a-ui.a-page-form .a-page-settings-section.open h4 { background-position: -6px -20px; }
-.a-ui.a-page-form .a-page-settings-section.open h4:hover { background-position: -6px -60px;	}
+.a-ui.a-page-form h4 { margin: 5px 0; }
 
 .a-ui .a-page-settings-status { float: left; width: 230px; }
 
@@ -439,6 +426,26 @@ border: 1px inset rgba(0,0,0,0);
 .a-page-settings-section.page-submit { margin: 10px 0 5px 0; }
 .a-page-settings-section.page-submit a.a-btn.a-cancel { float: left !important; clear: none !important; margin-left: 2px; }
 .a-page-settings-section.page-submit a.a-btn.a-delete { float: right !important; clear: none; }
+
+.a-ui.a-page-form .a-accordion-toggle
+{
+background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+cursor: pointer;
+clear: both;
+text-indent: 16px;
+line-height: 20px;
+-webkit-user-select:none;
+-moz-user-select:none;
+}
+
+.a-ui.a-page-form .a-accordion-toggle.hover,
+.a-ui.a-page-form .a-accordion-toggle:hover { background-position: -6px 0px; }
+
+.a-ui.a-page-form .open .a-accordion-toggle { background-position: -6px -20px; }
+
+.a-ui.a-page-form .open .a-accordion-toggle.hover,
+.a-ui.a-page-form .open .a-accordion-toggle:hover { background-position: -6px -60px; }
+
 
 /* Create Page Form
 --------------------------------------*/
@@ -1041,8 +1048,9 @@ margin-right: 5px;
 	margin-right: 5px;
 }
 
-.a-inline-taggable-widget-tag-container.a-popular .a-tag
+.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag
 {
+	display: block;
 	clear: both;
 }
 

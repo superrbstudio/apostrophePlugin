@@ -72,34 +72,6 @@ function aUI(target)
 	
 }
 
-function aIE6(authenticated, message)
-{
-	// This is called within a conditional comment for IE6 in Apostrophe's layout.php
-	if (authenticated)
-	{
-		$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
-	}
-
-	// Misc IE6 enhancements we want to happen
-	$('input[type="checkbox"]').addClass('checkbox');
-	$('input[type="radio"]').addClass('checkbox');
-}
-
-function aAccordion(heading)
-{
-	if (typeof heading == "string") { heading = $(heading); }
-	heading.click(function() {
-		$(this).parent().toggleClass('open');
-		return false;
-	}).parent().addClass('a-accordion');
-	/* Example Mark-up 
-	<div class="a-accordion-item">
-		<h3>Heading</h3>    header = $('.a-accordion-item h3)
-		<div>Content</div>
-	</div>
-	*/
-}
-
 $(document).ready(function(){
 	aUI();	
 	jQuery.fn.isChildOf = function(b){
