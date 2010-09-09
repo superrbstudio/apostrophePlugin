@@ -31,34 +31,36 @@
 <?php endif ?>
 
 <div class="a-media-library">
-	
+
 	<h3>Media Library</h3>
 	
 	<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>
-	
-	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-    <ul class="a-ui a-controls">
 
-      <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
-      <?php if ($uploadAllowed): ?>
-        <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
-      <?php endif ?>
-      <?php if ($embedAllowed): ?>
-        <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
-      <?php endif ?>
-   </ul>
-  <?php endif ?>
+	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
+	  <ul class="a-ui a-controls a-media-upload-controls">
+
+	    <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
+	    <?php if ($uploadAllowed): ?>
+	      <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
+	    <?php endif ?>
+	    <?php if ($embedAllowed): ?>
+	      <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
+	    <?php endif ?>
+	 </ul>
+	<?php endif ?>
 	
- <?php for ($n = 0; ($n < count($results)); $n += 2): ?>
-   <div class="a-media-row">
-   	<?php for ($i = $n; ($i < min(count($results), $n + 2)); $i++): ?>
-     <?php $mediaItem = $results[$i] ?>
-      <ul id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-media-item <?php echo ($i % 2) ? "odd" : "even" ?>">
-        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem)) ?>
-      </ul>
-   	<?php endfor ?>
-   </div>
- <?php endfor ?>
+	<div class="a-media-items">
+	 <?php for ($n = 0; ($n < count($results)); $n += 2): ?>
+	   <div class="a-media-row">
+	   	<?php for ($i = $n; ($i < min(count($results), $n + 2)); $i++): ?>
+	     <?php $mediaItem = $results[$i] ?>
+	      <ul id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-media-item <?php echo ($i % 2) ? "odd" : "even" ?>">
+	        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem)) ?>
+	      </ul>
+	   	<?php endfor ?>
+	   </div>
+	 <?php endfor ?>
+	</div>
 </div>
 
 <div class="a-media-footer">

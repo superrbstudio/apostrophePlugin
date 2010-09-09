@@ -24,7 +24,7 @@
 
 			<div class="a-media-selection-help">
 			  <?php if (aMediaTools::isMultiple()): ?>
-   				<h4><?php echo __('Add images to your slideshow', null, 'apostrophe') ?></h4>
+   				<h4><?php echo __('Select images for your slideshow', null, 'apostrophe') ?></h4>
    			<?php else: ?>
    			  <h4><?php echo __('Select an image', null, 'apostrophe') ?></h4>
    			<?php endif ?>		

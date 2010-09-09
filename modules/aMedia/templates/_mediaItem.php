@@ -27,9 +27,10 @@
   <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $slug))) . '"' ?>
 
 <?php endif ?>
-
+<li class="a-media-item-controls">
+	<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
+</li>
 <li class="a-media-item-thumbnail">
-<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
   <a <?php echo $linkAttributes ?> class="a-media-thumb-link">
     <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
     <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
