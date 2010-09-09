@@ -468,8 +468,8 @@ function aConstructor()
 		var aPageSettingsURL = options['aPageSettingsURL'];
 		var aPageSettingsButton = $('#a-page-settings-button');		
 
-		_menuToggle('#a-page-settings-button', '', true);
-
+		apostrophe.menuToggle({"button":"#a-page-settings-button","classname":"","overlay":true})
+		
 		aPageSettingsButton.click(function() {
 		 $.ajax({
 				type:'POST',
@@ -637,21 +637,30 @@ function aConstructor()
 		var button = options['button'];
 		var classname = options['classname'];
 		var overlay = options['overlay'];
-		_menuToggle(button, classname, overlay);
+
+		if (typeof(button) == "undefined") {
+			apostrophe.log('[Apostrophe] menuToggle button is undefined');
+		}
+		else
+		{
+			if (typeof button == "string") { button = $(button); } /* button that toggles the menu open & closed */
+			if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
+			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
+
+			// Use the parent of the button as the menu container		
+			var menu = $(button).parent(); 
+			if (typeof(menu) == "object") {
+				_menuToggle(button, menu, classname, overlay);			
+			};	
+		};
 	}
 
-
-	function _menuToggle(button, classname, overlay)
+	function _menuToggle(button, menu, classname, overlay)
 	{	
-		/* Usage: aMenuToggle(Object|ID Selector, Object|ID Selector, Undefined|String, Undefined|True|False) */
-
-		if (typeof button == "string") { button = $(button); } /* button that toggles the menu open & closed */
-		if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
-		if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
-		var menu = $(button).parent(); // Use the parent of the button as the menu container
-
-		// We need an ID for the menu. If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
-		if (menu.attr('id') == '') {
+		// Menu must have an ID. 
+		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
+		if (menu.attr('id') == '') 
+		{
 			newID = button.attr('id')+'-menu';
 			menu.attr('id', newID).addClass('a-options-container');
 		}
@@ -666,15 +675,15 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			}
-		});
+		}).addClass('a-options-button');
 
 		// Open Menu, Create Listener
 		menu.bind('toggleOpen', function(){
 			button.addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.stop().show(); }
-			$(document).click(function(e){
-				var target = $(e.target);
+			$(document).click(function(event){
+				var target = $(event.target);
 				if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
 				{
 					menu.trigger('toggleClosed');
@@ -690,13 +699,16 @@ function aConstructor()
 			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
 			menu.removeClass(classname);
-			if (overlay) { overlay.fadeOut(); }
+			if (overlay) { overlay.fadeOut(); };
 			$(document).unbind('click'); // Clear out click event		
 		});
 
-		$('.a-options-cancel').live('click', function(){
-			// console.log(menu);
-			$(this).closest(menu).trigger('toggleClosed');
+		menu.click(function(event){
+			target = $(event.target);
+			if (target.hasClass('a-options-cancel')) 
+			{
+				menu.trigger('toggleClosed');
+			};			
 		});
 
 	}

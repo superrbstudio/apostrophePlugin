@@ -16,7 +16,7 @@
   $updating = isset($updating) ? $sf_data->getRaw('updating') : null;
   $validationData = isset($validationData) ? $sf_data->getRaw('validationData') : null;
 ?>
-<?php use_helper('jQuery', 'I18N') ?>
+<?php use_helper('a') ?>
 
 <?php // We now render the edit view only when it is AJAXed into place on demand. This saves us the ?>
 <?php // considerable overhead of loading many instances of FCK we won't use ?>

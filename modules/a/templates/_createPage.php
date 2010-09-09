@@ -2,9 +2,10 @@
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('I18N') ?>
 
-<a href="#" class="a-btn icon a-add a-create-page" id="a-create-page-button" onclick="return false;"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
+<?php use_helper('a') ?>
+
+<a href="#add-page" class="a-btn icon a-add a-create-page" id="a-create-page-button" onclick="return false;"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
 
 <form method="POST" action="<?php echo url_for('a/create') ?>" id="a-create-page-form" class="a-ui a-options a-page-form a-create-page-form dropshadow">
 

@@ -5,7 +5,9 @@
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
 ?>
-<?php use_helper('I18N') ?>
+
+<?php use_helper('a') ?>
+
 <?php $options = $sf_user->getAttribute("slot-options-$pageid-$name-$permid", null, 'apostrophe') ?>
 <?php $variants = aTools::getVariantsForSlotType($slot->type, $options) ?>
 <?php if (count($variants) > 1): ?>
@@ -47,6 +49,9 @@
       <?php endforeach ?>
     </ul>
   </li>
-<?php endif ?>
 
-<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-'.$pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', 'classname' => 'a-options-open', 'overlay' => false)) ?>
+	<?php if (!$slot->isNew()): ?>
+		<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-'.$pageid.'-'.$name.'-'.$permid.'-variant-options-toggle', 'classname' => 'a-options-open', 'overlay' => false)) ?>	
+	<?php endif ?>
+
+<?php endif ?>

@@ -1,4 +1,4 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 
 <?php $buttons = aTools::getGlobalButtons() ?>
 <?php $page = aTools::getCurrentPage() ?>

@@ -10,7 +10,8 @@
   $refresh = isset($refresh) ? $sf_data->getRaw('refresh') : null;
   $slots = isset($slots) ? $sf_data->getRaw('slots') : null;
 ?>
-<?php use_helper('a', 'jQuery', 'I18N') ?>
+
+<?php use_helper('a') ?>
 
 <?php slot('a-history-controls') ?>
 	<li>
@@ -171,6 +172,10 @@
 		
 	});
 </script>
-<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
-<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>
+
+<?php if ($infinite): ?>
+	<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
+	<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>	
+<?php endif ?>
+
 <?php endif ?>

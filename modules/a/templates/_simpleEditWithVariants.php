@@ -15,7 +15,6 @@
 <?php endif ?>
 
 <?php include_partial('a/simpleEditButton', array('pageid' => $pageid, 'slot' => $slot, 'name' => $name, 'permid' => $permid, 'controlsSlot' => false)) ?>
-
 <?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 
 <?php if ($controlsSlot): ?>
