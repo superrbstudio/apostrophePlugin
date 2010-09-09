@@ -915,5 +915,12 @@ new function($) {
 				}
 			});
 		});
-	}
+	};
+}(jQuery);
+
+new function($)
+{
+	$.fn.isChildOf = function(b){
+		return (this.parents(b).length > 0);
+	};		
 }(jQuery);
