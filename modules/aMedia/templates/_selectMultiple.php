@@ -20,30 +20,29 @@
 
   <div class="a-ui">
 
-  	<div id="a-media-selection-list-caption">
-  	  <h4><?php echo __("Preview your selected image%plural% here.", array('%plural%' => aMediaTools::isMultiple() ? 's':' '), 'apostrophe') ?></h4>
-  	</div>
-
   	<div id="a-media-selection-wrapper">
-  		<ul id="a-media-selection-list" style="min-height:<?php echo ($thumbHeight = aMediaTools::getSelectedThumbnailHeight()) ? $thumbHeight + 10 : 0 ?>px;">
-  			<?php if($items): ?>
-  				<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
-  			<?php else: ?>
-  			  <?php if (aMediaTools::isMultiple()): ?>
-    				<li class="a-media-selection-placeholder"><?php echo __('Add images to your slideshow', null, 'apostrophe') ?></li>
-    			<?php else: ?>
-    			  <li class="a-media-selection-placeholder"><?php echo __('Select an image', null, 'apostrophe') ?></li>
-    			<?php endif ?>
-  		 	<?php endif ?>
-  		</ul>
+
+			<div class="a-media-selection-help">
+			  <?php if (aMediaTools::isMultiple()): ?>
+   				<h4><?php echo __('Add images to your slideshow', null, 'apostrophe') ?></h4>
+   			<?php else: ?>
+   			  <h4><?php echo __('Select an image', null, 'apostrophe') ?></h4>
+   			<?php endif ?>		
+			</div>
+
+  			<ul id="a-media-selection-list" style="min-height:<?php echo ($thumbHeight = aMediaTools::getSelectedThumbnailHeight()) ? $thumbHeight + 10 : 0 ?>px;">
+					<?php if($items): ?>
+  					<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
+			 		<?php endif ?>
+  			</ul>
 
   		<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder" )) ?>
   		<div class="a-crop-workspace">
   		  <ul id="a-media-selection-preview">
   		  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
   		  </ul>
-  		  <ul class="a-controls a-media-crop-controls" style="display:none;">
-  				<li><?php echo jq_link_to_function('<span class="icon"></span>'.__('Crop', null, 'apostrophe'), 'aCrop.setCrop('.url_for('aMedia/crop').')', array('class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
+  		  <ul class="a-ui a-controls a-media-crop-controls" style="display:none;">
+  				<li><?php echo jq_link_to_function('<span class="icon"></span>'.__('Crop', null, 'apostrophe'), 'aCrop.setCrop('.json_encode(url_for('aMedia/crop')).')', array('class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
   		 	  <li><?php echo jq_link_to_function('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aCrop.resetCrop()', array('class'=>'a-btn icon a-cancel')) ?></li>
   		  </ul>
   		</div>

@@ -372,6 +372,10 @@ z-index: 299;
 {
 background-color: #000;
 z-index: 199;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+
 }
 
 .a-media-selection-list-item img
@@ -805,16 +809,16 @@ padding-bottom: 10px;
 	display: inline;
 	position: relative;
 	float: left;
-	width:680px;
-	padding:10px;
+	width:700px;
 	margin-bottom: 20px;
+/*padding:10px;
 	background-color: #555;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	box-shadow:inset 0 0 10px #000000;
   -moz-box-shadow:inset 0 0 10px #000000;
-  -webkit-box-shadow:inset 0 0 10px #000000;
+  -webkit-box-shadow:inset 0 0 10px #000000;*/
 }
 
 #a-media-selection-list
@@ -824,20 +828,17 @@ overflow: hidden;
 position: relative;
 width:690px;
 margin-left: -10px;
--moz-border-radius: 4px;
--webkit-border-radius: 4px;
-border-radius: 4px;
 }
 
-.a-media-selection-placeholder
+.a-ui .a-media-selection-placeholder
 {
 	margin-left: 10px;
 	float: left;
 	width: 80px;
 	height: 50px;
-	border: 2px dashed #ddd;
+	border: 2px dashed #222;
 	padding: 10px;
-	color: #fff;
+	color: #222;
 }
 
 .a-media-selection-list-item
@@ -890,23 +891,11 @@ z-index: 199;
 float: left;
 }
 
-#a-media-selection-list-caption {
-  display: none;
-  position: absolute;
-  padding: 45px;
-  z-index: 1;
-}
-#a-media-selection-list-caption h4 {
-  font-size: 1.2em;
-  color: #999;
-}
-
 #a-media-selection-preview
 {
 	display:inline;
 	float:left;
 	width:100%;
-	margin:10px 0 0;
 }
 
 li.a-media-selection-preview-item {
@@ -923,18 +912,18 @@ li.a-media-selection-preview-item .jcrop-holder {
   margin-bottom:28px;
 }
 
-ul.a-media-crop-controls
+.a-ui ul.a-media-crop-controls
 {
 	position: absolute;
 	display: none;
 	bottom: -29px;
 }
 
-.a-crop-workspace
+.a-ui .a-crop-workspace
 {
 	overflow: hidden;
 	display: none;
-/*margin: 0 0 10px;
+	margin: 10px 0;
 	padding: 10px;
 	background-color: #222;
 	-moz-border-radius: 4px;
@@ -942,9 +931,8 @@ ul.a-media-crop-controls
 	border-radius: 4px;
 	box-shadow:inset 0 0 10px #000000;
   -moz-box-shadow:inset 0 0 10px #000000;
-  -webkit-box-shadow:inset 0 0 10px #000000;*/
+  -webkit-box-shadow:inset 0 0 10px #000000;
 }
-
 
 .a-crop-workspace h4
 {
@@ -958,10 +946,6 @@ ul.a-media-crop-controls
 	text-decoration: underline;
 }
 
-.a-crop-workspace h4 a:hover
-{
-	color: ;
-}
 
 
 /* Blog Engine Styles
