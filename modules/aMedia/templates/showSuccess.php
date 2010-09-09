@@ -21,7 +21,7 @@
     $options['width'], $options['height'], $options['resizeType'], $options['format']) ?>
 <?php else: ?>
   <?php $type = $mediaItem->getType() ?>
-  <?php $embedCode = "<img class=\"a-media-icon-as-thumbnail\" src=\"/apostrophePlugin/images/a-$type-icon-tiny.png\" />" ?>
+  <?php $embedCode = '<span class="a-media-type '.$type.'"><b>'.$type.'</b></span>' ?>
 <?php endif ?>
 
 <?php // This was inside a ul which doesn't make sense ?>

@@ -475,6 +475,23 @@ top: 10px;
 left: 10px;
 }
 
+
+.a-media-item-edit-form .a-options-container,
+.a-media-edit-form .a-options-container
+{
+	display: inline;
+	position: relative;
+	float: left;
+	clear:none;
+	margin-right:5px;
+}
+
+.a-media-item-edit-form .a-options-container.show-options .a-options,
+.a-media-edit-form .a-options-container.show-options .a-options
+{
+	display:inline !important;
+}
+
 #a-media-plugin .a-form-row.replace
 {
 	width:340px;
@@ -646,6 +663,45 @@ background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
 position: relative;
 z-index: 0;
 border: 0;
+}
+
+/* non-image filetype icon styles ====================================== */
+span.a-media-type
+{
+	display: block;
+	position: relative;
+	float: none;
+	height:50px;
+	width:40px;
+	background-image: url(/apostrophePlugin/images/a-media-icon.png);
+	background-repeat: no-repeat;
+}
+
+span.a-media-type b
+{
+	position:absolute;
+	bottom:7px;
+	right:-5px;
+	width:auto;
+	padding:2px 5px;
+	background-color: #666;
+	text-align: center;
+	font-size: 10px;
+	line-height: 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #fff;
+	-moz-border-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+	-webkit-border-bottom-right-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+	border-radius: 2px;
+}
+
+span.a-media-type.pdf b
+{
+	background-color:red;
 }
 
 .a-media-item-content

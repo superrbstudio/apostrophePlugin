@@ -20,9 +20,7 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-<form method="POST" id="a-media-edit-form" enctype="multipart/form-data" 
-  action="<?php echo url_for(aUrl::addParams("aMedia/edit",
-    array("slug" => $item->getSlug())))?>">
+<form method="POST" class="a-media-edit-form" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
 <?php endif ?>
     
     <?php // This is how we get the preview (which might be a rendering or a large icon, depending on the type) ?>
@@ -89,9 +87,9 @@
 
 		</div>
 		
-		<div class="a-form-row replace">		
+		<div class="a-form-row replace a-ui">		
 	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
-			<div class="a-options-container a-ui">		
+			<div class="a-options-container">		
 				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon alt no-bg a-replace">Replace File</a>
 				<div class="a-options dropshadow">
 		      <?php echo $form['file']->renderLabel() ?>
