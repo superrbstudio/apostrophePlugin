@@ -70,7 +70,8 @@ function aMultipleSelect(target, options)
 	{
 		options = {};
 	}
-  $(target + ' select[multiple]').each(
+	
+  $(target).find('select[multiple]').each(
     function(i) {
       var name = $(this).attr('name');
       var id = $(this).attr('id');
@@ -126,8 +127,8 @@ function aMultipleSelect(target, options)
 			
       if (id === '')
       {
-        // Hopefully unique
-        id = name;
+      	// We need a unique ID for the element, give it one
+      	id = 'a_id_' + Math.floor(Math.random() * 1000000000);
       }
       var html = "<div class='a-multiple-select' id='" + id + "'>";
       html += "<select class='a-multiple-select-input' name='select-" + name + "'>";
@@ -151,6 +152,12 @@ function aMultipleSelect(target, options)
       for (j = 0; (j < length); j++)
       {
         html += "<input type='checkbox' name='" + name + "'";
+
+        if (options['class-name'] !== undefined)
+        {
+        	html += "class='" + options['class-name'] + "'";
+        }
+
         if (selected[j])
         {
           html += " checked";
@@ -218,6 +225,8 @@ function aMultipleSelect(target, options)
         $(items[k]).data("boxid", values[k]);
         $(items[k]).click(function() { update($(this).data("boxid"), false); return false; });
       }
+      
+      
       function update(remove, initial)
       {
         var ul = $("#" + id + " ul");
@@ -235,24 +244,27 @@ function aMultipleSelect(target, options)
 					}
           value = select.options[index].value;
         }
+        
         var boxes = $('#' + id + " input[type=checkbox]");
-        for (k = 1; (k < length); k++)
-        {
-          if (boxes[k].value === remove)
-          {
-            boxes[k].checked = false;
-          }
-          if (boxes[k].value === value)
-          {
-            boxes[k].checked = true;
-          }
-        }
+        
+        boxes.each(function()
+      	{
+      		if ($(this).val() === remove)
+      		{
+				$(this).attr('checked', false);
+      		}
+      		else if ($(this).val() === value)
+      		{
+      			$(this).attr('checked', true);
+      		}
+      	});
+        
         var items = $('#' + id + ' ul li');
         var k;
         var html;
         for (k = 0; (k < length); k++)
         {
-          if (boxes[k].checked)
+          if ($(boxes[k]).is(':checked'))
           {
             $(items[k]).show();
           }
