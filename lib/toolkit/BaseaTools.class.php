@@ -573,7 +573,7 @@ class BaseaTools
     // 1. By default, all variants of the slot are allowed.
     // 2. If app_a_allowed_variants is set and a specific list of allowed variants
     // is provided for this slot type, those variants are allowed.
-    // 3. If app_a_allowed_variatns is set and a specific list is not present for this slot type,
+    // 3. If app_a_allowed_variants is set and a specific list is not present for this slot type,
     // no variants are allowed for this slot type.
     // 4. An allowed_variants option in an a_slot or a_area call overrides all of the above.
     

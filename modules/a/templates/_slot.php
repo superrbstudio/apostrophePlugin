@@ -133,7 +133,15 @@
           <?php endif ?>
           <?php // It's OK to show the variants menu once we've saved something ?>
           <?php if (!$slot->isNew()): ?>
-            outerWrapper.find('.a-controls li.variant').show();
+            var singletonArea = outerWrapper.closest('.singleton');
+            if (singletonArea.length)
+            {
+              singletonArea.find('.a-controls li.variant').show();
+            }
+            else
+            {
+              outerWrapper.find('.a-controls li.variant').show();
+            }
           <?php endif ?>
         <?php endforeach ?>
       });
