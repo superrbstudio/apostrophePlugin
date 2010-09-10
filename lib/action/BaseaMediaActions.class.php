@@ -330,6 +330,7 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->item = $item;
     $this->form = new aMediaImageForm($item);
+    $this->postMaxSizeExceeded = false;
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
     if ($request->isMethod('post') && (!count($request->getPostParameters())))
     {
