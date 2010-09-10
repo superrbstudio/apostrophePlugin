@@ -29,6 +29,21 @@
       <?php echo image_tag($form['file']->getWidget()->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints'))) ?>
     </div>
 
+    <?php // If the file is bad, this should be the first thing on the form and should already be open with ?>
+    <?php // the error displayed ?>
+    <?php if ($form['file']->hasError()): ?>
+  		<div class="a-form-row replace a-ui">		
+  	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
+	      <?php echo $form['file']->renderLabel() ?>
+	      <?php echo $form['file']->renderError() ?>
+	      <?php echo $form['file']->render() ?>
+  			<?php if (!$item): ?>
+  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
+  	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+  	    <?php endif ?>
+  		</div>
+    <?php endif ?>
+
 		<div class="a-form-row title">
 		<?php echo $form['title']->renderLabel() ?>
 		<?php if (!$firstPass): ?>
@@ -87,22 +102,26 @@
 
 		</div>
 		
-		<div class="a-form-row replace a-ui">		
-	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
-			<div class="a-options-container">		
-				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon alt no-bg a-replace">Replace File</a>
-				<div class="a-options dropshadow">
-		      <?php echo $form['file']->renderLabel() ?>
-		      <?php echo $form['file']->renderError() ?>
-		      <?php echo $form['file']->render() ?>
-		    </div>
-			<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
-			</div>
-			<?php if (!$item): ?>
-	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
-	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
-	    <?php endif ?>
-		</div>
+		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
+    
+		<?php if (!$form['file']->hasError()): ?>
+  		<div class="a-form-row replace a-ui">		
+  	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
+  			<div class="a-options-container">		
+  				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon alt no-bg a-replace">Replace File</a>
+  				<div class="a-options dropshadow">
+  		      <?php echo $form['file']->renderLabel() ?>
+  		      <?php echo $form['file']->renderError() ?>
+  		      <?php echo $form['file']->render() ?>
+  		    </div>
+  			<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
+  			</div>
+  			<?php if (!$item): ?>
+  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
+  	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+  	    <?php endif ?>
+  		</div>
+    <?php endif ?>
 
    <?php if ($item): ?>
     <ul class="a-ui a-controls">
