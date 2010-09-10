@@ -435,7 +435,13 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->item = $item;
     $this->form = new aMediaEditForm($item);
-    if ($request->isMethod('post'))
+    $this->postMaxSizeExceeded = false;
+    // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+    if ($request->isMethod('post') && (!count($request->getPostParameters())))
+    {
+      $this->postMaxSizeExceeded = true;
+    }
+    if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
     {
       $parameters = $request->getParameter('a_media_item');
       $files = $request->getFiles('a_media_item');
@@ -610,7 +616,13 @@ class BaseaMediaActions extends aEngineActions
     // pass can take over to minimize duplicate code
     $this->form = new aMediaUploadMultipleForm();
     $this->mustUploadSomething = false;
-    if ($request->isMethod('post'))
+    $this->postMaxSizeExceeded = false;
+    // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+    if ($request->isMethod('post') && (!count($request->getPostParameters())))
+    {
+      $this->postMaxSizeExceeded = true;
+    }
+    if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
     {
       $count = 0;
       $request->setParameter('first_pass', true);
@@ -688,6 +700,16 @@ class BaseaMediaActions extends aEngineActions
     $this->form->bind(
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
+      
+    $this->postMaxSizeExceeded = false;
+    // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+    if ($request->isMethod('post') && (!count($request->getPostParameters())))
+    {
+      // This is a bummer because you've lost your annotation work but we really can't
+      // resurrect it from an empty POST, short of keeping everything in attributes
+      $this->forward('aMedia', 'upload');
+    }
+      
     if ((!$this->firstPass) && $this->form->isValid())
     {
       $values = $this->form->getValues();

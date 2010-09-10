@@ -13,6 +13,10 @@
   
     <h3><?php echo a_('Upload ' . aMediaTools::getBestTypeLabel()) ?></h3>
 
+    <?php if ($postMaxSizeExceeded): ?>
+    <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+    <?php endif ?>
+
     <?php echo $form->renderGlobalErrors() ?>
 
     <?php // Error message if they don't select anything at all. This is the only validation done in this pass ?>

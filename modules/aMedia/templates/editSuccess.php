@@ -15,6 +15,10 @@
 		<h3><?php echo __('You are editing: %title%', array('%title%' => $item->getTitle()), 'apostrophe') ?></h3>
 	</div>
 
+  <?php if ($postMaxSizeExceeded): ?>
+  <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+  <?php endif ?>
+
 	<div class="a-media-items">			
 	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form)) ?>		
 	</div>

@@ -15,6 +15,10 @@
 		<h3><?php echo __('Annotate ' . aMediaTools::getBestTypeLabel(), null, 'apostrophe') ?></h3>
 	</div>
 
+  <?php if ($postMaxSizeExceeded): ?>
+  <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+  <?php endif ?>
+
 	<div class="a-media-items">				
 		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form">
 		<?php echo $form->renderHiddenFields() ?>
