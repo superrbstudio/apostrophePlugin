@@ -57,7 +57,8 @@ class BaseaMediaActions extends aEngineActions
   {
     $params = array();
     $tag = $request->getParameter('tag');
-    $type = $request->getParameter('type');
+    $type = aMediaTools::getType();
+    $type = $type ? $type : $request->getParameter('type');
     $typeInfos = aMediaTools::getTypeInfos($type);
     $this->embedAllowed = false;
     $this->uploadAllowed = false;
@@ -73,10 +74,6 @@ class BaseaMediaActions extends aEngineActions
       }
     }
     $category = $request->getParameter('category');
-    if (aMediaTools::getType())
-    {
-      $type = aMediaTools::getType();
-    }
     $search = $request->getParameter('search');
     if ($request->isMethod('post'))
     {
@@ -630,17 +627,22 @@ class BaseaMediaActions extends aEngineActions
       {
         $values = $this->form->getValues();
         // This is how we check for the presence of a file upload without a full form validation
-        $file = $files["item-$i"]['file'];
-        if (isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
+        $good = false;
+        if (isset($files["item-$i"]['file']))
         {
-          // Humanize the original filename
-          $title = $file['newfile']['name'];
-          $title = preg_replace('/\.\w+$/', '', $title);
-          $title = aTools::slugify($title, false, false, ' ');
-          $items["item-$i"]['title'] = $title;
-          $count++;
+          $file = $files["item-$i"]['file'];
+          if (isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
+          {
+            // Humanize the original filename
+            $title = $file['newfile']['name'];
+            $title = preg_replace('/\.\w+$/', '', $title);
+            $title = aTools::slugify($title, false, false, ' ');
+            $items["item-$i"]['title'] = $title;
+            $count++;
+            $good = true;
+          }
         }
-        else
+        if (!$good)
         {
           // So the editImagesForm validator won't complain about these
           unset($items["item-$i"]);
