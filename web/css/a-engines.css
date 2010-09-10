@@ -319,6 +319,20 @@ position: relative;
 margin: 0 0 10px 0;
 }
 
+
+.a-media-item-thumbnail
+/* if there is no thumbnail the title sits next to the icon*/
+{
+	width:auto;
+}
+
+.a-media-item-title.no-thumbnail
+{
+	width:285px;
+	clear:none;
+	margin:24px 0 0 15px;
+}
+
 .a-media-item-link span
 {
 float: left;
@@ -684,8 +698,7 @@ span.a-media-type b
 	right:-5px;
 	width:auto;
 	padding:2px 5px;
-	background-color: #666;
-	text-align: center;
+	background-color: #333;
 	font-size: 10px;
 	line-height: 10px;
 	text-transform: uppercase;
@@ -697,12 +710,13 @@ span.a-media-type b
 	-webkit-border-bottom-right-radius: 2px;
 	-webkit-border-bottom-left-radius: 2px;
 	border-radius: 2px;
+/*	text-shadow: 0 1px 1px rgba(0,0,0,.5);*/
 }
 
-span.a-media-type.pdf b
-{
-	background-color:red;
-}
+span.a-media-type.pdf b { background-color:#F00; }
+span.a-media-type.doc b, span.a-media-type.docx b { background-color:#33F; }
+span.a-media-type.xls b, span.a-media-type.xlsx b, span.a-media-type.xltx b { background-color:#393; }
+span.a-media-type.ppt b, span.a-media-type.pptx b, span.a-media-type.sldx b, span.a-media-type.ppsx b, span.a-media-type.potx b { background-color:#F60; }
 
 .a-media-item-content
 {

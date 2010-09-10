@@ -38,13 +38,13 @@
       <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
     <?php else: ?>
       <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
-      <?php $type = $mediaItem->getType() ?>
-			<span class="a-media-type <?php echo $type ?>" ><b><?php echo $type ?></b></span>
+      <?php $format = $mediaItem->getFormat() ?>
+			<span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
     <?php endif ?>
   </a>
 </li>
 
-<li class="a-media-item-title">
+<li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>">
 	<h3>
 		<a <?php echo $linkAttributes ?>><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
 		<?php if ($mediaItem->getViewIsSecure()): ?><span class="a-media-is-secure"></span><?php endif ?>
