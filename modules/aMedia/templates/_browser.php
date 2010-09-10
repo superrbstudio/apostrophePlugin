@@ -86,7 +86,7 @@
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<h5 id="a-media-no-categories-message"><?php echo __('There are no categories that contain media.', null, 'apostrophe') ?></h5>
+			<h5 id="a-media-no-categories-message" class="a-media-no-categories-message"><?php echo __('There are no categories that contain media.', null, 'apostrophe') ?></h5>
 
 			<?php else: ?>
 				

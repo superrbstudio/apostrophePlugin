@@ -23,7 +23,7 @@
 
 .a-subnav-section
 {
-color: #000;
+color: #222;
 text-decoration: none;
 float: left;
 clear: both;
@@ -31,15 +31,15 @@ width: 100%;
 margin: 0 0 10px 0;
 }
 
-.a-subnav-section h4
+.section h4
 {
 float: left;
-width: 100%;
+width: auto;
 clear: both;
 margin-bottom: 5px;
 }
 
-.a-subnav-section.categories h4
+.section.categories h4
 {
 	width: auto;
 	line-height: 20px;
@@ -141,7 +141,8 @@ border: 1px solid #ccc;
 overflow: hidden;
 }
 
-.a-admin .a-admin-sidebar a
+.a-admin .a-admin-sidebar a,
+.a-media .a-admin-sidebar a
 {
 color: #000 !important;
 text-decoration: underline;
@@ -272,6 +273,7 @@ clear: both;
 .a-admin-sidebar .section.categories .edit-categories
 {
 	float: right;
+	padding: 2px 0;
 }
 
 .a-admin-sidebar .a-multiple-select-list
@@ -479,6 +481,9 @@ background-color: #efefef;
 border-radius: 4px;
 border: 1px solid #ccc;
 overflow: auto;
+-moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 }
 
 .a-media-selection-list-item .a-media-selected-item-drag-overlay,
@@ -944,12 +949,6 @@ cursor: default !important;
 	clear: both;
 }
 
-#a-media-edit-categories-button
-{
-	margin-left: 5px;
-	float: left;
-}
-
 #a-category-sidebar-list,
 #a-media-categories-list,
 #a-media-categories-list .category,
@@ -1033,6 +1032,12 @@ cursor: default !important;
 {
 	width: 20px;
 	margin-right:2px;
+}
+
+.a-media-no-categories-message
+{
+	overflow: hidden;
+	clear: both;
 }
 
 #media-library-back-button

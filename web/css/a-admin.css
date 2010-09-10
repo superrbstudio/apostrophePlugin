@@ -8,11 +8,12 @@
 border: none;
 }
 
+/* this overrode the blog admin sidebar styles, doesn't seem necessary to be so generic
 .a-admin a:link, 
 .a-admin a:visited
 {
 text-decoration: none;
-}
+}*/
 
 .a-admin a:hover
 {
