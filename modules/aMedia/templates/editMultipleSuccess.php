@@ -7,7 +7,7 @@
 <?php use_helper('a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div id="a-media-plugin">
+<div class="a-media-library">
 
 	<?php include_component('aMedia', 'browser') ?>
 
@@ -15,7 +15,7 @@
 		<h3><?php echo __('Annotate ' . aMediaTools::getBestTypeLabel(), null, 'apostrophe') ?></h3>
 	</div>
 
-	<div class="a-media-library">				
+	<div class="a-media-items">				
 		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form">
 		<?php echo $form->renderHiddenFields() ?>
   

@@ -1,6 +1,6 @@
 <?php // Yes, this is template code, but we use regular PHP syntax because we are building a sentence and the introduction of ?>
 <?php // newlines wrecks the punctuation. (OK, we're building a ul list now...) ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php // Images support cropping, which makes some of the constraints unnecessary to display ?>
 <?php // With other media types we must find an item that satisfies all of them. ?>
 <?php if (aMediaTools::getAttribute('type') === 'image'): ?>

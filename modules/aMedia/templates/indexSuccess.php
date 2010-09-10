@@ -11,44 +11,44 @@
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>
 
-<div id="a-media-plugin">
-
-<?php include_component('aMedia', 'browser') ?>
-
-<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
-<div class="a-media-toolbar">
-	<?php if (aMediaTools::isSelecting()): ?>
-
-    <?php if (($type === 'image') || (aMediaTools::isMultiple())): ?>
-      <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
-    <?php else: ?>
-      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
-    <?php endif ?>
-	<?php endif ?>
-
-</div>
-
-<?php endif ?>
-
 <div class="a-media-library">
 
+	<?php include_component('aMedia', 'browser') ?>
+
+	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
+		<div class="a-media-selection">
+			<?php if (aMediaTools::isSelecting()): ?>
+		    <?php if (($type === 'image') || (aMediaTools::isMultiple())): ?>
+		      <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
+		    <?php else: ?>
+		      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
+		    <?php endif ?>
+			<?php endif ?>
+		</div>
+	<?php endif ?>
+
 	<h3>Media Library</h3>
-	
-	<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>
 
 	<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-	  <ul class="a-ui a-controls a-media-upload-controls">
-
-	    <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
-	    <?php if ($uploadAllowed): ?>
-	      <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
-	    <?php endif ?>
-	    <?php if ($embedAllowed): ?>
-	      <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
-	    <?php endif ?>
-	 </ul>
+		<div class="a-media-controls">
+		  <ul class="a-ui a-controls a-media-upload-controls">
+		    <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
+		    <?php if ($uploadAllowed): ?>
+		      <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
+		    <?php endif ?>
+		    <?php if ($embedAllowed): ?>
+		      <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
+		    <?php endif ?>
+		 </ul>
+		</div>
 	<?php endif ?>
-	
+
+	<?php if ($limitSizes): ?>
+		<div class="a-media-selection-contraints">
+			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>		
+		</div>
+	<?php endif ?>
+
 	<div class="a-media-items">
 	 <?php for ($n = 0; ($n < count($results)); $n += 2): ?>
 	   <div class="a-media-row">
@@ -61,9 +61,9 @@
 	   </div>
 	 <?php endfor ?>
 	</div>
-</div>
 
-<div class="a-media-footer">
- <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
-</div>
+	<div class="a-media-footer">
+	 <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
+	</div>
+	
 </div>

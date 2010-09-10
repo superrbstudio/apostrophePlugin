@@ -6,7 +6,7 @@
 <?php use_helper('jQuery', 'I18N','a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div id="a-media-plugin">
+<div class="a-media-library">
 
 	<?php include_component('aMedia', 'browser') ?>
 
@@ -14,7 +14,7 @@
 	  <h3><?php echo __('Add Video', null, 'apostrophe') ?></h3>
 	</div>
 
-	<div class="a-media-library">				
+	<div class="a-media-items">				
 	 	<ul class="a-ui a-controls" id="a-media-video-buttons">
 			<li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
 		  		"$('#a-media-video-search-form').show(); 

@@ -7,7 +7,7 @@
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div id="a-media-plugin">
+<div class="a-media-library">
 	
 	<?php include_component('aMedia', 'browser') ?>
 
@@ -15,7 +15,7 @@
 		<h3><?php echo __('You are editing: %title%', array('%title%' => $item->getTitle()), 'apostrophe') ?></h3>
 	</div>
 
-	<div class="a-media-library">			
+	<div class="a-media-items">			
 	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form)) ?>		
 	</div>
 </div>

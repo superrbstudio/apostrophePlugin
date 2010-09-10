@@ -8,7 +8,7 @@
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div id="a-media-plugin">
+<div class="a-media-library">
 
 <?php include_component('aMedia', 'browser') ?>
 
@@ -22,7 +22,7 @@
    </h3>
 </div>
 
-<div class="a-media-library">				
+<div class="a-media-items">				
 
   <?php if ($item): ?>
   	<?php $slug = $item->getSlug() ?>

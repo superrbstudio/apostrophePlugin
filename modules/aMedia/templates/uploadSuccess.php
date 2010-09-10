@@ -5,7 +5,7 @@
 <?php use_helper('I18N','jQuery','a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div id="a-media-plugin">
+<div class="a-media-library">
 
 <?php include_component('aMedia', 'browser') ?>
 

@@ -26,7 +26,7 @@
 
 <?php use_helper('Url') ?>
 
-<div class="a-subnav-wrapper media">
+<div class="a-subnav-wrapper a-admin-sidebar">
 	<div class="a-subnav-inner">
 
   	<h4><?php echo __('Find in Media', null, 'apostrophe') ?></h4>
@@ -39,30 +39,31 @@
 	  </form>
 
     <?php if (!aMediaTools::getType()): ?>
-  		<div class='a-subnav-section types'>
-  	  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
+			<div class='a-subnav-section types'>
+		  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
 
-  		  <div class="a-filter-options type">
-  				<?php $type = isset($type) ? $type : '' ?>
-  		    <?php $typesInfo = aMediaTools::getOption('types') ?>
-  				<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
-    				<div class="a-filter-option">
-    					<?php echo link_to(a_($typeInfo['label']), aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName)), array('class' => ($typeName == $type) ? 'selected' : '', )) ?>
-    				</div>
-    			<?php endforeach ?>
-  		  </div>
-  		</div>
-    <?php endif ?>
-    
+			  <div class="a-filter-options type">
+					<?php $type = isset($type) ? $type : '' ?>
+			    <?php $typesInfo = aMediaTools::getOption('types') ?>
+					<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
+	  				<div class="a-filter-option">
+	  					<?php echo link_to(a_($typeInfo['label']), aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName)), array('class' => ($typeName == $type) ? 'selected' : '', )) ?>
+	  				</div>
+	  			<?php endforeach ?>
+			  </div>
+			</div>
+		<?php endif ?>		
+		
+		<hr />
+
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
     <?php // Also don't bother if all categories are empty ?>
     <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
 
-		<div class='a-subnav-section categories'>
-			<div class="subnav-categories-header">
+		<div class='a-subnav-section categories section'>
 
  		  <?php if (isset($selectedCategory)): ?>
- 				<h5 class="a-category-sidebar-title selected-category">Selected Category</h5>  
+ 				<h5 class="a-category-sidebar-title selected-category"><?php echo __('Selected Category', null, 'apostrophe') ?></h5>  
  	    	<div class="a-category-sidebar-selected-categories">
  	        <div class="selected">
  						<?php echo link_to(htmlspecialchars($selectedCategory->name), aUrl::addParams($current, array("category" => false)), array('class' => 'selected',)) ?>
@@ -71,25 +72,21 @@
 			<?php endif ?>
 				
    		<h4><?php echo __('Categories', null, 'apostrophe') ?></h4>
-
 	    <?php if ($sf_user->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
 	    	<?php // See the _editCategories partial ?>
-			<span class="a-ui">
-	    	<?php echo jq_link_to_remote(__('Edit', null, 'apostrophe'), array(
+	    	<?php echo jq_link_to_remote(__('edit categories', null, 'apostrophe'), array(
 					'url' => url_for('aMedia/editCategories'), 
 					'update' => 'a-media-edit-categories'), array(
-						'class' => 'a-btn icon a-edit no-label', 
+						'class' => 'edit-categories', 
 						'id' => 'a-media-edit-categories-button',
 					)) ?>
-			</span>
 	    <?php endif ?>
-			</div>
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<span id="a-media-no-categories-message"><?php echo __('There are no categories that contain relevant media.', null, 'apostrophe') ?></span>
+			<h5 id="a-media-no-categories-message"><?php echo __('There are no categories that contain media.', null, 'apostrophe') ?></h5>
 
 			<?php else: ?>
 				
@@ -110,8 +107,10 @@
     
   </div>
 
+	<hr/>
 
-		<div class='a-subnav-section tags'>
+
+		<div class='a-subnav-section section tags'>
 
 		 <?php if (isset($selectedTag)): ?>
 				<h4 class="a-tag-sidebar-title selected-tag"><?php echo __('Selected Tag', null, 'apostrophe') ?></h4>  
