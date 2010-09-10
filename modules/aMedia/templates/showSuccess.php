@@ -20,25 +20,27 @@
   <?php $embedCode = $mediaItem->getEmbedCode(
     $options['width'], $options['height'], $options['resizeType'], $options['format']) ?>
 <?php else: ?>
-  <?php $type = $mediaItem->getType() ?>
-  <?php $embedCode = '<span class="a-media-type '.$type.'"><b>'.$type.'</b></span>' ?>
+  <?php $format = $mediaItem->getFormat() ?>
+  <?php $embedCode = '<span class="a-media-type '.$format.'"><b>'.$format.'</b></span>' ?>
 <?php endif ?>
 
 <?php // This was inside a ul which doesn't make sense ?>
 
 
-<?php echo link_to(__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left', 'id' => 'media-library-back-button', ))?>
+<?php echo link_to(__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left thin', 'id' => 'media-library-back-button', ))?>
 
 <ul class="a-media-item-content" id="a-media-item-content-<?php echo $mediaItem->getId()?>">
 	<li class="a-media-item-source">
 		<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
+	</li>
+	<li class="a-media-item-image">
 		<?php if (isset($embedCode)): ?>
   	  <?php echo $embedCode ?>
   	<?php endif ?>
 	</li>
 
   <?php // Stored as HTML ?>
-	<li class="a-media-item-title"><h3><?php echo htmlspecialchars($mediaItem->getTitle()) ?></h3></li>
+	<li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>"><h3><?php echo htmlspecialchars($mediaItem->getTitle()) ?></h3></li>
   <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
   <?php if ($mediaItem->getWidth()): ?>
   	<li class="a-media-item-dimensions a-media-item-meta"><span><?php echo __('Original Dimensions:', null, 'apostrophe') ?></span> <?php echo __('%width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' =>  $mediaItem->getHeight()), 'apostrophe') ?></li>

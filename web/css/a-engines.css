@@ -435,10 +435,11 @@ margin: 0 0 10px 0;
 }
 
 
-.a-media-item-thumbnail
+.a-media-item-thumbnail,
+.a-media-item-image
 /* if there is no thumbnail the title sits next to the icon*/
 {
-	width:auto;
+	width:auto !important;
 }
 
 .a-media-item-title.no-thumbnail
