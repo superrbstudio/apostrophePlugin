@@ -129,7 +129,6 @@ margin-bottom: 5px;
 {
 float: left;
 width: 200px;
-padding: 10px;
 margin: 0;
 background-color: #e0e0e0;
 -moz-border-radius: 6px;
@@ -265,9 +264,7 @@ clear: both;
 
 .a-admin-sidebar .section.categories select
 {
-width: 200px !important;
-width: auto; /* ? For IE */
-float: left; /* Was float:right, but this broke in IE */
+width: 100%;
 display:inline;
 clear: both;
 }
@@ -305,7 +302,7 @@ width: 118px
 .a-admin-sidebar input.add-text.tag-input
 {
 	margin-top: -1px;
-	width: 134px;
+	width: 120px;
 }
 
 .a-admin-sidebar .section.tags .a-admin-form-field-tags
@@ -317,6 +314,8 @@ margin-top: 10px;
 {
 margin-top: 5px;
 }
+
+.a-admin-sidebar .section.author select,
 .a-admin-sidebar .section.template select
 {
 max-width: 50%;
