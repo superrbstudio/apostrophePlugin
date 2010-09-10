@@ -1641,3 +1641,29 @@ overflow: hidden;
 	margin: 5px 0;
 	color: #999;
 }
+
+
+/* Shared Admin Navigation */
+
+.a-admin-title { float: left; margin-right: 20px; }
+
+.a-ui.a-admin-controls { width: auto; clear: none; }
+
+.a-admin-header
+{
+width: 100%;
+overflow: hidden;
+clear: both;
+background: none;
+background: transparent url(/apostropheBlogPlugin/images/a-blog-td-bg.png) 0 100% repeat-x;
+padding-bottom: 20px;
+margin: 0 0 12px 0;
+z-index: 199;
+}
+
+.a-blog.index  .a-admin-header
+{
+	background: none;
+	padding: 0;
+	margin: 0 0 10px 0;
+}

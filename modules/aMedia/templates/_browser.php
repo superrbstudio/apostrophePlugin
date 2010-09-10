@@ -9,7 +9,7 @@
   $selectedCategory = isset($selectedCategory) ? $sf_data->getRaw('selectedCategory') : null;
   $selectedTag = isset($selectedTag) ? $sf_data->getRaw('selectedTag') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a', 'Url') ?>
 <?php // Media is now an engine, so there's a page ?>
 <?php $page = aTools::getCurrentPage() ?>
   
@@ -22,9 +22,7 @@
 <?php // in the first place, we could have avoided this, but we didn't, so let's be backwards compatible with all ?>
 <?php // of the existing overrides of _browser in our sites and those of others. ?>
 
-<?php include_partial('aMedia/browserBefore') ?>
-
-<?php use_helper('Url') ?>
+<?php include_partial('aMedia/browserBefore') ?>				
 
 <div class="a-subnav-wrapper a-admin-sidebar">
 	<div class="a-subnav-inner">
@@ -189,7 +187,7 @@
 	
 </script>
 
-<?php include_partial('aMedia/browserAfter') ?>
+<?php include_partial('aMedia/browserAfter') ?>		
 
 <?php end_slot() ?>
 

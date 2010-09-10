@@ -69,23 +69,27 @@
       </div>
     <?php endif ?>
 
-     <?php if (has_slot('a-tabs')): ?>
-       <?php include_slot('a-tabs') ?>
-     <?php else: ?>
- 			<?php include_component('aNavigation', 'tabs', array('root' => $root, 'active' => $page, 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
+		<?php if (has_slot('a-tabs')): ?>
+			<?php include_slot('a-tabs') ?>
+		<?php else: ?>
+			<?php include_component('aNavigation', 'tabs', array('root' => $root, 'active' => $page, 'name' => 'main', 'draggable' => true, 'dragIcon' => false)) # Top Level Navigation ?>
+		<?php endif ?>
+
+		<?php if (has_slot('a-breadcrumb')): ?>
+			<?php include_slot('a-breadcrumb') ?>
+		<?php elseif ($page): ?>
+			<?php include_component('aNavigation', 'breadcrumb', array('root' => $root, 'active' => $page, 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
+		<?php endif ?>
+
+    <?php if (has_slot('a-page-header')): ?>
+			<?php include_slot('a-page-header') ?>
  		<?php endif ?>
 
- 		<?php if (has_slot('a-breadcrumb')): ?>
- 				<?php include_slot('a-breadcrumb') ?>
- 		<?php elseif ($page): ?>
- 				<?php include_component('aNavigation', 'breadcrumb', array('root' => $root, 'active' => $page, 'name' => 'component', 'separator' => ' /')) # Top Level Navigation ?>
- 		<?php endif ?>
-
-     <?php if (has_slot('a-subnav')): ?>
-       <?php include_slot('a-subnav') ?>
-     <?php elseif ($page): ?>
- 		  <?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
- 		<?php endif ?>
+		<?php if (has_slot('a-subnav')): ?>
+			<?php include_slot('a-subnav') ?>
+		<?php elseif ($page): ?>
+			<?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
+		<?php endif ?>
 
 		<div id="a-content" class="a-content clearfix">
 			<?php echo $sf_data->getRaw('sf_content') ?>

@@ -356,20 +356,6 @@ top: 0;
 text-transform: capitalize;
 }
 
-.a-admin-bar .a-admin-controls
-{
-margin-left: 10px;
-float: left;
-}
-
-.a-admin-bar .a-admin-controls li
-{
-float: left;
-display: inline;
-line-height: 30px;
-margin: 0 10px 0 0;
-}
-
 /* JQ Date Picker Fix */
 #ui-datepicker-div
 {
@@ -411,14 +397,6 @@ cursor: pointer;
 .ui-datepicker-trigger:hover
 {
 cursor: pointer;
-}
-
-.a-admin-controls
-{
-position: relative;
-float: left;
-width: 720px !important;
-border-bottom: 0;
 }
 
 .a-admin .a-admin-flashes
