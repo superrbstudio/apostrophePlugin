@@ -235,9 +235,9 @@ background: none !important;
 .a-admin-sidebar .section.author #a_blog_item_editors_list
 {
 display: block;
-float: left;
+float: right;
 margin: 0 0 0 5px;
-width: 145px;
+width: 120px;
 clear: none;
 }
 
@@ -296,7 +296,7 @@ border: 1px solid rgba(0,0,0,0.2);
 -moz-border-radius: 3px;
 -webkit-border-radius: 3px;
 border-radius: 3px;
-width: 118px
+width: 104px
 }
 
 .a-admin-sidebar input.add-text.tag-input
@@ -318,7 +318,7 @@ margin-top: 5px;
 .a-admin-sidebar .section.author select,
 .a-admin-sidebar .section.template select
 {
-max-width: 50%;
+max-width: 94px;
 float: right;
 font-family: Arial, sans-serif;
 border: 1px solid #ddd;
