@@ -38,20 +38,22 @@
 	    <input width="29" type="image" height="20" title="<?php echo __('Click to Search', null, 'apostrophe') ?>" alt="<?php echo __('Search', null, 'apostrophe') ?>" src="/apostrophePlugin/images/a-special-blank.gif" value="<?php echo __('Submit', null, 'apostrophe') ?>" class="a-search-submit submit" id="a-media-search-submit" />
 	  </form>
 
-		<div class='a-subnav-section types'>
-	  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
+    <?php if (!aMediaTools::getType()): ?>
+  		<div class='a-subnav-section types'>
+  	  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
 
-		  <div class="a-filter-options type">
-				<?php $type = isset($type) ? $type : '' ?>
-		    <?php $typesInfo = aMediaTools::getOption('types') ?>
-				<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
-  				<div class="a-filter-option">
-  					<?php echo link_to(a_($typeInfo['label']), aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName)), array('class' => ($typeName == $type) ? 'selected' : '', )) ?>
-  				</div>
-  			<?php endforeach ?>
-		  </div>
-		</div>
-
+  		  <div class="a-filter-options type">
+  				<?php $type = isset($type) ? $type : '' ?>
+  		    <?php $typesInfo = aMediaTools::getOption('types') ?>
+  				<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
+    				<div class="a-filter-option">
+    					<?php echo link_to(a_($typeInfo['label']), aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName)), array('class' => ($typeName == $type) ? 'selected' : '', )) ?>
+    				</div>
+    			<?php endforeach ?>
+  		  </div>
+  		</div>
+    <?php endif ?>
+    
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
     <?php // Also don't bother if all categories are empty ?>
     <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
@@ -87,7 +89,7 @@
 
 	    <?php if (!count($categoriesInfo)): ?>
 
-			<span id="a-media-no-categories-message"><?php echo __('There are no categories that contain media.', null, 'apostrophe') ?></span>
+			<span id="a-media-no-categories-message"><?php echo __('There are no categories that contain relevant media.', null, 'apostrophe') ?></span>
 
 			<?php else: ?>
 				

@@ -24,7 +24,7 @@ class aMediaRouting
       $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'original'
-      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(jpg|png|gif|pdf)$')));
+      ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(\w+)$')));
 
       $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',

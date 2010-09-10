@@ -498,7 +498,7 @@ function aConstructor()
 	this.mediaEnableRemoveButton = function(i)
 	{
 		var editor = $('#a-media-item-' + i);
-		editor.find('.a-media-remove-file').click(function()
+		editor.find('.a-media-delete-image-btn').click(function()
 		{
 			editor.remove();
 			if ($('.a-media-item').length == 0)
@@ -580,59 +580,6 @@ function aConstructor()
  		});
   }
 
-	// Private methods callable only from the above (no this.foo = bar)
-	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
-	{
-		var up = $(slot).find('.a-arrow-up');
-		var down = $(slot).find('.a-arrow-down');
-					
-		if (n > 0)
-		{
-			// TODO: this is not sensitive enough to nested areas
-			up.parent().show();
-			up.unbind('click').click(function() {
-				// It would be nice to confirm success here in some way
-				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
-				apostrophe.swapNodes(slot, slots[n - 1]);
-				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-				return false;
-			});
-		}
-		else
-		{
-		  up.parent().hide();
-		}
-		if (n < (slots.length - 1))
-		{
-
-			down.parent().show();
-			down.unbind('click').click(function() {
-				// It would be nice to confirm success here in some way
-				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
-				apostrophe.swapNodes(slot, slots[n + 1]);
-				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-				return false;
-			});
-		}
-		else
-		{
-			down.parent().hide();
-		}
-	}
-	
-	function slotShowEditViewPreloaded(pageid, name, permid)
-	{
-		var fullId = pageid + '-' + name + '-' + permid;
- 		var editBtn = $('#a-slot-edit-' + fullId);
- 		var editSlot = $('#a-slot-' + fullId);
-		
-		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
-		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
-		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
-		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
-		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
-	}
-	
 	this.menuToggle = function(options)
 	{		
 		var button = options['button'];
@@ -656,64 +603,6 @@ function aConstructor()
 		};
 	}
 
-	function _menuToggle(button, menu, classname, overlay)
-	{	
-		// Menu must have an ID. 
-		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
-		if (menu.attr('id') == '') 
-		{
-			newID = button.attr('id')+'-menu';
-			menu.attr('id', newID).addClass('a-options-container');
-		}
-
-		// Button Toggle
-		button.unbind('click').click(function(){
-			if (!button.hasClass('aActiveMenu')) 
-			{ 
-				menu.trigger('toggleOpen'); 
-			}
-			else 
-			{
-				menu.trigger('toggleClosed');
-			}
-		}).addClass('a-options-button');
-
-		// Open Menu, Create Listener
-		menu.bind('toggleOpen', function(){
-			button.addClass('aActiveMenu');
-			menu.addClass(classname);			
-			if (overlay) { overlay.stop().show(); }
-			$(document).click(function(event){
-				var target = $(event.target);
-				if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
-				{
-					menu.trigger('toggleClosed');
-				}
-				if ( !target.parents().is('#'+menu.attr('id')) ) 
-				{
-					menu.trigger('toggleClosed');
-				}
-			});	
-		});
-
-		menu.bind('toggleClosed', function(){
-			// Close Menu, Destroy Listener
-			button.removeClass('aActiveMenu');
-			menu.removeClass(classname);
-			if (overlay) { overlay.fadeOut(); };
-			$(document).unbind('click'); // Clear out click event		
-		});
-
-		menu.click(function(event){
-			target = $(event.target);
-			if (target.hasClass('a-options-cancel')) 
-			{
-				menu.trigger('toggleClosed');
-			};			
-		});
-
-	}
-	
 	this.IE6 = function(options)
 	{
 		var authenticated = options['authenticated'];
@@ -773,6 +662,117 @@ function aConstructor()
 			<div class="a-accordion-content">Content</div>
 		</div>
 		*/
+	}
+	
+	// Private methods callable only from the above (no this.foo = bar)
+	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
+	{
+		var up = $(slot).find('.a-arrow-up');
+		var down = $(slot).find('.a-arrow-down');
+					
+		if (n > 0)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			up.parent().show();
+			up.unbind('click').click(function() {
+				// It would be nice to confirm success here in some way
+				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
+				apostrophe.swapNodes(slot, slots[n - 1]);
+				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				return false;
+			});
+		}
+		else
+		{
+		  up.parent().hide();
+		}
+		if (n < (slots.length - 1))
+		{
+
+			down.parent().show();
+			down.unbind('click').click(function() {
+				// It would be nice to confirm success here in some way
+				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
+				apostrophe.swapNodes(slot, slots[n + 1]);
+				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				return false;
+			});
+		}
+		else
+		{
+			down.parent().hide();
+		}
+	}
+	
+	function slotShowEditViewPreloaded(pageid, name, permid)
+	{
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editBtn = $('#a-slot-edit-' + fullId);
+ 		var editSlot = $('#a-slot-' + fullId);
+		
+		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
+		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
+		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
+		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
+		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
+	}
+	
+	function _menuToggle(button, menu, classname, overlay)
+	{	
+		// Menu must have an ID. 
+		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
+		if (menu.attr('id') == '') 
+		{
+			newID = button.attr('id')+'-menu';
+			menu.attr('id', newID).addClass('a-options-container');
+		}
+
+		// Button Toggle
+		button.unbind('click').click(function(){
+			if (!button.hasClass('aActiveMenu')) 
+			{ 
+				menu.trigger('toggleOpen'); 
+			}
+			else 
+			{
+				menu.trigger('toggleClosed');
+			}
+		}).addClass('a-options-button');
+
+		// Open Menu, Create Listener
+		menu.bind('toggleOpen', function(){
+			button.addClass('aActiveMenu');
+			menu.addClass(classname);			
+			if (overlay) { overlay.stop().show(); }
+			$(document).click(function(event){
+				var target = $(event.target);
+				if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
+				{
+					menu.trigger('toggleClosed');
+				}
+				if ( !target.parents().is('#'+menu.attr('id')) ) 
+				{
+					menu.trigger('toggleClosed');
+				}
+			});	
+		});
+
+		menu.bind('toggleClosed', function(){
+			// Close Menu, Destroy Listener
+			button.removeClass('aActiveMenu');
+			menu.removeClass(classname);
+			if (overlay) { overlay.fadeOut(); };
+			$(document).unbind('click'); // Clear out click event		
+		});
+
+		menu.click(function(event){
+			target = $(event.target);
+			if (target.hasClass('a-options-cancel')) 
+			{
+				menu.trigger('toggleClosed');
+			};			
+		});
+
 	}
 	
 } 
