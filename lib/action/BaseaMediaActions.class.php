@@ -330,7 +330,12 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->item = $item;
     $this->form = new aMediaImageForm($item);
-    if ($request->isMethod('post'))
+    // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+    if ($request->isMethod('post') && (!count($request->getPostParameters())))
+    {
+      $this->postMaxSizeExceeded = true;
+    }
+    if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
     {
       $this->firstPass = $request->getParameter('first_pass');
       $parameters = $request->getParameter('a_media_item');
@@ -379,7 +384,13 @@ class BaseaMediaActions extends aEngineActions
     $this->form = new aMediaPdfForm($item);
     try
     {
-      if ($request->isMethod('post'))
+      $this->postMaxSizeExceeded = false;
+      // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+      if ($request->isMethod('post') && (!count($request->getPostParameters())))
+      {
+        $this->postMaxSizeExceeded = true;
+      }
+      if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
       {
         $this->firstPass = $request->getParameter('first_pass');
         $parameters = $request->getParameter('a_media_item');
@@ -565,7 +576,13 @@ class BaseaMediaActions extends aEngineActions
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $this->form = new aMediaUploadImagesForm();
-    if ($request->isMethod('post'))
+    $this->postMaxSizeExceeded = false;
+    // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
+    if ($request->isMethod('post') && (!count($request->getPostParameters())))
+    {
+      $this->postMaxSizeExceeded = true;
+    }
+    if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
     {
       $this->form->bind(
         $request->getParameter('a_media_items'),

@@ -12,6 +12,10 @@
 
     <?php echo $form->renderGlobalErrors() ?>
 
+    <?php if ($postMaxSizeExceeded): ?>
+    <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+    <?php endif ?>
+
     <form method="POST" action="<?php echo url_for("aMedia/uploadImages") ?>" enctype="multipart/form-data" id="a-media-upload-form">
       <?php echo $form->renderHiddenFields() ?>
     	

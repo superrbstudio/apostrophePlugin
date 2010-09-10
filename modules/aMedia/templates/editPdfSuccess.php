@@ -27,6 +27,9 @@
   <?php if (isset($serviceError)): ?>
   <h3><?php echo __('That is not a valid PDF.', null, 'apostrophe') ?></h3>
   <?php endif ?>
+  <?php if ($postMaxSizeExceeded): ?>
+  <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+  <?php endif ?>
 
   <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editPdf", array("slug" => $slug)))?>">
   	<?php echo $form->renderHiddenFields() ?>
