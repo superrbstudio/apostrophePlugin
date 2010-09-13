@@ -4,7 +4,7 @@
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
 <?php use_helper('I18N') ?>
-<ul class="a-raw-html-info">
+<ul class="a-slot-info a-raw-html-info">
 	<li>
 		<?php if (isset($options['directions'])): ?>
 	  	<?php echo $options['directions'] ?>
