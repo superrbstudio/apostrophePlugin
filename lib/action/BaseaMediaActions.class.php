@@ -103,11 +103,6 @@ class BaseaMediaActions extends aEngineActions
     {
       $params['category'] = $category;
     }
-    $user = $this->getUser();
-    if ($user->isAuthenticated() && method_exists($user, "getGuardUser"))
-    {
-      $params['user'] = $user->getGuardUser()->getUsername();
-    }
     // Cheap insurance that these are integers
     $aspectWidth = floor(aMediaTools::getAttribute('aspect-width'));
     $aspectHeight = floor(aMediaTools::getAttribute('aspect-height'));
