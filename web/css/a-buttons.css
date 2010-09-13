@@ -4,8 +4,8 @@
 position: relative;
 float: left;
 display: inline;
-color: #fff !important;
-text-decoration: none !important;
+color: #fff;
+text-decoration: none;
 font-family: arial, sans-serif;
 font-size: 12px;
 cursor: pointer;
@@ -16,9 +16,9 @@ line-height: 18px;
 border: none;
 }
 
-.a-btn.icon { padding: 0 4px 0 20px; }
+.a-ui .a-btn.icon { padding: 0 4px 0 20px; }
 
-.a-btn.icon > .icon
+.a-ui .a-btn.icon > .icon
 {
 float: left;
 display: block;
@@ -29,13 +29,13 @@ top: 50%;
 left: 0;
 margin-top: -9px;
 background-position: 50% 50%;
-background-repeat: none !important;
+background-repeat: none;
 }
 
-.a-btn.icon:hover > .icon, 
-.a-btn.icon:focus > .icon { background-color: none; }
+.a-ui .a-btn.icon:hover > .icon, 
+.a-ui .a-btn.icon:focus > .icon { background-color: none; }
 
-.a-btn.no-label, .no-label {
+.a-ui .a-btn.no-label, .no-label {
 background-position: center center;
 background-repeat: no-repeat;
 text-indent: -9999px;
@@ -113,8 +113,7 @@ background: none !important;
 -opera-box-shadow: 0 0 0 transparent !important;
 -khtml-box-shadow: 0 0 0 transparent !important;
 box-shadow: 0 0 0 transparent !important;
--moz-border-radius: 0 !important;
--webkit-border-radius: 0 !important;
+line-height: 20px !important;
 }
 
 

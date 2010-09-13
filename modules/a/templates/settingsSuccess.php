@@ -34,7 +34,6 @@
 		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
 		 				// There is another way but I think it might still try to initialize the field 
 						// in an unwanted fashion even if it allows them to be saved right ?>
-			<h4><?php echo $form['realtitle']->renderLabel(__('Page Title', array(), 'apostrophe')) ?></h4>
 			<div class="a-form-field">
 				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
 			</div>
@@ -57,7 +56,7 @@
 	
 	<div class="a-options-section a-accordion">
 		
-		<h3>Options</h3>
+		<h3 class="a-accordion-toggle">Options</h3>
 		
 		<div class="a-accordion-content">
 			
@@ -148,7 +147,7 @@
 			<?php if ($page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
-	      <li><?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete no-label', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>
+	      <li class="a-align-right"><?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete no-bg', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>
 			<?php endif ?>
 		</ul>
 	</div>

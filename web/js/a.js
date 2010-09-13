@@ -469,20 +469,23 @@ function aConstructor()
 		var aPageSettingsURL = options['aPageSettingsURL'];
 		var aPageSettingsButton = $('#a-page-settings-button');		
 
-		apostrophe.menuToggle({"button":"#a-page-settings-button","classname":"","overlay":true})
-		
-		aPageSettingsButton.click(function() {
-		 $.ajax({
-				type:'POST',
-				dataType:'html',
-				success:function(data, textStatus){
-					$('#a-page-settings').html(data);
+		apostrophe.menuToggle({"button":"#a-page-settings-button","classname":"","overlay":true, 
+			"beforeOpen": function() {
+				$.ajax({
+						type:'POST',
+						dataType:'html',
+						success:function(data, textStatus){
+							$('#a-page-settings').html(data);
+						},
+						complete:function(XMLHttpRequest, textStatus){
+							aUI('#a-page-settings');
+						},
+						url: aPageSettingsURL
+					});	
 				},
-				complete:function(XMLHttpRequest, textStatus){
-					aUI('#a-page-settings');
-				},
-				url: aPageSettingsURL
-			});	
+			"afterClosed": function() {
+				$('#a-page-settings').html('');
+			}
 		});
 	}
 	
@@ -598,7 +601,7 @@ function aConstructor()
 			// Use the parent of the button as the menu container		
 			var menu = $(button).parent(); 
 			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay);			
+				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed']);			
 			};	
 		};
 	}
@@ -717,7 +720,7 @@ function aConstructor()
 		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
 	}
 	
-	function _menuToggle(button, menu, classname, overlay)
+	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed)
 	{	
 		// Menu must have an ID. 
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
@@ -739,8 +742,18 @@ function aConstructor()
 			}
 		}).addClass('a-options-button');
 
+		if (beforeOpen)
+		{
+			menu.bind('beforeOpen', beforeOpen);
+		}
+		if (afterClosed)
+		{
+			menu.bind('afterClosed', afterClosed);
+		}
+
 		// Open Menu, Create Listener
 		menu.bind('toggleOpen', function(){
+			menu.trigger('beforeOpen');
 			button.addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.stop().show(); }
@@ -763,6 +776,7 @@ function aConstructor()
 			menu.removeClass(classname);
 			if (overlay) { overlay.fadeOut(); };
 			$(document).unbind('click'); // Clear out click event		
+			menu.trigger('afterClosed');
 		});
 
 		menu.click(function(event){
