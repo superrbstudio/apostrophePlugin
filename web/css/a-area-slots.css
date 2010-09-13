@@ -80,6 +80,8 @@ clear: none;
 
 .a-area.singleton .a-slot-controls { display: none; } /* There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load */
 
+.a-area.singleton .a-slot-form { padding-top: 24px; } /* Singleton controls by default sit on top of the slot. So we must push down the edit view to prevent it from getting covered by the slot controls*/
+
 .a-area.singleton.aRichText > .a-controls,
 .a-area.singleton.aText > .a-controls,
 .a-area.singleton.aBlog > .a-controls,
