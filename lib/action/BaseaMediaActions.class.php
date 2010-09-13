@@ -103,11 +103,6 @@ class BaseaMediaActions extends aEngineActions
     {
       $params['category'] = $category;
     }
-    $user = $this->getUser();
-    if ($user->isAuthenticated() && method_exists($user, "getGuardUser"))
-    {
-      $params['user'] = $user->getGuardUser()->getUsername();
-    }
     // Cheap insurance that these are integers
     $aspectWidth = floor(aMediaTools::getAttribute('aspect-width'));
     $aspectHeight = floor(aMediaTools::getAttribute('aspect-height'));
@@ -184,11 +179,18 @@ class BaseaMediaActions extends aEngineActions
     $this->pager = new sfDoctrinePager(
       'aMediaItem',
       aMediaTools::getOption('per_page'));
-    $this->pager->setQuery($query);
     $page = $request->getParameter('page', 1);
+    $this->pager->setQuery($query);
     $this->pager->setPage($page);
     $this->pager->init();
     $this->results = $this->pager->getResults();
+    // Go to the last page if we are beyond it
+    if (($page > 1) && ($page > $this->pager->getLastPage()))
+    {
+      $page--;
+      $params['page'] = $page;
+      return $this->redirect('aMedia/index?' . http_build_query($params));
+    }
 
     aMediaTools::setSearchParameters(
       array("tag" => $tag, "type" => $type, 
@@ -775,7 +777,7 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('delete'));
     }
     $item->delete(); 
-    return $this->redirect("aMedia/resume");
+    return $this->redirect("aMedia/resumeWithPage");
   }
   
   public function executeShow()

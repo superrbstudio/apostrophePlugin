@@ -132,8 +132,7 @@ class PluginaMediaItemTable extends Doctrine_Table
       // Reverse chrono order if we're not ordering them by search relevance
       $query->orderBy('aMediaItem.id desc');
     }
-    // This will be more interesting later
-    if (!isset($params['user']))
+    if (!sfContext::getInstance()->getUser()->hasCredential(sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked')))
     {
       $query->andWhere('aMediaItem.view_is_secure = false');
     }
@@ -167,7 +166,7 @@ class PluginaMediaItemTable extends Doctrine_Table
   {
     // Retrieves only tags relating to media items this user is allowed to see
     $q = NULL;
-    if (!sfContext::getInstance()->getUser()->isAuthenticated())
+    if (!sfContext::getInstance()->getUser()->hasCredential(sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked')))
     {
       $q = Doctrine_Query::create()->from('Tagging tg, tg.Tag t, aMediaItem m');
       // If you're not logged in, you shouldn't see tags relating to secured stuff
