@@ -29,7 +29,15 @@
 	<?php echo $form->renderGlobalErrors() ?>
 
 	<div class="a-options-section open">
-		<h3>Title &amp; Permalink</h3>
+
+		<h3>
+			<?php if ($page->getSlug() == "/"): ?>
+				<?php echo __('Homepage Title', array(), 'apostrophe') ?>
+			<?php else: ?>
+				<?php echo __('Title &amp; Permalink', array(), 'apostrophe') ?>
+			<?php endif ?>
+		</h3>
+
 		<div class="a-form-row a-page-title">
 		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
 		 				// There is another way but I think it might still try to initialize the field 
