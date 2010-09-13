@@ -63,7 +63,7 @@
 			<div class="a-form-row engine a-page-type">
 				<h4><?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?></h4>
 				<div class="a-form-field">
-			  	<?php echo $form['engine']->render(array('onChange' => 'aUpdateEngineAndTemplate()')) ?>
+			  	<?php echo $form['engine']->render() ?>
 				</div>
 			  <?php echo $form['engine']->renderError() ?>
 			</div>
@@ -161,30 +161,3 @@
 <script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
 
 <?php a_include_js_calls() ?>
-
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		var aPageTypeSelect = $('#a_settings_settings_engine');
-		var aPageTemplateSelect = $('.a-edit-page-template');
-
-		if (aPageTypeSelect.attr('selectedIndex')) 
-		{
-			aPageTemplateSelect.hide();
-		}
-		else
-		{
-			aPageTemplateSelect.show();				
-		};			
-
-		aPageTypeSelect.change(function(){
-			if (aPageTypeSelect.attr("selectedIndex")) 
-			{
-				aPageTemplateSelect.hide();
-			}
-			else
-			{
-				aPageTemplateSelect.show();				
-			};			
-		});				
-	});
-</script>

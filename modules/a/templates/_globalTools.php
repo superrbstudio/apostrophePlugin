@@ -19,7 +19,7 @@
 
 			<?php if ($thisPage): ?> 	
 			<li>
-				<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>			
+				<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
 				<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 			</li>				
 			<?php endif ?>

@@ -101,3 +101,10 @@
 <?php endif ?>
 <?php endif ?>
 
+<script type="text/javascript" charset="utf-8">
+// In Progress: Hover expand four-up thumbnails
+	// $(document).ready(function() {
+				// $('.a-media-item-thumbnail').css('min-height','200px');
+		// console.log($('.a-media-item-thumbnail img').height());
+	// });
+</script>

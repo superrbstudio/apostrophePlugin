@@ -276,8 +276,8 @@ class aMediaTools
         "name" => "four-up",
         "image" => "/apostrophePlugin/images/a-icon-media-grid.png",
         "gallery_constraints" => array(
-          "width" => 170,
-          "height" => 128,
+          "width" => 340,
+          "height" => false,
           "resizeType" => "s"),
         "columns" => 4,
         "fields" => array("controls" => 1,"thumbnail" => 1,'title' => 1)

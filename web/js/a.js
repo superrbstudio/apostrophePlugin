@@ -97,7 +97,6 @@ function aConstructor()
 	  });
 	}
 
-
 	this.slideshow = function(options)
 	{
 	  var id = options['id'];
@@ -284,12 +283,10 @@ function aConstructor()
   	    $('#a_settings_engine_settings').html(data);
 	    });
 	  }
-	
-		// apostrophe.accordion({"accordion_toggle":".a-page-settings-section-head"});
 		
 		aRadioSelect('.a-radio-select', { });
 		$('#a-page-settings').show();
-		aUI();
+		aUI('#a-page-settings');
 	}
 	
 	this.afterAddingSlot = function(name)
@@ -478,21 +475,31 @@ function aConstructor()
 							$('#a-page-settings').html(data);
 						},
 						complete:function(XMLHttpRequest, textStatus){
+							_pageTemplateToggle('#a_settings_settings_engine', '.a-edit-page-template');
 							aUI('#a-page-settings');
 						},
 						url: aPageSettingsURL
-					});	
-				},
+				});	
+			},
 			"afterClosed": function() {
 				$('#a-page-settings').html('');
 			}
 		});
 	}
 	
+	this.createPage = function(options)
+	{
+		apostrophe.menuToggle({"button":"#a-create-page-button","classname":"","overlay":true });
+		_pageTemplateToggle("#a-create-page-type", ".a-form-row.a-page-template");
+		$('#a-create-page-button').click(function(){
+			$('#a-create-page-title').focus();
+		});
+	}
+	
 	this.mediaCategories = function(options) 
 	{	
 		var newCategoryLabel = options['newCategoryLabel'];	
-		aInputSelfLabel('#a_media_category_name', newCategoryLabel);	
+		apostrophe.selfLabel('#a_media_category_name', newCategoryLabel);	
 		$('#a-media-edit-categories-button, #a-media-no-categories-messagem, #a-category-sidebar-list').hide();
 		$('#a_media_category_description').parents('div.a-form-row').addClass('hide-description').parent().attr('id','a-media-category-form');
 		$('.a-remote-submit').aRemoteSubmit('#a-media-edit-categories');
@@ -718,6 +725,31 @@ function aConstructor()
 		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
 		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
 		aUI(editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
+	}
+	
+	function _pageTemplateToggle(aPageTypeSelect, aPageTemplateSelect)
+	{
+		aPageTypeSelect = $(aPageTypeSelect);
+		aPageTemplateSelect = $(aPageTemplateSelect);
+		
+		apostrophe.log(aPageTypeSelect);
+		
+		if (aPageTypeSelect.attr('selectedIndex')) { aPageTemplateSelect.slideUp(); }
+		else
+		{
+			aPageTemplateSelect.slideDown();				
+		};			
+
+		aPageTypeSelect.change(function(){
+			if (aPageTypeSelect.attr("selectedIndex")) 
+			{ 
+				aPageTemplateSelect.slideUp();	
+			}	
+			else 
+			{ 
+				aPageTemplateSelect.slideDown(); 
+			};
+		});
 	}
 	
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed)

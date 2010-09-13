@@ -54,38 +54,5 @@
 	
 </form>
 
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-
-		var aPageTypeSelect = $('#a-create-page-type');
-		var aPageTemplateSelect = $('.a-form-row.a-page-template');
-
-		if (aPageTypeSelect.attr('selectedIndex')) 
-		{
-			aPageTemplateSelect.hide();
-		}
-		else
-		{
-			aPageTemplateSelect.show();				
-		};			
-
-		aPageTypeSelect.change(function(){
-			if (aPageTypeSelect.attr("selectedIndex")) 
-			{
-				aPageTemplateSelect.hide();
-			}
-			else
-			{
-				aPageTemplateSelect.show();				
-			};			
-		});
-
-		aInputSelfLabel('#a-create-page-title', <?php echo json_encode(__('Page Title', null, 'apostrophe')) ?>);
-
-		$('#a-create-page-button').click(function(){
-			$('#a-create-page-title').focus();
-		});		
-	});
-</script>
-
-<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-create-page-button', 'classname' => '', 'overlay' => true)) ?>
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-create-page-title', 'title' => a_('Page Title'))) ?>
+<?php a_js_call('apostrophe.createPage(?)', array()) ?>

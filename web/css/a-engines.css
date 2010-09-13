@@ -418,14 +418,23 @@ margin-bottom: 20px;
 padding: 0;
 list-style: none;
 }
-.a-media-items.four-up .a-media-item
+.a-media-items.four-up .a-media-item,
+.a-media-items.four-up .a-media-item img
 {
-  width: 170px;
+  width: 165px;
   margin-bottom: 0px;
 }
+
+.a-media-items.four-up .a-media-item:hover img
+{
+/*	position: absolute;*/
+/*	width: auto;*/
+/*	z-index: 999;*/
+}
+
 .a-media-items.four-up .a-media-item.nlast
 {
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .a-media-items.four-up .a-media-row
