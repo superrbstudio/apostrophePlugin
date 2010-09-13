@@ -27,15 +27,18 @@
   <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $slug))) . '"' ?>
 
 <?php endif ?>
+<?php if(isset($layout['fields']['title'])): ?>
 <li class="a-media-item-controls">
 	<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
 </li>
+<?php endif ?>
+
 <li class="a-media-item-thumbnail">
   <a <?php echo $linkAttributes ?> class="a-media-thumb-link">
     <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
     <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
     <?php if ($mediaItem->getWidth()): ?>
-      <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
+      <img src="<?php echo url_for($mediaItem->getScaledUrl($layout['gallery_constraints'])) ?>" />
     <?php else: ?>
       <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
       <?php $format = $mediaItem->getFormat() ?>
@@ -44,24 +47,44 @@
   </a>
 </li>
 
+<?php if(isset($layout['fields']['title'])): ?>
 <li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>">
 	<h3>
 		<a <?php echo $linkAttributes ?>><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
 		<?php if ($mediaItem->getViewIsSecure()): ?><span class="a-media-is-secure"></span><?php endif ?>
 	</h3>
 </li>
+<?php endif ?>
 
 <?php // John: you could use $mediaItem->format to choose an icon here. Make sure ?>
 <?php // you have a default icon if it's not on your list of awesome icons ?>
+<?php if(isset($layout['fields']['description'])): ?>
 <li class="a-media-item-description"><?php echo $mediaItem->getDescription() ?></li>
-<?php if ($mediaItem->getWidth()): ?>
-  <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
 <?php endif ?>
-<li class="a-media-item-created-at a-media-item-meta"><?php echo __('<span>Uploaded:</span> %date%', array('%date%' => aDate::pretty($mediaItem->getCreatedAt())), 'apostrophe') ?></li>
-<li class="a-media-item-credit a-media-item-meta"><?php echo __('<span>Credit:</span> %credit%', array('%credit%' => htmlspecialchars($mediaItem->getCredit())), 'apostrophe') ?></li>
-<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>
-<li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>
 
+<?php if(isset($layout['fields']['dimensions'])): ?>
+  <?php if ($mediaItem->getWidth()): ?>
+    <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
+  <?php endif ?>
+<?php endif ?>
+
+<?php if(isset($layout['fields']['created_at'])): ?>
+<li class="a-media-item-created-at a-media-item-meta"><?php echo __('<span>Uploaded:</span> %date%', array('%date%' => aDate::pretty($mediaItem->getCreatedAt())), 'apostrophe') ?></li>
+<?php endif ?>
+
+<?php if(isset($layout['fields']['credit'])): ?>
+<li class="a-media-item-credit a-media-item-meta"><?php echo __('<span>Credit:</span> %credit%', array('%credit%' => htmlspecialchars($mediaItem->getCredit())), 'apostrophe') ?></li>
+<?php endif ?>
+
+<?php if(isset($layout['fields']['categories'])): ?>
+<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>
+<?php endif ?>
+
+<?php if(isset($layout['fields']['tags'])): ?>
+<li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>
+<?php endif ?>
+
+<?php if(isset($layout['fields']['link'])): ?>
 <?php if ($mediaItem->getDownloadable()): ?>
   <li class="a-media-item-link a-media-item-meta">
 		<?php echo __('<span>URL:</span> %urlfield%', array('%urlfield%' => 
@@ -76,4 +99,5 @@
 		});
 	</script>
 <?php endif ?>
-  
+<?php endif ?>
+

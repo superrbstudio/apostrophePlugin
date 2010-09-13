@@ -49,22 +49,25 @@
 		</div>
 	<?php endif ?>
 
-	<div class="a-media-items">
-	 <?php for ($n = 0; ($n < count($results)); $n += 2): ?>
+	<div class="a-media-items <?php echo $layout['name'] ?>">
+	 <?php for ($n = 0; ($n < count($results)); $n += $layout['columns']): ?>
 	   <div class="a-media-row">
-	   	<?php for ($i = $n; ($i < min(count($results), $n + 2)); $i++): ?>
+	   	<?php for ($i = $n; ($i < min(count($results), $n + $layout['columns'])); $i++): ?>
 	     <?php $mediaItem = $results[$i] ?>
-	      <ul id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-media-item <?php echo ($i % 2) ? "odd" : "even" ?>">
-	        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem)) ?>
+	      <ul id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-media-item <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? 'nlast' : 'last' ?>">
+	        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 	      </ul>
 	   	<?php endfor ?>
 	   </div>
 	 <?php endfor ?>
 	</div>
 
-	<div class="a-media-footer">
-	 <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
-	</div>
+	<?php $views = array(20, 50, 100) ?>
+<div class="a-media-footer">
+ <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
+ <?php echo $pager->count() ?> | view <?php foreach($views as $n): ?><?php echo link_to($n, "aMedia/index?max_per_page=$n") ?> <?php endforeach ?>| <?php foreach($enabled_layouts as $enabled_layout): ?><?php echo link_to(image_tag($enabled_layout['image']),  "aMedia/index?layout=".$enabled_layout['name']) ?><?php endforeach; ?>
+</div>
+
 	
 </div>
 

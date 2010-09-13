@@ -181,9 +181,16 @@ class BaseaMediaActions extends aEngineActions
       aMediaTools::getOption('per_page'));
     $page = $request->getParameter('page', 1);
     $this->pager->setQuery($query);
+    if($request->hasParameter('max_per_page'))
+    {
+      $this->getUser()->setAttribute('max_per_page', $request->getParameter('max_per_page'), 'apostrophe_media');
+    }
+    $this->max_per_page = $this->getUser()->getAttribute('max_per_page', 20, 'apostrophe_media');
+    $this->pager->setMaxPerPage($this->max_per_page);
     $this->pager->setPage($page);
     $this->pager->init();
     $this->results = $this->pager->getResults();
+    Taggable::preloadTags($this->results);
     // Go to the last page if we are beyond it
     if (($page > 1) && ($page > $this->pager->getLastPage()))
     {
@@ -191,7 +198,6 @@ class BaseaMediaActions extends aEngineActions
       $params['page'] = $page;
       return $this->redirect('aMedia/index?' . http_build_query($params));
     }
-
     aMediaTools::setSearchParameters(
       array("tag" => $tag, "type" => $type, 
         "search" => $search, "page" => $page, 'category' => $category));
@@ -207,6 +213,12 @@ class BaseaMediaActions extends aEngineActions
       }
       $this->limitSizes = ($minimumWidth || $minimumHeight);
     }
+    if($request->hasParameter('layout'))
+    {
+      $this->getUser()->setAttribute('layout', $request->getParameter('layout'), 'apostrophe_media');
+    }
+    $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
+    $this->enabled_layouts = aMediaTools::getEnabledLayouts();
   }
   
   public function executeResume()

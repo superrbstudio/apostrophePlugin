@@ -98,7 +98,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     $query->from('aMediaItem');
     if (isset($params['ids']))
     {
-      $query->select('aMediaItem.*');
+      $query->select('aMediaItem.*, c.*');
       aDoctrine::orderByList($query, $params['ids']);
       $query->andWhereIn("aMediaItem.id", $params['ids']);
     }
@@ -158,6 +158,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
     // No crops in the browser please
     $query->andWhere("aMediaItem.slug NOT LIKE '%.%'");
+    $query->leftJoin("aMediaItem.MediaCategories c");
     
     return $query;
   }

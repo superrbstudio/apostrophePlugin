@@ -418,8 +418,36 @@ margin-bottom: 20px;
 padding: 0;
 list-style: none;
 }
+.a-media-items.four-up .a-media-item
+{
+  width: 170px;
+  margin-bottom: 0px;
+}
+.a-media-items.four-up .a-media-item.nlast
+{
+  margin-right: 10px;
+}
 
-.a-media-item.even { margin-right: 40px; }
+.a-media-items.four-up .a-media-row
+{
+  margin-bottom: 10px;
+}
+
+.a-media-items.thumbnail .a-media-item
+{
+  width: 85px;
+  margin-bottom: 0px;
+}
+
+.a-media-items.thumbnail .a-media-item.nlast
+{
+  margin-right: 5px;
+}
+
+.a-media-items.thumbnail .a-media-row
+{
+  margin-bottom: 10px;
+}
 
 .a-media-item-thumbnail,
 .a-media-item-source,

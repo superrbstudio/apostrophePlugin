@@ -197,7 +197,7 @@ class aMediaTools
     'apipublic' => false,
     'embed_codes' => false,
     'apikeys' => array(),
-
+    'enabled_layouts' => array('one-up', 'two-up', 'four-up'),
     // All mime types that are acceptable for upload to the media repository,
     // keyed by the file extensions we save them under (regardless of the original name)
     
@@ -250,7 +250,50 @@ class aMediaTools
       // honor their good-faith attempt to label more dangerous files
       
       'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false)));
-  
+
+  static private $layouts = array(
+    'one-up' => array(
+        "name" => "one-up",
+        "image" => "/apostrophePlugin/images/a-icon-media-single.png",
+        "gallery_constraints" => array(
+          "width" => 340,
+          "height" => false,
+          "resizeType" => "s"),
+        "columns" => 1,
+        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions'=> 1, "credit" => 1, "categories" => 1, "tags" => 1)
+      ),
+    'two-up' => array(
+        "name" => "two-up",
+        "image" => "/apostrophePlugin/images/a-icon-media-two-up.png",
+        "gallery_constraints" => array(
+          "width" => 340,
+          "height" => false,
+          "resizeType" => "s"),
+        "columns" => 2,
+        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions' => 1, "credit" => 1, "categories" => 1, "tags" => 1)
+      ),
+      'four-up' => array(
+        "name" => "four-up",
+        "image" => "/apostrophePlugin/images/a-icon-media-grid.png",
+        "gallery_constraints" => array(
+          "width" => 170,
+          "height" => 128,
+          "resizeType" => "s"),
+        "columns" => 4,
+        "fields" => array("controls" => 1,"thumbnail" => 1,'title' => 1)
+      ),
+      'thumbnail' => array(
+        "name" => "thumbnail",
+        "image" => "a-media-browse-thumbnail.png",
+        "gallery_constraints" => array(
+          "width" => 85,
+          "height" => false,
+          "resizeType" => "s"),
+        "columns" => 8,
+        "fields" => array("thumbnail" => 1)
+      )
+    );
+
   static public function getOption($name)
   {
     if (isset(self::$options[$name]))
@@ -263,6 +306,16 @@ class aMediaTools
     {
       throw new Exception("Unknown option in apostrophePlugin: $name");
     }
+  }
+
+  static public function getLayout($name)
+  {
+    return self::$layouts[$name];
+  }
+
+  static public function getEnabledLayouts()
+  {
+    return array_intersect_key(self::$layouts, array_flip(self::getOption('enabled_layouts')));
   }
   
   static public function getTypeInfo($name)
