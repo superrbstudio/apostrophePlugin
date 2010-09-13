@@ -7,7 +7,7 @@
 ?>
 <?php use_helper('I18N') ?>
 <ul>
-  <li class="a-slideshow-image" style="height:<?php echo $options['height'] ?>;<?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
+  <li class="a-slideshow-image" style="height:<?php echo $options['height'] ?>px;<?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
   <?php if ($options['title']): ?>
     <li class="a-slideshow-meta a-slideshow-title"><?php echo $item->title ?></li>
   <?php endif ?>
