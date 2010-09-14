@@ -787,7 +787,7 @@ class BaseaTools
   {
     if (count(aTools::$locks))
     {
-      $fp = array_pop($locks);
+      $fp = array_pop(aTools::$locks);
       fclose($fp);
     }
     else
