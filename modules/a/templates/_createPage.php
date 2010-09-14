@@ -48,7 +48,7 @@
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">
 	  	<li><input type="submit" class="a-btn a-submit" value="<?php echo __('Create Page', null, 'apostrophe') ?>" /></li>
-	  	<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
+	  	<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __("Cancel", null, 'apostrophe') ?></a></li>
 		</ul>
 	</div>
 	

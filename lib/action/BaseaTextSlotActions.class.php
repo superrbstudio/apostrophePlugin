@@ -7,18 +7,19 @@ class BaseaTextSlotActions extends BaseaSlotActions
     $this->editSetup();
     
     $value = $this->getRequestParameter('slotform-' . $this->id);
+    $this->options['multiline'] = $this->getOption('multiline', true);
+
     $this->form = new aTextForm($this->id, $this->slot->value, $this->options);
     $this->form->bind($value);
     if ($this->form->isValid())
     {
       // TODO: this might make a nice validator
       $value = $this->form->getValue('value');
-      if (!$this->getOption('multiline'))
+      if (!$this->options['multiline'])
       {
         $value = preg_replace("/\s/", " ", $value);
       }
-      // We store light markup for "plain text" slots. We don't score
-      // the mailto: obfuscation though
+      // We store light markup for "plain text" slots. We DO NOT store the mailto: obfuscation though
       $value = aHtml::textToHtml($value);
       $maxlength = $this->getOption('maxlength');
       if ($maxlength !== false)

@@ -231,16 +231,45 @@ margin: 0;
 
 /* aRawHTML Slot Styles 
 ------------------------------------- */
+.a-slot.aRawHTML .a-form-field
+{
+	overflow: hidden;
+	width: 100%;
+}
+
 .a-slot.aRawHTML textarea
 { 
 float: left;
-width: 100%;
-border: 1px solid #333;
+width: 95%;
+min-height: 120px;
 padding: 2px;
-height: 200px;
-font: 12px/1.2 Monospace;
+border: 1px solid #333;
 background: #efefef;
-margin: 0 0 0 -3px;
+font: 11px/16px Monospace;
+}
+
+/* aText Slot Styles 
+------------------------------------- */
+.a-slot.aText .a-form-field
+{
+	overflow: hidden;
+	width: 100%;
+}
+
+/* A single-line text slot is an input */
+.a-slot.aText .single-line
+{
+	float: left;
+	width: 95%;
+}
+
+/* A multi-line text slot is a textarea */
+.a-slot.aText .multi-line
+{
+	float: left;
+	width: 95%;
+	min-height: 120px;
+	font-size: 12px/16px;
 }
 
 

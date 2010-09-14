@@ -8,6 +8,7 @@ class BaseaTextSlotComponents extends BaseaSlotComponents
     // Careful, sometimes we get an existing form from a previous validation pass
     if (!isset($this->form))
     {
+	    $this->options['multiline'] = $this->getOption('multiline', true);	
       $this->form = new aTextForm($this->id, $this->slot->value, $this->options);
     }
   }
