@@ -6,11 +6,13 @@
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
   $results = isset($results) ? $sf_data->getRaw('results') : null;
 ?>
+
 <?php use_helper('I18N','jQuery','a') ?>
 <?php slot('body_class','a-media') ?>
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>
 
+<?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
 
 <?php slot('a-page-header') ?>
 <div class="a-admin-header">
@@ -34,7 +36,7 @@
 	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
 		<div class="a-media-selection">
 			<?php if (aMediaTools::isSelecting()): ?>
-		    <?php if (($type === 'image') || (aMediaTools::isMultiple())): ?>
+		    <?php if ($multipleStyle): ?>
 		      <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
 		    <?php else: ?>
 		      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>

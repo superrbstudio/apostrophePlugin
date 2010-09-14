@@ -31,20 +31,21 @@
 			</div>
 
   			<ul id="a-media-selection-list" style="min-height:<?php echo ($thumbHeight = aMediaTools::getSelectedThumbnailHeight()) ? $thumbHeight + 10 : 0 ?>px;">
-					<?php if($items): ?>
-  					<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
-			 		<?php endif ?>
+  			  <?php // Always include this, it brings in some of the relevant JS too ?>
+					<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
   			</ul>
 
-  		<?php echo jq_sortable_element("#a-media-selection-list", array("url" => "aMedia/multipleOrder" )) ?>
-  		<div class="a-crop-workspace">
+      <?php a_js_call('apostrophe.mediaEnableSelectionSort(?)', url_for('aMedia/multipleOrder')) ?>
+   		<div class="a-crop-workspace">
   		  <ul id="a-media-selection-preview">
   		  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
   		  </ul>
   		  <ul class="a-ui a-controls a-media-crop-controls" style="display:none;">
-  				<li><?php echo jq_link_to_function('<span class="icon"></span>'.__('Crop', null, 'apostrophe'), 'aCrop.setCrop('.json_encode(url_for('aMedia/crop')).')', array('class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
-  		 	  <li><?php echo jq_link_to_function('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aCrop.resetCrop()', array('class'=>'a-btn icon a-cancel')) ?></li>
+  				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Crop', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
+  				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn icon a-cancel', 'id' => 'a-cancel-crop', )) ?></li>
   		  </ul>
+  		  <script type="text/javascript" charset="utf-8">
+  		  </script>
   		</div>
   	</div>
   </div>

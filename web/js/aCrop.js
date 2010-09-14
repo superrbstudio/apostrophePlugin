@@ -107,6 +107,9 @@ aCrop = {
 			$('.a-crop-workspace').fadeIn();
     }
     aCrop.startCrop();
+		$('#a-save-crop').click(function() { aCrop.setCrop(apostrophe.selectOptions['setCropUrl']); return false; });
+		$('#a-cancel-crop').click(function() { aCrop.resetCrop(); return false; });
+		return false;
   },
   
   setAspectMask: function(el){

@@ -5,22 +5,19 @@
 <?php use_helper('I18N') ?>
 <?php $type = $mediaItem->getType() ?>
 <?php $id = $mediaItem->getId() ?>
+<?php $domId = 'a-media-thumb-link-' . $id ?>
 <?php $serviceUrl = $mediaItem->getServiceUrl() ?>
 <?php $slug = $mediaItem->getSlug() ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
-
   <?php if (aMediaTools::isMultiple() || ($type === 'image')): ?>
-    <?php $linkAttributes = 'href = "#" onClick="'. 
-      jq_remote_function(array(
-  			"update" => "a-media-selection-list",
-  			'complete' => "aUI('a-media-selection-list'); aMediaUpdatePreview();",  
-        "url" => "aMedia/multipleAdd?id=$id")).'; return false;"' ?>
-    <?php else: ?>
-      <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
-      <?php // and redirects to aMedia/selected after adding the media item ?>
-      <?php $linkAttributes = 'href = "' . url_for("aMedia/multipleAdd?id=$id") . '"' ?>
-    <?php endif ?>
+    <?php // This was more complex before the a.js refactoring ?>
+    <?php $linkAttributes = 'href= "#"' ?>
+  <?php else: ?>
+    <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
+    <?php // and redirects to aMedia/selected after adding the media item ?>
+    <?php $linkAttributes = 'href = "' . url_for("aMedia/multipleAdd?id=$id") . '"' ?>
+  <?php endif ?>
 
 <?php else: ?>
 
@@ -34,7 +31,7 @@
 <?php endif ?>
 
 <li class="a-media-item-thumbnail">
-  <a <?php echo $linkAttributes ?> class="a-media-thumb-link">
+  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
     <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
     <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
     <?php if ($mediaItem->getWidth()): ?>
@@ -91,18 +88,14 @@
 		'<input type="text" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
 	</li>
 	
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$('#a-media-item-link-value-<?php echo $id ?>').focus(function(){
-				$(this).select();
-			});
-		});
-	</script>
 <?php endif ?>
-<?php endif ?>
+<?php // TODO: it would be better to have a class for this and enchant all of them in one go ?>
+<?php a_js_call('apostrophe.selectOnFocus(?)', '#a-media-item-link-value-' . $id) ?>
+<?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 
 <script type="text/javascript" charset="utf-8">
 // In Progress: Hover expand four-up thumbnails
+// Guys, please a_js_call this from the beginning
 	// $(document).ready(function() {
 				// $('.a-media-item-thumbnail').css('min-height','200px');
 		// console.log($('.a-media-item-thumbnail img').height());

@@ -624,6 +624,24 @@ function aConstructor()
 		}
 	}
 	
+		/* Example Mark-up
+		<script>
+			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
+		</script> 
+
+		BEFORE:
+		<div>
+			<h3>Heading</h3>
+			<div>Content</div>
+		</div>
+
+		AFTER:
+		<div class="a-accordion">
+			<h3 class="a-accordion-toggle">Heading</h3>
+			<div class="a-accordion-content">Content</div>
+		</div>
+		*/
+	
 	this.accordion = function(options)
 	{
 		var toggle = options['accordion_toggle'];
@@ -654,24 +672,134 @@ function aConstructor()
 				});			
 			}).addClass('a-accordion-toggle');
 		};
+	}
+	
+	this.mediaItemsIndicateSelected = function(cropOptions)
+	{
+	  var ids = cropOptions.ids;
+	  aCrop.init(cropOptions);
+		$('.a-media-selected-overlay').remove();		
+		$('.a-media-selected').removeClass('a-media-selected');
 		
-		/* Example Mark-up
-		<script>
-			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
-		</script> 
+	  var i;
+	  for (i = 0; (i < ids.length); i++)
+	  {
+	    id = ids[i];
+	    var selector = '#a-media-item-' + id;
+	    if (!$(selector).hasClass('a-media-selected')) 
+	    {
+	      $(selector).addClass('a-media-selected');
+			}
+		}
+			
+		$('.a-media-item.a-media-selected').each(function(){
+			$(this).children('.a-media-item-thumbnail').prepend('<div class="a-media-selected-overlay"></div>');
+		});
+		
+		$('.a-media-selection-help').hide();
+		if (!ids.length) {
+      $('.a-media-selection-help').show();
+		}
 
-		BEFORE:
-		<div>
-			<h3>Heading</h3>
-			<div>Content</div>
-		</div>
+	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
+	}
+	
+	this.mediaUpdatePreview = function()
+	{
+	  $('#a-media-selection-preview').load(apostrophe.selectOptions.updateMultiplePreviewUrl, function(){
+  	  // the preview images are by default set to display:none
+	    $('#a-media-selection-preview li:first').addClass('current');
+	    // set up cropping again; do hard reset to reinstantiate Jcrop
+	    aCrop.resetCrop(true);
+			// Selection may have changed
+			apostrophe.mediaItemsIndicateSelected(apostrophe.selectOptions);
+	  });
+	}
 
-		AFTER:
-		<div class="a-accordion">
-			<h3 class="a-accordion-toggle">Heading</h3>
-			<div class="a-accordion-content">Content</div>
-		</div>
-		*/
+	this.mediaDeselectItem = function(id)
+	{
+		$('#a-media-item-'+id).removeClass('a-media-selected');
+		$('#a-media-item-'+id).children('.a-media-selected-overlay').remove();
+	}
+
+	$('.a-media-thumb-link').click(function(){
+		$(this).addClass('a-media-selected');
+	});
+
+	this.mediaEnableSelect = function(options)
+	{
+		apostrophe.selectOptions = options;
+		// Binding it this way avoids a cascade of two click events when someone
+		// clicks on one of the buttons hovering on this
+		
+		// I had to bind to all of these to guarantee a click would come through
+	  $('.a-media-selection-list-item .a-delete').click(function(e) {
+			var p = $(this).parents('.a-media-selection-list-item');
+			var id = p.data('id');
+			$.get(options['removeUrl'], { id: id }, function(data) {
+				$('#a-media-selection-list').html(data);
+				aUI('a-media-selection-list');
+				apostrophe.mediaDeselectItem(id);
+				apostrophe.mediaUpdatePreview();
+			});
+			return false;
+		});
+
+		apostrophe.mediaItemsIndicateSelected(options);
+		
+		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
+		$('.a-media-selection-list-item').hover(function(){
+			$(this).addClass('over');
+		},function(){
+			$(this).removeClass('over');			
+		});
+	
+		$('.a-media-thumb-link').click(function() {
+			$.get(options['multipleAddUrl'], { id: $(this).data('id') }, function(data) {
+				$('#a-media-selection-list').html(data);
+				aUI('#a-media-selection-list');
+				apostrophe.mediaUpdatePreview();
+			});
+			return false;
+		});
+	}
+
+	// Often JS code relating to an object needs to be able to find the
+	// database id of that object as a property of some enclosing 
+	// DOM object, like an li or div representing a particular media item.
+	// This method makes it convenient to write:
+	// <?php $domId = 'a-media-item-' . $id ?>
+	// <li id="<?php echo $domId ?>"> ... <li> 
+	// <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
+	this.setObjectId = function(domId, objectId)
+	{
+		$('#' + domId).data('id', objectId);
+	}
+
+	this.selectOnFocus = function(selector)
+	{
+		$(selector).focus(function(){
+			$(this).select();
+		});
+	}
+	
+	this.mediaEnableMultiplePreview = function()
+	{
+	  // the preview images are by default set to display:none
+    $('#a-media-selection-preview li:first').addClass('current');
+    // set up cropping again; do hard reset to reinstantiate Jcrop
+    aCrop.resetCrop(true);
+	}
+	
+	this.mediaEnableSelectionSort = function(multipleOrderUrl)
+	{
+		$('#a-media-selection-list').sortable({ 
+      update: function(e, ui) 
+      {
+        var serial = jQuery('#a-media-selection-list').sortable('serialize', {});
+        $.post(multipleOrderUrl, serial);
+      }
+    });	
 	}
 	
 	// Private methods callable only from the above (no this.foo = bar)
@@ -820,7 +948,6 @@ function aConstructor()
 		});
 
 	}
-	
 } 
 
 window.apostrophe = new aConstructor();

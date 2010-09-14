@@ -315,7 +315,6 @@ class BaseaMediaActions extends aEngineActions
     {
       return $this->redirect('aMedia/selected');
     }
-    return $this->renderComponent("aMedia", "multipleList");
   }
 
   public function executeMultipleRemove(sfRequest $request)
@@ -330,12 +329,10 @@ class BaseaMediaActions extends aEngineActions
       array_splice($selection, $index, 1);
     }
     aMediaTools::setSelection($selection);
-    return $this->renderComponent("aMedia", "multipleList");
   }
 
   public function executeUpdateMultiplePreview(sfRequest $request)
   {
-    return $this->renderComponent('aMedia', 'multiplePreview');
   }
   
   public function executeMultipleOrder(sfRequest $request)

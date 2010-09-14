@@ -6,23 +6,17 @@
 
 <?php foreach ($items as $item): ?>
 	<?php $id = $item->getId() ?>
-	<li id="a-media-selection-list-item-<?php echo $item->getId() ?>" class="a-media-selection-list-item">
+	<?php $domId = "a-media-selection-list-item-$id" ?>
+	<li id="<?php echo $domId ?>" class="a-media-selection-list-item">
 		<ul class="a-ui a-controls a-over">	
 			<li>
 				<?php echo link_to('<span class="icon"></span>'.__("Edit", null, 'apostrophe'), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
 			</li>
 			<li>
-				<a href="#crop" onclick="return false;" class="a-btn icon a-crop no-label" title="<?php echo __('Crop', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Crop', null, 'apostrophe') ?></a>
+			  <?php echo content_tag('a', '<span class="icon"></span>'.a_("Crop"), array('href' => '#', 'class' => 'a-btn icon a-crop no-label', 'title' => a_('Crop'))) ?>
 			</li>
 			<li>
-				<?php echo jq_link_to_remote('<span class="icon"></span>'.__("remove this item", null, 'apostrophe'), array(
-					'url' => 'aMedia/multipleRemove?id='.$id,
-					'update' => 'a-media-selection-list',
-					'complete' => 'aUI("a-media-selection-list"); aMediaDeselectItem('.$id.'); aMediaUpdatePreview()', 
-				), array(
-					'class'=> 'a-btn icon a-delete no-label',
-					'title' => __('Remove', null, 'apostrophe')
-				)) ?>
+			  <?php echo content_tag('a', '<span class="icon"></span>'.a_("remove this item"), array('href' => '#', 'class' => 'a-btn icon a-delete no-label', 'title' => a_('Remove'))) ?>
 			</li>
 		</ul>	
 	  <?php if (aMediaTools::isMultiple()): ?>
@@ -31,77 +25,17 @@
 		<div class="a-media-selected-item-overlay"></div>
 	  <div class="a-thumbnail-container" style="background: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;"><img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" style="visibility:hidden;" /></div>
 	</li>
+	<?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 <?php endforeach ?>
 
-<script type="text/javascript" charset="utf-8">
-
-	function aMediaItemsIndicateSelected(cropOptions)
-	{
-	  var ids = cropOptions.ids;
-	  aCrop.init(cropOptions);
-		$('.a-media-selected-overlay').remove();		
-		$('.a-media-selected').removeClass('a-media-selected');
-		
-	  var i;
-	  for (i = 0; (i < ids.length); i++)
-	  {
-	    id = ids[i];
-	    var selector = '#a-media-item-' + id;
-	    if (!$(selector).hasClass('a-media-selected')) 
-	    {
-	      $(selector).addClass('a-media-selected');
-			}
-		}
-			
-		$('.a-media-item.a-media-selected').each(function(){
-			$(this).children('.a-media-item-thumbnail').prepend('<div class="a-media-selected-overlay"></div>');
-		});
-		
-		$('.a-media-selection-help').hide();
-		if (!ids.length) {
-      $('.a-media-selection-help').show();
-		}
-
-	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
-	}
-	
-	function aMediaUpdatePreview()
-	{
-	  $('#a-media-selection-preview').load('<?php echo url_for('aMedia/updateMultiplePreview') ?>', function(){
-  	  // the preview images are by default set to display:none
-	    $('#a-media-selection-preview li:first').addClass('current');
-	    // set up cropping again; do hard reset to reinstantiate Jcrop
-	    aCrop.resetCrop(true);
-	  });
-	}
-
-	function aMediaDeselectItem(id)
-	{
-		$('#a-media-item-'+id).removeClass('a-media-selected');
-		$('#a-media-item-'+id).children('.a-media-selected-overlay').remove();
-	}
-
-	$('.a-media-thumb-link').click(function(){
-		$(this).addClass('a-media-selected');
-	});
-
-	$(document).ready(function() { // On page ready indicate selected items
-	  var cropOptions = {
-      ids: <?php echo json_encode(aMediaTools::getSelection()) ?>,
-      aspectRatio: <?php echo aMediaTools::getAspectRatio() ?>,
-      minimumSize: [<?php echo aMediaTools::getAttribute('minimum-width') ?>, <?php echo aMediaTools::getAttribute('minimum-height') ?>],
-      maximumSize: [<?php echo aMediaTools::getAttribute('maximum-width') ?>, <?php echo aMediaTools::getAttribute('maximum-height') ?>],
-      <?php // width height cropLeft cropTop cropWidth cropHeight hashed by image id ?>
-      imageInfo: <?php echo json_encode(aMediaTools::getAttribute('imageInfo')) ?>
-    };
-	  
-		aMediaItemsIndicateSelected(cropOptions);
-		
-		$('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
-		$('.a-media-selection-list-item').hover(function(){
-			$(this).addClass('over');
-		},function(){
-			$(this).removeClass('over');			
-		});
-	});
-</script>
+<?php a_js_call('apostrophe.mediaEnableSelect(?)', array(
+  'setCropUrl' => url_for('aMedia/crop'),
+  'removeUrl' => url_for('aMedia/multipleRemove'), 
+  'updateMultiplePreviewUrl' => url_for('aMedia/updateMultiplePreview'),
+  'multipleAddUrl' => url_for('aMedia/multipleAdd'),
+  'ids' => aMediaTools::getSelection(),
+  'aspectRatio' => aMediaTools::getAspectRatio(),
+  'minimumSize' => array(aMediaTools::getAttribute('minimum-width'), aMediaTools::getAttribute('minimum-height')),
+  'maximumSize' => array(aMediaTools::getAttribute('maximum-width'), aMediaTools::getAttribute('maximum-height')),
+  // width height cropLeft cropTop cropWidth cropHeight hashed by image id
+  'imageInfo' => aMediaTools::getAttribute('imageInfo'))) ?>
