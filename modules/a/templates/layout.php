@@ -59,7 +59,7 @@
           <?php a_slot('logo', 'aButton', array(
 						'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
 						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
-						'link' => '/', 
+						'link' => url_for('@homepage'), 
 						'global' => true, 
 						'width' => 360, 
 						'flexHeight' => true, 
