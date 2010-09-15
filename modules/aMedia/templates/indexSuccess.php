@@ -67,7 +67,17 @@
 	<?php $views = array(20, 50, 100) ?>
 <div class="a-media-footer">
  <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
- <?php echo $pager->count() ?> | view <?php foreach($views as $n): ?><?php echo link_to($n, "aMedia/index?max_per_page=$n") ?> <?php endforeach ?>| <?php foreach($enabled_layouts as $enabled_layout): ?><?php echo link_to(image_tag($enabled_layout['image']),  "aMedia/index?layout=".$enabled_layout['name']) ?><?php endforeach; ?>
+<ul class="a-ui a-controls a-media-footer-controls">
+ 	<li><?php echo $pager->count() ?> items</li>
+	<li class="a-media-footer-separator">|</li>
+	<li>view</li>
+	<?php foreach($views as $n): ?>
+		<li><?php echo link_to($n, "aMedia/index?max_per_page=$n") ?></li>
+	<?php endforeach ?>
+	<li class="a-media-footer-separator">|</li>
+	<?php foreach($enabled_layouts as $enabled_layout): ?>
+		<li><?php echo link_to($enabled_layout['name'],  "aMedia/index?layout=".$enabled_layout['name'], array('alt' => $enabled_layout['name'], 'class' => 'a-media-footer-button', 'style' => 'background-image:url('.$enabled_layout['image'].')', )) ?></li>
+	<?php endforeach; ?>
 </div>
 
 	

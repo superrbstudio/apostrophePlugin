@@ -1293,7 +1293,27 @@ li.a-media-selection-preview-item .jcrop-holder {
 	text-decoration: underline;
 }
 
+/* Media Footer & Media Footer Controls / Buttons
+-------------------------------------*/
 
+.a-media-footer-controls
+{
+	line-height: 20px;
+}
+
+.a-media-footer-button
+{
+	width: 20px;
+	height: 20px;
+	display: block;
+	overflow: hidden;
+	background-repeat: none;
+	text-indent: -9999px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	
+}
 
 /* Blog Engine Styles
 -------------------------------------*/

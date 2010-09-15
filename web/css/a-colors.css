@@ -17,6 +17,12 @@
 	border:1px solid rgba(20,20,20,.2) !important;
 }
 
+.a-media-footer-button:hover
+{
+	background-color: rgb(255,150,0);
+	background-color: rgba(255,150,0,0.75);	
+}
+
 /* Apostrophe Button - Border Radius */
 .a-btn, .a-submit, .a-cancel, .a-admin-list th a { -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }
 
