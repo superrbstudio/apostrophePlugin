@@ -411,7 +411,7 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui .a-page-settings-status .radio_list { float: left; width: 100%; }
 
-.a-ui .a-form-row.keywords .a-type-ahead-container { float: left; margin: 2px 0; }
+.a-ui .a-form-row.keywords .a-inline-taggable-widget { float: left; margin: 2px 0; }
 
 .a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
 

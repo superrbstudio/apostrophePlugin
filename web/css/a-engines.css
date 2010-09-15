@@ -31,21 +31,6 @@ width: 100%;
 margin: 0 0 10px 0;
 }
 
-.section h4
-{
-float: left;
-width: auto;
-clear: both;
-margin-bottom: 5px;
-}
-
-.section.categories h4
-{
-	width: auto;
-	line-height: 20px;
-}
-
-
 .a-subnav-wrapper .a-search-form
 {
 margin: 10px 0;
@@ -141,16 +126,21 @@ border: 1px solid #ccc;
 overflow: hidden;
 }
 
-.a-admin .a-admin-sidebar a,
-.a-media .a-admin-sidebar a
+.a-admin-sidebar a
 {
-color: #000 !important;
+color: #000;
 text-decoration: underline;
+font-size: 11px;
 }
 
 .a-admin-sidebar a:hover
 {
 color: #666 !important;
+}
+
+.a-admin-sidebar a.a-btn
+{
+	color: #000;
 }
 
 .a-admin-sidebar hr
@@ -202,17 +192,30 @@ margin: 0;
 .a-admin-sidebar .section
 {
 font-size: 11px;
+margin: 0;
 }
 
 .a-admin-sidebar .section h4
 {
 float: left;
+width: auto;
+clear: both;
 margin-bottom: 5px;
 }
 
 .a-admin-sidebar .section h4 span
 {
 color: #999;
+}
+
+.a-admin-sidebar .section.categories h4
+{
+	line-height: 20px;
+}
+
+.a-admin-sidebar .section.tags h4
+{
+	width: 100%;
 }
 
 .a-admin-sidebar a.a-btn.a-publish-post span
@@ -282,8 +285,7 @@ margin: 10px 0;
 font-size: 12px;
 }
 
-.a-admin-sidebar .section.categories .a-multiple-select-item span,
-.a-admin-sidebar .section.tags a
+.a-admin-sidebar .section.categories .a-multiple-select-item span
 {
 font-size: 11px;
 }
@@ -301,10 +303,17 @@ border-radius: 3px;
 width: 104px
 }
 
-.a-admin-sidebar input.add-text.tag-input
+.a-admin-sidebar .a-inline-taggable-widget input
 {
-	margin-top: -1px;
 	width: 120px;
+	margin-right: 2px;
+}
+
+.a-admin-sidebar .a-inline-taggable-widget .a-btn.a-add
+{
+	font-size: 11px;
+	height:17px;
+	line-height:17px !important;
 }
 
 .a-admin-sidebar .section.tags .a-admin-form-field-tags
