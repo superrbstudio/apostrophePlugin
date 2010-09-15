@@ -116,12 +116,11 @@ ul.a-controls .a-variant-options.loading
 background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
-
 /* aOptions for Slot Edit Forms :: aOptions is in a-components.css 
 -------------------------------------------------------------------- */
-.a-ui .a-options.a-slot-form { width: 100%; top: -27px; }
+.a-ui.a-options.a-slot-form { width: 100%; top: -27px; left:-6px; padding:35px 5px 5px; }
 
-.a-ui .a-options.a-slot-form .a-form-row
+.a-ui.a-options.a-slot-form .a-form-row
 { 
 line-height: 20px;
 margin: 0 0 15px 0;
@@ -130,13 +129,13 @@ width: auto;
 clear: both;
 }
 
-.a-ui .a-options.a-slot-form .a-form-row:hover .a-form-help-text { display: block; }
+.a-ui.a-options.a-slot-form .a-form-row:hover .a-form-help-text { display: block; }
 
-.a-ui .a-options.a-slot-form .a-form-row label { width: 80px; float: left; margin: 0 10px 0 0; color: #666; }
+.a-ui.a-options.a-slot-form .a-form-row label { width: 80px; float: left; margin: 0 10px 0 0; color: #666; }
 
-.a-ui .a-options.a-slot-form .a-form-field { float: left; }
+.a-ui.a-options.a-slot-form .a-form-field { float: left; }
 
-.a-ui .a-options.a-slot-form .a-slot-form-title
+.a-ui.a-options.a-slot-form .a-slot-form-title
 { 
 position: absolute;
 float: right;
@@ -145,7 +144,7 @@ top: 0;
 line-height: 27px;
 }
 
-.a-ui .a-options.a-slot-form .a-form-help-text
+.a-ui.a-options.a-slot-form .a-form-help-text
 { 
 position: absolute;
 top: 0;
@@ -168,7 +167,7 @@ box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
 display: none;
 }
 
-.a-ui .a-options.a-slot-form .a-form-help-text .a-help-arrow
+.a-ui.a-options.a-slot-form .a-form-help-text .a-help-arrow
 { 
 position: absolute;
 top: 0;
