@@ -260,35 +260,6 @@ function aConstructor()
 		});
 	}
 	
-	this.updateEngineAndTemplate = function(options)
-	{
-		var id = options['id'];
-		var url = options['url'];
-		
-		var val = $('#a_settings_settings_engine').val();
-	  if (!val.length)
-	  {
-	    // $('#a_settings_settings_template').attr('disabled',false); // Symfony doesn't like this.
-			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
-	    $('#a_settings_engine_settings').html('');
-	  }
-	  else
-	  {
-			$('#a_settings_settings_template').siblings('div.a-overlay').remove();
-			$('#a_settings_settings_template').before("<div class='a-overlay'></div>");
-			$('#a_settings_settings_template').siblings('div.a-overlay').fadeTo(0,0.5).css('display','block');
-	    // $('#a_settings_settings_template').attr('disabled','disabled'); // Symfony doesn't like this.
-	    // AJAX replace engine settings form as needed
-	    $.get(url, { id: id, engine: val }, function(data) {
-  	    $('#a_settings_engine_settings').html(data);
-	    });
-	  }
-		
-		aRadioSelect('.a-radio-select', { });
-		$('#a-page-settings').show();
-		aUI('#a-page-settings');
-	}
-	
 	this.afterAddingSlot = function(name)
 	{
 		$('#a-add-slot-form-' + name).hide();
@@ -461,10 +432,10 @@ function aConstructor()
 		$('.a-page-overlay').fadeOut();
 	}
 
-	this.pageSettings = function(options)
+	this.enablePageSettingsButtons = function(options)
 	{
 		var aPageSettingsURL = options['aPageSettingsURL'];
-		var aPageSettingsButton = $('#a-page-settings-button');		
+		var aPageSettingsCreateURL = options['aPageSettingsCreateURL'];
 
 		apostrophe.menuToggle({"button":"#a-page-settings-button","classname":"","overlay":true, 
 			"beforeOpen": function() {
@@ -475,7 +446,6 @@ function aConstructor()
 							$('#a-page-settings').html(data);
 						},
 						complete:function(XMLHttpRequest, textStatus){
-							_pageTemplateToggle('#a_settings_settings_engine', '.a-edit-page-template');
 							aUI('#a-page-settings');
 						},
 						url: aPageSettingsURL
@@ -485,14 +455,23 @@ function aConstructor()
 				$('#a-page-settings').html('');
 			}
 		});
-	}
-	
-	this.createPage = function(options)
-	{
-		apostrophe.menuToggle({"button":"#a-create-page-button","classname":"","overlay":true });
-		_pageTemplateToggle("#a-create-page-type", ".a-form-row.a-page-template");
-		$('#a-create-page-button').click(function(){
-			$('#a-create-page-title').focus();
+		apostrophe.menuToggle({"button":"#a-create-page-button","classname":"","overlay":true, 
+			"beforeOpen": function() {
+				$.ajax({
+						type:'POST',
+						dataType:'html',
+						success:function(data, textStatus){
+							$('#a-create-page').html(data);
+						},
+						complete:function(XMLHttpRequest, textStatus){
+							aUI('#a-create-page');
+						},
+						url: aPageSettingsCreateURL
+				});	
+			},
+			"afterClosed": function() {
+				$('#a-create-page').html('');
+			}
 		});
 	}
 	
@@ -593,6 +572,15 @@ function aConstructor()
 	this.menuToggle = function(options)
 	{		
 		var button = options['button'];
+		var menu;
+		if (typeof(options[menu]) != "undefined")
+		{
+			menu = options[menu];
+		}
+		else
+		{
+			menu = $(button).parent();
+		}
 		var classname = options['classname'];
 		var overlay = options['overlay'];
 
@@ -605,8 +593,6 @@ function aConstructor()
 			if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
 			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
 
-			// Use the parent of the button as the menu container		
-			var menu = $(button).parent(); 
 			if (typeof(menu) == "object") {
 				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed']);			
 			};	
@@ -801,6 +787,92 @@ function aConstructor()
       }
     });	
 	}
+		
+	this.enablePageSettings = function(options)
+	{
+		var form = $('#' + options['id'] + '-form');
+		// The form will not actually submit until ajaxDirty is false. This allows us
+		// to wait for asynchronous things like the slug field AJAX updates to complete
+		var ajaxDirty = false;
+		form.submit(function() {
+			tryPost();
+			return false;
+		});
+		
+		function tryPost()
+		{
+			if (ajaxDirty)
+			{
+				setTimeout(tryPost, 250);
+			}
+			else
+			{
+				$.post(options['url'], form.serialize(), function(data) {
+					$('.a-page-overlay').hide();
+					$('#' + options['id']).html(data);
+				});
+			}
+		}
+		
+		if (options['new'])
+		{
+			var slugField = form.find('[name=settings[slug]]');
+			var titleField = form.find('[name=settings[realtitle]]');
+			var timeout = null;
+			function changed()
+			{
+				ajaxDirty = true;
+				$.get(options['slugifyUrl'], { slug: $(titleField).val() }, function(data) {
+					slugField.val(options['slugStem'] + '/' + data);
+					ajaxDirty = false;
+				});
+				timeout = null;
+			}
+			function setChangedTimeout()
+			{
+				// AJAX on every keystroke kills the server and isn't nice to the
+				// browser either. Set a half-second timeout to do it if we don't
+				// already have such a timeout ticking down
+				if (!timeout)
+				{
+					timeout = setTimeout(changed, 500);
+				}
+			}
+			titleField.change(changed);
+			titleField.keyup(setChangedTimeout);
+		}
+
+		var engine = form.find('[name=settings[engine]]');
+		engine.change(function() {
+			updateEngineAndTemplate();
+		});
+		
+		function updateEngineAndTemplate()
+		{
+			var url = options['engineUrl'];
+
+	    var engineSettings = form.find('.a-engine-page-settings');
+			var val = engine.val();
+			var template = form.find('[name=settings[template]]').parents('.a-form-row');
+		  if (!val.length)
+		  {
+		    engineSettings.html('');
+				template.slideDown();
+		  }
+		  else
+		  {
+		    // AJAX replace engine settings form as needed
+				template.slideUp();
+				// null comes through as a string "null". false comes through as a string "false". 0 comes
+				// through as a string "0", but PHP accepts that, fortunately
+		    $.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
+					engineSettings.html(data);
+					aUI(engineSettings);
+		    });
+		  }
+		}
+		updateEngineAndTemplate();
+	}
 	
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
@@ -857,27 +929,6 @@ function aConstructor()
 	
 	function _pageTemplateToggle(aPageTypeSelect, aPageTemplateSelect)
 	{
-		aPageTypeSelect = $(aPageTypeSelect);
-		aPageTemplateSelect = $(aPageTemplateSelect);
-		
-		apostrophe.log(aPageTypeSelect);
-		
-		if (aPageTypeSelect.attr('selectedIndex')) { aPageTemplateSelect.slideUp(); }
-		else
-		{
-			aPageTemplateSelect.slideDown();				
-		};			
-
-		aPageTypeSelect.change(function(){
-			if (aPageTypeSelect.attr("selectedIndex")) 
-			{ 
-				aPageTemplateSelect.slideUp();	
-			}	
-			else 
-			{ 
-				aPageTemplateSelect.slideDown(); 
-			};
-		});
 	}
 	
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed)

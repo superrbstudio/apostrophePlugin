@@ -24,10 +24,38 @@ class BaseaPageSettingsForm extends aPageForm
     __('Login Required', null, 'apostrophe');
   }
   
+  protected $new = false;
+  protected $parent = null;
+  
+  // If you are making a new page pass a new page object and set $parent also.
+  // To edit an existing page, just set $page and leave $parent null
+  public function __construct($page, $parent)
+  {
+    error_log("Creating form page is " . !!$page . " parent is " . !!$parent);
+    if ($page->isNew())
+    {
+      $this->parent = $parent;
+      $this->new = true;
+      error_log("Has parent, parent slug is " . $parent->slug);
+    }
+    parent::__construct($page);
+    if ($this->getObject()->isNew())
+    {
+      $slug = $this->parent->slug;
+      if (substr($slug, -1, 1) !== '/')
+      {
+        $slug .= '/';
+      }
+      $this->getWidget('slug')->setDefault($slug);
+    }
+  }
+  
   public function configure()
   {
     parent::configure();    
    
+    // $page->setArchived(!sfConfig::get('app_a_default_published', sfConfig::get('app_a_default_on', true)));
+    
     // We must explicitly limit the fields because otherwise tables with foreign key relationships
     // to the pages table will extend the form whether it's appropriate or not. If you want to do
     // those things on behalf of an engine used in some pages, define a form class called
@@ -43,19 +71,6 @@ class BaseaPageSettingsForm extends aPageForm
     
     $this->useFields(array('slug', 'template', 'engine', 'archived', 'view_is_secure'));
     
-    unset(
-      $this['author_id'],
-      $this['deleter_id'],
-      $this['Accesses'],
-      $this['created_at'],
-      $this['updated_at'],
-      $this['view_credentials'],
-      $this['edit_credentials'],
-      $this['lft'],
-      $this['rgt'],
-      $this['level']
-    );
-
     $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
      
     $this->setWidget('engine', new sfWidgetFormSelect(array('choices' => aTools::getEngines())));
@@ -92,29 +107,28 @@ class BaseaPageSettingsForm extends aPageForm
       'default' => false
     )));
 
-	// Tags
-	$tagstring = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
-	// class tag-input enabled for typeahead support
-	$this->setWidget('tags', new sfWidgetFormInput(array('default' => $tagstring), array('class' => 'tags-input')));
-	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
+  	// Tags
+  	$tagstring = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
+  	// class tag-input enabled for typeahead support
+  	$this->setWidget('tags', new sfWidgetFormInput(array('default' => $tagstring), array('class' => 'tags-input')));
+  	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
-	// Meta Description
-	$metaDescription = $this->getObject()->getMetaDescription();
-	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
-	$this->setValidator('meta_description', new sfValidatorString(array('required' => false)));
-
-
+  	// Meta Description
+  	$metaDescription = $this->getObject()->getMetaDescription();
+  	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
+  	$this->setValidator('meta_description', new sfValidatorString(array('required' => false)));
 
     $this->addPrivilegeWidget('edit', 'editors');
     $this->addPrivilegeWidget('manage', 'managers');
     $this->addGroupPrivilegeWidget('edit', 'group_editors');
     $this->addGroupPrivilegeWidget('manage', 'group_managers');
     
+    $manage = $this->getObject()->isNew() ? true : $this->getObject()->userHasPrivilege('manage');
     // If you can delete the page, you can change the slug
-    if ($this->getObject()->userHasPrivilege('manage'))
+    if ($manage)
     {
-      $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The slug cannot be empty.',
-          'invalid' => 'The slug must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a slug to conflict with an existing slug.')));
+      $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The permalink cannot be empty.',
+          'invalid' => 'The permalink must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a permalink to conflict with an existing permalink.')));
     	$this->setWidget('slug', new sfWidgetFormInputText());
 	  }
 
@@ -171,13 +185,20 @@ class BaseaPageSettingsForm extends aPageForm
   
   protected function addPrivilegeWidget($privilege, $widgetName)
   {
-    // For i18n-update we need to tolerate being run without a proper page
     if ($this->getObject()->isNew())
     {
-      $all = array();
-      $selected = array();
-      $inherited = array();
-      $sufficient = array();
+      if ($this->parent)
+      {
+        list($all, $selected, $inherited, $sufficient) = $this->parent->getAccessesById($privilege);
+      }
+      else
+      {
+        // For i18n-update we need to tolerate being run without a proper page
+        $all = array();
+        $selected = array();
+        $inherited = array();
+        $sufficient = array();
+      }
     }
     else
     {
@@ -210,20 +231,23 @@ class BaseaPageSettingsForm extends aPageForm
   
   protected function addGroupPrivilegeWidget($privilege, $widgetName)
   {
-    // For i18n-update we need to tolerate being run without a proper page
     if ($this->getObject()->isNew())
     {
-      $all = array();
-      $selected = array();
-      $inherited = array();
+      if ($this->parent)
+      {
+        list($all, $selected, $inherited) = $this->parent->getGroupAccessesById($privilege);
+      }
+      else
+      {
+        // For i18n-update we need to tolerate being run without a proper page
+        $all = array();
+        $selected = array();
+        $inherited = array();
+      }
     }
     else
     {
       list($all, $selected, $inherited) = $this->getObject()->getGroupAccessesById($privilege);
-    }
-    foreach ($inherited as $userId)
-    {
-      unset($all[$userId]);
     }
 
     $this->setWidget($widgetName, new sfWidgetFormSelect(array(
@@ -241,6 +265,7 @@ class BaseaPageSettingsForm extends aPageForm
 
   public function updateObject($values = null)
   {
+    error_log("in updateObject Parent is " . !!$this->parent);
     if (is_null($values))
     {
       $values = $this->getValues();
@@ -252,14 +277,8 @@ class BaseaPageSettingsForm extends aPageForm
     if ($this->getValue('tags') != '')
     {
 	    $this->getObject()->addTag($this->getValue('tags'));
-	}
+	  }
 
-    // Update meta-description on Page
-    if ($this->getValue('meta_description') != '')
-    {
-	    $this->getObject()->setMetaDescription(htmlentities($this->getValue('meta_description')));
-	}    
-    
     // Check for cascading operations
     if($this->getValue('cascade_archived') || $this->getValue('cascade_view_is_secure'))
     {
@@ -295,19 +314,44 @@ class BaseaPageSettingsForm extends aPageForm
       // Store it as null for plain ol' executeShow page templating
       $object->engine = null;
     }
-    $this->savePrivileges($object, 'edit', 'editors');
-    $this->savePrivileges($object, 'manage', 'managers');
-    $this->saveGroupPrivileges($object, 'edit', 'group_editors');
-    $this->saveGroupPrivileges($object, 'manage', 'group_managers');
     
-        
-    $this->getObject()->setTitle(htmlentities($values['realtitle'], ENT_COMPAT, 'UTF-8'));
-    
+    // A new page must be added as a child of its parent
+    if ($this->parent)
+    {
+      $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
+      error_log("Inserted as first child");
+    }
+    else
+    {
+      error_log("Did not insert as child");
+    }
     
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites
     // our attempt to invalidate the routing cache [groan]
     register_shutdown_function(array($this, 'invalidateRoutingCache'));
+  }
+
+  // Privileges are saved after the object itself to avoid chicken and egg problems
+  // if the page is new
+  public function save($con = null)
+  {
+    error_log("in save Parent is " . !!$this->parent);
+    
+    $object = parent::save($con);
+    $this->savePrivileges($object, 'edit', 'editors');
+    $this->savePrivileges($object, 'manage', 'managers');
+    $this->saveGroupPrivileges($object, 'edit', 'group_editors');
+    $this->saveGroupPrivileges($object, 'manage', 'group_managers');
+    // Update meta-description on Page
+    // This involves creating a slot so it has to happen last
+    if ($this->getValue('meta_description') != '')
+    {
+	    $object->setMetaDescription(htmlentities($this->getValue('meta_description'), ENT_COMPAT, 'UTF-8'));
+	  }
+    $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
+    error_log("After save");
+    return $object;
   }
   
   public function invalidateRoutingCache()

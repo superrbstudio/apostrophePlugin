@@ -202,9 +202,4 @@ class BaseaComponents extends BaseaSlotComponents
 		$class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin'); 
 	  $this->form = new $class();
 	}
-
-  public function executeCreatePage(sfWebRequest $request)
-  {
-  	$this->form = new aCreateForm($this->page);
-  }
 }

@@ -240,7 +240,14 @@ abstract class PluginaPage extends BaseaPage
       $title = substr(strrchr($slug, "/"), 1);
       if (!strlen($title))
       {
-        $title = "Home";
+        if ($this->isNew())
+        {
+          $title = '';
+        }
+        else
+        {
+          $title = "Home";
+        }
       }
     }
     return $title;

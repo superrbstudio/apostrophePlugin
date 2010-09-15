@@ -89,6 +89,7 @@
 	</li>
 	
 <?php endif ?>
+<?php endif ?>
 <?php // TODO: it would be better to have a class for this and enchant all of them in one go ?>
 <?php a_js_call('apostrophe.selectOnFocus(?)', '#a-media-item-link-value-' . $id) ?>
 <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>

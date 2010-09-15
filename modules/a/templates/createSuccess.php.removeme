@@ -9,7 +9,6 @@
   $parent = isset($parent) ? $sf_data->getRaw('parent') : null;
   $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : null;
   $existingTags = isset($existingTags) ? $sf_data->getRaw('existingTags') : null;
-  $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
 
@@ -89,7 +88,7 @@
 
 			<div class="a-form-row status">
 			  <h4><label><?php echo __('Page Status', null, 'apostrophe') ?></label></h4>
-		  	<div class="<?php echo $stem ?>-status">
+		  	<div class="a-create-page-status">
 					<?php echo $form['archived'] ?>
 					<?php if(isset($form['cascade_archived'])): ?>
 						<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
@@ -147,7 +146,7 @@
 
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
-		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
+		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="a-create-page-submit" /></li>
 			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><?php echo __('Cancel', null, 'apostrophe') ?></a></li>
 			<?php if ((!$page->isNew()) && $page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
@@ -159,7 +158,7 @@
 	
 </form>
 
-<?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => $stem, 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => $slugStem,  'url' => url_for('a/settings') . '?' . http_build_query($page->isNew() ? array('new' => 1, 'parent' => $parent->slug) : array('id' => $page->id)), 'slugifyUrl' => url_for('a/slugify'), 'engineUrl' => url_for('a/engineSettings'))) ?>
+<?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => 'a-create-page', 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => preg_replace('/\/$/', '', $parent->slug), 'url' => url_for('a/settings') . '?' . http_build_query(array('new' => 1, 'parent' => $parent->slug)), 'slugifyUrl' => url_for('a/slugify'), 'engineUrl' => url_for('a/engineSettings'))) ?>
 <?php a_js_call('apostrophe.accordion(?)', array('accordion_toggle' => '.a-options-section:not(".open") h3')) ?>
 
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>

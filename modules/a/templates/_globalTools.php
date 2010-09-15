@@ -35,7 +35,9 @@
 				<?php // Remove the Add Page Button if we have reached our max depth, max peers, or if it is an engine page ?>
 				<?php if (!(($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine()))): ?>
 					<li>
-						<?php include_component('a', 'createPage', array('page' => $page, 'edit' => $page->userHasPrivilege('edit'))); ?>
+					  <?php // Triggers the same form as page settings now ?>
+					  <a href="#add-page" class="a-btn icon a-add a-create-page" id="a-create-page-button"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
+					  <div id="a-create-page" class="a-page-settings-menu dropshadow"></div>
 					</li>
 				<?php endif ?>
 			<?php endif ?>
@@ -53,6 +55,6 @@
 	<?php include_partial('a/historyBrowser') ?>
 	<div class="a-page-overlay"></div>
 	<?php if ($page): ?>
-		<?php a_js_call('apostrophe.pageSettings(?)', array('aPageSettingsURL' => url_for('a/settings?' . http_build_query(array('id' => $page->id))))) ?>	
+		<?php a_js_call('apostrophe.enablePageSettingsButtons(?)', array('aPageSettingsURL' => url_for('a/settings') . '?' . http_build_query(array('id' => $page->id)), 'aPageSettingsCreateURL' => url_for('a/settings') . '?' . http_build_query(array('new' => 1, 'parent' => $page->slug)))) ?>
 	<?php endif ?>	
 <?php endif ?>

@@ -477,24 +477,53 @@ class BaseaActions extends sfActions
     return $page;
   }
 
+  // A REST API to aTools::slugify(), used when suggesting page slugs for new pages.
+  
+  // "Can't you just reimplement it in JavaScript?" No.
+  // some of the major browsers (*cough* IE) can't manipulate Unicode in regular expressions.
+  // Also two implementations mean our code will drift apart and introduce bugs
+  
+  // Returns a suitable slug for a new page component (i.e. based on a title).
+  // The browser appends this to the slug of the parent page to create its suggestion
+
+  public function executeSlugify(sfWebRequest $request)
+  {
+    $slug = $request->getParameter('slug');
+    $this->slug = aTools::slugify($slug, false);
+    $this->setLayout(false);
+  }
+  
   public function executeSettings(sfWebRequest $request)
   {
-    if ($request->hasParameter('settings'))
+    $this->lockTree();
+    $new = $request->getParameter('new');
+    $this->parent = null;
+    if ($new)
     {
-      $settings = $request->getParameter('settings');
-      $this->page = $this->retrievePageForEditingById($settings['id']);
+      $this->page = new aPage();
+      // error_log("retrieving parent");
+      // ob_start();
+      // var_dump($_REQUEST);
+      // error_log(ob_get_clean());
+      $this->parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
     }
     else
     {
-      $this->page = $this->retrievePageForEditingByIdParameter();
+      if ($request->hasParameter('settings'))
+      {
+        $settings = $request->getParameter('settings');
+        $this->page = $this->retrievePageForEditingById($settings['id']);
+      }
+      else
+      {
+        $this->page = $this->retrievePageForEditingByIdParameter();
+      }
     }
     
     // get the form and page tags
-    $this->form = new aPageSettingsForm($this->page);
-	$this->existingTags = $this->page->getTags();
-	$this->popularTags = PluginTagTable::getPopulars();
-
-	
+    $this->form = new aPageSettingsForm($this->page, $this->parent);
+  	$this->existingTags = $this->page->getTags();
+  	$this->popularTags = PluginTagTable::getPopulars();
 	
     $mainFormValid = false;
     
@@ -541,13 +570,33 @@ class BaseaActions extends sfActions
     if ($mainFormValid && (!isset($this->engineForm)))
     {
       $this->form->save();
-      $this->page->requestSearchUpdate();          
+      $this->page->requestSearchUpdate();        
+
+      // $pathComponent = aTools::slugify($this->form->getValue('title'), false);
+      // 
+      // $base = $parent->getSlug();
+      // if ($base === '/')
+      // {
+      //   $base = '';
+      // }
+      // $slug = "$base/$pathComponent";
+
+      // $page = new aPage();
+      // // Allow both the old pkContextCMS name and a more intuitive name for this option
+      // 
+      // $page->setSlug($slug);
+      // $existingPage = aPageTable::retrieveBySlug($slug);
+      
+      $this->unlockTree();  
+      
       return 'Redirect';
     }
     
     
     if ($request->hasParameter('enginesettings') && isset($this->engineForm))
     {
+      // If it's a new page we need the page id so we can save the engine's setting
+      $request->setParameter("enginesettings[pageid]", $this->page->id);
       $this->engineForm->bind($request->getParameter("enginesettings"));
       if ($this->engineForm->isValid())
       {
@@ -557,23 +606,67 @@ class BaseaActions extends sfActions
           // embedded forms are an unreliable alternative with many issues and
           // no proper documentation as yet
           $this->form->save();
+          
+          if ($new)
+          {
+            // If the page was new, we won't be able to save the
+            // engine form if it's a conventional subclass of aPageForm;
+            // they don't like being saved consecutively for the 
+            // same new object. Make a new form and bind it to exactly
+            // the same data
+            $this->engineForm = new $engineFormClass($this->page);
+            $this->engineForm->bind($request->getParameter("enginesettings"));
+            $this->forward404Unless($this->engineForm->isValid());
+          }
+          
           $this->engineForm->save();
           $this->page->requestSearchUpdate();          
+          $this->unlockTree();  
           return 'Redirect';
         }
       }
     }
+    // The slug stem is what we try to append the title to when creating a new slug
+    if ($new)
+    {
+      // TODO: make this UTF8-aware but not no-UTF8-support-hostile, etc.
+      $this->slugStem = preg_replace('/\/$/', '', $this->parent->slug);
+    }
+    else
+    {
+      if (preg_match('/^(.*?)\/[^\/]*$/', $this->page->slug, $matches))
+      {
+        $this->slugStem = $matches[1];
+      }
+      else
+      {
+        $this->slugStem = $this->page->slug;
+      }
+    }
+    $this->unlockTree();  
   }
   
   public function executeEngineSettings(sfWebRequest $request)
   {
-    $this->page = $this->retrievePageForEditingByIdParameter();
+    $id = $request->getParameter('id');
+    if (!$id)
+    {
+      // In 1.5 you can design engine settings for a page that isn't there yet
+      $this->flunkUnless(aTools::isPotentialEditor());
+      $this->page = new aPage();
+    }
+    else
+    {
+      $this->page = $this->retrievePageForEditingByIdParameter();
+    }
     
     // Output the form for a different engine in response to an AJAX call. This allows
     // the user to see an immediate change in that form when the engine dropdown is changed
     // to a different setting. Note that this means your engine forms must tolerate situations
     // in which they are not actually the selected engine for the page yet and should not
-    // actually do anything until they are actually saved
+    // actually do anything until they are actually saved. Also they must cooperate if the
+    // page is a new page and not make abt assumptions about where the new page will be
+    // or what it will be called
     
     $engine = $request->getParameter('engine');
     // Don't let them inspect for the existence of weird class names that might make the
@@ -592,7 +685,8 @@ class BaseaActions extends sfActions
   
   protected function addPrivilegeLists($privilege)
   {
-    list($all, $selected, $inherited, $sufficient) = $this->page->getAccessesById($privilege);
+    $page = $this->page->isNew() ? $this->parent : $this->page;
+    list($all, $selected, $inherited, $sufficient) = $page->getAccessesById($privilege);
     $this->inherited[$privilege] = array();
     foreach ($inherited as $userId)
     {
@@ -607,7 +701,9 @@ class BaseaActions extends sfActions
 
   protected function addGroupPrivilegeLists($privilege)
   {
-    list($all, $selected, $inherited) = $this->page->getGroupAccessesById($privilege);
+    $page = $this->page->isNew() ? $this->parent : $this->page;
+    
+    list($all, $selected, $inherited) = $page->getGroupAccessesById($privilege);
     $this->inherited["group_$privilege"] = array();
     foreach ($inherited as $groupId)
     {
@@ -615,6 +711,7 @@ class BaseaActions extends sfActions
     }
     // Always empty. We don't display a list of admin groups anyway
     $this->admin["group_$privilege"] = array();
+    
   }
   
   public function executeDelete()

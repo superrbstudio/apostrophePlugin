@@ -10,7 +10,7 @@
 
 	<div class="a-accordion-content">
 		<div class="a-form-row a-page-permissions">
-			<p class="a-form-help-text"><?php echo a_('Select Groups and Individuals to edit this page and it’s children') ?></p>
+			<p class="a-form-help-text"><?php echo a_('Select Groups and Individuals to edit this page and its children') ?></p>
 			<div class="a-page-permissions-section a-page-permissions-by-group">
 			  <?php include_partial('a/privileges', 
 			    array('form' => $form, 'widget' => 'group_editors',
