@@ -78,21 +78,36 @@
 			<?php endif ?>
 
 			<?php if(isset($layout['fields']['credit'])): ?>
-				<li class="a-media-item-credit a-media-item-meta"><?php echo __('<span>Credit:</span> %credit%', array('%credit%' => htmlspecialchars($mediaItem->getCredit())), 'apostrophe') ?></li>
+				<?php if ($mediaItem->getCredit()): ?>
+					<li class="a-media-item-credit a-media-item-meta"><?php echo __('<span>Credit:</span> %credit%', array('%credit%' => htmlspecialchars($mediaItem->getCredit())), 'apostrophe') ?></li>					
+				<?php endif ?>
 			<?php endif ?>
 
+			<li class="a-media-item-spacer a-media-item-meta">&nbsp;</li>
+
 			<?php if(isset($layout['fields']['categories'])): ?>
-				<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>
+				<?php if (count($mediaItem->getMediaCategories())): ?>
+					<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>					
+				<?php endif ?>
 			<?php endif ?>
 
 			<?php if(isset($layout['fields']['tags'])): ?>
-				<li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>
+				<?php if (count($mediaItem->getTags())): ?>
+					<li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>					
+				<?php endif ?>
 			<?php endif ?>
 			
 			<?php //Not sure how to make the permissions display ?>
-			<?php // if(isset($layout['fields']['view_is_secure'])): ?>
-				<li class="a-media-item-permissions a-media-item-meta"><?php echo __('%view_is_secure%', array('%view_is_secure%' => $mediaItem->getViewIsSecure()), 'apostrophe') ?></li>
-			<?php //endif ?>
+			<?php if(isset($layout['fields']['view_is_secure'])): ?>
+					<li class="a-media-item-permissions a-media-item-meta">
+						<?php if ($mediaItem->getViewIsSecure()): ?>						
+							<span class="a-media-item-permissions-icon private"></span><?php echo __('This %type% is private.', array(), 'apostrophe') ?>
+						<?php else: ?>
+							<span class="a-media-item-permissions-icon public"></span><?php echo __('This %type% can be viewed by everyone.', array(), 'apostrophe') ?>
+						<?php endif ?>
+					</li>					
+				<?php endif ?>
+			<?php endif ?>
 			
 			<?php //this li for the replace and download links can be a partial so it can be used in the edit view. ?>
 			<li class="a-media-item-download-and-replace a-media-item-meta">
