@@ -69,7 +69,7 @@
 			<li class="a-media-footer-separator">|</li>
 			<li>view</li>
 			<?php foreach($views as $n): ?>
-				<li><?php echo link_to($n, "aMedia/index?max_per_page=$n") ?></li>
+				<li><?php echo link_to($n, "aMedia/index?max_per_page=$n", array('class' => 'a-btn lite alt', )) ?></li>
 			<?php endforeach ?>
 			<li class="a-media-footer-separator">|</li>
 			<?php foreach($enabled_layouts as $enabled_layout): ?>
