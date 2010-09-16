@@ -515,6 +515,15 @@ padding: 2px 3px;
 font: 11px Arial, Sans-serif;
 }
 
+/* Media Engine Item Edit Form
+-------------------------------------*/
+
+.a-media-library .a-form-row { margin: 5px 0; }
+
+.a-media-library .a-form-row.title label { clear:right; }
+.a-media-library .a-form-row.title input[type="text"] { width: 332px; font-size: 18px; }
+
+
 /* Media Engine Selections
 -------------------------------------*/
 .a-media-select
