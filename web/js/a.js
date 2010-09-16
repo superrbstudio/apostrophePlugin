@@ -769,6 +769,13 @@ function aConstructor()
 		});
 	}
 	
+	this.mediaItemRefresh = function(options) 
+	{ 
+		var id = options['id'];
+		var url = options['url'];
+		window.location = url;	
+	} 
+	
 	this.mediaEnableMultiplePreview = function()
 	{
 	  // the preview images are by default set to display:none

@@ -82,3 +82,5 @@
 
 <?php // Media Sidebar is wrapped slot('a-subnav') ?>
 <?php include_component('aMedia', 'browser') ?>
+
+<?php a_js_call('apostrophe.selectOnFocus(?)', '.a-select-on-focus') ?>

@@ -62,7 +62,7 @@
 				<?php if ($mediaItem->getDownloadable()): ?>
 				  <li class="a-media-item-link a-media-item-meta">
 						<?php echo __('<span>Permalink:</span> %urlfield%', array('%urlfield%' => 
-						'<input type="text" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
+						'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
 					</li>
 				<?php endif ?>
 			<?php endif ?>			
@@ -122,15 +122,15 @@
 	</div>
 </div>
 
-<?php // TODO: it would be better to have a class for this and enchant all of them in one go ?>
-<?php a_js_call('apostrophe.selectOnFocus(?)', '#a-media-item-link-value-' . $id) ?>
 <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 
 <script type="text/javascript" charset="utf-8">
-// In Progress: Hover expand four-up thumbnails
-// Guys, please a_js_call this from the beginning
-	// $(document).ready(function() {
-				// $('.a-media-item-thumbnail').css('min-height','200px');
-		// console.log($('.a-media-item-thumbnail img').height());
-	// });
+$(document).ready(function() {
+	var thumbnail = $('.four-up .a-media-item-thumbnail');
+	thumbnail.each(function(){
+		newHeight = $(this).find('img').attr('height');
+		$(this).css('height',newHeight);
+	});
+});
+
 </script>
