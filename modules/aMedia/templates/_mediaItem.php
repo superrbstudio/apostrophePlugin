@@ -61,7 +61,7 @@
 			<?php if(isset($layout['fields']['link'])): ?>
 				<?php if ($mediaItem->getDownloadable()): ?>
 				  <li class="a-media-item-link a-media-item-meta">
-						<?php echo __('<span>URL:</span> %urlfield%', array('%urlfield%' => 
+						<?php echo __('<span>Permalink:</span> %urlfield%', array('%urlfield%' => 
 						'<input type="text" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
 					</li>
 				<?php endif ?>
@@ -88,35 +88,34 @@
 			<?php if(isset($layout['fields']['tags'])): ?>
 				<li class="a-media-item-tags a-media-item-meta"><?php echo __('<span>Tags:</span> %tags%', array('%tags%' => get_partial('aMedia/showTags', array('tags' => $mediaItem->getTags()))), 'apostrophe') ?></li>
 			<?php endif ?>
-		
+			
+			<?php //Not sure how to make the permissions display ?>
 			<?php // if(isset($layout['fields']['view_is_secure'])): ?>
 				<li class="a-media-item-permissions a-media-item-meta"><?php echo __('%view_is_secure%', array('%view_is_secure%' => $mediaItem->getViewIsSecure()), 'apostrophe') ?></li>
 			<?php //endif ?>
 			
+			<?php //this li for the replace and download links can be a partial so it can be used in the edit view. ?>
 			<li class="a-media-item-download-and-replace a-media-item-meta">
+				
 				<?php if ($mediaItem->getType() !== 'video'): ?>
-		        <?php // download link ?>
-		        <?php echo link_to(
-		          __("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),
-		          "aMediaBackend/original?" .
-		            http_build_query(
-		              array(
-		                "slug" => $mediaItem->getSlug(),
-		                "format" => $mediaItem->getFormat())), 
-		                array("class"=>"a-btn icon a-download lite alt")) ?>
-		      <?php endif ?>
+		      <div class="a-media-item-download-link">  
+						<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+					</div>
+				<?php endif ?>
+				
 				<div class="a-form-row replace a-ui">		
-	  	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
-	  			<div class="a-options-container">		
-	  				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace lite alt"><span class="icon"></span>Replace File</a>
-	  				<div class="a-options dropshadow">
+					<div class="a-options-container">		
+						<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace lite alt"><span class="icon"></span>Replace File</a>
+						<div class="a-options dropshadow">
+							<?php // This form isn't available in this view, it was throwing an error ?>
 	  		      <?php // echo $form['file']->renderLabel() ?>
 	  		      <?php // echo $form['file']->renderError() ?>
 	  		      <?php // echo $form['file']->render() ?>
 	  		    </div>
-	  			<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
+	  				<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
 	  			</div>
 	  		</div>
+	
 			</li>
 		
 		</ul>

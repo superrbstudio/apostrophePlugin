@@ -483,7 +483,16 @@ margin: 0 0 10px 0;
 .a-ui .a-media-item-meta { margin: 0 0 3px 0; font-size: 11px; color: #333; }
 .a-ui .a-media-item-meta span { color: #666; }
 
-.a-ui .a-media-item-categories{ margin: 10px 0 3px 0; }
+.a-ui .a-media-item-categories, .a-ui .a-media-item-download-and-replace { margin: 10px 0 3px 0; }
+
+.a-ui .a-media-item-download-and-replace div 
+{
+	float: left;
+	width: auto;
+	clear: none;
+	margin-right: 2px;
+}
+
 
 .a-media-item-link span
 {
