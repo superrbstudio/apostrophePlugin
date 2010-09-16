@@ -23,7 +23,7 @@
   <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $slug))) . '"' ?>
 <?php endif ?>
 
-<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? 'nlast' : 'last' ?> <?php echo $format ?>">
+<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> <?php echo $format ?>">
 
 	<div class="a-media-item-thumbnail">
 	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
@@ -44,7 +44,7 @@
 				<li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>">
 					<h3>
 						<div class="a-media-item-controls">
-							<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
+							<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 						</div>							
 						<a <?php echo $linkAttributes ?> class="a-media-item-title-link"><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
 					</h3>
@@ -110,14 +110,16 @@
 			<?php endif ?>
 			
 			<?php //this li for the replace and download links can be a partial so it can be used in the edit view. ?>
-			<?php if ($mediaItem->getType() !== 'video'): ?>
-				<li class="a-media-item-download a-media-item-meta">	
-		      <div class="a-media-item-download-link">  
-						<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
-					</div>	
-				</li>
-			<?php endif ?>
-		
+			<?php if(isset($layout['fields']['downloadable'])): ?>
+				<?php if ($mediaItem->getType() !== 'video'): ?>
+					<li class="a-media-item-download a-media-item-meta">	
+		      	<div class="a-media-item-download-link">  
+							<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+						</div>	
+					</li>
+				<?php endif ?>
+			<?php endif ?>	
+				
 		</ul>
 	</div>
 </div>
@@ -126,11 +128,35 @@
 
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-	var thumbnail = $('.four-up .a-media-item-thumbnail');
-	thumbnail.each(function(){
-		newHeight = $(this).find('img').attr('height');
-		$(this).css('height',newHeight);
-	});
-});
 
+	// This will all be transformed into a_js_call when it's finished
+
+	// Hover media item, create placeholder slug to maintain sizing while the media item gets popped out of the flow
+	// Manage first and last items so they don't push out of the grid using their classes:
+	// a-media-item.first.expand
+	// a-media-item.last.expand
+	// a-media-item.expand
+
+	// Think about cloning the media item instead of generating a placeholder.
+
+	// var thumbnails = $('.four-up .a-media-item-thumbnail');
+	// var thSlug = $('<div/>');
+	// 
+	// thumbnails.each(function(){
+	// 	var th = $(this);
+	// 	var thImg = th.find('img');
+	// 	th.css('height', thImg.attr('height'));
+	// });
+	// 
+	// thSlug.css({ height:th.attr('height'), width:th.attr('width') });
+	// 
+	// thImg.mouseenter(function(){
+	// 	thItem.before('<div class="a-media-item-placeholder"></div>');
+	// 	thItem.addClass('expand');
+	// }).mouseleave(function(){
+	// 	thItem.previous('.a-media-item-placeholder').remove();
+	// 	thItem.removeClass('expand');			
+	// });
+	
+});
 </script>

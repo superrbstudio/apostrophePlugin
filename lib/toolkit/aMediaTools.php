@@ -260,7 +260,7 @@ class aMediaTools
           "height" => false,
           "resizeType" => "s"),
         "columns" => 1,
-        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions'=> 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, )
+        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions'=> 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, 'downloadable' => 1)
       ),
     'two-up' => array(
         "name" => "two-up",
@@ -270,7 +270,7 @@ class aMediaTools
           "height" => false,
           "resizeType" => "s"),
         "columns" => 2,
-        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions' => 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, )
+        "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions' => 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, 'downloadable' => 1)
       ),
       'four-up' => array(
         "name" => "four-up",
