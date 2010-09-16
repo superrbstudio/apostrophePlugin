@@ -468,10 +468,9 @@ list-style: none;
   margin-bottom: 10px;
 }
 
-.a-media-item-source,
-.a-media-item-title,
-.a-media-item-description,
-.a-media-item-meta
+.a-ui .a-media-item-title,
+.a-ui .a-media-item-description,
+.a-ui .a-media-item-meta
 {
 float: left;
 display: inline;
@@ -480,6 +479,11 @@ width: 100%;
 position: relative;
 margin: 0 0 10px 0;
 }
+
+.a-ui .a-media-item-meta { margin: 0 0 3px 0; font-size: 11px; color: #333; }
+.a-ui .a-media-item-meta span { color: #666; }
+
+.a-ui .a-media-item-categories{ margin: 10px 0 3px 0; }
 
 .a-media-item-link span
 {
@@ -727,6 +731,7 @@ left: 10px;
 	display:inline !important;
 }
 
+/* Commenting out Jake's styles now that we have 'lite' --delete this later
 .a-media-library .a-form-row.replace
 {
 	width:340px;
@@ -747,6 +752,7 @@ left: 10px;
 	background-color: #fff !important;
 	color:#666 !important;
 }
+*/
 
 .a-media-library .a-media-upload-controls,
 .a-media-library .a-media-upload-form-footer,

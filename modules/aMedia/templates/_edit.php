@@ -84,6 +84,7 @@
 
     <div class="a-form-row permissions help">
 			<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
+			<!-- John, we'll want to do jake's new question mark floating help here instead. -->
     </div>
 
 		<div class="a-form-row permissions">
