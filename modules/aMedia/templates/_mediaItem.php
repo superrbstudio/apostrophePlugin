@@ -97,13 +97,13 @@
 				<?php endif ?>
 			<?php endif ?>
 			
-			<?php //Not sure how to make the permissions display ?>
 			<?php if(isset($layout['fields']['view_is_secure'])): ?>
 					<li class="a-media-item-permissions a-media-item-meta">
-						<?php if ($mediaItem->getViewIsSecure()): ?>						
-							<span class="a-media-item-permissions-icon private"></span><?php echo __('This %type% is private.', array(), 'apostrophe') ?>
+						<?php if ($mediaItem->getViewIsSecure()): ?>			
+						  <?php // i18n the type name, then insert it as a placeholder in an i18n'd phrase. Avoids having to i18n a dozen separate phrases ?>			
+							<span class="a-media-item-permissions-icon private"></span><?php echo a_('This %type% is private.', array('%type%' => a_($mediaItem->type))) ?>
 						<?php else: ?>
-							<span class="a-media-item-permissions-icon public"></span><?php echo __('This %type% can be viewed by everyone.', array(), 'apostrophe') ?>
+							<span class="a-media-item-permissions-icon public"></span><?php echo a_('This %type% can be viewed by everyone.', array('%type%' => a_($mediaItem->type))) ?>
 						<?php endif ?>
 					</li>					
 			<?php endif ?>
