@@ -83,8 +83,7 @@ background-color: #E0E0E0;
 
 /* Apostrophe Admin Link Color */
 .a-attribution a,
-.a-admin .a-admin-content a:link, 
-.a-admin .a-admin-content a:visited,
+.a-admin-content a,
 .a-global-toolbar .a-logged-in-user span,
 #a-personal-settings-heading span
 {
