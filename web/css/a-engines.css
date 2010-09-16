@@ -435,8 +435,8 @@ list-style: none;
 .a-media-item-controls { width: auto; float: right; margin-left: 10px; }
 
 .one-up .a-media-item { width: 720px; }
-.one-up .a-media-item-thumbnail { margin-right: 20px; }
-.one-up .a-media-item-information { width: 340px; float: left; }
+.one-up .a-media-item-thumbnail { width: 340px; margin-right: 20px; }
+.one-up .a-media-item-information { width: 360px; float: left; }
 
 .two-up .a-media-item { width: 340px; }
 .two-up .a-media-item.nlast { margin-right: 40px; }
@@ -468,7 +468,6 @@ list-style: none;
   margin-bottom: 10px;
 }
 
-.a-media-item-thumbnail,
 .a-media-item-source,
 .a-media-item-title,
 .a-media-item-description,
