@@ -47,7 +47,6 @@
 							<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
 						</div>							
 						<a <?php echo $linkAttributes ?> class="a-media-item-title-link"><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
-						<?php if ($mediaItem->getViewIsSecure()): ?><span class="a-media-is-secure"></span><?php endif ?>
 					</h3>
 				</li>
 			<?php endif ?>
@@ -60,13 +59,13 @@
 
 			<?php if(isset($layout['fields']['link'])): ?>
 				<?php if ($mediaItem->getDownloadable()): ?>
-				  <li class="a-media-item-link a-media-item-meta">
+				  <li class="a-media-item-link a-media-item-meta a-form-row">
 						<?php echo __('<span>Permalink:</span> %urlfield%', array('%urlfield%' => 
 						'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $id . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
 					</li>
 				<?php endif ?>
 			<?php endif ?>			
-
+			
 			<?php if(isset($layout['fields']['created_at'])): ?>
 				<li class="a-media-item-created-at a-media-item-meta"><?php echo __('<span>Uploaded:</span> %date%', array('%date%' => aDate::pretty($mediaItem->getCreatedAt())), 'apostrophe') ?></li>
 			<?php endif ?>
@@ -103,34 +102,21 @@
 						  <?php // i18n the type name, then insert it as a placeholder in an i18n'd phrase. Avoids having to i18n a dozen separate phrases ?>			
 							<span class="a-media-item-permissions-icon private"></span><?php echo a_('This %type% is private.', array('%type%' => a_($mediaItem->type))) ?>
 						<?php else: ?>
-							<span class="a-media-item-permissions-icon public"></span><?php echo a_('This %type% can be viewed by everyone.', array('%type%' => a_($mediaItem->type))) ?>
+							<?php if (0): ?>
+								<span class="a-media-item-permissions-icon public"></span><?php echo a_('This %type% can be viewed by everyone.', array('%type%' => a_($mediaItem->type))) ?>								
+							<?php endif ?>
 						<?php endif ?>
 					</li>					
 			<?php endif ?>
 			
 			<?php //this li for the replace and download links can be a partial so it can be used in the edit view. ?>
-			<li class="a-media-item-download-and-replace a-media-item-meta">
-				
-				<?php if ($mediaItem->getType() !== 'video'): ?>
+			<?php if ($mediaItem->getType() !== 'video'): ?>
+				<li class="a-media-item-download a-media-item-meta">	
 		      <div class="a-media-item-download-link">  
 						<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
-					</div>
-				<?php endif ?>
-				
-				<div class="a-form-row replace a-ui">		
-					<div class="a-options-container">		
-						<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace lite alt"><span class="icon"></span>Replace File</a>
-						<div class="a-options dropshadow">
-							<?php // This form isn't available in this view, it was throwing an error ?>
-	  		      <?php // echo $form['file']->renderLabel() ?>
-	  		      <?php // echo $form['file']->renderError() ?>
-	  		      <?php // echo $form['file']->render() ?>
-	  		    </div>
-	  				<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
-	  			</div>
-	  		</div>
-	
-			</li>
+					</div>	
+				</li>
+			<?php endif ?>
 		
 		</ul>
 	</div>

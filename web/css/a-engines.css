@@ -387,53 +387,58 @@ margin: 10px 0 0;
 .a-media-selection,
 .a-media-controls,
 .a-media-items,
-.a-media-footer
-{
-position: relative;	
-float: left;
-display: inline;
-width: 100%;
-}
+.a-media-footer { position: relative;	float: left; display: inline; width: 100%; }
 
 .a-media-selection,
 .a-media-controls,
-.a-media-items,
-.a-media-footer
-{
-width: 720px;
-float: left;
-margin-bottom: 30px;
-}
+.a-media-footer { float: left; width: 720px; margin-bottom: 30px; }
 
-.a-media-row
-{
-float: left;
-display: inline;
-margin-bottom: 60px;
-width: 100%;
-}
+.a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
 
+.a-media-items { float: left; width: 100%; }
 
 /* Media Engine Items
 -------------------------------------*/
-.a-media-item
+.a-media-item { position: relative; float: left; display: inline; padding: 0; }
+
+.a-media-item .a-media-item-thumbnail { width: 340px; float: left; }
+
+.a-media-item .a-media-item-information { float: left; width: 100%;}
+
+.a-media-item .a-media-item-title { width: 100%; float: left; margin: 5px 0; }
+
+.a-media-item .a-media-item-title .a-media-item-title-link { text-decoration: none; font-size: 18px; line-height: 1.2; }
+
+.a-media-item .a-media-item-description { float: left; width: 100%; margin: 0 0 10px 0; }
+
+.a-media-item .a-media-item-controls { width: auto; float: right; margin-left: 10px; }
+
+.a-media-item .a-media-item-meta { float: left; width: 100%; margin: 0 0 3px 0; font-size: 11px; color: #333; }
+
+.a-media-item .a-media-item-meta span { color: #666; }
+
+.a-media-item .a-media-item-permissions { line-height: 20px; margin-bottom: 10px; color: #666; }
+
+.a-media-item .a-media-item-permissions-icon.private
 {
-padding: 0;
-float: left;
-display: inline;
-position: relative;
-padding: 0;
-list-style: none;
+	display: block;
+	float: left;
+	width: 8px;
+	height: 8px;
+	border: 1px solid rgba(255,0,0,0.75);
+	background-color: rgba(255,0,0,0.5);
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 5px 4px;
+	line-height: 20px;
 }
 
-.a-media-item-thumbnail { width: 340px; float: left; }
+.a-media-item .a-media-item-download { }
 
-.a-media-item-information { float: left; width: 100%;}
-
-.a-media-item-title { width: 100%; float: left; }
-.a-media-item-title .a-media-item-title-link { text-decoration: none; font-size: 18px; line-height: 1.2; }
-
-.a-media-item-controls { width: auto; float: right; margin-left: 10px; }
+.a-media-item .a-media-item-link.a-form-row { margin: 0; }
+.a-media-item .a-media-item-link.a-form-row span { float: left; line-height: 21px; margin-right: 5px; }
+.a-media-item .a-media-item-link.a-form-row input { font: 11px Arial, Sans-serif; color: #666;}
 
 .one-up .a-media-item { width: 720px; }
 .one-up .a-media-item-thumbnail { width: 340px; margin-right: 20px; }
@@ -456,65 +461,6 @@ list-style: none;
 .four-up .a-media-item-title h3 { font-size: 12px; line-height: 1.2; }
 .four-up .a-media-item-title .a-media-item-title-link { text-decoration: none; font-size: 12px; }
 
-.a-media-items.thumbnail .a-media-item
-{
-  width: 85px;
-  margin-bottom: 0px;
-}
-
-.a-media-items.thumbnail .a-media-item.nlast
-{
-  margin-right: 5px;
-}
-
-.a-media-items.thumbnail .a-media-row
-{
-  margin-bottom: 10px;
-}
-
-.a-ui .a-media-item-title,
-.a-ui .a-media-item-description,
-.a-ui .a-media-item-meta
-{
-float: left;
-display: inline;
-clear: both;
-width: 100%;
-position: relative;
-margin: 0 0 10px 0;
-}
-
-.a-ui .a-media-item-title { margin: 0 0 5px 0; }
-
-.a-ui .a-media-item-meta { margin: 0 0 3px 0; font-size: 11px; color: #333; }
-.a-ui .a-media-item-meta span { color: #666; }
-
-.a-ui .a-media-item-download-and-replace { margin: 10px 0 3px 0; }
-
-.a-ui .a-media-item-download-and-replace div 
-{
-	float: left;
-	width: auto;
-	clear: none;
-	margin-right: 2px;
-}
-
-
-.a-media-item-link span
-{
-float: left;
-width: 98px;
-line-height: 22px;
-}
-
-.a-media-item-link input
-{
-float: right;
-width: 214px;
-border: 1px solid #666;
-padding: 2px 3px;
-font: 11px Arial, Sans-serif;
-}
 
 /* Media Engine Item Edit Form
 -------------------------------------*/
@@ -754,29 +700,6 @@ left: 10px;
 {
 	display:inline !important;
 }
-
-/* Commenting out Jake's styles now that we have 'lite' --delete this later
-.a-media-library .a-form-row.replace
-{
-	width:340px;
-}
-
-.a-form-row.replace .a-replace,
-.a-form-row.replace .a-delete
-{
-	clear:none;
-	color:#000 !important;
-}
-
-.a-form-row.replace a:hover.a-replace,
-.a-form-row.replace a:hover.a-delete,
-.a-form-row.replace a:focus.a-replace,
-.a-form-row.replace a:focus.a-delete
-{
-	background-color: #fff !important;
-	color:#666 !important;
-}
-*/
 
 .a-media-library .a-media-upload-controls,
 .a-media-library .a-media-upload-form-footer,
