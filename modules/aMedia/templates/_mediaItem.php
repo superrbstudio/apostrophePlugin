@@ -46,7 +46,7 @@
 						<div class="a-media-item-controls">
 							<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem)) ?>
 						</div>							
-						<a <?php echo $linkAttributes ?>><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
+						<a <?php echo $linkAttributes ?> class="a-media-item-title-link"><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
 						<?php if ($mediaItem->getViewIsSecure()): ?><span class="a-media-is-secure"></span><?php endif ?>
 					</h3>
 				</li>

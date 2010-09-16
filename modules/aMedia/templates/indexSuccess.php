@@ -34,15 +34,15 @@
 <div class="a-media-library">
 
 	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
-		<div class="a-media-selection">
 			<?php if (aMediaTools::isSelecting()): ?>
-		    <?php if ($multipleStyle): ?>
-		      <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
-		    <?php else: ?>
-		      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
-		    <?php endif ?>
+				<div class="a-media-selection">
+			    <?php if ($multipleStyle): ?>
+			      <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
+			    <?php else: ?>
+			      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
+			    <?php endif ?>
+				</div>		
 			<?php endif ?>
-		</div>
 	<?php endif ?>
 
 	<?php if ($limitSizes): ?>
