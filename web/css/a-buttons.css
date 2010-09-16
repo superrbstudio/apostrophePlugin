@@ -338,7 +338,7 @@ box-shadow: 0 0 0 transparent;
 -webkit-border-bottom-right-radius: 2px;
 -webkit-border-bottom-left-radius: 2px;
 border-radius: 2px;
-background-color: none;
+background-color: #ccc;
 }
 
 .a-btn.a-drag > .icon
