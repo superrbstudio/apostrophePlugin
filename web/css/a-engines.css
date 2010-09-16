@@ -427,13 +427,18 @@ padding: 0;
 list-style: none;
 }
 
-.one-up .a-media-item { width: 100%; }
+.one-up .a-media-item { width: 720px; }
+.one-up .a-media-item-thumbnail { width: 340px; float: left; margin-right: 20px; }
+.one-up .a-media-item-information { width: 340px; float: left; }
+
+
+.one-up .a-media-item-title { width: 100%; float: left; }
+.one-up .a-media-item-controls { width: auto; float: right; margin-left: 10px; }
 
 .two-up .a-media-item { width: 340px; }
 
 .four-up .a-media-item,
 .four-up .a-media-item img { width: 165px; margin-bottom: 0px; }
-
 .four-up .a-media-item:hover img
 {
 /*	position: absolute;*/
@@ -442,11 +447,7 @@ list-style: none;
 }
 
 .four-up .a-media-item.nlast { margin-right: 20px; }
-
-.four-up .a-media-row
-{
-  margin-bottom: 10px;
-}
+.four-up .a-media-row { margin-bottom: 10px; }
 
 .a-media-items.thumbnail .a-media-item
 {
@@ -476,21 +477,6 @@ clear: both;
 width: 100%;
 position: relative;
 margin: 0 0 10px 0;
-}
-
-
-.a-media-item-thumbnail,
-.a-media-item-image
-/* if there is no thumbnail the title sits next to the icon*/
-{
-	width:auto !important;
-}
-
-.a-media-item-title.no-thumbnail
-{
-	width:285px;
-	clear:none;
-	margin:24px 0 0 15px;
 }
 
 .a-media-item-link span
@@ -1298,18 +1284,9 @@ li.a-media-selection-preview-item .jcrop-holder {
 	line-height: 20px;
 }
 
-.a-media-footer-button
+.a-ui.a-controls.a-media-footer-controls li
 {
-	width: 20px;
-	height: 20px;
-	display: block;
-	overflow: hidden;
-	background-repeat: none;
-	text-indent: -9999px;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	
+	margin: 0 4px 2px 0 !important;
 }
 
 /* Blog Engine Styles

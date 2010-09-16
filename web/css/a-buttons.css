@@ -58,29 +58,16 @@ width: 18px;
 
 .a-btn .flag-label {
 display: none;
+white-space: nowrap;
 line-height: 18px;
 padding: 0 4px;
-white-space: nowrap;
 text-indent: 0 !important;
 }
 
 .a-btn:hover .flag-label { background-color: transparent !important; }
 
-.a-btn.flag-left .flag-label 
-{
-position: absolute;
-left: auto;
-right: 100%;
-margin-right: 3px;
-}
-
-.a-btn.flag-right .flag-label 
-{
-position: absolute;
-right: auto;
-left: 100%;
-margin-left: 3px;
-}
+.a-btn.flag-left .flag-label  { position: absolute; left: auto; right: 100%; margin-right: 3px; }
+.a-btn.flag-right .flag-label { position: absolute; right: auto; left: 100%; margin-left: 3px; }
 
 .a-btn.flag-left:hover .flag-label,
 .a-btn.flag-right:hover .flag-label {
@@ -100,6 +87,9 @@ margin-top: 0px;
 }
 
 .a-btn.expanded .flag-label { display: block; }
+
+.a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid rgba(0,0,0,0); }
+.a-ui .a-btn.lite:hover { color: #000; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125); }
 
 .a-btn.nobg,
 .a-btn.nobg:hover,
@@ -294,7 +284,7 @@ line-height: 20px !important;
 /* Apostrophe Delete Button
 -------------------------------------*/
 
-.a-btn.a-delete { background-color: #fff; color: #000; }
+.a-ui .a-btn.a-delete { background-color: #fff; color: #000; }
 
 
 /* Apostrophe Close Button
