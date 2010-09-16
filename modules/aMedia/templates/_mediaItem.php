@@ -106,7 +106,6 @@
 							<span class="a-media-item-permissions-icon public"></span><?php echo __('This %type% can be viewed by everyone.', array(), 'apostrophe') ?>
 						<?php endif ?>
 					</li>					
-				<?php endif ?>
 			<?php endif ?>
 			
 			<?php //this li for the replace and download links can be a partial so it can be used in the edit view. ?>
