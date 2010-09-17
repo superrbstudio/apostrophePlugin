@@ -34,6 +34,14 @@ function aConstructor()
     t.parentNode.removeChild(t);
 	}	
 	
+	// console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
+	this.log = function(output)
+	{ 
+		if (window.console && console.log) {
+			console.log(output);
+		};
+	}
+	
 	this.jsTree = function(options)
 	{
 		var treeData = options['treeData'];
@@ -499,12 +507,43 @@ function aConstructor()
 		});
 	}
 	
-	// console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
-	this.log = function(output)
-	{ 
-		if (window.console && console.log) {
-			console.log(output);
-		};
+	this.mediaFourUpLayoutEnhancements = function(options)
+	{
+		var items = $(options['selector']);
+
+		if (typeof(items) == 'undefined' || !items.length) {
+			apostrophe.log('[Apostrophe] mediaFourUpLayoutEnhancements -- ');
+			apostorphe.log('Items is undefined or has a length of 0');
+			apostrophe.log(items);
+		}
+
+		items.mouseover(function(){
+			var item  = $(this);
+			item.addClass('over');
+		})
+		.mouseout(function(){
+			var item  = $(this);
+			item.find('img').removeClass('dropshadow');
+			item.removeClass('over');
+		})
+		.hoverIntent(function(e){
+			var item = $(this);
+			target = $(e.target);
+			itemCheck = target.closest('.a-media-item:not(".expanded")');
+			if (itemCheck.length && itemCheck.hasClass('a-type-image')) 
+			{
+				if (!item.find('.expand').length) 
+				{
+					var eItem = item.clone()
+					eItem.addClass('expand dropshadow').removeClass('over').attr('id',item.attr('id')+'-clone');
+					item.prepend(eItem);
+				};
+			};
+		},function(e){
+			var item = $(this);
+			item.removeClass('over');
+			item.find('.expand').remove();
+		});
 	}
 	
 	this.slotShowEditView = function(pageid, name, permid)

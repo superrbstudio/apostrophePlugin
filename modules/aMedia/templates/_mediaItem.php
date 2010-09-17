@@ -23,7 +23,7 @@
   <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $slug))) . '"' ?>
 <?php endif ?>
 
-<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> <?php echo $format ?>">
+<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $format ?> a-type-<?php echo $type ?>">
 
 	<div class="a-media-item-thumbnail">
 	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
@@ -88,7 +88,9 @@
 				<?php endif ?>
 			<?php endif ?>
 
-			<li class="a-media-item-spacer a-media-item-meta">&nbsp;</li>
+			<?php if ($layout['name'] != "four-up"): ?>
+				<li class="a-media-item-spacer a-media-item-meta">&nbsp;</li>
+			<?php endif ?>
 
 			<?php if(isset($layout['fields']['categories'])): ?>
 				<?php if (count($mediaItem->getMediaCategories())): ?>
