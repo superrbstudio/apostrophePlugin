@@ -34,7 +34,8 @@ min-width: 120px;
 width: auto;
 margin: 0;
 background-color: #fff; /* TODO: Debug for IE */
-background-color: rgba(255,255,255,0.95);
+/*background-color: rgba(255,255,255,0.95);*/
+background-color: #fff;
 -moz-border-radius: 6px;
 -webkit-border-radius: 6px;
 border-radius: 6px;
