@@ -24,10 +24,16 @@
 <form method="POST" class="a-media-edit-form" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
 <?php endif ?>
     
-    <?php // This is how we get the preview (which might be a rendering or a large icon, depending on the type) ?>
-    <?php // outside of the widget. Jamming it into the widget made templating weird ?>
+    <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
     <div class="a-form-row preview">
-      <?php echo image_tag($form['file']->getWidget()->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints'))) ?>
+      <?php $widget = $form['file']->getWidget() ?>
+      <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
+      <?php if ($previewUrl): ?>
+        <?php echo image_tag($previewUrl) ?>
+      <?php else: ?>
+        <?php $format = $widget->getFormat($form['file']->getValue()) ?>
+        <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+      <?php endif ?>
     </div>
 
     <?php // If the file is bad, this should be the first thing on the form and should already be open with ?>
@@ -136,13 +142,11 @@
   	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
-
-				<?php if ($item->getType() !== 'video'): ?>
-		      	<div class="a-media-item-download-link">  
-							<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
-						</div>	
+        <?php if ($item && $item->getDownloadable()): ?>
+	      	<div class="a-media-item-download-link">  
+						<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+					</div>	
 				<?php endif ?>
-
   		</div>
     <?php endif ?>
 

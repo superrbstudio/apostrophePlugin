@@ -91,6 +91,12 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
           'value' => $persistid));
   }
   
+  public function getFormat($value)
+  {
+    list($exists, $persistid, $extension) = $this->getExistsPersistidAndExtension($value);
+    return $extension;
+  }
+  
   public function getPreviewUrl($value, $imagePreview = array())
   {
     list($exists, $persistid, $extension) = $this->getExistsPersistidAndExtension($value);
@@ -160,10 +166,11 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
       }
       else
       {
-        if ($extension !== false)
-        {
-          $url = '/apostrophePlugin/images/a-icons-format-' . $extension . '.png';
-        }
+        // Don't try to provide an icon alternative to the preview here,
+        // it's better to do that at the project and/or apostrophePlugin level
+        // where we can style it better... the less we fake templating inside
+        // a widget the better
+        $url = false;
       }
       return $url;
     }
