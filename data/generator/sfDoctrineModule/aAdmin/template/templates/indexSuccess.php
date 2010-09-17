@@ -1,5 +1,5 @@
 [?php use_helper('I18N', 'Date', 'jQuery') ?]
-[?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
+[?php include_partial('<?php echo $this->getModuleName() ?>/assets', array('helper' => $helper)) ?]
 
 <div class="a-admin-container [?php echo $sf_params->get('module') ?]">
 
