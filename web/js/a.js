@@ -902,7 +902,7 @@ function aConstructor()
 				{
 					this.element.jPlayer("setFile", file);
 				},
-				swfPath: '/js',
+				swfPath: '/apostrophePlugin/swf',
 				customCssIds: true
 			})
 			.jPlayer("onProgressChange", function(lp,ppr,ppa,pt,tt) {
