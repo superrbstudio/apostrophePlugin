@@ -29,12 +29,18 @@
 	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
 	    <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
 	    <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
-	    <?php if ($mediaItem->getWidth()): ?>
-	      <img src="<?php echo url_for($mediaItem->getScaledUrl($layout['gallery_constraints'])) ?>" />
-	    <?php else: ?>
-	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
-				<span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
-	    <?php endif ?>
+
+      <?php if ($type == 'audio'): ?>
+  			<?php $playerOptions = array('width' => 340, 'download' => true, 'player' => 'lite') ?>
+  			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
+  		<?php else: ?>
+  			<?php if ($mediaItem->getWidth()): ?>
+  	      <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
+  	    <?php else: ?>
+  	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
+  				<span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+  	    <?php endif ?>			
+  		<?php endif ?>
 	  </a>
 	</div>
 

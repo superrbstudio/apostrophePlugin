@@ -12,8 +12,6 @@
 ?>
 <?php use_helper('a') ?>
 
-<?php use_javascript('/apostrophePlugin/js/jquery.jplayer.js') ?>
-
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>

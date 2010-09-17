@@ -10,6 +10,8 @@
 ?>
 <?php extract($options) ?>
 
+<?php use_javascript('/apostrophePlugin/js/jquery.jplayer.js') ?>
+
 <div class="a-audio-player-container" id="a-audio-player-container-<?php echo $uniqueID ?>">
 
   <ul class="a-audio-meta">
