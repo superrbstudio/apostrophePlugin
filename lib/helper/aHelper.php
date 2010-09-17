@@ -34,6 +34,7 @@ function _a_required_assets()
   $response->addJavascript('/apostrophePlugin/js/aUI.js');
   $response->addJavascript('/apostrophePlugin/js/aControls.js');
   $response->addJavascript('/apostrophePlugin/js/plugins/jquery.autogrow.js'); // Autogrowing Textareas
+	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.hoverIntent.js'); // keycodes
 	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.keycodes-0.2.js'); // keycodes
 	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.timer-1.2.js');	
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');

@@ -84,3 +84,31 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <?php a_js_call('apostrophe.selectOnFocus(?)', '.a-select-on-focus') ?>
+
+<?php if ($layout['name'] == "four-up"): ?>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+
+			// This will all be transformed into a_js_call when it's finished
+
+			var items = $('.four-up .a-media-item');
+
+			items.hoverIntent(function(e){
+				var item = $(this);
+				if (e.target.nodeName == 'IMG') 
+				{
+					if (!item.find('.expand').length) 
+					{
+						var eItem = item.clone()
+						eItem.addClass('expand');
+						item.prepend(eItem);
+					};
+				};
+			},function(e){
+				var item = $(this);
+				item.find('.expand').remove();
+			});
+	
+		});
+	</script>
+<?php endif ?>

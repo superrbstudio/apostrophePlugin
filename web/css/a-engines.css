@@ -452,7 +452,7 @@ margin: 10px 0 0;
 
 .four-up .a-media-item-thumbnail,
 .four-up .a-media-item img { width: 165px; margin-bottom: 0px; }
-.four-up .a-media-item-thumbnail:hover img { position: absolute; width: auto; z-index: 999; }
+/*.four-up .a-media-item-thumbnail:hover img { position: absolute; width: auto; z-index: 999; }*/
 
 .four-up .a-media-item { width: 165px; margin-bottom: 0px; margin-right: 20px; }
 .four-up .a-media-item.last { margin-right: 0px; }
@@ -462,16 +462,36 @@ margin: 10px 0 0;
 .four-up .a-media-item-title .a-media-item-title-link { text-decoration: none; font-size: 12px; }
 
 .four-up .a-media-item.expand { 
+position: absolute;
 width: auto; 
 padding: 10px; 
 background: #fff; 
--moz-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--webkit-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--opera-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
--khtml-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
-box-shadow:rgba(0,0,0,0.25) 0px 0px 10px;
+-moz-box-shadow:rgba(0,0,0,0.15) 0px 0px 4px;
+-webkit-box-shadow:rgba(0,0,0,0.15) 0px 0px 4px;
+-opera-box-shadow:rgba(0,0,0,0.15) 0px 0px 4px;
+-khtml-box-shadow:rgba(0,0,0,0.15) 0px 0px 4px;
+box-shadow:rgba(0,0,0,0.125) 0px 0px 4px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+z-index: 999;
+top: 50%;
+left: 50%;
+margin: -170px 0 0 -170px;
 }
 
+.four-up .a-media-item.expand .a-media-item-thumbnail,
+.four-up .a-media-item.expand img
+{
+	width: 340px;
+}
+
+.four-up .a-media-item.expand.last
+{
+	left: auto;
+	right: -10px;
+	margin-left: 0px;
+}
 
 /* Media Engine Item Edit Form
 -------------------------------------*/
