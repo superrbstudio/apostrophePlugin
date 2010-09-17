@@ -6,7 +6,7 @@
 <?php use_helper('a') ?>
 
 <?php $editClass = 'a-btn icon a-edit lite alt' ?>
-<?php if ($layout['name'] == "four-up"): ?>
+<?php if ($layout && $layout['name'] == "four-up"): ?>
 	<?php $editClass = 'a-btn icon a-edit lite alt no-label' ?>
 <?php endif ?>
 
