@@ -124,12 +124,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       }
       // Don't force this, but it's useful when we're not
       // coming from a normal upload form
-      if (!isset($file->format))
+      if (!isset($this->format))
       {
         $this->format = $info['format'];
       }
       $this->clearImageCache(true);
     }
+    // Always return true - we store a lot of files now, not just images
+    return true;
   }
 
   public function saveFile($file)
@@ -379,5 +381,11 @@ EOM
   {
     // Right now videos are always embedded and nothing else is
     return ($this->type === 'video');
+  }
+  
+  public function getCroppable()
+  {
+    // Right now images are always croppable and nothing else is
+    return ($this->type === 'image');
   }
 }

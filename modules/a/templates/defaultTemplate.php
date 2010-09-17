@@ -12,7 +12,8 @@
 <?php a_area('body', array(
 	'allowed_types' => array(
 		'aRichText', 
-		'aSlideshow', 
+		'aSlideshow',
+		'aAudio', 
 		'aVideo', 
 		'aImage', 
 		'aFeed', 
@@ -36,6 +37,7 @@
 	'allowed_types' => array(
 		'aRichText', 
 		'aSlideshow', 
+		'aAudio',
 		'aVideo',
 		'aBlog', 		 
 		'aImage', 

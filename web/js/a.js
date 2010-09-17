@@ -881,6 +881,91 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 	
+	this.audioPlayerSetup = function(aAudioContainer, file)
+	{
+		aAudioContainer = $(aAudioContainer);
+		if (typeof(aAudioContainer) == 'object' && aAudioContainer.length) 
+		{
+			var global_lp = 0;
+			var global_wtf = 0;
+
+			var btnPlay = aAudioContainer.find(".a-audio-play");
+			var btnPause = aAudioContainer.find(".a-audio-pause");
+			var sliderPlayback = aAudioContainer.find('.a-audio-playback');
+			var sliderVolume = aAudioContainer.find('.a-audio-volume');
+			var loadingBar = aAudioContainer.find('.a-audio-loader');
+			var time = aAudioContainer.find('.a-audio-time');
+			var aAudioPlayer = aAudioContainer.find('.a-audio-player');
+
+			aAudioPlayer.jPlayer({
+				ready: function ()
+				{
+					this.element.jPlayer("setFile", file);
+				},
+				swfPath: '/js',
+				customCssIds: true
+			})
+			.jPlayer("onProgressChange", function(lp,ppr,ppa,pt,tt) {
+		 		var lpInt = parseInt(lp);
+		 		var ppaInt = parseInt(ppa);
+		 		global_lp = lpInt;
+				loadingBar.progressbar('option', 'value', lpInt);
+		 		sliderPlayback.slider('option', 'value', ppaInt);
+
+				if (global_wtf && global_wtf == parseInt(tt)) {
+					timeLeft = parseInt(tt) - parseInt(pt);
+					time.text($.jPlayer.convertTime(timeLeft));
+				}
+				else
+				{
+					global_wtf = parseInt(tt);				
+				}
+			})
+			.jPlayer("onSoundComplete", function() {
+				// this.element.jPlayer("play"); // Loop
+			});
+			btnPause.hide();
+			loadingBar.progressbar();
+
+			btnPlay.click(function() {
+				aAudioPlayer.jPlayer("play");
+				btnPlay.hide();
+				btnPause.show();					
+				return false;
+			});
+
+			btnPause.click(function() {
+				aAudioPlayer.jPlayer("pause");
+				btnPause.hide();
+				btnPlay.show();
+				return false;
+			});
+
+			sliderPlayback.slider({
+				max: 100,
+				range: 'min',
+				animate: false,
+				slide: function(event, ui) {
+					aAudioPlayer.jPlayer("playHead", ui.value*(100.0/global_lp));
+				}
+			});
+
+			sliderVolume.slider({
+				value : 50,
+				max: 100,
+				range: 'min',
+				animate: false,
+				slide: function(event, ui) {
+					aAudioPlayer.jPlayer("volume", ui.value);
+				}
+			});
+		}
+		else
+		{
+			throw "Cannot find DOM Element for Audio Player.";
+		}
+	}
+	
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{

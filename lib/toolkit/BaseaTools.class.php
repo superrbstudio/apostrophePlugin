@@ -201,6 +201,7 @@ class BaseaTools
          'aImage' => 'Image',
          'aSlideshow' => 'Slideshow',
          'aButton' => 'Button',
+         'aAudio' => 'Audio',
          'aVideo' => 'Video',
          'aPDF' => 'PDF',
          'aRawHTML' => 'Raw HTML'),

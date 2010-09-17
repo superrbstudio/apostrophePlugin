@@ -3,7 +3,8 @@
   $action = isset($action) ? $sf_data->getRaw('action') : null;
   $buttonLabel = isset($buttonLabel) ? $sf_data->getRaw('buttonLabel') : null;
   $class = isset($class) ? $sf_data->getRaw('class') : null;
-  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
+  // Constraints are optional
+  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : array();
   $itemId = isset($itemId) ? $sf_data->getRaw('itemId') : null;
   $label = isset($label) ? $sf_data->getRaw('label') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;

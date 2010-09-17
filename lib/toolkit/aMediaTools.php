@@ -206,7 +206,7 @@ class aMediaTools
       "png" => "image/png",
       "jpg" => "image/jpeg",
       "pdf" => "application/pdf",
-      "mp3" => "mpeg/mp3",
+      "mp3" => "audio/mpeg",
       'xls' => 'application/vnd.ms-excel',
       'ppt' => 'application/vnd.ms-powerpoint',
       'doc' => 'application/msword',

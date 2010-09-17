@@ -12,6 +12,7 @@
 	'allowed_types' => array(
 		'aRichText', 
 		'aSlideshow', 
+		'aAudio',
 		'aVideo', 
 		'aImage',
 		'aBlog', 
@@ -34,6 +35,7 @@
 	'allowed_types' => array(
 		'aRichText', 
 		'aSlideshow', 
+		'aAudio',
 		'aVideo', 
 		'aBlog', 
 		'aPDF',

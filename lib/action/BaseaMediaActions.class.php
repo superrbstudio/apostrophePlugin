@@ -306,11 +306,14 @@ class BaseaMediaActions extends aEngineActions
     $imageInfo[$id]['width'] = $item->getWidth();
     $imageInfo[$id]['height'] = $item->getHeight();
     aMediaTools::setAttribute('imageInfo', $imageInfo);
-    // If no previous crop info is set, we must set an intial cropping mask
-    // so that the cropped media item id gets linked instead of the original
-    // media item. This is a little dangerous because JavaScript computes an
-    // intial crop mask on the client side.
-    aMediaTools::setDefaultCropDimensions($item);
+    if ($item->getCroppable())
+    {
+      // If no previous crop info is set, we must set an intial cropping mask
+      // so that the cropped media item id gets linked instead of the original
+      // media item. This is a little dangerous because JavaScript computes an
+      // intial crop mask on the client side.
+      aMediaTools::setDefaultCropDimensions($item);
+    }
     if ((!aMediaTools::isMultiple()) && aMediaTools::getAttribute('type') !== 'image')
     {
       return $this->redirect('aMedia/selected');
@@ -377,17 +380,21 @@ class BaseaMediaActions extends aEngineActions
     $newSelection = array();
     foreach ($selection as $id)
     {
-      if (isset($imageInfo[$id]['cropLeft']))
+      $nid = $id;
+      // Try not to make gratuitous crops
+      if (isset($imageInfo[$id]))
       {
-        // We need to make a crop
         $item = $items[$id];
-        $crop = $item->findOrCreateCrop($imageInfo[$id]);
-        $crop->save();
-        $newSelection[] = $crop->id;
-      }
-      else
-      {
-        $newSelection[] = $id;
+        $i = $imageInfo[$id];
+        if ($item->getCroppable() && isset($i['cropLeft']) && (($i['cropLeft'] > 0) || ($i['cropTop'] > 0) || ($i['cropWidth'] != $item->width) || ($i['cropHeight'] != $item->height)))
+        {
+          // We need to make a crop
+          $item = $items[$id];
+          $crop = $item->findOrCreateCrop($imageInfo[$id]);
+          $crop->save();
+          $nid = $crop->id;
+        }
+        $newSelection[] = $nid;
       }
     }
     // Ooops best to get this before clearing it huh

@@ -32,7 +32,9 @@
         <?php echo image_tag($previewUrl) ?>
       <?php else: ?>
         <?php $format = $widget->getFormat($form['file']->getValue()) ?>
-        <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+        <?php if ($format): ?>
+          <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+        <?php endif ?>
       <?php endif ?>
     </div>
 
