@@ -8,7 +8,7 @@
 ?>
 
 <?php use_helper('a') ?>
-<?php slot('body_class','a-media') ?>
+<?php slot('body_class','a-media a-media-index') ?>
 
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>

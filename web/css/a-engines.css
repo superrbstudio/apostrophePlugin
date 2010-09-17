@@ -391,7 +391,8 @@ margin: 10px 0 0;
 
 .a-media-selection,
 .a-media-controls,
-.a-media-footer { float: left; width: 720px; margin-bottom: 30px; }
+.a-media-footer,
+.a-media-show .a-media-item { float: left; width: 720px; margin-bottom: 30px; }
 
 .a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
 
