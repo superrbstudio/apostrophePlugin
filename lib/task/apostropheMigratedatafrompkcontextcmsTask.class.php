@@ -128,47 +128,8 @@ echo("after\n");
       echo("Warning: couldn't create a_slot_media_item table\n");
     }
     
-    echo("Migrating media slots\n");
-    $count = 0;
-    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
-    $total = count($mediaSlots);
-    foreach ($mediaSlots as $mediaSlot)
-    {
-      $count++;
-      echo("Migrating slot $count of $total\n");
-      if ($mediaSlot->type === 'aSlideshow')
-      {
-        $items = $mediaSlot->getArrayValue();
-        if (isset($items[0]) && isset($items[0]->id))
-        {
-          $order = array();
-          foreach ($items as $item)
-          {
-            // aArray::getids has trouble with StdClass objects for some reason
-            $order[] = $item->id;
-          }
-          $mediaSlot->unlink('MediaItems');
-          $mediaSlot->link('MediaItems', $order);
-          $mediaSlot->setArrayValue(array('order' => $order));
-          $mediaSlot->save();
-        }
-      }
-      else
-      {
-        if (strlen($mediaSlot->value))
-        {
-          $item = unserialize($mediaSlot->value);
-          if (isset($item->id))
-          {
-            $mediaSlot->unlink('MediaItems');
-            $mediaSlot->link('MediaItems', array($item->id));
-            $mediaSlot->setValue(null);
-            $mediaSlot->save();
-          }
-        }
-      }
-    }
-    
+    echo("Build Media Tables ================================================= \n");
+
     try
     {
       $conn->query("CREATE TABLE `a_media_category` (
@@ -215,6 +176,50 @@ echo("after\n");
     {
       echo("Warning: couldn't create a_media_page_category table\n");
     }
+
+
+    echo("Migrating media slots  ================================================= \n");
+
+    $count = 0;
+    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
+    $total = count($mediaSlots);
+    foreach ($mediaSlots as $mediaSlot)
+    {
+      $count++;
+      echo("Migrating slot $count of $total\n");
+      if ($mediaSlot->type === 'aSlideshow')
+      {
+        $items = $mediaSlot->getArrayValue();
+        if (isset($items[0]) && isset($items[0]->id))
+        {
+          $order = array();
+          foreach ($items as $item)
+          {
+            // aArray::getids has trouble with StdClass objects for some reason
+            $order[] = $item->id;
+          }
+          $mediaSlot->unlink('MediaItems');
+          $mediaSlot->link('MediaItems', $order);
+          $mediaSlot->setArrayValue(array('order' => $order));
+          $mediaSlot->save();
+        }
+      }
+      else
+      {
+        if (strlen($mediaSlot->value))
+        {
+          $item = unserialize($mediaSlot->value);
+          if (isset($item->id))
+          {
+            $mediaSlot->unlink('MediaItems');
+            $mediaSlot->link('MediaItems', array($item->id));
+            $mediaSlot->setValue(null);
+            $mediaSlot->save();
+          }
+        }
+      }
+    }
+    
   
     echo("Rebuilding search index\n");
 		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];
