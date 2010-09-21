@@ -9,7 +9,7 @@
 		<h3><?php echo __('Annotate Images', null, 'apostrophe') ?></h3>
 	</div>
 
-  <?php if ($postMaxSizeExceeded): ?>
+  <?php if (isset($postMaxSizeExceeded) && $postMaxSizeExceeded): ?>
   <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
   <?php endif ?>
 
