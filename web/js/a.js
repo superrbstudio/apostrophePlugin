@@ -920,6 +920,98 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 	
+	this.buttonSauce = function(options)
+	{
+		// buttonSauce only needs to be executed when logged in
+		// It applies any classes or additional markup necessary for apostrophe buttons via the .a-btn class
+		// called in partial a/globalJavascripts
+		var target = '';
+		
+		if (options && options['target']) {	target = options['target'];	};
+		
+		// Grab Target if Passed Through
+		if (typeof(target) == 'undefined') 
+		{ // If Not Set
+			target = '';
+		}
+		else if (typeof(target) == 'object')
+		{ // If jQuery object get id
+			target = "#"+ target.attr('id') +" ";
+		}
+		else 
+		{ // probably a string
+			target = target+" ";
+		}
+
+		var aBtns = $(target+' .a-btn, ' + target + ' .a-submit, ' + target + ' .a-cancel');
+		aBtns.each(function() {
+			var aBtn = $(this);
+			// Setup Flagging Buttons so they flag when hovered
+			// Markup: <a href="#" class="a-btn icon a-some-icon flag"><span class="icon"></span><span class="flag-label">Button</span></a>
+			if(aBtn.hasClass('flag'))
+			{
+				if (!aBtn.children('.flag-label').length)
+				{
+					aBtn.attr('title','').wrapInner('<span class="flag-label"></span>');		
+				}
+				aBtn.hover(function () {
+					aBtn.addClass('expanded');
+				},function () {
+					aBtn.removeClass('expanded');
+				});	
+			}
+			// Setup Icons for buttons with icons that are missing the icon container
+			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
+			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
+			{
+				aBtn.prepend('<span class="icon"></span>');						
+			};
+	  });
+	
+		// Disabled Buttons
+		$('.a-disabled').unbind('click').unbind('hover').click(function(event){
+			event.preventDefault();
+		}).attr('onclick','return false;');
+	
+		// apostrophe.log('Button Sauce Applied');
+	}
+	
+	this.miscEnhancements = function(options)
+	{
+		// The contents of this function can be migrated to better homes
+		// if it makes sense to move them.
+		// Once this function is empty it can be deleted
+		// called in partial a/globalJavascripts
+		// Variants
+		$('a.a-variant-options-toggle').click(function(){
+			$(this).parents('.a-slots').children().css('z-index','699');
+			$(this).parents('.a-slot').css('z-index','799');	
+		});
+		// Cross Browser Opacity Settings
+		$('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
+		// Apply clearfix on controls and options
+		$('.a-controls, .a-options').addClass('clearfix');
+		// Add 'last' Class To Last Option
+		$('.a-controls li:last-child').addClass('last'); 
+	}
+	
+	this.ready = function(options)
+	{
+		// apostrophe.log('apostrophe.ready');
+		// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
+		// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
+		if (typeof(apostropheReady) =="function")
+		{ 
+			apostropheReady(); 	
+		}
+		
+		// This is deprecated, it's the old function name, preserved here for backwards compatibility
+		if (typeof(aOverrides) =="function")
+		{ 
+			aOverrides(); 	
+		}		
+	}
+	
 	this.audioPlayerSetup = function(aAudioContainer, file)
 	{
 		aAudioContainer = $(aAudioContainer);
