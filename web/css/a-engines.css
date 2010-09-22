@@ -400,9 +400,9 @@ margin: 10px 0 0;
 
 /* Media Engine Items
 -------------------------------------*/
-.a-media-item { position: relative; float: left; display: inline; padding: 0; }
+.a-media-item { position: relative; float: left; padding: 0; }
 
-.a-media-item .a-media-item-thumbnail { width: 340px; float: left; }
+.a-media-item .a-media-item-thumbnail { width: 340px; float: left; position: relative; }
 
 .a-media-item .a-media-item-information { float: left; width: 100%;}
 
