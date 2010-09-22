@@ -169,7 +169,7 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
         // Don't try to provide an icon alternative to the preview here,
         // it's better to do that at the project and/or apostrophePlugin level
         // where we can style it better... the less we fake templating inside
-        // a widget the better
+        // a widget the better. See getFormat
         $url = false;
       }
       return $url;

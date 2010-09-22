@@ -43,5 +43,28 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     }
     
     $this->dispatcher->connect('command.post_command', array('aToolkitEvents',  'listenToCommandPostCommandEvent'));  
+
+    $this->dispatcher->connect('apostrophe.get_categorizables', array($this, 'listenToGetCategorizables'));
+    
+    $this->dispatcher->connect('apostrophe.get_count_by_category', array($this, 'listenToGetCountByCategory'));
+  }
+  
+  public function listenToGetCategorizables($event, $results)
+  {
+    // You must play nice and append to what is already there
+    $info = array('class' => 'aMediaItem', 'name' => 'Media');
+    $results['aMediaItem'] = $info;
+    return $results;
+  }
+  
+  // Also includes the above info so we know what the result is referring to
+  public function listenToGetCountByCategory($event, $results)
+  {
+    // You must play nice and append to what is already there
+    $info = array('class' => 'aMediaItem', 'name' => 'Media');
+    $counts = Doctrine::getTable('aMediaItem')->getCountByCategory();
+    $info['counts'] = $counts;
+    $results['aMediaItem'] = $info;
+    return $results;
   }
 }

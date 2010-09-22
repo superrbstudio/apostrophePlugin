@@ -66,5 +66,15 @@ class aRouting extends sfPatternRouting
         'action' => 'index',
         'url' => '/')));
     }
+    if (isset($enabledModules['aCategoryAdmin']))
+    {
+      $r->prependRoute('a_category_admin', new sfDoctrineRouteCollection(array('name' => 'a_category_admin',
+        'model' => 'aCategory',
+        'module' => 'aCategoryAdmin',
+        'prefix_path' => 'admin/categories',
+        'collection_actions' => array('posts' => 'get', 'events' => 'get'),
+        'column' => 'id',
+        'with_wildcard_routes' => true)));
+    }
   }
 }

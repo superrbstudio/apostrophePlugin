@@ -56,8 +56,9 @@
 
     <?php // If an engine page is locked down to one category, don't show a category browser. ?>
     <?php // Also don't bother if all categories are empty ?>
-    <?php $categoriesInfo = $page->getMediaCategoriesInfo() ?>
 
+    <?php $categoriesInfo = $page->getCategoriesInfo('aMediaItem') ?>
+    <?php $categoriesInfo = $categoriesInfo['counts'] ?>
 		<div class='a-subnav-section categories section'>
 
  		  <?php if (isset($selectedCategory)): ?>
@@ -73,10 +74,7 @@
 	    <?php if ($sf_user->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
-	    	<?php // See the _editCategories partial ?>
-	    	<?php echo jq_link_to_remote(__('edit categories', null, 'apostrophe'), array(
-					'url' => url_for('aMedia/editCategories'), 
-					'update' => 'a-media-edit-categories'), array(
+	    	<?php echo link_to(__('edit categories', null, 'apostrophe'), 'aCategoryAdmin/index', array(
 						'class' => 'edit-categories', 
 						'id' => 'a-media-edit-categories-button',
 					)) ?>

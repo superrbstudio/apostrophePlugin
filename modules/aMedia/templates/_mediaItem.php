@@ -93,8 +93,8 @@
 			<?php endif ?>
 
 			<?php if(isset($layout['fields']['categories'])): ?>
-				<?php if (count($mediaItem->getMediaCategories())): ?>
-					<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getMediaCategories()))), 'apostrophe') ?></li>					
+				<?php if (count($mediaItem->getCategories())): ?>
+					<li class="a-media-item-categories a-media-item-meta"><?php echo __('<span>Categories:</span> %categories%', array('%categories%' => get_partial('aMedia/showCategories', array('categories' => $mediaItem->getCategories()))), 'apostrophe') ?></li>					
 				<?php endif ?>
 			<?php endif ?>
 

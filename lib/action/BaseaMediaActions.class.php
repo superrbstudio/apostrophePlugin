@@ -168,7 +168,7 @@ class BaseaMediaActions extends aEngineActions
     
     // The media module is now an engine module. There is always a page, and that
     // page might have a restricted set of categories associated with it
-    $mediaCategories = aTools::getCurrentPage()->MediaCategories;
+    $mediaCategories = aTools::getCurrentPage()->Categories;
     if (count($mediaCategories))
     {
       $params['allowed_categories'] = $mediaCategories;
@@ -748,8 +748,8 @@ class BaseaMediaActions extends aEngineActions
         // updateObject doesn't handle one-to-many relations, only save() does, and we
         // can't do save() in this embedded form, so we need to implement the categories
         // relation ourselves        
-        $object->unlink('MediaCategories');
-        $object->link('MediaCategories', $values[$key]['media_categories_list']);
+        $object->unlink('Categories');
+        $object->link('Categories', $values[$key]['categories_list']);
         
         // Everything except the actual copy which can't succeed
         // until the slug is cast in stone
@@ -838,47 +838,5 @@ class BaseaMediaActions extends aEngineActions
   public function executeNewVideo()
   {
     $this->videoSearchForm = new aMediaVideoSearchForm();
-  }
-  
-  // AJAX media categories admin methods. Simple and sweet. I love renderPartial
-  
-  public function executeEditCategories(sfWebRequest $request)
-  {
-    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
-    return $this->renderEditCategory();
-  }
-
-  public function executeDeleteCategory(sfWebRequest $request)
-  {
-    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
-    $slug = $request->getParameter('slug');
-    $category = Doctrine::getTable('aMediaCategory')->createQuery('c')->where('c.slug = ?', array($slug))->fetchOne();
-    if ($category)
-    {
-      $category->delete();
-    }
-    return $this->renderEditCategory();
-  }
-  
-  public function executeAddCategory(sfWebRequest $request)
-  {
-    $this->forward404Unless($this->getUser()->hasCredential(aMediaTools::getOption('admin_credential')));
-    $form = new aMediaCategoryForm();
-    $form->bind($request->getParameter('a_media_category'));
-    if ($form->isValid())
-    {
-      $form->save();
-    }
-    return $this->renderEditCategory($form);
-  }
-  
-  protected function renderEditCategory($form = null)
-  {
-    if (!$form)
-    {
-      $form = new aMediaCategoryForm();
-    }
-    $categoriesInfo = Doctrine::getTable('aMediaCategory')->findAllAlphaInfo(true);
-    return $this->renderPartial('editCategories', array('categoriesInfo' => $categoriesInfo, 'form' => $form));
   }
 }

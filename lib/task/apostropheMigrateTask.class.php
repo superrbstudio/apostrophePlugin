@@ -101,6 +101,37 @@ but why take chances with your data?
         'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;',
         'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;'));
     }
+    if (!$this->migrate->tableExists('a_category'))
+    {
+      $this->migrate->sql(array(
+        "CREATE TABLE a_category (id INT AUTO_INCREMENT, name VARCHAR(255) UNIQUE, media_items TINYINT(1) DEFAULT '0', description TEXT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, slug VARCHAR(255), UNIQUE INDEX a_category_sluggable_idx (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE a_category_group (category_id INT, group_id INT, PRIMARY KEY(category_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE a_category_user (category_id INT, user_id INT, PRIMARY KEY(category_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE a_media_item_to_category (media_item_id INT, category_id INT, PRIMARY KEY(media_item_id, category_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;",
+        "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;",
+        "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_user_id_sf_guard_user_id FOREIGN KEY (user_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;",
+        "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;"
+        ));
+      $oldCategories = $this->migrate->query('SELECT name, description, slug FROM a_media_category');
+      $newCategories = $this->migrate->query('SELECT name, description, slug FROM a_category');
+      $nc = array();
+      foreach ($newCategories as $newCategory)
+      {
+        $nc[$newCategory['slug']] = $newCategory;
+      }
+      foreach ($oldCategories as $category)
+      {
+        if (isset($nc[$category['slug']]))
+        {
+          $this->migrate->query('UPDATE a_category SET media_items = true WHERE slug = :slug', $category);
+        }
+        else
+        {
+          $this->migrate->query('INSERT INTO a_category (name, description, slug, media_items) VALUES (:name, :description, :slug)', $category);
+        }
+      }
+    }
     echo("Done!\n");
   }
 }

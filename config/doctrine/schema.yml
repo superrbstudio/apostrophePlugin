@@ -529,9 +529,9 @@ aSlotMediaItem:
     aSlot:
       local: slot_id
       onDelete: CASCADE
-      
-aMediaCategory:
-  tableName: a_media_category
+     
+aCategory:
+  tableName: a_category
   actAs:
     Timestampable: ~
     Sluggable: ~
@@ -543,27 +543,84 @@ aMediaCategory:
     name:
       type: string(255)
       unique: true
+    # Other types add more booleans in their own schema.yml files
+    media_items:
+      type: boolean
+      default: false
+      
     description:
       type: string
   relations:
     MediaItems:
       class: aMediaItem
-      local: media_category_id
+      local: category_id
       foreign: media_item_id
-      foreignAlias: MediaCategories
-      refClass: aMediaItemCategory
-    # Used to implement media engine pages dedicated to displaying one or more
-    # specific categories
+      foreignAlias: Categories
+      refClass: aMediaItemToCategory
+    # Used to implement engine pages dedicated to displaying one or more
+    # specific categories in media, the blog plugin and beyond
     Pages:
       class: aPage
-      local: media_category_id
+      local: category_id
       foreign: page_id
-      foreignAlias: MediaCategories
-      refClass: aMediaPageCategory
+      foreignAlias: Categories
+      refClass: aPageToCategory
+    # Who is permitted to assign things to this category?
+    Users:
+      foreignAlias: Categories
+      class: sfGuardUser
+      refClass: aCategoryUser
+      local: category_id
+      foreign: user_id
+    Groups:
+      foreignAlias: Categories
+      class: sfGuardGroup
+      refClass: aCategoryGroup
+      local: category_id
+      foreign: group_id      
+      
+aCategoryUser:
+  columns:
+    category_id:
+      type: integer(4)
+      primary: true
+    user_id:
+      type: integer(4)
+      primary: true
+  relations:
+    Category:
+      foreignAlias: CategoryUsers
+      class: aCategory
+      local: category_id
+      onDelete: CASCADE
+    User:
+      foreignAlias: CategoryUsers
+      class: sfGuardUser
+      local: user_id
+      onDelete: CASCADE
 
+aCategoryGroup:
+  columns:
+    category_id:
+      type: integer(4)
+      primary: true
+    group_id:
+      type: integer(4)
+      primary: true
+  relations:
+    Category:
+      foreignAlias: CategoryGroups
+      class: aCategory
+      local: category_id
+      onDelete: CASCADE
+    Group:
+      foreignAlias: CategoryGroups
+      class: sfGuardGroup
+      local: group_id
+      onDelete: CASCADE
 
-aMediaItemCategory:
-  tableName: a_media_item_category
+aMediaItemToCategory:
+  tableName: a_media_item_to_category
   options:
     symfony:
       form:   false
@@ -572,19 +629,19 @@ aMediaItemCategory:
     media_item_id:
       type: integer(4)
       primary: true
-    media_category_id:
+    category_id:
       type: integer(4)
       primary: true
   relations:
     aMediaItem:
       local: media_item_id
       onDelete: CASCADE
-    aMediaCategory:
-      local: media_category_id
+    aCategory:
+      local: category_id
       onDelete: CASCADE
 
-aMediaPageCategory:
-  tableName: a_media_page_category
+aPageToCategory:
+  tableName: a_page_to_category
   options:
     symfony:
       form:   false
@@ -593,12 +650,12 @@ aMediaPageCategory:
     page_id:
       type: integer(4)
       primary: true
-    media_category_id:
+    category_id:
       type: integer(4)
       primary: true
   relations:
-    aMediaCategory:
-      local: media_category_id
+    aCategory:
+      local: category_id
       onDelete: CASCADE
     aPage:
       local: page_id

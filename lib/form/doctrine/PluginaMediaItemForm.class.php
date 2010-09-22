@@ -21,9 +21,10 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $this->setWidget('description', new sfWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', )));
 		$this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
 
-		$q = Doctrine::getTable('aMediaCategory')->createQuery()->orderBy('name');
-		$this->setWidget('media_categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aMediaCategory', 'multiple' => true)));
-		$this->widgetSchema->setLabel('media_categories_list', 'Categories');
+		$q = Doctrine::getTable('aCategory')->createQuery()->orderBy('name')->where('aCategory.media_items = true');
+		$this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
+		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
+		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
 		// If I don't unset this saving the form will purge existing relationships to slots
 		unset($this['slots_list']);

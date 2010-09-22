@@ -80,12 +80,12 @@
     </div>
 
     <div class="a-form-row categories">
-			<?php echo $form['media_categories_list']->renderLabel() ?>
+			<?php echo $form['categories_list']->renderLabel() ?>
 			<div class="a-form-field">
-				<?php echo $form['media_categories_list']->render() ?>
+				<?php echo $form['categories_list']->render() ?>
 			</div>
   		<?php if (!$firstPass): ?>
-  			<?php echo $form['media_categories_list']->renderError() ?>
+  			<?php echo $form['categories_list']->renderError() ?>
   		<?php endif ?>
 		</div>
 

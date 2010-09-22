@@ -28,7 +28,7 @@ class BaseaMediaComponents extends sfComponents
     $categorySlug = aMediaTools::getSearchParameter('category');
     if (strlen($categorySlug))
     {
-      $this->selectedCategory = Doctrine::getTable('aMediaCategory')->findOneBySlug($categorySlug);
+      $this->selectedCategory = Doctrine::getTable('aCategory')->findOneBySlug($categorySlug);
       $params['category'] = $categorySlug;
     }
     $search = aMediaTools::getSearchParameter('search');

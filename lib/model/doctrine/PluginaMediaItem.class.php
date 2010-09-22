@@ -62,14 +62,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       'title' => $this->getTitle(),
       'description' => $this->getDescription(),
       'credit' => $this->getCredit(),
-      'categories' => implode(", ", $this->getMediaCategoryNames()),
+      'categories' => implode(", ", $this->getCategoryNames()),
       'tags' => implode(", ", $this->getTags())
     ));
   }
   
-  public function getMediaCategoryNames()
+  public function getCategoryNames()
   {
-    $categories = $this->getMediaCategories();
+    $categories = $this->getCategories();
     $result = array();
     foreach ($categories as $category)
     {

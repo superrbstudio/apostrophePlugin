@@ -113,11 +113,18 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
     if (isset($params['allowed_categories']))
     {
-      $query->innerJoin('aMediaItem.MediaCategories mc1 WITH mc1.id IN (' . implode(',', aArray::getIds($params['allowed_categories'])) . ')');
+      if (!count($params['allowed_categories']))
+      {
+        $query->andWhere('0 <> 0');
+      }
+      else
+      {
+        $query->innerJoin('aMediaItem.Categories mc1 WITH mc1.id IN (' . implode(',', aArray::getIds($params['allowed_categories'])) . ')');
+      }
     }
     if (isset($params['category']))
     {
-      $query->innerJoin('aMediaItem.MediaCategories mc2 WITH mc2.slug = ?', array($params['category']));
+      $query->innerJoin('aMediaItem.Categories mc2 WITH mc2.slug = ?', array($params['category']));
     }
     if (isset($params['search']))
     {
@@ -158,7 +165,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
     // No crops in the browser please
     $query->andWhere("aMediaItem.slug NOT LIKE '%.%'");
-    $query->leftJoin("aMediaItem.MediaCategories c");
+    $query->leftJoin("aMediaItem.Categories c");
     
     return $query;
   }
@@ -193,5 +200,22 @@ class PluginaMediaItemTable extends Doctrine_Table
     $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
     // Don't forget to put them in order!
     return aDoctrine::orderByList($q, $ids)->execute();
+  }
+  
+  public function getCountByCategory()
+  {
+    $raw = Doctrine::getTable('aCategory')->createQuery('c')->innerJoin('c.aMediaItemToCategory mtc')->select('c.name, c.slug,  count(mtc.media_item_id) as num')->groupBy('mtc.category_id')->orderBy('c.name ASC')->execute(array(), Doctrine::HYDRATE_ARRAY);
+    $results = array();
+    foreach ($raw as $info)
+    {
+      $results[$info['id']] = array('name' => $info['name'], 'slug' => $info['slug'], 'count' => $info['num']);
+    }
+    return $results;
+  }
+  
+  // Column in category table that determines whether these are allowed in the category
+  public function getCategoryColumn()
+  {
+    return 'media_items';
   }
 }

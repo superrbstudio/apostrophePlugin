@@ -107,7 +107,7 @@ class BaseaMediaEditForm extends aMediaItemForm
     $this->widgetSchema->setNameFormat('a_media_item[%s]');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
     
-    $this->widgetSchema->setLabel('media_categories_list', 'Categories');
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }

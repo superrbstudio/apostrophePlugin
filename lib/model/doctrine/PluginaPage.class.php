@@ -1423,35 +1423,51 @@ abstract class PluginaPage extends BaseaPage
     return $peers;
   }
   
-  public function getMediaCategoriesInfo()
+  public function getCategoriesInfo($class = null)
   {
-    // Returns an array of info about media categories that are appropriate to display in the
-    // media browser for the current engine page. They are sorted in alphabetical order by name,
-    // with a media item count included as well
+    // Returns information about the categories this page is related to, or all pages if it is not
+    // locked down to any particular categories. Limits results to one class of categorizable type if
+    // desired. In that case you receive only the results for that class rather than an array of
+    // results for multiple classes
     
-    // TODO: I can probably cut this down to fewer queries
+    // It's simplest to get the info about all categories and types, and then cut down 
+    // (TODO: we could have the event require the getters to filter this in advance,
+    // but I'm not sure it's worth the pain and potential for error)
+
+    $event = new sfEvent(null, 'apostrophe.get_count_by_category');
+    sfContext::getInstance()->getEventDispatcher()->filter($event, array());
+    $counts = $event->getReturnValue();
+
+    $fcounts = array();
     
-    // Only related categories, unless this engine has none, in which case we return all categories
-    $categories = Doctrine::getTable('aMediaCategory')->createQuery('mc')->innerJoin('mc.Pages p WITH p.id = ?', $this->id)->orderBy('mc.name ASC')->execute();
+    $categories = $this->getCategories();
     if (!count($categories))
     {
-      return Doctrine::getTable('aMediaCategory')->findAllAlphaInfo();
+      $categories = Doctrine::getTable('aCategory')->findAll();
     }
-    $ids = aArray::getIds($categories);
-    $qresults = Doctrine_Query::create()->from('aMediaCategory mc')->select('mc.name, mc.slug, COUNT(mi.id) as mc_count')->whereIn('mc.id', $ids)->innerJoin('mc.MediaItems mi')->groupBy('mc.id')->orderBy('mc.name asc')->fetchArray();
-    $info = array();
-    foreach ($qresults as $qresult)
+    $ids = aArray::listToHashById($categories);
+    foreach ($counts as $cclass => $countsInfo)
     {
-      $info[] = array('name' => $qresult['name'], 'slug' => $qresult['slug'], 'count' => $qresult['mc_count']);
+      $fcountsInfo = $countsInfo;
+      foreach ($countsInfo['counts'] as $id => $info)
+      {
+        if (!isset($ids[$id]))
+        {
+          unset($fcountsInfo['counts'][$id]);
+        }
+      }
+      $fcounts[$cclass] = $fcountsInfo;
     }
-    if (count($categories) == 1)
+    if (!is_null($class))
     {
-      // Selecting amongst just one category is not interesting
-      return array();
+      return $fcounts[$class];
     }
-    return $info;
-  } 
-  
+    else
+    {
+      return $fcounts;
+    }
+  }
+    
   public function updateLastSlugComponent($title)
   {
     if ($this->slug === '/')
