@@ -4496,7 +4496,7 @@ clear: both;
 float: left;
 clear: both;
 line-height: 20px;
-height: 20px;
+min-height: 20px;
 width: auto;
 }
 
