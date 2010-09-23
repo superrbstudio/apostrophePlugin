@@ -66,6 +66,11 @@ class aMigrate
     return $result;
   }
   
+  public function lastInsertId()
+  {
+    return $pdo->lastInsertId();
+  }
+  
   public function getCommandsRun()
   {
     return $this->commandsRun;

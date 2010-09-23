@@ -120,16 +120,27 @@ but why take chances with your data?
       {
         $nc[$newCategory['slug']] = $newCategory;
       }
+      $oldIdToNewId = array();
+      
       foreach ($oldCategories as $category)
       {
         if (isset($nc[$category['slug']]))
         {
           $this->migrate->query('UPDATE a_category SET media_items = true WHERE slug = :slug', $category);
+          $oldIdtoNewId[$category['id']] = $nc[$category['slug']]['id'];
+          
         }
         else
         {
           $this->migrate->query('INSERT INTO a_category (name, description, slug, media_items) VALUES (:name, :description, :slug)', $category);
+          $oldIdtoNewId[$category['id']] = $this->migrate->lastInsertId();
         }
+      }
+      $oldMappings = $migrate->query('SELECT * FROM a_media_item_category');
+      foreach ($oldMappings as $info)
+      {
+        $info['category_id'] = $oldIdToNewId[$info['media_category_id']];
+        $migrate->query('INSERT INTO a_media_item_to_category (media_item_id, category_id) VALUES (:media_item_id, :category_id)', $info);
       }
     }
     echo("Done!\n");
