@@ -40,7 +40,11 @@ class BaseaMediaComponents extends sfComponents
     $this->searchForm = new aMediaSearchForm();
     $this->searchForm->bind(array('search' => $request->getParameter('search')));
     $this->current .= "?" . http_build_query($params);
-    $this->allTags = aMediaItemTable::getAllTagNameForUserWithCount();
+
+    $page = aTools::getCurrentPage();
+    $mediaCategories = aTools::getCurrentPage()->MediaCategories;
+    $category_ids = $mediaCategories->toKeyValueArray('id', 'id');
+    $this->allTags = aMediaItemTable::getAllTagNameForUserWithCount($category_ids);
     $tagsByPopularity = $this->allTags;
     arsort($tagsByPopularity);
     $this->popularTags = array();

@@ -167,20 +167,29 @@ class PluginaMediaItemTable extends Doctrine_Table
     return $query;
   }
   
-  static public function getAllTagNameForUserWithCount()
+  static public function getAllTagNameForUserWithCount($category_ids = array())
   {
     // Retrieves only tags relating to media items this user is allowed to see
     $q = NULL;
+
+    $q = Doctrine_Query::create()->from('Tagging tg, tg.Tag t, aMediaItem m');
+    // If you're not logged in, you shouldn't see tags relating to secured stuff
+    // Always IS FALSE, never = FALSE
+
+    if (count($category_ids))
+    {
+      $q->innerJoin('m.MediaCategories c');
+      $q->andWhereIn('c.id', $category_ids);
+    }
+    $q->andWhere('m.id = tg.taggable_id');
     if (!sfContext::getInstance()->getUser()->hasCredential(sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked')))
     {
-      $q = Doctrine_Query::create()->from('Tagging tg, tg.Tag t, aMediaItem m');
-      // If you're not logged in, you shouldn't see tags relating to secured stuff
-      // Always IS FALSE, never = FALSE
-      $q->andWhere('m.id = tg.taggable_id AND ((m.view_is_secure IS NULL) OR (m.view_is_secure IS  FALSE))');
+      $q->andWhere('(m.view_is_secure IS NULL) OR (m.view_is_secure IS  FALSE)');
     }
-    return TagTable::getAllTagNameWithCount($q, 
+    return TagTable::getAllTagNameWithCount($q,
       array("model" => "aMediaItem"));
   }
+  
   
   // Retrieves media items matching the supplied array of ids, in the same order as the ids
   // (a simple whereIn does not do this). We must use an explicit select when using
