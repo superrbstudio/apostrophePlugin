@@ -113,8 +113,8 @@ but why take chances with your data?
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_user_id_sf_guard_user_id FOREIGN KEY (user_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;"
         ));
-      $oldCategories = $this->migrate->query('SELECT name, description, slug FROM a_media_category');
-      $newCategories = $this->migrate->query('SELECT name, description, slug FROM a_category');
+      $oldCategories = $this->migrate->query('SELECT * FROM a_media_category');
+      $newCategories = $this->migrate->query('SELECT * FROM a_category');
       $nc = array();
       foreach ($newCategories as $newCategory)
       {
@@ -122,25 +122,28 @@ but why take chances with your data?
       }
       $oldIdToNewId = array();
       
+      echo("Migrating media categories to Apostrophe categories...\n");
       foreach ($oldCategories as $category)
       {
         if (isset($nc[$category['slug']]))
         {
           $this->migrate->query('UPDATE a_category SET media_items = true WHERE slug = :slug', $category);
-          $oldIdtoNewId[$category['id']] = $nc[$category['slug']]['id'];
+          $oldIdToNewId[$category['id']] = $nc[$category['slug']]['id'];
           
         }
         else
         {
-          $this->migrate->query('INSERT INTO a_category (name, description, slug, media_items) VALUES (:name, :description, :slug)', $category);
-          $oldIdtoNewId[$category['id']] = $this->migrate->lastInsertId();
+          $this->migrate->query('INSERT INTO a_category (name, description, slug, media_items) VALUES (:name, :description, :slug, true)', $category);
+          $oldIdToNewId[$category['id']] = $this->migrate->lastInsertId();
         }
       }
-      $oldMappings = $migrate->query('SELECT * FROM a_media_item_category');
+      echo("Migrating from aMediaItemCategory to aMediaItemToCategory...\n");
+      
+      $oldMappings = $this->migrate->query('SELECT * FROM a_media_item_category');
       foreach ($oldMappings as $info)
       {
         $info['category_id'] = $oldIdToNewId[$info['media_category_id']];
-        $migrate->query('INSERT INTO a_media_item_to_category (media_item_id, category_id) VALUES (:media_item_id, :category_id)', $info);
+        $this->migrate->query('INSERT INTO a_media_item_to_category (media_item_id, category_id) VALUES (:media_item_id, :category_id)', $info);
       }
     }
     echo("Done!\n");

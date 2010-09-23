@@ -26,7 +26,7 @@ class aMigrate
   
   // Runs a single query, with parameters. If :foo appears in the query it gets
   // substituted correctly (via PDO) with $params['foo']. Extra stuff in
-  // $params is allowed, which is very helpful with toArray()
+  // $params is allowed, which is very helpful with toArray(). 
   public function query($s, $params = array())
   {
     $pdo = $this->conn;
@@ -41,6 +41,8 @@ class aMigrate
         $nparams[":$key"] = $value;
       }
     }
+    echo("SQL query:\n\n$s\n\n");
+    
     $statement = $pdo->prepare($s);
     try
     {
@@ -63,12 +65,13 @@ class aMigrate
       // Oh no, we tried to fetchAll on a DELETE statement, everybody panic!
       // Seriously PDO, you need to relax
     }
+    $this->commandsRun++;
     return $result;
   }
   
   public function lastInsertId()
   {
-    return $pdo->lastInsertId();
+    return $this->conn->lastInsertId();
   }
   
   public function getCommandsRun()
