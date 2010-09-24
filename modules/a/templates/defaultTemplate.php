@@ -17,7 +17,7 @@
 		'aVideo', 
 		'aImage', 
 		'aFeed', 
-		'aPDF',		
+		'aFile',		
 		'aButton', 		
 		'aText',
 		'aRawHTML',
@@ -29,8 +29,7 @@
 		'aVideo' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),		
 		'aImage' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),
 		'aFeed' => array(),
-		'aButton' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),
-		'aPDF' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's'),		
+		'aButton' => array('width' => 480, 'flexHeight' => true, 'resizeType' => 's')
 	))) ?>
 	
 <?php a_area('sidebar', array(
@@ -42,7 +41,7 @@
 		'aBlog', 		 
 		'aImage', 
 		'aFeed', 
-		'aPDF', 
+		'aFile', 
 		'aButton', 
 		'aText',
 		'aRawHTML', 		
@@ -54,5 +53,5 @@
 		'aImage' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),
 		'aFeed' => array(),		
 		'aButton' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),
-		'aPDF' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),		
+		'aFile' => array('width' => 200, 'flexHeight' => true, 'resizeType' => 's'),		
 	))) ?>
