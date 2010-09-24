@@ -80,6 +80,8 @@ class PluginaMediaItemTable extends Doctrine_Table
   // width
   // height 
   // ids
+  // downloadable
+  // embeddable
   //
   // Parameters are passed safely via wildcards so it should be OK to pass unsanitized
   // external API inputs to this method.
@@ -109,8 +111,23 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
     if (isset($params['type']))
     {
-      $query->andWhere("aMediaItem.type = ?", array($params['type']));
+      // Supports metatypes like _downloadable
+      $types = array();
+      $typeInfos = aMediaTools::getTypeInfos($params['type']);
+      foreach ($typeInfos as $name => $info)
+      {
+        $types[] = $name;
+      }
+      if (count($types))
+      {
+        $query->andWhereIn("aMediaItem.type", $types);
+      }
+      else
+      {
+        $query->andWhere("0 <> 0");
+      }
     }
+
     if (isset($params['allowed_categories']))
     {
       if (!count($params['allowed_categories']))

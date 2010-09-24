@@ -165,7 +165,6 @@ class BaseaMediaActions extends aEngineActions
         $params['height'] = $height;
       }
     }
-    
     // The media module is now an engine module. There is always a page, and that
     // page might have a restricted set of categories associated with it
     $mediaCategories = aTools::getCurrentPage()->Categories;

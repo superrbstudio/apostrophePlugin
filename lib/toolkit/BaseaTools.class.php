@@ -203,7 +203,7 @@ class BaseaTools
          'aButton' => 'Button',
          'aAudio' => 'Audio',
          'aVideo' => 'Video',
-         'aPDF' => 'PDF',
+         'aFile' => 'File',
          'aRawHTML' => 'Raw HTML'),
       sfConfig::get('app_a_slot_types', array()));
     if (isset($options['allowed_types']))

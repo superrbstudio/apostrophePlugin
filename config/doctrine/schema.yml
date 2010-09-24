@@ -402,6 +402,17 @@ aPDFSlot:
     keyField: type
     keyValue: 'aPDF'
 
+aFileSlot:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aFile'
+
 aMediaItem:
   tableName: a_media_item
   actAs:

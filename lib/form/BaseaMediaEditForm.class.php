@@ -64,8 +64,16 @@ class BaseaMediaEditForm extends aMediaItemForm
     }
     if ($type)
     {
-      $info = aMediaTools::getTypeInfo($type);
-      $extensions = $info['extensions'];
+      // This supports composite types like _downloadable
+      $infos = aMediaTools::getTypeInfos($type);
+      $extensions = array();
+      foreach ($infos as $info)
+      {
+        foreach ($info['extensions'] as $extension)
+        {
+          $extensions[] = $extension;
+        }
+      }
       $mimeTypes = array();
       $mimeTypesByExtension = aMediaTools::getOption('mime_types');
       foreach ($extensions as $extension)

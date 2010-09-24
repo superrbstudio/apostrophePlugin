@@ -2,11 +2,9 @@
   // Compatible with sf_escaping_strategy: true
   $limitSizes = isset($limitSizes) ? $sf_data->getRaw('limitSizes') : null;
 ?>
-<?php use_helper('I18N') ?>
-<?php $type = aMediaTools::getAttribute('type') ?>
-<?php if (!$type): ?>
-<?php $type = "media item" ?>
-<?php endif ?>
+<?php use_helper('a') ?>
+<?php // Pretties up metatypes like _downloadable, returns "media item" if there is no specific type ?>
+<?php $type = aMediaTools::getNiceTypeName() ?>
 
 <div class="a-media-select clearfix">
   <?php // Thanks to Galileo for i18n corrections here ?>

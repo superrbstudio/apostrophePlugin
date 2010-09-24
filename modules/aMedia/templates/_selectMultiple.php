@@ -3,10 +3,6 @@
   $limitSizes = isset($limitSizes) ? $sf_data->getRaw('limitSizes') : null;
   $items = isset($items) ? $sf_data->getRaw('items') : array();
 ?>
-<?php $type = aMediaTools::getAttribute('type') ?>
-<?php if (!$type): ?>
-<?php $type = "media item" ?>
-<?php endif ?>
 
 <?php // Known as selectMultiple for historic reasons, but we use it for both single and multiple select now that ?>
 <?php // we have a need for cropping which requires a pause in both cases anyway. ?>

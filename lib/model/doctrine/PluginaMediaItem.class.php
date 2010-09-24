@@ -373,14 +373,14 @@ EOM
   
   public function getDownloadable()
   {
-    // Right now videos are always embedded and nothing else is
-    return ($this->type !== 'video');
+    $type = aMediaTools::getTypeInfo($this->type);
+    return $type['downloadable'];
   }
   
   public function getEmbeddable()
   {
-    // Right now videos are always embedded and nothing else is
-    return ($this->type === 'video');
+    $type = aMediaTools::getTypeInfo($this->type);
+    return $type['embeddable'];
   }
   
   public function getCroppable()
