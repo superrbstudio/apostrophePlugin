@@ -35,7 +35,7 @@ background-repeat: no-repeat;
 .a-ui .a-btn.icon:hover > .icon, 
 .a-ui .a-btn.icon:focus > .icon { background-color: none; }
 
-.a-ui .a-btn.no-label, .no-label {
+.a-ui .a-btn.no-label, .a-btn.no-label {
 background-position: center center;
 background-repeat: no-repeat;
 text-indent: -9999px;
