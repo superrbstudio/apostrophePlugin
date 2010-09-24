@@ -64,7 +64,7 @@ aPage:
     Deleter:
       class: sfGuardUser
       foreign: id
-      local: author_id
+      local: deleter_id
       type: one
 
 aArea:
