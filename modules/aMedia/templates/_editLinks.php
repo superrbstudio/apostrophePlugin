@@ -22,9 +22,8 @@
 		</li>
 		<?php endif ?>
 
-
 		<li class="delete"><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
-    	array("slug" => $mediaItem->getSlug())),
+    	array("id" => $mediaItem->id)),
     	array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete flag")) ?></li>
 	</ul>
 <?php endif ?>

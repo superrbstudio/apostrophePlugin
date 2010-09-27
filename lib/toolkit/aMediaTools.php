@@ -196,4 +196,12 @@ class aMediaTools
     $actions->forward404Unless($item);
     return $item;
   }
+  
+  // Safe for use with the sluggable behavior (aTools::slugify() has additional arguments, which get
+  // confused by the $item second parameter that we safely ignore here)
+  static public function slugify($path, $item)
+  {
+    return aTools::slugify($path);
+  }
+  
 }
