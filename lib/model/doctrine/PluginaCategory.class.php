@@ -12,5 +12,4 @@
  */
 abstract class PluginaCategory extends BaseaCategory
 {
-
 }

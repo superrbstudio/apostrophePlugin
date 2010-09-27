@@ -431,8 +431,7 @@ aMediaItem:
     Sluggable:
       fields: [title]
       unique: true
-      # We unified this
-      builder: aTools::slugify
+      builder: aMediaTools::slugify
 
   columns:
     id:

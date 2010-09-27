@@ -665,6 +665,7 @@ class BaseaMediaActions extends aEngineActions
             // Humanize the original filename
             $title = $file['newfile']['name'];
             $title = preg_replace('/\.\w+$/', '', $title);
+            // *Not* aMediaTools::slugify, which is specifically for the slug of the media item
             $title = aTools::slugify($title, false, false, ' ');
             $items["item-$i"]['title'] = $title;
             $count++;
