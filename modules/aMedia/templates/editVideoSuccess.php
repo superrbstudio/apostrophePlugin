@@ -78,11 +78,11 @@
     </div>
 
     <div class="a-form-row categories">
-			<?php echo $form['media_categories_list']->renderLabel() ?>
+			<?php echo $form['categories_list']->renderLabel() ?>
 			<?php if (!$sf_params->get('first_pass')): ?>
-			  <?php echo $form['media_categories_list']->renderError() ?>
+			  <?php echo $form['categories_list']->renderError() ?>
 			<?php endif ?>
-			<?php echo $form['media_categories_list']->render() ?>
+			<?php echo $form['categories_list']->render() ?>
 		</div>
 
     <div class="a-form-row about-tags">

@@ -124,7 +124,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       }
       // Don't force this, but it's useful when we're not
       // coming from a normal upload form
-      if (!isset($this->format))
+      if (is_null($this->format))
       {
         $this->format = $info['format'];
       }
@@ -263,7 +263,7 @@ EOM
   public function getScaledUrl($options)
   {
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
-
+    error_log("FORMAT: " . $this->getFormat());
     $params = array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
       "resizeType" => $options['resizeType'], "format" => $options['format']);
 

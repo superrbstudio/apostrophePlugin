@@ -12,7 +12,11 @@
 
 <?php if ($mediaItem->userHasPrivilege('edit')): ?>
 	<ul class="a-ui a-controls">
-    <li><?php echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
+	  <?php if ($mediaItem->getDownloadable()): ?>
+      <li><?php echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
+    <?php else: ?>
+      <li><?php echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/editVideo", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
+    <?php endif ?>
     <?php // Delete by id, not slug. This ensures we can cope with problems with slugs ?>
 		<li><?php echo link_to('<span class="icon"></span>'.a_("Delete"), "aMedia/delete?" . http_build_query(array("id" => $mediaItem->id)),array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label lite")) ?></li>
 	</ul>

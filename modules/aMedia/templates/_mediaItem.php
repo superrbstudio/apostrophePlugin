@@ -27,7 +27,7 @@
 
 	<div class="a-media-item-thumbnail">
 	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
-	    <?php if ($type == 'video'): ?><span class="a-media-play-btn"></span><?php endif ?>
+	    <?php if ($mediaItem->getEmbeddable()): ?><span class="a-media-play-btn"></span><?php endif ?>
 	    <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
 
       <?php if ($type == 'audio'): ?>

@@ -46,7 +46,7 @@ class BaseaMediaVideoForm extends aMediaItemForm
 				)));
     $this->setValidator('view_is_secure', new sfValidatorBoolean());
     $this->widgetSchema->setLabel("view_is_secure", "Permissions");
-    $this->widgetSchema->setlabel("media_categories_list", "Categories");
+    $this->widgetSchema->setlabel("categories_list", "Categories");
     $this->widgetSchema->setFormFormatterName('aAdmin');  
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
