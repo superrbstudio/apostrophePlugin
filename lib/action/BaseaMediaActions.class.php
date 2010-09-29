@@ -802,6 +802,7 @@ class BaseaMediaActions extends aEngineActions
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
 		// This sets the gallery image dimensions to the correct dimensions for showSuccess
 		// Doing this here seemed like a good way to keep the templates cleaner
+		$this->layout['showSuccess'] = true;
 		$this->layout['gallery_constraints'] = $this->layout['show_constraints'];
   }
   

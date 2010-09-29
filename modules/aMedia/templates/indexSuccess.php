@@ -84,7 +84,7 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <?php a_js_call('apostrophe.selectOnFocus(?)', '.a-select-on-focus') ?>
-
+<?php a_js_call('apostrophe.mediaEmbeddableToggle(?)', array('mediaItems' => '.a-media-item.a-embedded-item')) ?>
 <?php if ($layout['name'] == "four-up" && !$selecting): ?>
 	<?php a_js_call('apostrophe.mediaFourUpLayoutEnhancements(?)', array('selector' => '.four-up .a-media-item')) ?>
 <?php endif ?>

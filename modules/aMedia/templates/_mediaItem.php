@@ -9,6 +9,10 @@
 <?php $serviceUrl = $mediaItem->getServiceUrl() ?>
 <?php $slug = $mediaItem->getSlug() ?>
 <?php $format = $mediaItem->getFormat() ?>
+<?php $width = $mediaItem->getWidth() ?>
+<?php $height = $mediaItem->getHeight() ?>
+<?php $embeddable = $mediaItem->getEmbeddable() ?>
+<?php (isset($layout['showSuccess'])) ? $displayWidth = 720 : $displayWidth = 340 ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($type === 'image')): ?>
@@ -23,31 +27,48 @@
   <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $slug))) . '"' ?>
 <?php endif ?>
 
-<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $format ?> a-type-<?php echo $type ?>">
+<div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $format ?> a-type-<?php echo $type ?><?php echo ($embeddable) ? ' a-embedded-item':'' ?>">
 
+	<?php if (!isset($layout['showSuccess'])): ?>
 	<div class="a-media-item-thumbnail">
 	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
-	    <?php if ($mediaItem->getEmbeddable()): ?><span class="a-media-play-btn"></span><?php endif ?>
-	    <?php if ($mediaItem->getWidth() && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
 
+			<?php // Embeddable Media (Videos) ?>
+	    <?php if ($embeddable): ?><span class="a-media-play-btn"></span><?php endif ?>
+
+			<?php // PDFs with an image preview ?>
+	    <?php if ($width && ($type == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
+
+			<?php // Audio Files ?>
       <?php if ($type == 'audio'): ?>
-  			<?php $playerOptions = array('width' => 340, 'download' => true, 'player' => 'lite') ?>
+  			<?php $playerOptions = array('width' => $displayWidth, 'download' => true, 'player' => 'lite') ?>
   			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
   		<?php else: ?>
-  			<?php if ($mediaItem->getWidth()): ?>
-  	      <img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />
+			<?php // Images or anything else with an image thumbnail ?>	
+  			<?php if ($width): ?>
+ 	      	<img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
   	    <?php else: ?>
+			<?php // Files (Word Docs, Powerpoints, Spreadsheets) ?>	
   	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
   				<span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
   	    <?php endif ?>			
   		<?php endif ?>
 	  </a>
 	</div>
+	<?php endif ?>
+	
+	<?php if ($embeddable): ?>
+	<div class="a-media-item-embed<?php echo (!isset($layout['showSuccess']))? ' a-hidden':'' ?>">
+		<?php // Until we can get real dimensions from an embed ?>
+		<?php // Let's just make a 4:3 aspect object ?>
+		<?php echo $mediaItem->getEmbedCode($displayWidth, false, 'c', $format, false) ?>
+	</div>
+	<?php endif ?>
 
 	<div class="a-media-item-information">
 		<ul>
 			<?php if(isset($layout['fields']['title'])): ?>
-				<li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>">
+				<li class="a-media-item-title <?php if (!$width): ?>no-thumbnail<?php endif ?>">
 					<h3>
 						<div class="a-media-item-controls">
 							<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
@@ -77,8 +98,8 @@
 			<?php endif ?>
 
 			<?php if(isset($layout['fields']['dimensions'])): ?>
-			  <?php if ($mediaItem->getWidth()): ?>
-			    <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $mediaItem->getWidth(), '%height%' => $mediaItem->getHeight()), 'apostrophe') ?></li>
+			  <?php if ($width): ?>
+			    <li class="a-media-item-dimensions a-media-item-meta"><?php echo __('<span>Original Dimensions:</span> %width%x%height%', array('%width%' => $width, '%height%' => $height), 'apostrophe') ?></li>
 			  <?php endif ?>
 			<?php endif ?>
 

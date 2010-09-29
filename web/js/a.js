@@ -25,8 +25,7 @@ function aConstructor()
     }
   }
 
-	// Swap two DOM elements without cloning them
-	// http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
+	// Utility: Swap two DOM elements without cloning them -- http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
 	this.swapNodes = function(a, b) {
     var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
     b.parentNode.insertBefore(a, b); 
@@ -34,14 +33,67 @@ function aConstructor()
     t.parentNode.removeChild(t);
 	}	
 	
-	// console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
+	// Utility: console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
 	this.log = function(output)
 	{ 
 		if (window.console && console.log) {
 			console.log(output);
 		};
 	}
+
+	// Often JS code relating to an object needs to be able to find the
+	// database id of that object as a property of some enclosing 
+	// DOM object, like an li or div representing a particular media item.
+	// This method makes it convenient to write:
+	// <?php $domId = 'a-media-item-' . $id ?>
+	// <li id="<?php echo $domId ?>"> ... <li> 
+	// <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
+	this.setObjectId = function(domId, objectId)
+	{
+		$('#' + domId).data('id', objectId);
+	}
+
+	// Utility: Use to select contents of an input on focus
+	this.selectOnFocus = function(selector)
+	{
+		$(selector).focus(function(){
+			$(this).select();
+		});
+	}
 	
+	// Utility: Self Labeling Input Element 
+	this.selfLabel = function(options)
+	{
+		aInputSelfLabel(options['selector'], options['title']);
+	};
+	
+	// Utility: Click an element once and convert it to a span
+	// Useful for turning an <a> into a <span>
+	this.aClickOnce = function(selector)
+	{
+		var selector = $(selector);
+		selector.unbind('click').click(function(){   
+			apostrophe.toSpan(selector);
+		});
+	}
+
+	// Utility: Replaces selected node with <span>
+	this.toSpan = function(selector)
+	{
+		selector = $(selector);
+		if (selector.length) {
+			var id = ""; var clss = "";
+			if (selector.attr('id') != '') { id = "id='"+selector.attr('id')+"'"; };
+			if (selector.attr('class') != '') { clss = "class='"+selector.attr('class')+"'"; };		
+			selector.replaceWith("<span " + clss + " " + id +">" + selector.html() + "</span>");				
+		}
+		else
+		{
+			apostrophe.log('apostrophe.toSpan -- No Elements Found');
+		};
+	}	
+	
+	// This sets up the Reorganization Tool
 	this.jsTree = function(options)
 	{
 		var treeData = options['treeData'];
@@ -73,10 +125,8 @@ function aConstructor()
 	      // move completed (TYPE is BELOW|ABOVE|INSIDE)
 	      onmove: function(node, refNode, type, treeObj, rb)
 	      {
-	        // To avoid creating an inconsistent tree we need to use
-	        // a synchronous request. If the request fails, refresh the
-	        // tree page (TODO: find out if there's some way to flunk an 
-	        // individual drag operation). This shouldn't happen anyway
+	        // To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
+	        // tree page (TODO: find out if there's some way to flunk an individual drag operation). This shouldn't happen anyway
 	        // but don't get into an inconsistent state if it does!
 
 					aPageTree.parent().addClass('working');
@@ -105,6 +155,7 @@ function aConstructor()
 	  });
 	}
 
+	// Slot: aSlideshow
 	this.slideshow = function(options)
 	{
 	  var id = options['id'];
@@ -135,18 +186,12 @@ function aConstructor()
       }
 
   		var position = 0;
-  		$('.a-context-media-show-item').hide();
   		$('#a-slideshow-item-' + id + '-' + position).show();
 
   		if (positionFlag)
   		{
     		var positionHead = $('#a-slideshow-controls-' + id + ' li.a-slideshow-position span.head');
     		setHead(position);
-  		}
-		
-  		function setHead(current_position)
-  		{
-  			positionHead.text(current_position + 1);
   		}
 		
   		slideshowItems.attr('title', title);
@@ -221,7 +266,12 @@ function aConstructor()
   			}
   	  	interval();
   	  }
-	  
+	
+			function setHead(current_position) 
+			{ 
+				positionHead.text(current_position + 1);	
+			}
+			
   		var intervalTimeout = null;
   	  function interval()
   	  {
@@ -238,35 +288,6 @@ function aConstructor()
   	  interval();
 	  }
 	};
-	
-	this.selfLabel = function(options)
-	{
-		aInputSelfLabel(options['selector'], options['title']);
-	};
-	
-	this.aClickOnce = function(options)
-	{
-		var selector = $(options['selector']);
-		selector.unbind('click').click(function(){   
- 			selector.replaceWith("<span class='" + selector.attr('class') + "' id='"+selector.attr('id')+"'>" + selector.text() + "</span>");	
-		});
-	}
-	
-	this.aClickOnce_old = function(options)
-	{
-		// For some reason, this didn't work as a single click event. 
-		// Nesting the click event was the only way to get this to work properly.		
-		var selector = $(options['selector']);
-		selector.data('clicked',0); // Using .data() to keep track of the click
-		selector.unbind('click').click(function(){
-			if (!selector.data('clicked')) { // Is this is the first click ?
-				selector.unbind('click').click(function(event){ // Unbind the click event and reset it to preventDefault()
-					event.preventDefault();
-				});
-			selector.data('clicked',1);	// No longer the first click
-			}
-		});
-	}
 	
 	this.afterAddingSlot = function(name)
 	{
@@ -512,8 +533,7 @@ function aConstructor()
 		var items = $(options['selector']);
 
 		if (typeof(items) == 'undefined' || !items.length) {
-			apostrophe.log('[Apostrophe] mediaFourUpLayoutEnhancements -- ');
-			apostorphe.log('Items is undefined or has a length of 0');
+			apostrophe.log('apostrophe.mediaFourUpLayoutEnhancements -- Items is undefined or no items found');
 			apostrophe.log(items);
 		}
 
@@ -544,6 +564,26 @@ function aConstructor()
 			item.removeClass('over');
 			item.find('.expand').remove();
 		});
+	}
+	
+	this.mediaEmbeddableToggle = function(options)
+	{
+		var items = $(options['mediaItems']);
+		if (items.length) {
+			items.each(function(){
+				var item = $(this);
+				var link = item.find('.a-media-thumb-link');
+				link.unbind('click').click(function(e){
+					e.preventDefault();
+					item.children('.a-media-item-thumbnail').hide();
+					item.children('.a-hidden').removeClass('a-hidden');
+				});
+			});
+		}
+		else
+		{
+			apostrophe.log('apostrophe.mediaEmbeddableToggle -- no items found');
+		};
 	}
 	
 	this.slotShowEditView = function(pageid, name, permid)
@@ -624,7 +664,7 @@ function aConstructor()
 		var overlay = options['overlay'];
 
 		if (typeof(button) == "undefined") {
-			apostrophe.log('[Apostrophe] menuToggle button is undefined');
+			apostrophe.log('apostrophe.menuToggle -- Button is undefined');
 		}
 		else
 		{
@@ -672,7 +712,7 @@ function aConstructor()
 		var toggle = options['accordion_toggle'];
 		
 		if (typeof toggle == "undefined") {
-			apostrophe.log('[Apostrophe] Accordion Toggle is undefined.');
+			apostrophe.log('apostrophe.accordion -- Toggle is undefined.');
 		}
 		else
 		{
@@ -789,25 +829,6 @@ function aConstructor()
 		});
 	}
 
-	// Often JS code relating to an object needs to be able to find the
-	// database id of that object as a property of some enclosing 
-	// DOM object, like an li or div representing a particular media item.
-	// This method makes it convenient to write:
-	// <?php $domId = 'a-media-item-' . $id ?>
-	// <li id="<?php echo $domId ?>"> ... <li> 
-	// <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
-	this.setObjectId = function(domId, objectId)
-	{
-		$('#' + domId).data('id', objectId);
-	}
-
-	this.selectOnFocus = function(selector)
-	{
-		$(selector).focus(function(){
-			$(this).select();
-		});
-	}
-	
 	this.mediaItemRefresh = function(options) 
 	{ 
 		var id = options['id'];
@@ -972,8 +993,6 @@ function aConstructor()
 		$('.a-disabled').unbind('click').unbind('hover').click(function(event){
 			event.preventDefault();
 		}).attr('onclick','return false;');
-	
-		// apostrophe.log('Button Sauce Applied');
 	}
 	
 	this.miscEnhancements = function(options)
