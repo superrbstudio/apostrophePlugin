@@ -8,6 +8,8 @@
 <?php $maxPageLevels = (sfConfig::get('app_a_max_page_levels'))? sfConfig::get('app_a_max_page_levels') : 0; ?><?php // Your Site Tree can only get so deep ?>
 <?php $maxChildPages = (sfConfig::get('app_a_max_children_per_page'))? sfConfig::get('app_a_max_children_per_page') : 0; ?><?php // Your Site Tree can only get so wide ?>
 
+<?php if ($cmsAdmin || count($buttons) || $pageEdit || $sf_user->isAuthenticated() || sfConfig::get('app_a_persistent_global_toolbar', true)): ?> 
+	
 <div class="a-ui a-global-toolbar">
 	<ul class="a-ui a-controls">
 
@@ -50,6 +52,7 @@
 
 	</ul>
 </div>
+<?php endif ?>
 
 <?php if (aTools::isPotentialEditor()): ?>
 	<?php include_partial('a/historyBrowser') ?>
