@@ -112,7 +112,7 @@ class BaseaMediaEditForm extends aMediaItemForm
 		$this->setValidator('view_is_secure', new sfValidatorBoolean());
 
     $this->widgetSchema->setLabel('view_is_secure', 'Permissions');
-    $this->widgetSchema->setNameFormat('a_media_item[%s]');
+    $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
     
     $this->widgetSchema->setLabel('categories_list', 'Categories');

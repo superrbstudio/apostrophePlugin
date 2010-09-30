@@ -3,11 +3,11 @@
 class BaseaMediaActions extends aEngineActions
 {
 
-	public function preExecute()
-	{
-	  // Establish engine context
+  public function preExecute()
+  {
+    // Establish engine context
     parent::preExecute();
-  	$response = sfContext::getInstance()->getResponse();    
+    $response = sfContext::getInstance()->getResponse();
     // If this is the admin engine page for media, and you have no media uploading privileges
     // or page editing privileges, then you have no business being here. If it is not the admin page,
     // then the site admin has decided to add a public media engine page, and it's fine for anyone 
@@ -15,16 +15,16 @@ class BaseaMediaActions extends aEngineActions
     if (aTools::getCurrentPage()->admin)
     {
       if (!(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege()))
-			{
-				$this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
-			}
+      {
+        $this->forward(sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
+      }
     }
-	}
+  }
 
   // Supported for backwards compatibility. See also 
   // aMediaSelect::select()
-  
-  public function executeSelect(sfRequest $request)
+
+  public function executeSelect(sfWebRequest $request)
   {
     $after = $request->getParameter('after');
     // Prevent possible header insertion tricks
@@ -33,11 +33,10 @@ class BaseaMediaActions extends aEngineActions
     if ($multiple)
     {
       $selection = preg_split("/\s*,\s*/", $request->getParameter('aMediaIds'));
-    }
-    else
+    } else
     {
       $selection = array($request->getParameter('aMediaId') + 0);
-    } 
+    }
     $options = array();
     $optional = array('type', 'aspect-width', 'aspect-height',
       'minimum-width', 'minimum-height', 'width', 'height', 'label');
@@ -49,11 +48,11 @@ class BaseaMediaActions extends aEngineActions
       }
     }
     aMediaTools::setSelecting($after, $multiple, $selection, $options);
-      
+
     return $this->redirect("aMedia/index");
   }
-  
-  public function executeIndex(sfRequest $request)
+
+  public function executeIndex(sfWebRequest $request)
   {
     $params = array();
     $tag = $request->getParameter('tag');
@@ -85,15 +84,15 @@ class BaseaMediaActions extends aEngineActions
       // technically wrong. We have the luxury of saying "reasonable
       // people who work here don't do that.")
       return $this->redirect(aUrl::addParams("aMedia/index",
-        array("tag" => $tag, "search" => $search, "type" => $type)));
+          array("tag" => $tag, "search" => $search, "type" => $type)));
     }
     if (!empty($tag))
     {
       $params['tag'] = $tag;
     }
-    if (!empty($search))    
+    if (!empty($search))
     {
-      $params['search'] = $search;      
+      $params['search'] = $search;
     }
     if (!empty($type))
     {
@@ -131,8 +130,7 @@ class BaseaMediaActions extends aEngineActions
       aMediaTools::setAttribute('minimum-height', $minimumHeight);
       $params['minimum-width'] = $minimumWidth;
       $params['minimum-height'] = $minimumHeight;
-    }
-    else
+    } else
     {
       // TODO: performance of these is not awesome (it's a linear search). 
       // It would be more awesome with the right kind of indexing. For the 
@@ -176,15 +174,15 @@ class BaseaMediaActions extends aEngineActions
     $query = aMediaItemTable::getBrowseQuery($params);
 
     $this->pager = new sfDoctrinePager(
-      'aMediaItem',
-      aMediaTools::getOption('per_page'));
+        'aMediaItem',
+        aMediaTools::getOption('per_page'));
     $page = $request->getParameter('page', 1);
     $this->pager->setQuery($query);
-    if($request->hasParameter('max_per_page'))
+    if ($request->hasParameter('max_per_page'))
     {
-      $this->getUser()->setAttribute('max_per_page', $request->getParameter('max_per_page'), 'apostrophe_media');
+      $this->getUser()->setAttribute('max_per_page', $request->getParameter('max_per_page'), 'apostrophe_media_prefs');
     }
-    $this->max_per_page = $this->getUser()->getAttribute('max_per_page', 20, 'apostrophe_media');
+    $this->max_per_page = $this->getUser()->getAttribute('max_per_page', 20, 'apostrophe_media_prefs');
     $this->pager->setMaxPerPage($this->max_per_page);
     $this->pager->setPage($page);
     $this->pager->init();
@@ -198,8 +196,8 @@ class BaseaMediaActions extends aEngineActions
       return $this->redirect('aMedia/index?' . http_build_query($params));
     }
     aMediaTools::setSearchParameters(
-      array("tag" => $tag, "type" => $type, 
-        "search" => $search, "page" => $page, 'category' => $category));
+        array("tag" => $tag, "type" => $type,
+          "search" => $search, "page" => $page, 'category' => $category));
 
     $this->pagerUrl = "aMedia/index?" .
       http_build_query($params);
@@ -212,14 +210,14 @@ class BaseaMediaActions extends aEngineActions
       }
       $this->limitSizes = ($minimumWidth || $minimumHeight);
     }
-    if($request->hasParameter('layout'))
+    if ($request->hasParameter('layout'))
     {
-      $this->getUser()->setAttribute('layout', $request->getParameter('layout'), 'apostrophe_media');
+      $this->getUser()->setAttribute('layout', $request->getParameter('layout'), 'apostrophe_media_prefs');
     }
-    $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
+    $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media_prefs'));
     $this->enabled_layouts = aMediaTools::getEnabledLayouts();
   }
-  
+
   public function executeResume()
   {
     return $this->resumeBody(false);
@@ -249,11 +247,11 @@ class BaseaMediaActions extends aEngineActions
       }
     }
     return $this->redirect(aUrl::addParams("aMedia/index",
-      $parameters));
+        $parameters));
   }
-  
+
   // Accept and store cropping information for a particular image which must already be part of the selection
-  public function executeCrop(sfRequest $request)
+  public function executeCrop(sfWebRequest $request)
   {
     $selection = aMediaTools::getSelection();
     $id = $request->getParameter('id');
@@ -278,18 +276,17 @@ class BaseaMediaActions extends aEngineActions
     $imageInfo[$id]['height'] = $height;
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
-  
-  public function executeMultipleAdd(sfRequest $request)
+
+  public function executeMultipleAdd(sfWebRequest $request)
   {
     $id = $request->getParameter('id') + 0;
     $item = Doctrine::getTable("aMediaItem")->find($id);
-    $this->forward404Unless($item); 
+    $this->forward404Unless($item);
     $selection = aMediaTools::getSelection();
     if (!aMediaTools::isMultiple())
     {
       $selection = array($id);
-    }
-    else
+    } else
     {
       $index = array_search($id, $selection);
       // One occurrence each. If this changes we'll have to rethink
@@ -319,11 +316,11 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
-  public function executeMultipleRemove(sfRequest $request)
+  public function executeMultipleRemove(sfWebRequest $request)
   {
     $id = $request->getParameter('id');
     $item = Doctrine::getTable("aMediaItem")->find($id);
-    $this->forward404Unless($item); 
+    $this->forward404Unless($item);
     $selection = aMediaTools::getSelection();
     $index = array_search($id, $selection);
     if ($index !== false)
@@ -333,15 +330,16 @@ class BaseaMediaActions extends aEngineActions
     aMediaTools::setSelection($selection);
   }
 
-  public function executeUpdateMultiplePreview(sfRequest $request)
+  public function executeUpdateMultiplePreview(sfWebRequest $request)
   {
+    
   }
-  
-  public function executeMultipleOrder(sfRequest $request)
+
+  public function executeMultipleOrder(sfWebRequest $request)
   {
     $this->logMessage("*****MULTIPLE ORDER", "info");
     $order = $request->getParameter('a-media-selection-list-item');
-    $oldSelection = aMediaTools::getSelection();    
+    $oldSelection = aMediaTools::getSelection();
     $keys = array_flip($oldSelection);
     $selection = array();
     foreach ($order as $id)
@@ -356,12 +354,12 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless(isset($keys[$item->getId()]));
       $this->logMessage(">>>KEEPING " . $item->getId(), "info");
     }
-    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");    
+    $this->logMessage(">>>SUCCEEDED: " . implode(", ", $selection), "info");
     aMediaTools::setSelection($selection);
     return $this->renderComponent("aMedia", "multipleList");
   }
-  
-  public function executeSelected(sfRequest $request)
+
+  public function executeSelected(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
@@ -370,8 +368,7 @@ class BaseaMediaActions extends aEngineActions
     if (count($selection))
     {
       $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
-    }
-    else
+    } else
     {
       $items = array();
     }
@@ -398,45 +395,43 @@ class BaseaMediaActions extends aEngineActions
     }
     // Ooops best to get this before clearing it huh
     $after = aMediaTools::getAfter();
-    
+
     // addParamsNoDelete never attempts to eliminate a field just because
     // its value is empty. This is how we distinguish between cancellation
     // and selecting zero items
-    
+
     if (!aMediaTools::isMultiple())
     {
       // Call this too soon and you lose isMultiple
       aMediaTools::clearSelecting();
       if (count($newSelection))
       {
-        $after = aUrl::addParams($after, 
-          array("aMediaId" => $newSelection[0]));
+        $after = aUrl::addParams($after,
+            array("aMediaId" => $newSelection[0]));
         return $this->redirect($after);
-      }
-      else
+      } else
       {
         $this->forward404();
       }
-    }
-    else
+    } else
     {
       aMediaTools::clearSelecting();
       $url = aUrl::addParamsNoDelete($after,
-      array("aMediaIds" => implode(",", $newSelection)));
+          array("aMediaIds" => implode(",", $newSelection)));
       return $this->redirect($url);
     }
   }
 
-  public function executeSelectCancel(sfRequest $request)
+  public function executeSelectCancel(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::isSelecting());
     $after = aUrl::addParams(aMediaTools::getAfter(),
-      array("aMediaCancel" => true));
+        array("aMediaCancel" => true));
     aMediaTools::clearSelecting();
     return $this->redirect($after);
   }
 
-  public function executeEdit(sfRequest $request)
+  public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
@@ -460,8 +455,24 @@ class BaseaMediaActions extends aEngineActions
     }
     if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
     {
-      $parameters = $request->getParameter('a_media_item');
-      $files = $request->getFiles('a_media_item');
+      $parameters = $request->getParameter('a_media_item_'.$item->id.'_');
+      $values = $request->getParameterHolder()->getAll();
+      $value = array();
+      $files = array();
+      foreach ($values as $k => $v)
+      {
+        if (preg_match('/^a_media_item_' . $item->id . '_(.*)$/', $k, $matches))
+        {
+          if($k == $this->form['file']->renderId())
+          {
+            $files[$matches[1]] = $request->getFiles($this->form['file']->renderId());
+          } else
+          {
+            $value[$matches[1]] = $v;
+          }
+        }
+      }  
+      $parameters = $value;
       $this->form->bind($parameters, $files);
       if ($this->form->isValid())
       {
@@ -483,12 +494,23 @@ class BaseaMediaActions extends aEngineActions
         {
           $object->saveFile($file->getTempName());
         }
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->renderPartial('aMedia/mediaItemMeta', array(
+              'mediaItem' => $object,
+              'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
+            ));
+        }
         return $this->redirect("aMedia/resumeWithPage");
       }
     }
+    if ($request->isXmlHttpRequest())
+    {
+      return 'Ajax';
+    }
   }
 
-  public function executeEditVideo(sfRequest $request)
+  public function executeEditVideo(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
@@ -506,7 +528,7 @@ class BaseaMediaActions extends aEngineActions
     $subclass = 'aMediaVideoYoutubeForm';
     $embed = false;
     $parameters = $request->getParameter('a_media_item');
-    if (aMediaTools::getOption('embed_codes') && 
+    if (aMediaTools::getOption('embed_codes') &&
       (($item && strlen($item->embed)) || (isset($parameters['embed']))))
     {
       $subclass = 'aMediaVideoEmbedForm';
@@ -526,7 +548,7 @@ class BaseaMediaActions extends aEngineActions
         // valid form but want the user to think about whether
         // the title is adequate and perhaps add a description,
         // tags, etc.
-        if (($this->hasRequestParameter('first_pass')) || 
+        if (($this->hasRequestParameter('first_pass')) ||
           (!$this->form->isValid()))
         {
           break;
@@ -550,16 +572,15 @@ class BaseaMediaActions extends aEngineActions
           $this->form->save();
           if ($thumbnail)
           {
-            $object->saveFile($thumbnail->getTempName());                     
+            $object->saveFile($thumbnail->getTempName());
           }
-        }
-        else
+        } else
         {
           $url = $this->form->getValue("service_url");
           // TODO: migrate this into the model and a 
           // YouTube-specific support class
-          if (!preg_match("/youtube.com.*\?.*v=([\w\-\+]+)/", 
-            $url, $matches))
+          if (!preg_match("/youtube.com.*\?.*v=([\w\-\+]+)/",
+              $url, $matches))
           {
             $this->serviceError = true;
             break;
@@ -571,15 +592,15 @@ class BaseaMediaActions extends aEngineActions
           $entry = simplexml_load_file($feed);
           // get nodes in media: namespace for media information
           $media = $entry->children('http://search.yahoo.com/mrss/');
-            
+
           // get a more canonical video player URL
           $attrs = $media->group->player->attributes();
-          $canonicalUrl = $attrs['url']; 
+          $canonicalUrl = $attrs['url'];
           // get biggest video thumbnail
           foreach ($media->group->thumbnail as $thumbnail)
           {
             $attrs = $thumbnail->attributes();
-            if ((!isset($widest)) || (($attrs['width']  + 0) > 
+            if ((!isset($widest)) || (($attrs['width'] + 0) >
               ($widest['width'] + 0)))
             {
               $widest = $attrs;
@@ -590,7 +611,7 @@ class BaseaMediaActions extends aEngineActions
           // is the same thing on YouTube.
           if (isset($widest))
           {
-            $thumbnail = $widest['url']; 
+            $thumbnail = $widest['url'];
             // Turn them into actual numbers instead of weird XML wrapper things
             $width = $widest['width'] + 0;
             $height = $widest['height'] + 0;
@@ -603,7 +624,7 @@ class BaseaMediaActions extends aEngineActions
           // Grab a local copy of the thumbnail, and get the pain
           // over with all at once in a predictable way if 
           // the service provider fails to give it to us.
-       
+
           $thumbnailCopy = aFiles::getTemporaryFilename();
           if (!copy($thumbnail, $thumbnailCopy))
           {
@@ -623,11 +644,11 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
-  public function executeUpload(sfRequest $request)
+  public function executeUpload(sfWebRequest $request)
   {
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
-    
+
     // This has been simplified. We no longer do real validation in the first pass,
     // we just make sure there is at least one file. Then the validation of the annotation
     // pass can take over to minimize duplicate code
@@ -683,15 +704,14 @@ class BaseaMediaActions extends aEngineActions
       {
         // We're not doing stupid iframe tricks anymore, so we can just forward
         $this->forward('aMedia', 'editMultiple');
-      }
-      else
+      } else
       {
         $this->mustUploadSomething = true;
       }
     }
   }
 
-  public function executeEditMultiple(sfRequest $request)
+  public function executeEditMultiple(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
 
@@ -718,7 +738,7 @@ class BaseaMediaActions extends aEngineActions
     $this->form->bind(
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
-      
+
     $this->postMaxSizeExceeded = false;
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
     if ($request->isMethod('post') && (!count($request->getPostParameters())))
@@ -727,7 +747,7 @@ class BaseaMediaActions extends aEngineActions
       // resurrect it from an empty POST, short of keeping everything in attributes
       $this->forward('aMedia', 'upload');
     }
-      
+
     if ((!$this->firstPass) && $this->form->isValid())
     {
       $values = $this->form->getValues();
@@ -750,11 +770,11 @@ class BaseaMediaActions extends aEngineActions
         // relation ourselves        
         $object->unlink('Categories');
         $object->link('Categories', $values[$key]['categories_list']);
-        
+
         // Everything except the actual copy which can't succeed
         // until the slug is cast in stone
         $file = $values[$key]['file'];
-        
+
         $format = $file->getExtension();
         if (strlen($format))
         {
@@ -784,7 +804,7 @@ class BaseaMediaActions extends aEngineActions
     // TODO: rework this to be less video-oriented
     return $this->redirect('aMedia/newVideo');
   }
-  
+
   public function executeDelete()
   {
     $item = $this->getItem();
@@ -792,33 +812,41 @@ class BaseaMediaActions extends aEngineActions
     {
       $this->forward404Unless($item->userHasPrivilege('delete'));
     }
-    $item->delete(); 
+    $item->delete();
     return $this->redirect("aMedia/resumeWithPage");
   }
-  
+
   public function executeShow()
   {
     $this->mediaItem = $this->getItem();
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
-		// This sets the gallery image dimensions to the correct dimensions for showSuccess
-		// Doing this here seemed like a good way to keep the templates cleaner
-		$this->layout['showSuccess'] = true;
-		$this->layout['gallery_constraints'] = $this->layout['show_constraints'];
+    // This sets the gallery image dimensions to the correct dimensions for showSuccess
+    // Doing this here seemed like a good way to keep the templates cleaner
+    $this->layout['showSuccess'] = true;
+    $this->layout['gallery_constraints'] = $this->layout['show_constraints'];
   }
-  
+
+  public function executeMeta()
+  {
+    $mediaItem = $this->getItem();
+    $layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
+
+    return $this->renderPartial('aMedia/mediaItemMeta', array('layout' => $layout, 'mediaItem' => $mediaItem));
+  }
+
   private function getItem()
   {
     return aMediaTools::getItem($this);
   }
 
-  public function executeRefreshItem(sfRequest $request)
+  public function executeRefreshItem(sfWebRequest $request)
   {
     $item = $this->getItem();
     return $this->renderPartial('aMedia/mediaItem',
       array('mediaItem' => $item));
   }
 
-  public function executeVideoSearch(sfRequest $request)
+  public function executeVideoSearch(sfWebRequest $request)
   {
     $this->form = new aMediaVideoSearchForm();
     $this->form->bind($request->getParameter('videoSearch'));
@@ -826,18 +854,19 @@ class BaseaMediaActions extends aEngineActions
     if ($this->form->isValid())
     {
       $q = $this->form->getValue('q');
-      $this->results = aYoutube::search($q); 
+      $this->results = aYoutube::search($q);
     }
     $this->setLayout(false);
   }
-  
+
   protected function setIframeLayout()
   {
-    $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'iframe.php').'/iframe');
+    $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'iframe.php') . '/iframe');
   }
 
   public function executeNewVideo()
   {
     $this->videoSearchForm = new aMediaVideoSearchForm();
   }
+
 }

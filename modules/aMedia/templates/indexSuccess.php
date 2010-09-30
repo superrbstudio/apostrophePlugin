@@ -69,11 +69,11 @@
 			<li class="a-media-footer-separator">|</li>
 			<li>view</li>
 			<?php foreach($views as $n): ?>
-				<li><?php echo link_to($n, "aMedia/index?max_per_page=$n", array('class' => 'a-btn lite alt', )) ?></li>
+				<li><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt', )) ?></li>
 			<?php endforeach ?>
 			<li class="a-media-footer-separator">|</li>
 			<?php foreach($enabled_layouts as $enabled_layout): ?>
-				<li><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  "aMedia/index?layout=".$enabled_layout['name'], array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
+				<li><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

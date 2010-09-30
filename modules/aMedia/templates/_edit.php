@@ -6,8 +6,9 @@
   $item = isset($item) ? $sf_data->getRaw('item') : null;
   $itemFormScripts = isset($itemFormScripts) ? $sf_data->getRaw('itemFormScripts') : null;
   $n = isset($n) ? $sf_data->getRaw('n') : null;
+  $withPreview = isset($withPreview) ? $sf_data->getRaw('withPreview') : true;
+  if(is_null($i)) $i = $item['id'];
 ?>
-
 <?php use_helper('a') ?>
   
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
@@ -21,10 +22,11 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-<form method="POST" class="a-media-edit-form" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
+<form method="POST" class="a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
 <?php endif ?>
     
     <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
+    <?php if($withPreview): ?>
     <div class="a-form-row preview">
       <?php $widget = $form['file']->getWidget() ?>
       <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
@@ -37,6 +39,7 @@
         <?php endif ?>
       <?php endif ?>
     </div>
+    <?php endif ?>
 
     <?php // If the file is bad, this should be the first thing on the form and should already be open with ?>
     <?php // the error displayed ?>
@@ -160,7 +163,15 @@
 				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" />
 			</li>
      	<li>
-				<?php echo link_to(__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
+        <?php if($sf_request->isXmlHttpRequest()): ?>
+          <?php echo jq_link_to_remote(__('Cancel', null, 'apostrophe'), array(
+            'url' => "aMedia/meta?".http_build_query(array("slug" => $item->getSlug())),
+            'update' => 'a-media-item-'.$item->getId().' .a-media-item-information',
+            'method' => 'GET'
+          ), array("class" => "a-btn icon a-cancel")) ?>
+        <?php else: ?>
+          <?php echo link_to(__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
+        <?php endif ?>
 			</li>
 			<li>
 				<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
@@ -185,3 +196,24 @@
 <?php if (!isset($itemFormScripts)): ?>
 	<?php include_partial('aMedia/itemFormScripts') ?>
 <?php endif ?>
+<?php if($sf_request->isXmlHttpRequest()): ?>
+<script type="text/javascript">
+  $('#a-media-edit-form-<?php echo $i ?>').submit(function(event) {
+    var form = $(this);
+    var file = form.find('input[type="file"]');
+    var value = FCKeditorAPI.GetInstance('<?php echo $form['description']->renderId() ?>').GetXHTML();
+    $('#<?php echo $form['description']->renderId() ?>').val(value);
+
+    if(file.val() == '')
+    {
+      event.preventDefault();
+      //Ajax
+      $.post('<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))) ?>', form.serialize(), function(data) {
+					$('#a-media-item-<?php echo $item->getId() ?> .a-media-item-information').html(data);
+			});
+    }
+  });
+</script>
+<?php endif ?>
+
+<?php a_include_js_calls() ?>

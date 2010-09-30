@@ -12,13 +12,18 @@
 
 <?php if ($mediaItem->userHasPrivilege('edit')): ?>
 	<ul class="a-ui a-controls">
-	  <?php if ($mediaItem->getDownloadable()): ?>
-      <li><?php echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
-    <?php else: ?>
-      <li><?php echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/editVideo", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
-    <?php endif ?>
-    <?php // Delete by id, not slug. This ensures we can cope with problems with slugs ?>
-		<li><?php echo link_to('<span class="icon"></span>'.a_("Delete"), "aMedia/delete?" . http_build_query(array("id" => $mediaItem->id)),array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label lite")) ?></li>
+
+
+    <li><?php //echo link_to('<span class="icon"></span>'.a_("Edit"), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $mediaItem->getSlug())), "class" => $editClass)) ?></li>
+    <li><?php echo jq_link_to_remote('<span class="icon"></span>'.a_("Edit"), array(
+      'url' => "aMedia/edit?".http_build_query(array("slug" => $mediaItem->getSlug())),
+      'update' => 'a-media-item-'.$mediaItem->getId().' .a-media-item-information',
+      'method' => 'GET'
+    ), array('class' => $editClass)) ?>
+		<li><?php echo link_to('<span class="icon"></span>'.a_("Delete"), "aMedia/delete?" . http_build_query(array("slug" => $mediaItem->getSlug())),array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label lite")) ?></li>
+
+
+
 	</ul>
 <?php endif ?>
 
