@@ -25,6 +25,24 @@ function aConstructor()
     }
   }
 
+	// Utility: A DOM ready that can be used to hook into Apostrophe related events
+	this.ready = function(options)
+	{
+		// apostrophe.log('apostrophe.ready');
+		// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
+		// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
+		if (typeof(apostropheReady) =="function")
+		{ 
+			apostropheReady(); 	
+		}
+		
+		// This is deprecated, it's the old function name, preserved here for backwards compatibility
+		if (typeof(aOverrides) =="function")
+		{ 
+			aOverrides(); 	
+		}		
+	}
+
 	// Utility: Swap two DOM elements without cloning them -- http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
 	this.swapNodes = function(a, b) {
     var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
@@ -91,6 +109,18 @@ function aConstructor()
 		{
 			apostrophe.log('apostrophe.toSpan -- No Elements Found');
 		};
+	}	
+	
+	// Utility: IE6 Users get a special message when they log into apostrophe
+	this.IE6 = function(options)
+	{
+		var authenticated = options['authenticated'];
+		var message = options['message'];
+		// This is called within a conditional comment for IE6 in Apostrophe's layout.php
+		if (authenticated)
+		{
+			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
+		}
 	}	
 	
 	// This sets up the Reorganization Tool
@@ -528,6 +558,30 @@ function aConstructor()
 		});
 	}
 	
+	this.mediaReplaceFileListener = function(options)
+	{
+		var menu = $(options['menu']);
+		var input = $(options['input']);
+		if (input.length) {
+			input.change(function(){
+				if (input.val()) 
+				{
+					menu.trigger('toggleClosed');
+					var newFileMessage = $('<div/>');
+					newFileMessage.text(input.val());
+					newFileMessage.addClass('a-new-file-message');
+					newFileMessage.css('background','#0f0');
+					apostrophe.log(newFileMessage);
+					input.closest('.a-form-row').append(newFileMessage);
+				};
+			});
+		}
+		else
+		{
+			apostrophe.log('apostrophe.mediaReplaceFileListener -- no input found');
+		};
+	}
+	
 	this.mediaFourUpLayoutEnhancements = function(options)
 	{
 		var items = $(options['selector']);
@@ -583,159 +637,6 @@ function aConstructor()
 		else
 		{
 			apostrophe.log('apostrophe.mediaEmbeddableToggle -- no items found');
-		};
-	}
-	
-	this.slotShowEditView = function(pageid, name, permid)
-	{	
-		var fullId = pageid + '-' + name + '-' + permid;
- 		var editSlot = $('#a-slot-' + fullId);
-	  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
-	  {
- 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid }, function(data) { 
-	      editSlot.children('.a-slot-content').html(data);
-	      slotShowEditViewPreloaded(pageid, name, permid);
-	    });
-	  }
-	  else
-	  {
-	    // Reuse edit view
-      slotShowEditViewPreloaded(pageid, name, permid);
-	  }
-	}
-	
-	this.areaUpdateMoveButtons = function(updateAction, id, name)
-	{
-		var area = $('#a-area-' + id + '-' + name);
-		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
-		var slots = area.children('.a-slots').children('.a-slot');
-		var newSlots = area.children('.a-slots').children('.a-new-slot');
-		if (newSlots.length)
-		{
-			// TODO: this is not sensitive enough to nested areas
-			
-			// You have to save a new slot before you can do any reordering.
-			// TODO: with a little more finesse we could support saving it with
-			// a rank, but think about how messy that might get
-		  slots.find('.a-slot-controls .a-move').hide();
-			return;
-		}
-		// I actually want a visible loop variable here
-		for (n = 0; (n < slots.length); n++)
-		{
-			var slot = slots[n];
-			// We use a nested function here because 
-			// a loop variable does *not* get captured
-			// in the closure at its current value otherwise
-			slotUpdateMoveButtons(id, name, slot, n, slots, updateAction);
-		}
-	}
-	
-	this.slotNotNew = function(pageid, name, permid)
-	{
-		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
-	}
-	
-	this.slotEnableEditButton = function(pageid, name, permid, editUrl)
-	{
-		var fullId = pageid + '-' + name + '-' + permid;
- 		var editBtn = $('#a-slot-edit-' + fullId);
- 		var editSlot = $('#a-slot-' + fullId);
-		editSlot.data('a-edit-url', editUrl);
- 		editBtn.click(function(event) {
-			apostrophe.slotShowEditView(pageid, name, permid);
- 		  return false;
- 		});
-  }
-
-	this.menuToggle = function(options)
-	{		
-		var button = options['button'];
-		var menu;
-		if (typeof(options[menu]) != "undefined")
-		{
-			menu = options[menu];
-		}
-		else
-		{
-			menu = $(button).parent();
-		}
-		var classname = options['classname'];
-		var overlay = options['overlay'];
-
-		if (typeof(button) == "undefined") {
-			apostrophe.log('apostrophe.menuToggle -- Button is undefined');
-		}
-		else
-		{
-			if (typeof button == "string") { button = $(button); } /* button that toggles the menu open & closed */
-			if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
-			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
-
-			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed']);			
-			};	
-		};
-	}
-
-	this.IE6 = function(options)
-	{
-		var authenticated = options['authenticated'];
-		var message = options['message'];
-		// This is called within a conditional comment for IE6 in Apostrophe's layout.php
-		if (authenticated)
-		{
-			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');	
-		}
-	}
-	
-		/* Example Mark-up
-		<script>
-			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
-		</script> 
-
-		BEFORE:
-		<div>
-			<h3>Heading</h3>
-			<div>Content</div>
-		</div>
-
-		AFTER:
-		<div class="a-accordion">
-			<h3 class="a-accordion-toggle">Heading</h3>
-			<div class="a-accordion-content">Content</div>
-		</div>
-		*/
-	
-	this.accordion = function(options)
-	{
-		var toggle = options['accordion_toggle'];
-		
-		if (typeof toggle == "undefined") {
-			apostrophe.log('apostrophe.accordion -- Toggle is undefined.');
-		}
-		else
-		{
-			if (typeof toggle == "string") { toggle = $(toggle); }
-
-			var container = toggle.parent();
-			var content = toggle.next();
-
-			container.addClass('a-accordion');
-			content.addClass('a-accordion-content');
-
-			toggle.each(function() {
-				var t = $(this);
-				t.click(function(event){
-					event.preventDefault();					
-					t.closest('.a-accordion').toggleClass('open');
-				})
-				.hover(function(){
-					t.addClass('hover');
-				},function(){
-					t.removeClass('hover');
-				});			
-			}).addClass('a-accordion-toggle');
 		};
 	}
 	
@@ -854,6 +755,149 @@ function aConstructor()
       }
     });	
 	}
+		
+		
+	this.slotShowEditView = function(pageid, name, permid)
+	{	
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editSlot = $('#a-slot-' + fullId);
+	  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
+	  {
+ 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid }, function(data) { 
+	      editSlot.children('.a-slot-content').html(data);
+	      slotShowEditViewPreloaded(pageid, name, permid);
+	    });
+	  }
+	  else
+	  {
+	    // Reuse edit view
+      slotShowEditViewPreloaded(pageid, name, permid);
+	  }
+	}
+	
+	this.areaUpdateMoveButtons = function(updateAction, id, name)
+	{
+		var area = $('#a-area-' + id + '-' + name);
+		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
+		var slots = area.children('.a-slots').children('.a-slot');
+		var newSlots = area.children('.a-slots').children('.a-new-slot');
+		if (newSlots.length)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			
+			// You have to save a new slot before you can do any reordering.
+			// TODO: with a little more finesse we could support saving it with
+			// a rank, but think about how messy that might get
+		  slots.find('.a-slot-controls .a-move').hide();
+			return;
+		}
+		// I actually want a visible loop variable here
+		for (n = 0; (n < slots.length); n++)
+		{
+			var slot = slots[n];
+			// We use a nested function here because 
+			// a loop variable does *not* get captured
+			// in the closure at its current value otherwise
+			slotUpdateMoveButtons(id, name, slot, n, slots, updateAction);
+		}
+	}
+	
+	this.slotNotNew = function(pageid, name, permid)
+	{
+		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
+	}
+	
+	this.slotEnableEditButton = function(pageid, name, permid, editUrl)
+	{
+		var fullId = pageid + '-' + name + '-' + permid;
+ 		var editBtn = $('#a-slot-edit-' + fullId);
+ 		var editSlot = $('#a-slot-' + fullId);
+		editSlot.data('a-edit-url', editUrl);
+ 		editBtn.click(function(event) {
+			apostrophe.slotShowEditView(pageid, name, permid);
+ 		  return false;
+ 		});
+  }
+
+	this.menuToggle = function(options)
+	{		
+		var button = options['button'];
+		var menu;
+		if (typeof(options[menu]) != "undefined")
+		{
+			menu = options[menu];
+		}
+		else
+		{
+			menu = $(button).parent();
+		}
+		var classname = options['classname'];
+		var overlay = options['overlay'];
+
+		if (typeof(button) == "undefined") {
+			apostrophe.log('apostrophe.menuToggle -- Button is undefined');
+		}
+		else
+		{
+			if (typeof button == "string") { button = $(button); } /* button that toggles the menu open & closed */
+			if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
+			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
+
+			if (typeof(menu) == "object") {
+				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed']);			
+			};	
+		};
+	}
+	
+		/* Example Mark-up
+		<script>
+			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
+		</script> 
+
+		BEFORE:
+		<div>
+			<h3>Heading</h3>
+			<div>Content</div>
+		</div>
+
+		AFTER:
+		<div class="a-accordion">
+			<h3 class="a-accordion-toggle">Heading</h3>
+			<div class="a-accordion-content">Content</div>
+		</div>
+		*/
+	
+	this.accordion = function(options)
+	{
+		var toggle = options['accordion_toggle'];
+		
+		if (typeof toggle == "undefined") {
+			apostrophe.log('apostrophe.accordion -- Toggle is undefined.');
+		}
+		else
+		{
+			if (typeof toggle == "string") { toggle = $(toggle); }
+
+			var container = toggle.parent();
+			var content = toggle.next();
+
+			container.addClass('a-accordion');
+			content.addClass('a-accordion-content');
+
+			toggle.each(function() {
+				var t = $(this);
+				t.click(function(event){
+					event.preventDefault();					
+					t.closest('.a-accordion').toggleClass('open');
+				})
+				.hover(function(){
+					t.addClass('hover');
+				},function(){
+					t.removeClass('hover');
+				});			
+			}).addClass('a-accordion-toggle');
+		};
+	}		
 		
 	this.enablePageSettings = function(options)
 	{
@@ -1012,23 +1056,6 @@ function aConstructor()
 		$('.a-controls, .a-options').addClass('clearfix');
 		// Add 'last' Class To Last Option
 		$('.a-controls li:last-child').addClass('last'); 
-	}
-	
-	this.ready = function(options)
-	{
-		// apostrophe.log('apostrophe.ready');
-		// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
-		// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
-		if (typeof(apostropheReady) =="function")
-		{ 
-			apostropheReady(); 	
-		}
-		
-		// This is deprecated, it's the old function name, preserved here for backwards compatibility
-		if (typeof(aOverrides) =="function")
-		{ 
-			aOverrides(); 	
-		}		
 	}
 	
 	this.audioPlayerSetup = function(aAudioContainer, file)

@@ -5,7 +5,7 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
 <?php use_helper('a') ?>
-<?php slot('body_class') ?>a-media<?php end_slot() ?>
+<?php slot('body_class') ?>a-media a-media-multiple-upload<?php end_slot() ?>
 
 <div class="a-media-library">
 
@@ -20,42 +20,58 @@
   <?php endif ?>
 
 	<div class="a-media-items">				
-		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form">
+		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form" class="a-ui a-media-item-edit-form">
+		
+		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
+		<ul class="a-ui a-controls top">
+			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
+			<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
+			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
+		</ul>
+		
+		<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
-  
+  	</div>
+		
 		<?php $n = 0 ?>
 
-		<ul>
-			<?php for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++): ?>
-			  <?php if (isset($form["item-$i"])): ?>
-			    <?php // What we're passing here is actually a widget schema ?>
-			    <?php // (they get nested when embedded forms are present), but ?>
-			    <?php // it supports the same methods as a form for rendering purposes ?>
-			    
+		<?php for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++): ?>
+		  <?php if (isset($form["item-$i"])): ?>
+		    <?php // What we're passing here is actually a widget schema ?>
+		    <?php // (they get nested when embedded forms are present), but ?>
+		    <?php // it supports the same methods as a form for rendering purposes ?>
+
+				<?php if ($n%2 == 0): ?>
+					<div class="a-media-editor-row">
+				<?php endif ?>
 			    <?php // Please do not remove this div, I need it to implement the remove button ?>
-			    <div id="a-media-editor-<?php echo $i ?>">
-  			    <?php include_partial('aMedia/edit', 
-  								array(
-  									"item" => false, 
-  			        		"firstPass" => $firstPass, 
-  									"form" => $form["item-$i"], 
-  									"n" => $n, 
-  									'i' => $i,
-  									'itemFormScripts' => 'false',
-  									)) ?>
+			    <div id="a-media-editor-<?php echo $i ?>" class="a-media-editor<?php echo ($n%2 == 0)? ' a-even':' a-odd' ?>">
+						<ul>
+	 			    <?php include_partial('aMedia/edit', 
+	 								array(
+	 									"item" => false, 
+	 			        		"firstPass" => $firstPass, 
+	 									"form" => $form["item-$i"], 
+	 									"n" => $n, 
+	 									'i' => $i,
+	 									'itemFormScripts' => 'false',
+	 									)) ?>
+						</ul>
 					</div>
-					<?php $n++ ?>
-			  <?php endif ?>
-			<?php endfor ?>
-		</ul>
+				<?php if ($n%2 == 1 || ($n == aMediaTools::getOption('batch_max')-1)): ?>
+					</div>
+				<?php endif ?>
+				<?php $n++ ?>
+		  <?php endif ?>
+		<?php endfor ?>
 
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 
 		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
 		<ul class="a-ui a-controls">
-			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit" /></li>
+			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
 			<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
-			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-media-edit-multiple-cancel")) ?></li>
+			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
 		</ul>
 		</form>
 	</div>

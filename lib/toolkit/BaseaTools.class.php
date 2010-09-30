@@ -338,7 +338,7 @@ class BaseaTools
     {
       $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
         array('users' => array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
-          'categories' => array('label' => 'Categories', 'action' => 'aCategoryAdmin/index', 'class' => 'a-categories'),
+          'categories' => array('label' => 'Categories &amp; Tags', 'action' => 'aCategoryAdmin/index', 'class' => 'a-categories'),
           'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
       // Eventually this one too. Reorganize will probably get moved into it

@@ -7,12 +7,13 @@
   $itemFormScripts = isset($itemFormScripts) ? $sf_data->getRaw('itemFormScripts') : null;
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $withPreview = isset($withPreview) ? $sf_data->getRaw('withPreview') : true;
-  if(is_null($i)) $i = $item['id'];
 ?>
+
 <?php use_helper('a') ?>
   
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
-
+<?php if (!isset($i)): ?> <?php $i = 0 ?> <?php endif ?>
+	
 <?php // if there is an $item then we're editing one existing media item ?>
 <?php // else: we're part of an annotation of potentially several new items in a bigger form ?>
 
@@ -25,8 +26,8 @@
 <form method="POST" class="a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
 <?php endif ?>
     
+		<?php if ($withPreview): ?>
     <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
-    <?php if($withPreview): ?>
     <div class="a-form-row preview">
       <?php $widget = $form['file']->getWidget() ?>
       <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
@@ -39,8 +40,8 @@
         <?php endif ?>
       <?php endif ?>
     </div>
-    <?php endif ?>
-
+		<?php endif ?>
+		
     <?php // If the file is bad, this should be the first thing on the form and should already be open with ?>
     <?php // the error displayed ?>
     <?php if ($form['file']->hasError()): ?>
@@ -67,7 +68,7 @@
 		</div>
 
 		<div class="a-form-row description">
-			<?php echo $form['description']->renderLabel() ?>
+			<?php // echo $form['description']->renderLabel() ?>
 			<div class="a-form-field">
 				<?php echo $form['description']->render() ?>
 			</div>
@@ -117,14 +118,6 @@
 				<?php echo $form['view_is_secure']->render() ?>
 			</div>
 			<?php echo $form['view_is_secure']->renderError() ?>
-
-			<?php if (isset($i)): ?>
-			<script type="text/javascript" charset="utf-8">
-				$(document).ready(function() {
-				 	aRadioSelect('#a_media_items_item-<?php echo $i ?>_view_is_secure', { }); //This is for multiple editing			  
-				});
-			</script>
-			<?php endif ?>
 		</div>
 		
 		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
@@ -133,7 +126,7 @@
   		<div class="a-form-row replace a-ui">		
   	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
   			<div class="a-options-container">		
-  				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite">Replace File</a>
+  				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span>Replace File</a>
   				<div class="a-options dropshadow">
   		      <?php echo $form['file']->renderLabel() ?>
 						<div class="a-form-field">
@@ -141,15 +134,14 @@
 						</div>
   		      <?php echo $form['file']->renderError() ?>
   		    </div>
-  			<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
   			</div>
   			<?php if (!$item): ?>
-  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
+  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#"><span class="icon"></span>Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
         <?php if ($item && $item->getDownloadable()): ?>
 	      	<div class="a-media-item-download-link">  
-						<?php echo link_to(__("Download Original%buttonspan%", array('%buttonspan%' => "<span></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+						<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
 					</div>	
 				<?php endif ?>
   		</div>
@@ -163,18 +155,10 @@
 				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" />
 			</li>
      	<li>
-        <?php if($sf_request->isXmlHttpRequest()): ?>
-          <?php echo jq_link_to_remote(__('Cancel', null, 'apostrophe'), array(
-            'url' => "aMedia/meta?".http_build_query(array("slug" => $item->getSlug())),
-            'update' => 'a-media-item-'.$item->getId().' .a-media-item-information',
-            'method' => 'GET'
-          ), array("class" => "a-btn icon a-cancel")) ?>
-        <?php else: ?>
-          <?php echo link_to(__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
-        <?php endif ?>
+				<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
 			</li>
 			<li>
-				<?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+				<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
          array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
          array("target" => "_top")) ?>
@@ -196,14 +180,14 @@
 <?php if (!isset($itemFormScripts)): ?>
 	<?php include_partial('aMedia/itemFormScripts') ?>
 <?php endif ?>
+
 <?php if($sf_request->isXmlHttpRequest()): ?>
 <script type="text/javascript">
   $('#a-media-edit-form-<?php echo $i ?>').submit(function(event) {
     var form = $(this);
     var file = form.find('input[type="file"]');
     var value = FCKeditorAPI.GetInstance('<?php echo $form['description']->renderId() ?>').GetXHTML();
-    $('#<?php echo $form['description']->renderId() ?>').val(value);
-
+    $('#<?php echo $form['description']->renderId() ?>').val(value);	
     if(file.val() == '')
     {
       event.preventDefault();
@@ -215,5 +199,8 @@
   });
 </script>
 <?php endif ?>
+
+<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
+<?php a_js_call('apostrophe.mediaReplaceFileListener(?)', array('menu' => '#a-media-replace-image-'.$i, 'input' => '.a-form-row.replace input[type="file"]')) ?>
 
 <?php a_include_js_calls() ?>
