@@ -147,6 +147,7 @@ line-height: 20px !important;
 .a-users > .icon { background-image: url(/apostrophePlugin/images/a-icon-users.png); }
 .a-video > .icon { background-image: url(/apostrophePlugin/images/a-icon-video.png); }
 .a-replace > .icon { background-image: url(/apostrophePlugin/images/a-icon-replace.png); }
+.a-audio > .icon { background-image: url(/apostrophePlugin/images/a-icon-audio.png); }
 
 
 /* Apostrophe Alternate Button Icons
@@ -202,8 +203,7 @@ line-height: 20px !important;
 .alt .a-users > .icon, .a-users.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-users.png); }
 .alt .a-video > .icon, .a-video.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-video.png); }
 .alt .a-replace > .icon, .a-replace.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-replace.png); }
-
-
+.alt .a-audio > .icon, .a-audio.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-audio.png);	}
 
 /* Apostrophe Events Sprite
 -------------------------------------*/
