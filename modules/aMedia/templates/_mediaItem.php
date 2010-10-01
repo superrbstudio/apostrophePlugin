@@ -4,7 +4,8 @@
 ?>
 <?php use_helper('a') ?>
 <?php $domId = 'a-media-thumb-link-' . $mediaItem->getId() ?>
-<?php (isset($layout['showSuccess'])) ? $displayWidth = 720 : $displayWidth = 340 ?>
+
+<?php (isset($layout['showSuccess'])) ? $embedConstraints = aMediaTools::getOption('show_constraints') : $embedConstraints = aMediaTools::getOption('gallery_constraints') ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
@@ -50,9 +51,7 @@
 	
 	<?php if ($mediaItem->getEmbeddable()): ?>
 	<div class="a-media-item-embed<?php echo (!isset($layout['showSuccess']))? ' a-hidden':'' ?>">
-		<?php // Until we can get real dimensions from an embed ?>
-		<?php // Let's just make a 4:3 aspect object ?>
-		<?php echo $mediaItem->getEmbedCode($displayWidth, false, 'c', $mediaItem->getFormat(), false) ?>
+		<?php echo $mediaItem->getEmbedCode($embedConstraints['width'], $embedConstraints['height'], $embedConstraints['resizeType'], $mediaItem->getFormat()) ?>
 	</div>
 	<?php endif ?>
 

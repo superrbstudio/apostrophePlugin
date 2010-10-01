@@ -97,7 +97,10 @@
 			<?php echo $sf_data->getRaw('sf_content') ?>
 		</div>
 	
-	  <?php include_partial('a/footer') ?>
+		<div class='a-footer clearfix'>
+	  	<?php include_partial('a/footer') ?>
+		</div>
+		
 	</div>
 
 	<?php include_partial('a/globalJavascripts') ?>

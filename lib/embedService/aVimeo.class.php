@@ -105,7 +105,7 @@ class aVimeo extends aEmbedService
     return $info;
   }
   
-  public function embed($id, $width, $height, $title = '')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
   {
     // Ignore title: we can't make an iframe any more accessible, hopefully Vimeo is offering alt attributes of its own
     $id = urlencode($id);

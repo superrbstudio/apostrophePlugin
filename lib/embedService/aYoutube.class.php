@@ -108,7 +108,7 @@ class aYoutube extends aEmbedService
     return $results;
   }
 
-  public function embed($id, $width, $height, $title = '')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
   {
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
     $url = "http://www.youtube.com/v/$id&fs=1";
@@ -117,8 +117,8 @@ return <<<EOM
 	<param name="movie" value="$url"></param>
 	<param name="allowFullScreen" value="true"></param>
 	<param name="allowscriptaccess" value="always"></param>
-	<param name="wmode" value="opaque"></param>
-	<embed alt="$title" src="$url" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="opaque"></embed>
+	<param name="wmode" value="$wmode"></param>
+	<embed alt="$title" src="$url" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOM
 ;

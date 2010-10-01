@@ -45,7 +45,7 @@ abstract class aEmbedService
   // Returns markup to embed the media in question. The title should be an alt attribute, not visible unless
   // the media cannot be rendered. If you can't present it that way, just don't
   
-  abstract public function embed($id, $width, $height, $title = '');
+  abstract public function embed($id, $width, $height, $title = '', $wmode = 'opaque');
 
   // Converts a service URL to a service ID. MUST return false if the service URL
   // is not for this service

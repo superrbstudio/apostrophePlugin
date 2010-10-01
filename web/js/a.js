@@ -784,8 +784,6 @@ function aConstructor()
     });	
 	}
 		
-		
->>>>>>> .r2301
 	this.slotShowEditView = function(pageid, name, permid)
 	{	
 		var fullId = pageid + '-' + name + '-' + permid;
