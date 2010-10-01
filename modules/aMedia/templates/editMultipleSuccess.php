@@ -5,14 +5,15 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
 
-<?php (count(aMediaTools::getOption('batch_max')) > 1)? $singleItem = false:$singleItem = true; ?>
+<?php ($totalItems > 1) ? $singleItem = false : $singleItem = true; ?>
 
 <?php use_helper('a') ?>
-
 <?php slot('body_class') ?>a-media a-media-multiple-upload<?php end_slot() ?>
 
 <?php slot('a-page-header') ?>
-	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  <div class="a-admin-header">
+    <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
+  </div>
 <?php end_slot() ?>
 
 <?php include_component('aMedia', 'browser') ?>
@@ -30,11 +31,10 @@
 	<div class="a-media-items">				
 		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">		
 
-			<?php if ($singleItem == false): ?>
+			<?php if (!$singleItem): ?>
 				<ul class="a-ui a-controls top a-align-right">
-					<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
-					<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
-					<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
+					<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
+					<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 				</ul>
 			<?php endif ?>
 					
@@ -50,9 +50,6 @@
 		    <?php // (they get nested when embedded forms are present), but ?>
 		    <?php // it supports the same methods as a form for rendering purposes ?>
 
-				<?php if ($n%2 == 0): ?>
-					<div class="a-media-editor-row">
-				<?php endif ?>
 			    <?php // Please do not remove this div, I need it to implement the remove button ?>
 			    <div id="a-media-editor-<?php echo $i ?>" class="a-media-editor<?php echo ($n%2 == 0)? ' a-even':' a-odd' ?>">
 						<ul>
@@ -63,23 +60,19 @@
 	 									"form" => $form["item-$i"], 
 	 									"n" => $n, 
 	 									'i' => $i,
-	 									'itemFormScripts' => 'false',
+	 									'itemFormScripts' => false,
 	 									)) ?>
 						</ul>
 					</div>
-				<?php if ($n%2 == 1 || ($n == aMediaTools::getOption('batch_max')-1)): ?>
-					</div>
-				<?php endif ?>
 				<?php $n++ ?>
 		  <?php endif ?>
 		<?php endfor ?>
 
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 
-		<ul class="a-ui a-controls<?php echo ($singleItem == false)? ' a-right':' a-left' ?>">
-			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
-			<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
-			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
+		<ul class="a-ui a-controls<?php echo (!$singleItem)? ' a-align-right':' a-align-left' ?>">
+			<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
+			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 		</ul>
 
 		</form>

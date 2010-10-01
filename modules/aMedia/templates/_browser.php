@@ -74,10 +74,13 @@
 	    <?php if ($sf_user->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
 	    	<?php // The editor for adding and removing categories FROM THE SYSTEM, ?>
 	    	<?php // not an individual media item or engine page. ?>
-	    	<?php echo link_to(__('edit categories', null, 'apostrophe'), 'aCategoryAdmin/index', array(
-						'class' => 'edit-categories', 
+				<span class="a-ui">
+	    	<?php echo link_to('<span class="icon"></span>'.__('edit categories', null, 'apostrophe'), 'aCategoryAdmin/index', array(
+						'class' => 'edit-categories a-btn icon a-edit no-label lite', 
 						'id' => 'a-media-edit-categories-button',
+						'title' => 'Edit Categories', 
 					)) ?>
+				</span>
 	    <?php endif ?>
 
 	    <?php if (!count($categoriesInfo)): ?>

@@ -730,6 +730,7 @@ class BaseaMediaActions extends aEngineActions
         $active[] = $matches[1];
       }
     }
+		$this->totalItems = count($active);
 
     $this->form = new aMediaEditMultipleForm($active);
     $this->form->bind(

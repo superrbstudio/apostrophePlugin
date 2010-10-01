@@ -552,7 +552,10 @@ function aConstructor()
 			if ($('.a-media-item').length == 0)
 			{
 				// This is a bit hacky
-				document.location = $('.a-media-edit-multiple-cancel').attr('href');
+				// TODO: Make this less hacky. 
+				// Using a class for the selector could return multiple hits with possibly with different HREF values.
+				// This would grab the first one and go, with no regard for if it's the correct one or not.
+				document.location = $('.a-js-media-edit-multiple-cancel').attr('href');
 			}
 			return false;
 		});
