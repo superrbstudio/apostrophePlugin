@@ -1,6 +1,8 @@
 <?php
-require_once dirname(__FILE__).'/aCategoryAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/aCategoryAdminGeneratorHelper.class.php';
+
+require_once dirname(__FILE__) . '/aCategoryAdminGeneratorConfiguration.class.php';
+require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';
+
 /**
  * Base actions for the aPlugin aCategoryAdmin module.
  * 
@@ -11,9 +13,60 @@ require_once dirname(__FILE__).'/aCategoryAdminGeneratorHelper.class.php';
  */
 abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
 {
+
   public function preExecute()
   {
     parent::preExecute();
+
     // Loading assets here is inappropriate call use_helper('a') anywhere you need them
+  }
+
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $this->getUser()->setFlash('notice', $form->getObject()->isNew() ? $this->__('The item was created successfully.', null, 'apostrophe') : $this->__('The item was updated successfully.', null, 'apostrophe'));
+
+      $a_category = $form->save();
+
+      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $a_category)));
+
+      if ($request->hasParameter('_save_and_add'))
+      {
+        $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . ' ' . $this->__('You can add another one below.', null, 'apostrophe'));
+
+        $this->redirect('@a_category_admin_new');
+      } else
+      {
+        $this->redirect('@a_category_admin_edit?id=' . $a_category->getId());
+      }
+    } else
+    {
+      $error = $this->form->getErrorSchema()->offsetGet('name');
+      if (!($this->form->getObject()->isNew()) && $error && $error->getValidator() instanceof sfValidatorDoctrineUnique)
+      {
+
+        $taintedValues = $this->form->getTaintedValues();
+        $newCategory = Doctrine::getTable('aCategory')->findOneBy('name', $taintedValues['name']);
+        $conn = Doctrine_Manager::connection();
+        try{
+          $conn->beginTransaction();
+          $this->dispatcher->notify(new sfEvent($this, 'apostrophe.merge_category', array('old_id' => $this->getRoute()->getObject()->id, 'new_id' => $newCategory->id)));
+          $this->getRoute()->getObject()->delete();
+          $conn->commit();
+          $this->getUser()->setFlash('notice', $this->__(sprintf('Category %s merged into %s.', $this->getRoute()->getObject()->getName(), $newCategory->getName()), null, 'apostrophe'));
+
+          return $this->redirect('aCategoryAdmin/index');
+        } catch (Exception $e) {
+          var_dump($e);
+          exit();
+          $conn->rollback();
+        }
+      }
+
+      $this->getUser()->setFlash('error', $this->__('The item has not been saved due to some errors.', null, 'apostrophe'));
+    }
   }
 }

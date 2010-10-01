@@ -7,13 +7,20 @@
  */
 class PluginaCategoryUserTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PluginaCategoryUserTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('PluginaCategoryUser');
-    }
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PluginaCategoryUserTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PluginaCategoryUser');
+  }
+
+  public function mergeCategory($old_id, $new_id)
+  {
+    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aCategoryUser', 'category_id', true, 'user_id');
+  }
+
 }

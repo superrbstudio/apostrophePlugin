@@ -7,13 +7,20 @@
  */
 class PluginaMediaItemToCategoryTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PluginaMediaItemToCategoryTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('PluginaMediaItemToCategory');
-    }
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PluginaMediaItemToCategoryTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PluginaMediaItemToCategory');
+  }
+
+  public function mergeCategory($old_id, $new_id)
+  {
+    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aMediaItemToCategory', 'category_id', true, 'media_item_id');
+  }
+
 }

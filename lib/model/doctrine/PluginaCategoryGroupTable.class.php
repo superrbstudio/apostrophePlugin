@@ -7,13 +7,20 @@
  */
 class PluginaCategoryGroupTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PluginaCategoryGroupTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('PluginaCategoryGroup');
-    }
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PluginaCategoryGroupTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PluginaCategoryGroup');
+  }
+
+  public function mergeCategory($old_id, $new_id)
+  {
+    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aCategoryGroup', 'category_id', true, 'group_id');
+  }
+
 }
