@@ -8,22 +8,21 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-  	<?php // This was more complex before the a.js refactoring ?>
-    <?php $linkAttributes = 'href= "#select-image"' ?>
+    <?php $linkAttributes = "#select-image"; ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkAttributes = 'href = "' . url_for("aMedia/multipleAdd?id=$mediaItem->getId()") . '"' ?>
+    <?php $linkAttributes = url_for("aMedia/multipleAdd?id=$mediaItem->getId()"); ?>
   <?php endif ?>
 <?php else: ?>
-  <?php $linkAttributes = 'href = "' . url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))) . '"' ?>
+  <?php $linkAttributes = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
 <?php endif ?>
 
 <div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $mediaItem->getFormat() ?> a-type-<?php echo $mediaItem->getType() ?><?php echo ($mediaItem->getEmbeddable()) ? ' a-embedded-item':'' ?>">
 
-	<?php if (!isset($layout['showSuccess'])): ?>
+	<?php if (!isset($layout['showSuccess']) || ($layout['showSuccess'] && !$mediaItem->getEmbeddable())): ?>
 	<div class="a-media-item-thumbnail">
-	  <a <?php echo $linkAttributes ?> class="a-media-thumb-link" id="<?php echo $domId ?>">
+	  <a href="<?php echo $linkAttributes ?>" class="a-media-thumb-link" id="<?php echo $domId ?>">
 
 			<?php // Embeddable Media (Videos) ?>
 	    <?php if ($mediaItem->getEmbeddable()): ?><span class="a-media-play-btn"></span><?php endif ?>

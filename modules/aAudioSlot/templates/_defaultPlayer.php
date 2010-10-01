@@ -15,10 +15,10 @@
 <div class="a-audio-player-container" id="a-audio-player-container-<?php echo $uniqueID ?>">
 
   <ul class="a-audio-meta">
-    <?php if ($title): ?>
-      <li class="a-audio-title"><?php echo $item->title ?></li>
+    <?php if ($title && $item->title): ?>
+      <li class="a-audio-title"><h3><?php echo $item->title ?></h3></li>
     <?php endif ?>
-    <?php if ($description): ?>
+    <?php if ($description && $item->description): ?>
       <li class="a-audio-description"><?php echo $item->description ?></li>
     <?php endif ?>
   </ul>
