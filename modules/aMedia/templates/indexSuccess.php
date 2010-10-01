@@ -15,24 +15,7 @@
 <?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
 
 <?php slot('a-page-header') ?>
-	<div class="a-admin-header">
-		<h3 class="a-admin-title">Media Library</h3>
-		<?php if (aMediaTools::userHasUploadPrivilege()): ?>
-			  <ul class="a-ui a-controls a-admin-controls">
-			    <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
-			    <?php if ($uploadAllowed): ?>
-			      <li><a href="<?php echo url_for("aMedia/upload") ?>" class="a-btn icon big a-add"><?php echo a_('Upload ' . $typeLabel) ?></a></li>
-			    <?php endif ?>
-			    <?php if ($embedAllowed): ?>
-			      <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
-			      <li><a href="<?php echo url_for("aMedia/searchServices") ?>" class="a-btn icon big a-add"><?php echo a_('Search Services') ?></a></li>
-			      <?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
-  			      <li><a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon big a-add"><?php echo a_('Linked Accounts') ?></a></li>
-  			    <?php endif ?>
-			    <?php endif ?>
-			 </ul>
-		<?php endif ?>
-	</div>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library">

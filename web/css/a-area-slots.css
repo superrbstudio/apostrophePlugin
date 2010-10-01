@@ -62,6 +62,7 @@ list-style: none;
 clear: none;
 }
 
+.a-ui.a-controls li:last-child,
 .a-ui.a-controls li.last { margin: 0 0 2px 0 !important; } /* .last option has no margin */
 
 .a-ui.a-controls.a-over { position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important; } /* Explicitly place the controls over the slot */

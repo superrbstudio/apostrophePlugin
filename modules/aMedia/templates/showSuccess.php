@@ -18,15 +18,13 @@
   <?php $embedCode = '<span class="a-media-type '.$format.'"><b>'.$format.'</b></span>' ?>
 <?php endif ?>
 
+<?php slot('a-page-header') ?>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+<?php end_slot() ?>
+
 <div class="a-media-library">	
-	<div class="a-media-items">
-
-		<ul class='a-controls a-media-controls a-ui'>
-			<li><?php echo link_to('<span class="icon"></span>'.__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big icon a-arrow-left', 'id' => 'media-library-back-button', ))?></li>
-		</ul>
-		
+	<div class="a-media-items">		
     <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem, 'options' => $options,  'layout' => $layout, 'i' => $i )) ?>
-
 	</div>
 </div>
 

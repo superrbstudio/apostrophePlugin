@@ -1,14 +1,14 @@
-<ul class="a-login">
+<ul class="a-ui a-controls a-login">
 <?php if ($sf_user->isAuthenticated()): ?>
-	<li class="a-logged-in-user"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span><?php echo $sf_user->getGuardUser()->getUsername() ?></span></li>									
+	<li class="a-login-user"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span><?php echo $sf_user->getGuardUser()->getUsername() ?></span></li>									
 	<?php include_partial('a/language') ?>
 	
-  <li><?php echo link_to(__('Log Out', null, 'apostrophe'), sfConfig::get('app_a_actions_logout', 'sfGuardAuth/signout'), array('class' => 'a-btn', )) ?></li>
+  <li class="a-login-logout"><?php echo link_to(__('Log Out', null, 'apostrophe'), sfConfig::get('app_a_actions_logout', 'sfGuardAuth/signout'), array('class' => 'a-btn', )) ?></li>
 <?php else: ?>
 	<?php include_partial('a/language') ?>
   <?php // You can easily turn off the 'Log In' link via app.yml ?>
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
-    <li>
+    <li class="a-login-login last">
 			<?php echo jq_link_to_function(__('Login', null, 'apostrophe'), "$('#a-login-form-container').fadeIn(); $('#signin_username').focus(); $('.a-page-overlay').fadeIn('fast');", array('class' => 'a-btn','id' => 'a-login-button')) ?>	
 			<div id="a-login-form-container" class="dropshadow a-options">
 				<?php include_component('a','signinForm') ?>

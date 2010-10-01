@@ -2,7 +2,7 @@
   $items = isset($items) ? $sf_data->getRaw('items') : null;
 ?>
 
-<?php use_helper('I18N', 'jQuery') ?>
+<?php use_helper('a') ?>
 
 <?php foreach ($items as $item): ?>
 	<?php $id = $item->getId() ?>

@@ -35,8 +35,11 @@
   <h3><?php echo __('That is not a valid YouTube video URL.', null, 'apostrophe') ?></h3>
   <?php endif ?>
 
-  <form method="POST" id="a-media-edit-form" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editVideo", array("slug" => $slug)))?>">
-  	<?php echo $form->renderHiddenFields() ?>
+  <form method="POST" id="a-media-edit-form-0" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/editVideo", array("slug" => $slug)))?>">
+
+		<div class='a-form-row a-hidden'>
+  		<?php echo $form->renderHiddenFields() ?>
+		</div>
 
     <div class="a-form-row title">
       <?php echo $form['title']->renderLabel() ?>

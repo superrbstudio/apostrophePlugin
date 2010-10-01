@@ -7,6 +7,10 @@
 
 <div class="a-media-library">
 
+<?php slot('a-page-header') ?>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+<?php end_slot() ?>
+
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-toolbar">
@@ -25,8 +29,10 @@
     <?php endif ?>
     
     <form method="POST" action="<?php echo url_for("aMedia/upload") ?>" enctype="multipart/form-data" id="a-media-upload-form">
-      <?php echo $form->renderHiddenFields() ?>
-    	
+			<div class="a-form-row a-hidden">
+      	<?php echo $form->renderHiddenFields() ?>
+    	</div>
+
       <?php // I use this in js code, don't kill it please, style it if you want ?>
       <div id="a-media-upload-form-subforms">
         <?php for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++): ?>

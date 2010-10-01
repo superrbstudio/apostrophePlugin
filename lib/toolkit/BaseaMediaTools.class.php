@@ -391,6 +391,30 @@ class BaseaMediaTools
     return array($type => $types[$type]);
   }
   
+	static public function getEmbedAllowed()
+	{
+	  foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
+	  {
+	    if ($typeInfo['embeddable'])
+	    {
+	      return true;
+	    }
+	  }
+		return false;
+	}
+
+	static public function getUploadAllowed()
+	{
+	  foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
+	  {
+	    if (count($typeInfo['extensions']))
+	    {
+				return true;
+	    }
+	  }
+		return false;
+	}
+
   // Implementation conveniences shared by the engine and backend media actions classes
   
   // All actions using this method will accept either a slug or an id,

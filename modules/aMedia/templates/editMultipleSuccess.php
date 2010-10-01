@@ -4,34 +4,43 @@
   $firstPass = isset($firstPass) ? $sf_data->getRaw('firstPass') : null;
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
+
+<?php (count(aMediaTools::getOption('batch_max')) > 1)? $singleItem = false:$singleItem = true; ?>
+
 <?php use_helper('a') ?>
+
 <?php slot('body_class') ?>a-media a-media-multiple-upload<?php end_slot() ?>
 
-<div class="a-media-library">
+<?php slot('a-page-header') ?>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+<?php end_slot() ?>
 
-	<?php include_component('aMedia', 'browser') ?>
+<?php include_component('aMedia', 'browser') ?>
+
+<div class="a-media-library">
 
 	<div class="a-media-toolbar">
 		<h3><?php echo __('Annotate ' . aMediaTools::getBestTypeLabel(), null, 'apostrophe') ?></h3>
 	</div>
 
   <?php if ($postMaxSizeExceeded): ?>
-  <h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
+  	<h3><?php echo __('File too large. Limit is %POSTMAXSIZE%', array('%POSTMAXSIZE%' => ini_get('post_max_size')), 'apostrophe') ?></h3>
   <?php endif ?>
 
 	<div class="a-media-items">				
-		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form" class="a-ui a-media-item-edit-form">
-		
-		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
-		<ul class="a-ui a-controls top">
-			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
-			<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
-			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
-		</ul>
-		
-		<div class="a-form-row a-hidden">
-		<?php echo $form->renderHiddenFields() ?>
-  	</div>
+		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">		
+
+			<?php if ($singleItem == false): ?>
+				<ul class="a-ui a-controls top a-align-right">
+					<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
+					<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
+					<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
+				</ul>
+			<?php endif ?>
+					
+			<div class="a-form-row a-hidden">
+			<?php echo $form->renderHiddenFields() ?>
+	  	</div>
 		
 		<?php $n = 0 ?>
 
@@ -67,12 +76,12 @@
 
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 
-		<?php //We should wrap this with logic to say 'photo' if only one object has been uploaded ?>
-		<ul class="a-ui a-controls">
+		<ul class="a-ui a-controls<?php echo ($singleItem == false)? ' a-right':' a-left' ?>">
 			<li><input type="submit" name="submit" value="<?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?>" class="a-btn a-submit big" /></li>
 			<?php // I use a-cancel and a-media-edit-multiple to find and trigger this cancel button in JS ?>
 			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big")) ?></li>
 		</ul>
+
 		</form>
 	</div>
 </div>

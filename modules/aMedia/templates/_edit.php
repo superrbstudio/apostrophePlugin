@@ -19,7 +19,7 @@
 
 <?php if (!$item): ?>	
 <li class="a-media-item <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
-	<div class="a-media-item-edit-form">
+	<div class="a-media-edit-form">
 <?php endif ?>
 
 <?php if ($item): ?>
@@ -51,7 +51,7 @@
 	      <?php echo $form['file']->renderError() ?>
 	      <?php echo $form['file']->render() ?>
   			<?php if (!$item): ?>
-  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#">Delete File</a>
+  	      <a class="a-btn icon a-delete lite" href="#">Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
   		</div>
@@ -93,10 +93,6 @@
   		<?php endif ?>
 		</div>
 
-    <div class="a-form-row tags help">
-    <?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
-    </div>
-
     <div class="a-form-row tags">
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
@@ -105,12 +101,11 @@
       <?php echo $form['tags']->renderError() ?>
 			<?php // The inline taggable widget requires Popular Tags and Existing Tags -- These objects need to be created from somewhere before this can work. ?>
 			<?php // a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Tags')) ?>
+	    <div class="a-form-help-text">
+	    	<?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
+	    </div>
     </div>
 
-    <div class="a-form-row permissions help">
-			<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
-			<!-- John, we'll want to do jake's new question mark floating help here instead. -->
-    </div>
 
 		<div class="a-form-row permissions">
 			<?php echo $form['view_is_secure']->renderLabel() ?>
@@ -118,6 +113,12 @@
 				<?php echo $form['view_is_secure']->render() ?>
 			</div>
 			<?php echo $form['view_is_secure']->renderError() ?>
+
+	    <div class="a-form-help-text">
+				<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
+				<!-- John, we'll want to do jake's new question mark floating help here instead. -->
+	    </div>
+
 		</div>
 		
 		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
@@ -136,7 +137,7 @@
   		    </div>
   			</div>
   			<?php if (!$item): ?>
-  	      <a class="a-btn no-bg icon a-delete a-media-delete-image-btn" href="#"><span class="icon"></span>Delete File</a>
+  	      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
         <?php if ($item && $item->getDownloadable()): ?>

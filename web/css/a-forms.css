@@ -42,15 +42,14 @@ margin-left: 120px;
 
 .a-form-row .a-form-field,
 .a-form-row .a-form-error,
-.a-form-row .a-form-help-text { }
+.a-form-row .a-form-help-text { float: left; }
 
 .a-form-row.help,
 .a-form-row .help,
-.a-form-help-text
+.a-form-row .a-form-help-text
 {
 float: left;
 clear: both;
-line-height: 20px;
 font-size: 11px;
 color: #888;
 }

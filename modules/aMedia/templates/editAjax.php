@@ -3,6 +3,5 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $item = isset($item) ? $sf_data->getRaw('item') : null;
 ?>
-<?php use_helper('I18N', 'jQuery', 'a') ?>
-
+<?php use_helper('a') ?>
 <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'withPreview' => false)) ?>

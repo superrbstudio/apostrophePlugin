@@ -45,12 +45,6 @@ width: 18px;
 
 .a-btn.no-label:hover { text-indent: -9999px; }
 
-.a-btn.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
-.a-btn.big.no-label { background-position: center center; width: 24px; }
-
-.a-btn.mini { font-size: 10px !important; height: 16px; line-height: 16px !important; background-position: center left; }
-.a-btn.mini.no-label { background-position: center center; width: 16px; }
-
 .a-btn.flag.a-btn.expanded, .a-btn.flag.no-label.expanded { background-position: -1px center; width: auto; }
 .a-btn.flag.icon { padding: 0 0 0 18px; }
 .a-btn.flag.a-btn.no-label { padding: 0; }
@@ -89,7 +83,16 @@ margin-top: 0px;
 .a-btn.expanded .flag-label { display: block; }
 
 .a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid rgba(0,0,0,0); }
-.a-ui .a-btn.lite:hover { color: #000; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125); }
+.a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125); }
+
+.a-btn.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
+.a-btn.big.no-label { background-position: center center; width: 24px; }
+
+.a-btn.mini { font-size: 10px !important; height: 16px; line-height: 16px !important; background-position: center left; }
+.a-btn.mini.no-label { background-position: center center; width: 16px; }
+
+.a-ui .a-btn.lite.big { line-height: 24px; }
+.a-ui .a-btn.lite.mini { line-height: 16px; }
 
 .a-btn.nobg,
 .a-btn.nobg:hover,

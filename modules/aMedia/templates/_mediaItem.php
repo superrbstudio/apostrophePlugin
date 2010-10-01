@@ -4,8 +4,8 @@
 ?>
 <?php use_helper('a') ?>
 <?php $domId = 'a-media-thumb-link-' . $mediaItem->getId() ?>
-
-<?php (isset($layout['showSuccess'])) ? $embedConstraints = aMediaTools::getOption('show_constraints') : $embedConstraints = aMediaTools::getOption('gallery_constraints') ?>
+<?php $galleryConstraints = aMediaTools::getOption('gallery_constraints'); ?>
+<?php (isset($layout['showSuccess'])) ? $embedConstraints = aMediaTools::getOption('show_constraints') : $embedConstraints = $galleryConstraints ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
@@ -33,7 +33,7 @@
 
 			<?php // Audio Files ?>
       <?php if ($mediaItem->getType() == 'audio'): ?>
-  			<?php $playerOptions = array('width' => $displayWidth, 'download' => true, 'player' => 'lite') ?>
+  			<?php $playerOptions = array('width' => $galleryConstraints['width'], 'download' => true, 'player' => 'lite') ?>
   			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
   		<?php else: ?>
 			<?php // Images or anything else with an image thumbnail ?>	

@@ -333,11 +333,12 @@ padding: 5px 0 1px;
 
 .a-ui.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
 
-.a-logged-in-user { float: left; line-height: 20px; padding-right: 10px; }
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-user,
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 2px 0 !important; }
 
-.a-logged-in-user a { text-decoration: underline; }
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-user span { text-decoration: underline; }
 
-.a-logged-in-user a:hover { color: #000; }
+/*.a-logged-in-user a:hover { color: #000; }*/
 
 
 /* Edit/Create Page Form Shared Styles
@@ -1016,27 +1017,6 @@ clear:none;
 position: relative;
 margin-right: 5px;
 }
-
-
-/* Login button and language switcher
-------------------------------------------- */
-
-.a-login ul
-{
-	list-style: none;
-}
-
-.a-login li
-{
-	float: left;
-}
-
-.a-login li#a-language-switch
-{
-	padding-right: 10px;
-}
-
-
 
 /* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
 ------------------------------------------- */

@@ -58,20 +58,10 @@ class BaseaMediaActions extends aEngineActions
     $tag = $request->getParameter('tag');
     $type = aMediaTools::getType();
     $type = $type ? $type : $request->getParameter('type');
-    $typeInfos = aMediaTools::getTypeInfos($type);
-    $this->embedAllowed = false;
-    $this->uploadAllowed = false;
-    foreach ($typeInfos as $typeInfo)
-    {
-      if ($typeInfo['embeddable'])
-      {
-        $this->embedAllowed = true;
-      }
-      if (count($typeInfo['extensions']))
-      {
-        $this->uploadAllowed = true;
-      }
-    }
+
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+
     $category = $request->getParameter('category');
     $search = $request->getParameter('search');
     if ($request->isMethod('post'))
@@ -433,6 +423,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeEdit(sfWebRequest $request)
   {
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
@@ -648,6 +640,9 @@ class BaseaMediaActions extends aEngineActions
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
 
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+		
     // This has been simplified. We no longer do real validation in the first pass,
     // we just make sure there is at least one file. Then the validation of the annotation
     // pass can take over to minimize duplicate code
@@ -713,6 +708,9 @@ class BaseaMediaActions extends aEngineActions
   public function executeEditMultiple(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
+
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
 
     // I'd put these in the form class, but I can't seem to access them
     // there unless the whole form is valid. I need them as metadata
@@ -816,6 +814,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeShow()
   {
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
     $this->mediaItem = $this->getItem();
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
     // This sets the gallery image dimensions to the correct dimensions for showSuccess
