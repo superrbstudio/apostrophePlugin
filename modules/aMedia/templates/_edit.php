@@ -12,7 +12,7 @@
 <?php use_helper('a') ?>
   
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
-<?php if (!isset($i)): ?> <?php $i = 0 ?> <?php endif ?>
+<?php if (!isset($i)): ?> <?php $i = $item['id'] ?> <?php endif ?>
 	
 <?php // if there is an $item then we're editing one existing media item ?>
 <?php // else: we're part of an annotation of potentially several new items in a bigger form ?>

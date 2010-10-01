@@ -13,7 +13,7 @@
 	  <p>
 	    <?php echo a_('All new items in these accounts are automatically added to the media repository on a scheduled basis.') ?>
 	  </p>
-	  <ul class="a-media-linked-accounts">
+	  <ul class="a-ui a-media-linked-accounts">
 	    <?php foreach ($accounts as $account): ?>
 	      <li>
 	        <ul>
