@@ -620,6 +620,34 @@ function aConstructor()
 		});
 	}
 	
+	this.mediaEnableLinkAccount = function(previewUrl)
+	{
+		var form = $('#a-media-add-linked-account');
+		var ready = false;
+		form.submit(function()
+	  {
+			if (ready)
+			{
+				return true;
+			}
+	    $('#a-media-account-preview-wrapper').load(
+				previewUrl, 
+				$('#a-media-add-linked-account').serialize(),
+				function() {
+					$('#a-account-preview-ok').click(function() {
+						ready = true;
+						form.submit();
+					});
+					$('#a-account-preview-cancel').click(function() {
+						$('#a-media-account-preview-wrapper').hide();
+						return false;
+					});
+					$('#a-media-account-preview-wrapper').show();
+				});
+	    return false;
+	  });
+ 	}
+
 	this.mediaEmbeddableToggle = function(options)
 	{
 		var items = $(options['mediaItems']);
@@ -757,6 +785,7 @@ function aConstructor()
 	}
 		
 		
+>>>>>>> .r2301
 	this.slotShowEditView = function(pageid, name, permid)
 	{	
 		var fullId = pageid + '-' + name + '-' + permid;

@@ -146,6 +146,11 @@ but why take chances with your data?
         $this->migrate->query('INSERT INTO a_media_item_to_category (media_item_id, category_id) VALUES (:media_item_id, :category_id)', $info);
       }
     }
+    if (!$this->migrate->tableExists('a_embed_media_account'))
+    {
+      $this->migrate->sql(array(
+        'CREATE TABLE a_embed_media_account (id INT AUTO_INCREMENT, service VARCHAR(100) NOT NULL, username VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+    }
     echo("Done!\n");
   }
 }

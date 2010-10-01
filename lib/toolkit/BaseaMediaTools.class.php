@@ -138,6 +138,24 @@ class BaseaMediaTools
     }
   }
 
+  static public function userHasAdminPrivilege()
+  {
+    $user = sfContext::getInstance()->getUser();
+    if (!$user->isAuthenticated())
+    {
+      return false;
+    }
+    $adminCredential = aMediaTools::getOption('admin_credential');
+    if ($adminCredential)
+    {
+      return $user->hasCredential($adminCredential);
+    }
+    else
+    {
+      return true;
+    }
+  }
+
   static protected function getUser()
   {
     return sfContext::getInstance()->getUser();
@@ -171,10 +189,13 @@ class BaseaMediaTools
   static protected $options = array(
     "batch_max" => 6,
     "per_page" => 20,
+    'linked_accounts' => true,
     "popular_tags" => 10,
     "video_search_per_page" => 9,
     "video_search_preview_width" => 220,
     "video_search_preview_height" => 170,
+    "video_account_preview_width" => 220,
+    "video_account_preview_height" => 170,
     "upload_credential" => "media_upload",
     "admin_credential" => "media_admin",
     "gallery_constraints" => array(
@@ -242,14 +263,18 @@ class BaseaMediaTools
       'image' => array('label' => 'Image', 'extensions' => array('gif', 'png', 'jpg'), 'embeddable' => false, 'downloadable' => true),
       'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false, 'downloadable' => true),
       'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false, 'downloadable' => true),
-      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false),
+      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo')),
       
       // A long whitelist of file formats that are usually benign and useful.
       // No .exe, no .zip. You can add them via app.yml if you really want them.
       // We list only the non-macro-enabled Microsoft extensions in an effort to
       // honor their good-faith attempt to label more dangerous files
       
-      'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false, 'downloadable' => true)));
+      'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false, 'downloadable' => true)),
+    'embed_services' => array(
+      array('class' => 'aYoutube', 'media_type' => 'video'),
+      array('class' => 'aVimeo', 'media_type' => 'video'))
+    );
 
   static protected $layouts = array(
     'one-up' => array(
@@ -508,5 +533,64 @@ class BaseaMediaTools
   static public function slugify($path, $item)
   {
     return aTools::slugify($path);
+  }
+  
+  static protected $embedServices;
+  static protected $embedServiceTypes;
+  
+  static public function getEmbedServices()
+  {
+    if (!isset(aMediaTools::$embedServices))
+    {
+      aMediaTools::$embedServices = array();
+      aMediaTools::$embedServiceTypes = array();
+      $serviceInfos = aMediaTools::getOption('embed_services');
+      foreach ($serviceInfos as $serviceInfo)
+      {
+        $class = $serviceInfo['class'];
+        $service = new $class;
+        $service->setType($serviceInfo['media_type']);
+        aMediaTools::$embedServices[] = $service;
+      }
+    }
+    return aMediaTools::$embedServices;
+  }
+  
+  static public function getEmbedService($nameUrlOrEmbed)
+  {
+    $services = aMediaTools::getEmbedServices();
+    foreach ($services as $service)
+    {
+      if ($service->getName() === $nameUrlOrEmbed)
+      {
+        return $service;
+      }
+    }
+    foreach ($services as $service)
+    {
+      if ($service->getIdFromUrl($nameUrlOrEmbed))
+      {
+        return $service;
+      }
+    }
+    foreach ($services as $service)
+    {
+      if ($service->getIdFromEmbed($nameUrlOrEmbed))
+      {
+        return $service;
+      }
+    }
+  }
+  
+  static public function getEmbedServiceNames()
+  {
+    $results = array();
+    $services = aMediaTools::getEmbedServices();
+    foreach ($services as $service)
+    {
+      $results[] = $service->getName();
+    }
+    sort($results);
+    return $results;
   }
 }

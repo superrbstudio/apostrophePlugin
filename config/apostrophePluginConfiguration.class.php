@@ -44,9 +44,9 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     
     $this->dispatcher->connect('command.post_command', array('aToolkitEvents',  'listenToCommandPostCommandEvent'));  
 
-    $this->dispatcher->connect('apostrophe.get_categorizables', array($this, 'listenToGetCategorizables'));
+    $this->dispatcher->connect('a.get_categorizables', array($this, 'listenToGetCategorizables'));
     
-    $this->dispatcher->connect('apostrophe.get_count_by_category', array($this, 'listenToGetCountByCategory'));
+    $this->dispatcher->connect('a.get_count_by_category', array($this, 'listenToGetCountByCategory'));
   }
   
   public function listenToGetCategorizables($event, $results)

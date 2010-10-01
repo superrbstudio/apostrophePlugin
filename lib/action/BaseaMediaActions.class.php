@@ -528,18 +528,46 @@ class BaseaMediaActions extends aEngineActions
     $subclass = 'aMediaVideoYoutubeForm';
     $embed = false;
     $parameters = $request->getParameter('a_media_item');
-    if (aMediaTools::getOption('embed_codes') &&
+    
+    // If we recognize the embed code, upgrade to a real service URL and
+    // don't rely on a canned embed code
+    if (isset($parameters['embed']) && strlen($parameters['embed']))
+    {
+      $service = aMediaTools::getEmbedService($parameters['embed']);
+      if ($service)
+      {
+        $serviceId = $service->getIdFromEmbed($parameters['embed']);
+        $parameters['service_url'] = $service->getUrlFromId($serviceId);
+        unset($parameters['embed']);
+      }
+    }
+    if (aMediaTools::getOption('embed_codes') && 
       (($item && strlen($item->embed)) || (isset($parameters['embed']))))
     {
       $subclass = 'aMediaVideoEmbedForm';
       $embed = true;
-    }
+    } elseif (strlen($parameters['service_url']) && $this->hasRequestParameter('first_pass'))
+    {
+      if (!isset($serviceId))
+      {
+        $service = aMediaTools::getEmbedService($parameters['service_url']);
+        $serviceId = $service->getIdFromUrl($parameters['service_url']);
+      }
+      if (isset($serviceId))
+      {
+        $info = $service->getInfo($serviceId);
+        $parameters['title'] = $info['title'];
+        $parameters['tags'] = $info['tags'];
+        $parameters['description'] = aHtml::textToHtml($info['description']);
+        $parameters['credit'] = $info['credit'];
+      }
+    } 
+    
     $this->form = new $subclass($item);
     if ($parameters)
     {
       $files = $request->getFiles('a_media_item');
       $this->form->bind($parameters, $files);
-
       do
       {
         // first_pass forces the user to interact with the form
@@ -577,46 +605,16 @@ class BaseaMediaActions extends aEngineActions
         } else
         {
           $url = $this->form->getValue("service_url");
-          // TODO: migrate this into the model and a 
-          // YouTube-specific support class
-          if (!preg_match("/youtube.com.*\?.*v=([\w\-\+]+)/",
-              $url, $matches))
+          $service = aMediaTools::getEmbedService($url);
+          $videoid = $service->getIdFromUrl($url);
+          if ($videoid === false)
           {
             $this->serviceError = true;
             break;
           }
-          // YouTube thumbnails are always JPEG
-          $format = 'jpg';
-          $videoid = $matches[1];
-          $feed = "http://gdata.youtube.com/feeds/api/videos/$videoid";
-          $entry = simplexml_load_file($feed);
-          // get nodes in media: namespace for media information
-          $media = $entry->children('http://search.yahoo.com/mrss/');
+          $thumbnail = $service->getThumbnail($videoid);
 
-          // get a more canonical video player URL
-          $attrs = $media->group->player->attributes();
-          $canonicalUrl = $attrs['url'];
-          // get biggest video thumbnail
-          foreach ($media->group->thumbnail as $thumbnail)
-          {
-            $attrs = $thumbnail->attributes();
-            if ((!isset($widest)) || (($attrs['width'] + 0) >
-              ($widest['width'] + 0)))
-            {
-              $widest = $attrs;
-            }
-          }
-          // The YouTube API doesn't report the original width and height of
-          // the video stream, so we use the largest thumbnail, which in practice
-          // is the same thing on YouTube.
-          if (isset($widest))
-          {
-            $thumbnail = $widest['url'];
-            // Turn them into actual numbers instead of weird XML wrapper things
-            $width = $widest['width'] + 0;
-            $height = $widest['height'] + 0;
-          }
-          if (!isset($thumbnail))
+          if ($thumbnail === false)
           {
             $this->serviceError = true;
             break;
@@ -635,6 +633,7 @@ class BaseaMediaActions extends aEngineActions
           $new = !$object->getId();
           $object->preSaveFile($thumbnailCopy);
           $object->setServiceUrl($url);
+          $object->type = $service->getType();
           $this->form->save();
           $object->saveFile($thumbnailCopy);
           unlink($thumbnailCopy);
@@ -801,8 +800,7 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeEmbed()
   {
-    // TODO: rework this to be less video-oriented
-    return $this->redirect('aMedia/newVideo');
+    // It's a really simple form
   }
 
   public function executeDelete()
@@ -846,17 +844,27 @@ class BaseaMediaActions extends aEngineActions
       array('mediaItem' => $item));
   }
 
-  public function executeVideoSearch(sfWebRequest $request)
+  public function executeSearchServices(sfRequest $request)
   {
-    $this->form = new aMediaVideoSearchForm();
-    $this->form->bind($request->getParameter('videoSearch'));
-    $this->results = false;
-    if ($this->form->isValid())
+    $this->form = new aMediaSearchServicesForm();
+    $params = $request->getParameter('aMediaSearchServices');
+    // Don't spew a validation error if it's just the initial visit to the page
+    if (isset($params['q']))
     {
-      $q = $this->form->getValue('q');
-      $this->results = aYoutube::search($q);
+      $this->form->bind($params);
+      if ($this->form->isValid())
+      {
+        $q = $this->form->getValue('q');
+        $this->service = aMediaTools::getEmbedService($this->form->getValue('service'));
+        if ($this->service)
+        {
+          $this->pager = new aEmbedServicePager();
+          $this->pager->setQuery($this->service, 'search', $q, $request->getParameter('page', 1), aMediaTools::getOption('video_search_per_page', 9));
+          $this->pager->init();
+          $this->url = $this->getController()->genUrl('aMedia/searchServices?' . http_build_query(array('aMediaSearchServices' => $params)));
+        }
+      }
     }
-    $this->setLayout(false);
   }
 
   protected function setIframeLayout()
@@ -864,9 +872,70 @@ class BaseaMediaActions extends aEngineActions
     $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'iframe.php') . '/iframe');
   }
 
-  public function executeNewVideo()
+  public function executeNewVideo(sfRequest $request)
   {
-    $this->videoSearchForm = new aMediaVideoSearchForm();
+    $this->videoSearchForm = new aMediaSearchServicesForm();
+    $this->service = aMediaTools::getEmbedService($request->getParameter('service'));
   }
-
+  
+  public function isAdmin()
+  {
+    return $this->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+  }
+  
+  public function executeLink(sfRequest $request)
+  {
+    $this->forward404Unless($this->isAdmin());
+    $this->form = new aEmbedMediaAccountForm();
+    $this->accounts = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
+  }
+  
+  public function executeLinkAddAccount(sfRequest $request)
+  {
+    $this->forward404Unless($this->isAdmin());
+    $this->form = new aEmbedMediaAccountForm();
+    $params = $request->getParameter('a_embed_media_account');
+    $this->form->bind($params);
+    if ($this->form->isValid())
+    {
+      // Quietly ignore duplicates
+      $existing = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->where('a.username = ? AND a.service = ?', array($params['username'], $params['service']))->execute();
+      if (!count($existing))
+      {
+        $this->form->save();
+      }
+    }
+    return $this->redirect('aMedia/link');
+  }
+  
+  public function executeLinkRemoveAccount(sfRequest $request)
+  {
+    $this->forward404Unless($this->isAdmin());
+    $which = $request->getParameter('id');
+    $a = Doctrine::getTable('aEmbedMediaAccount')->find($which);
+    if ($a)
+    {
+      $a->delete();
+    }
+    return $this->redirect('aMedia/link');
+  }
+  
+  public function executeLinkPreviewAccount(sfRequest $request)
+  {
+    $this->forward404Unless($this->isAdmin());
+    $params = $request->getParameter('a_embed_media_account');
+    $service = $params['service'];
+    $this->username = $params['username'];
+    $this->service = aMediaTools::getEmbedService($service);
+    $this->forward404Unless($this->service);
+    $info = $this->service->getUserInfo($this->username);
+    if (!$info)
+    {
+      return 'Error';
+    }
+    $this->name = $info['name'];
+    $this->description = $info['description'];
+    // Grab their three newest videos
+    $this->results = $this->service->browseUser($this->username, 1, 3);
+  }
 }

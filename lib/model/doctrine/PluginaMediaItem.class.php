@@ -150,7 +150,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return $result;
   }
 
-  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque')
+  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false)
   {
     if ($height === false)
     {
@@ -159,31 +159,25 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
 
     // Accessible alt title
-    $title = htmlspecialchars($this->getTitle());
-    // It would be nice if partials could be used for this.
-    // Think about whether that's possible.
-    if ($this->getType() === 'video')
+    $title = htmlentities($this->getTitle(), ENT_COMPAT, 'UTF-8');
+    if ($this->getEmbeddable())
     {
-      if ($this->embed)
+      if ($this->service_url)
+      {
+        $service = aMediaTools::getEmbedService($this->service_url);
+        return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title);
+      }
+      elseif ($this->embed)
       {
         // Solution for non-YouTube videos based on a manually
         // provided thumbnail and embed code
         return str_replace(array('_TITLE_', '_WIDTH_', '_HEIGHT_'),
-          array($title, $width, $height), $this->embed);
+          array($title, $width, $height, $wmode), $this->embed);
       }
-      // TODO: less YouTube-specific
-      $serviceUrl = $this->getServiceUrl();
-      $embeddedUrl = $this->youtubeUrlToEmbeddedUrl($serviceUrl);
-      return <<<EOM
-			<object alt="$title" width="$width" height="$height">
-				<param name="movie" value="$embeddedUrl"></param>
-				<param name="allowFullScreen" value="true"></param>
-				<param name="allowscriptaccess" value="always"></param>
-				<param name="wmode" value="$wmode"></param>
-				<embed alt="$title" src="$embeddedUrl" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
-			</object>
-EOM
-      ;
+      else
+      {
+        throw new sfException('Media item without an embed code or a service url');
+      }
     }
     elseif (($this->getType() == 'image') || ($this->getType() == 'pdf'))
     {

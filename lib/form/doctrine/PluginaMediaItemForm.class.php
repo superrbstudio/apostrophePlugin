@@ -50,7 +50,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     }
     // Now we're ready to play
     // We like all-lowercase tags for consistency
-    $values['tags'] = strtolower($values['tags']);
+    $values['tags'] = aTools::strtolower($values['tags']);
     $object->setTags($values['tags']);
     $object->setOwnerId(
       sfContext::getInstance()->getUser()->getGuardUser()->getId());

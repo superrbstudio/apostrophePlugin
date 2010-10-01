@@ -13,7 +13,7 @@ class aCategoryAdminGeneratorHelper extends BaseaCategoryAdminGeneratorHelper
   public $counts;
   public function __construct()
   {
-    $event = new sfEvent(null, 'apostrophe.get_count_by_category');
+    $event = new sfEvent(null, 'a.get_count_by_category');
     sfContext::getInstance()->getEventDispatcher()->filter($event, array());
     $this->counts = $event->getReturnValue();
   }

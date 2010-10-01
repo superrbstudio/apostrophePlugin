@@ -769,3 +769,16 @@ aAudioSlot:
     type: column_aggregation
     keyField: type
     keyValue: 'aAudio'
+
+aEmbedMediaAccount:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    service:
+      type: string(100)
+      notnull: true
+    username:
+      type: string(100)
+      notnull: true

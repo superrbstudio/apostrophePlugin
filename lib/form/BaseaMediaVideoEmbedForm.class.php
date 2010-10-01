@@ -11,18 +11,19 @@ class BaseaMediaVideoEmbedForm extends aMediaVideoForm
       new sfValidatorCallback(
         array('required' => true, 'callback' => 'aMediaVideoEmbedForm::validateEmbed'),
         array('required' => "Not a valid embed code", 'invalid' => "Not a valid embed code")));
-    $this->setWidget('thumbnail',
-      new aWidgetFormInputFilePersistent());
-    $this->setValidator('thumbnail',
-      new aValidatorFilePersistent(array('mime_types' =>
-        array('image/jpeg', 'image/png', 'image/gif'),
-        "required" => (!$this->getObject()->getId()))));
     $this->widgetSchema->setFormFormatterName('aAdmin');  
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
   static public function validateEmbed($validator, $value, $arguments)
   {
+    // If it is a URL recognized by one of the services we support, use that service
+    $service = aMediaTools::getEmbedService($value);
+    if ($service)
+    {
+      $id = $service->getIdForUrl($value);
+      return $service->getEmbed($id);
+    }
     // Don't let this become a way to embed arbitrary HTML
     $value = trim(strip_tags($value, "<embed><object><param><applet><iframe>"));
     // Kill any text outside of tags
@@ -38,15 +39,20 @@ class BaseaMediaVideoEmbedForm extends aMediaVideoForm
     {
       throw new sfValidatorError($validator, $validator->getMessage('invalid'), $arguments);
     }
+    
+    // If the width or height is not available, we can't process it correctly
+    if ((!preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $value)) || (!preg_match("/height\s*=\s*([\"'])(\d+)\\1/i", $value, $matches)))
+    {
+      throw new sfValidatorError($validator, $validator->getmessage('invalid'), $arguments);
+    }
+    
     return $value;
   }
+  
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
-    // If possible, get the width and height from the embed tag rather
-    // than from the thumbnail the user uploaded, which is likely to be
-    // a mismatch quite often. If the embed tag has percentages we don't
-    // want to match, just let the thumbnail dimensions win
+    // IGet the width and height from the embed code
     if (preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $object->embed, $matches))
     {
       $object->width = $matches[2];

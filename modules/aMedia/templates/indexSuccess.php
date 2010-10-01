@@ -25,6 +25,10 @@
 			    <?php endif ?>
 			    <?php if ($embedAllowed): ?>
 			      <li><a href="<?php echo url_for("aMedia/embed") ?>" class="a-btn icon big a-add"><?php echo a_('Embed ' . $typeLabel) ?></a></li>
+			      <li><a href="<?php echo url_for("aMedia/searchServices") ?>" class="a-btn icon big a-add"><?php echo a_('Search Services') ?></a></li>
+			      <?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
+  			      <li><a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon big a-add"><?php echo a_('Linked Accounts') ?></a></li>
+  			    <?php endif ?>
 			    <?php endif ?>
 			 </ul>
 		<?php endif ?>

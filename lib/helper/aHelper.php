@@ -506,3 +506,11 @@ function a_($s, $params = null)
 {
   return __($s, $params, 'apostrophe');
 }
+
+// One consistent encoding is needed for non-HTML output in our templates, since we do not assume
+// that Symfony is in escaping mode, and the correct statement is so verbose
+
+function a_entities($s)
+{
+  return htmlentities($s, ENT_COMPAT, 'UTF-8');
+}

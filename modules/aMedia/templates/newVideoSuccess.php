@@ -2,6 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $search = isset($search) ? $sf_data->getRaw('search') : null;
   $videoSearchForm = isset($videoSearchForm) ? $sf_data->getRaw('videoSearchForm') : null;
+  $service = isset($service) ? $sf_data->getRaw('service') : null;
 ?>
 <?php use_helper('jQuery', 'I18N','a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
@@ -16,7 +17,8 @@
 
 	<div class="a-media-items">				
 	 	<ul class="a-ui a-controls" id="a-media-video-buttons">
-			<li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
+	 	  
+	 	  <li><?php echo link_to_function(__("Search YouTube", null, 'apostrophe'), 
 		  		"$('#a-media-video-search-form').show(); 
 			 		 $('#a-media-video-buttons').hide(); 
 			 		 $('#a-media-video-search-heading').show();", 
@@ -45,18 +47,26 @@
     <?php echo jq_form_remote_tag(
 			array(
         'url' => 'aMedia/videoSearch',
-        'update' => 'a-media-video-search-form',
+        'update' => 'a-media-video-search-results-container',
+        'complete' => '$("#a-media-video-search-results-container").show()',
 				'before' => '$("#a-media-video-search-form .a-search-field").append("<span class=\"a-spinner\"></span>");'), 
       array(
         'id' => 'a-media-video-search-form', 
 				'class' => 'a-media-search-form', )) ?>
-
-    				
-				<?php if (0) {
-					# form tag has a height of 20px. this is messing up the height causing the footer to crash into the results.
-					# Need to rework the input background or the markup to allow this stuff to work properly
-				} ?>
-    	<?php include_partial('aMedia/videoSearch', array('form' => $videoSearchForm, 'results' => false)) ?>
+			<?php // We don't ever re-present this form, so why use a separate partial anymore ?>
+      <?php echo $videoSearchForm ?>
+      
+      <ul class="a-controls">
+        <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-submit" /></li>
+      	<li>
+      		<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
+      			"$('#a-media-video-search-form').hide(); 
+      			 $('#a-media-video-search-results-container').hide(); 
+      			 $('#a-media-video-search-heading').hide(); 
+      			 $('#a-media-video-buttons').show();", 
+      			array("class" => "a-btn a-cancel")) ?>
+      	</li>
+      </ul>
     </form>
 
  		<h4 id="a-media-video-add-by-url-heading" class="a-media-video-heading"><?php echo __('Add by URL', null, 'apostrophe') ?></h4>   

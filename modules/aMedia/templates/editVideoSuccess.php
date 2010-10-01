@@ -56,13 +56,6 @@
       <div class="a-form-row embed">
         <?php echo $form['embed']->renderRow() ?>
       </div>
-      <div class="a-form-row thumbnail">
-        <?php echo $form['thumbnail']->renderLabel() ?>
-        <?php if (!$sf_params->get('first_pass')): ?>
-          <?php echo $form['thumbnail']->renderError() ?>
-        <?php endif ?>
-        <?php echo $form['thumbnail']->render() ?>
-      </div>
     <?php endif ?>
 
     <div class="a-form-row description">

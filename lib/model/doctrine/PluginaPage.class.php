@@ -1460,7 +1460,14 @@ abstract class PluginaPage extends BaseaPage
     }
     if (!is_null($class))
     {
-      return $fcounts[$class];
+      if (isset($fcounts[$class]))
+      {
+        return $fcounts[$class];
+      }
+      else
+      {
+        return 0;
+      }
     }
     else
     {
