@@ -15,19 +15,27 @@ class aVimeo extends aEmbedService
 
   protected function advancedCall($method, $params)
   {
-    $settings = sfConfig::get('app_a_vimeo');
-    $apikey = '';
-    if (isset($settings['oauthConsumerKey']))
+    try
     {
-      $apikey = $settings['oauthConsumerKey'];
-    }
-    $apisecret = '';
-    if (isset($settings['oauthConsumerSecret']))
+      $settings = sfConfig::get('app_a_vimeo');
+      $apikey = '';
+      if (isset($settings['oauthConsumerKey']))
+      {
+        $apikey = $settings['oauthConsumerKey'];
+      }
+      $apisecret = '';
+      if (isset($settings['oauthConsumerSecret']))
+      {
+        $apisecret = $settings['oauthConsumerSecret'];
+      }
+      $vimeo = new phpVimeo($apikey, $apisecret);
+      return $vimeo->call($method, $params);
+    } catch (Exception $e)
     {
-      $apisecret = $settings['oauthConsumerSecret'];
+      // TODO: it would be nice to know more although it pretty much
+      // comes down to 'no such user,' 'rate limit' or 'Internet burp'
+      return false;
     }
-    $vimeo = new phpVimeo($apikey, $apisecret);
-    return $vimeo->call($method, $params);
   }
   
   public function search($q, $page = 1, $perPage = 50)
@@ -96,9 +104,12 @@ class aVimeo extends aEmbedService
     $info['title'] = $result->title;
     $info['description'] = $result->description;
     $tags = array();
-    foreach ($result->tags->tag as $tag)
+    if (isset($result->tags))
     {
-      $tags[] = $tag->_content;
+      foreach ($result->tags->tag as $tag)
+      {
+        $tags[] = $tag->_content;
+      }
     }
     $info['tags'] = implode(', ', $tags);
     $info['credit'] = $result->owner->display_name;
