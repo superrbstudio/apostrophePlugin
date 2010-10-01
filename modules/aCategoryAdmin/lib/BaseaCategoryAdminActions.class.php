@@ -53,7 +53,7 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
         $conn = Doctrine_Manager::connection();
         try{
           $conn->beginTransaction();
-          $this->dispatcher->notify(new sfEvent($this, 'apostrophe.merge_category', array('old_id' => $this->getRoute()->getObject()->id, 'new_id' => $newCategory->id)));
+          $this->dispatcher->notify(new sfEvent($this, 'a.merge_category', array('old_id' => $this->getRoute()->getObject()->id, 'new_id' => $newCategory->id)));
           $this->getRoute()->getObject()->delete();
           $conn->commit();
           $this->getUser()->setFlash('notice', $this->__(sprintf('Category %s merged into %s.', $this->getRoute()->getObject()->getName(), $newCategory->getName()), null, 'apostrophe'));

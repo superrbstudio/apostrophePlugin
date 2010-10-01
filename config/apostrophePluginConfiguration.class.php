@@ -48,7 +48,7 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     
     $this->dispatcher->connect('a.get_count_by_category', array($this, 'listenToGetCountByCategory'));
 
-    $this->dispatcher->connect('apostrophe.merge_category', array($this, 'listenToCategoryMerge'));
+    $this->dispatcher->connect('a.merge_category', array($this, 'listenToCategoryMerge'));
   }
   
   public function listenToGetCategorizables($event, $results)
