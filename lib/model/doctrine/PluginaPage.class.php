@@ -1434,7 +1434,7 @@ abstract class PluginaPage extends BaseaPage
     // (TODO: we could have the event require the getters to filter this in advance,
     // but I'm not sure it's worth the pain and potential for error)
 
-    $event = new sfEvent(null, 'apostrophe.get_count_by_category');
+    $event = new sfEvent(null, 'a.get_count_by_category');
     sfContext::getInstance()->getEventDispatcher()->filter($event, array());
     $counts = $event->getReturnValue();
 
