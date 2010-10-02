@@ -121,16 +121,24 @@ class aImageConverter
 
   static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75) 
   {    
+    error_log("ENTERING scaleBody");
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
       // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
       // full alpha channel for manageably-sized PNGs and good performance for huge PNGs
       $info = getimagesize($fileIn);
       $mapTypes = array(IMAGETYPE_GIF => IMG_GIF, IMAGETYPE_PNG => IMG_PNG, IMAGETYPE_JPEG => IMG_JPG);
+      // Usually the 1024x768 rule is better, but this is useful for testing
+      if (sfConfig::get('app_aimageconverter_netpbm', true) === 'always')
+      {
+        error_log("Calling scaleNetpbm");
+        return self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
+      }
       // If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports
       // the image type... *then* we skip to gd.
       if (($info !== false) && (($info[0] <= 1024) && ($info[1] <= 768)) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
       {
+        error_log("FALLBACK");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
@@ -141,8 +149,47 @@ class aImageConverter
     }
     else
     {
+      error_log("GD");
       return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
     }
+  }
+  
+  // Get the JPEG EXIF rotation. Always returns 1 (no rotation) for other formats.
+  // Other values:
+  // case 2: // horizontal flip
+  // case 3: // 180 rotate left
+  // case 4: // vertical flip
+  // case 5: // vertical flip + 90 rotate right
+  // case 6: // 90 rotate right
+  // case 7: // horizontal flip + 90 rotate right
+  // case 8:    // 90 rotate left
+
+  static public function getRotation($file)
+  {
+    if (!extension_loaded("exif"))
+    {
+      // We can't tell
+      return 1;
+    }
+    $exif = exif_read_data($file);
+    if (!$exif)
+    {
+      return 1;
+    }
+    if (isset($exif['IFD0']['Orientation']))
+    {
+      // Code I'm seeing does this
+      $ort = $exif['IFD0']['Orientation'];
+    } elseif (isset($exif['Orientation']))
+    {
+      // Files I'm seeing do this
+      $ort = $exif['Orientation'];
+    }
+    else
+    {
+      $ort = 1;
+    }
+    return $ort;
   }
   
   static private function scaleNetpbm($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
@@ -213,6 +260,44 @@ class aImageConverter
       }
     }
     
+    $rotate = '';
+    
+    $rotation = aImageConverter::getRotation($fileIn);
+    switch ($rotation)
+    {
+        case 1: // nothing
+        $rotate = '';
+        break;
+
+        case 2: // horizontal flip
+        $rotate = '| pamflip -leftright ';
+        break;
+
+        case 3: // 180 rotate left
+        $rotate = '| pamflip -rotate180 ';
+        break;
+
+        case 4: // vertical flip
+        $rotate = '| pamflip -topbottom ';
+        break;
+
+        case 5: // vertical flip + 90 rotate right
+        $rotate = '| pamflip -topbottom | pamflip -cw ';
+        break;
+
+        case 6: // 90 rotate right
+        $rotate = '| pamflip -cw ';
+        break;
+
+        case 7: // horizontal flip + 90 rotate right
+        $rotate = '| pamflip -leftright | pamflip -cw ';
+        break;
+
+        case 8:    // 90 rotate left
+        $rotate = '| pamflip -ccw ';
+        break;
+    }
+    
   
     $scaleString = '';
     $extraInputFilters = '';
@@ -243,7 +328,7 @@ class aImageConverter
       }
     }
     
-    $cmd = "(PATH=$path:\$PATH; export PATH; $input < " . escapeshellarg($fileIn) . " " . ($extraInputFilters ? "| $extraInputFilters" : "") . " " . ($scaleParameters ? "| pnmscale $scaleString " : "") . "| $filter " .
+    $cmd = "(PATH=$path:\$PATH; export PATH; $input < " . escapeshellarg($fileIn) . ' ' . $rotate . ' ' . ($extraInputFilters ? "| $extraInputFilters" : "") . " " . ($scaleParameters ? "| pnmscale $scaleString " : "") . "| $filter " .
       "> " . escapeshellarg($fileOut) . " " .
       ") 2> /dev/null";
     // sfContext::getInstance()->getLogger()->info("$cmd");
@@ -275,15 +360,34 @@ class aImageConverter
     {
       $width = $imageInfo[0];
       $height = $imageInfo[1];
+      $orientation = aImageConverter::getRotation($fileIn);
+      if ($imageInfo[2] === IMAGETYPE_JPEG)
+      {
+        // Some EXIF orientations swap width and height
+        switch ($orientation)
+        {
+          case 5: // vertical flip + 90 rotate right
+          case 6: // 90 rotate right
+          case 7: // horizontal flip + 90 rotate right
+          case 8:    // 90 rotate left
+          $tmp = $width;
+          $width = $height;
+          $height = $tmp;
+          break;
+        }
+      }
       
       $infoIn = pathinfo($fileIn);    
       $infoOut = pathinfo($fileOut);    
       
-      // Must use == because for some reason imagesize returns floats rather than integers
-      if (((!count($scaleParameters)) || (isset($scaleParameters['xysize']) && $scaleParameters['xysize'][0] == $width && $scaleParameters['xysize'][1] == $height)) && (strtolower($infoIn['extension']) === strtolower($infoOut['extension'])) && (!count($cropParameters)))
+      // Try not to do any work if we are not changing anything
+      if ($orientation == 1)
       {
-        copy($fileIn, $fileOut);
-        return true;
+        if (((!count($scaleParameters)) || (isset($scaleParameters['xysize']) && $scaleParameters['xysize'][0] == $width && $scaleParameters['xysize'][1] == $height)) && (strtolower($infoIn['extension']) === strtolower($infoOut['extension'])) && (!count($cropParameters)))
+        {
+          copy($fileIn, $fileOut);
+          return true;
+        }
       }
     }
     
@@ -295,6 +399,53 @@ class aImageConverter
     else
     {
       $in = self::imagecreatefromany($fileIn);
+      if ($orientation != 1)
+      {
+        // Note that gd rotation is CCL
+        
+        switch ($orientation)
+        {
+          case 2: // horizontal flip
+          aImageConverter::horizontalFlip($in);
+          break;
+
+          case 3: // 180 rotate left
+          $in2 = imagerotate($in, 180, imagecolorallocate($in, 255, 255, 255));
+          imagedestroy($in);
+          $in = $in2;
+          break;
+
+          case 4: // vertical flip
+          aImageConverter::verticalFlip($in);
+          break;
+
+          case 5: // vertical flip + 90 rotate right
+          aImageConverter::verticalFlip($in);
+          $in2 = imagerotate($in, 270, imagecolorallocate($in, 255, 255, 255));
+          imagedestroy($in);
+          $in = $in2;
+          break;
+
+          case 6: // 90 rotate right
+          $in2 = imagerotate($in, 270, imagecolorallocate($in, 255, 255, 255));
+          imagedestroy($in);
+          $in = $in2;
+          break;
+
+          case 7: // horizontal flip + 90 rotate right
+          aImageConverter::horizontalFlip($in);
+          $in2 = imagerotate($in, 270, imagecolorallocate($in, 255, 255, 255));
+          imagedestroy($in);
+          $in = $in2;
+          break;
+
+          case 8:    // 90 rotate left
+          $in2 = imagerotate($in, 90, imagecolorallocate($in, 255, 255, 255));
+          imagedestroy($in);
+          $in = $in2;
+          break;
+        }
+      }
     }
     
     if (!$in)
@@ -435,6 +586,32 @@ class aImageConverter
     return true;
   }
   
+  // Flips the image in place
+  static protected function horizontalFlip($in)
+  {
+    $tmp = self::imageCreateTrueColor(1, $height);
+    for ($x = 0; ($x < ($width >> 1)); $x++)
+    {
+      imagecopy($tmp, $in, 0, 0, $x, 0, 1, $height);
+      imagecopy($in, $in, $x, 0, ($width - $x) - 1, 0, 1, $height);
+      imagecopy($in, $tmp, ($width - $x) - 1, 0, 0, 0, 1, $height);
+    }
+    imagedestroy($tmp);
+  }
+  
+  // Flips the image in place
+  static protected function verticalFlip($in)
+  {
+    $tmp = self::imageCreateTrueColor($width, 1);
+    for ($y = 0; ($y < ($height >> 1)); $y++)
+    {
+      imagecopy($tmp, $in, 0, 0, 0, $y, $width, 1);
+      imagecopy($in, $in, 0, $y, 0, ($height - $y) - 1, $width, 1);
+      imagecopy($in, $tmp, 0, ($height - $y) - 1, 0, 0, $width, 1);
+    }
+    imagedestroy($tmp);
+  }
+  
   // Make sure the new image is capable of being saved with intact alpha channel;
   // don't composite alpha channel in gd. If a designer uploads an alpha channel image
   // they must have a reason for doing so
@@ -547,6 +724,20 @@ class aImageConverter
       }
       $result['width'] = $data[0];
       $result['height'] = $data[1];
+      if ($format === 'jpg')
+      {
+        // Some EXIF orientations swap width and height
+        switch (aImageConverter::getRotation($file))
+        {
+          case 5: // vertical flip + 90 rotate right
+          case 6: // 90 rotate right
+          case 7: // horizontal flip + 90 rotate right
+          case 8:    // 90 rotate left
+          $result['width'] = $data[1];
+          $result['height'] = $data[0];
+          break;
+        }
+      }
       return $result;
     }
   }
