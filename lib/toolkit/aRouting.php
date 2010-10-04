@@ -21,6 +21,15 @@ class aRouting extends sfPatternRouting
   {
     $r = $event->getSubject();
     $enabledModules = array_flip(sfConfig::get('sf_enabled_modules', array()));
+    if (isset($enabledModules['aTagAdmin']))
+    {
+      $r->prependRoute('a_tag_admin', new sfDoctrineRouteCollection(array('name' => 'a_tag_admin',
+        'model' => 'Tag',
+        'module' => 'aTagAdmin',
+        'prefix_path' => 'admin/tags',
+        'column' => 'id',
+        'with_wildcard_routes' => true)));
+    }
     if (isset($enabledModules['aCategoryAdmin']))
     {
       $r->prependRoute('a_category_admin', new sfDoctrineRouteCollection(array('name' => 'a_category_admin',
