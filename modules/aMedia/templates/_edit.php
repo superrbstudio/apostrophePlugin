@@ -122,8 +122,8 @@
 		</div>
 		
 		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
-    
 		<?php if (!$form['file']->hasError()): ?>
+			<?php if ($item && !$item->getEmbeddable()): ?>
   		<div class="a-form-row replace a-ui">		
   	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
   			<div class="a-options-container">		
@@ -136,14 +136,13 @@
   		      <?php echo $form['file']->renderError() ?>
   		    </div>
   			</div>
+				<?php endif ?>
   			<?php if (!$item): ?>
   	      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
         <?php if ($item && $item->getDownloadable()): ?>
-	      	<div class="a-media-item-download-link">  
-						<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
-					</div>	
+					<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
 				<?php endif ?>
   		</div>
     <?php endif ?>
@@ -202,6 +201,6 @@
 <?php endif ?>
 
 <?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
-<?php a_js_call('apostrophe.mediaReplaceFileListener(?)', array('menu' => '#a-media-replace-image-'.$i, 'input' => '.a-form-row.replace input[type="file"]')) ?>
+<?php a_js_call('apostrophe.mediaReplaceFileListener(?)', array('menu' => '#a-media-replace-image-'.$i, 'input' => '.a-form-row.replace input[type="file"]', 'message' => a_('This file will be replaced after you click save.'), 'fileLabel' => a_('New file: '))) ?>
 
 <?php a_include_js_calls() ?>

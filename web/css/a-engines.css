@@ -515,6 +515,12 @@ border-radius: 4px;
 
 .a-media-library .a-form-row.replace { margin: 10px 0; }
 
+.a-media-library .a-form-row.replace .a-new-file-message { position:relative;	float: left; width: 100%; margin: 10px 0;}
+
+.a-media-library .a-form-row.replace .a-new-file-message .a-options { position: relative; left:0; top:0; padding:10px; float: none; z-index: 1; }
+
+.a-media-library .a-form-row.replace .a-new-file-message .a-options span { color: #000 !important; }
+
 .a-media-library .a-form-row.description { width: 343px; }
 .a-media-library .a-form-row.description .a-form-field { width: 100%; }
 

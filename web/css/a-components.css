@@ -107,7 +107,7 @@ margin: 10px 0;
 /* aOptions Open */
 
 .a-options-open {  z-index: 999; }
-.a-options-open .a-options {  display: block !important; }
+.a-options-open .a-options, .a-options.open {  display: block !important; }
 .a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 999; }
 
 

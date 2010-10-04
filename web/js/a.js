@@ -565,15 +565,27 @@ function aConstructor()
 	{
 		var menu = $(options['menu']);
 		var input = $(options['input']);
+		var message = 'This file will be replaced with the new file you have selected after you click save.';
+		var fileLabel = 'File: ';
+
+		if (options['message']) 
+		{
+			message = options['message'];
+		};
+
+		if (options['fileLabel']) 
+		{
+			fileLabel = options['fileLabel'];
+		};
+		
 		if (input.length) {
 			input.change(function(){
 				if (input.val()) 
 				{
 					menu.trigger('toggleClosed');
 					var newFileMessage = $('<div/>');
-					newFileMessage.text(input.val());
-					newFileMessage.addClass('a-new-file-message');
-					newFileMessage.css('background','#0f0');
+					newFileMessage.html('<div class="a-options open"><p>'+ message + '</p><p>'+ fileLabel + '<span>' + input.val() + '</span>' + '</p></div>');
+					newFileMessage.addClass('a-new-file-message help');
 					apostrophe.log(newFileMessage);
 					input.closest('.a-form-row').append(newFileMessage);
 				};
