@@ -643,7 +643,7 @@ class BaseaTools
   
   static public function getRealUrl()
   {
-    if(isset(aTools::$realUrl))
+    if (isset(aTools::$realUrl))
     {
       return aTools::$realUrl;
     }

@@ -121,7 +121,6 @@ class aImageConverter
 
   static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75) 
   {    
-    error_log("ENTERING scaleBody");
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
       // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
@@ -131,14 +130,12 @@ class aImageConverter
       // Usually the 1024x768 rule is better, but this is useful for testing
       if (sfConfig::get('app_aimageconverter_netpbm', true) === 'always')
       {
-        error_log("Calling scaleNetpbm");
         return self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
       // If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports
       // the image type... *then* we skip to gd.
       if (($info !== false) && (($info[0] <= 1024) && ($info[1] <= 768)) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
       {
-        error_log("FALLBACK");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
@@ -149,7 +146,6 @@ class aImageConverter
     }
     else
     {
-      error_log("GD");
       return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
     }
   }
@@ -164,8 +160,16 @@ class aImageConverter
   // case 7: // horizontal flip + 90 rotate right
   // case 8:    // 90 rotate left
 
-  static public function getRotation($file)
+  static public function getRotation($file, $getimagesize = null)
   {
+    if (is_null($getimagesize))
+    {
+      $getimagesize = getimagesize($file);
+    }
+    if ($getimagesize[2] !== IMAGETYPE_JPEG)
+    {
+      return 1;
+    }
     if (!extension_loaded("exif"))
     {
       // We can't tell
@@ -262,7 +266,7 @@ class aImageConverter
     
     $rotate = '';
     
-    $rotation = aImageConverter::getRotation($fileIn);
+    $rotation = aImageConverter::getRotation($fileIn, $info);
     switch ($rotation)
     {
         case 1: // nothing
@@ -360,7 +364,7 @@ class aImageConverter
     {
       $width = $imageInfo[0];
       $height = $imageInfo[1];
-      $orientation = aImageConverter::getRotation($fileIn);
+      $orientation = aImageConverter::getRotation($fileIn, $imageInfo);
       if ($imageInfo[2] === IMAGETYPE_JPEG)
       {
         // Some EXIF orientations swap width and height
@@ -727,7 +731,7 @@ class aImageConverter
       if ($format === 'jpg')
       {
         // Some EXIF orientations swap width and height
-        switch (aImageConverter::getRotation($file))
+        switch (aImageConverter::getRotation($file, $data))
         {
           case 5: // vertical flip + 90 rotate right
           case 6: // 90 rotate right
