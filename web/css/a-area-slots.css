@@ -93,7 +93,7 @@ clear: none;
 
 /* aOptions for Areas & Slots :: aOptions is in a-components.css 
 -------------------------------------------------------------------- */
-.a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; padding: 35px 5px 5px; }
+.a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
 .a-ui .a-options.a-area-options .a-options-item,
 .a-ui .a-options.a-area-options .a-options-item.last { 
 width: 100%;
@@ -154,6 +154,7 @@ line-height: 27px;
 	display: inline;
 	position: absolute;
 	white-space: nowrap;
+	right:-10px;
 	width: auto;
 	margin-left: 5px !important;
 	height:20px;

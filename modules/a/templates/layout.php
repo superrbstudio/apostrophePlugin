@@ -15,10 +15,12 @@
 	<?php // 1.3 and up don't do this automatically (no common filter) ?>
 	<?php // a_include_stylesheets has a built in caching combiner/minimizer when enabled ?>
   <?php a_include_stylesheets() ?>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<?php a_include_javascripts() ?>
 	<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<!--[if lt IE 7]>
+
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
 				apostrophe.IE6({'authenticated':<?php echo ($sf_user->isAuthenticated())? 'true':'false' ?>, 'message':<?php echo json_encode(__('You are using IE6! That is just awful! Apostrophe does not support editing using Internet Explorer 6. Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a>', null, 'apostrophe')) ?>});
