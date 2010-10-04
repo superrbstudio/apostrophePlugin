@@ -683,52 +683,36 @@ function aConstructor()
 		})
 		.hoverIntent(function(e){
 			var item = $(this);
-			target = $(e.target);
-			
-			itemCheck = target.closest('.a-media-item:not(".expanded")');
-			itemCheck2 = target.closest('.a-media-item-controls');
-			if (itemCheck.length && !itemCheck2.length && itemCheck.hasClass('a-type-image')) 
+			if (!item.data('hold_create')) 
 			{
-				if (!item.find('.expand').length) 
-				{
-					cloneMediaItem(item);
-				};
+				createItemSlug(item);				
 			};
 		},function(e){
-			var item = $(this);
-			// item.removeClass('over');
-			// item.find('.expand').remove();
+			destroyItemSlug($(this));				
 		});
 		
-		items.each(function(){
-			var item = $(this);
-			var itemControls = item.find('.a-media-item-controls');
-			var edit = itemControls.find('a.a-edit');
-			// editButton(edit);
-		});
-		
-		function editButton(edit)
+		function createItemSlug(item)
 		{
-			var nEdit = $('<a/>');
-			nEdit.addClass('a-btn icon a-edit lite alt no-label a-edit-slug');
-			nEdit.attr({
-				href: '#edit-media-item',
-			});
-			nEdit.html(edit.html());
-			edit.before(nEdit);
-			edit.addClass('a-edit-real').hide();
+			var w = item.css('width');
+			var h = item.css('height');
+			var slug = $('<div/>');
+			slug.attr('id', item.attr('id')+'-slug');
+			slug.addClass('a-media-item-slug');
+			slug.css({ width:w, height:h });
+			if (item.hasClass('last')) 
+			{
+				slug.addClass('last');
+			};
+			item.wrap(slug).addClass('dropshadow expand').data('hold_create', 1);
+			item.css('margin-top',-h/2);
 		}
 		
-		function cloneMediaItem(item)
+		function destroyItemSlug(item)
 		{
-			var eItem = item.clone()
-			eItem.css('display','none');
-			item.prepend(eItem);
-			var eOffset = Math.floor(eItem.find('img').attr('height')/2);
-			eItem.find('.a-edit-slug').hide();
-			eItem.find('.a-edit-real').show();
-			eItem.addClass('expand dropshadow').removeClass('over').attr('id',item.attr('id')+'-clone').css({marginTop: -eOffset, display: 'block'});		
-		}	
+			item.prev('.a-media-item-slug').remove();
+			item.removeClass('over dropshadow expand').data('hold_create', null);
+			item.css('margin-top','');
+		}
 	}	
 	
 	this.mediaEnableLinkAccount = function(previewUrl)

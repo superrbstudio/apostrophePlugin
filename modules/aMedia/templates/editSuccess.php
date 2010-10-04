@@ -7,6 +7,10 @@
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
+<?php slot('a-page-header') ?>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+<?php end_slot() ?>
+
 <div class="a-media-library">
 	
 	<?php include_component('aMedia', 'browser') ?>

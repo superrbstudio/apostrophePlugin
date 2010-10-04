@@ -17,8 +17,10 @@
 	</ul>
 <?php endif ?>
 
+<?php if ($layout['name'] != "four-up"): ?>
 <?php a_js_call('apostrophe.linkToRemote(?)', array(
 	'link' => '#a-media-item-edit-button-'.$mediaItem->getId(), 
 	'url' => url_for("aMedia/edit?".http_build_query(array("slug" => $mediaItem->getSlug()))), 
 	'update' => '#a-media-item-'.$mediaItem->getId().' .a-media-item-information', 
 	'method' => 'GET')) ?>
+<?php endif ?>

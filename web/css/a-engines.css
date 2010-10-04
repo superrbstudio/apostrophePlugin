@@ -491,6 +491,12 @@ border-radius: 4px;
 
 .four-up .a-media-item.expand .a-media-item-title { margin: 5px 0; }
 
+.four-up .a-media-item-slug { position:relative; float:left; margin-right:20px; }
+.four-up .a-media-item-slug.last { margin-right: 0; }
+
+/*.four-up .a-media-item .a-media-item-controls { display: none; }*/
+/*.four-up .a-media-item.expand .a-media-item-controls { display: block; }*/
+
 
 /* Media Engine Item Edit Form
 -------------------------------------*/
@@ -508,7 +514,7 @@ border-radius: 4px;
 .a-media-library .a-form-row label { color: #999; font-size: 14px; }
 
 .a-media-library .a-form-row.title { margin-top: 0; }
-.a-media-library .a-form-row.title label { clear: right; }
+.a-media-library .a-form-row.title label { width: 100%; }
 .a-media-library .a-form-row.title input[type="text"] { width: 332px; font-size: 18px; }
 
 .a-media-library .a-form-row.newfile .a-btn.a-close { float: left; } /* Upload Form */
