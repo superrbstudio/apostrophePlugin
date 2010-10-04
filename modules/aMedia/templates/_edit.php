@@ -106,7 +106,6 @@
 	    </div>
     </div>
 
-
 		<div class="a-form-row permissions">
 			<?php echo $form['view_is_secure']->renderLabel() ?>
 			<div class="a-form-field">
@@ -176,6 +175,7 @@
 <?php endif ?>
 
 <?php if (!isset($itemFormScripts)): ?>
+<?php // TODO: When Categories and Tags are updated to use our inline JS widgets, these scripts can get removed ?>
 	<?php include_partial('aMedia/itemFormScripts') ?>
 <?php endif ?>
 

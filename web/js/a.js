@@ -112,6 +112,40 @@ function aConstructor()
 		};
 	}	
 	
+	// Utility: an updated version of the jq_link_to_remote helper
+	// Allows you to create the same functionality without outputting javascript in the markup.
+	this.linkToRemote = function(options)
+	{
+		var link = $(options['link']);
+		var update = $(options['update']);
+		var method = (options['method'])? options['method']:'GET';
+		var remote_url = options['url'];
+		var eventType = (options['event'])? options['event']:'click';
+		
+		if (link.length) {
+			link.bind(eventType, function(){
+				$.ajax({
+					type:method,
+					dataType:'html',
+					success:function(data, textStatus)
+					{
+						update.html(data);
+					},
+					url:remote_url
+				}); 
+				return false;			
+			});
+		}
+		else
+		{
+		apostrophe.log('apostrophe.linkToRemote -- No Link Found');	
+		};
+		if (!update.length) 
+		{
+		apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');				
+		};
+	}
+	
 	// Utility: IE6 Users get a special message when they log into apostrophe
 	this.IE6 = function(options)
 	{
@@ -638,7 +672,7 @@ function aConstructor()
 			apostrophe.log(items);
 		}
 
-		items.mouseover(function(){
+		items.mouseover(function(e){
 			var item  = $(this);
 			item.addClass('over');
 		})
@@ -650,22 +684,52 @@ function aConstructor()
 		.hoverIntent(function(e){
 			var item = $(this);
 			target = $(e.target);
+			
 			itemCheck = target.closest('.a-media-item:not(".expanded")');
-			if (itemCheck.length && itemCheck.hasClass('a-type-image')) 
+			itemCheck2 = target.closest('.a-media-item-controls');
+			if (itemCheck.length && !itemCheck2.length && itemCheck.hasClass('a-type-image')) 
 			{
 				if (!item.find('.expand').length) 
 				{
-					var eItem = item.clone()
-					eItem.addClass('expand dropshadow').removeClass('over').attr('id',item.attr('id')+'-clone');
-					item.prepend(eItem);
+					cloneMediaItem(item);
 				};
 			};
 		},function(e){
 			var item = $(this);
-			item.removeClass('over');
-			item.find('.expand').remove();
+			// item.removeClass('over');
+			// item.find('.expand').remove();
 		});
-	}
+		
+		items.each(function(){
+			var item = $(this);
+			var itemControls = item.find('.a-media-item-controls');
+			var edit = itemControls.find('a.a-edit');
+			// editButton(edit);
+		});
+		
+		function editButton(edit)
+		{
+			var nEdit = $('<a/>');
+			nEdit.addClass('a-btn icon a-edit lite alt no-label a-edit-slug');
+			nEdit.attr({
+				href: '#edit-media-item',
+			});
+			nEdit.html(edit.html());
+			edit.before(nEdit);
+			edit.addClass('a-edit-real').hide();
+		}
+		
+		function cloneMediaItem(item)
+		{
+			var eItem = item.clone()
+			eItem.css('display','none');
+			item.prepend(eItem);
+			var eOffset = Math.floor(eItem.find('img').attr('height')/2);
+			eItem.find('.a-edit-slug').hide();
+			eItem.find('.a-edit-real').show();
+			eItem.addClass('expand dropshadow').removeClass('over').attr('id',item.attr('id')+'-clone').css({marginTop: -eOffset, display: 'block'});		
+		}	
+	}	
 	
 	this.mediaEnableLinkAccount = function(previewUrl)
 	{

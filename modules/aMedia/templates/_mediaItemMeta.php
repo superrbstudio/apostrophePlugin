@@ -99,8 +99,3 @@
 		<?php endif ?>
 	<?php endif ?>
 </ul>
-<?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
-<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
-<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
-
-<?php a_include_js_calls() ?>
