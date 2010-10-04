@@ -181,26 +181,9 @@
 	<?php include_partial('aMedia/itemFormScripts') ?>
 <?php endif ?>
 
-<?php if($sf_request->isXmlHttpRequest()): ?>
-<script type="text/javascript">
-  $('#a-media-edit-form-<?php echo $i ?>').submit(function(event) {
-    var form = $(this);
-    var file = form.find('input[type="file"]');
-    var value = FCKeditorAPI.GetInstance('<?php echo $form['description']->renderId() ?>').GetXHTML();
-    $('#<?php echo $form['description']->renderId() ?>').val(value);	
-    if(file.val() == '')
-    {
-      event.preventDefault();
-      //Ajax
-      $.post('<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))) ?>', form.serialize(), function(data) {
-					$('#a-media-item-<?php echo $item->getId() ?> .a-media-item-information').html(data);
-			});
-    }
-  });
-</script>
-<?php endif ?>
-
 <?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-media-replace-image-'.$i, 'classname' => '', 'overlay' => false)) ?>
 <?php a_js_call('apostrophe.mediaReplaceFileListener(?)', array('menu' => '#a-media-replace-image-'.$i, 'input' => '.a-form-row.replace input[type="file"]', 'message' => a_('This file will be replaced after you click save.'), 'fileLabel' => a_('New file: '))) ?>
 
-<?php a_include_js_calls() ?>
+<?php if($sf_request->isXmlHttpRequest()): ?>
+	<?php a_js_call('apostrophe.mediaAjaxSubmitListener(?)', array('form' => '#a-media-edit-form-'.$i, 'descId' => $form['description']->renderId(), 'url' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))), 'update' => '#a-media-item-'.$item->getId().' .a-media-item-information')) ?>
+<?php endif ?>

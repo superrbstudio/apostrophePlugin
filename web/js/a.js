@@ -561,6 +561,7 @@ function aConstructor()
 		});
 	}
 	
+	// Listens to the file input for a media form and returns visual feedback if a new file is selected 
 	this.mediaReplaceFileListener = function(options)
 	{
 		var menu = $(options['menu']);
@@ -594,6 +595,35 @@ function aConstructor()
 		else
 		{
 			apostrophe.log('apostrophe.mediaReplaceFileListener -- no input found');
+		};
+	}
+	
+	// Upon submission, if the media form has an empty file field and it is in a context to do so, it submits with AJAX -- Otherwise, it will submit normally
+	this.mediaAjaxSubmitListener = function(options)
+	{
+		var form = $(options['form']);
+		var url = options['url'];
+		var update = $(options['update']);
+    var file = form.find('input[type="file"]');
+		var descId = options['descId'];
+    var value = FCKeditorAPI.GetInstance(descId).GetXHTML();
+
+		if (form.length) {
+		  form.submit(function(event) {
+		    $('#'+descId).val(value);	
+				// If the file field is empty we can submit the edit form asynchronously
+		    if(file.val() == '')
+		    { 
+		      event.preventDefault();
+		      $.post(url, form.serialize(), function(data) {
+							update.html(data);
+					});
+		    }
+		  });
+		}
+		else
+		{
+			apostrophe.log('apostrophe.mediaAjaxSubmitListener -- No form found');
 		};
 	}
 	
