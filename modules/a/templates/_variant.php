@@ -13,8 +13,8 @@
 <?php if (count($variants) > 1): ?>
   <?php // You can't switch variants until you've saved something for architectural reasons, however ?>
   <?php // we do need this menu waiting in the wings so that we can turn it on on the first save of an edit view ?>
-  <li class="variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
-		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><?php echo __('Options', null, 'apostrophe') ?></a>
+  <li class="a-ui variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
+		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><span class="icon"></span><?php echo __('Options', null, 'apostrophe') ?></a>
     <ul class="a-options a-variant-options dropshadow">
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
@@ -23,10 +23,10 @@
         <?php $id = "a-$pageid-$name-$permid-variant-$variant" ?>
         <?php $active = ($variant === $slot->getEffectiveVariant($options)) ?>
         <li id="<?php echo $id ?>-active" class="active current" style="<?php echo $active ? '' : 'display: none' ?>">
-          <span class="a-btn alt a-disabled icon a-checked no-bg"><?php echo $settings['label'] ?></span>
+          <span class="a-btn alt a-disabled icon a-checked no-bg"><span class="icon"></span><?php echo $settings['label'] ?></span>
         </li>
         <li id="<?php echo $id ?>-inactive" class="inactive" style="<?php echo (!$active) ? '' : 'display: none' ?>">
-          <?php echo jq_link_to_remote(__($settings['label'], null, 'apostrophe'), array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn alt icon a-unchecked no-bg',)) ?>
+          <?php echo jq_link_to_remote('<span class="icon"></span>'.__($settings['label'], null, 'apostrophe'), array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn alt icon a-unchecked no-bg',)) ?>
         </li>
     		<script type="text/javascript" charset="utf-8">
     			$(document).ready(function() {
