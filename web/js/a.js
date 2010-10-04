@@ -36,7 +36,8 @@ function aConstructor()
 			apostropheReady(); 	
 		}
 		
-		// This is deprecated, it's the old function name, preserved here for backwards compatibility
+		// This is deprecated, it's the old function name, 
+		// preserved here for backwards compatibility
 		if (typeof(aOverrides) =="function")
 		{ 
 			aOverrides(); 	
@@ -606,11 +607,12 @@ function aConstructor()
 		var update = $(options['update']);
     var file = form.find('input[type="file"]');
 		var descId = options['descId'];
-    var value = FCKeditorAPI.GetInstance(descId).GetXHTML();
-
+		var fck = $('#'+descId);
 		if (form.length) {
 		  form.submit(function(event) {
-		    $('#'+descId).val(value);	
+				if (fck.length) {
+					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());						
+				};
 				// If the file field is empty we can submit the edit form asynchronously
 		    if(file.val() == '')
 		    { 

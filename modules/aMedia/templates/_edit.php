@@ -147,8 +147,6 @@
   		</div>
     <?php endif ?>
 
-
-
    <?php if ($item): ?>
     <ul class="a-ui a-controls">
      	<li>
