@@ -1,5 +1,5 @@
 generator:
-  class: sfDoctrineGenerator
+  class: aCategoryAdminGenerator
   param:
     model_class:           aCategory
     theme:                 aAdmin
@@ -19,6 +19,8 @@ generator:
         fields:
           name:
             label: Category
+          category_aMediaItem:
+            label: Media Items
         actions:
           new:
             label: New Category
@@ -40,8 +42,8 @@ generator:
         # including the blog plugin. See PluginaCategoryFormFilter for the right approach to limiting
         # this with useFields while still including the filters for new types of categorizable stuff
         
-        # fields:  [  groups_list, users_list ]
-        # display: [  groups_list, users_list ]
+        #fields:  [  groups_list, users_list ]
+        #display: [  groups_list, users_list ]
         
       fields:
         users: { label: Active Users }

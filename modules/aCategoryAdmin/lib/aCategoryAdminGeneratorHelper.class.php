@@ -17,4 +17,9 @@ class aCategoryAdminGeneratorHelper extends BaseaCategoryAdminGeneratorHelper
     sfContext::getInstance()->getEventDispatcher()->filter($event, array());
     $this->counts = $event->getReturnValue();
   }
+
+  public function getCount($class, $category_id)
+  {
+    return isset($this->counts[$class]['counts'][$category_id]['count'])? $this->counts[$class]['counts'][$category_id]['count'] : 0;
+  }
 }
