@@ -175,7 +175,8 @@ class aImageConverter
       // We can't tell
       return 1;
     }
-    $exif = exif_read_data($file);
+    // exif_read_data is noisy if it encounters Adobe XMP instead of EXIF in the app0 marker
+    $exif = @exif_read_data($file);
     if (!$exif)
     {
       return 1;
