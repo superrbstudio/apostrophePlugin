@@ -30,7 +30,7 @@
 	<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
 	<![endif]-->
-	<?php include_partial('aBlog/disqus_dev') ?>
+	
 </head>
 
 <?php // body_class allows you to set a class for the body element from a template ?>
@@ -111,6 +111,9 @@
 	<?php // If we try to do this sooner, it works for the template but ?>
 	<?php // doesn't yet know about any js calls relating to the layout. ?>
   <?php a_include_js_calls() ?>
-	<?php include_partial('aBlog/disqus_countcode') ?>	
+	<?php // Disqus comments ?>
+	<?php if (sfConfig::get('app_aBlog_disqus_enabled', true) && sfConfig::get('app_aBlog_disqus_shortname')): ?>
+		<?php include_partial('aBlog/disqus_countcode') ?>
+	<?php endif ?>
 </body>
 </html>
