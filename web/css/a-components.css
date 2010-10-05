@@ -42,7 +42,7 @@ border-radius: 6px;
 -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 overflow: hidden;
 }
 
@@ -128,7 +128,7 @@ margin: 10px 0;
 	position: relative;
 	margin: 20px 0;
 	padding: 20px;
-	border: 1px solid #ccc;
+	border: 1px solid #ddd;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -572,7 +572,7 @@ line-height: 1.2;
 
 a.a-history-browser-view-more
 {
-	border-left: 1px solid #ccc;
+	border-left: 1px solid #ddd;
 }
 
 a.a-history-browser-view-more .spinner
@@ -682,7 +682,7 @@ margin-right: 10px;
 
 #a-history-preview-notice-toggle
 {
-color: #ccc;
+color: #ddd;
 position: absolute;
 top: 10px;
 right: 10px;
@@ -719,7 +719,7 @@ position: relative;
 width: 238px;
 height: 20px;
 background: #fff;
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
 border-radius: 10px;

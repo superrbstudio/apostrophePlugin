@@ -30,7 +30,7 @@ text-indent: -9999px;
 cursor: pointer;
 }
 
-.a-audio-button:hover { background-color: #ccc; }
+.a-audio-button:hover { background-color: #ddd; }
 
 .a-audio-play  { background: #fff url(/apostrophePlugin/images/a-icon-alt-play.png) no-repeat 6px 0; }
 

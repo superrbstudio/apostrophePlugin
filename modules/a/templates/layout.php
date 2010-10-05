@@ -8,7 +8,7 @@
   <?php $root = aPageTable::retrieveBySlug('/') ?>
 <head>
 	<?php // What do you guys think about Chrome frame? It's out of beta now :D ?>
-	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
 	<?php include_title() ?>

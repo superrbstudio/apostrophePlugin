@@ -52,15 +52,15 @@
 	<div class="a-media-footer">
  		<?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
 		<ul class="a-ui a-controls a-media-footer-controls">
- 			<li><?php echo $pager->count() ?> items</li>
-			<li class="a-media-footer-separator">|</li>
-			<li>view</li>
+ 			<li class="a-media-footer-item-count"><?php echo $pager->count() ?> items</li>
+			<li class="a-media-footer-separator a">|</li>
+			<li class="a-media-footer-view-label">view</li>
 			<?php foreach($views as $n): ?>
-				<li><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt', )) ?></li>
+				<li class="a-media-footer-view-option"><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt', )) ?></li>
 			<?php endforeach ?>
-			<li class="a-media-footer-separator">|</li>
+			<li class="a-media-footer-separator b">|</li>
 			<?php foreach($enabled_layouts as $enabled_layout): ?>
-				<li><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
+				<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

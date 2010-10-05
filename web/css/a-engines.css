@@ -122,7 +122,7 @@ border-radius: 6px;
 -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 overflow: hidden;
 }
 
@@ -460,7 +460,7 @@ margin: 10px 0 0;
 .four-up .a-media-item { width: 165px; margin-bottom: 0px; margin-right: 20px; }
 .four-up .a-media-item.last { margin-right: 0px; }
 
-.four-up .a-media-item.over { border: 1px solid #ccc; padding:4px; margin: -5px 15px -5px -5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;}
+.four-up .a-media-item.over { border: 1px solid #ddd; padding:4px; margin: -5px 15px -5px -5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;}
 
 .four-up .a-media-item.over.last { margin-right: -5px;}
 
@@ -544,8 +544,9 @@ border-radius: 4px;
 .a-media-multiple-upload .a-media-library .a-media-editor { float: left; width: 100%; clear: both; width: 100%; }
 
 .a-media-multiple-upload .a-media-library .a-media-editor { margin-bottom: 20px; }
+.a-media-multiple-upload .a-media-library .a-media-editor.last { margin-bottom: 0; }
 
-.a-media-multiple-upload .a-media-library .a-media-item { border-bottom: 1px solid #ccc; }
+.a-media-multiple-upload .a-media-library .a-media-item { border-bottom: 1px solid #ddd; }
 
 .a-media-multiple-upload .a-media-library .a-form-row { float: right; clear: right; width: 340px; }
 
@@ -567,7 +568,7 @@ background-color: #efefef;
 -moz-border-radius: 4px;
 -webkit-border-radius: 4px;
 border-radius: 4px;
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 overflow: auto;
 -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
@@ -638,7 +639,7 @@ float: left;
 clear: both;
 margin: 5px 0;
 background: #fff;
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
 border-radius: 10px;
@@ -1146,15 +1147,17 @@ li.a-media-selection-preview-item .jcrop-holder {
 /* Media Footer & Media Footer Controls / Buttons
 -------------------------------------*/
 
-.a-media-footer-controls
-{
-	line-height: 20px;
-}
+.a-media-footer { font-size: 11px; line-height: 20px; padding: 10px 0; margin: 10px 0; border-top: 1px solid #ddd;}
 
-.a-ui.a-controls.a-media-footer-controls li
-{
-	margin: 0 4px 2px 0 !important;
-}
+.a-media-footer .a-btn { font-size: 11px; }
+
+.a-media-footer .a-pager-navigation { float: right; width: auto; clear: none; margin: 0; }
+
+.a-ui.a-controls.a-media-footer-controls { float: left; width: auto; clear: none; }
+.a-ui.a-controls.a-media-footer-controls li { margin: 0 4px 2px 0; }
+.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator { border-right: 1px solid #ddd; background-color: #efefef; width: 1px; overflow: hidden; text-indent: -9999px; margin: 0 4px 2px; }
+.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator.b { margin-left: 0;}
+.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator.a { margin-right: 8px;}
 
 /* Blog Engine Styles
 -------------------------------------*/

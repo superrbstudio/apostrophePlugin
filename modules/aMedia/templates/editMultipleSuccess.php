@@ -51,8 +51,7 @@
 		    <?php // it supports the same methods as a form for rendering purposes ?>
 
 			    <?php // Please do not remove this div, I need it to implement the remove button ?>
-			    <div id="a-media-editor-<?php echo $i ?>" class="a-media-editor<?php echo ($n%2 == 0)? ' a-even':' a-odd' ?>">
-						<ul>
+			    <div id="a-media-editor-<?php echo $i ?>" class="a-media-editor<?php echo ($n%2 == 0)? ' a-even':' a-odd' ?><?php echo ($i == $totalItems-1)? ' last':'' ?>">
 	 			    <?php include_partial('aMedia/edit', 
 	 								array(
 	 									"item" => false, 
@@ -62,7 +61,6 @@
 	 									'i' => $i,
 	 									'itemFormScripts' => false,
 	 									)) ?>
-						</ul>
 					</div>
 				<?php $n++ ?>
 		  <?php endif ?>
@@ -70,7 +68,7 @@
 
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 
-		<ul class="a-ui a-controls<?php echo (!$singleItem)? ' a-align-right':' a-align-left' ?>">
+		<ul class="a-ui a-controls a-align-right">
 			<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
 			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 		</ul>

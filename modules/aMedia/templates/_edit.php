@@ -14,12 +14,12 @@
 <?php if (!isset($n)): ?> <?php $n = 0 ?> <?php endif ?>
 <?php if (!isset($i)): ?> <?php $i = $item['id'] ?> <?php endif ?>
 	
+
 <?php // if there is an $item then we're editing one existing media item ?>
 <?php // else: we're part of an annotation of potentially several new items in a bigger form ?>
 
 <?php if (!$item): ?>	
-<li class="a-media-item <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
-	<div class="a-media-edit-form">
+<div class="a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 <?php endif ?>
 
 <?php if ($item): ?>
@@ -58,13 +58,13 @@
     <?php endif ?>
 
 		<div class="a-form-row title">
-		<?php echo $form['title']->renderLabel() ?>
-		<div class="a-form-field">
-			<?php echo $form['title']->render() ?>
-		</div>			
-		<?php if (!$firstPass): ?>
-		  <?php echo $form['title']->renderError() ?>
-		<?php endif ?>
+			<?php echo $form['title']->renderLabel() ?>
+			<div class="a-form-field">
+				<?php echo $form['title']->render() ?>
+			</div>			
+			<?php if (!$firstPass): ?>
+		  	<?php echo $form['title']->renderError() ?>
+			<?php endif ?>
 		</div>
 
 		<div class="a-form-row description">
@@ -112,35 +112,33 @@
 				<?php echo $form['view_is_secure']->render() ?>
 			</div>
 			<?php echo $form['view_is_secure']->renderError() ?>
-
 	    <div class="a-form-help-text">
-				<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
 				<!-- John, we'll want to do jake's new question mark floating help here instead. -->
+				<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
 	    </div>
-
 		</div>
 		
 		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
 		<?php if (!$form['file']->hasError()): ?>
-			<?php if ($item && !$item->getEmbeddable()): ?>
-  		<div class="a-form-row replace a-ui">		
-  	    <?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
-  			<div class="a-options-container">		
-  				<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span>Replace File</a>
-  				<div class="a-options dropshadow">
-  		      <?php echo $form['file']->renderLabel() ?>
-						<div class="a-form-field">
-  		      	<?php echo $form['file']->render() ?>
-						</div>
-  		      <?php echo $form['file']->renderError() ?>
-  		    </div>
-  			</div>
+ 			<div class="a-form-row replace a-ui">		
+				<?php if ($item && !$item->getEmbeddable()): ?>
+	  	    	<?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
+	  				<div class="a-options-container">		
+	  					<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span>Replace File</a>
+	  					<div class="a-options dropshadow">
+	  		      	<?php echo $form['file']->renderLabel() ?>
+								<div class="a-form-field">
+	  		      		<?php echo $form['file']->render() ?>
+								</div>
+	  		      	<?php echo $form['file']->renderError() ?>
+	  		    	</div>
+	  				</div>
 				<?php endif ?>
-  			<?php if (!$item): ?>
-  	      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
-  	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
-  	    <?php endif ?>
-        <?php if ($item && $item->getDownloadable()): ?>
+	  		<?php if (!$item): ?>
+	  	  	<a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
+	  	    <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+	  	  <?php endif ?>
+	      <?php if ($item && $item->getDownloadable()): ?>
 					<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
 				<?php endif ?>
   		</div>
@@ -161,17 +159,14 @@
          array("target" => "_top")) ?>
 			</li>
    	</ul>
-
 		<div class="a-form-row a-hidden">
    		<?php echo $form->renderHiddenFields() ?>
   	</div>
-
-	</form>
-<?php endif ?>
-				
+		</form>
+		<?php endif ?>
+			
 <?php if (!$item): ?>
 	</div>
-</li>
 <?php endif ?>
 
 <?php if (!isset($itemFormScripts)): ?>
