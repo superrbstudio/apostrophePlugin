@@ -1190,6 +1190,10 @@ function aConstructor()
 		$('.a-controls, .a-options').addClass('clearfix');
 		// Add 'last' Class To Last Option
 		$('.a-controls li:last-child').addClass('last'); 
+		
+		// Valid way to have links open up in a new browser window
+		// Example: <a href="..." rel="external">Click Meh</a>
+		$('a[rel="external"]').attr('target','_blank');
 	}
 	
 	this.audioPlayerSetup = function(aAudioContainer, file)

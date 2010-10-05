@@ -142,18 +142,18 @@ line-height: 20px !important;
 .a-pdf > .icon { background-image: url(/apostrophePlugin/images/a-icon-pdf.png); }
 .a-rawhtml > .icon { background-image: url(/apostrophePlugin/images/a-icon-rawhtml.png); }
 .a-reorganize > .icon { background-image: url(/apostrophePlugin/images/a-icon-sitemap.png); }
+.a-replace > .icon { background-image: url(/apostrophePlugin/images/a-icon-replace.png); }
 .a-richtext > .icon, .a-text > .icon { background-image: url(/apostrophePlugin/images/a-icon-text.png); }
+.a-search > .icon { background-image: url(/apostrophePlugin/images/a-icon-search.png); }
 .a-settings > .icon { background-image: url(/apostrophePlugin/images/a-icon-settings.png); }
 .a-slideshow > .icon { background-image: url(/apostrophePlugin/images/a-icon-slideshow.png); }
 .a-templates > .icon { background-image: url(/apostrophePlugin/images/a-icon-templates.png); }
 .a-unchecked > .icon { background-image: url(/apostrophePlugin/images/a-icon-unchecked.png); }
 .a-users > .icon { background-image: url(/apostrophePlugin/images/a-icon-users.png); }
 .a-video > .icon { background-image: url(/apostrophePlugin/images/a-icon-video.png); }
-.a-replace > .icon { background-image: url(/apostrophePlugin/images/a-icon-replace.png); }
 .a-audio > .icon { background-image: url(/apostrophePlugin/images/a-icon-audio.png); }
 .a-categories > .icon,
 .a-tag > .icon { background-image: url(/apostrophePlugin/images/a-icon-tag.png); }
-
 
 /* Apostrophe Alternate Button Icons
 -------------------------------------*/
@@ -202,6 +202,7 @@ line-height: 20px !important;
 .alt .a-text > .icon, 
 .a-text.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-text.png); }
 .alt .a-slideshow > .icon, .a-slideshow.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-slideshow.png); }
+.alt .a-search > .icon, .a-search.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-search.png); }
 .alt .a-settings > .icon, .a-settings.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png); }
 .alt .a-templates > .icon, .a-templates.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png); }
 .alt .a-unchecked > .icon, .a-unchecked.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png); }
@@ -291,7 +292,7 @@ line-height: 20px !important;
 /* Apostrophe Delete Button
 -------------------------------------*/
 
-.a-ui .a-btn.a-delete { background-color: #fff; color: #000; }
+.a-ui .a-btn.a-delete.no-label { background-color: #fff; color: #000; }
 
 
 /* Apostrophe Close Button
