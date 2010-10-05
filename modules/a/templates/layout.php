@@ -30,7 +30,7 @@
 	<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
 	<![endif]-->
-		
+	<?php include_partial('aBlog/disqus_dev') ?>
 </head>
 
 <?php // body_class allows you to set a class for the body element from a template ?>
@@ -38,6 +38,7 @@
 
 	<?php include_partial('a/doNotEdit') ?>
   <?php include_partial('a/globalTools') ?>
+	
 
 	<div id="a-wrapper" class="a-wrapper">
 
@@ -110,6 +111,6 @@
 	<?php // If we try to do this sooner, it works for the template but ?>
 	<?php // doesn't yet know about any js calls relating to the layout. ?>
   <?php a_include_js_calls() ?>
-
+	<?php include_partial('aBlog/disqus_countcode') ?>	
 </body>
 </html>

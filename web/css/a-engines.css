@@ -1247,8 +1247,13 @@ li.a-media-selection-preview-item .jcrop-holder {
 
 .a-event-date-range .end_date { margin-top: 5px; }
 
-
-
+#disqus_thread
+{
+	display: inline;
+	position: relative;
+	float: left;
+	width: 100%;
+}
 /* 25. Shared Tag Sidebar
 -------------------------------------*/
 
