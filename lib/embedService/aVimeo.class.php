@@ -128,7 +128,7 @@ EOM
   
   public function getIdFromUrl($url)
   {
-    if (!preg_match("/vimeo.com\/(\d+)/", 
+    if (!preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
       $url, $matches))
     {
       return false;

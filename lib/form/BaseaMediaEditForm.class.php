@@ -22,6 +22,7 @@ class BaseaMediaEditForm extends aMediaItemForm
     unset($this['width']);
     unset($this['height']);
     unset($this['format']);
+    unset($this['embed']);
     
     $this->setWidget('file', new aWidgetFormInputFilePersistent(array(
     )));
