@@ -29,7 +29,7 @@
               array("multiple" => true,
               "aMediaIds" => implode(",", $itemIds),
               "type" => "image",
-              "label" => __("You are creating a slideshow of images.", null, 'apostrophe'),
+              "label" => __("Choose a photo or multiple photos to create a slideshow.", null, 'apostrophe'),
               "after" => url_for("aSlideshowSlot/edit") . "?" . 
                 http_build_query(
                   array(

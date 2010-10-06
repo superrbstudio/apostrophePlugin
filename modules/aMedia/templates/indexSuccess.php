@@ -18,7 +18,28 @@
 	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
 
+<?php slot('a-media-library-controls') ?>
+<?php $views = array(20, 50, 100) ?>
+<?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
+<ul class="a-ui a-controls a-media-footer-controls">
+	<li class="a-media-footer-item-count"><?php echo $pager->count() ?> items</li>
+	<li class="a-media-footer-separator a">|</li>
+	<li class="a-media-footer-view-label">view</li>
+	<?php foreach($views as $n): ?>
+		<li class="a-media-footer-view-option"><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt', )) ?></li>
+	<?php endforeach ?>
+	<li class="a-media-footer-separator b">|</li>
+	<?php foreach($enabled_layouts as $enabled_layout): ?>
+		<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
+	<?php endforeach; ?>
+</ul>
+<?php end_slot() ?>
+
 <div class="a-media-library">
+
+	<div class="a-media-library-controls top">
+		<?php include_slot('a-media-library-controls') ?>
+	</div>
 
 	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
 			<?php if (aMediaTools::isSelecting()): ?>
@@ -48,24 +69,15 @@
 	 <?php endfor ?>
 	</div>
 
-	<?php $views = array(20, 50, 100) ?>
+
 	<div class="a-media-footer">
- 		<?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
-		<ul class="a-ui a-controls a-media-footer-controls">
- 			<li class="a-media-footer-item-count"><?php echo $pager->count() ?> items</li>
-			<li class="a-media-footer-separator a">|</li>
-			<li class="a-media-footer-view-label">view</li>
-			<?php foreach($views as $n): ?>
-				<li class="a-media-footer-view-option"><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt', )) ?></li>
-			<?php endforeach ?>
-			<li class="a-media-footer-separator b">|</li>
-			<?php foreach($enabled_layouts as $enabled_layout): ?>
-				<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label')) ?></li>
-			<?php endforeach; ?>
-		</ul>
+		<div class="a-media-library-controls bottom">
+			<?php include_slot('a-media-library-controls') ?>
+		</div>
 	</div>
 	
 </div>
+
 
 <?php // Media Sidebar is wrapped slot('a-subnav') ?>
 <?php include_component('aMedia', 'browser') ?>
