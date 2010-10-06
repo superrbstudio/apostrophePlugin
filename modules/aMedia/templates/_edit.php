@@ -51,7 +51,7 @@
 	      <?php echo $form['file']->renderError() ?>
 	      <?php echo $form['file']->render() ?>
   			<?php if (!$item): ?>
-  	      <a class="a-btn icon a-delete lite" href="#">Delete File</a>
+  	      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
   	      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
   	    <?php endif ?>
   		</div>

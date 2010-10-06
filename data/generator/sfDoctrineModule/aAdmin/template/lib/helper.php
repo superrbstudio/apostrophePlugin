@@ -12,12 +12,12 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
 {
   public function linkToNew($params)
   {
-    return '<li class="a-admin-action-new">'.link_to(__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('new'), array() ,array("class"=>"a-btn icon big a-add")).'</li>';
+    return '<li class="a-admin-action-new">'.link_to('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('new'), array() ,array("class"=>"a-btn icon big a-add")).'</li>';
   }
 
   public function linkToEdit($object, $params)
   {
-    return '<li class="a-admin-action-edit">'.link_to(__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('edit'), $object, array('class'=>'a-btn icon no-label a-edit')).'</li>';
+    return '<li class="a-admin-action-edit">'.link_to('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('edit'), $object, array('class'=>'a-btn icon no-label a-edit')).'</li>';
   }
 
   public function linkToDelete($object, $params)
@@ -27,17 +27,17 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
       return '';
     }
 
-    return '<li class="a-admin-action-delete">'.link_to(__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('delete'), $object, array('class'=>'a-btn icon no-label a-delete','method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'apostrophe') : $params['confirm'])).'</li>';
+    return '<li class="a-admin-action-delete">'.link_to('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('delete'), $object, array('class'=>'a-btn icon no-label a-delete','method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'apostrophe') : $params['confirm'])).'</li>';
   }
 
   public function linkToList($params)
   {
-    return '<li class="a-admin-action-list">'.link_to(__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel')).'</li>';
+    return '<li class="a-admin-action-list">'.link_to('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel')).'</li>';
   }
 
   public function linkToSave($object, $params)
   {
-    return '<li class="a-admin-action-save">'.jq_link_to_function(__($params['label'], array(), 'apostrophe'), "$('#a-admin-form').submit()", array('class'=>'a-btn a-save') ).'</li>';
+    return '<li class="a-admin-action-save">'.jq_link_to_function('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), "$('#a-admin-form').submit()", array('class'=>'a-btn a-save') ).'</li>';
   }
 
   public function linkToSaveAndAdd($object, $params)
@@ -46,7 +46,7 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
     {
       return '';
     }
-    return '<li class="a-admin-action-save-and-add">'.jq_link_to_function(__($params['label'], array(), 'apostrophe'), '$(this).after("<input type=\"hidden\" name=\"_save_and_add\" value=\"1\" id=\"a_admin_save_and_add\">");$("#a-admin-form").submit()', array('class'=>'a-btn') ).'</li>';
+    return '<li class="a-admin-action-save-and-add">'.jq_link_to_function('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), '$(this).after("<input type=\"hidden\" name=\"_save_and_add\" value=\"1\" id=\"a_admin_save_and_add\">");$("#a-admin-form").submit()', array('class'=>'a-btn') ).'</li>';
   }
 
   public function getUrlForAction($action)

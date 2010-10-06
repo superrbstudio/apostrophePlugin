@@ -153,7 +153,7 @@
 			<?php if ((!$page->isNew()) && $page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
-	      <li class="a-align-right"><?php echo link_to(__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete no-bg', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>
+	      <li class="a-align-right"><?php echo link_to('<span class="icon"></span>'.__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete lite', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>
 			<?php endif ?>
 		</ul>
 	</div>

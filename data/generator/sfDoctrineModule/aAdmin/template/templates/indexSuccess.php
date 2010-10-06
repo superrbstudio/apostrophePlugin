@@ -10,7 +10,7 @@
 		<div class="a-subnav-inner">
 			<ul class="a-ui a-controls">
 				<?php if ($this->configuration->hasFilterForm()): ?>
-	  			<li class="filters">[?php echo jq_link_to_function("Filters", "$('#a-admin-filters-container').slideToggle()" ,array('class' => 'a-btn icon a-settings', 'title'=>'Filter Data')) ?]</li>
+	  			<li class="filters">[?php echo jq_link_to_function('<span class="icon"></span>'.a_('Filters'), "$('#a-admin-filters-container').slideToggle()" ,array('class' => 'a-btn icon a-settings', 'title'=>'Filter Data')) ?]</li>
 				<?php endif; ?>
 					<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
 			</ul>

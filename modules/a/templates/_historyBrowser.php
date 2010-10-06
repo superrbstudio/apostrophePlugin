@@ -1,8 +1,8 @@
 <?php use_helper('a','I18N') ?>
 <div class="a-history-browser dropshadow">
 	<div class="a-history-browser-heading">
-		<a href="#big-history-button" class="a-btn icon a-history-btn big" id="a-history-heading-button" style="margin: 5px" id="" onclick="return false;"><?php echo __('You are browsing past revisions for this area.', null, 'apostrophe') ?></a>
-		<a href="#close-history-browser" onclick="return false;" id="a-history-close-button" class="a-btn no-label icon a-close no-bg" title="<?php echo __('Close History Browser', null, 'apostrophe') ?>"><?php echo __('Close History Browser', null, 'apostrophe') ?></a>
+		<a href="#big-history-button" class="a-btn icon a-history-btn big" id="a-history-heading-button" style="margin: 5px" id="" onclick="return false;"><span class="icon"></span><?php echo a_('You are browsing past revisions for this area.') ?></a>
+		<a href="#close-history-browser" onclick="return false;" id="a-history-close-button" class="a-btn no-label icon a-close no-bg" title="<?php echo __('Close History Browser', null, 'apostrophe') ?>"><span class="icon"></span><?php echo a_('Close History Browser') ?></a>
 	</div>
 	<div class="a-history-browser-crop">
 		<table cellspacing="0" cellpadding="0" border="0" title="<?php echo htmlspecialchars(__('Choose a revision.', null, 'apostrophe')) ?>">
@@ -37,6 +37,7 @@
 	<a href="#" onclick="return false;" id="a-history-preview-notice-toggle">Hide</a>
 	<p><?php echo __('You are previewing another version of this content area. This will not become the current version unless you click "Save As Current Revision." If you change your mind, click "Cancel."', null, 'apostrophe') ?></p>
 	<div class="a-history-options">
-		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><?php echo __('Save as Current Revision', null, 'apostrophe') ?></a>	<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn icon a-cancel"><?php echo __('Cancel', null, 'apostrophe') ?></a>
+		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><span class="icon"></span><?php echo a_('Save as Current Revision') ?></a>
+		<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn icon a-cancel"><span class="icon"></span><?php echo a_('Cancel') ?></a>
 	</div>
 </div>

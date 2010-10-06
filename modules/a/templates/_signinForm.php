@@ -22,22 +22,13 @@
     	<?php echo $form['password']->render() ?>
     	<?php echo $form['password']->renderError() ?>
 		</div>
-
-		<?php if (0): ?>
-		<?php // When this thing starts working, it can get displayed. ?>
-		<div class="a-form-row">
-    	<?php echo $form['remember']->renderLabel() ?>
-			<?php echo $form['remember']->render() ?>
-			<?php echo $form['remember']->renderError() ?>
-		</div>
-		<?php endif ?>
 		
 		<ul class="a-form-row submit">
     	<li>
 				<input type="submit" class="a-btn a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
 			</li>
 			<li>
-				<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-btn icon a-cancel', )) ?>
+				<?php echo jq_link_to_function('<span class="icon"></span>'.a_('Cancel'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-btn icon a-cancel', )) ?>
 			</li>
 		</ul>
 		

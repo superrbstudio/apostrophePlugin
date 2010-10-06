@@ -17,10 +17,10 @@
 
 	  <ul id="a-breadcrumb-rename-controls" class="a-form-controls a-breadcrumb-controls rename" style="display:none;">
 			<li>
-				<input type="submit" class="a-btn a-submit" value="<?php echo __('Rename', null, 'apostrophe') ?>" />							
+				<input type="submit" class="a-btn a-submit" value="<?php echo a_('Rename') ?>" />							
 			</li>
 	  	<li>
-				<?php echo jq_link_to_function(__("Cancel", null, 'apostrophe'), '', array('class' => 'a-btn icon a-cancel')) ?>
+				<?php echo jq_link_to_function('<span class="icon"></span>'.a_("Cancel"), '', array('class' => 'a-btn icon a-cancel')) ?>
 	  	</li>
 	  </ul>
 

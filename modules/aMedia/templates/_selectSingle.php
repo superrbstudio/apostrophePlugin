@@ -15,6 +15,6 @@
   <?php endif ?>
   </p>
   <ul class="a-controls">
-    <li><?php echo link_to("Cancel", "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel")) ?></li>
+    <li><?php echo link_to('<span class="icon"></span>'.a_('Cancel'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel")) ?></li>
   </ul>
 </div>
