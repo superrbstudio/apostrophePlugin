@@ -9,7 +9,7 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkAttributes = "#select-image"; ?>
+    <?php $linkAttributes = "/#select-media-item"; ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
@@ -32,12 +32,16 @@
 	      <?php endif ?>
       <?php endif ?>
         
+			<?php if (aMediaTools::isSelecting()): ?>
+				<span class="a-media-select-overlay" title="<?php echo a_('Click to select this item.') ?>"><span><?php echo a_('Click to select this item.') ?></span></span>
+			<?php endif ?>
+			
 			<?php // PDFs with an image preview ?>
 	    <?php if ($mediaItem->getWidth() && ($mediaItem->getType() == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
 
 			<?php // Audio Files ?>
       <?php if ($mediaItem->getType() == 'audio'): ?>
-  			<?php $playerOptions = array('width' => $galleryConstraints['width'], 'download' => true, 'player' => 'lite') ?>
+  			<?php $playerOptions = array('width' => (($layout['name'] == 'four-up') ? 165 : $galleryConstraints['width']), 'download' => true, 'player' => 'lite') ?>
   			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
   		<?php else: ?>
 			<?php // Images or anything else with an image thumbnail ?>	

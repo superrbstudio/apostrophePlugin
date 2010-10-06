@@ -139,15 +139,13 @@
 	</div>
 
   <?php if ($sf_user->hasCredential('cms_admin')): ?>
-  	<hr/>
-
+ 		<hr/>
   	<div class="a-options-section a-accordion">
       <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin)) ?>
   	</div>
   <?php endif ?>
   
 	<hr/>
-
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
 		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>

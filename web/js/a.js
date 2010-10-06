@@ -683,7 +683,10 @@ function aConstructor()
 		}).
 		mouseleave(function(){
 			var item  = $(this);
-			destroyItemSlug(item);							
+			if (!item.data('hold_delete'))
+			{
+				destroyItemSlug(item);
+			};
 		});
 
 		items.find('.a-media-item-thumbnail')
@@ -697,6 +700,19 @@ function aConstructor()
 			// mouse out
 		});
 		
+		items.each(function(){
+			var item  = $(this);			
+			if (item.hasClass('a-type-video')) 
+			{
+				// We don't want to play videos in this view
+				// We want the click to pass through to showSuccess
+				// So we unbind the mediaEmbeddableToggle();
+				item.unbind('embedToggle').find('.a-media-thumb-link').unbind('click').click(function(){
+					return true;
+				});
+			};
+		});
+			
 		function createItemSlug(item)
 		{
 			var w = item.css('width');
@@ -757,15 +773,18 @@ function aConstructor()
 
 	this.mediaEmbeddableToggle = function(options)
 	{
-		var items = $(options['mediaItems']);
+		var items = $(options['selector']);
 		if (items.length) {
 			items.each(function(){
 				var item = $(this);
+				item.bind('embedToggle',function(){
+					item.children('.a-media-item-thumbnail').addClass('a-hidden');
+					item.children('.a-media-item-embed').removeClass('a-hidden');					
+				});
 				var link = item.find('.a-media-thumb-link');
 				link.unbind('click').click(function(e){
 					e.preventDefault();
-					item.children('.a-media-item-thumbnail').hide();
-					item.children('.a-hidden').removeClass('a-hidden');
+					item.trigger('embedToggle');
 				});
 			});
 		}

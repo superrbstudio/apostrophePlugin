@@ -405,8 +405,6 @@ margin: 10px 0 0;
 .a-media-item .a-media-item-embed,
 .a-media-item .a-media-item-thumbnail { width: 340px; float: left; position: relative; }
 
-.a-media-item .a-media-play-btn { position: absolute; z-index: 10; width: 100%; height: 100%; background: url(/apostrophePlugin/images/a-media-play-btn.png) no-repeat 50% 50%; }
-
 .a-media-item .a-media-item-information { float: left; width: 100%;}
 
 .a-media-item .a-media-item-title { width: 100%; float: left; margin: 5px 0; }
@@ -786,23 +784,20 @@ font-size: 14px;
 }
 
 .a-media-thumb-link { position: relative; float: left; line-height: 0; }
-
 .a-media-thumb-link:hover { text-decoration: none; }
+.a-media-thumb-link img { position: relative; z-index: 0; border: 0; }
 
-.a-media-pdf-btn
-{
-position: absolute;
-z-index: 10;
-width: 100%;
-height: 100%;
-background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%;
-}
+.a-media-thumb-link .a-media-pdf-btn { position: absolute; z-index: 10; width: 100%; height: 100%; background: url(/apostrophePlugin/images/a-media-pdf-btn.png) no-repeat 50% 50%; }
+.a-media-thumb-link .a-media-play-btn { position: absolute; z-index: 10; width: 100%; height: 100%; background: url(/apostrophePlugin/images/a-media-play-btn.png) no-repeat 50% 50%; }
+.a-media-thumb-link .a-media-select-overlay { position: absolute; z-index: 10; width: 100%; height: 100%; background: rgba(0,0,0,0.25); color: #fff; text-align: center; line-height: 100%; display: none; }
+.a-media-thumb-link .a-media-select-overlay span { line-height: 20px; height: 20px; width: 100%; font-size: 18px; position: absolute; top: 50%; left:0; margin-top: -10px; display: none; }
+.a-media-thumb-link:hover .a-media-select-overlay { display: block; }
 
 .a-media-icon-as-thumbnail { display:block; padding-top: 22px; }
 
 .a-media-item-source .a-media-icon-as-thumbnail { padding-top: 66px; }
 
-.a-media-thumb-link img { position: relative; z-index: 0; border: 0; }
+
 
 /* non-image filetype icon styles ====================================== */
 span.a-media-type
@@ -1145,10 +1140,15 @@ li.a-media-selection-preview-item .jcrop-holder {
 	text-decoration: underline;
 }
 
-/* Media Footer & Media Footer Controls / Buttons
+
+/* Media Footer
 -------------------------------------*/
 
 .a-media-footer { font-size: 11px; line-height: 20px; padding: 10px 0; margin: 10px 0; border-top: 1px solid #ddd;}
+
+
+/* Media Library Controls
+-------------------------------------*/
 
 .a-ui.a-media-library-controls { float: left; width: 100%; clear: both; padding-bottom: 10px;}
 .a-ui.a-media-library-controls.top { border-bottom: 1px solid #ddd; margin-bottom: 10px; }
@@ -1159,6 +1159,7 @@ li.a-media-selection-preview-item .jcrop-holder {
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator { border-right: 1px solid #ddd; background-color: #efefef; width: 1px; overflow: hidden; text-indent: -9999px; margin: 0 4px 2px; }
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.b { margin-left: 0;}
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.a { margin-right: 8px;}
+
 
 /* Blog Engine Styles
 -------------------------------------*/

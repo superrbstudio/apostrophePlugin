@@ -10,7 +10,7 @@
 
 <?php use_javascript('/apostrophePlugin/js/jquery.jplayer.js') ?>
 
-<div class="a-audio-player-container" id="a-audio-player-container-<?php echo $uniqueID ?>">
+<div class="a-ui a-audio-player-container" id="a-audio-player-container-<?php echo $uniqueID ?>">
 
 	<div class="a-audio-player-interface">
 		<div class="a-audio-controls" id="icons-<?php echo $uniqueID ?>">
@@ -36,7 +36,7 @@
 	<?php if ($download): ?>
 		<div class="a-audio-download"><?php echo link_to(__("Download Audio File", null, 'apostrophe'), "aMediaBackend/original?" . http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array('class' => 'a-download', )) ?></div>
 	<?php endif ?>
-	
-</div>
 
+</div>
+	
 <?php a_js_call('apostrophe.audioPlayerSetup(?, ?)', "#a-audio-player-container-$uniqueID", url_for('aMediaBackend/original?' . http_build_query(array('slug' => $item->getSlug(), 'format' => $item->getFormat())))) ?>

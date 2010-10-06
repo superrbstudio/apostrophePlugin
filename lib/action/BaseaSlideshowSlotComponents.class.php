@@ -101,7 +101,7 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
 	public function executeSlideshow()
 	{
     $this->options['width'] = $this->getOption('width', 440);
-    $this->options['height'] = $this->getOption('height', 330);
+    $this->options['height'] = $this->getOption('height', false);
     $this->options['resizeType'] = $this->getOption('resizeType', 's');
     $this->options['flexHeight'] = $this->getOption('flexHeight');
     $this->options['title'] = $this->getOption('title');

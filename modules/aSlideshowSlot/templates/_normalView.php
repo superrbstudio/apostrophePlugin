@@ -27,7 +27,7 @@
 		<?php $style .= 'height:'.$height.'px;' ?>
 	
 		<div class="a-media-placeholder" style="<?php echo $style ?>">
-			<span style="line-height:<?php echo $height ?>px;"><?php echo __("Create a Slideshow", null, 'apostrophe') ?></span>
+			<span style="line-height:<?php echo $height ?>px;"><?php echo __("Choose Photos", null, 'apostrophe') ?></span>
 		</div>
 	
 	<?php endif ?>
