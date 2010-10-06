@@ -1,6 +1,6 @@
 /* Audio Slot ======================================= */
 
-.a-ui.a-audio-player-container { position: relative; overflow: hidden; }
+.a-ui.a-audio-player-container { position: relative; overflow: hidden; clear:both; }
 
 .a-ui .a-audio-meta { float: left; width: 100%; clear: both; margin: 0 0 10px 0; }
 
@@ -16,6 +16,12 @@ padding: 10px;
 border-radius: 4px;
 margin: 10px 0;
 }
+
+
+.a-ui .a-audio-player-interface.a-loading * { visibility: hidden; }
+
+.a-ui .a-audio-player-interface.a-loading .a-audio-loading { visibility: visible; display: block; padding:  0 0 0 20px; background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 0 50% no-repeat; line-height: 20px; height: 20px;}
+.a-ui .a-audio-player-interface .a-audio-loading { display: none; position: absolute; top: 50%; margin-top: -10px; left: 10px; color: #fff;}
 
 .a-ui .a-audio-button
 {
@@ -75,13 +81,14 @@ cursor: pointer;
 {
 	position: absolute;
 	height: 16px;
-	line-height: 16px;
-	right: 0;
+	line-height: 16.5px;
+	right: 1%;
 	top: 0;
-	margin: 1px 4px;
+	margin: 1px;
 	z-index: 3;
-	font-size: 11.5px;
+	font-size: 9.5px;
 	color: #000;
+	cursor: default;
 }
 
 .a-ui .a-audio-slider-wrapper

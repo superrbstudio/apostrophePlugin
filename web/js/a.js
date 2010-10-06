@@ -1230,11 +1230,12 @@ function aConstructor()
 			var loadingBar = aAudioContainer.find('.a-audio-loader');
 			var time = aAudioContainer.find('.a-audio-time');
 			var aAudioPlayer = aAudioContainer.find('.a-audio-player');
-
+			var aAudioInterface = aAudioContainer.find('.a-audio-player-interface');
 			aAudioPlayer.jPlayer({
 				ready: function ()
 				{
 					this.element.jPlayer("setFile", file);
+					aAudioInterface.removeClass('a-loading');
 				},
 				swfPath: '/apostrophePlugin/swf',
 				customCssIds: true

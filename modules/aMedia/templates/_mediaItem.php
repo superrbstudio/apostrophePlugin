@@ -39,22 +39,21 @@
 			<?php // PDFs with an image preview ?>
 	    <?php if ($mediaItem->getWidth() && ($mediaItem->getType() == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
 
-			<?php // Audio Files ?>
-      <?php if ($mediaItem->getType() == 'audio'): ?>
-  			<?php $playerOptions = array('width' => (($layout['name'] == 'four-up') ? 165 : $galleryConstraints['width']), 'download' => true, 'player' => 'lite') ?>
-  			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
-  		<?php else: ?>
 			<?php // Images or anything else with an image thumbnail ?>	
-  			<?php if ($mediaItem->getImageAvailable()): ?>
- 	      	<img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
-  	    <?php else: ?>
-			<?php // Files (Word Docs, Powerpoints, Spreadsheets) ?>	
-  	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
-  				<span class="a-media-type <?php echo $mediaItem->getFormat() ?>" ><b><?php echo $mediaItem->getFormat() ?></b></span>
-  	    <?php endif ?>			
-  		<?php endif ?>
+ 			<?php if ($mediaItem->getImageAvailable()): ?>
+	      	<img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
+ 	    <?php else: ?>
+				<?php // Files (Word Docs, Powerpoints, Spreadsheets) ?>	
+ 	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
+ 				<span class="a-media-type <?php echo $mediaItem->getFormat() ?>" ><b><?php echo $mediaItem->getFormat() ?></b></span>
+ 	    <?php endif ?>			
 	  </a>
 	</div>
+	<?php endif ?>
+
+  <?php if ($mediaItem->getType() == 'audio'): ?>
+		<?php $playerOptions = array('width' => (($layout['name'] == 'four-up') ? 165 : $galleryConstraints['width']), 'download' => false, 'player' => 'lite') ?>
+		<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
 	<?php endif ?>
 	
 	<?php if ($mediaItem->getEmbeddable()): ?>

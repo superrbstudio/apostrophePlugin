@@ -22,7 +22,8 @@
     <?php endif ?>
   </ul>
 
-	<div class="a-audio-player-interface">
+	<div class="a-audio-player-interface a-loading">
+		<div class="a-audio-loading">Loading Audio Player...</div>		
 		<div class="a-audio-controls" id="icons-<?php echo $uniqueID ?>">
 			<a class="a-audio-play a-audio-button" id="a-audio-play-<?php echo $uniqueID ?>" onclick="return false;">Play</a>
 			<a class="a-audio-pause a-audio-button" id="a-audio-pause-<?php echo $uniqueID ?>"  onclick="return false;">Pause</a>
