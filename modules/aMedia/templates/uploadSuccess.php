@@ -8,9 +8,7 @@
 <div class="a-media-library">
 
 <?php slot('a-page-header') ?>
-  <div class="a-admin-header">
-    <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
-  </div>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
 
 <?php include_component('aMedia', 'browser') ?>
@@ -46,14 +44,14 @@
       </div>
 
 			<ul class="a-ui a-controls">
-      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><?php echo a_('Add Multiple Files') ?></a></li>
+      	<li><a href="#" id="a-media-add-photo" class="a-btn icon a-add"><span class="icon"></span><?php echo a_('Add Multiple Files') ?></a></li>
 			</ul>
 			
 			<br class="c"/>
       
 			<ul class="a-ui a-controls">
-      	<li><?php echo link_to_function(a_('Upload ' . aMediaTools::getBestTypeLabel()), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
-      	<li><?php echo link_to(a_('cancel'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
+      	<li><?php echo link_to_function('<span class="icon"></span>'.a_('Upload ' . aMediaTools::getBestTypeLabel()), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
+      	<li><?php echo link_to('<span class="icon"></span>'.a_('Cancel'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
       </ul>
     </form>
 

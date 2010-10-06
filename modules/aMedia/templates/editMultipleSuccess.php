@@ -70,7 +70,7 @@
 
 		<ul class="a-ui a-controls a-align-right">
 			<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
-			<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
+			<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 		</ul>
 
 		</form>

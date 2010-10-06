@@ -2,10 +2,9 @@
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <?php slot('a-page-header') ?>
-  <div class="a-admin-header">
-    <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
-  </div>
+	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
+
 <?php include_component('aMedia', 'browser') ?>
 <div id="a-media-library">
   <h3><?php echo a_('Linked Accounts') ?></h3>

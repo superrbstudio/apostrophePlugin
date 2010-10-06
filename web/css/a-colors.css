@@ -60,6 +60,13 @@ background-color: #111 !important;
 text-decoration: none !important;
 }
 
+.a-btn.lite.a-active
+{
+	color: #111;
+	background-color: #ccc;
+}
+
+
 /* Apostrophe Button - Alternative Color */
 .a-btn.alt,
 .a-submit.alt,

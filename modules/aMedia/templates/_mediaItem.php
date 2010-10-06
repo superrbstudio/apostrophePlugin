@@ -56,7 +56,8 @@
 		<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
 	<?php endif ?>
 	
-	<?php if ($mediaItem->getEmbeddable()): ?>
+	<?php if (($layout['name'] != 'four-up') && $mediaItem->getEmbeddable()): ?>
+	<?php // four-up is not playing videos in place, they clickthrough to show-success. So there's no reason to weight down the page with hidden embed elements ?>
 	<div class="a-media-item-embed<?php echo (!isset($layout['showSuccess']))? ' a-hidden':'' ?>">
 		<?php echo $mediaItem->getEmbedCode($embedConstraints['width'], $embedConstraints['height'], $embedConstraints['resizeType'], $mediaItem->getFormat()) ?>
 	</div>

@@ -1189,7 +1189,7 @@ function aConstructor()
 			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
 			{
 				// Button Exterminator
-				aBtn.prepend('<span class="icon"></span>') //.addClass('a-fix-me');						
+				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
 			};
 	  });
 	}

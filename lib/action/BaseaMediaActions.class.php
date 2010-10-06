@@ -799,6 +799,9 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeEmbed()
   {
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();	
+
     // It's a really simple form
   }
 
@@ -848,6 +851,10 @@ class BaseaMediaActions extends aEngineActions
   public function executeSearchServices(sfRequest $request)
   {
     $this->form = new aMediaSearchServicesForm();
+
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+
     $params = $request->getParameter('aMediaSearchServices');
     // Don't spew a validation error if it's just the initial visit to the page
     if (isset($params['q']))
@@ -886,6 +893,9 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeLink(sfRequest $request)
   {
+		$this->embedAllowed = aMediaTools::getEmbedAllowed();
+		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+	
     $this->forward404Unless($this->isAdmin());
     $this->form = new aEmbedMediaAccountForm();
     $this->accounts = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
