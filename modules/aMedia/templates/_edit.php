@@ -121,7 +121,7 @@
 		<?php // If the file is good, it's unlikely that they want to replace it, so put that in a toggle at the end ?>
 		<?php if (!$form['file']->hasError()): ?>
  			<div class="a-form-row replace a-ui">		
-				<?php if ($item && !$item->getEmbeddable()): ?>
+				<?php if ((!$item) || ($item && $item->getDownloadable())): ?>
 	  	    	<?php // The label says 'Replace File' now, see BaseaMediaEditForm ?>
 	  				<div class="a-options-container">		
 	  					<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span>Replace File</a>
