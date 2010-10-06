@@ -26,8 +26,12 @@
 	  <a href="<?php echo $linkAttributes ?>" class="a-media-thumb-link" id="<?php echo $domId ?>">
 
 			<?php // Embeddable Media (Videos) ?>
-	    <?php if ($mediaItem->getEmbeddable()): ?><span class="a-media-play-btn"></span><?php endif ?>
-
+	    <?php if ($mediaItem->getEmbeddable()): ?>
+	      <?php if ($mediaItem->getImageAvailable()): ?>
+	        <span class="a-media-play-btn"></span>
+	      <?php endif ?>
+      <?php endif ?>
+        
 			<?php // PDFs with an image preview ?>
 	    <?php if ($mediaItem->getWidth() && ($mediaItem->getType() == 'pdf')): ?><span class="a-media-pdf-btn"></span><?php endif ?>
 
@@ -37,7 +41,7 @@
   			<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
   		<?php else: ?>
 			<?php // Images or anything else with an image thumbnail ?>	
-  			<?php if ($mediaItem->getWidth()): ?>
+  			<?php if ($mediaItem->getImageAvailable()): ?>
  	      	<img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
   	    <?php else: ?>
 			<?php // Files (Word Docs, Powerpoints, Spreadsheets) ?>	

@@ -376,6 +376,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return $type['embeddable'];
   }
   
+  public function getImageAvailable()
+  {
+    // We don't display thumbnails for non-native embeds anymore,
+    // and for new adds of non-native embeds we don't have them at all
+    return $this->width && (!strlen($this->embed));
+  }
+  
   public function getCroppable()
   {
     // Right now images are always croppable and nothing else is
