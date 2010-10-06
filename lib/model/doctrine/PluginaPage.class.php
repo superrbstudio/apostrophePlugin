@@ -1232,7 +1232,7 @@ abstract class PluginaPage extends BaseaPage
       $ancestorIds[] = $ancestor->id;
     }
     $ancestorIds[] = $this->id;
-    $query->innerJoin("g.Accesses a with a.page_id IN (" .
+    $query->innerJoin("g.GroupAccesses a with a.page_id IN (" .
       implode(",", $ancestorIds) . ") and a.privilege = ?", 
       array($privilege));
     $query->orderBy("g.name asc");

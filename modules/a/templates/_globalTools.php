@@ -33,7 +33,8 @@
 				</li>
 			<?php endforeach ?>
 
-			<?php if ($thisPage): ?> 
+      <?php // You need manage privileges to create a subpage ?>
+			<?php if ($thisPage && $page->userHasPrivilege('manage')): ?> 
 				<?php // Remove the Add Page Button if we have reached our max depth, max peers, or if it is an engine page ?>
 				<?php if (!(($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine()))): ?>
 					<li>

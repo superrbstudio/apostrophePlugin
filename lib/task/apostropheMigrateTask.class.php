@@ -35,6 +35,8 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
+    $postTasks = array();
+    
     echo("
 Apostrophe Database Migration Task
   
@@ -150,6 +152,24 @@ but why take chances with your data?
     {
       $this->migrate->sql(array(
         'CREATE TABLE a_embed_media_account (id INT AUTO_INCREMENT, service VARCHAR(100) NOT NULL, username VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+    }
+    if (!$this->migrate->columnExists('a_page', 'edit_admin_lock'))
+    {
+      $this->migrate->sql(array(
+        'ALTER TABLE a_page ADD COLUMN edit_admin_lock TINYINT(1) DEFAULT "0"',
+        'ALTER TABLE a_page ADD COLUMN view_admin_lock TINYINT(1) DEFAULT "0"'
+        ));
+      $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
+      $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
+    }
+    echo("Finished updating tables.\n");
+    if (count($postTasks))
+    {
+      echo("Invoking post-migration tasks...\n");
+      foreach ($postTasks as $taskInfo)
+      {
+        $taskInfo['task']->run($taskInfo['arguments'], $taskInfo['options']);
+      }
     }
     echo("Done!\n");
   }

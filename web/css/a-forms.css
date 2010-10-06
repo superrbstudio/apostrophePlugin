@@ -63,7 +63,11 @@ font-size: 11px;
 color: #900;
 }
 
-.a-form-row .error_list li
+/* Make radio buttons in standard Symfony widgets usable 
+	(I styled them horizontally here, if you hate this give me a
+	more specific class in the slideshow slot and don't break it please) */
+	
+.a-ui.a-options.a-slot-form .a-form-row .error_list li
 {
 	float: left;
 	width: 100%;
@@ -71,6 +75,22 @@ color: #900;
 	margin: 5px 0;
 }
 
+.a-ui.a-options.a-slot-form .a-form-row .a-form-field .radio_list li
+{
+	float: left;
+}
+
+.a-ui.a-options.a-slot-form .a-form-row .a-form-field .radio_list li label
+{
+	padding-left: 10px;
+	padding-right: 10px;
+	width: auto;
+}
+
+.a-ui.a-options.a-slot-form .a-form-row .a-form-field .radio_list input
+{
+	float: left;
+}
 
 /* Apostrophe Multiple Select (aControls.js)
 -------------------------------------*/

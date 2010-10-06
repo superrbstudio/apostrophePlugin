@@ -380,7 +380,7 @@ class PluginaPageTable extends Doctrine_Table
     return $data[0]['slug'];
   }
   
-  // Wnat to extend privilege checks? Override checkUserPrivilegeBody(). Read on for details
+  // Want to extend privilege checks? Override checkUserPrivilegeBody(). Read on for details
   
   // Check whether the user has sufficient privileges to access a page. This includes
   // checking explicit privileges in the case of pages that have them on sites where
@@ -467,13 +467,32 @@ class PluginaPageTable extends Doctrine_Table
       $privileges = explode("|", $privilege);
       foreach ($privileges as $privilege)
       {
-    
+        // Rule 1a: if edit_admin_lock is set, only admins can edit or manage
+        if (($privilege === 'edit') || ($privilege === 'manage'))
+        {
+          if ($pageOrInfo['edit_admin_lock'])
+          {
+            continue;
+          }
+        }
+        
         $sufficientCredentials = sfConfig::get(
             "app_a_$privilege" . "_sufficient_credentials", false);
         $sufficientGroup = sfConfig::get(
             "app_a_$privilege" . "_sufficient_group", false);
+            
+        // Starting in 1.5 edit and manage share a candidate group
+        if ($privilege === 'manage')
+        {
+          $privilegeForGroup = 'edit';
+        }
+        else
+        {
+          $privilegeForGroup = $privilege;
+        }
         $candidateGroup = sfConfig::get(
-            "app_a_$privilege" . "_candidate_group", false);
+            "app_a_$privilegeForGroup" . "_candidate_group", false);
+            
         // By default users must log in to do anything, except for viewing an unlocked page
         $loginRequired = sfConfig::get(
             "app_a_$privilege" . "_login_required", 
@@ -538,10 +557,15 @@ class PluginaPageTable extends Doctrine_Table
           // The explicit case for users
           $user_id = $user->getGuardUser()->getId();
         
+          // Privileges are no longer inherited. Instead there are generous tools for
+          // explicitly copying a permission to all descendant pages, and then it is 
+          // possible to modify them individually. There is also a lock option which
+          // restricts edits or views to admins only and cannot be clobbered by a cascade. 
+          // This is a good compromise that avoids forcing the full complexities of ACLs 
+          // on admins while still allowing for a wide array of commonly encountered scenarios
           $accesses = Doctrine_Query::create()->
             select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
-            where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND " .
-              "a.user_id = $user_id AND a.privilege = ?", array($privilege))->
+            where("p.id = ? AND a.user_id = ? AND a.privilege = ?", array($pageOrInfo['id'], $user_id, $privilege))->
             limit(1)->
             execute(array(), Doctrine::HYDRATE_ARRAY);
           if (count($accesses) > 0)
@@ -564,7 +588,7 @@ class PluginaPageTable extends Doctrine_Table
         // Make sure only groups that have the editor permission can win
         $accesses = Doctrine_Query::create()->
           select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
-          where("(p.lft <= " . $pageOrInfo['lft'] . " AND p.rgt >= " . $pageOrInfo['rgt'] . ") AND a.privilege = ?", array($privilege))->
+          where("p.id = ? AND a.privilege = ?", array($pageOrInfo['id'], $privilege))->
           andWhereIn("a.group_id", $groupIds)->
           limit(1)->
           execute(array(), Doctrine::HYDRATE_ARRAY);
@@ -576,5 +600,77 @@ class PluginaPageTable extends Doctrine_Table
       }
     }
     return $result;
+  }
+  
+  // Gets only users who are candidates to be editors if given access -
+  // not admins who have it regardless. Useful for populating permissions widgets
+  public function getEditorCandidates()
+  {
+    $sufficientCredentials = sfConfig::get(
+        "app_a_edit_sufficient_credentials", false);
+    $sufficientGroup = sfConfig::get(
+        "app_a_edit_sufficient_group", false);
+    
+    $candidateGroup = sfConfig::get("app_a_edit_candidate_group", false);
+    $sufficientGroup = sfConfig::get("app_a_edit_candidate_group", false);
+    if (!$candidateGroup)
+    {
+      echo("No candidate group\n");
+      return Doctrine::getTable('sfGuardUser')->createQuery('u')->orderBy('u.username ASC')->fetchArray();
+    }
+    else
+    {
+      return Doctrine::getTable('sfGuardUser')->createQuery('u')->innerJoin('u.groups g WITH g.name = ?', $candidateGroup)->orderBy('u.username ASC')->fetchArray();
+    }
+  }
+
+  public function getEditorCandidateGroups()
+  {
+    $p = sfConfig::get('app_a_group_editor_permission', 'editor');
+    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
+  }
+  
+  // Gets explicit permissions, not implied permissions such as those held
+  // by all admins
+  
+  public function getPrivilegesInfoForPageId($id)
+  {
+    $current = Doctrine::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.Accesses a')->innerJoin('a.User u')->orderBy('u.username ASC, a.privilege ASC')->fetchArray();
+    $info = array();
+    // There will be only one page returned but it's arranged as an array
+    foreach ($current as $page)
+    {
+      foreach ($page['Accesses'] as $a)
+      {
+        $u = $a['User'];
+        $id = $u['id'];
+        $info[$id]['id'] = $id;
+        $info[$id]['name'] = $u['username'];
+        $info[$id]['privileges'][$a['privilege']] = true;
+      }
+    }
+    return $info;
+  }
+  
+  // Gets explicit permissions, not implied permissions such as those held
+  // by all admins
+  
+  public function getGroupPrivilegesInfoForPageId($id)
+  {
+    $current = Doctrine::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.GroupAccesses a')->innerJoin('a.Group g')->orderBy('g.name ASC, a.privilege ASC')->fetchArray();
+    $info = array();
+    // There will be only one page returned but it's arranged as an array
+    foreach ($current as $page)
+    {
+      foreach ($page['GroupAccesses'] as $a)
+      {
+        $g = $a['Group'];
+        $id = $g['id'];
+        $info[$id]['id'] = $id;
+        $info[$id]['name'] = $g['name'];
+        $info[$id]['privileges'][$a['privilege']] = true;
+      }
+    }
+    return $info;
   }
 }

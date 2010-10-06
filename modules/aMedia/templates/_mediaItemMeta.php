@@ -12,7 +12,7 @@
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkAttributes = url_for("aMedia/multipleAdd?id=$mediaItem->getId()"); ?>
+    <?php $linkAttributes = url_for('aMedia/multipleAdd?id=' . $mediaItem->id) ?>
   <?php endif ?>
 <?php else: ?>
   <?php $linkAttributes = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>

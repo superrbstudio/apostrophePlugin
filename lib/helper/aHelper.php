@@ -38,6 +38,7 @@ function _a_required_assets()
 	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.keycodes-0.2.js'); // keycodes
 	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.timer-1.2.js');	
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
+  $response->addJavascript('/apostrophePlugin/js/json2.js');
   $response->addJavascript("$webDir/js/a.js");
 
 }

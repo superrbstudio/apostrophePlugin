@@ -82,7 +82,7 @@ class BaseaActions extends sfActions
   
   protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit')
   {
-    return $this->retrievePageForEditingById($this->getRequestParameter($parameter));
+    return $this->retrievePageForEditingById($this->getRequestParameter($parameter), $privilege);
   }
   
   protected function retrievePageForEditingById($id, $privilege = 'edit')
@@ -94,7 +94,7 @@ class BaseaActions extends sfActions
 
   protected function retrievePageForEditingBySlugParameter($parameter = 'slug', $privilege = 'edit')
   {
-    return $this->retrievePageForEditingBySlug($this->getRequestParameter($parameter));
+    return $this->retrievePageForEditingBySlug($this->getRequestParameter($parameter), $privilege);
   }
 
   protected function retrievePageForEditingBySlug($slug, $privilege = 'edit')
@@ -359,7 +359,8 @@ class BaseaActions extends sfActions
         'options' => $this->options,
         'editorOpen' => false,
         'variant' => $variant,
-        'validationData' => array()));
+        'validationData' => array(),
+        'slot' => $slot));
   }
 
   public function executeRevert(sfWebRequest $request)
@@ -467,13 +468,6 @@ class BaseaActions extends sfActions
     // cause more db traffic.
     $this->inherited = array();
     $this->admin = array();
-    $this->addPrivilegeLists('edit');
-    $this->addPrivilegeLists('manage');
-    // This might make more sense in some kind of read-only form control.
-    // TODO: cache the first call that the form makes so this doesn't
-    // cause more db traffic.
-    $this->addGroupPrivilegeLists('edit');
-    $this->addGroupPrivilegeLists('manage');
     
     if ($request->hasParameter('settings'))
     {
@@ -615,38 +609,7 @@ class BaseaActions extends sfActions
       }
     }    
   }
-  
-  protected function addPrivilegeLists($privilege)
-  {
-    $page = $this->page->isNew() ? $this->parent : $this->page;
-    list($all, $selected, $inherited, $sufficient) = $page->getAccessesById($privilege);
-    $this->inherited[$privilege] = array();
-    foreach ($inherited as $userId)
-    {
-      $this->inherited[$privilege][] = $all[$userId];
-    }
-    $this->admin[$privilege] = array();
-    foreach ($sufficient as $userId)
-    {
-      $this->admin[$privilege][] = $all[$userId];
-    }
-  }
-
-  protected function addGroupPrivilegeLists($privilege)
-  {
-    $page = $this->page->isNew() ? $this->parent : $this->page;
     
-    list($all, $selected, $inherited) = $page->getGroupAccessesById($privilege);
-    $this->inherited["group_$privilege"] = array();
-    foreach ($inherited as $groupId)
-    {
-      $this->inherited["group_$privilege"][] = $all[$groupId];
-    }
-    // Always empty. We don't display a list of admin groups anyway
-    $this->admin["group_$privilege"] = array();
-    
-  }
-  
   public function executeDelete()
   {
     $this->lockTree();

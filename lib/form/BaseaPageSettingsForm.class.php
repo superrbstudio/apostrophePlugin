@@ -69,7 +69,7 @@ class BaseaPageSettingsForm extends aPageForm
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
     
-    $this->useFields(array('slug', 'template', 'engine', 'archived', 'view_is_secure'));
+    $this->useFields(array('slug', 'template', 'engine', 'archived', 'view_is_secure', 'edit_admin_lock'));
     
     $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
      
@@ -118,10 +118,21 @@ class BaseaPageSettingsForm extends aPageForm
   	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
   	$this->setValidator('meta_description', new sfValidatorString(array('required' => false)));
 
-    $this->addPrivilegeWidget('edit', 'editors');
-    $this->addPrivilegeWidget('manage', 'managers');
-    $this->addGroupPrivilegeWidget('edit', 'group_editors');
-    $this->addGroupPrivilegeWidget('manage', 'group_managers');
+    $privilegePage = $this->getObject();
+    if ($privilegePage->isNew())
+    {
+      $privilegePage = $this->parent;
+    }
+    
+    $user = sfContext::getInstance()->getUser();
+    
+    if ($user->hasCredential('cms_admin'))
+    {
+      $this->setWidget('edit_individuals', new sfWidgetFormInputHidden(array('default' => $this->getEditIndividualsJSON())));
+      $this->setValidator('edit_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateEditIndividuals'), 'required' => true)));
+      $this->setWidget('edit_groups', new sfWidgetFormInputHidden(array('default' => $this->getEditGroupsJSON())));
+      $this->setValidator('edit_groups', new sfValidatorCallback(array('callback' => array($this, 'validateEditGroups'), 'required' => true)));
+    }
     
     $manage = $this->getObject()->isNew() ? true : $this->getObject()->userHasPrivilege('manage');
     // If you can delete the page, you can change the slug
@@ -171,96 +182,104 @@ class BaseaPageSettingsForm extends aPageForm
     $this->widgetSchema->setNameFormat('settings[%s]');
     $this->widgetSchema->setFormFormatterName('list');
 
-    $user = sfContext::getInstance()->getUser();
-    if (!$user->hasCredential('cms_admin'))
-    {
-      unset($this['editors']);
-      unset($this['managers']);
-      unset($this['group_editors']);
-      unset($this['group_managers']);
-    }
     // We changed the form formatter name, so we have to reset the translation catalogue too 
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
   
-  protected function addPrivilegeWidget($privilege, $widgetName)
+  protected function getIndividualPermissions($forceParent = false)
   {
-    if ($this->getObject()->isNew())
+    $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
+    return Doctrine::getTable('aPage')->getPrivilegesInfoForPageId($relativeId);
+  }
+
+  protected function getEditIndividualsJSON($forceParent = false)
+  {
+    $candidates = Doctrine::getTable('aPage')->getEditorCandidates();
+    $infos = $this->getIndividualPermissions($forceParent);
+    $jinfos = array();
+    foreach ($candidates as $candidate)
     {
-      if ($this->parent)
+      $id = $candidate['id'];
+      $jinfo = array('id' => $id, 'name' => $candidate['username'], 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
+      if (isset($infos[$id]))
       {
-        list($all, $selected, $inherited, $sufficient) = $this->parent->getAccessesById($privilege);
+        $info = $infos[$id];
+        if (isset($info['privileges']['edit']) || isset($info['privileges']['manage']))
+        {
+          $jinfo['selected'] = true;
+          $jinfo['extra'] = isset($info['privileges']['manage']);
+        }
       }
-      else
-      {
-        // For i18n-update we need to tolerate being run without a proper page
-        $all = array();
-        $selected = array();
-        $inherited = array();
-        $sufficient = array();
-      }
+      $jinfos[] = $jinfo;
     }
-    else
-    {
-      list($all, $selected, $inherited, $sufficient) = $this->getObject()->getAccessesById($privilege);
-    }
-    foreach ($inherited as $userId)
-    {
-      unset($all[$userId]);
-    }
-
-    foreach ($sufficient as $userId)
-    {
-      unset($all[$userId]);
-    }
-
-    $this->setWidget($widgetName, new sfWidgetFormSelect(array(
-      // + operator is correct: we don't want renumbering when
-      // ids are numeric
-      'choices' => $all,
-      'multiple' => true,
-      'default' => $selected
-    )));
-
-    $this->setValidator($widgetName, new sfValidatorChoice(array(
-      'required' => false, 
-      'multiple' => true,
-      'choices' => array_keys($all)
-    )));
+    return json_encode($jinfos);
   }
   
-  protected function addGroupPrivilegeWidget($privilege, $widgetName)
+  protected function getGroupPermissions($forceParent = false)
   {
-    if ($this->getObject()->isNew())
+    $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
+    return Doctrine::getTable('aPage')->getGroupPrivilegesInfoForPageId($relativeId);
+  }
+  
+  protected function getEditGroupsJSON($forceParent = false)
+  {
+    $candidates = Doctrine::getTable('aPage')->getEditorCandidateGroups();
+    $infos = $this->getGroupPermissions($forceParent);
+    $jinfos = array();
+    foreach ($candidates as $candidate)
     {
-      if ($this->parent)
+      $id = $candidate['id'];
+      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
+      if (isset($infos[$id]))
       {
-        list($all, $selected, $inherited) = $this->parent->getGroupAccessesById($privilege);
+        $info = $infos[$id];
+        if (isset($info['privileges']['edit']) || isset($info['privileges']['manage']))
+        {
+          $jinfo['selected'] = true;
+          $jinfo['extra'] = isset($info['privileges']['manage']);
+        }
       }
-      else
+      $jinfos[] = $jinfo;
+    }
+    return json_encode($jinfos);
+  }
+  
+  public function validateEditIndividuals($validator, $value)
+  {
+    $values = json_decode($value, true);
+    if (!is_array($values))
+    {
+      throw new sfValidatorError($validator, 'Bad permissions JSON');
+    }
+    $candidates = Doctrine::getTable('aPage')->getEditorCandidates();
+    $candidates = aArray::listToHashById($candidates);
+    foreach ($values as $info)
+    {
+      if (!isset($candidates[$info['id']]))
       {
-        // For i18n-update we need to tolerate being run without a proper page
-        $all = array();
-        $selected = array();
-        $inherited = array();
+        throw new sfValidatorError($validator, 'noncandidate');
       }
     }
-    else
+    return $value;
+  }
+  
+  public function validateEditGroups($validator, $value)
+  {
+    $values = json_decode($value, true);
+    if (!is_array($values))
     {
-      list($all, $selected, $inherited) = $this->getObject()->getGroupAccessesById($privilege);
+      throw new sfValidatorError($validator, 'Bad permissions JSON');
     }
-
-    $this->setWidget($widgetName, new sfWidgetFormSelect(array(
-      'choices' => $all,
-      'multiple' => true,
-      'default' => $selected
-    )));
-
-    $this->setValidator($widgetName, new sfValidatorChoice(array(
-      'required' => false, 
-      'multiple' => true,
-      'choices' => array_keys($all)
-    )));
+    $candidates = Doctrine::getTable('aPage')->getEditorCandidateGroups();
+    $candidates = aArray::listToHashById($candidates);
+    foreach ($values as $info)
+    {
+      if (!isset($candidates[$info['id']]))
+      {
+        throw new sfValidatorError($validator, 'noncandidate');
+      }
+    }
+    return $value;
   }
 
   public function updateObject($values = null)
@@ -336,13 +355,9 @@ class BaseaPageSettingsForm extends aPageForm
   // if the page is new
   public function save($con = null)
   {
-    error_log("in save Parent is " . !!$this->parent);
-    
     $object = parent::save($con);
-    $this->savePrivileges($object, 'edit', 'editors');
-    $this->savePrivileges($object, 'manage', 'managers');
-    $this->saveGroupPrivileges($object, 'edit', 'group_editors');
-    $this->saveGroupPrivileges($object, 'manage', 'group_managers');
+    $this->saveIndividualEditPrivileges($object);
+    $this->saveGroupEditPrivileges($object);
     // Update meta-description on Page
     // This involves creating a slot so it has to happen last
     if ($this->getValue('meta_description') != '')
@@ -371,32 +386,154 @@ class BaseaPageSettingsForm extends aPageForm
     }
   }
   
-  protected function savePrivileges($object, $privilege, $widgetName)
+  protected function saveIndividualEditPrivileges($object)
   {
-    if (isset($this[$widgetName]))
+    if (isset($this['edit_individuals']))
     {
-      $editorIds = $this->getValue($widgetName);
-      // Happens when the list is empty (sigh)
-      if ($editorIds === null)
-      {
-        $editorIds = array();
-      }
-      
-      $object->setAccessesById($privilege, $editorIds);
+      $value = $this->getValue('edit_individuals');
     }
-  }  
-  
-  protected function saveGroupPrivileges($object, $privilege, $widgetName)
-  {
-    if (isset($this[$widgetName]))
+    elseif ($this->parent)
     {
-      $editorIds = $this->getValue($widgetName);
-      // Happens when the list is empty (sigh)
-      if ($editorIds === null)
+      // We don't have the credentials to edit privileges, but we do need to
+      // copy privileges when making a new page
+      $value = $this->getEditIndividualsJSON(true);
+    }
+    else
+    {
+      return;
+    }
+    $values = json_decode($value, true);
+    
+    $t = Doctrine::getTable('aPage');
+    if ($object->id)
+    {
+      $this->clearAccessForPrivilege($object->id, 'edit');
+      $this->clearAccessForPrivilege($object->id, 'manage');
+    }
+    foreach ($values as $value)
+    {
+      if ($value['selected'] != '')
       {
-        $editorIds = array();
+        $this->setAccessForPrivilege($object, $value['id'], 'edit', ($value['selected'] === 'remove') ? false : true, $value['applyToSubpages']);
+        $this->setAccessForPrivilege($object, $value['id'], 'manage', ($value['selected'] === 'remove') ? false : $value['extra'], $value['applyToSubpages']);
       }
-      $object->setGroupAccessesById($privilege, $editorIds);
     }
   }
+
+  protected function clearAccessForPrivilege($pageId, $privilege)
+  {
+    error_log("CLEARING ACCESS");
+    Doctrine::getTable('aAccess')->createQuery('a')->andWhere('a.page_id = ?', $pageId)->andWhere('a.privilege = ?', $privilege)->delete();
+  }
+
+  protected function clearGroupAccessForPrivilege($pageId, $privilege)
+  {
+    Doctrine::getTable('aGroupAccess')->createQuery('a')->andWhere('a.page_id = ?', $pageId)->andWhere('a.privilege = ?', $privilege)->delete();
+  }
+
+  protected function saveGroupEditPrivileges($object)
+  {
+    if (isset($this['edit_groups']))
+    {
+      $value = $this->getValue('edit_groups');
+    }
+    elseif ($this->parent)
+    {
+      // We don't have the credentials to edit privileges, but we do need to
+      // copy privileges when making a new page
+      $value = $this->getEditGroupsJSON(true);
+    }
+    else
+    {
+      return;
+    }
+    
+    $values = json_decode($value, true);
+    
+    $t = Doctrine::getTable('aPage');
+    if ($object->id)
+    {
+      $this->clearGroupAccessForPrivilege($object->id, 'edit');
+      $this->clearGroupAccessForPrivilege($object->id, 'manage');
+    }
+    foreach ($values as $value)
+    {
+      if ($value['selected'] != '')
+      {
+        $this->setGroupAccessForPrivilege($object, $value['id'], 'edit', ($value['selected'] === 'remove') ? false: true, $value['applyToSubpages']);
+        $this->setGroupAccessForPrivilege($object, $value['id'], 'manage', ($value['selected'] === 'remove') ? false : $value['extra'], $value['applyToSubpages']);
+      }
+    }
+  }
+  
+  protected function setAccessForPrivilege($page, $userId, $privilege, $set, $applyToSubpages)
+  {
+    $ids = array();
+    if ($applyToSubpages)
+    {
+      $results = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine::HYDRATE_SCALAR);
+      foreach ($results as $result)
+      {
+        $ids[] = $result['p_id'];
+      }
+    }
+    else
+    {
+      $ids = array($page->id);
+    }
+    if ($set)
+    {
+      foreach ($ids as $id)
+      {
+        $access = new aAccess();
+        $access->user_id = $userId;
+        $access->privilege = $privilege;
+        $access->page_id = $id;
+        $access->save();
+        $access->free();
+        unset($access);
+      }
+    }
+    else
+    {
+      // Doctrine delete query syntax is a little odd
+      Doctrine_Query::create()->delete('aAccess a')->andWhereIn('a.page_id', $ids)->andWhere('a.user_id = ?', $userId)->andWhere('a.privilege = ?', $privilege)->execute();
+    }
+  }
+  
+  protected function setGroupAccessForPrivilege($page, $groupId, $privilege, $set, $applyToSubpages)
+  {
+    $ids = array();
+    if ($applyToSubpages)
+    {
+      $results = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine::HYDRATE_SCALAR);
+      foreach ($results as $result)
+      {
+        $ids[] = $result['p_id'];
+      }
+    }
+    else
+    {
+      $ids = array($page->id);
+    }
+    if ($set)
+    {
+      foreach ($ids as $id)
+      {
+        $access = new aGroupAccess();
+        $access->group_id = $groupId;
+        $access->privilege = $privilege;
+        $access->page_id = $id;
+        $access->save();
+        $access->free();
+        unset($access);
+      }
+    }
+    else
+    {
+      // Doctrine delete query syntax is a little odd
+      Doctrine_Query::create()->delete('aGroupAccess a')->andWhereIn('a.page_id', $ids)->andWhere('a.group_id = ?', $groupId)->andWhere('a.privilege = ?', $privilege)->execute();
+    }
+  }
+  
 }

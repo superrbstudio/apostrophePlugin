@@ -7,7 +7,7 @@
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $value = isset($value) ? $sf_data->getRaw('value') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 
 <?php if (!strlen($value)): ?>

@@ -891,13 +891,13 @@ function aConstructor()
     });	
 	}
 		
-	this.slotShowEditView = function(pageid, name, permid)
+	this.slotShowEditView = function(pageid, name, permid, realUrl)
 	{	
 		var fullId = pageid + '-' + name + '-' + permid;
  		var editSlot = $('#a-slot-' + fullId);
 	  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
 	  {
- 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid }, function(data) { 
+ 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid, realUrl: realUrl }, function(data) { 
 	      editSlot.children('.a-slot-content').html(data);
 	      slotShowEditViewPreloaded(pageid, name, permid);
 	    });
@@ -941,14 +941,14 @@ function aConstructor()
 		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
 	}
 	
-	this.slotEnableEditButton = function(pageid, name, permid, editUrl)
+	this.slotEnableEditButton = function(pageid, name, permid, editUrl, realUrl)
 	{
 		var fullId = pageid + '-' + name + '-' + permid;
  		var editBtn = $('#a-slot-edit-' + fullId);
  		var editSlot = $('#a-slot-' + fullId);
 		editSlot.data('a-edit-url', editUrl);
  		editBtn.click(function(event) {
-			apostrophe.slotShowEditView(pageid, name, permid);
+			apostrophe.slotShowEditView(pageid, name, permid, realUrl);
  		  return false;
  		});
   }
@@ -1119,6 +1119,26 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 	
+	this.enableSlideshowEditView = function(id)
+	{
+		var radio1 = $('slot-form-' + id + '_type_selected');
+		var radio1 = $('slot-form-' + id + '_type_selected');
+		var idstem = '#slot-form-' + id + '_type_';
+		$(idstem + 'selected,' + idstem + 'tagged').change(function() {
+			if ($(idstem + 'selected')[0].checked)
+			{
+				$('#a-slot-form-' + id + ' .a-tagged-images').hide();
+				$('#a-slot-form-' + id + ' .a-selected-images').show();
+			}
+			else
+			{
+				$('#a-slot-form-' + id + ' .a-tagged-images').show();
+				$('#a-slot-form-' + id + ' .a-selected-images').hide();
+			}
+		});
+		$(idstem + 'selected').change();
+	}
+	
 	this.buttonSauce = function(options)
 	{
 		// buttonSauce only needs to be executed when logged in
@@ -1145,32 +1165,13 @@ function aConstructor()
 		var aBtns = $(target+' .a-btn, ' + target + ' .a-submit, ' + target + ' .a-cancel');
 		aBtns.each(function() {
 			var aBtn = $(this);
-			// Setup Flagging Buttons so they flag when hovered
-			// Markup: <a href="#" class="a-btn icon a-some-icon flag"><span class="icon"></span><span class="flag-label">Button</span></a>
-			if(aBtn.hasClass('flag'))
-			{
-				if (!aBtn.children('.flag-label').length)
-				{
-					aBtn.attr('title','').wrapInner('<span class="flag-label"></span>');		
-				}
-				aBtn.hover(function () {
-					aBtn.addClass('expanded');
-				},function () {
-					aBtn.removeClass('expanded');
-				});	
-			}
 			// Setup Icons for buttons with icons that are missing the icon container
 			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
 			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
 			{
-				aBtn.prepend('<span class="icon"></span>');						
+				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
 			};
 	  });
-	
-		// Disabled Buttons
-		$('.a-disabled').unbind('click').unbind('hover').click(function(event){
-			event.preventDefault();
-		}).attr('onclick','return false;');
 	}
 	
 	this.miscEnhancements = function(options)
@@ -1190,7 +1191,6 @@ function aConstructor()
 		$('.a-controls, .a-options').addClass('clearfix');
 		// Add 'last' Class To Last Option
 		$('.a-controls li:last-child').addClass('last'); 
-		
 		// Valid way to have links open up in a new browser window
 		// Example: <a href="..." rel="external">Click Meh</a>
 		$('a[rel="external"]').attr('target','_blank');
@@ -1278,6 +1278,122 @@ function aConstructor()
 		else
 		{
 			throw "Cannot find DOM Element for Audio Player.";
+		}
+	}
+	
+	this.enablePermissions = function(options)
+	{
+		// We need a fairly complex permissions widget. Deal with that.
+		// Strategy: on every action update a data structure.
+		// On every action that adds or removes an item, rebuild
+		// the HTML representation
+		var w = $('#' + options['id']);
+		// We take in a flat array of data about users,
+		// flip it into a list of ids and a hash of information
+		// about those ids for efficiency
+		var ids = [];
+		var input = eval($('#' + options['hiddenField']).val());
+		for (var i = 0; (i < input.length); i++)
+		{
+			ids[ids.length] = input[i]['id'];
+		}
+		var data = { };
+		for (var i = 0; (i < ids.length); i++)
+		{
+			data[ids[i]] = input[i];
+		}
+		function rebuild() {
+			var select = $('<select class="a-permissions-add"></select>');
+			var list = $('<ul class="a-permissions-entries"></ul>');
+			var option = $('<option></option>');
+			option.val('');
+			option.text(options['addLabel']);
+			select.append(option);
+			for (var i = 0; (i < ids.length); i++)
+			{
+				var user = data[ids[i]];
+				var id = user['id'];
+				var who = user['name'];
+				if (!user['selected'])
+				{
+					var option = $('<option></option>');
+					option.val(id);
+					option.text(who);
+					select.append(option);
+				}
+				else
+				{
+					var liMarkup = '<li class="a-permission-entry"><ul><li class="a-who"></li>';
+					if (options['extra'])
+					{
+						liMarkup += '<li class="a-extra"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</li>';
+					}
+					liMarkup += '<li class="a-apply-to-subpages"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</li>';
+					liMarkup += '<li class="a-actions"><a href="#" class="a-remove">' + options['removeLabel'] + '</a></li></ul></li>';
+					li = $(liMarkup);
+					li.find('.a-who').text(who);
+					if (options['extra'])
+					{
+						li.find('.a-extra [type=checkbox]').attr('checked', user['extra']);
+					}
+					li.find('.a-apply-to-subpages [type=checkbox]').attr('checked', user['applyToSubpages']);
+					li.data('id', id);
+					if (user['selected'] === 'remove')
+					{
+						li.addClass('a-removing');
+						li.find('.a-extra input').attr('disabled', true);
+					}
+					list.append(li);
+				}
+			}
+			select.val('');
+			select.change(function() {
+				var id = select.val();
+				data[id]['selected'] = true;
+				rebuild();
+				return false;
+			});
+			list.find('.a-remove').click(function() {
+				var id = $(this).parents('.a-permission-entry').data('id');
+				var user = data[id];
+				if (user['selected'] === 'remove')
+				{
+					user['selected'] = true;
+				}
+				else
+				{
+					user['selected'] = 'remove';
+				}
+				rebuild();
+				return false;
+			});
+			list.find('.a-extra [type=checkbox]').change(function() {
+				var id = $(this).parents('.a-permission-entry').data('id');
+				data[id]['extra'] = $(this).attr('checked');
+				updateHiddenField();
+				return true;
+			});
+			list.find('.a-apply-to-subpages [type=checkbox]').change(function() {
+				var id = $(this).parents('.a-permission-entry').data('id');
+				data[id]['applyToSubpages'] = $(this).attr('checked');
+				updateHiddenField();
+				return true;
+			});
+			w.html('');
+			w.append(list);
+			w.append(select);
+			updateHiddenField();
+		}
+		rebuild();
+		function updateHiddenField()
+		{
+			// Flatten the data into an array again for readout
+			var flat = [];
+			for (var i = 0; (i < ids.length); i++)
+			{
+				flat[flat.length] = data[ids[i]];
+			}
+			$('#' + options['hiddenField']).val(JSON.stringify(flat));
 		}
 	}
 	

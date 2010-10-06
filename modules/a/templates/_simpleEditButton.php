@@ -33,7 +33,7 @@
   				'title' => isset($title) ? $title : a_('Edit'), 
   )) ?>
 
-  <?php a_js_call('apostrophe.slotEnableEditButton(?, ?, ?, ?)', $pageid, $name, $permid, url_for($slot->type . 'Slot/ajaxEditView')) ?>
+  <?php a_js_call('apostrophe.slotEnableEditButton(?, ?, ?, ?, ?)', $pageid, $name, $permid, url_for($slot->type . 'Slot/ajaxEditView'), aTools::getRealUrl()) ?>
   </li>
 	
   <?php if ($controlsSlot): ?>

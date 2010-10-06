@@ -183,6 +183,7 @@ class BaseaSlotActions extends sfActions
   {
     // Refresh the view 
     $this->editSetup();
+    aTools::setRealUrl($request->getParameter('realUrl'));
     return $this->editAjax(true);
   }
   

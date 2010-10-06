@@ -27,8 +27,19 @@ aPage:
       # the key length is not specfied
     template:
       type: string(100)
-    # Must log in to see. (Sometimes with particular credentials, see documentation)
+    # Must log in to see. (This is "guest + editors" now in 1.5)
     view_is_secure: boolean
+    # Must be admin to see. Overrides view_is_secure and individual view permissions,
+    # cannot be clobbered by a cascade
+    edit_admin_lock:
+      type: boolean
+      default: false
+    # Must be admin to edit/manage. Overrides individual edit/manage permissions,
+    # cannot be clobbered by a cascade
+    view_admin_lock:
+      type: boolean
+      default: false
+    
     # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
     archived: boolean
     # 'admin' pages are hidden from all normal navigation and from search. They are linked to directly from
@@ -308,7 +319,7 @@ aGroupAccess:
       foreign: id
       local: page_id
       type: one
-      foreignAlias: Accesses
+      foreignAlias: GroupAccesses
       onDelete: cascade
   indexes:
     pageindex:
