@@ -1188,7 +1188,8 @@ function aConstructor()
 			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
 			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
 			{
-				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
+				// Button Exterminator
+				// aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
 			};
 	  });
 	}
