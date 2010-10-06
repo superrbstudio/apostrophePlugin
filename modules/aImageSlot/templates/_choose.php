@@ -25,7 +25,7 @@
       "actual_url" => aTools::getRealUrl(),
       "permid" => $permid,
       "noajax" => 1)) ?>
-<li><?php echo link_to($buttonLabel,
+<li><?php echo link_to('<span class="icon"></span>'.$buttonLabel,
   'aMedia/select',
   array('query_string' =>
     http_build_query(

@@ -17,6 +17,8 @@
 	border:1px solid rgba(20,20,20,0.2);
 }
 
+.a-ui .a-btn.lite { color: #00f;}
+
 .a-media-footer-button:hover
 {
 	background-color: rgb(255,150,0);

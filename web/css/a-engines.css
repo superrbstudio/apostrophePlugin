@@ -394,6 +394,7 @@ margin: 10px 0 0;
 .a-media-show .a-media-item { float: left; width: 720px; margin-bottom: 30px; }
 
 .a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
+.a-media-row:last-child { border-bottom: none; }
 
 .a-media-items { float: left; width: 100%; }
 
@@ -1149,15 +1150,15 @@ li.a-media-selection-preview-item .jcrop-holder {
 
 .a-media-footer { font-size: 11px; line-height: 20px; padding: 10px 0; margin: 10px 0; border-top: 1px solid #ddd;}
 
-.a-media-footer .a-btn { font-size: 11px; }
-
-.a-media-footer .a-pager-navigation { float: right; width: auto; clear: none; margin: 0; }
-
-.a-ui.a-controls.a-media-footer-controls { float: left; width: auto; clear: none; }
-.a-ui.a-controls.a-media-footer-controls li { margin: 0 4px 2px 0; }
-.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator { border-right: 1px solid #ddd; background-color: #efefef; width: 1px; overflow: hidden; text-indent: -9999px; margin: 0 4px 2px; }
-.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator.b { margin-left: 0;}
-.a-ui.a-controls.a-media-footer-controls .a-media-footer-separator.a { margin-right: 8px;}
+.a-ui.a-media-library-controls { float: left; width: 100%; clear: both; padding-bottom: 10px;}
+.a-ui.a-media-library-controls.top { border-bottom: 1px solid #ddd; margin-bottom: 10px; }
+.a-ui.a-media-library-controls .a-btn { font-size: 11px; }
+.a-ui.a-media-library-controls .a-pager-navigation { float: right; width: auto; clear: none; margin: 0; }
+.a-ui.a-media-library-controls .a-media-footer-controls { float: left; width: auto; clear: none; }
+.a-ui.a-media-library-controls .a-media-footer-controls li { margin: 0 4px 2px 0; }
+.a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator { border-right: 1px solid #ddd; background-color: #efefef; width: 1px; overflow: hidden; text-indent: -9999px; margin: 0 4px 2px; }
+.a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.b { margin-left: 0;}
+.a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.a { margin-right: 8px;}
 
 /* Blog Engine Styles
 -------------------------------------*/

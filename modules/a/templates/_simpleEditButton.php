@@ -25,7 +25,7 @@
   <?php // We want to eliminate jQuery helpers, but writing this link as raw HTML is tricky because ?>
   <?php // of the need to quote the title option right. And link_to doesn't like '#' as a URL. So we use ?>
   <?php // content_tag, Symfony's lower-level helper for outputting any tag and its content programmatically ?>
-  <?php echo content_tag('a', isset($label) ? a_($label) : a_("edit"), 
+  <?php echo content_tag('a', '<span class="icon"></span>'.(isset($label) ? a_($label) : a_("Edit")), 
   			array(
   			  'href' => '#',
   				'id' => "a-slot-edit-$pageid-$name-$permid",

@@ -47,8 +47,8 @@
   </div>
 
 	<ul class="a-ui a-controls">
-		<li><?php echo link_to(aMediaTools::isMultiple() ? __('Save Slideshow', null, 'apostrophe') : __('Save Selection', null, 'apostrophe'), 'aMedia/selected', array('class'=>'a-btn save big','id' => 'a-save-media-selection', )) ?></li>
- 	  <li><?php echo link_to(__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big')) ?></li>
+		<li><?php echo link_to('<span class="icon"></span>'.aMediaTools::isMultiple() ? __('Save Slideshow', null, 'apostrophe') : __('Save Selection', null, 'apostrophe'), 'aMedia/selected', array('class'=>'a-btn save big','id' => 'a-save-media-selection', )) ?></li>
+ 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big')) ?></li>
 	</ul>
 	
 </div>
