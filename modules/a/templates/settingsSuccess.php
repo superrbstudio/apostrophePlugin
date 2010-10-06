@@ -9,6 +9,7 @@
   $parent = isset($parent) ? $sf_data->getRaw('parent') : null;
   $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : null;
   $existingTags = isset($existingTags) ? $sf_data->getRaw('existingTags') : null;
+  $allTags = isset($existingTags) ? $sf_data->getRaw('allTags') : null;
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
@@ -123,7 +124,7 @@
 					<?php echo $form['tags'] ?>
 				</div>
 				<?php echo $form['tags']->renderError() ?>
-				<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Page Tags')) ?>
+				<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Page Tags')) ?>
 			</div>
 
 			<div class="a-form-row meta-description">

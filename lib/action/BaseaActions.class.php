@@ -457,7 +457,8 @@ class BaseaActions extends sfActions
     // get the form and page tags
     $this->form = new aPageSettingsForm($this->page, $this->parent);
   	$this->existingTags = $this->page->getTags();
-  	$this->popularTags = PluginTagTable::getPopulars();
+  	$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
+	$this->allTags = PluginTagTable::getAllTagNameWithCount();
 	
     $mainFormValid = false;
     
