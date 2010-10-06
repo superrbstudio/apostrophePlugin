@@ -29,9 +29,9 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     $this->width = $this->getOption('width', 440);
     $this->height = $this->getOption('height', 330);
     $this->resizeType = $this->getOption('resizeType', 's');
-    $this->flexHeight = $this->getOption('flexHeight', true);
+    $this->flexHeight = $this->getOption('flexHeight');
     $this->defaultImage = $this->getOption('defaultImage', false);
-    $this->title = $this->getOption('title', true);
+    $this->title = $this->getOption('title', false);
     $this->description = $this->getOption('description', false);
     $this->link = $this->getOption('link', false);
 
