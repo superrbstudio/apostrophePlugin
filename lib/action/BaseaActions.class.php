@@ -31,11 +31,10 @@ class BaseaActions extends sfActions
     	
 	    $new_slug = preg_replace($pattern, '', $slug);
 	    $slug = addcslashes($slug, '/');
-		$new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
+		  $new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
 		
 	    $this->redirect($new_uri);
-	}
-    
+	  }
     
     if (substr($slug, 0, 1) !== '/')
     {

@@ -27,8 +27,18 @@ aPage:
       # the key length is not specfied
     template:
       type: string(100)
-    # Must log in to see. (This is "guest + editors" now in 1.5)
-    view_is_secure: boolean
+    # Must log in to see. (Beginning in 1.5 only admins can see when this is true, unless you add other permissions)
+    # Starting in 1.5 this has a proper default but it can be null in older dbs, treat that as false.
+    view_is_secure: 
+      type: boolean
+      default: false
+    # If view_is_secure is true and this is true, "guests and editors" (everone with view_locked permission)
+    # can view the secured page. Otherwise only those specifically granted access can see it (and admins of course)
+    # Defaults to true for easier migration from 1.4 and because this is still the common case (note that this is
+    # only consulted at all when view_is_secure is true)
+    view_guest: 
+      type: boolean
+      default: true
     # Must be admin to see. Overrides view_is_secure and individual view permissions,
     # cannot be clobbered by a cascade
     edit_admin_lock:

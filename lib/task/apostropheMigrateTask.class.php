@@ -162,6 +162,14 @@ but why take chances with your data?
       $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
       $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
     }
+    if (!$this->migrate->columnExists('a_page', 'view_guest'))
+    {
+      $this->migrate->sql(array(
+        'ALTER TABLE a_page ADD COLUMN view_guest TINYINT(1) DEFAULT "1"'
+        ));
+      $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
+      $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
+    }
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

@@ -69,13 +69,58 @@ class BaseaPageSettingsForm extends aPageForm
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
     
-    $this->useFields(array('slug', 'template', 'engine', 'archived', 'view_is_secure', 'edit_admin_lock'));
+    $this->useFields(array('slug', 'template', 'engine', 'archived', 'edit_admin_lock'));
+
+    $object = $this->getObject();
+    
+    // The states we really have now are:
+    // Public
+    // Login required, with various settings plus a boolean for "guest" access
+    // Admin only (for which we have added view_admin_lock)
+    
+    // The problem is that right now, public and "guest" are distinguished by a single boolean.
+    // It's a pain to turn that into an enumeration. 
+    
+    // So we need an additional "view_guest" boolean consulted when "view_is_secure" is true, and
+    // that new boolean should default to true.
+    
+    // In 2.0 we'll probably clean these flags up a bit.
+    
+    $choices = array('public' => 'Public', 'login' => 'Login Required', 'admin' => 'Admins Only');
+    
+    $default = 'public';
+    if ($object->view_admin_lock)
+    {
+      $default = 'admin';
+    }
+    elseif ($object->view_is_secure)
+    {
+      $default = 'login';
+    }
+    
+    $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
+    $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
+
+    $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
+    if ($this->getObject()->hasChildren(false))
+    {
+      $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
+        'true_values' =>  array('true', 't', 'on', '1'),
+        'false_values' => array('false', 'f', 'off', '0', ' ', '')
+      )));
+    }
+
+    $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
+    
+    $this->setWidget('view_individuals', new sfWidgetFormInputHidden(array('default' => $this->getViewIndividualsJSON())));
+    $this->setValidator('view_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateViewIndividuals'), 'required' => true)));
+    $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
+    $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
     
     $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
-     
     $this->setWidget('engine', new sfWidgetFormSelect(array('choices' => aTools::getEngines())));
-
-    // On vs. off makes more sense to end users, but when we first
+    
+    // Published vs. Unpublished makes more sense to end users, but when we first
     // designed this feature we had an 'archived vs. unarchived'
     // approach in mind
     $this->setWidget('archived', new sfWidgetFormChoice(array(
@@ -91,21 +136,7 @@ class BaseaPageSettingsForm extends aPageForm
         'true_values' =>  array('true', 't', 'on', '1'),
         'false_values' => array('false', 'f', 'off', '0', ' ', '')
       )));
-      $this->setWidget('cascade_view_is_secure', new sfWidgetFormInputCheckbox());
-      $this->setValidator('cascade_view_is_secure', new sfValidatorBoolean(array(
-        'true_values' =>  array('true', 't', 'on', '1'),
-        'false_values' => array('false', 'f', 'off', '0', ' ', '')
-      )));
     }
-
-    $this->setWidget('view_is_secure', new sfWidgetFormChoice(array(
-      'expanded' => true,
-      'choices' => array(
-        false => "Public",
-        true => "Login Required"
-      ),
-      'default' => false
-    )));
 
   	// Tags
   	$tagstring = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
@@ -282,6 +313,95 @@ class BaseaPageSettingsForm extends aPageForm
     return $value;
   }
 
+ 
+  protected function getViewIndividualsJSON($forceParent = false)
+  {
+    $candidates = Doctrine::getTable('aPage')->getViewCandidates();
+    $infos = $this->getIndividualPermissions($forceParent);
+    $jinfos = array();
+    foreach ($candidates as $candidate)
+    {
+      $id = $candidate['id'];
+      $jinfo = array('id' => $id, 'name' => $candidate['username'], 'selected' => false, 'applyToSubpages' => false);
+      if (isset($infos[$id]))
+      {
+        $info = $infos[$id];
+        if (isset($info['privileges']['view']))
+        {
+          $jinfo['selected'] = true;
+        }
+      }
+      $jinfos[] = $jinfo;
+    }
+    return json_encode($jinfos);
+  }
+
+  protected function getViewGroupsJSON($forceParent = false)
+  {
+    $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
+    $infos = $this->getGroupPermissions($forceParent);
+    $jinfos = array();
+    // Virtual group for Symfony 1.4-style "everyone who is cool" privilege based on the view_locked permission
+    $jinfos[] = array('id' => 'editors_and_guests', 'name' => 'Editors & Guests', 'selected' => $this->getObject()->view_guest, 'applyToSubpages' => false);
+    foreach ($candidates as $candidate)
+    {
+      $id = $candidate['id'];
+      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'applyToSubpages' => false);
+      if (isset($infos[$id]))
+      {
+        $info = $infos[$id];
+        if (isset($info['privileges']['view']))
+        {
+          $jinfo['selected'] = true;
+        }
+      }
+      $jinfos[] = $jinfo;
+    }
+    return json_encode($jinfos);
+  }
+
+  public function validateViewIndividuals($validator, $value)
+  {
+    $values = json_decode($value, true);
+    if (!is_array($values))
+    {
+      throw new sfValidatorError($validator, 'Bad permissions JSON');
+    }
+    $candidates = Doctrine::getTable('aPage')->getViewCandidates();
+    $candidates = aArray::listToHashById($candidates);
+    foreach ($values as $info)
+    {
+      if (!isset($candidates[$info['id']]))
+      {
+        throw new sfValidatorError($validator, 'noncandidate');
+      }
+    }
+    return $value;
+  }
+
+  public function validateViewGroups($validator, $value)
+  {
+    $values = json_decode($value, true);
+    if (!is_array($values))
+    {
+      throw new sfValidatorError($validator, 'Bad permissions JSON');
+    }
+    $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
+    $candidates = aArray::listToHashById($candidates);
+    foreach ($values as $info)
+    {
+      if ($info['id'] === 'editors_and_guests')
+      {
+        continue;
+      }
+      if (!isset($candidates[$info['id']]))
+      {
+        throw new sfValidatorError($validator, 'noncandidate');
+      }
+    }
+    return $value;
+  }
+  
   public function updateObject($values = null)
   {
     error_log("in updateObject Parent is " . !!$this->parent);
@@ -299,7 +419,7 @@ class BaseaPageSettingsForm extends aPageForm
 	  }
 
     // Check for cascading operations
-    if($this->getValue('cascade_archived') || $this->getValue('cascade_view_is_secure'))
+    if ($this->getValue('cascade_archived'))
     {
       $q = Doctrine::getTable('aPage')->createQuery()
         ->update()
@@ -307,10 +427,6 @@ class BaseaPageSettingsForm extends aPageForm
       if($this->getValue('cascade_archived'))
       {
         $q->set('archived', '?', $object->getArchived());
-      }
-      if($this->getValue('cascade_view_is_secure'))
-      {
-        $q->set('view_is_secure', '?', $object->getViewIsSecure());
       }
       $q->execute();
     }
@@ -345,6 +461,57 @@ class BaseaPageSettingsForm extends aPageForm
       error_log("Did not insert as child");
     }
     
+    $jvalues = json_decode($this->getValue('view_groups'), true);
+    // Most custom permissions are saved in separate methods called from save()
+    // after the object exists. However the "Editors + Guests" group is a special
+    // case which really maps to everyone who has the 'view_locked' permission, so
+    // we have to scan for it in the list of groups
+    foreach ($jvalues as $value)
+    {
+      if ($value['id'] === 'editors_and_guests')
+      {
+        // Editors + Guests special case
+        $object->view_guest = $value['selected'] && ($value['selected'] !== 'remove');
+      }
+    }
+    
+    // Check for cascading operations
+    if ($this->getValue('cascade_archived'))
+    {
+      $q = Doctrine::getTable('aPage')->createQuery()
+        ->update()
+        ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
+      $q->set('archived', '?', $object->getArchived());
+      $q->execute();
+    }
+    
+    if ($values['view_options'] === 'public')
+    {
+      $object->view_admin_lock = false;
+      $object->view_is_secure = false;
+    }
+    elseif ($values['view_options'] === 'login')
+    {
+      $object->view_admin_lock = false;
+      $object->view_is_secure = true;
+    }
+    elseif ($values['view_options'] === 'admin')
+    {
+      $object->view_admin_lock = true;
+      $object->view_is_secure = true;
+    }
+    
+    if ($this->getValue('view_options_apply_to_subpages'))
+    {
+      $q = Doctrine::getTable('aPage')->createQuery()
+        ->update()
+        ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
+      $q->set('view_admin_lock', '?', $object->view_admin_lock);
+      $q->set('view_is_secure', '?', $object->view_is_secure);
+      $q->set('view_guest', '?', $object->view_guest);
+      $q->execute();
+    }
+    
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites
     // our attempt to invalidate the routing cache [groan]
@@ -356,6 +523,8 @@ class BaseaPageSettingsForm extends aPageForm
   public function save($con = null)
   {
     $object = parent::save($con);
+    $this->saveIndividualViewPrivileges($object);
+    $this->saveGroupViewPrivileges($object);
     $this->saveIndividualEditPrivileges($object);
     $this->saveGroupEditPrivileges($object);
     // Update meta-description on Page
@@ -419,6 +588,38 @@ class BaseaPageSettingsForm extends aPageForm
       }
     }
   }
+  
+  protected function saveIndividualViewPrivileges($object)
+  {
+    if (isset($this['view_individuals']))
+    {
+      $value = $this->getValue('view_individuals');
+    }
+    elseif ($this->parent)
+    {
+      // We don't have the credentials to edit privileges, but we do need to
+      // copy privileges when making a new page
+      $value = $this->getViewIndividualsJSON(true);
+    }
+    else
+    {
+      return;
+    }
+    $values = json_decode($value, true);
+    
+    $t = Doctrine::getTable('aPage');
+    if ($object->id)
+    {
+      $this->clearAccessForPrivilege($object->id, 'view');
+    }
+    foreach ($values as $value)
+    {
+      if ($value['selected'] != '')
+      {
+        $this->setAccessForPrivilege($object, $value['id'], 'view', ($value['selected'] === 'remove') ? false : true, $value['applyToSubpages']);
+      }
+    }
+  }
 
   protected function clearAccessForPrivilege($pageId, $privilege)
   {
@@ -458,10 +659,53 @@ class BaseaPageSettingsForm extends aPageForm
     }
     foreach ($values as $value)
     {
+      if ($value['id'] === '')
+      {
+        // We dealt with the "Editors + Guests" special case in updateObject
+        continue;
+      }
       if ($value['selected'] != '')
       {
         $this->setGroupAccessForPrivilege($object, $value['id'], 'edit', ($value['selected'] === 'remove') ? false: true, $value['applyToSubpages']);
         $this->setGroupAccessForPrivilege($object, $value['id'], 'manage', ($value['selected'] === 'remove') ? false : $value['extra'], $value['applyToSubpages']);
+      }
+    }
+  }
+  
+  protected function saveGroupViewPrivileges($object)
+  {
+    if (isset($this['view_groups']))
+    {
+      $value = $this->getValue('view_groups');
+    }
+    elseif ($this->parent)
+    {
+      // We don't have the credentials to edit privileges, but we do need to
+      // copy privileges when making a new page
+      $value = $this->getViewGroupsJSON(true);
+    }
+    else
+    {
+      return;
+    }
+    
+    $values = json_decode($value, true);
+    
+    $t = Doctrine::getTable('aPage');
+    if ($object->id)
+    {
+      $this->clearGroupAccessForPrivilege($object->id, 'view');
+    }
+    foreach ($values as $value)
+    {
+      // Ignore groups with non-integer IDs. This is a clean way to
+      // allow special cases that aren't real groups, such as "Guests + Editors"
+      if (preg_match('/^\d+$/', $value['id']))
+      {
+        if ($value['selected'] != '')
+        {
+          $this->setGroupAccessForPrivilege($object, $value['id'], 'view', ($value['selected'] === 'remove') ? false: true, $value['applyToSubpages']);
+        }
       }
     }
   }

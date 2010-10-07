@@ -1302,6 +1302,38 @@ function aConstructor()
 		}
 	}
 	
+	// Just the toggles to display different parts of the page settings dialog
+	this.enablePermissionsToggles = function()
+	{
+		var stem = '.view-options-widget';
+		$(stem).change(function() {
+			var v = $(stem + ':checked').val();
+			if (v === 'login')
+			{
+				$('#a-page-permissions-view-extended').show();
+			}
+			else
+			{
+				$('#a-page-permissions-view-extended').hide();
+			}
+		});
+		$('#a_settings_settings_view_options_public').change();
+	
+		$('#a_settings_settings_edit_admin_lock').change(function()
+		{
+			if ($(this).attr('checked'))
+			{
+				$('#a-page-permissions-edit-extended').hide();
+			}
+			else
+			{
+				$('#a-page-permissions-edit-extended').show();
+			}
+		});
+		$('#a_settings_settings_edit_admin_lock').change();
+	}
+	
+	// One permissions widget. Invoked several times - there are several in the page settings dialog
 	this.enablePermissions = function(options)
 	{
 		// We need a fairly complex permissions widget. Deal with that.

@@ -424,9 +424,29 @@ class PluginaPageTable extends Doctrine_Table
       // Individual pages can be conveniently locked for 
       // viewing purposes on an otherwise public site. This is
       // implemented as a separate permission. 
-      if (($privilege === 'view') && $pageOrInfo['view_is_secure'])
+      if ($privilege === 'view') 
       {
-        $privilege = 'view_locked';
+        if ($pageOrInfo['view_is_secure'])
+        {
+          if ($pageOrInfo['view_guest'])
+          {
+            $privilege = 'view_locked';
+          }
+          else
+          {
+            // There are never 'sufficient' credentials for this so we wind up checking
+            // for specific privileges. However if we can edit or manage the page
+            // we can always view it
+            $privilege = 'edit|manage|view_custom';
+          }
+        }
+        else
+        {
+          if ($pageOrInfo['view_admin_lock'])
+          {
+            return $user->isAuthenticated() && $user->hasCredential('cms_admin');
+          }
+        }
       }
     }
 
@@ -513,29 +533,34 @@ class PluginaPageTable extends Doctrine_Table
           continue;
         }
 
-        // Rule 3: if there are no sufficient credentials and there is no
-        // required or sufficient group, then login alone is sufficient. Common 
-        // on sites with one admin
-        if (($sufficientCredentials === false) && ($candidateGroup === false) && ($sufficientGroup === false))
+        if ($privilege !== 'view_custom')
         {
-          // Logging in is the only requirement
-          $result = true;
-          break;
-        }
+          // Rule 3: if there are no sufficient credentials and there is no
+          // required or sufficient group, then login alone is sufficient. Common 
+          // on sites with one admin. Exception: there is no such thing as sufficient
+          // credentials for view_custom, the whole point is to check your
+          // individual credentials
+          if (($sufficientCredentials === false) && ($candidateGroup === false) && ($sufficientGroup === false))
+          {
+            // Logging in is the only requirement
+            $result = true;
+            break;
+          }
 
-        // Rule 4: if the user has sufficient credentials... that's sufficient!
-        // Many sites will want to simply say 'editors can edit everything' etc
-        if ($sufficientCredentials && 
-          ($user->hasCredential($sufficientCredentials)))
-        {
-          $result = true;
-          break;
-        }
-        if ($sufficientGroup && 
-          ($user->hasGroup($sufficientGroup)))
-        {
-          $result = true;
-          break;
+          // Rule 4: if the user has sufficient credentials... that's sufficient!
+          // Many sites will want to simply say 'editors can edit everything' etc
+          if ($sufficientCredentials && 
+            ($user->hasCredential($sufficientCredentials)))
+          {
+            $result = true;
+            break;
+          }
+          if ($sufficientGroup && 
+            ($user->hasGroup($sufficientGroup)))
+          {
+            $result = true;
+            break;
+          }
         }
 
         // Remaining cases require that the page be in the tree so explicit privileges can be applied
@@ -628,6 +653,34 @@ class PluginaPageTable extends Doctrine_Table
   {
     $p = sfConfig::get('app_a_group_editor_permission', 'editor');
     return Doctrine::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
+  }
+
+  // View candidates = everyone with the view_locked permission whether individually or
+  // via a group. On some sites this is a lot of people, so we may find ourselves
+  // overriding this for some projects, or just turning off individual permissions
+  // for some projects in favor of group permissions. At worst, you'd have to create
+  // a group just for Dean Bob
+  
+  public function getViewCandidates()
+  {
+    $sufficientCredentials = sfConfig::get(
+        'app_a_view_locked_sufficient_credentials', 'view_locked');
+
+    $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
+    if ($sufficientCredentials)
+    {
+      $q->leftJoin('u.groups g')->leftJoin('g.permissions gp WITH gp.name = ?', $sufficientCredentials);
+      $q->leftJoin('u.permissions p WITH p.name = ?', $sufficientCredentials);
+      $q->andWhere('gp.name = ? OR p.name = ?', array($sufficientCredentials, $sufficientCredentials));
+    }
+    return $q->orderBy('u.username ASC')->fetchArray();
+  }
+  
+  public function getViewCandidateGroups()
+  {
+    // All groups are fair game to receive view permissions
+    
+    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->orderBy('g.name ASC')->fetchArray();
   }
   
   // Gets explicit permissions, not implied permissions such as those held

@@ -98,16 +98,6 @@
 				</div>
 			</div>			
 
-			<div class="a-form-row privacy">
-			  <h4><label><?php echo __('Page Privacy', null, 'apostrophe') ?></label></h4>
-				<div class="<?php echo $stem ?>-status">
-				<?php echo $form['view_is_secure'] ?>
-					<?php if(isset($form['cascade_view_is_secure'])): ?>
-						<?php echo $form['cascade_view_is_secure'] ?> <?php echo __('Cascade privacy changes to children', null, 'apostrophe') ?>
-					<?php endif ?> 
-				</div>
-			</div>
-
 		</div>
 	</div>
 
