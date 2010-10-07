@@ -1557,7 +1557,7 @@ overflow: hidden;
 
 /* Shared Admin Navigation */
 
-.a-admin-title { float: left; }
+.a-admin-title { float: left; margin-right: 10px;}
 
 .a-admin-title .a-btn { color: #333; border: 1px solid #fff;}
 

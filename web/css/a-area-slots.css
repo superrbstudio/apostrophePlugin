@@ -149,7 +149,7 @@ clear:both;
 line-height: 27px;
 }
 
-.a-slot-form .a-form-help
+.a-slot-form .a-form-help.collapsed
 {
 	display: inline;
 	position: absolute;
@@ -428,6 +428,8 @@ overflow: hidden;
 .aText .a-slot-content ol,
 .aRawHTML .a-slot-content ul,
 .aRawHTML .a-slot-content ol { margin-left: 1.5em; }
+
+.a-slot ul.a-controls {margin-left:0;}
 
 .a-blog-item-meta,
 .aFeed .a-slot-content ul,
