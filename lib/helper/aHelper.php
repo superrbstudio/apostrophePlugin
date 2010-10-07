@@ -30,17 +30,17 @@ function _a_required_assets()
 		// But it really seems like we use pieces of every one of these when logged in and out.
  		aTools::addStylesheetsIfDesired(array('reset', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors', 'utility', 'audio'));
   }
-
-  $response->addJavascript('/apostrophePlugin/js/aUI.js');
-  $response->addJavascript('/apostrophePlugin/js/aControls.js');
-  $response->addJavascript('/apostrophePlugin/js/plugins/jquery.autogrow.js'); // Autogrowing Textareas
-	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.hoverIntent.js'); // keycodes
-	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.keycodes-0.2.js'); // keycodes
-	$response->addJavascript('/apostrophePlugin/js/plugins/jquery.timer-1.2.js');	
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
-  $response->addJavascript('/apostrophePlugin/js/json2.js');
+  $response->addJavascript("$webDir/js/aUI.js");
+  $response->addJavascript("$webDir/js/aControls.js");
+  $response->addJavascript("$webDir/js/plugins/jquery.autogrow.js"); // Autogrowing Textareas
+	$response->addJavascript("$webDir/js/plugins/jquery.hoverIntent.js"); // keycodes
+	$response->addJavascript("$webDir/js/plugins/jquery.keycodes-0.2.js"); // keycodes
+	$response->addJavascript("$webDir/js/plugins/jquery.timer-1.2.js");	
+  $response->addJavascript("$webDir/js/json2.js");
   $response->addJavascript("$webDir/js/a.js");
-
+  $response->addStylesheet("$webDir/css/ui-apostrophe/jquery-ui-1.8.2.custom.css");
+  $response->addJavascript("$webDir/js/plugins/jquery-ui-1.8.2.custom.min.js");
 }
 
 _a_required_assets();
