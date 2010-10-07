@@ -4857,8 +4857,10 @@ overflow: hidden;
 	display: block;
 	position: relative;
 	line-height: 20px;
-	padding-right: 20px;
 	white-space: nowrap;
+	max-width: 180px;
+	margin-right: 20px;
+	overflow: hidden;
 }
 
 .assigned-tags li a.a-btn
