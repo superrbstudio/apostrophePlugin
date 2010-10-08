@@ -155,4 +155,31 @@ abstract class PluginaSlot extends BaseaSlot
     $idMap = array_flip($this->MediaItems->getPrimaryKeys());
     return isset($idMap[$id]);
   }
+
+  public function getOrderedMediaItems()
+  {
+    $order = $this->getMediaItemOrder();
+    $items = $this->getMediaItems();
+    if ($order)
+    {
+      $itemsById = aArray::listToHashById($items);
+      $ordered = array();
+      foreach ($order as $id)
+      {
+        if (isset($itemsById[$id]))
+        {
+          $ordered[] = $itemsById[$id];
+        }
+      }
+      return $ordered;
+    }
+
+    return $items;
+  }
+
+  public function getMediaItemOrder()
+  {
+    return false;
+  }
+
 }

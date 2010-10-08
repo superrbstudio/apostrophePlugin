@@ -56,17 +56,7 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
     $data = $this->slot->getArrayValue();
     if (isset($data['order']))
     {
-      $items = $this->slot->MediaItems;
-      $order = $data['order'];
-      $itemsById = aArray::listToHashById($items);
-      $this->items = array();
-      foreach ($order as $id)
-      {
-        if (isset($itemsById[$id]))
-        {
-          $this->items[] = $itemsById[$id];
-        }
-      }
+      $this->items = $this->slot->getOrderedMediaItems();
       $this->itemIds = aArray::getIds($this->items);
     }
     else
