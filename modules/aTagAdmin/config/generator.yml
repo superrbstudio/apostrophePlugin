@@ -32,23 +32,16 @@ generator:
             action: new
             params:
               class: a-btn big icon a-add alt
+          clean:
+            label: Clean Tags
+            action: clean
+            params:
+              class: a-btn big icon alt
       
       form:
-        # When you use these you break the addition of new categorizable types in new plugins,
-        # including the blog plugin. See PluginaCategoryForm for the right approach to limiting
-        # this with useFields while still including the checkboxes for new types of categorizable stuff
-        
-        # fields:   [ name, groups_list, users_list ]
-        # display:  [ name, groups_list, users_list ]
-
+        class: aTagForm
       
-      filter:
-        # When you use these you break the addition of new categorizable types in new plugins,
-        # including the blog plugin. See PluginaCategoryFormFilter for the right approach to limiting
-        # this with useFields while still including the filters for new types of categorizable stuff
-        
-        # fields:  [  groups_list, users_list ]
-        # display: [  groups_list, users_list ]
+      filter: ~
         
       edit:
         title: Edit Tag

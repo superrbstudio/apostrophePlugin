@@ -26,4 +26,36 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     return $query;
   }
 
+  public function executeClean(sfWebRequest $request)
+  {
+    $deleted = PluginTagTable::purgeOrphans();
+    $count = count($deleted);
+    $this->getUser()->setFlash('notice', "$count unused tags removed.");
+
+    $this->redirect('a_tag_admin');
+  }
+
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    parent::processForm($request, $form);
+    
+    $this->getUser()->setFlash('error', null);
+
+    $taintedValues = $this->form->getTaintedValues();
+    $mergeTo = Doctrine::getTable('Tag')->createQuery()
+      ->where('id <> ? AND name = ?', array($this->tag->id, $taintedValues['name']))
+      ->fetchOne();
+
+    if($mergeTo)
+    {
+      Doctrine::getTable('Tag')->mergeTags($this->tag->id, $mergeTo->id);
+      $this->tag->delete();
+
+      $this->setFlash('notice', $this->__(sprintf('Tag "%s" merged into tag "%s."', $this->tag->name, $mergeTo->name)));
+      $this->redirect('a_tag_admin');
+    }
+    $this->getUser()->setFlash('error', $this->__('The item has not been saved due to some errors.', null, 'apostrophe'));
+  }
+
+
 }

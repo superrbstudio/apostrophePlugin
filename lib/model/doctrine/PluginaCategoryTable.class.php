@@ -85,7 +85,7 @@ class PluginaCategoryTable extends Doctrine_Table
       Doctrine_Query::create()
       ->select('old.*')
       ->from("$tableClass old, $tableClass new")
-      ->where("old.$ref_column = new.$ref_column AND old.$category_column = ? AND old.$category_column <> new.$category_column", $old_id)
+      ->where("old.$ref_column = new.$ref_column AND old.$category_column = ? AND old.$category_column = ?", array($old_id, $new_id))
       ->execute()->delete();
     }
 

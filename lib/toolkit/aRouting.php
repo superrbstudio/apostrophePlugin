@@ -27,6 +27,7 @@ class aRouting extends sfPatternRouting
         'model' => 'Tag',
         'module' => 'aTagAdmin',
         'prefix_path' => 'admin/tags',
+        'collection_actions' => array('clean' => 'get'),
         'column' => 'id',
         'with_wildcard_routes' => true)));
     }

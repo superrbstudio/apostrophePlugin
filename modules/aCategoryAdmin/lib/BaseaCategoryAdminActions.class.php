@@ -13,14 +13,7 @@ require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';
  */
 abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
 {
-
-  public function preExecute()
-  {
-    parent::preExecute();
-
-    // Loading assets here is inappropriate call use_helper('a') anywhere you need them
-  }
-
+  
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
@@ -47,7 +40,6 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
       $error = $this->form->getErrorSchema()->offsetGet('name');
       if (!($this->form->getObject()->isNew()) && $error && $error->getValidator() instanceof sfValidatorDoctrineUnique)
       {
-
         $taintedValues = $this->form->getTaintedValues();
         $newCategory = Doctrine::getTable('aCategory')->findOneBy('name', $taintedValues['name']);
         $conn = Doctrine_Manager::connection();
@@ -57,11 +49,8 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
           $this->getRoute()->getObject()->delete();
           $conn->commit();
           $this->getUser()->setFlash('notice', $this->__(sprintf('Category %s merged into %s.', $this->getRoute()->getObject()->getName(), $newCategory->getName()), null, 'apostrophe'));
-
           return $this->redirect('aCategoryAdmin/index');
         } catch (Exception $e) {
-          var_dump($e);
-          exit();
           $conn->rollback();
         }
       }

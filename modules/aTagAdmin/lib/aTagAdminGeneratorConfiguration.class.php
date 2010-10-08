@@ -26,4 +26,9 @@ class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguratio
     return $fields;
   }
 
+  public function getFormClass()
+  {
+    return 'aTagForm';
+  }
+
 }
