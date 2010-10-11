@@ -26,10 +26,17 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
 		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
+		$this->setWidget('categories_list_add', new sfWidgetFormInput());
+		//TODO: Make this validator better, should check for duplicate categories, etc.
+		$this->setValidator('categories_list_add', new sfValidatorPass(array('required' => false)));
+
 		// If I don't unset this saving the form will purge existing relationships to slots
 		unset($this['slots_list']);
 		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
+		$this->validatorSchema->setPostValidator(
+      new sfValidatorCallback(array('callback' => array($this, 'postValidator')))
+    );
   }
   public function updateObject($values = null)
   {
@@ -66,7 +73,57 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     {
       $secret = self::$CSRFSecret;
     }
-
     return md5($secret.session_id());
-  }    
+  }
+
+  public function postValidator($validator, $values)
+  {
+    if(isset($values['categories_list_add']) && is_array($values['categories_list_add']))
+    {
+      $stringValidator = new sfValidatorString();
+      foreach($values['categories_list_add'] as $key => $value)
+      {
+        $values['categories_list_add'][$key] = $stringValidator->clean($value);
+      }
+    }
+    return $values;
+  }
+
+ public function updateCategoriesList($values)
+  {
+    $link = array();
+    if(!is_array($values))
+      $values = array();
+    foreach ($values as $value)
+    {
+      $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
+      if($existing)
+      {
+        $aCategory = $existing;
+      }
+      else
+      {
+        $aCategory = new aCategory();
+        $aCategory['name'] = $value;
+      }
+      $aCategory['media_items'] = true;
+      $aCategory->save();
+      $link[] = $aCategory['id'];
+    }
+    if(!is_array($this->values['categories_list']))
+    {
+      $this->values['categories_list'] = array();
+    }
+    $this->values['categories_list'] = array_merge($link, $this->values['categories_list']);
+  }
+
+  protected function doSave($con = null)
+  {
+    if(isset($this['categories_list_add']))
+    {
+      $this->updateCategoriesList($this->values['categories_list_add']);
+    }
+    parent::doSave($con);
+  }
+    
 }
