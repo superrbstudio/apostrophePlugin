@@ -396,7 +396,7 @@ margin: 10px 0 0;
 .a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
 .a-media-row:last-child { border-bottom: none; }
 
-.a-media-items { float: left; width: 100%; }
+.a-media-items { display: inline; float: left; width: 100%; }
 
 /* Media Engine Items
 -------------------------------------*/
@@ -553,7 +553,8 @@ border-radius: 4px;
 
 .a-media-multiple-upload .a-media-library .a-controls { width: auto; }
 .a-media-multiple-upload .a-media-library .a-controls.top { margin: -25px 0 20px; }
-
+.a-media-multiple-upload .a-media-library .a-controls.bottom { width: 100%; margin-top:5px;}
+.a-media-multiple-upload .a-media-library .a-controls.bottom li { float: right; margin-left: 2px; }
 
 .a-media-embed .a-media-library .a-form-row textarea { float: left; width: 360px; height: 100px; }
 

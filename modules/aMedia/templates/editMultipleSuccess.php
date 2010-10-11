@@ -65,14 +65,11 @@
 				<?php $n++ ?>
 		  <?php endif ?>
 		<?php endfor ?>
-
-		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
-
-		<ul class="a-ui a-controls a-align-right">
-			<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
+		<ul class="a-ui a-controls bottom a-align-left">
 			<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
+			<li><a href="#save" class="a-btn a-submit big" onclick="$('#a-media-edit-form-0').submit(); return false;"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
 		</ul>
-
+		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 		</form>
 	</div>
 </div>
