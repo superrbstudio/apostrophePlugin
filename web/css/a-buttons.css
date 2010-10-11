@@ -133,6 +133,7 @@ line-height: 20px !important;
 .a-drag > .icon { background-image: url(/apostrophePlugin/images/a-icon-drag-simple.png); }
 .a-edit > .icon, .a-publish > .icon { background-image: url(/apostrophePlugin/images/a-icon-edit.png); }
 .a-feed > .icon { background-image: url(/apostrophePlugin/images/a-icon-feed.png); }
+.a-file > .icon { background-image: url(/apostrophePlugin/images/a-icon-file.png); }
 .a-image > .icon { background-image: url(/apostrophePlugin/images/a-icon-photo.png); }
 .a-history-btn > .icon, 
 .a-history-revert > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-history.png); }
@@ -184,6 +185,7 @@ line-height: 20px !important;
 .alt .a-edit .icon,
 .a-edit.alt .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png); }
 .alt .a-feed > .icon, .a-feed.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png); }
+.alt .a-file > .icon, .a-file.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-file.png); }
 .alt .a-history-btn .icon,
 .alt .a-history-revert .icon,
 .a-history-btn.alt .icon,
