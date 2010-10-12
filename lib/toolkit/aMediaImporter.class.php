@@ -56,6 +56,7 @@ class aMediaImporter
           continue;
         }
         $item = new aMediaItem();
+        
         if ($info['format'] === 'pdf')
         {
           $item->type = 'pdf';
@@ -90,13 +91,13 @@ class aMediaImporter
         // The preSaveImage / save / saveImage dance is necessary because
         // the sluggable behavior doesn't kick in until save and the image file
         // needs a slug based filename.
-        if (!$item->preSaveImage($file))
+        if (!$item->preSaveFile($file))
         {
           $this->giveFeedback("error", "Save failed", $file);
           continue;
         }
         $item->save();
-        if (!$item->saveImage($file))
+        if (!$item->saveFile($file))
         {
           $this->giveFeedback("error", "Save failed", $file);
           $item->delete();
