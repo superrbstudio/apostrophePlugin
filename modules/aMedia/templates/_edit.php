@@ -99,14 +99,9 @@
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
       	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-				<?php a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('existing-tags' => method_exists($form, 'getObject') ? $form->getObject()->getTags() : array(), 'popular-tags' => $popularTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Item Tags')) ?>
+				<?php a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('existing-tags' => method_exists($form, 'getObject') ? $form->getObject()->getTags() : array(), 'popular-tags' => $popularTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => '')) ?>
 			</div>
       <?php echo $form['tags']->renderError() ?>
-			<?php // The inline taggable widget requires Popular Tags and Existing Tags -- These objects need to be created from somewhere before this can work. ?>
-			<?php // a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Tags')) ?>
-	    <div class="a-form-help-text">
-	    	<?php echo __('Tags should be separated by commas. Example: teachers, kittens, buildings', null, 'apostrophe') ?>
-	    </div>
     </div>
 
 		<div class="a-form-row permissions">

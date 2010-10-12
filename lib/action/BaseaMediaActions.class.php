@@ -428,7 +428,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
+		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
 		$this->allTags = PluginTagTable::getAllTagNameWithCount();
 
     if ($request->hasParameter('slug'))

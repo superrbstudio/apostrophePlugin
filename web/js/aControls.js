@@ -168,7 +168,7 @@ function aMultipleSelect(target, options)
       html += "<ul class='a-ui a-multiple-select-list'>";
       if (!options['remove'])
       {
-        options['remove'] = ' <span>Remove</span>';
+        options['remove'] = ' <span class="icon"></span><span>Remove</span>';
       }
       for (j = 0; (j < length); j++)
       {

@@ -13,7 +13,7 @@
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
-
+<?php $create = $page->isNew() ?>
 <?php $stem = $page->isNew() ? 'a-create-page' : 'a-page-settings' ?>
 
   <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
