@@ -7,6 +7,8 @@
   $itemFormScripts = isset($itemFormScripts) ? $sf_data->getRaw('itemFormScripts') : null;
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $withPreview = isset($withPreview) ? $sf_data->getRaw('withPreview') : true;
+	$popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : array();
+	$allTags = isset($allTags) ? $sf_data->getRaw('allTags') : array();
 ?>
 
 <?php use_helper('a') ?>
@@ -97,6 +99,7 @@
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
       	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
+				<?php a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('existing-tags' => method_exists($form, 'getObject') ? $form->getObject()->getTags() : array(), 'popular-tags' => $popularTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Item Tags')) ?>
 			</div>
       <?php echo $form['tags']->renderError() ?>
 			<?php // The inline taggable widget requires Popular Tags and Existing Tags -- These objects need to be created from somewhere before this can work. ?>
@@ -180,3 +183,7 @@
 <?php if($sf_request->isXmlHttpRequest()): ?>
 	<?php a_js_call('apostrophe.mediaAjaxSubmitListener(?)', array('form' => '#a-media-edit-form-'.$i, 'descId' => $form['description']->renderId(), 'url' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))), 'update' => '#a-media-item-'.$item->getId().' .a-media-item-information')) ?>
 <?php endif ?>
+
+<?php // include pkTagahead for the taggable widget ?>
+<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
+<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>

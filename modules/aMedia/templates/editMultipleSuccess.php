@@ -3,6 +3,8 @@
   $active = isset($active) ? $sf_data->getRaw('active') : null;
   $firstPass = isset($firstPass) ? $sf_data->getRaw('firstPass') : null;
   $form = isset($form) ? $sf_data->getRaw('form') : null;
+	$popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : array() ;
+	$allTags = isset($allTags) ? $sf_data->getRaw('allTags') : array() ;
 ?>
 
 <?php ($totalItems > 1) ? $singleItem = false : $singleItem = true; ?>
@@ -59,6 +61,8 @@
 	 									"form" => $form["item-$i"], 
 	 									"n" => $n, 
 	 									'i' => $i,
+										'popularTags' => $popularTags,
+										'allTags' => $allTags,
 	 									'itemFormScripts' => false,
 	 									)) ?>
 					</div>

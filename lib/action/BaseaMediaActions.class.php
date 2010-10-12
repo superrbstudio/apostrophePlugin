@@ -428,6 +428,9 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
+		$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
+		$this->allTags = PluginTagTable::getAllTagNameWithCount();
+
     if ($request->hasParameter('slug'))
     {
       $item = $this->getItem();
@@ -490,6 +493,8 @@ class BaseaMediaActions extends aEngineActions
         {
             return $this->renderPartial('aMedia/mediaItemMeta', array(
               'mediaItem' => $object,
+							'popularTags' => $this->popularTags,
+							'allTags' => $this->allTags,
               'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
             ));
         }
@@ -636,7 +641,7 @@ class BaseaMediaActions extends aEngineActions
   }
 
   public function executeUpload(sfWebRequest $request)
-  {
+  {	
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
 
@@ -708,7 +713,6 @@ class BaseaMediaActions extends aEngineActions
   public function executeEditMultiple(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
-
 		$this->embedAllowed = aMediaTools::getEmbedAllowed();
 		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
 
@@ -736,6 +740,9 @@ class BaseaMediaActions extends aEngineActions
     $this->form->bind(
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
+
+		$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
+		$this->allTags = PluginTagTable::getAllTagNameWithCount();
 
     $this->postMaxSizeExceeded = false;
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar

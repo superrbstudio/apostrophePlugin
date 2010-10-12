@@ -152,7 +152,7 @@ class BaseaSlotActions extends sfActions
     $variant = $this->slot->getEffectiveVariant($this->options);
     return $this->renderPartial("a/ajaxUpdateSlot",
       array("name" => $this->name, 
-        "type" => $this->type, 
+        "type" => $this->type,
         "permid" => $this->permid, 
         "options" => $this->options,
         "editorOpen" => $editorOpen,
