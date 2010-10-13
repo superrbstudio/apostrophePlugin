@@ -170,6 +170,42 @@ but why take chances with your data?
       $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
       $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
     }
+    // Migrate all IDs to BIGINT (the default in Doctrine 1.2) for compatibility with the
+    // new version of sfDoctrineGuardPlugin
+    $this->migrate->upgradeIds();
+    
+    // sfDoctrineGuardPlugin 5.0.x requires this
+    if (!$this->migrate->columnExists('sf_guard_user', 'email_address'))
+    {
+      $this->migrate->sql(array(
+        'ALTER TABLE sf_guard_user ADD COLUMN first_name varchar(255) DEFAULT NULL',
+  		  'ALTER TABLE sf_guard_user ADD COLUMN last_name varchar(255) DEFAULT NULL',
+  		  'ALTER TABLE sf_guard_user ADD COLUMN email_address varchar(255) DEFAULT \'\''
+  		));
+  		// Email addresses are mandatory and can't be null. We can't start guessing whether
+  		// you have them in some other table or not. So the best we can do is stub in 
+  		// the username for uniqueness for now
+  		$this->migrate->sql(array(
+  		  'UPDATE sf_guard_user SET email_address = concat(username, \'@notavalidaddress\')',
+  		  'ALTER TABLE sf_guard_user ADD UNIQUE KEY `email_address` (`email_address`);'
+  		));
+    }
+    if (!$this->migrate->tableExists('sf_guard_forgot_password'))
+    {
+      $this->migrate->sql(array('
+        CREATE TABLE `sf_guard_forgot_password` (
+          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `user_id` bigint(20) NOT NULL,
+          `unique_key` varchar(255) DEFAULT NULL,
+          `expires_at` datetime NOT NULL,
+          `created_at` datetime NOT NULL,
+          `updated_at` datetime NOT NULL,
+          PRIMARY KEY (`id`),
+          KEY `user_id_idx` (`user_id`),
+          CONSTRAINT `sf_guard_forgot_password_user_id_sf_guard_user_id` FOREIGN KEY (`user_id`) REFERENCES `sf_guard_user` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8'));
+    }
+    
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

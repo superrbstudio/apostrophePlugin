@@ -12,7 +12,7 @@ aPage:
     - Taggable
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     slug:
@@ -61,9 +61,9 @@ aPage:
       type: boolean
       default: false
     author_id:
-      type: integer(4)
+      type: integer
     deleter_id:
-      type: integer(4)
+      type: integer
     engine:
       type: string(255)
   indexes:
@@ -97,17 +97,17 @@ aArea:
   tableName: a_area
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     page_id:
-      type: integer(4)
+      type: integer
     name:
       type: string(100)
     culture:
       type: string(7)
     latest_version:
-      type: integer(4)
+      type: integer
   indexes:
     page_index:
       fields: [page_id] 
@@ -130,15 +130,15 @@ aAreaVersion:
     - Timestampable
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     area_id: 
-      type: integer(4)
+      type: integer
     version:
-      type: integer(4)
+      type: integer
     author_id:
-      type: integer(4)
+      type: integer
     diff:
       type: string(200)
   indexes:
@@ -169,17 +169,17 @@ aAreaVersionSlot:
   tableName: a_area_version_slot
   columns:
     slot_id:  
-      type: integer(4)
+      type: integer
     area_version_id:  
-      type: integer(4)
+      type: integer
     # Permanently unique id of this subslot within this area
     permid:
-      type: integer(4)
+      type: integer
       # Handy in fixtures
       default: 1
     # Current visual ordering within this area on this page.
     rank:
-      type: integer(4)
+      type: integer
       default: 1
   indexes:
     area_version_index:
@@ -212,7 +212,7 @@ aSlot:
   tableName: a_slot
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
       
@@ -282,10 +282,10 @@ aAccess:
       filter: false
   tableName: a_access
   columns:
-    page_id: integer(4)
+    page_id: integer
     # currently just edit or view
     privilege: string(100)
-    user_id: integer(4)
+    user_id: integer
   relations:
     User:
       class: sfGuardUser
@@ -312,10 +312,10 @@ aGroupAccess:
       filter: false
   tableName: a_group_access
   columns:
-    page_id: integer(4)
+    page_id: integer
     # currently just edit or view
     privilege: string(100)
-    group_id: integer(4)
+    group_id: integer
   relations:
     Group:
       class: sfGuardGroup
@@ -343,7 +343,7 @@ aLuceneUpdate:
   tableName: a_lucene_update
   columns:
     page_id:
-      type: integer(4)
+      type: integer
     culture:
       type: string(7)
   indexes:
@@ -456,7 +456,7 @@ aMediaItem:
 
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     lucene_dirty:
@@ -485,9 +485,9 @@ aMediaItem:
     # these are the dimensions of the original. For video they are
     # the dimensions of the video stream. For PDF they are undefined.
     width:
-      type: integer(4)
+      type: integer
     height:
-      type: integer(4)
+      type: integer
       
     # If this field is non-null, it contains HTML embed/object code to
     # be used without alteration (except for replacing _WIDTH_ and _HEIGHT_)
@@ -511,7 +511,7 @@ aMediaItem:
     credit:
       type: string(200)
     owner_id:
-      type: integer(4)
+      type: integer
     # This is not implemented in a high-security way at all, you can
     # still directly access media URLs. This is normal on media sites
     # for performance reasons.
@@ -548,10 +548,10 @@ aSlotMediaItem:
       filter: false
   columns:
     media_item_id:
-      type: integer(4)
+      type: integer
       primary: true
     slot_id:
-      type: integer(4)
+      type: integer
       primary: true
   relations:
     aMediaItem:
@@ -568,7 +568,7 @@ aCategory:
     Sluggable: ~
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     name:
@@ -613,10 +613,10 @@ aCategory:
 aCategoryUser:
   columns:
     category_id:
-      type: integer(4)
+      type: integer
       primary: true
     user_id:
-      type: integer(4)
+      type: integer
       primary: true
   relations:
     Category:
@@ -633,10 +633,10 @@ aCategoryUser:
 aCategoryGroup:
   columns:
     category_id:
-      type: integer(4)
+      type: integer
       primary: true
     group_id:
-      type: integer(4)
+      type: integer
       primary: true
   relations:
     Category:
@@ -658,10 +658,10 @@ aMediaItemToCategory:
       filter: false
   columns:
     media_item_id:
-      type: integer(4)
+      type: integer
       primary: true
     category_id:
-      type: integer(4)
+      type: integer
       primary: true
   relations:
     aMediaItem:
@@ -679,10 +679,10 @@ aPageToCategory:
       filter: false
   columns:
     page_id:
-      type: integer(4)
+      type: integer
       primary: true
     category_id:
-      type: integer(4)
+      type: integer
       primary: true
   relations:
     aCategory:
@@ -723,11 +723,11 @@ aRedirect:
     Taggable: ~
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     page_id:
-      type: integer(4)
+      type: integer
     slug:
       type: string(255)
       unique: true
@@ -794,7 +794,7 @@ aAudioSlot:
 aEmbedMediaAccount:
   columns:
     id:
-      type: integer(4)
+      type: integer
       primary: true
       autoincrement: true
     service:

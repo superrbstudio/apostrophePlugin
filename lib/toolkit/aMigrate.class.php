@@ -114,4 +114,84 @@ class aMigrate
     }
     return (isset($data[0]['Field']));
   }
+  
+  public function getTables()
+  {
+    return array_map(array($this, 'takeFirst'), $this->query('SHOW TABLES'));
+  }
+  
+  public function takeFirst($val)
+  {
+    return $val[0];
+  }
+  
+  // Drop all integer foreign key constraints, turn both columns involved into BIGINTs, 
+  // and reestablish the constraints
+  public function upgradeIds()
+  {
+    $tables = $this->getTables();
+    $constraints = array();
+    $locals = array();
+    $foreigns = array();
+    foreach ($tables as $table)
+    {
+      $r = $this->query('SHOW CREATE TABLE ' . $table);
+      $c = $r[0]['Create Table'];
+      if (preg_match_all('/\sCONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\).*?\n/s', $c, $matches, PREG_SET_ORDER))
+      {
+        for ($i = 0; ($i < count($matches)); $i++)
+        {
+          list($constraint, $name, $local, $foreignTable, $foreign) = $matches[$i];
+          $constraint = preg_replace('/,\s*$/', '', $constraint);
+          
+          // If it isn't an old fashioned 4 byte int, it's none of our business
+          if (!preg_match("/`$local` int\(11\)/", $c))
+          {
+            echo("Skipping $local\n");
+            continue;
+          }
+          else
+          {
+            echo("NOT skipping $local\n");
+          }
+          
+          $constraints[$table][$name] = $constraint;
+          $locals[$table][] = $local;
+          $foreigns[$foreignTable][$foreign] = true;
+        }
+      }
+    }
+    
+    foreach ($constraints as $table => $tableConstraints)
+    {
+      foreach ($tableConstraints as $name => $constraint)
+      {
+        // There is no DROP CONSTRAINT for some strange reason
+        $this->query("ALTER TABLE $table DROP FOREIGN KEY `$name`");
+      }
+    }
+    
+    foreach ($locals as $table => $locals)
+    {
+      foreach ($locals as $foreignId)
+      {
+        $this->query("ALTER TABLE $table CHANGE $foreignId $foreignId BIGINT");
+      }
+    }
+    foreach ($foreigns as $table => $names)
+    {
+      foreach ($names as $id => $dummy)
+      {
+        // By default MySQL will toss out AUTO_INCREMENT if you change the type
+        $this->query("ALTER TABLE $table CHANGE $id $id BIGINT AUTO_INCREMENT");
+      }
+    }
+    foreach ($constraints as $table => $tableConstraints)
+    {
+      foreach ($tableConstraints as $name => $constraint)
+      {
+        $this->query("ALTER TABLE $table ADD $constraint");
+      }
+    }
+  }
 }
