@@ -612,7 +612,7 @@ class PluginaPageTable extends Doctrine_Table
 
         // Make sure only groups that have the editor permission can win
         $accesses = Doctrine_Query::create()->
-          select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
+          select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.Permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
           where("p.id = ? AND a.privilege = ?", array($pageOrInfo['id'], $privilege))->
           andWhereIn("a.group_id", $groupIds)->
           limit(1)->
@@ -645,14 +645,14 @@ class PluginaPageTable extends Doctrine_Table
     }
     else
     {
-      return Doctrine::getTable('sfGuardUser')->createQuery('u')->innerJoin('u.groups g WITH g.name = ?', $candidateGroup)->orderBy('u.username ASC')->fetchArray();
+      return Doctrine::getTable('sfGuardUser')->createQuery('u')->innerJoin('u.Groups g WITH g.name = ?', $candidateGroup)->orderBy('u.username ASC')->fetchArray();
     }
   }
 
   public function getEditorCandidateGroups()
   {
     $p = sfConfig::get('app_a_group_editor_permission', 'editor');
-    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
+    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.Permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
   }
 
   // View candidates = everyone with the view_locked permission whether individually or
@@ -669,8 +669,8 @@ class PluginaPageTable extends Doctrine_Table
     $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
     if ($sufficientCredentials)
     {
-      $q->leftJoin('u.groups g')->leftJoin('g.permissions gp WITH gp.name = ?', $sufficientCredentials);
-      $q->leftJoin('u.permissions p WITH p.name = ?', $sufficientCredentials);
+      $q->leftJoin('u.Groups g')->leftJoin('g.Permissions gp WITH gp.name = ?', $sufficientCredentials);
+      $q->leftJoin('u.Permissions p WITH p.name = ?', $sufficientCredentials);
       $q->andWhere('gp.name = ? OR p.name = ?', array($sufficientCredentials, $sufficientCredentials));
     }
     return $q->orderBy('u.username ASC')->fetchArray();
