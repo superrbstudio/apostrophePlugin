@@ -19,14 +19,14 @@ generator:
         
       list:
         title:   User list
-        display: [=username, created_at, updated_at, last_login]
+        display: [=username, first_name, last_name, created_at, last_login]
       filter:
         class: aUserAdminFilter
       form:
         class: aUserAdminForm
         display:
           # hid permissions because groups imply them and don't confuse admins
-          "NONE":                   [username, password, password_again, is_active, groups_list]
+          "NONE":                   [username, password, password_again, email_address, first_name, last_name, is_active, groups_list]
         actions:
           _save:
           _list:

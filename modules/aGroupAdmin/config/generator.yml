@@ -13,7 +13,7 @@ generator:
     config:
       list:
         title: Group list
-        display: [=name, description, created_at, updated_at]
+        display: [=name, description, created_at]
 
       form:
         class: aGroupAdminForm

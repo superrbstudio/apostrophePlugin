@@ -1126,7 +1126,7 @@ abstract class PluginaPage extends BaseaPage
     }
     if (count($withClauses))
     {
-      $query->innerJoin("u.groups g with " . implode(" OR ", $withClauses),
+      $query->innerJoin("u.Groups g with " . implode(" OR ", $withClauses),
         $withParameters);
     } 
     $query->orderBy("u.username asc");
@@ -1215,7 +1215,7 @@ abstract class PluginaPage extends BaseaPage
     // candidates to receive page editing permissions (admin doesn't need them and guest
     // should never have them). Don't give it to editor either, since that defeats the purpose
     // of having a group of people who can be granted permissions individually
-    $query->innerJoin('g.permissions p WITH p.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'));
+    $query->innerJoin('g.Permissions p WITH p.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'));
     $query->orderBy("g.name asc");
     $allResults = $query->execute();
     $all = array();
