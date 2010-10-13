@@ -231,7 +231,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['username'], 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->formatName($candidate), 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -322,7 +322,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['username'], 'selected' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, $this->formatName($candidate), 'selected' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -336,6 +336,13 @@ class BaseaPageSettingsForm extends aPageForm
     return json_encode($jinfos);
   }
 
+  // We don't have a full sfGuardUser object so we can't stringify, must duplicate this logic for now. This is
+  // not ideal from an I18N perspective
+  protected function formatName($candidate)
+  {
+    return $candidate['first_name'] . ' ' . $candidate['last_name'] . ' (' . $candidate['username'] . ')';
+  }
+  
   protected function getViewGroupsJSON($forceParent = false)
   {
     $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
