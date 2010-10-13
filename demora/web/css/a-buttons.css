@@ -1,0 +1,411 @@
+/* Apostrophe Buttons
+-------------------------------------*/
+.a-ui .a-btn, .a-btn {
+position: relative;
+float: left;
+display: inline;
+color: #fff;
+text-decoration: none;
+font-family: arial, sans-serif;
+font-size: 12px;
+cursor: pointer;
+padding: 0 4px;
+white-space: nowrap;
+height: 18px;
+line-height: 18px;
+border: none;
+}
+
+.a-ui .a-btn.icon { padding: 0 4px 0 20px; }
+
+.a-ui .a-btn.icon > .icon
+{
+float: left;
+display: block;
+height: 18px;
+width: 18px;
+position: absolute;
+top: 50%;
+left: 0;
+margin-top: -9px;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+}
+
+.a-ui .a-btn.icon:hover > .icon, 
+.a-ui .a-btn.icon:focus > .icon { background-color: none; }
+
+.a-ui .a-btn.no-label, .a-btn.no-label {
+background-position: center center;
+background-repeat: no-repeat;
+text-indent: -9999px;
+padding: 0;
+width: 18px;
+}
+
+.a-btn.no-label:hover { text-indent: -9999px; }
+
+.a-btn.flag.a-btn.expanded, .a-btn.flag.no-label.expanded { background-position: -1px center; width: auto; }
+.a-btn.flag.icon { padding: 0 0 0 18px; }
+.a-btn.flag.a-btn.no-label { padding: 0; }
+.a-btn.flag:hover, .a-btn.flag.no-label:hover { z-index:9999; padding: 0 0 0 18px; } /* Hovering Flag Buttons - Pop to the top */
+
+.a-btn .flag-label {
+display: none;
+white-space: nowrap;
+line-height: 18px;
+padding: 0 4px;
+text-indent: 0 !important;
+}
+
+.a-btn:hover .flag-label { background-color: transparent !important; }
+
+.a-btn.flag-left .flag-label  { position: absolute; left: auto; right: 100%; margin-right: 3px; }
+.a-btn.flag-right .flag-label { position: absolute; right: auto; left: 100%; margin-left: 3px; }
+
+.a-btn.flag-left:hover .flag-label,
+.a-btn.flag-right:hover .flag-label {
+font-size: 11px;
+color: #fff;
+background: rgba(0,0,0,0.75) !important;
+background: #000;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
+text-shadow: none;
+height: 18px;
+line-height: 18px;
+margin-top: 0px;
+}
+
+.a-btn.expanded .flag-label { display: block; }
+
+.a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid transparent; }
+.a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125); }
+
+.a-btn.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
+.a-btn.big.no-label { background-position: center center; width: 24px; }
+
+.a-btn.mini { font-size: 10px !important; height: 16px; line-height: 16px !important; background-position: center left; }
+.a-btn.mini.no-label { background-position: center center; width: 16px; }
+
+.a-ui .a-btn.lite.big { line-height: 24px; }
+.a-ui .a-btn.lite.mini { line-height: 16px; }
+
+.a-btn.nobg,
+.a-btn.nobg:hover,
+.a-btn.no-bg,
+.a-btn.no-bg:hover {
+border: 0 !important;
+text-shadow: none !important;
+background: none !important;
+-moz-box-shadow: 0 0 0 transparent !important;
+-webkit-box-shadow: 0 0 0 transparent !important;
+-opera-box-shadow: 0 0 0 transparent !important;
+-khtml-box-shadow: 0 0 0 transparent !important;
+box-shadow: 0 0 0 transparent !important;
+line-height: 20px !important;
+}
+
+
+/* 7. Apostrophe Button Icons
+-------------------------------------*/
+
+.a-add > .icon { background-image: url(/apostrophePlugin/images/a-icon-add.png); }
+.a-arrow-up > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-up.png); }
+.a-arrow-down > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-down.png); }
+.a-arrow-left > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple.png); }
+.a-arrow-right > .icon { background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple.png); }
+.a-blog > .icon,
+.a-blog-btn > .icon,
+.a-blogpost > .icon,
+.a-blogsingle > .icon { background-image: url(/apostrophePlugin/images/a-icon-blog.png); }
+.a-blog > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-blog-many.png) !important; }
+.a-button > .icon { background-image: url(/apostrophePlugin/images/a-icon-button.png); }
+.a-calendar > .icon { background-image: url(/apostrophePlugin/images/a-icon-event.png); }
+.a-cancel > .icon { background-image: url(/apostrophePlugin/images/a-icon-cancel.png); }
+.a-checked > .icon { background-image: url(/apostrophePlugin/images/a-icon-checked.png); }
+.a-crop > .icon { background-image: url(/apostrophePlugin/images/a-icon-crop.png); }
+.a-delete > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png); }
+.a-download > .icon { background-image: url(/apostrophePlugin/images/a-icon-download.png); }
+.a-drag > .icon { background-image: url(/apostrophePlugin/images/a-icon-drag-simple.png); }
+.a-edit > .icon, .a-publish > .icon { background-image: url(/apostrophePlugin/images/a-icon-edit.png); }
+.a-feed > .icon { background-image: url(/apostrophePlugin/images/a-icon-feed.png); }
+.a-file > .icon { background-image: url(/apostrophePlugin/images/a-icon-file.png); }
+.a-image > .icon { background-image: url(/apostrophePlugin/images/a-icon-photo.png); }
+.a-history-btn > .icon, 
+.a-history-revert > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-history.png); }
+.a-media > .icon { background-image: url(/apostrophePlugin/images/a-icon-media.png); }
+.a-page-settings > .icon { background-image: url(/apostrophePlugin/images/a-icon-page-settings.png); }
+.a-page-small > .icon { background-image: url(/apostrophePlugin/images/a-icon-page-small.png); }
+.a-pdf > .icon { background-image: url(/apostrophePlugin/images/a-icon-pdf.png); }
+.a-rawhtml > .icon { background-image: url(/apostrophePlugin/images/a-icon-rawhtml.png); }
+.a-reorganize > .icon { background-image: url(/apostrophePlugin/images/a-icon-sitemap.png); }
+.a-replace > .icon { background-image: url(/apostrophePlugin/images/a-icon-replace.png); }
+.a-richtext > .icon, .a-text > .icon { background-image: url(/apostrophePlugin/images/a-icon-text.png); }
+.a-search > .icon { background-image: url(/apostrophePlugin/images/a-icon-search.png); }
+.a-settings > .icon { background-image: url(/apostrophePlugin/images/a-icon-settings.png); }
+.a-slideshow > .icon { background-image: url(/apostrophePlugin/images/a-icon-photo.png); }
+.a-templates > .icon { background-image: url(/apostrophePlugin/images/a-icon-templates.png); }
+.a-unchecked > .icon { background-image: url(/apostrophePlugin/images/a-icon-unchecked.png); }
+.a-users > .icon { background-image: url(/apostrophePlugin/images/a-icon-users.png); }
+.a-video > .icon { background-image: url(/apostrophePlugin/images/a-icon-video.png); }
+.a-audio > .icon { background-image: url(/apostrophePlugin/images/a-icon-audio.png); }
+.a-categories > .icon,
+.a-tag > .icon { background-image: url(/apostrophePlugin/images/a-icon-tag.png); }
+
+/* Apostrophe Alternate Button Icons
+-------------------------------------*/
+
+.alt .a-add > .icon, .a-add.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-add.png); }
+.alt .a-arrow-up > .icon, .a-arrow-up.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-up.png); }
+.alt .a-arrow-down > .icon, .a-arrow-down.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-down.png); }
+.alt .a-arrow-left > .icon,  .a-arrow-left.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left.png); }
+.alt .a-arrow-right > .icon, .a-arrow-right.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right.png); }
+.alt .a-arrow-left.thin > .icon, .a-arrow-left.thin.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-left-thin-simple.png); }
+.alt .a-arrow-right.thin > .icon, .a-arrow-right.thin.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-arrow-right-thin.png); }
+.alt .a-blog-btn .icon,
+.alt .a-blog .icon,
+.alt .a-blogpost .icon,
+.alt .a-blogsingle .icon,
+.a-blog-btn.alt .icon,
+.a-blog.alt .icon,
+.a-blogpost.alt .icon,
+.a-blogsingle.alt .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-blog.png); }
+.alt .a-button > .icon, .a-button.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-button.png); }
+.alt .a-calendar > .icon, .a-calendar.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-event.png); }
+.alt .a-cancel > .icon, .a-cancel.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-cancel.png); }
+.alt .a-checked > .icon, .a-checked.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-checked.png); }
+.alt .a-close > .icon, .a-close.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-close-simple.png); }
+.alt .a-delete > .icon, .a-delete.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-trash.png); }
+.alt .a-download > .icon, .a-download.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-download.png); }
+.alt .a-drag > .icon, .a-drag.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-drag-simple.png); }
+.alt .a-edit .icon,
+.a-edit.alt .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png); }
+.alt .a-feed > .icon, .a-feed.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-feed.png); }
+.alt .a-file > .icon, .a-file.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-file.png); }
+.alt .a-history-btn .icon,
+.alt .a-history-revert .icon,
+.a-history-btn.alt .icon,
+.a-history-revert.alt .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-history.png); }
+.alt .a-image > .icon, .a-image.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png); }
+.alt .a-media > .icon, .a-media.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-media.png); }
+.alt .a-page-settings > .icon, .a-page-settings.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-page-settings.png); }
+.alt .a-page-small > .icon, .a-page-small.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-page-small.png); }
+.alt .a-pdf > .icon, .a-pdf.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-pdf.png); }
+.alt .a-publish .icon,
+.a-publish.alt .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-edit.png); }
+.alt .a-rawhtml > .icon, .a-rawhtml.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-rawhtml.png); }
+.alt .a-reorganize > .icon, .a-reorganize.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-sitemap.png); }
+.alt .a-richtext > .icon, 
+.a-richtext.alt > .icon, 
+.alt .a-text > .icon, 
+.a-text.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-text.png); }
+.alt .a-slideshow > .icon, .a-slideshow.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-photo.png); }
+.alt .a-search > .icon, .a-search.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-search.png); }
+.alt .a-settings > .icon, .a-settings.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-settings.png); }
+.alt .a-templates > .icon, .a-templates.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-templates.png); }
+.alt .a-unchecked > .icon, .a-unchecked.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-unchecked.png); }
+.alt .a-users > .icon, .a-users.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-users.png); }
+.alt .a-video > .icon, .a-video.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-video.png); }
+.alt .a-replace > .icon, .a-replace.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-replace.png); }
+.alt .a-audio > .icon, .a-audio.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-audio.png);	}
+.alt .a-categories > .icon, .a-categories.alt > .icon,
+.alt .a-tag > .icon, .a-tag.alt  > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-tag.png); }
+
+/* Apostrophe Events Sprite
+-------------------------------------*/
+
+.a-event > .icon,
+.a-eventsingle > .icon, 
+.a-events > .icon { float: left; height: 18px; width: 18px; background-image: url(/apostrophePlugin/images/a-icon-event-sprite.png); }
+
+.alt .a-event > .icon,
+.alt .a-eventsingle > .icon,
+.a-event.alt > .icon,
+.a-eventsingle.alt > .icon,
+.alt .a-events > .icon,
+.a-events.alt > .icon { background-image: url(/apostrophePlugin/images/a-icon-alt-event-sprite.png); }
+
+.a-events.day-1 > .icon { background-position: 0 0px; }
+.a-events.day-2 > .icon { background-position: 0 -21px; }
+.a-events.day-3 > .icon { background-position: 0 -41px; }
+.a-events.day-4 > .icon { background-position: 0 -61px; }
+.a-events.day-5 > .icon { background-position: 0 -81px; }
+.a-events.day-6 > .icon { background-position: 0 -101px; }
+.a-events.day-7 > .icon { background-position: 0 -121px; }
+.a-events.day-8 > .icon { background-position: 0 -141px; }
+.a-events.day-9 > .icon { background-position: 0 -161px; }
+.a-events.day-10 > .icon { background-position: 0 -181px; }
+.a-events.day-11 > .icon { background-position: 0 -201px; }
+.a-events.day-12 > .icon { background-position: 0 -221px; }
+.a-events.day-13 > .icon { background-position: 0 -241px; }
+.a-events.day-14 > .icon { background-position: 0 -261px; }
+.a-events.day-15 > .icon { background-position: 0 -281px; }
+.a-events.day-16 > .icon { background-position: 0 -301px; }
+.a-events.day-17 > .icon { background-position: 0 -321px; }
+.a-events.day-18 > .icon { background-position: 0 -341px; }
+.a-events.day-19 > .icon { background-position: 0 -361px; }
+.a-events.day-20 > .icon { background-position: 0 -381px; }
+.a-events.day-21 > .icon { background-position: 0 -401px; }
+.a-events.day-22 > .icon { background-position: 0 -421px; }
+.a-events.day-23 > .icon { background-position: 0 -441px; }
+.a-events.day-24 > .icon { background-position: 0 -461px; }
+.a-events.day-25 > .icon { background-position: 0 -481px; }
+.a-events.day-26 > .icon { background-position: 0 -501px; }
+.a-events.day-27 > .icon { background-position: 0 -521px; }
+.a-events.day-28 > .icon { background-position: 0 -541px; }
+.a-events.day-29 > .icon { background-position: 0 -561px; }
+.a-events.day-30 > .icon { background-position: 0 -581px; }
+.a-events.day-31 > .icon, .a-event, .a-eventsingle { background-position: 0 -601px; }
+
+
+/* Apostrophe Sort Arrow Button
+-------------------------------------*/
+
+.a-btn.a-sort-arrow { background-position: 0 0; }
+.a-btn.a-sort-arrow.sorting:hover { background-position: 0 -20px; }
+.a-btn.a-sort-arrow.sorting, .a-btn.a-sort-arrow:hover { background-position: 0 -20px; }
+.a-btn.a-sort-arrow.asc { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png); }
+.a-btn.a-sort-arrow.desc { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png); }
+.a-btn.a-sort-arrow.asc.sorting:hover { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png); }
+.a-btn.a-sort-arrow.desc.sorting:hover { background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png); }
+
+
+/* Apostrophe History Button
+-------------------------------------*/
+
+.a-btn.a-history-btn, .a-btn.a-history-revert { color: #111 !important; background-color: #fff !important; }
+.a-history-btn > .icon, .a-history-revert > .icon {	background-position: 50% 50%;	background-repeat: none; }
+.a-btn.a-history-btn.big > .icon { left: 50%; margin-left: -9px; }
+#a-history-heading-button > .icon { left: 0; margin-left: 0; }
+
+
+/* Apostrophe Cancel Button
+-------------------------------------*/
+
+.a-cancel { color: #fff !important; padding: 0 4px 0 20px; background-color: #999 !important; padding-left: 20px !important; }
+.a-btn.a-cancel:hover { background-color: #333 !important; text-decoration: none !important; }
+.a-cancel.no-label { padding: 0 !important; }
+
+
+/* Apostrophe Delete Button
+-------------------------------------*/
+
+.a-ui .a-btn.a-delete.no-label { background-color: #fff; color: #000; }
+
+
+/* Apostrophe Close Button
+-------------------------------------*/
+
+.a-btn.a-close,
+.a-btn.a-close-small
+{
+background: transparent no-repeat scroll 0 0;
+float: left;
+overflow: hidden;
+height: 20px;
+line-height: 20px;
+padding: 0;
+text-indent: -9999px;
+width: 20px;
+}
+
+.a-btn.a-close > .icon { background-image: url(/apostrophePlugin/images/a-icon-close-simple.png); }
+.a-btn.a-close-small > .icon { background-image: url(/apostrophePlugin/images/a-icon-close-small-simple.png); }
+
+.a-btn.a-close:hover,
+.a-btn.a-close-small:hover
+{
+opacity: 0.5;
+}
+
+
+/* Apostrophe Drag Button
+-------------------------------------*/
+
+.a-btn.a-drag {
+display: block;
+position: absolute;
+right: 0;
+cursor: move;
+text-indent: -9999px;
+height: 20px;
+width: 20px;
+padding: 0;
+margin: 0;
+border: 0 !important;
+-moz-box-shadow: 0 0 0 transparent;
+-webkit-box-shadow: 0 0 0 transparent;
+-opera-box-shadow: 0 0 0 transparent;
+-khtml-box-shadow: 0 0 0 transparent;
+box-shadow: 0 0 0 transparent;
+-moz-border-radius: 2px;
+-webkit-border-top-left-radius: 2px;
+-webkit-border-top-right-radius: 2px;
+-webkit-border-bottom-right-radius: 2px;
+-webkit-border-bottom-left-radius: 2px;
+border-radius: 2px;
+background-color: #ddd;
+}
+
+.a-btn.a-drag > .icon
+{
+background-image: url(/apostrophePlugin/images/a-icon-drag-simple.png);
+float: left;
+display: block;
+height: 20px;
+width: 20px;
+position: absolute;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+}
+
+.a-btn.a-drag:hover { background-color: #888; }
+.a-btn.a-drag.alt:hover { background-color: #333; }
+
+
+/* Apostrophe Arrows
+-------------------------------------*/
+
+.a-arrow-btn { float: left; cursor: pointer; }
+
+.a-arrow-btn,
+.a-arrow-up, 
+.a-arrow-down
+.a-arrow-left,
+.a-arrow-right { text-indent: -9999px; padding: 0; width: 20px; height: 20px; background-position: 50% 50%; }
+
+.a-arrow-btn.a-arrow-left { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple.png); }
+.a-arrow-btn.a-arrow-right { background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple.png); }
+
+.alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple-alt.png); }
+.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple-alt.png); }
+
+.a-arrow-btn.a-arrow-left:hover,
+.a-arrow-btn.a-arrow-right:hover { opacity: 0.5; }
+
+.a-arrow-btn.a-arrow-left.thin { background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.a-arrow-btn.a-arrow-right.thin {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.a-btn.a-arrow-left.thin:hover,
+.a-btn.a-arrow-right.thin:hover { background-position: 0 center !important; }
+
+
+/* Apostrophe RSS Button
+-------------------------------------*/
+
+.a-rss-feed { background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat; display: block; float: left; padding-left: 20px; }
+.alt .a-rss-feed, .a-rss-feed.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png); }
