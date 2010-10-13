@@ -44,7 +44,7 @@ width: 178px;
 width: 150px;
 }
 
-.a-subnav-wrapper .a-filter-options .a-filter-option a 
+.a-subnav-wrapper .a-filter-options .a-filter-option
 {
 float: left;
 width: 100%;
@@ -55,8 +55,9 @@ clear: both;
 {
 float: left;
 clear: both;
-line-height: 20px;
-height: 20px;
+line-height: 15px;
+padding-bottom: 5px;
+height: auto;
 width: auto;
 }
 
