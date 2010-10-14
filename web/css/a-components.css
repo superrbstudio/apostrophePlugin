@@ -709,30 +709,15 @@ input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opaci
 /* Apostrophe Search Results
 --------------------------------------------- */
 
-#a-search-results-container,
+.a-search-results-container,
 .a-search-results,
 .result-title,
 .result-url,
 .result-summary
 {
-	float: left;
-	width: 100%;
-	clear: both;
 }
-
-.result-title
-{
-	font-size: 14px;
-	margin-bottom: 5px;
-}
-
-.result-url
-{
-font-size: 11px;
-margin-top: 5px;
-margin-bottom: 15px;
-color: #666;
-}
+.result-title { }
+.result-url { }
 
 
 /* Apostrophe Feedback Form

@@ -8,9 +8,21 @@
 <?php slot('body_class') ?>a-search-results<?php end_slot() ?>
 
 
-<div id="a-search-results-container">
+<div class="a-search-results-container">
 
 	<h2><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q', ESC_RAW))), 'apostrophe') ?></h2>
+	
+	<h4 class="a-search-results-count">
+		<?php if (!$pager->getNbResults()): ?>
+			No results were found.
+		<?php endif ?>
+		<?php if ($pager->getNbResults() == 1): ?>
+			1 result was found.
+		<?php endif ?>
+		<?php if ($pager->getNbResults() > 1): ?>
+			<?php echo $pager->getNbResults() ?> results were found.
+		<?php endif ?>
+	</h4>	
 	
 	<dl class="a-search-results">
 	<?php foreach ($results as $result): ?>
@@ -19,7 +31,7 @@
 			<?php echo link_to($result->title, $url) ?>
 		</dt>
 	  <dd class="result-summary"><?php echo $result->summary ?></dd>
-		<dd class="result-url"><?php echo $url ?></dd>
+		<dd class="result-url"><?php echo link_to($url,$url) ?></dd>
 	<?php endforeach ?>
 	</dl>
 
