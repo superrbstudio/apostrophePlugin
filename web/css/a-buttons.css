@@ -409,3 +409,25 @@ text-indent: 0;
 
 .a-rss-feed { background: url(/apostrophePlugin/images/a-icon-rss-feed.png) left center no-repeat; display: block; float: left; padding-left: 20px; }
 .alt .a-rss-feed, .a-rss-feed.alt { background-image: url(/apostrophePlugin/images/a-icon-alt-rss-feed.png); }
+
+/* Apostrophe Toggle Button
+-------------------------------------*/
+
+.a-btn.a-toggle-btn.opt1 .opt1,
+.a-btn.a-toggle-btn.opt2 .opt2 { display: block; }
+
+.a-btn.a-toggle-btn.opt1 .opt2,
+.a-btn.a-toggle-btn.opt2 .opt1 { display: none; }
+
+.a-ui .a-btn.a-toggle-btn.icon > .icon { 
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+height: 10px;
+width: 10px;
+margin: -6px 4px 0;
+border: 1px inset rgba(0,0,0,0.25);
+}
+
+.a-ui .a-btn.a-toggle-btn.icon.opt1 > .icon { background: #0f0; }
+.a-ui .a-btn.a-toggle-btn.icon.opt2 > .icon { background: #f00; }

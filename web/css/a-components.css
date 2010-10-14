@@ -361,7 +361,7 @@ display: block;
 float: none;
 overflow: hidden;
 padding: 5px;
-margin: 8px 0 0;
+margin: 5px 0 0;
 width: auto;
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
@@ -382,6 +382,8 @@ border: 1px inset rgba(0,0,0,0);
 	background-color: rgba(0,0,0,0.065);
 	border: 1px inset rgba(0,0,0,0.065);
 }
+
+.a-ui .a-options.a-page-form .a-form-row.a-page-title { margin: 0; }
 
 .a-ui .a-options.a-page-form .a-form-row.a-page-title label { display: none; }
 
@@ -417,6 +419,8 @@ border: 1px inset rgba(0,0,0,0);
 .a-ui .a-page-settings-status { float: left; width: 230px; }
 
 .a-ui .a-page-settings-status .radio_list { float: left; width: 100%; }
+
+.a-ui.a-page-form h3 { margin: 0 5px; }
 
 .a-ui .a-form-row.keywords .a-inline-taggable-widget { float: left; margin: 2px 0; }
 
@@ -460,6 +464,8 @@ line-height: 20px;
 .a-ui.a-page-form .a-form-row.a-page-slug h4 { float: left; margin: 0; font-size: 11px; color: #999; }
 .a-ui.a-page-form .a-form-row.a-page-slug label { text-transform: none; width: auto; margin-right: 5px; }
 .a-ui.a-page-form .a-form-row.a-page-slug input { width: 160px; font-size: 11px; }
+
+.a-ui.a-page-form .a-more-options-btn { margin-top: 10px; }
 
 /* Create Page Form
 --------------------------------------*/

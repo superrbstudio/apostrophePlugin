@@ -21,7 +21,7 @@
 
 			<?php if ($thisPage): ?> 	
 			<li>
-				<a href="#" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
+				<a href="/#page-settings" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
 				<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 			</li>				
 			<?php endif ?>
@@ -39,7 +39,7 @@
 				<?php if (!(($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine()))): ?>
 					<li>
 					  <?php // Triggers the same form as page settings now ?>
-					  <a href="#add-page" class="a-btn icon a-add a-create-page" id="a-create-page-button"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
+					  <a href="/#add-page" class="a-btn icon a-add a-create-page" id="a-create-page-button" onclick="return false;"><span class="icon"></span><?php echo __("Add Page", null, 'apostrophe') ?></a>
 					  <div id="a-create-page" class="a-page-settings-menu dropshadow"></div>
 					</li>
 				<?php endif ?>

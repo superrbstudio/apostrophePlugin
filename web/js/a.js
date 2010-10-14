@@ -1082,7 +1082,10 @@ function aConstructor()
 		{
 			var slugField = form.find('[name=settings[slug]]');
 			var titleField = form.find('[name=settings[realtitle]]');
-			var timeout = null;
+			titleField.focus();
+			
+			var timeout = null;			
+
 			function changed()
 			{
 				ajaxDirty = true;

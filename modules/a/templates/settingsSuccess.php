@@ -16,6 +16,50 @@
 <?php $create = $page->isNew() ?>
 <?php $stem = $page->isNew() ? 'a-create-page' : 'a-page-settings' ?>
 
+<?php slot('a-create-options') ?>
+<?php 
+	// if we are CREATING a new page these form rows are in different places than
+	// if we are MODIFYING an existing page's settings	
+	// instead of creating a partial, I made it a slot, so all of the form markup can live in a single file.
+	// it seemed easier to maintain.
+?>
+
+	<?php // This form row needs to be absorbed into the $form['template'] ?>
+	<div class="a-form-row engine a-page-type a-hidden">
+		<h4><?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?></h4>
+		<div class="a-form-field">
+	  	<?php echo $form['engine']->render() ?>
+		</div>
+	  <?php echo $form['engine']->renderError() ?>
+	</div>
+
+	<div class="a-form-row a-edit-page-template">
+		<h4><?php echo $form['template']->renderLabel(__('Template', array(), 'apostrophe')) ?></h4>
+		<div class="a-form-field">
+	  	<?php echo $form['template'] ?>
+		</div>
+	  <?php echo $form['template']->renderError() ?>
+	</div>
+
+   <?php // This outer div is an AJAX target, it has to be here all the time ?>
+   <?php // in case the user selects an engine ?>
+	<div class="a-engine-page-settings">
+	  <?php if (isset($engineSettingsPartial)): ?>
+	    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
+	  <?php endif ?>
+	</div>
+
+	<div class="a-form-row status">
+	  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
+  	<div class="<?php echo $stem ?>-status">
+			<?php echo $form['archived'] ?>
+			<?php if(isset($form['cascade_archived'])): ?>
+				<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
+			<?php endif ?> 
+		</div>
+	</div>			
+<?php end_slot() ?>
+
   <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
 
 	<div class="a-form-row a-hidden">
@@ -30,7 +74,12 @@
 			<?php if ($page->getSlug() == "/"): ?>
 				<?php echo __('Homepage Title', array(), 'apostrophe') ?>
 			<?php else: ?>
-				<?php echo __('Title &amp; Permalink', array(), 'apostrophe') ?>
+				<?php if ($create): ?>
+					<?php echo __('Title', array(), 'apostrophe') ?>
+				<?php else: ?>
+					<?php echo __('Title &amp; Permalink', array(), 'apostrophe') ?>						
+				<?php endif ?>
+
 			<?php endif ?>
 		</h3>
 
@@ -45,7 +94,7 @@
 		</div>
 
 		<?php if (isset($form['slug'])): ?>
-		  <div class="a-form-row a-page-slug">
+		  <div class="a-form-row a-page-slug<?php echo ($create)? ' a-hidden':'' ?>">
 				<h4><?php echo $form['slug']->renderLabel('http://'.$_SERVER['HTTP_HOST']) ?></h4>
 				<div class="a-form-field">
 		    	<?php echo $form['slug'] ?>
@@ -54,61 +103,32 @@
 		  </div>
 		<?php endif ?>
 
+		<?php if ($create): ?>
+			<?php include_slot('a-create-options') ?>
+		<?php endif ?>
+
 	</div>
 	
-	<hr/>
-	
+	<?php if (!$create): ?>
+	<hr/>	
 	<div class="a-options-section a-accordion">
-		
 		<h3 class="a-accordion-toggle">Options</h3>
-		
 		<div class="a-accordion-content">
-			
-			<div class="a-form-row engine a-page-type">
-				<h4><?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?></h4>
-				<div class="a-form-field">
-			  	<?php echo $form['engine']->render() ?>
-				</div>
-			  <?php echo $form['engine']->renderError() ?>
-			</div>
-
-			<div class="a-form-row a-edit-page-template">
-				<h4><?php echo $form['template']->renderLabel(__('Page Template', array(), 'apostrophe')) ?></h4>
-				<div class="a-form-field">
-			  	<?php echo $form['template'] ?>
-				</div>
-			  <?php echo $form['template']->renderError() ?>
-			</div>
-
-      <?php // This outer div is an AJAX target, it has to be here all the time ?>
-      <?php // in case the user selects an engine ?>
-			<div class="a-form-row a-engine-page-settings">
-  		  <?php if (isset($engineSettingsPartial)): ?>
-			    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
-			  <?php endif ?>
-			</div>
-
-			<div class="a-form-row status">
-			  <h4><label><?php echo __('Page Status', null, 'apostrophe') ?></label></h4>
-		  	<div class="<?php echo $stem ?>-status">
-					<?php echo $form['archived'] ?>
-					<?php if(isset($form['cascade_archived'])): ?>
-						<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
-					<?php endif ?> 
-				</div>
-			</div>			
-
+				<?php include_slot('a-create-options') ?>
 		</div>
 	</div>
+	<?php endif ?>	
+	
+	<?php if ($create): ?>
+	<a href="/#more-options" onclick="return false;" class="a-btn lite mini a-more-options-btn">More Options...</a>
+	<div class="a-options-more a-hidden">
+	<?php endif ?>
 
 	<hr/>
-
+	
 	<div class="a-options-section a-accordion">
-
 		<h3>Tags &amp; Metadata</h3>
-
 		<div class="a-accordion-content">			
-			
 			<div class="a-form-row keywords">
 				<div class="a-form-field">
 					<?php echo $form['tags'] ?>
@@ -116,7 +136,6 @@
 				<?php echo $form['tags']->renderError() ?>
 				<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Page Tags')) ?>
 			</div>
-
 			<div class="a-form-row meta-description">
 				<h4 class="a-block"><?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>
 				<div class="a-form-field">
@@ -124,7 +143,6 @@
 				</div>
 				<?php echo $form['meta_description']->renderError() ?>
 			</div>
-			
 		</div>
 	</div>
 
@@ -135,7 +153,12 @@
   	</div>
   <?php endif ?>
   
+	<?php if ($create): ?>
+		</div>
+	<?php endif ?>
+
 	<hr/>
+
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
 		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
@@ -147,7 +170,7 @@
 			<?php endif ?>
 		</ul>
 	</div>
-	
+		
 </form>
 
 <?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => $stem, 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => $slugStem,  'url' => url_for('a/settings') . '?' . http_build_query($page->isNew() ? array('new' => 1, 'parent' => $parent->slug) : array('id' => $page->id)), 'slugifyUrl' => url_for('a/slugify'), 'engineUrl' => url_for('a/engineSettings'))) ?>
@@ -158,3 +181,30 @@
 <script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
 
 <?php a_include_js_calls() ?>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		var defaultClass = 'opt1';
+		var toggleButton = $('<a/>');
+		var labelA = 'on';
+		var labelB = 'off';
+		var field = $('.<?php echo $stem ?>-status');
+		var radios = field.find('input[type="radio"]');
+		toggleButton.addClass('a-btn icon lite a-toggle-btn');
+		toggleButton.html('<span class="icon"></span><span class="opt1">' + labelA + '</span><span class="opt2">' + labelB + '</span>').addClass(defaultClass);
+		field.prepend(toggleButton).find('.radio_list').hide();
+		toggleButton.click(function(){
+			$(this).toggleClass('opt1').toggleClass('opt2');
+			if ($(radios[0]).is(':checked'))
+			{
+				$(radios[0]).attr('checked',null);
+				$(radios[1]).attr('checked','checked');
+			}
+			else
+			{
+				$(radios[1]).attr('checked',null);
+				$(radios[0]).attr('checked','checked');				
+			};
+		});
+	});
+</script>
