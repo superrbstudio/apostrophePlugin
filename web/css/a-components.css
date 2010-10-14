@@ -9,7 +9,6 @@
 /* Search Results */
 /* Feedback Form */
 /* Login Form - Floating Form */
-/* Signin Form - /login */
 /* Login button and language switcher */
 /* sfDoctrineActAsTaggable Inline Taggable Widget */
 /* Attribution */
@@ -765,7 +764,6 @@ top: 5px;
 right: 5px;
 padding: 0;
 z-index:9999 !important;
-width: 222px;
 min-width: 0;
 }
 
@@ -856,64 +854,6 @@ color: #333;
 
 #a-login-form .a-reset-password:hover { color: #fff; }
 
-
-
-
-/* Apostrophe Signin Form **** This is the actual signin page - We should eventually consolidate Login Form and Signin Form to be the same - 2/3/2010
--------------------------------------*/
-
-#a-signin
-{
-float: left;
-position: relative;
-overflow: hidden;
-display: block;
-clear: both;
-width: 220px;
-}
-    
-#a-signin-form
-{
-float: left;
-position: relative;
-overflow:hidden;
-display: inline;
-clear: both;
-float: left;
-width: 180px;
-padding: 20px;
-}
- 
-#a-signin-form label
-{
-	font-size: 16px;
-}
-
-#a-signin-form .a-form-row input[type="text"],
-#a-signin-form .a-form-row input[type="password"]
-{
-	width: 155px;	
-}
-
-#a-signin-form .a-form-row.submit input
-{
-	color:#fff;
-}
-
-#a-signin-form .a-form-row
-{
-margin: 0 10px 10px 10px;
-}
-
-#a-signin-form .a-form-row.submit li
-{
-float: left;
-display: inline;
-width: auto;
-clear:none;
-position: relative;
-margin-right: 5px;
-}
 
 /* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
 ------------------------------------------- */
