@@ -1191,26 +1191,6 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 	
-	this.enableSlideshowEditView = function(id)
-	{
-		var radio1 = $('slot-form-' + id + '_type_selected');
-		var radio1 = $('slot-form-' + id + '_type_selected');
-		var idstem = '#slot-form-' + id + '_type_';
-		$(idstem + 'selected,' + idstem + 'tagged').change(function() {
-			if ($(idstem + 'selected')[0].checked)
-			{
-				$('#a-slot-form-' + id + ' .a-tagged-images').hide();
-				$('#a-slot-form-' + id + ' .a-selected-images').show();
-			}
-			else
-			{
-				$('#a-slot-form-' + id + ' .a-tagged-images').show();
-				$('#a-slot-form-' + id + ' .a-selected-images').hide();
-			}
-		});
-		$(idstem + 'selected').change();
-	}
-	
 	this.buttonSauce = function(options)
 	{
 		// buttonSauce only needs to be executed when logged in

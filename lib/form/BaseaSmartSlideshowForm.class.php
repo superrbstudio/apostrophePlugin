@@ -1,6 +1,6 @@
 <?php
 
-class BaseaSlideshowForm extends BaseForm
+class BaseaSmartSlideshowForm extends BaseForm
 {
   protected $id;
   public function __construct($id, $defaults = array(), $options = array(), $CSRFSecret = null)
@@ -10,19 +10,9 @@ class BaseaSlideshowForm extends BaseForm
   }
   public function configure()
   {
-    // ADD YOUR FIELDS HERE
-    
-    $types = array('selected' => 'Selected Images', 'tagged' => 'Images by Tag and Category');
-    $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $types, 'expanded' => true));
-    $this->validatorSchema['type'] = new sfValidatorChoice(array('choices' => array_keys($types)));
-
-    $this->widgetSchema['count'] = new sfWidgetFormInput(array(), array('size' => 2));
+    $this->widgetSchema['count'] = new sfWidgetFormInput(array(), array('size' => 2, 'default' => 5));
     $this->validatorSchema['count'] = new sfValidatorNumber(array('min' => 1, 'max' => 100));
 		$this->widgetSchema->setHelp('count', '<span class="a-help-arrow"></span> Set the number of images to display – 100 max.');
-    if(!$this->hasDefault('type'))
-		{
-      $this->setDefault('type', 'selected');
-    }
     if(!$this->hasDefault('count'))
 		{
       $this->setDefault('count', 1);

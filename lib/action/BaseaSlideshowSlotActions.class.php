@@ -27,23 +27,5 @@ class BaseaSlideshowSlotActions extends BaseaSlotActions
       $this->slot->value = serialize(array('form' => array('type' => 'selected'), 'order' => $links));
       return $this->editSave();
     }
-    else
-    {
-      // A normal form submission, used for the tags and categories option
-      $value = $this->getRequestParameter('slot-form-' . $this->id);
-      $this->form = new aSlideshowForm($this->id);
-      $this->form->bind($value);
-      if ($this->form->isValid())
-      {
-        $this->slot->setArrayValue(array('form' => $this->form->getValues()));
-        return $this->editSave();
-      }
-      else
-      {
-        // Makes $this->form available to the next iteration of the
-        // edit view so that validation errors can be seen, if any
-        return $this->editRetry();
-      }
-    }
   }
 }

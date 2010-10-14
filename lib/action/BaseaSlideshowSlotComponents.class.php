@@ -5,41 +5,12 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
   public function executeEditView()
   {
     $this->setup();
-    
-    $this->options['constraints'] = $this->getOption('constraints', array());
-		
-    // Careful, don't clobber a form object provided to us with validation errors
-    // from an earlier pass
-    if (!isset($this->form))
-    {
-      $value = $this->slot->getArrayValue();
-      if (!isset($value['form']))
-      {
-        $value['form'] = array();
-      }
-      $this->form = new aSlideshowForm($this->id, $value['form']);
-    }
-    
-    $this->getLinkedItems();
   }
 
   public function executeNormalView()
   {
     $this->setup();
-
-    $value = $this->slot->getArrayValue();
-    if (isset($value['form']['type']))
-    {
-      switch ($value['form']['type'])
-      {
-        case 'selected':
-        $this->getLinkedItems();
-        break;
-        case 'tagged':
-        $this->getTaggedItems();
-        break;
-      }
-    }
+    $this->getLinkedItems();
     
     if ($this->getOption('random', false))
     {
@@ -64,28 +35,6 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
       $this->items = array();
       $this->itemIds = array();
     }
-  }
-  
-  protected function getTaggedItems()
-  {
-    $value = $this->slot->getArrayValue();
-    $value = $value['form'];
-    // Tag join will break if we give it a name other than the model name in the query
-    $q = Doctrine::getTable('aMediaItem')->createQuery();
-    if (isset($value['categories_list']) && count($value['categories_list']) > 0)
-    {
-      $q->innerJoin('aMediaItem.Categories c');
-      $q->andWhereIn('c.id', $value['categories_list']);
-    }
-    if(isset($value['tags_list']) && strlen($value['tags_list']) > 0)
-    {
-      PluginTagTable::getObjectTaggedWithQuery('aMediaItem', $value['tags_list'], $q, array('nb_common_tags' => 1));
-    }
-    $q->andWhere('(aMediaItem.view_is_secure IS NULL OR aMediaItem.view_is_secure IS FALSE) AND aMediaItem.type = ?', array('image'));
-    $q->limit($value['count']);
-    $q->orderBy('aMediaItem.created_at DESC');
-    $this->items = $q->execute();
-    $this->itemIds = aArray::getIds($this->items);
   }
   
 	public function executeSlideshow()
