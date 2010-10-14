@@ -30,7 +30,7 @@ five minutes).
 Call it like this:
 
   [php /path/to/your/project/symfony apostrophe:update-lucene|INFO]
-  
+
 The task is also called for other object types like media items as an internal
 part of the rebuild-search-index task. The --table=aMediaItem option is used
 to trigger this. You don't need to schedule cron jobs for that as media items are
@@ -51,7 +51,7 @@ EOF;
     }
     else
     {
-      $q = doctrine::getTable($options['table'])->createQuery('o')->where('o.lucene_dirty IS TRUE');
+      $q = Doctrine::getTable($options['table'])->createQuery('o')->where('o.lucene_dirty IS TRUE');
     }
     if ($options['limit'] !== false)
     {
@@ -68,7 +68,7 @@ EOF;
         // Careful, pages die
         if ($page)
         {
-          $page->updateLuceneIndex(); 
+          $page->updateLuceneIndex();
         }
         $update->delete();
       }
