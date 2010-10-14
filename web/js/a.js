@@ -146,6 +146,51 @@ function aConstructor()
 		};
 	}
 	
+	// Utility: Create an anchor button that toggles between two radio buttons
+	this.radioToggleButton = function(options)
+	{
+		// Which label to show on load 'option-1' or 'option-2'
+		var optDefault = (options['optDefault'])? options['optDefault'] : 'option-1';
+		// Set the button toggle labels
+		var opt1Label = (options['opt1Label'])? options['opt1Label'] : 'on';
+		var opt2Label = (options['opt2Label'])? options['opt2Label'] : 'off';
+		var field = $(options['field']);
+		
+		if (field.length)
+		{
+			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton -- debugging') : field.find('.radio_list').hide();
+			
+			var radios = field.find('input[type="radio"]');
+			radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No radio inputs found');			
+
+			var toggleButton = $('<a/>');			
+			toggleButton.addClass('a-btn icon lite a-toggle-btn');
+			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>').addClass(optDefault);
+			field.prepend(toggleButton);
+			toggleButton.click(function(){
+				updateToggle($(this));
+			});
+			function updateToggle(button)
+			{
+				button.toggleClass('option-1').toggleClass('option-2');
+				if ($(radios[0]).is(':checked'))
+				{
+					$(radios[0]).attr('checked',null);
+					$(radios[1]).attr('checked','checked');
+				}
+				else
+				{
+					$(radios[1]).attr('checked',null);
+					$(radios[0]).attr('checked','checked');				
+				};
+			}
+		}
+		else
+		{
+			field.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No field found');
+		};
+	}
+
 	// Utility: IE6 Users get a special message when they log into apostrophe
 	this.IE6 = function(options)
 	{

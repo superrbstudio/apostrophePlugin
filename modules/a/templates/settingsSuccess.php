@@ -175,36 +175,9 @@
 
 <?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => $stem, 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => $slugStem,  'url' => url_for('a/settings') . '?' . http_build_query($page->isNew() ? array('new' => 1, 'parent' => $parent->slug) : array('id' => $page->id)), 'slugifyUrl' => url_for('a/slugify'), 'engineUrl' => url_for('a/engineSettings'))) ?>
 <?php a_js_call('apostrophe.accordion(?)', array('accordion_toggle' => '.a-options-section:not(".open") h3')) ?>
-
+<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.'.$stem.'-status', 'opt1Label' => 'on', 'opt2Label' => 'off')) ?>
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
 <script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
 <script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
 
 <?php a_include_js_calls() ?>
-
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		var defaultClass = 'opt1';
-		var toggleButton = $('<a/>');
-		var labelA = 'on';
-		var labelB = 'off';
-		var field = $('.<?php echo $stem ?>-status');
-		var radios = field.find('input[type="radio"]');
-		toggleButton.addClass('a-btn icon lite a-toggle-btn');
-		toggleButton.html('<span class="icon"></span><span class="opt1">' + labelA + '</span><span class="opt2">' + labelB + '</span>').addClass(defaultClass);
-		field.prepend(toggleButton).find('.radio_list').hide();
-		toggleButton.click(function(){
-			$(this).toggleClass('opt1').toggleClass('opt2');
-			if ($(radios[0]).is(':checked'))
-			{
-				$(radios[0]).attr('checked',null);
-				$(radios[1]).attr('checked','checked');
-			}
-			else
-			{
-				$(radios[1]).attr('checked',null);
-				$(radios[0]).attr('checked','checked');				
-			};
-		});
-	});
-</script>

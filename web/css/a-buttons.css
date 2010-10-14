@@ -413,11 +413,11 @@ text-indent: 0;
 /* Apostrophe Toggle Button
 -------------------------------------*/
 
-.a-btn.a-toggle-btn.opt1 .opt1,
-.a-btn.a-toggle-btn.opt2 .opt2 { display: block; }
+.a-btn.a-toggle-btn.option-1 .option-1,
+.a-btn.a-toggle-btn.option-2 .option-2 { display: block; }
 
-.a-btn.a-toggle-btn.opt1 .opt2,
-.a-btn.a-toggle-btn.opt2 .opt1 { display: none; }
+.a-btn.a-toggle-btn.option-1 .option-2,
+.a-btn.a-toggle-btn.option-2 .option-1 { display: none; }
 
 .a-ui .a-btn.a-toggle-btn.icon > .icon { 
 -moz-border-radius: 6px;
@@ -429,5 +429,5 @@ margin: -6px 4px 0;
 border: 1px inset rgba(0,0,0,0.25);
 }
 
-.a-ui .a-btn.a-toggle-btn.icon.opt1 > .icon { background: #0f0; }
-.a-ui .a-btn.a-toggle-btn.icon.opt2 > .icon { background: #f00; }
+.a-ui .a-btn.a-toggle-btn.icon.option-1 > .icon { background: #0f0; }
+.a-ui .a-btn.a-toggle-btn.icon.option-2 > .icon { background: #f00; }
