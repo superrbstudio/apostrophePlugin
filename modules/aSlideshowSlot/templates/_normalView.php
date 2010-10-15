@@ -22,7 +22,7 @@
 
  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
    <li class="a-controls-item choose-images">
-   <?php echo link_to(__('Choose images', null, 'apostrophe'),
+   <?php echo link_to('<span class="icon"></span>'.__('Choose images', null, 'apostrophe'),
      'aMedia/select',
      array(
        'query_string' => 
