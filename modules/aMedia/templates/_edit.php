@@ -99,7 +99,7 @@
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
       	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-				<?php a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('existing-tags' => method_exists($form, 'getObject') ? $form->getObject()->getTags() : array(), 'popular-tags' => $popularTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => '')) ?>
+				<?php a_js_call('aInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('existing-tags' => method_exists($form, 'getObject') ? $form->getObject()->getTags() : array(), 'popular-tags' => $popularTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => '', 'commit-selector' => '#' . $item->getSlug() . '-submit')) ?>
 			</div>
       <?php echo $form['tags']->renderError() ?>
     </div>
@@ -145,7 +145,7 @@
    <?php if ($item): ?>
     <ul class="a-ui a-controls">
      	<li>
-				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" />
+				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo $item->getSlug() ?>-submit" />
 			</li>
      	<li>
 				<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
