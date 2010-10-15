@@ -23,10 +23,10 @@ generator:
             label: Media Items
         actions:
           new:
-            label: New Category
+            label: '<span class="icon"></span>New Category'
             action: new
             params:
-              class: a-btn big icon a-add alt
+              class: a-btn big icon a-add
       
       form:
         # When you use these you break the addition of new categorizable types in new plugins,
