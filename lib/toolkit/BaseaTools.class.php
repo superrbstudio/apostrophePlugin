@@ -332,17 +332,15 @@ class BaseaTools
     
     // Add the users button only if the user has the admin credential.
     // This is typically only given to admins and superadmins.
-    // TODO: there is also the cms_admin credential, should I differentiate here?
     $user = sfContext::getInstance()->getUser();
     if ($user->hasCredential('admin'))
     {
       $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
         array('users' => array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
-          'categories' => array('label' => 'Categories &amp; Tags', 'action' => 'aCategoryAdmin/index', 'class' => 'a-categories'),
+          'categories' => array('label' => 'Categories', 'action' => 'aCategoryAdmin/index', 'class' => 'a-categories'),
+          'tags' => array('label' => 'Tags', 'action' => 'aTagAdmin/index', 'class' => 'a-tags'),
           'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
-      // Eventually this one too. Reorganize will probably get moved into it
-      // ('Settings', 'a/globalSettings', 'a-settings')
 
       if (is_array($extraAdminButtons))
       {
