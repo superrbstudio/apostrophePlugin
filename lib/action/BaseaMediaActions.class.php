@@ -31,6 +31,7 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSelect(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
     $after = $request->getParameter('after');
     // Prevent possible header insertion tricks
     $after = preg_replace("/\s+/", " ", $after);
@@ -211,6 +212,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleAdd(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id') + 0;
     $item = Doctrine::getTable("aMediaItem")->find($id);
@@ -229,6 +232,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleRemove(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->forward404Unless(aMediaTools::isMultiple());
     $id = $request->getParameter('id');
     $item = Doctrine::getTable("aMediaItem")->find($id);
@@ -245,6 +250,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleOrder(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->logMessage("*****MULTIPLE ORDER", "info");
     $order = $request->getParameter('a-media-selection-list-item');
     $oldSelection = aMediaTools::getSelection();
@@ -268,6 +275,8 @@ class BaseaMediaActions extends aEngineActions
   }
   public function executeSelected(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $controller = $this->getController();
     $this->forward404Unless(aMediaTools::isSelecting());
     if (aMediaTools::isMultiple())
@@ -302,6 +311,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSelectCancel(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->forward404Unless(aMediaTools::isSelecting());
     $after = aUrl::addParams(aMediaTools::getAfter(),
       array("aMediaCancel" => true));
@@ -712,6 +723,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeVideoSearch(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->form = new aMediaVideoSearchForm();
     $this->form->bind($request->getParameter('videoSearch'));
     $this->results = false;
@@ -730,6 +743,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeNewVideo()
   {
+    $this->hasPermissionsForSelect();
+    
     $this->videoSearchForm = new aMediaVideoSearchForm();
   }
   
@@ -773,5 +788,10 @@ class BaseaMediaActions extends aEngineActions
     }
     $categoriesInfo = Doctrine::getTable('aMediaCategory')->findAllAlphaInfo(true);
     return $this->renderPartial('editCategories', array('categoriesInfo' => $categoriesInfo, 'form' => $form));
+  }
+  
+  protected function hasPermissionsForSelect()
+  {
+    $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
   }
 }
