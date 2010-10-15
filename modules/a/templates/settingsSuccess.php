@@ -25,7 +25,7 @@
 ?>
 
 	<?php // This form row needs to be absorbed into the $form['template'] ?>
-	<div class="a-form-row engine a-page-type a-hidden">
+	<div class="a-form-row engine a-page-type a-fix-me">
 		<h4><?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?></h4>
 		<div class="a-form-field">
 	  	<?php echo $form['engine']->render() ?>
