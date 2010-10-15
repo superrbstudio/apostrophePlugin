@@ -134,7 +134,7 @@
 					<?php echo $form['tags'] ?>
 				</div>
 				<?php echo $form['tags']->renderError() ?>
-				<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Page Tags')) ?>
+				<?php a_js_call('aInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tagsLabel' => 'Page Tags', 'commit-selector' => '#' . $stem . '-submit')) ?>
 			</div>
 			<div class="a-form-row meta-description">
 				<h4 class="a-block"><?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>
