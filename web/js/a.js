@@ -81,9 +81,16 @@ function aConstructor()
 	}
 	
 	// Utility: Self Labeling Input Element 
+	// Example: <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#forgot_password_email_address', 'title' => 'Email', 'select' => true, 'focus' => true)) ?>
+	// options['select'] = true -- Selects the input on focus
+	// options['focus'] = true -- Focuses the input on ready
 	this.selfLabel = function(options)
 	{
-		aInputSelfLabel(options['selector'], options['title']);
+		aInputSelfLabel(options['selector'], options['title'], options['select']);
+		if (options['focus'])
+		{
+			$(options['selector']).focus();
+		};
 	};
 	
 	// Utility: Click an element once and convert it to a span

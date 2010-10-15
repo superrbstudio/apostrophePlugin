@@ -695,26 +695,21 @@ font-size: 11px;
 }
 
 
-
 /* Apostrophe Search
 ----------------------------------------------- */
-
 .a-search.global form { position: relative; width: 238px; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
-.a-form-row input.a-search-field { float: left; width: 200px; background: none; border: none; padding: 3px 0 3px 6px; }
-input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; }
-input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
+.a-search form input.a-search-field { float: left; width: 200px; background: none; border: none; padding: 3px 0 3px 6px; }
+.a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
+.a-search form input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
 
 
 /* Apostrophe Search Results
 --------------------------------------------- */
-
 .a-search-results-container,
 .a-search-results,
 .result-title,
 .result-url,
-.result-summary
-{
-}
+.result-summary { }
 .result-title { }
 .result-url { }
 
