@@ -361,23 +361,15 @@ class BaseaTools
     aTools::$globalButtons = array_merge(aTools::$globalButtons, $array);
   }
   
+  // Returns global buttons as a flat array, either in alpha order or, if app_a_global_button_order is
+  // specified, in that order. This is used to implement the default behavior. However see also
+  // aTools::getGlobalButtonsByName() which is much nicer if you want to aggressively customize
+  // the admin bar
+  
   static public function getGlobalButtons()
   {
-    if (aTools::$globalButtons !== false)
-    {
-      return aTools::$globalButtons;
-    }
+    $buttonsByName = aTools::getGlobalButtonsByName();
     $buttonsOrder = sfConfig::get('app_a_global_button_order', false);
-    aTools::$globalButtons = array();
-    // We could pass parameters here but it's a simple static thing in this case 
-    // so the recipients just call back to addGlobalButtons
-    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
-    
-    $buttonsByName = array();
-    foreach (aTools::$globalButtons as $button)
-    {
-      $buttonsByName[$button->getName()] = $button;
-    }
     if ($buttonsOrder === false)
     {
       ksort($buttonsByName);
@@ -397,6 +389,27 @@ class BaseaTools
     
     aTools::$globalButtons = $orderedButtons;
     return $orderedButtons;
+  }
+  
+  // Returns global buttons as an associative array by button name.
+  // Ignores app_a_global_button_order. For use by those who prefer to
+  // override the _globalTools partial. Note that you will NOT get the
+  // same buttons for every user! An admin has more buttons than a
+  // mere editor and so on. Use isset()
+
+  static public function getGlobalButtonsByName()
+  {
+    aTools::$globalButtons = array();
+    // We could pass parameters here but it's a simple static thing in this case 
+    // so the recipients just call back to addGlobalButtons
+    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
+    
+    $buttonsByName = array();
+    foreach (aTools::$globalButtons as $button)
+    {
+      $buttonsByName[$button->getName()] = $button;
+    }
+    return $buttonsByName;
   }
   
   static public function globalToolsPrivilege()
