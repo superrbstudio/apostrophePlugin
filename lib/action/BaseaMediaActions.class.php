@@ -26,6 +26,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSelect(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $after = $request->getParameter('after');
     // Prevent possible header insertion tricks
     $after = preg_replace("/\s+/", " ", $after);
@@ -243,6 +245,8 @@ class BaseaMediaActions extends aEngineActions
   // Accept and store cropping information for a particular image which must already be part of the selection
   public function executeCrop(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $selection = aMediaTools::getSelection();
     $id = $request->getParameter('id');
     $index = array_search($id, $selection);
@@ -269,6 +273,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleAdd(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $id = $request->getParameter('id') + 0;
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item);
@@ -308,6 +314,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeMultipleRemove(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $id = $request->getParameter('id');
     $item = Doctrine::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item);
@@ -322,11 +330,14 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeUpdateMultiplePreview(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
     
   }
 
   public function executeMultipleOrder(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->logMessage("*****MULTIPLE ORDER", "info");
     $order = $request->getParameter('a-media-selection-list-item');
     $oldSelection = aMediaTools::getSelection();
@@ -351,6 +362,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSelected(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
     $imageInfo = aMediaTools::getAttribute('imageInfo');
@@ -414,6 +427,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSelectCancel(sfWebRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->forward404Unless(aMediaTools::isSelecting());
     $after = aUrl::addParams(aMediaTools::getAfter(),
         array("aMediaCancel" => true));
@@ -857,6 +872,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeSearchServices(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->form = new aMediaSearchServicesForm();
 
 		$this->embedAllowed = aMediaTools::getEmbedAllowed();
@@ -889,6 +906,8 @@ class BaseaMediaActions extends aEngineActions
 
   public function executeNewVideo(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
     $this->videoSearchForm = new aMediaSearchServicesForm();
     $this->service = aMediaTools::getEmbedService($request->getParameter('service'));
   }
@@ -900,6 +919,8 @@ class BaseaMediaActions extends aEngineActions
   
   public function executeLink(sfRequest $request)
   {
+    $this->hasPermissionsForSelect();
+    
 		$this->embedAllowed = aMediaTools::getEmbedAllowed();
 		$this->uploadAllowed = aMediaTools::getUploadAllowed();
 	
@@ -955,5 +976,10 @@ class BaseaMediaActions extends aEngineActions
     $this->description = $info['description'];
     // Grab their three newest videos
     $this->results = $this->service->browseUser($this->username, 1, 3);
+  }
+  
+  protected function hasPermissionsForSelect()
+  {
+    $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
   }
 }
