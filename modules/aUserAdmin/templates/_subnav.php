@@ -7,14 +7,14 @@
 <?php if ($sf_user->hasCredential('cms_admin')): ?>
   <ul class="a-controls a-admin-action-controls">
 	  <li class="dashboard"><h4><?php echo link_to(__('User Dashboard', null, 'apostrophe'), 'aUserAdmin/index') ?></h4></li>
-	  <li><?php echo link_to(__('Add User', null, 'apostrophe'), 'aUserAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
+	  <li><?php echo link_to('<span class="icon"></span>'.__('Add User', null, 'apostrophe'), 'aUserAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
 
 	  <li class="dashboard"><h4><?php echo link_to(__('Group Dashboard', null, 'apostrophe'), 'aGroupAdmin/index') ?></h4></li>
-	  <li><?php echo link_to(__('Add Group', null, 'apostrophe'), 'aGroupAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
+	  <li><?php echo link_to('<span class="icon"></span>'.__('Add Group', null, 'apostrophe'), 'aGroupAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
     
     <?php if ($sf_user->isSuperAdmin()): ?>
   	  <li class="dashboard"><h4><?php echo link_to(__('Permissions Dashboard', null, 'apostrophe'), 'aPermissionAdmin/index') ?></h4></li>
-  	  <li><?php echo link_to(__('Add Permission', null, 'apostrophe'), 'aPermissionAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
+  	  <li><?php echo link_to('<span class="icon"></span>'.__('Add Permission', null, 'apostrophe'), 'aPermissionAdmin/new', array('class' => 'a-btn icon a-add')) ?></li>
   	<?php endif ?>
   </ul>
 <?php endif ?>
