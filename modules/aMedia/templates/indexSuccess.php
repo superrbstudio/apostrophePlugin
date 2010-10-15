@@ -37,6 +37,8 @@
 
 <div class="a-media-library">
 
+  <?php include_partial('aMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  
 	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
 			<?php if (aMediaTools::isSelecting()): ?>
 				<div class="a-media-selection">

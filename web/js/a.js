@@ -1483,6 +1483,18 @@ function aConstructor()
 		}
 	}
 	
+	this.enableEditMultiple = function()
+	{
+		$('.a-media-multiple-submit-button').click(function() {
+	    $('#a-media-edit-form-0').submit();
+	    return false;
+	  });
+	  $('#a-media-edit-form-0').submit(function() {
+	    apostrophe.log("SUBMITTING");
+	    return true;
+	  });
+  }
+
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{

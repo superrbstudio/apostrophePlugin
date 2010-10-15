@@ -238,6 +238,9 @@ class BaseaMediaActions extends aEngineActions
         unset($parameters['page']);
       }
     }
+    // This allows us to pass additional parameters to resume, like '?add=1'
+    $extra = $this->getRequest()->getGetParameters();
+    $parameters = array_merge($extra, $parameters);
     return $this->redirect(aUrl::addParams("aMedia/index",
         $parameters));
   }
@@ -672,6 +675,7 @@ class BaseaMediaActions extends aEngineActions
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
     if ($request->isMethod('post') && (!count($request->getPostParameters())))
     {
+      $this->getUser()->setFlash('aMedia.postMaxSizeExceeded', true);
       $this->postMaxSizeExceeded = true;
     }
     if ((!$this->postMaxSizeExceeded) && $request->isMethod('post'))
@@ -720,9 +724,15 @@ class BaseaMediaActions extends aEngineActions
         $this->forward('aMedia', 'editMultiple');
       } else
       {
+        $this->getUser()->setFlash('aMedia.mustUploadSomething', true);
         $this->mustUploadSomething = true;
       }
     }
+    // For errors we set some flash attributes and return to the index page
+    // We use forward() because resume redirects - if we redirect twice
+    // we'll lose the flash attributes telling us about the errors
+    // add=1 triggers the form to appear immediately
+    $this->forward('aMedia', 'resume?add=1');
   }
 
   public function executeEditMultiple(sfWebRequest $request)

@@ -9,6 +9,8 @@
   $withPreview = isset($withPreview) ? $sf_data->getRaw('withPreview') : true;
 	$popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : array();
 	$allTags = isset($allTags) ? $sf_data->getRaw('allTags') : array();
+	// There is just one edit form for new uploads, even in bulk
+	$submitSelector = $item ? ('#' . $item->getSlug() . '-submit') : '.a-media-multiple-submit-button';
 ?>
 
 <?php use_helper('a') ?>
@@ -99,7 +101,7 @@
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
       	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('popular-tags' => $popularTags, 'all-tags' => $allTags, 'tags-label' => '', 'commit-selector' => '#' . $item->getSlug() . '-submit')) ?>
+				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('popular-tags' => $popularTags, 'all-tags' => $allTags, 'tags-label' => '', 'commit-selector' => $submitSelector)) ?>
 			</div>
       <?php echo $form['tags']->renderError() ?>
     </div>
@@ -145,7 +147,7 @@
    <?php if ($item): ?>
     <ul class="a-ui a-controls">
      	<li>
-				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo $item->getSlug() ?>-submit" />
+				<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
 			</li>
      	<li>
 				<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
