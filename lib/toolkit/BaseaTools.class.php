@@ -356,7 +356,10 @@ class BaseaTools
   // To be called only in response to a a.getGlobalButtons event 
   static public function addGlobalButtons($array)
   {
-    aTools::$globalButtons = array_merge(aTools::$globalButtons, $array);
+    foreach ($array as $button)
+    {
+      aTools::$globalButtons[$button->getName()] = $button;
+    }
   }
   
   // Returns global buttons as a flat array, either in alpha order or, if app_a_global_button_order is
@@ -385,7 +388,6 @@ class BaseaTools
       }
     }
     
-    aTools::$globalButtons = $orderedButtons;
     return $orderedButtons;
   }
   
@@ -397,17 +399,14 @@ class BaseaTools
 
   static public function getGlobalButtonsByName()
   {
-    aTools::$globalButtons = array();
-    // We could pass parameters here but it's a simple static thing in this case 
-    // so the recipients just call back to addGlobalButtons
-    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
-    
-    $buttonsByName = array();
-    foreach (aTools::$globalButtons as $button)
+    if (aTools::$globalButtons === false)
     {
-      $buttonsByName[$button->getName()] = $button;
+      aTools::$globalButtons = array();
+      // We could pass parameters here but it's a simple static thing in this case 
+      // so the recipients just call back to addGlobalButtons
+      sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
     }
-    return $buttonsByName;
+    return aTools::$globalButtons;
   }
   
   static public function globalToolsPrivilege()

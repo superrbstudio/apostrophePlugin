@@ -40,23 +40,20 @@ aCrop = {
 			return;
 		}
 
-		// TODO: Make this work -- 
-		// This would set the initial crop selection to be the maximum size, centered for the image being cropped
-		// This would work except it's using the full image dimensions, not the dimensions of the crop image workspace
-		// setSelectCenter = imageInfo.height / 2;
-		// setSelectHeight = imageInfo.width * aCrop.options.aspectRatio;
-		// setSelectY1 = setSelectHeight / 2;
-		// setSelectY2 = setSelectY1 + setSelectHeight;
-
+		
     aCrop.api = $.Jcrop(cropEl);
-    aCrop.api.setOptions({
+
+		var options = {
       allowSelect: false,
       aspectRatio: aCrop.options.aspectRatio,
 			// setSelect: [0,setSelectY1,imageInfo.width,setSelectY2],
 			minSize: aCrop.options.minimumSize ? aCrop.options.minimumSize : [1,1],
       maxSize: aCrop.options.maximumSize ? aCrop.options.maximumSize : [imageInfo.width, imageInfo.height],
 			trueSize: [imageInfo.width, imageInfo.height]
-    });
+    };
+
+    aCrop.api.setOptions(options);
+
     aCrop.setAspectMask(cropEl);
     
     $('.a-media-crop-controls').clone().appendTo('.a-media-selection-preview-item.current .jcrop-holder').show();
@@ -73,6 +70,7 @@ aCrop = {
     return $(aCrop.el.previewList).find('li.current img');
   },
   
+	// TODO cast things to ints that's why recrops are broken
   getCurrentImageInfo: function(){
     var id = aCrop.getPreviewMediaId();
     if (id && aCrop.options.imageInfo && aCrop.options.imageInfo[id])

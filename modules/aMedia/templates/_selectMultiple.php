@@ -7,7 +7,8 @@
 <?php // Known as selectMultiple for historic reasons, but we use it for both single and multiple select now that ?>
 <?php // we have a need for cropping which requires a pause in both cases anyway. ?>
 <?php use_helper('a','I18N') ?>
-<?php use_javascript("/apostrophePlugin/js/plugins/jquery.jCrop.min.js") ?>
+<?php // No need to bring in pre-minified stuff in 1.5 ?>
+<?php use_javascript("/apostrophePlugin/js/plugins/jquery.jCrop.js") ?>
 <?php use_javascript("/apostrophePlugin/js/aCrop.js") ?>
 <?php use_stylesheet("/apostrophePlugin/css/Jcrop/jquery.Jcrop.css") ?>
 

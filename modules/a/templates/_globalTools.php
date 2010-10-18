@@ -17,6 +17,8 @@
   <div class="a-ui a-global-toolbar">
   	<ul class="a-ui a-controls">
 
+      <?php $buttons = aTools::getGlobalButtonsByName() ?>
+
   	  <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
 
         <?php include_partial('a/apostrophe') ?>

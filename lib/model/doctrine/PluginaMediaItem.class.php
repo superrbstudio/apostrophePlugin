@@ -346,7 +346,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     $p = preg_split('/\./', $this->slug);
     if (count($p) == 5)
     {
-      return array('cropLeft' => $p[1], 'cropTop' => $p[2], 'cropWidth' => $p[3], 'cropHeight' => $p[4]);
+      // Without the casts JSON won't give integers to JavaScript see #640
+      return array('cropLeft' => (int) $p[1], 'cropTop' => (int) $p[2], 'cropWidth' => (int) $p[3], 'cropHeight' => (int) $p[4]);
     }
     else
     {
