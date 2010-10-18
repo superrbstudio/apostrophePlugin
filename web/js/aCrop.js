@@ -46,14 +46,16 @@ aCrop = {
 		var options = {
       allowSelect: false,
       aspectRatio: aCrop.options.aspectRatio,
-			// setSelect: [0,setSelectY1,imageInfo.width,setSelectY2],
-			minSize: aCrop.options.minimumSize ? aCrop.options.minimumSize : [1,1],
-      maxSize: aCrop.options.maximumSize ? aCrop.options.maximumSize : [imageInfo.width, imageInfo.height],
 			trueSize: [imageInfo.width, imageInfo.height]
     };
 
     aCrop.api.setOptions(options);
 
+		aCrop.api.setOptions({ 
+			minSize: aCrop.options.minimumSize ? aCrop.options.minimumSize : [1,1],
+    	maxSize: aCrop.options.maximumSize ? aCrop.options.maximumSize : [imageInfo.width, imageInfo.height]
+		});
+		
     aCrop.setAspectMask(cropEl);
     
     $('.a-media-crop-controls').clone().appendTo('.a-media-selection-preview-item.current .jcrop-holder').show();

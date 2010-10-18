@@ -1,4 +1,8 @@
 /**
+ *
+ * PATCHED by tom@punkave.com to address http://code.google.com/p/jcrop/issues/detail?id=43
+ * Please do not upgrade without including that patch unless the issue has been fixed upstream
+ * 
  * jquery.Jcrop.js v0.9.8
  * jQuery Image Cropping Plugin
  * @author Kelly Hallman <khallman@gmail.com>
@@ -361,15 +365,22 @@ $.Jcrop = function(obj,opt)
 			var xsize = x2 - x1;
 			var ysize = y2 - y1;
 
-			if (xlimit && (Math.abs(xsize) > xlimit))
-				x2 = (xsize > 0) ? (x1 + xlimit) : (x1 - xlimit);
-			if (ylimit && (Math.abs(ysize) > ylimit))
-				y2 = (ysize > 0) ? (y1 + ylimit) : (y1 - ylimit);
+			// tom@punkave.com: x1 etc. are in display coordinates,
+			// so we need to scale xlimit, ylimit, ymin and xmin or
+			// they will lie to us. xscale and yscale come into play here
+			// when trueSize is set but aspectRatio is not
+			
+			var sxmin = xmin / xscale, symin = ymin / yscale, sxlimit = xlimit / xscale, sylimit = ylimit / yscale;
+			
+			if (sxlimit && (Math.abs(xsize) > sxlimit))
+				x2 = (xsize > 0) ? (x1 + sxlimit) : (x1 - sxlimit);
+			if (sylimit && (Math.abs(ysize) > sylimit))
+				y2 = (ysize > 0) ? (y1 + sylimit) : (y1 - sylimit);
 
-			if (ymin && (Math.abs(ysize) < ymin))
-				y2 = (ysize > 0) ? (y1 + ymin) : (y1 - ymin);
-			if (xmin && (Math.abs(xsize) < xmin))
-				x2 = (xsize > 0) ? (x1 + xmin) : (x1 - xmin);
+			if (symin && (Math.abs(ysize) < symin))
+				y2 = (ysize > 0) ? (y1 + symin) : (y1 - symin);
+			if (sxmin && (Math.abs(xsize) < sxmin))
+				x2 = (xsize > 0) ? (x1 + sxmin) : (x1 - sxmin);
 
 			if (x1 < 0) { x2 -= x1; x1 -= x1; }
 			if (y1 < 0) { y2 -= y1; y1 -= y1; }
