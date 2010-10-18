@@ -126,13 +126,24 @@ aCrop = {
       imageInfo.cropTop = Math.floor((imageInfo.height - imageInfo.cropHeight) / 2);
     }
     
-    var coords = [
-      imageInfo.cropLeft,
-      imageInfo.cropTop,
-      imageInfo.cropLeft + imageInfo.cropWidth,
-      imageInfo.cropTop + imageInfo.cropHeight
-    ];
-        
+		if ((imageInfo.cropLeft === 0) && (imageInfo.cropTop === 0) && (imageInfo.cropWidth === imageInfo.width) && (imageInfo.cropHeight = imageInfo.height))
+		{
+			var coords = [ 
+				10,
+				10,
+				imageInfo.width - 10,
+				imageInfo.height - 10
+			];
+		}
+		else
+		{
+	    var coords = [
+	      imageInfo.cropLeft,
+	      imageInfo.cropTop,
+	      imageInfo.cropLeft + imageInfo.cropWidth,
+	      imageInfo.cropTop + imageInfo.cropHeight
+	    ];
+    }    
     aCrop.api.setSelect(coords);
   },
   
