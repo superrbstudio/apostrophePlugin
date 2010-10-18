@@ -1125,6 +1125,7 @@ function aConstructor()
 			{
 				$.post(options['url'], form.serialize(), function(data) {
 					$('.a-page-overlay').hide();
+					apostrophe.log(data);
 					$('#' + options['id']).html(data);
 				});
 			}
@@ -1166,27 +1167,63 @@ function aConstructor()
 			});	
 		}
 
+		var combinedPageType = form.find('[name=combined_page_type]');
+		
+		var template = form.find('[name=settings[template]]');
 		var engine = form.find('[name=settings[engine]]');
-		engine.change(function() {
+		
+		for (var i = 0; (i < template[0].options.length); i++)
+		{
+			var option = template[0].options[i];
+			var item = $('<option></option>');
+			item.text($(option).text());
+			item.val(':' + option.value);
+			combinedPageType.append(item);
+		}
+		for (var i = 0; (i < engine[0].options.length); i++)
+		{
+			var option = engine[0].options[i];
+			if (option.value === '')
+			{
+				continue;
+			}
+			var item = $('<option></option>');
+			item.text($(option).text());
+			// For now the template field must be 'default'
+			// when the engine field is not empty
+			item.val(option.value + ':default');
+			combinedPageType.append(item);
+		}
+		if (engine.val() !== '')
+		{
+			combinedPageType.val(engine.val() + ':default');
+		}
+		else
+		{
+			combinedPageType.val(':' + template.val());
+		}
+		
+		combinedPageType.change(function() {
 			updateEngineAndTemplate();
 		});
 		
 		function updateEngineAndTemplate()
 		{
+			var components = combinedPageType.val().split(':');
+			var engineVal = components[0];
+			var templateVal = components[1];
+			engine.val(engineVal);
+			template.val(templateVal);
 			var url = options['engineUrl'];
 
 	    var engineSettings = form.find('.a-engine-page-settings');
 			var val = engine.val();
-			var template = form.find('[name=settings[template]]').parents('.a-form-row');
 		  if (!val.length)
 		  {
 		    engineSettings.html('');
-				template.slideDown();
 		  }
 		  else
 		  {
-		    // AJAX replace engine settings form as needed
-				template.slideUp();
 				// null comes through as a string "null". false comes through as a string "false". 0 comes
 				// through as a string "0", but PHP accepts that, fortunately
 		    $.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {

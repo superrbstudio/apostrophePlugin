@@ -20,25 +20,19 @@
 <?php 
 	// if we are CREATING a new page these form rows are in different places than
 	// if we are MODIFYING an existing page's settings	
-	// instead of creating a partial, I made it a slot, so all of the form markup can live in a single file.
+	// Instead of creating a partial, I made it a slot, so all of the form markup can live in a single file.
 	// it seemed easier to maintain.
 ?>
 
-	<?php // This form row needs to be absorbed into the $form['template'] ?>
-	<div class="a-form-row engine a-page-type a-fix-me">
-		<h4><?php echo $form['engine']->renderLabel(__('Page Type', array(), 'apostrophe')) ?></h4>
-		<div class="a-form-field">
-	  	<?php echo $form['engine']->render() ?>
-		</div>
-	  <?php echo $form['engine']->renderError() ?>
-	</div>
+<?php // We'll turn these into a combined control via JS ?>  
+<?php echo $form['engine']->render(array('style' => 'display: none')) ?>
+<?php echo $form['template']->render(array('style' => 'display: none')) ?>
 
 	<div class="a-form-row a-edit-page-template">
-		<h4><?php echo $form['template']->renderLabel(__('Template', array(), 'apostrophe')) ?></h4>
+		<h4><?php echo a_('Page Type') ?></h4>
 		<div class="a-form-field">
-	  	<?php echo $form['template'] ?>
+		  <select name="combined_page_type"></select>
 		</div>
-	  <?php echo $form['template']->renderError() ?>
 	</div>
 
    <?php // This outer div is an AJAX target, it has to be here all the time ?>
@@ -61,7 +55,6 @@
 <?php end_slot() ?>
 
   <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
-
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
 	</div>
