@@ -51,7 +51,7 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
       Doctrine::getTable('Tag')->mergeTags($this->tag->id, $mergeTo->id);
       $this->tag->delete();
 
-      $this->setFlash('notice', $this->__(sprintf('Tag "%s" merged into tag "%s."', $this->tag->name, $mergeTo->name)));
+      $this->getUser()->setFlash('notice', $this->__(sprintf('Tag "%s" merged into tag "%s."', $this->tag->name, $mergeTo->name)));
       $this->redirect('a_tag_admin');
     }
     $this->getUser()->setFlash('error', $this->__('The item has not been saved due to some errors.', null, 'apostrophe'));
