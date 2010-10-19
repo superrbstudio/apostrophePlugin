@@ -617,4 +617,11 @@ class BaseaMediaTools
     sort($results);
     return $results;
   }
+  
+  static public function filenameToTitle($filename)
+  {
+    $title = preg_replace('/\.\w+$/', '', $filename);
+    // *Not* aMediaTools::slugify, which is specifically for the slug of the media item
+    return aTools::slugify($title, false, false, ' ');
+  }
 }

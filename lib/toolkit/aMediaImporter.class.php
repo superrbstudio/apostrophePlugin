@@ -33,6 +33,10 @@ class aMediaImporter
     $dir_iterator = new RecursiveDirectoryIterator($this->dir);
     $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
     $count = 0;
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    // It comes back as a mapping of extensions to types, get the types
+    $extensions = array_keys($mimeTypes);
+    $mimeTypes = array_values($mimeTypes);
     foreach ($iterator as $sfile)
     {
       if ($sfile->isFile())
@@ -45,26 +49,34 @@ class aMediaImporter
           continue;
         }
         $pathinfo = pathinfo($file);
-        if ($pathinfo['filename'] === 'Thumbs.db')
+        // basename and filename seem backwards to me, but that's how it is in the PHP docs and
+        // sure enough that's how it behaves
+        if ($pathinfo['basename'] === 'Thumbs.db')
         {
           continue;
         }
-        $info = aImageConverter::getInfo($file);
-        if ($info === false)
+        $vfp = new aValidatorFilePersistent(
+          array('mime_types' => $mimeTypes,
+            'validated_file_class' => 'aValidatedFile',
+            'required' => false),
+          array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
+        $guid = aGuid::generate();
+        echo($pathinfo['filename'] . "\n");
+        try
+        {
+          $vf = $vfp->clean(
+           array(
+             'newfile' => 
+               array('tmp_name' => $file, 'name' => $pathinfo['basename']), 
+             'persistid' => $guid)); 
+        } catch (Exception $e)
         {
           $this->giveFeedback("warning", "Not supported or corrupt", $file);
           continue;
         }
+        
         $item = new aMediaItem();
         
-        if ($info['format'] === 'pdf')
-        {
-          $item->type = 'pdf';
-        }
-        else
-        {
-          $item->type = 'image';
-        }
         // Split it up to make tags out of the portion of the path that isn't dir (i.e. the folder structure they used)
         $dir = $this->dir;
         $dir = preg_replace('/\/$/', '', $dir) . '/';
@@ -81,7 +93,7 @@ class aMediaImporter
           // (aTools::slugify is UTF8-safe)
           $tag = aTools::slugify($tag);
         }
-        $item->title = aTools::slugify($pathinfo['filename']);
+        $item->title = aMediaTools::filenameToTitle($pathinfo['basename']);
         $item->setTags($tags);
         if (!strlen($item->title))
         {
@@ -91,13 +103,13 @@ class aMediaImporter
         // The preSaveImage / save / saveImage dance is necessary because
         // the sluggable behavior doesn't kick in until save and the image file
         // needs a slug based filename.
-        if (!$item->preSaveFile($file))
+        if (!$item->preSaveFile($vf))
         {
           $this->giveFeedback("error", "Save failed", $file);
           continue;
         }
         $item->save();
-        if (!$item->saveFile($file))
+        if (!$item->saveFile($vf))
         {
           $this->giveFeedback("error", "Save failed", $file);
           $item->delete();

@@ -77,4 +77,4 @@
 		</form>
 	</div>
 </div>
-<?php a_js_call('apostrophe.enableEditMultiple()') ?>
+<?php a_js_call('apostrophe.enableMediaEditMultiple()') ?>

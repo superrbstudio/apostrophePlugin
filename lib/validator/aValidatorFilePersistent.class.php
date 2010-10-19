@@ -46,8 +46,8 @@ class aValidatorFilePersistent extends sfValidatorFile
    * the following subkeys, if it is present:
    *
    *  * tmp_name: The absolute temporary path to the newly uploaded file
-   *  * name:     The original file name (optional)
-   *  * type:     The file content type (optional)
+   *  * name:     The browser-submitted file name (optional, but necessary to distinguish amongst Microsoft Office formats)
+   *  * type:     The browser-submitted file content type (required although our guessers never trust it)
    *  * error:    The error code (optional)
    *  * size:     The file size in bytes (optional)
    * 
@@ -128,7 +128,14 @@ class aValidatorFilePersistent extends sfValidatorFile
       $newFile = true;
       $cvalue = $value['newfile'];
     }
-    $this->originalName = $cvalue['name'];
+    if (isset($cvalue['name']))
+    {
+      $this->originalName = $cvalue['name'];
+    }
+    else
+    {
+      $this->originalName = '';
+    }
     try
     {
       $result = parent::clean($cvalue);
@@ -162,6 +169,12 @@ class aValidatorFilePersistent extends sfValidatorFile
         // It's useful to know the mime type and true extension for 
         // supplying previews and icons
         $extensionsByMimeType = array_flip(aMediaTools::getOption('mime_types'));
+        if (!isset($cvalue['type']))
+        {
+          // It's not sensible to trust a browser-submitted mime type anyway,
+          // so don't force non-web invocations of this code to supply one
+          $cvalue['type'] = 'unknown/unknown';
+        }
         $data['mime_type'] = $this->getMimeType($filePath, $cvalue['type']);
         if (isset($extensionsByMimeType[$data['mime_type']]))
         {

@@ -79,7 +79,12 @@ class BaseaMediaEditForm extends aMediaItemForm
       $mimeTypesByExtension = aMediaTools::getOption('mime_types');
       foreach ($extensions as $extension)
       {
-        $mimeTypes[] = $mimeTypesByExtension[$extension];
+        // Careful, if we are filtering for a particular type then not everything
+        // will be on the list
+        if (isset($mimeTypesByExtension[$extension]))
+        {
+          $mimeTypes[] = $mimeTypesByExtension[$extension];
+        }
       }
     }
     

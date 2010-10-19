@@ -14,6 +14,7 @@
   <?php $embedCode = $mediaItem->getEmbedCode(
     $options['width'], $options['height'], $options['resizeType'], $options['format']) ?>
 <?php else: ?>
+  <?php $options = array() ?>
   <?php $format = $mediaItem->getFormat() ?>
   <?php $embedCode = '<span class="a-media-type '.$format.'"><b>'.$format.'</b></span>' ?>
 <?php endif ?>

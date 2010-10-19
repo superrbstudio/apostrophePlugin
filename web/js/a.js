@@ -1527,15 +1527,22 @@ function aConstructor()
 		}
 	}
 	
-	this.enableEditMultiple = function()
+	this.enableMediaEditMultiple = function()
 	{
 		$('.a-media-multiple-submit-button').click(function() {
 	    $('#a-media-edit-form-0').submit();
 	    return false;
 	  });
 	  $('#a-media-edit-form-0').submit(function() {
-	    apostrophe.log("SUBMITTING");
 	    return true;
+	  });
+	  $('#a-media-edit-form-0 .a-media-editor .a-delete').click(function() {
+			$(this).parents('.a-media-editor').remove();
+			if ($('#a-media-edit-form-0 .a-media-editor').length === 0)
+			{
+				window.location.href = $('#a-media-edit-form-0 .a-controls .a-cancel:first').attr('href');
+			}
+			return false;
 	  });
   }
 

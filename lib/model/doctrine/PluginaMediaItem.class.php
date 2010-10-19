@@ -87,6 +87,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return aMediaItemTable::getDirectory() . 
       DIRECTORY_SEPARATOR . $this->getSlug() . ".original.$format";
   }
+  
   public function clearImageCache($deleteOriginals = false)
   {
     if (!$this->getId())
@@ -106,9 +107,31 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       unlink($file); 
     }
   }
-  
+ 
+  // Now accepts either a file path (for backwards compatibility)
+  // or an aValidatedFile object (better, supports more formats; see
+  // the import-files task for how to exploit this outside of a form)
   public function preSaveFile($file)
   {
+    if (get_class($file) === 'aValidatedFile')
+    {
+      $this->format = $file->getExtension();
+      if (strlen($this->format))
+      {
+        // Starts with a .
+        $this->format = substr($this->format, 1);
+      }
+      $types = aMediaTools::getOption('types');
+      foreach ($types as $type => $info)
+      {
+        $extensions = $info['extensions'];
+        if (in_array($this->format, $extensions))
+        {
+          $this->type = $type;
+        }
+      }
+      $file = $file->getTempName();
+    }
     // Refactored into aImageConverter for easier reuse of this should-be-in-PHP functionality
     $info = aImageConverter::getInfo($file);
     if ($info)
@@ -122,8 +145,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       {
         $this->height = $info['height'];
       }
-      // Don't force this, but it's useful when we're not
-      // coming from a normal upload form
+      // Don't force this, but it's useful when not invoked
+      // with an aValidatedFile object
       if (is_null($this->format))
       {
         $this->format = $info['format'];
@@ -134,6 +157,9 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return true;
   }
 
+  // Now accepts either a file path (for backwards compatibility)
+  // or an aValidatedFile object (better, supports more formats; see
+  // the import-files task for how to exploit this outside of a form)
   public function saveFile($file)
   {
     if (!$this->width)
@@ -143,6 +169,11 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         return false;
       }
     }
+    if (get_class($file) === 'aValidatedFile')
+    {
+      $file = $file->getTempName();
+    }
+    
     $path = $this->getOriginalPath($this->getFormat());
     $result = copy($file, $path);
     // Crops are invalid if you replace the original image

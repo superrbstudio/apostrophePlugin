@@ -702,10 +702,7 @@ class BaseaMediaActions extends aEngineActions
           if (isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
           {
             // Humanize the original filename
-            $title = $file['newfile']['name'];
-            $title = preg_replace('/\.\w+$/', '', $title);
-            // *Not* aMediaTools::slugify, which is specifically for the slug of the media item
-            $title = aTools::slugify($title, false, false, ' ');
+            $title = aMediaTools::filenameToTitle($file['newfile']['name']);
             $items["item-$i"]['title'] = $title;
             $count++;
             $good = true;
@@ -805,25 +802,9 @@ class BaseaMediaActions extends aEngineActions
         // until the slug is cast in stone
         $file = $values[$key]['file'];
 
-        $format = $file->getExtension();
-        if (strlen($format))
-        {
-          // Starts with a .
-          $format = substr($format, 1);
-        }
-        $object->format = $format;
-        $types = aMediaTools::getOption('types');
-        foreach ($types as $type => $info)
-        {
-          $extensions = $info['extensions'];
-          if (in_array($format, $extensions))
-          {
-            $object->type = $type;
-          }
-        }
-        $object->preSaveFile($file->getTempName());
+        $object->preSaveFile($file);
         $object->save();
-        $object->saveFile($file->getTempName());
+        $object->saveFile($file);
       }
       return $this->redirect('aMedia/resume');
     }
