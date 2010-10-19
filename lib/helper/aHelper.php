@@ -515,3 +515,70 @@ function a_entities($s)
 {
   return htmlentities($s, ENT_COMPAT, 'UTF-8');
 }
+
+function a_link_button($label, $symfonyUrl, $options = array(), $classes = array(), $id = null)
+{
+  return a_button($label, url_for($symfonyUrl, $options), $classes, $id);
+}
+
+function a_button($label, $url, $classes = array(), $id = null)
+{
+  $hasIcon = in_array('icon', $classes);
+  $s = '<a href="' . a_entities($url) . '" ';
+  if (!is_null($id))
+  {
+    $s .= 'id="' . a_entities($id) . '" ';
+  }
+  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
+  if ($hasIcon)
+  {
+    $s .= '<span class="icon"></span>';
+  }
+  $s .= $label . '</a>';
+  return $s;
+}
+
+// For a link that will have an icon, specify the icon class.
+
+// Common cases to be aware of: 
+
+// For a cancel button use the a-cancel class (if you also specify the icon class you get an x)
+
+// Do not use for submit buttons. Due to longstanding problems with JS submit() 
+// calls not being able to invoke both JavaScript handlers and the native submit 
+// behavior in the correct way it is usually eventually necessary to use a real 
+// submit button. Use a_submit_button to get one of those styled in the standard 
+// Apostrophe way.
+
+function a_js_button($label, $classes = array(), $id = null)
+{
+  return a_button($label, '#', $classes, $id);
+}
+
+// Even more convenient way to do a cancel button based on the above
+function a_js_cancel_button($label = null, $compact = true, $id = null)
+{
+  if (is_null($label))
+  {
+    $label = a_('Cancel');
+  }
+  $classes = array('a-cancel');
+  if ($compact)
+  {
+    $classes[] = 'icon';
+  }
+  return a_js_button($label, $classes, $id);
+}
+
+// A real submit button, styled for Apostrophe
+
+function a_submit_button($label, $id = null)
+{
+  $s = '<input type="submit" value="' . a_entities($label) . '" class="a-btn a-submit" ';
+  if (!is_null($id))
+  {
+    $s .= 'id="' . a_entities($id) . '" ';
+  }
+  $s .= '/>';
+  return $s;
+}
