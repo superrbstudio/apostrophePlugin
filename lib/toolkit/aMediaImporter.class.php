@@ -61,7 +61,6 @@ class aMediaImporter
             'required' => false),
           array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
         $guid = aGuid::generate();
-        echo($pathinfo['filename'] . "\n");
         try
         {
           $vf = $vfp->clean(
