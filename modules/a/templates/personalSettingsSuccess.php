@@ -30,7 +30,7 @@
 		  <input type="submit" name="a-personal-settings-submit" value="<?php echo htmlspecialchars(__('Save Changes', null, 'apostrophe')) ?>" id="a-personal-settings-submit" class="a-btn a-submit" />
 		</li>
 		<li>
-			<?php echo jq_link_to_function(__('Cancel', null, 'apostrophe'), '
+			<?php echo jq_link_to_function('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), '
 				$("#a-personal-settings").slideUp(); 
 				$("#a-personal-settings-button-open").show(); 
 				$("#a-personal-settings-button-close").addClass("loading").hide()

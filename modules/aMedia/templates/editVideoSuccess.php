@@ -100,12 +100,12 @@
     <ul class="a-ui a-controls">
       <li><input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
       <?php if ($item): ?>
-      <li><?php echo link_to(__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+      <li><?php echo link_to('<span class="icon"></span>'.__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
           array("slug" => $slug)),
           array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'),
             "target" => "_top", "class"=>"a-btn icon a-delete")) ?></li>
       <?php endif ?>
-			<li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
+			<li><?php echo link_to('<span class="icon"></span>'.__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class"=>"a-btn icon a-cancel")) ?></li>
     </ul>
   </form>
 </div>

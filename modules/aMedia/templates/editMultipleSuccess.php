@@ -36,7 +36,7 @@
 			<?php if (!$singleItem): ?>
 				<ul class="a-ui a-controls top a-align-right">
 					<li><a href="#save" class="a-btn a-submit big a-media-multiple-submit-button"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
-					<li><?php echo link_to(a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
+					<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 				</ul>
 			<?php endif ?>
 					

@@ -39,7 +39,7 @@
 			</li>
 		  <?php endif ?>
 
-		  <li><?php echo link_to(__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?></li>
+		  <li><?php echo link_to('<span class="icon"></span>'.__("Cancel", null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?></li>
 		</ul>
 
 	<h4 id="a-media-video-search-heading" class="a-media-video-heading"><?php echo __('Search YouTube', null, 'apostrophe') ?></h4>     
@@ -88,7 +88,7 @@
 
 			<ul class="a-ui a-controls" id="a-media-video-add-by-url-form-submit">
         <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
-        <li><?php echo link_to_function(__("Cancel", null, 'apostrophe'), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-btn icon a-cancel")) ?></li>
+        <li><?php echo link_to_function('<span class="icon"></span>'.__("Cancel", null, 'apostrophe'), "$('#a-media-video-add-by-url-form').hide(); $('#a-media-video-add-by-url-heading').hide(); $('#a-media-video-buttons').show();", array("class" => "a-btn icon a-cancel")) ?></li>
       </ul>
 		
      </form>
@@ -114,7 +114,7 @@
 			<ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
         <li><input type="submit" value="<?php echo __('Go', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
         <li>
-					<?php echo link_to_function(__("Cancel", null, 'apostrophe'), 
+					<?php echo link_to_function('<span class="icon"></span>'.__("Cancel", null, 'apostrophe'), 
 					"$('#a-media-video-add-by-embed-form').hide(); 
 					 $('#a-media-video-add-by-embed-heading').hide(); 
 					 $('#a-media-video-buttons').show();", 

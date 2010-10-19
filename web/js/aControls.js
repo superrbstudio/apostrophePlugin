@@ -143,11 +143,11 @@ function aMultipleSelect(target, options)
 				{
 					options['add-cancel-label'] = 'Cancel';
 				}
-				html += "<div class='add' style='display: none'>\n";
-				html += "<input name='add-text' class='add-text'>\n";
-				html += "<a href='#add' onclick='return false;' class='add-add a-btn icon a-add'>" + options['add-add-label'] + "</a>\n";
-				html += "<a href='#cancel' onclick='return false;' class='a-btn icon a-cancel add-cancel no-label'>" + options['add-cancel-label'] + "</a>\n";
-				html += "</div>\n";
+				html += '<div class="add" style="display: none">\n';
+				html += '<input name="add-text" class="add-text">\n';
+				html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
+				html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
+				html += '</div>\n';
 			}
       for (j = 0; (j < length); j++)
       {
@@ -315,7 +315,7 @@ function aMultipleSelect(target, options)
       }  
       function liHtml(label, options)
 			{
-				return "<li class='a-multiple-select-item' style='display: none;'><span>"+label+"</span><a href='#' title='Remove \""+label+"\"' class='a-btn icon a-close-small no-label no-bg'>"+ options['remove'] + "</a></li>\n";	
+				return '<li class="a-multiple-select-item" style="display: none;"><span>'+label+'</span><a href="#" title="Remove '+label+'" class="a-btn icon a-close-small no-label no-bg"><span class="icon"></span>'+ options['remove'] + '</a></li>\n';	
 			}
 			// We need this because you can't have nasty characters in a selector 
 			function containsLabel(v)
