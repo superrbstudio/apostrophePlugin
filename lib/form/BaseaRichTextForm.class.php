@@ -42,6 +42,5 @@ class BaseaRichTextForm extends BaseForm
     // like AJAX in IE. Work around this by not attempting to use brackets here
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '-%s');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
   }
 }

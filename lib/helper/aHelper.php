@@ -436,7 +436,7 @@ function _gz_file_put_contents($file, $contents)
 
 // Another, less-contrived example:
 
-// a_js_call('apostrophe.slideshow(?)', array('id' => 'et-cetera', ...))
+// a_js_call('apostrophe.slideshowSlot(?)', array('id' => 'et-cetera', ...))
 
 // Notice that arguments can be strings, numbers, or arrays - JSON can handle all of them.
 

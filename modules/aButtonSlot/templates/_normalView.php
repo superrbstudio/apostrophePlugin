@@ -1,14 +1,10 @@
 <?php
   // Compatible with sf_escaping_strategy: true
-  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
-  $defaultImage = isset($defaultImage) ? $sf_data->getRaw('defaultImage') : null;
-  $description = isset($description) ? $sf_data->getRaw('description') : null;
   $dimensions = isset($dimensions) ? $sf_data->getRaw('dimensions') : null;
+  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
   $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
-  $img_title = isset($img_title) ? $sf_data->getRaw('img_title') : null;
   $item = isset($item) ? $sf_data->getRaw('item') : null;
   $itemId = isset($itemId) ? $sf_data->getRaw('itemId') : null;
-  $link = isset($link) ? $sf_data->getRaw('link') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
   $page = isset($page) ? $sf_data->getRaw('page') : null;
@@ -18,7 +14,8 @@
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
   $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
+
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>
@@ -44,34 +41,29 @@
 <?php if ($item): ?>
   <ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button">
     <li class="a-button-image">
-    <?php $embed = str_replace(
-      array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-      array($dimensions['width'], 
-        $dimensions['height'],
-        $dimensions['resizeType'],
-        $dimensions['format']),
-        $embed) ?>
-    <?php if ($button_link): ?>
-      <?php $embed = "<a class=\"a-button-link\" href=\"$button_link\">$embed</a>" ?>
-    <?php endif ?>
-    <?php echo $embed ?>
+    	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
+	    <?php if ($options['link']): ?>
+	      <?php echo '<a class="a-button-link" href="'.$options['link'].'">'.$embed.'</a>' ?>
+			<?php else: ?>
+	    	<?php echo $embed ?>			
+	    <?php endif ?>
     </li>
-    <?php if ($title): ?>
+    <?php if ($options['title']): ?>
       <li class="a-button-title">
-      	<?php if ($button_link): ?>
-					<a class="a-button-link" href="<?php echo $button_link ?>"><?php echo $button_title ?></a>      		
+      	<?php if ($options['link']): ?>
+					<a class="a-button-link" href="<?php echo $options['link'] ?>"><?php echo $options['title'] ?></a>      		
 				<?php else: ?>
-					<?php echo $button_title ?>
+					<?php echo $options['title'] ?>
       	<?php endif ?>
       </li>
     <?php endif ?>
-    <?php if ($description): ?>
-      <li class="a-button-description"><?php echo $item->description ?></li>
+    <?php if ($options['description']): ?>
+      <li class="a-button-description"><?php echo $options['description'] ?></li>
     <?php endif ?>
   </ul>
 <?php else: ?>
 
-	<?php if ($sf_user->isAuthenticated()): ?>
+	<?php if ($sf_user->isAuthenticated() && !$options['title'] && !$options['link']): ?>
 		<?php if (isset($options['singleton']) != true): ?>
 			<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
 			<?php (isset($options['height']))? $height = $options['height'] : $height = ((isset($options['width']))? floor($options['width']*.56):'100'); ?>		
@@ -81,46 +73,30 @@
 			</div>
 		<?php endif ?>
 	<?php endif ?>
-
-  <?php if ($defaultImage): ?>
+	
+  <?php if ($options['defaultImage']): ?>
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
-        <?php if ($button_link): ?>
-          <?php echo link_to(image_tag($defaultImage), $button_link) ?>
+        <?php if ($options['link']): ?>
+          <?php echo link_to(image_tag($options['defaultImage']), $options['link']) ?>
         <?php else: ?>
-          <?php echo image_tag($defaultImage) ?>
+          <?php echo image_tag($options['defaultImage']) ?>
         <?php endif ?>
       </li>
     </ul>
   <?php endif ?>
 
-	<?php if ($button_link && $button_title): ?>
+	<?php if ($options['link']): ?>
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
       <li class="a-button-image">
-        <?php echo link_to($button_title, $button_link) ?>
+        <?php echo link_to((($options['title'])?$options['title']:$options['link']), $options['link'], array('class' => 'a-button-link')) ?>
       </li>
     </ul>	
 	<?php endif ?>
 
 <?php endif ?>
 
-<?php // TODO: Get this JS out of here and into an external JS file ?>
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		var btnImg = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> li.a-button-image a img');
-		var btnTitle = $('#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?> a.a-button-link');		
-
-		btnImg.hover(function(){
-			btnImg.fadeTo(0,.5);
-		},function(){
-			btnImg.fadeTo(0,1);			
-		});
-
-		btnTitle.hover(function(){
-			btnImg.fadeTo(0,.5);
-		},function(){
-			btnImg.fadeTo(0,1);			
-		});				
-	});
-</script>
+<?php if ($options['rollover']): ?>
+	<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>')) ?>
+<?php endif ?>

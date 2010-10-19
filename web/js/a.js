@@ -272,8 +272,8 @@ function aConstructor()
 	  });
 	}
 
-	// Slot: aSlideshow
-	this.slideshow = function(options)
+	// aSlideshowSlot
+	this.slideshowSlot = function(options)
 	{
 	  var id = options['id'];
 	  var intervalEnabled = !!options['interval'];
@@ -405,6 +405,23 @@ function aConstructor()
   	  interval();
 	  }
 	};
+	
+	// aButtonSlot
+	this.buttonSlot = function(options)
+	{
+		var button = options['button'];
+		if (button.length) 
+		{
+			var link = button.find('.a-button-title .a-button-link');
+			var image = button.find('.a-button-image img');
+			image.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
+			link.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });			
+		}
+		else
+		{
+			apostrophe.log('apostrophe.buttonSlot -- no button found');
+		};
+	}
 	
 	this.afterAddingSlot = function(name)
 	{

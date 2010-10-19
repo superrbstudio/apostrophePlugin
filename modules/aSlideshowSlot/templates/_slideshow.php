@@ -43,4 +43,4 @@
 </ul>
 <?php endif ?>
 
-<?php a_js_call('apostrophe.slideshow(?)', array('id' => $id, 'position' => $options['position'], 'interval' => $options['interval'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>
+<?php a_js_call('apostrophe.slideshowSlot(?)', array('id' => $id, 'position' => $options['position'], 'interval' => $options['interval'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>

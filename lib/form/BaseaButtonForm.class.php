@@ -3,25 +3,62 @@
 class BaseaButtonForm extends BaseForm
 {
   protected $id;
+  protected $soptions;
   // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
-  public function __construct($id = 1)
+  public function __construct($id = 1, $soptions = array())
   {
     $this->id = $id;
+    $this->soptions = $soptions;
+		$soptions['class'] = 'aButtonSlot';
+    $this->allowedTags = $this->consumeSlotOption('allowed-tags');
+    $this->allowedAttributes = $this->consumeSlotOption('allowed-attributes');
+    $this->allowedStyles = $this->consumeSlotOption('allowed-styles');
     parent::__construct();
+  }
+
+  protected function consumeSlotOption($s)
+  {
+    if (isset($this->soptions[$s]))
+    {
+      $v = $this->soptions[$s];
+      unset($this->soptions[$s]);
+      return $v;
+    }
+    else
+    {
+      return null;
+    }
   }
   
   public function configure()
   {
+    $widgetOptions = array();
+ 		$widgetOptions['tool'] = 'Sidebar';
+
+    $tool = $this->consumeSlotOption('tool');
+    if (!is_null($tool))
+    {
+      $widgetOptions['tool'] = $tool;
+    }
+    
     $this->setWidgets(array(
-      'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
-      'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))
-    ));
+			'description' => new sfWidgetFormRichTextarea($widgetOptions, $this->soptions),
+		  'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
+		  'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))	
+		));
+
     $this->setValidators(array(
-      'url' => new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
-      'title' => new sfValidatorString(array('required' => false))
-    ));
-    $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+			'description' => new sfValidatorHtml(array('required' => false, 'allowed_tags' => $this->allowedTags, 'allowed_attributes' => $this->allowedAttributes, 'allowed_styles' => $this->allowedStyles)),
+			'url' => new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
+      'title' => new sfValidatorString(array('required' => false)) 
+		));
+    
+    // Ensures unique IDs throughout the page. Hyphen between slot and form to please our CSS
+    $this->widgetSchema->setNameFormat('slotform-' . $this->id . '-%s');
+    
+    // You don't have to use our form formatter, but it makes things nice
+    $this->widgetSchema->setFormFormatterName('aAdmin');
+		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
   
   public function validateUrl($validator, $value)
