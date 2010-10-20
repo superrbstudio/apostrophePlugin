@@ -46,5 +46,5 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-	<?php include_partial('aAudioSlot/'.$options['player'].'Player', array('item' => $item, 'uniqueID' => $uniqueID, 'options' => $options)) ?>		
+	<?php include_partial('aAudioSlot/'.$options['playerTemplate'].'Player', array('item' => $item, 'uniqueID' => $uniqueID, 'options' => $options)) ?>		
 <?php endif ?>

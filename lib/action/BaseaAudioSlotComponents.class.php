@@ -15,7 +15,7 @@ class BaseaAudioSlotComponents extends BaseaSlotComponents
     $this->options['title'] = $this->getOption('title', true);
     $this->options['description'] = $this->getOption('description', true);
     $this->options['download'] = $this->getOption('download', true);
-		$this->options['player'] = $this->getOption('player','default');
+		$this->options['playerTemplate'] = $this->getOption('playerTemplate','default');
 
    // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))

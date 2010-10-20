@@ -62,6 +62,13 @@ class BaseaSmartSlideshowSlotComponents extends BaseaSlotComponents
     $q->limit($value['count']);
     $q->orderBy('aMediaItem.created_at DESC');
     $this->items = $q->execute();
+		// shuffle likes real arrays better
+		$a = array();
+		foreach ($this->items as $item)
+		{
+			$a[] = $item;
+		}
+		$this->items = $a;
     $this->itemIds = aArray::getIds($this->items);
   }
 }

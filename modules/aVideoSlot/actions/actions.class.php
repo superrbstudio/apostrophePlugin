@@ -1,17 +1,8 @@
 <?php
 
-class aVideoSlotActions extends BaseaSlotActions
+// See lib/base in this plugin for the actual code. You can extend that
+// class in your own application level override of this file
+
+class aVideoSlotActions extends BaseaVideoSlotActions
 {
-  public function executeEdit(sfRequest $request)
-  {
-    $this->editSetup();
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'video'))
-    {
-      return $this->redirectToPage();
-    }
-    $this->slot->unlink('MediaItems');
-    $this->slot->link('MediaItems', array($item->id));
-    $this->editSave();
-  }
 }

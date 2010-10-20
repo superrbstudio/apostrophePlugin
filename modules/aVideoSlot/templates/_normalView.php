@@ -15,7 +15,7 @@
   $title = isset($title) ? $sf_data->getRaw('title') : null;
   $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php if ($editable): ?>
   <?php // Normally we have an editor inline in the page, but in this ?>
   <?php // case we'd rather use the picker built into the media plugin. ?>
@@ -64,10 +64,10 @@
   <?php endif ?>
   <?php echo $embed ?>
 	</li>
-  <?php if ($title): ?>
+  <?php if ($options['title']): ?>
     <li class="a-media-meta a-media-video-title"><?php echo $item->title ?></li>
   <?php endif ?>
-  <?php if ($description): ?>
+  <?php if ($options['description']): ?>
     <li class="a-media-meta a-media-video-description"><?php echo $item->description ?></li>
   <?php endif ?>
   </ul>

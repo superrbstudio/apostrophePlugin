@@ -302,46 +302,6 @@ function aConstructor()
         window.aSlideshowIntervalTimeouts = {};
       }
 
-  		var position = 0;
-  		$('#a-slideshow-item-' + id + '-' + position).show();
-
-  		if (positionFlag)
-  		{
-    		var positionHead = $('#a-slideshow-controls-' + id + ' li.a-slideshow-position span.head');
-    		setHead(position);
-  		}
-		
-  		slideshowItems.attr('title', title);
-	
-  		$('#a-slideshow-' + id).bind('showImage', function(e, num){
-  			position = num;
-  			slideshowItems.hide();
-  			$('#a-slideshow-item-' + id + '-' + position).fadeIn('slow');
-  		});
-		
-  	  slideshowItems.find('.a-slideshow-image').click(function(event) {
-  			event.preventDefault();
-  			next();
-  	  });
-
-  		$('#a-slideshow-controls-' + id + ' .a-arrow-left').click(function(event){
-  			event.preventDefault();
-  			intervalEnabled = false;
-  			previous();
-  		});
-
-  		$('#a-slideshow-controls-' + id + ' .a-arrow-right').click(function(event){
-  			event.preventDefault();
-  			intervalEnabled = false;
-  			next();
-  		});
-
-  		$('.a-slideshow-controls li').hover(function(){
-  			$(this).addClass('over');	
-  		},function(){
-  			$(this).removeClass('over');
-  		});
-
   	  function previous() 
   	  {
   		  var oldItem = $('#a-slideshow-item-' + id + '-' + position);
@@ -358,7 +318,7 @@ function aConstructor()
 				oldItem.hide();
 				if (positionFlag)
 				{
-				  setHead(position);				
+				  setPosition(position);				
 				}
   			interval();
   	  }
@@ -379,14 +339,14 @@ function aConstructor()
 	  		oldItem.hide();
 	  		if (positionFlag)
 	  		{
-  				setHead(position);
+  				setPosition(position);
   			}
   	  	interval();
   	  }
 	
-			function setHead(current_position) 
+			function setPosition(pos) 
 			{ 
-				positionHead.text(current_position + 1);	
+				positionHead.text(pos + 1);	
 			}
 			
   		var intervalTimeout = null;
@@ -402,6 +362,48 @@ function aConstructor()
   	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
   	  	}
   	  }
+
+  		var position = 0;
+  		$('#a-slideshow-item-' + id + '-' + position).show();
+
+  		if (positionFlag)
+  		{
+    		var positionHead = $('#a-slideshow-controls-' + id + ' li.a-slideshow-position span.head');
+    		setPosition(position);
+  		}
+		
+  		slideshowItems.attr('title', title);
+	
+  		$('#a-slideshow-' + id).bind('showImage', function(e, num){
+  			position = num;
+  			slideshowItems.hide();
+  			$('#a-slideshow-item-' + id + '-' + position).fadeIn('slow');
+  		});
+		
+  	  slideshowItems.find('.a-slideshow-image').click(function(event) {	
+				event.preventDefault();	
+				next(); 
+			});
+
+  		$('#a-slideshow-controls-' + id + ' .a-arrow-left').click(function(event){
+  			event.preventDefault();
+  			intervalEnabled = false;
+  			previous();
+  		});
+
+  		$('#a-slideshow-controls-' + id + ' .a-arrow-right').click(function(event){
+  			event.preventDefault();
+  			intervalEnabled = false;
+  			next();
+  		});
+
+  		$('.a-slideshow-controls li').hover(function(){
+  			$(this).addClass('over');	
+  		},function(){
+  			$(this).removeClass('over');
+  		});
+
+
   	  interval();
 	  }
 	};
@@ -409,13 +411,19 @@ function aConstructor()
 	// aButtonSlot
 	this.buttonSlot = function(options)
 	{
-		var button = options['button'];
+		var button = (options['button'])? $(options['button']) : false;
+		var rollover = (options['rollover']) ? options['rollover'] : false;
+	
+	
 		if (button.length) 
 		{
-			var link = button.find('.a-button-title .a-button-link');
-			var image = button.find('.a-button-image img');
-			image.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
-			link.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });			
+			if (rollover)
+			{
+				var link = button.find('.a-button-title .a-button-link');
+				var image = button.find('.a-button-image img');
+				image.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
+				link.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });			
+			};			
 		}
 		else
 		{

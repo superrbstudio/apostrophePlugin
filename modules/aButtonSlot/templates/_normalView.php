@@ -97,6 +97,4 @@
 
 <?php endif ?>
 
-<?php if ($options['rollover']): ?>
-	<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>')) ?>
-<?php endif ?>
+<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'])?$options['rollover']:false))) ?>
