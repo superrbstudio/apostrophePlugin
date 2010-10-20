@@ -154,7 +154,7 @@ margin: 10px 0;
 	bottom: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(255,255,255,0.75) url(/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+	background: rgba(255,255,255,0.75) url(../images/a-icon-loader.gif) center center no-repeat;
 	display: none;
 }
 
@@ -192,7 +192,7 @@ line-height: 20px;
 
 .a-pager-navigation .a-pager-navigation-image
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background: url(../images/a-page-arrows.png) no-repeat;
 display: inline;
 float: left;
 width: 22px;
@@ -202,7 +202,7 @@ text-indent: -9999px;
 
 .a-pager-navigation a.a-pager-navigation-first
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat top left;
+background: url(../images/a-page-arrows.png) no-repeat top left;
 -moz-border-radius:10px 0px 0px 10px;
 -webkit-border-top-left-radius:10px;
 border-top-left-radius:10px;
@@ -238,7 +238,7 @@ border-bottom-right-radius:10px;
 
 .a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat 0px -20px;
+background: url(../images/a-page-arrows.png) no-repeat 0px -20px;
 text-indent: -999px;
 overflow: hidden;
 width: 22px;
@@ -251,7 +251,7 @@ border-bottom-left-radius:10px;
 
 .a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -22px -40px;
+background: url(../images/a-page-arrows.png) no-repeat -22px -40px;
 text-indent: -999px;
 overflow: hidden;
 width: 19px;
@@ -262,7 +262,7 @@ margin-left:1px;
 
 .a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat;
+background: url(../images/a-page-arrows.png) no-repeat;
 background-position:-60px -80px;
 text-indent: -999px;
 overflow: hidden;
@@ -276,7 +276,7 @@ border-bottom-right-radius:10px;
 
 .a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
 {
-background: url(/apostrophePlugin/images/a-page-arrows.png) no-repeat -41px -60px;
+background: url(../images/a-page-arrows.png) no-repeat -41px -60px;
 text-indent: -999px;
 overflow: hidden;
 width: 19px;
@@ -333,7 +333,7 @@ padding: 5px 0 1px;
 	padding: 35px 20px 20px 20px;
 }
 
-.a-ui.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
+.a-ui.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(../images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
 
 .a-ui.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
 
@@ -442,7 +442,7 @@ border: 1px inset rgba(0,0,0,0);
 .a-ui.a-page-form .a-accordion-toggle,
 .a-options-section.a-accordion h3
 {
-background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+background: url(../images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
 cursor: pointer;
 clear: both;
 text-indent: 16px;
@@ -699,7 +699,7 @@ font-size: 11px;
 ----------------------------------------------- */
 .a-search.global form { position: relative; width: 238px; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
 .a-search form input.a-search-field { float: left; width: 200px; background: none; border: none; padding: 3px 0 3px 6px; }
-.a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
+.a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(../images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
 .a-search form input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
 
 
@@ -766,7 +766,7 @@ min-width: 0;
 {
 width: 220px;
 height: 400px;
-background: #f0f0f0 url(/apostrophePlugin/images/a-apostrophe-login.png) no-repeat top left;
+background: #f0f0f0 url(../images/a-apostrophe-login.png) no-repeat top left;
 position: absolute;
 top: 50%;
 left: 50%;
@@ -904,7 +904,7 @@ color: #333;
 /* Apostrophe Attribution
 -------------------------------------*/
 
-.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(/apostrophePlugin/images/apostrophe.png) no-repeat top left; }
+.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
 .a-attribution a:hover { text-decoration:underline; }
 
 

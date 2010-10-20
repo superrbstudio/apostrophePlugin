@@ -38,9 +38,9 @@ cursor: pointer;
 
 .a-ui .a-audio-button:hover { background-color: #ddd; }
 
-.a-ui .a-audio-play  { background: #fff url(/apostrophePlugin/images/a-icon-alt-play.png) no-repeat 6px 0; }
+.a-ui .a-audio-play  { background: #fff url(../images/a-icon-alt-play.png) no-repeat 6px 0; }
 
-.a-ui .a-audio-pause { background: #fff url(/apostrophePlugin/images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
+.a-ui .a-audio-pause { background: #fff url(../images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
 
 .a-ui .a-audio-controls { float: left; clear: none; }
 
@@ -134,6 +134,6 @@ visibility: hidden;
 }
 
 .a-ui .a-audio-download { float: left; clear: both; display: block; }
-.a-ui .a-audio-download a { background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat top left; padding-left: 20px; float: left; height: 20px; }
+.a-ui .a-audio-download a { background: url(../images/a-icon-alt-download.png) no-repeat top left; padding-left: 20px; float: left; height: 20px; }
 
 .a-ui .ui-widget-header { background: #fff; top: 0; left: 0; position: absolute; float: left; height: 100%; }

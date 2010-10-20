@@ -159,7 +159,7 @@ line-height: 27px;
 	width:20px;
 	color:#888;
 	font-weight: bold !important;
-	background-image: url(/apostrophePlugin/images/a-icon-help.png);
+	background-image: url(../images/a-icon-help.png);
 }
 
 .a-ui.a-options.a-slot-form .a-form-help-text
@@ -195,7 +195,7 @@ float: left;
 height: 21px;
 width: 15px;
 margin: 0 5px 0 0;
-background: url(/apostrophePlugin/images/a-help-arrow.png) 0 0 no-repeat;
+background: url(../images/a-help-arrow.png) 0 0 no-repeat;
 }
 
 /* aSlideshow Slot Styles
@@ -323,7 +323,7 @@ margin-bottom: 10px;
 
 .a-pdf-download { margin-left: -3px; }
 
-.a-pdf-download a { background: url(/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+.a-pdf-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
 
 
 /* aPDF Slot No Label
@@ -344,7 +344,7 @@ z-index: 10;
 .a-pdf-slot.no-label .a-media-pdf-icon a
 { 
 float: left;
-background: url(/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left;
+background: url(../images/a-pdf-icon-tiny.png) no-repeat top left;
 height: 100%;
 width: 100%;
 overflow: hidden;
@@ -370,7 +370,7 @@ z-index: 10;
 .compact .a-pdf-slot.no-label .a-media-pdf-icon a
 { 
 float: left;
-background: url(/apostrophePlugin/images/a-icon-pdf.png) no-repeat top left;
+background: url(../images/a-icon-pdf.png) no-repeat top left;
 height: 100%;
 width: 100%;
 overflow: hidden;
