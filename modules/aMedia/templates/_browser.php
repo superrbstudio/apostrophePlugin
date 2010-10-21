@@ -29,12 +29,22 @@
 
   	<h4><?php echo __('Find in Media', null, 'apostrophe') ?></h4>
 
-	  <form method="POST" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
-	    <?php echo isset($search) ? link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) : '' ?>
-	    <?php echo $searchForm->renderHiddenFields() ?>
-	    <?php echo $searchForm['search']->render() ?>
-	    <input width="29" type="image" height="20" title="<?php echo __('Click to Search', null, 'apostrophe') ?>" alt="<?php echo __('Search', null, 'apostrophe') ?>" src="/apostrophePlugin/images/a-special-blank.gif" value="<?php echo __('Submit', null, 'apostrophe') ?>" class="a-search-submit submit" id="a-media-search-submit" />
-	  </form>
+		<div id="a-search-media" class="a-search media">
+		  <form method="GET" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
+				<div class="a-form-row a-hidden">
+					<?php echo $searchForm->renderHiddenFields() ?>
+				</div>
+				<div class="a-form-row"> <?php // div is for page validation ?>
+					<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
+	    		<?php echo $searchForm['search']->render(array('class' => 'a-search-field')) ?>					
+					<?php if (isset($search)): ?>
+				    <?php echo link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>						
+					<?php else: ?>
+						<input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
+					<?php endif ?>
+				</div>
+		  </form>
+		</div>
 
     <?php if (!aMediaTools::getType()): ?>
 			<div class='a-subnav-section types'>
@@ -147,8 +157,6 @@
    
 <script type="text/javascript" charset="utf-8">
 
-	aInputSelfLabel('#a-media-search', <?php echo json_encode(isset($search) ? $search : __('Search', null, 'apostrophe')) ?>);
-
   <?php if (isset($search)): ?>
     $('#a-media-search-remove').show();
     $('#a-media-search-submit').hide();
@@ -192,3 +200,4 @@
 
 <?php end_slot() ?>
 
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-media-search', 'title' => a_('Search'))) ?>

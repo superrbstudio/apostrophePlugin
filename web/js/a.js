@@ -427,8 +427,9 @@ function aConstructor()
 	{
 		var button = (options['button'])? $(options['button']) : false;
 		var rollover = (options['rollover']) ? options['rollover'] : false;
-	
-	
+		
+		apostrophe.slotEnhancements({slot:'#'+button.closest('.a-slot').attr('id'), editClass:'a-options'});
+		
 		if (button.length) 
 		{
 			if (rollover)
@@ -442,6 +443,24 @@ function aConstructor()
 		else
 		{
 			apostrophe.log('apostrophe.buttonSlot -- no button found');
+		};
+	}
+	
+	this.slotEnhancements = function(options)
+	{
+		var slot = $(options['slot']);
+		var editClass = options['editClass'];
+		if (slot.length) 
+		{
+			if (editClass); 
+			{
+				slot.find('.a-edit-view').addClass(editClass);
+			};
+		}
+		else
+		{
+			apostrophe.log('apostrophe.slotEnhancements -- No slot found.');
+			apostrophe.log('apostrophe.slotEnhancements -- Selector: '+ options['slot']);			
 		};
 	}
 	

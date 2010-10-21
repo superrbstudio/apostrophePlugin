@@ -39,11 +39,6 @@ display:inline;
 width: 178px;
 }
 
-.a-subnav-wrapper .a-search-form .a-search-field
-{
-width: 150px;
-}
-
 .a-subnav-wrapper .a-filter-options .a-filter-option
 {
 float: left;
@@ -608,10 +603,6 @@ border-radius: 2px;
 float: left;
 }
 
-.a-subnav-wrapper .a-search-field { width: 100%; }
-
-.a-search-form input.submit:hover { background-position: 0 -20px; cursor: pointer; }
-
 a#a-media-search-remove
 {
 float: left;
@@ -645,8 +636,6 @@ border: 1px solid #ddd;
 -webkit-border-radius: 10px;
 border-radius: 10px;
 }
-
-.a-search-field {	float: left; width: 100%; clear: both; }
 
 .a-ui.a-media-upload-controls {	margin-top: 5px; }
 

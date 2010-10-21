@@ -697,10 +697,17 @@ font-size: 11px;
 
 /* Apostrophe Search
 ----------------------------------------------- */
-.a-search.global form { position: relative; width: 238px; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
-.a-search form input.a-search-field { float: left; width: 200px; background: none; border: none; padding: 3px 0 3px 6px; }
+.a-search form { position: relative; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
+.a-search form .a-form-row { margin: 0; }
+.a-search form input.a-search-field { float: left; background: none; border: none; padding: 3px 0 3px 6px; }
 .a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(../images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
 .a-search form input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
+
+.a-search.global form { width: 238px; }
+.a-search.global form input .a-search-field { width: 200px; }
+
+.a-search.media form { width: 180px; }
+.a-search.media form input .a-search-field { width: 151px; }
 
 
 /* Apostrophe Search Results

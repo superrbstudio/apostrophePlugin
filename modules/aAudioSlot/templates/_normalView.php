@@ -33,16 +33,7 @@
 <?php $uniqueID = $pageid.'-'.$name.'-'.$permid ?>
 
 <?php if (!$item): ?>
-<?php if (isset($options['singleton']) != true): ?>
-			
-	<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
-	<?php (isset($options['height']))? $height = $options['height'] : $height = 80; ?>		
-	<?php $style .= 'height:'.$height.'px;' ?>
-
-	<div class="a-media-placeholder" style="<?php echo $style ?>">
-		<span style="line-height:<?php echo $height ?>px;"><?php echo __("Choose Audio File", null, 'apostrophe') ?></span>
-	</div>
-<?php endif ?>
+	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Choose an Audio File"), 'options' => $options)) ?>
 <?php endif ?>
 
 <?php if ($item): ?>

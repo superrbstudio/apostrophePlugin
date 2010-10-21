@@ -31,16 +31,21 @@
 	</ul>
 <?php endif ?>
 
-<?php if ($options['arrows'] && (count($items) > 1)): ?>
-<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-	<li class="a-arrow-btn icon a-arrow-left"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
-	<?php if ($options['position']): ?>
-		<li class="a-slideshow-position">
-			<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
-		</li>
+<?php if (has_slot('a-slideshow-controls')): ?>
+	<?php include_slot('a-slideshow-controls') ?>
+<?php else: ?>
+	<?php if ($options['arrows'] && (count($items) > 1)): ?>
+	<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
+		<li class="a-arrow-btn icon a-arrow-left"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
+		<?php if ($options['position']): ?>
+			<li class="a-slideshow-position">
+				<span class="head"></span>/<span class="total"><?php echo count($items); ?></span>
+			</li>
+		<?php endif ?>
+		<li class="a-arrow-btn icon a-arrow-right"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
+	</ul>
 	<?php endif ?>
-	<li class="a-arrow-btn icon a-arrow-right"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
-</ul>
 <?php endif ?>
+
 
 <?php a_js_call('apostrophe.slideshowSlot(?)', array('id' => $id, 'position' => $options['position'], 'interval' => $options['interval'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>

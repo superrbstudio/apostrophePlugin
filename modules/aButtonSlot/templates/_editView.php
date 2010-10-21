@@ -1,9 +1,22 @@
 <?php
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
+  $dimensions = isset($dimensions) ? $sf_data->getRaw('dimensions') : null;
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
 ?>
 
 <?php use_helper('a') ?>
+
+<?php if ($item): ?>
+  <div class="a-form-row image">
+		<label for="a-button-edit-view-<?php echo $pageid.'-'.$name.'-'.$permid; ?>">Image</label>
+    <div class="a-form-field" id="a-button-edit-view-<?php echo $pageid.'-'.$name.'-'.$permid; ?>">
+    	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
+    	<?php echo $embed ?>			
+    </div>
+  </div>
+<?php endif ?>
 
 <div class="a-form-row a-hidden">
 	<?php echo $form->renderHiddenFields() ?>
@@ -43,3 +56,6 @@ window.apostrophe.registerOnSubmit("<?php echo $id ?>",
   }
 );
 </script>
+
+<?php a_js_call('apostrophe.slotEnhancements(?)', array('slot' => '#a-slot-'.$pageid.'-'.$name.'-'.$permid, 'editClass' => 'a-options')) ?>
+<?php a_include_js_calls(); ?>

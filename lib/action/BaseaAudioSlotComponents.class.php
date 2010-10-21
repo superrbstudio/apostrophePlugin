@@ -12,6 +12,7 @@ class BaseaAudioSlotComponents extends BaseaSlotComponents
     $this->setup();
 
     $this->options['width'] = $this->getOption('width', 340);
+    $this->options['height'] = $this->getOption('height', false);
     $this->options['title'] = $this->getOption('title', true);
     $this->options['description'] = $this->getOption('description', true);
     $this->options['download'] = $this->getOption('download', true);

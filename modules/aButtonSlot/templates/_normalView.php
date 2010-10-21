@@ -62,17 +62,8 @@
     <?php endif ?>
   </ul>
 <?php else: ?>
-
-	<?php if ($sf_user->isAuthenticated() && !$options['title'] && !$options['link']): ?>
-		<?php if (isset($options['singleton']) != true): ?>
-			<?php (isset($options['width']))?  $style = 'width:' .  $options['width'] .'px;': $style = 'width:100%;'; ?>
-			<?php (isset($options['height']))? $height = $options['height'] : $height = ((isset($options['width']))? floor($options['width']*.56):'100'); ?>		
-			<?php $style .= 'height:'.$height.'px;' ?>
-			<div class="a-media-placeholder" style="<?php echo $style ?>">
-				<span style="line-height:<?php echo $height ?>px;"><?php echo __("Create a Button", null, 'apostrophe') ?></span>
-			</div>
-		<?php endif ?>
-	<?php endif ?>
+	
+	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Create a Button"), 'options' => $options)) ?>
 	
   <?php if ($options['defaultImage']): ?>
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
@@ -95,6 +86,6 @@
     </ul>	
 	<?php endif ?>
 
-<?php endif ?>
+<?php endif ?>	
 
 <?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'])?$options['rollover']:false))) ?>
