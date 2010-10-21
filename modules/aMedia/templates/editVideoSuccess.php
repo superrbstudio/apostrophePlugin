@@ -4,7 +4,7 @@
   $item = isset($item) ? $sf_data->getRaw('item') : null;
   $serviceError = isset($serviceError) ? $sf_data->getRaw('serviceError') : null;
 ?>
-<?php use_helper('I18N', 'jQuery', 'a') ?>
+<?php use_helper('a') ?>
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 

@@ -3,7 +3,7 @@
   $first = isset($first) ? $sf_data->getRaw('first') : null;
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php $previewable = aValidatorFilePersistent::previewAvailable($form['file']->getValue()) ?>
 <?php $errors = $form['file']->hasError() ?>
 

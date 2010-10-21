@@ -2,7 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $tags = isset($tags) ? $sf_data->getRaw('tags') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php $links = array() ?>
 <?php foreach ($tags as $tag): ?>
   <?php $links[] = link_to($tag, "aMedia/index?" . http_build_query(array("tag" => $tag))) ?>

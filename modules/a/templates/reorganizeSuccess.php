@@ -2,7 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $treeData = isset($treeData) ? $sf_data->getRaw('treeData') : null;
 ?>
-<?php use_helper('a', 'I18N') ?>
+<?php use_helper('a') ?>
 
 <?php slot('body_class','a-admin a-reorganize') ?>
 <?php slot('tabs','') ?>

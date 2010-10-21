@@ -149,6 +149,24 @@ function aConstructor()
 		};
 	}
 	
+	// Turns a form into an AJAX form that updates the element
+	// with the DOM ID specified by options['update']. You must
+	// specify a 'selector' option as well to identify the form.
+	// This replaces jq_remote_form for some cases. For fancy cases
+	// you should write a separate method here
+	
+	this.formUpdates = function(options)
+	{
+		var form = $(options['selector']);
+		$(form).submit(function() {
+			var action = form.attr('action');
+			$.post(action, form.serialize(), function(data) {
+				$('#' + options['update']).html(data);
+			});
+			return false;
+		});
+	}
+	
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
 	{
@@ -432,6 +450,84 @@ function aConstructor()
 		$('#a-add-slot-form-' + name).hide();
 	}
 	
+	this.enableLoginPopup = function() {
+		$('#a-login-button').click(function() {
+			$('#a-login-form-container').fadeIn(); 
+			$('#signin_username').focus(); 
+			$('.a-page-overlay').fadeIn('fast');
+			return false;
+		});
+		$('#a-login-cancel-button').click(function() {
+			$('#a-login-form-container').fadeOut('fast'); 
+			$('.a-page-overlay').fadeOut('fast');
+			return false;
+		});
+	}
+	
+	this.areaEnableDeleteSlotButton = function(options) {
+		$('#' + options['buttonId']).click(function() {
+			if (confirm(options['confirmPrompt']))
+			{
+				$(this).parents(".a-slot").fadeOut();
+				$.post(options['url'], {}, function(data) {
+					$("#a-slots-" + options['pageId'] + "-" + options['name']).html(data);
+					apostrophe.smartCSS();
+				});
+			}
+			return false;
+		});
+	}
+	
+	this.areaEnableAddSlotChoice = function(options) {
+		var button = $("#" + options['buttonId']);
+		$(button).click(function() {
+			var name = options['name'];
+			var pageId = options['pageId'];
+			$.post(options['url'], {}, function(data) {
+				var slots = $('#a-slots-' + pageId + '-' + name);
+				slots.html(data);
+				var area = $('#a-area-' + pageId + '-' + name);
+				apostrophe.smartCSS(area);
+				area.removeClass('a-options-open');
+			});
+			return false;
+		});
+	}
+	
+	this.slotEnableVariantButton = function(options) {
+		$('#' + options['buttonId']).click(function() {
+			$.post(options['url'], {}, function(data) {
+				$('#' + options['slotContentId']).html(data);
+			});
+			return false;
+		});
+	}
+
+	this.areaEnableHistoryButton = function(options) {
+		var pageId = options['pageId'];
+		var name = options['name'];
+		var url = options['url'];
+		var moreUrl = options['moreUrl'];
+		var buttonId = options['buttonId'];
+		$('#' + buttonId).click(function() {
+			_closeHistory();
+			_browseHistory($(this).closest('div.a-area'));		
+			$(".a-history-browser .a-history-items").data("area", "a-area-" + pageId + "-" + name);
+			$(".a-history-browser .a-history-browser-view-more").click(function() {
+		    $.post(moreUrl, {}, function(data) {
+					$('.a-history-browser .a-history-items').html(data);
+					$(".a-history-browser .a-history-browser-view-more .spinner").hide();
+				});
+				$(this).hide();
+				return false;
+			});
+			$.post(url, {}, function (data) {
+				$('.a-history-browser .a-history-items').html(data);
+			});
+			return false;
+		});
+	}
+
 	this.historyOpen = function(options)
 	{
 		var id = options['id'];
@@ -488,7 +584,7 @@ function aConstructor()
 
 		  var params = $(this).data('params');
 
-			var targetArea = "#"+$(this).parent().attr('rel');								// this finds the associated area that the history browser is displaying
+			var targetArea = "#"+$(this).parent().data('area');								// this finds the associated area that the history browser is displaying
 			var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');	// this grabs the history button
 			var cancelBtn = $('#a-history-cancel-button');										// this grabs the cancel button for this area 
 			var revertBtn = $('#a-history-revert-button');										// this grabs the history revert button for this area 
@@ -545,16 +641,6 @@ function aConstructor()
 		});
 	}
 
-	this.enableBrowseHistoryButtons = function(options)
-	{
-		var historyBtn = $(options['history_buttons']);
-		historyBtn.unbind("click").click(function(event){
-			event.preventDefault();			
-			_closeHistory();
-			_browseHistory(historyBtn.closest('div.a-area'));		
-		});
-	}
-	
 	this.enableCloseHistoryButtons = function(options)
 	{
 		var closeHistoryBtns = $(options['close_history_buttons']);
@@ -982,6 +1068,38 @@ function aConstructor()
       }
     });	
 	}
+	
+	this.mediaEnableUploadMultiple = function()
+	{
+		function aMediaUploadSetRemoveHandler(element)
+	  {
+	    $(element).find('.a-close').click(function() {
+	        // Move the entire row to the inactive form
+	        var element = $($(this).parent().parent().parent()).remove();
+	        $('#a-media-upload-form-inactive').append(element);
+	        $('#a-media-add-photo').show();
+	        return false;
+	      });
+	  }
+	  // Move the first inactive element back to the active form
+	  $('#a-media-add-photo').click(function() {
+	      var elements = $('#a-media-upload-form-inactive .a-form-row');
+	        $('#a-media-upload-form-subforms').append(elements);
+	        $('#a-media-add-photo').hide();
+	      return false;
+	    });
+	  // Move all the initially inactive elements to the inactive form
+	  function aMediaUploadInitialize()
+	  {
+	    $('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
+	    aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
+	    $('#a-media-upload-form .a-cancel').click(function() {
+	      $('#a-media-add').hide();
+	      return false;
+	    });
+	  }
+	  aMediaUploadInitialize();
+	}
 		
 	this.slotShowEditView = function(pageid, name, permid, realUrl)
 	{	
@@ -1127,7 +1245,12 @@ function aConstructor()
 		
 	this.enablePageSettings = function(options)
 	{
+		apostrophe.log('enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
+		// Why is this necessary?
+		$('#' + options['id'] + '-submit').click(function() {
+			form.submit();
+		});
 		// The form will not actually submit until ajaxDirty is false. This allows us
 		// to wait for asynchronous things like the slug field AJAX updates to complete
 		var ajaxDirty = false;
@@ -1256,44 +1379,50 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 	
-	this.buttonSauce = function(options)
-	{
-		// buttonSauce only needs to be executed when logged in
-		// It applies any classes or additional markup necessary for apostrophe buttons via the .a-btn class
-		// called in partial a/globalJavascripts
-		var target = '';
-		
-		if (options && options['target']) {	target = options['target'];	};
-		
-		// Grab Target if Passed Through
-		if (typeof(target) == 'undefined') 
-		{ // If Not Set
-			target = '';
-		}
-		else if (typeof(target) == 'object')
-		{ // If jQuery object get id
-			target = "#"+ target.attr('id') +" ";
-		}
-		else 
-		{ // probably a string
-			target = target+" ";
-		}
-
-		var aBtns = $(target+' .a-btn, ' + target + ' .a-submit, ' + target + ' .a-cancel');
-		aBtns.each(function() {
-			var aBtn = $(this);
-			// Setup Icons for buttons with icons that are missing the icon container
-			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
-			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
-			{
-				// Button Exterminator
-				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
-			};
-	  });
-	}
+	// A very small set of things that allow us to write CSS and HTML as if they were 
+	// better than they are. This is called on every a_include_js_calls(), so resist
+	// the temptation to get too crazy here.
 	
-	this.miscEnhancements = function(options)
+	// Specifying a target option can help performance by not searching the rest 
+	// of the DOM for things that have already been magicked
+	this.smartCSS = function(options)
 	{
+		var target = 'body';
+		if (options && options['target']) 
+		{	
+			target = options['target'];	
+		};
+
+		// KEEPERS START HERE
+
+		// Anchor elements that act as submit buttons. Unfortunately not suitable
+		// for use in AJAX forms because calling submit() on a form doesn't
+		// consistently trigger its submit handlers before triggering native submit.
+		
+		$(target).find('.a-act-as-submit').click(function() {
+			var form = $(this).parents('form:first');
+			
+			if (!$(this).data('a-act-as-submit-enabled'))
+			{
+				$(this).data('a-act-as-submit-enabled', true);
+				var name = $(this).attr('name');
+				// Submit buttons have names used to distinguish them.
+				// Fortunately, anchors have names too. There is NO
+				// default name - and in particular 'submit' breaks
+				// form.submit, so don't use it
+				if (name.length)
+				{
+					var hidden = $('<input type="hidden"></input>');
+					hidden.attr('name', name);
+					hidden.attr('value', 1);
+					form.append(hidden);
+					form = $(this).parents('form:first');
+				}
+			}
+			form.submit();
+			return false;
+		});
+		
 		// The contents of this function can be migrated to better homes
 		// if it makes sense to move them.
 		// Once this function is empty it can be deleted
@@ -1312,6 +1441,25 @@ function aConstructor()
 		// Valid way to have links open up in a new browser window
 		// Example: <a href="..." rel="external">Click Meh</a>
 		$('a[rel="external"]').attr('target','_blank');
+
+		// THINGS WE'D LIKE TO GET RID OF START HERE
+
+		// Apply any classes or additional markup necessary for apostrophe buttons via the .a-btn class
+		// called in partial a/globalJavascripts. This is deprecated, we should put the right spans in them to
+		// begin with, which is easier now with a_js_button and a_link_button, so we're showing these
+		// not-properly-formatted buttons in red in anticipation of killing this code
+		
+		var aBtns = $(target).find('.a-btn,.a-submit,.a-cancel');
+		aBtns.each(function() {
+			var aBtn = $(this);
+			// Setup Icons for buttons with icons that are missing the icon container
+			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
+			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length) 
+			{
+				// Button Exterminator
+				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');						
+			};
+	  });
 	}
 	
 	this.audioPlayerSetup = function(aAudioContainer, file)
@@ -1567,6 +1715,14 @@ function aConstructor()
 	  });
   }
 
+	this.aAdminEnableFilters = function()
+	{
+		$('#a-admin-filters-open-button').click(function() {
+			$('#a-admin-filters-container').slideToggle();
+			return false;
+		});
+	}
+
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{
@@ -1688,7 +1844,8 @@ function aConstructor()
 			if (target.hasClass('a-options-cancel')) 
 			{
 				menu.trigger('toggleClosed');
-			};			
+			};	
+			return false;		
 		});
 
 	}

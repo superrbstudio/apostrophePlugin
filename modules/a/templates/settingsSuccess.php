@@ -127,7 +127,7 @@
 					<?php echo $form['tags'] ?>
 				</div>
 				<?php echo $form['tags']->renderError() ?>
-				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'typeahead-url' => url_for('taggableComplete/complete'), 'tags-label' => 'Page Tags', 'commit-selector' => '#' . $stem . '-submit')) ?>
+				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'tags-label' => 'Page Tags', 'commit-selector' => '#' . $stem . '-submit')) ?>
 			</div>
 			<div class="a-form-row meta-description">
 				<h4 class="a-block"><?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>
@@ -154,7 +154,7 @@
 
 	<div class="a-options-section">
 		<ul class="a-ui a-controls">		
-		  <li><input type="submit" name="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
+		  <li><input type="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
 			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Cancel', null, 'apostrophe') ?></a></li>
 			<?php if ((!$page->isNew()) && $page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
@@ -170,7 +170,4 @@
 <?php a_js_call('apostrophe.accordion(?)', array('accordion_toggle' => '.a-options-section:not(".open") h3')) ?>
 <?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.'.$stem.'-status', 'opt1Label' => 'on', 'opt2Label' => 'off')) ?>
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
-<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
-<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
-
 <?php a_include_js_calls() ?>

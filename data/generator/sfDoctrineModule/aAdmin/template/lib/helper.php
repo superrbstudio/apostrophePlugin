@@ -37,7 +37,7 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
 
   public function linkToSave($object, $params)
   {
-    return '<li class="a-admin-action-save">'.jq_link_to_function('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), "$('#a-admin-form').submit()", array('class'=>'a-btn a-save') ).'</li>';
+    return '<li class="a-admin-action-save">' . a_anchor_submit_button(a_($params['label']), array('a-save')) . '</li>';
   }
 
   public function linkToSaveAndAdd($object, $params)
@@ -46,7 +46,7 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
     {
       return '';
     }
-    return '<li class="a-admin-action-save-and-add">'.jq_link_to_function('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), '$(this).after("<input type=\"hidden\" name=\"_save_and_add\" value=\"1\" id=\"a_admin_save_and_add\">");$("#a-admin-form").submit()', array('class'=>'a-btn') ).'</li>';
+    return '<li class="a-admin-action-save-and-add">' . a_anchor_submit_button(a_($params['label']), array('a-save'), '_save_and_add') . '</li>';
   }
 
   public function getUrlForAction($action)

@@ -42,8 +42,8 @@
   <br class="c"/>
 
   <ul class="a-ui a-controls">
-  	<li><?php echo link_to_function('<span class="icon"></span>'.a_('Upload ' . aMediaTools::getBestTypeLabel()), "$('#a-media-upload-form').submit()", array("class"=>"a-btn")) ?></li>
-  	<li><a href="#" class="a-btn icon a-cancel"><span class="icon"></span><?php echo a_('Cancel') ?></a></li>
+  	<li><?php echo a_anchor_submit_button(a_('Upload ' . aMediaTools::getBestTypeLabel())) ?></li>
+  	<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel')) ?></li>
   </ul>
   </form>
 
@@ -54,38 +54,4 @@
   <form style="display: none" action="#" enctype="multipart/form-data" id="a-media-upload-form-inactive"></form>
 </div>
 
-<script type="text/javascript" charset="utf-8">
-	$(function() {
-  <?php // Why don't I just do this once? Because I have to re-bind handlers ?>
-  <?php // to elements when I remove them and then re-add them elsewhere ?>
-  <?php // in the document. ?>
-  function aMediaUploadSetRemoveHandler(element)
-  {
-    $(element).find('.a-close').click(function() {
-        // Move the entire row to the inactive form
-        var element = $($(this).parent().parent().parent()).remove();
-        $('#a-media-upload-form-inactive').append(element);
-        $('#a-media-add-photo').show();
-        return false;
-      });
-  }
-  // Move the first inactive element back to the active form
-  $('#a-media-add-photo').click(function() {
-      var elements = $('#a-media-upload-form-inactive .a-form-row');
-        $('#a-media-upload-form-subforms').append(elements);
-        $('#a-media-add-photo').hide();
-      return false;
-    });
-  // Move all the initially inactive elements to the inactive form
-  function aMediaUploadInitialize()
-  {
-    $('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
-    aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
-    $('#a-media-upload-form .a-cancel').click(function() {
-      $('#a-media-add').hide();
-      return false;
-    });
-  }
-  aMediaUploadInitialize();
-});
-</script>
+<?php a_js_call('apostrophe.mediaEnableUploadMultiple()') ?>

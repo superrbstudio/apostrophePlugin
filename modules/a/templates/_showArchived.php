@@ -1,4 +1,4 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php $page = aTools::getCurrentPage(); ?>
 <?php if ($page): ?>
     <?php if ($sf_user->getAttribute("show-archived", 

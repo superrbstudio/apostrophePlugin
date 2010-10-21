@@ -1,5 +1,5 @@
 <div class="a-pager-navigation">
-	[?php use_helper('I18N') ?]
+	[?php use_helper('a') ?]
 	[?php if ($pager->getPage() == 1):?]
 		<span class="a-pager-navigation-image a-pager-navigation-first a-pager-navigation-disabled">[?php echo __('First Page', null, 'apostrophe') ?]</span>	
 	  <span class="a-pager-navigation-image a-pager-navigation-previous a-pager-navigation-disabled">[?php echo __('Previous Page', null, 'apostrophe') ?]</span>

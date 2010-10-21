@@ -5,7 +5,7 @@
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php if (count($items)): ?>
 	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix">
 	<?php $first = true; $n=0; foreach ($items as $item): ?>

@@ -2,7 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $categories = isset($categories) ? $sf_data->getRaw('categories') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
   
 <?php $links = array() ?>
   <?php foreach ($categories as $category): ?>

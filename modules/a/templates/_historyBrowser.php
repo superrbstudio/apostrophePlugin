@@ -1,4 +1,4 @@
-<?php use_helper('a','I18N') ?>
+<?php use_helper('a') ?>
 <div class="a-history-browser dropshadow">
 	<div class="a-history-browser-heading">
 		<a href="#big-history-button" class="a-btn icon a-history-btn big" id="a-history-heading-button" style="margin: 5px" id="" onclick="return false;"><span class="icon"></span><?php echo a_('You are browsing past revisions for this area.') ?></a>

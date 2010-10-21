@@ -1,4 +1,4 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php // 1. We've introduced group permissions for pages and blogs, so let the admin edit groups too ?>
 <?php // 2. Permissions admin is still for superadmin (developer) only, since there is no ?>
 <?php // value in adding a permission unless you are adding source code that uses it, ?>

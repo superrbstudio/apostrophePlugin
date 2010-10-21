@@ -447,8 +447,14 @@ class BaseaMediaActions extends aEngineActions
     $item = null;
     $this->slug = false;
 		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
-		$this->allTags = PluginTagTable::getAllTagNameWithCount();
-
+  	if (sfConfig::get('app_a_all_tags', true))
+  	{
+  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    }
+    else
+    {
+      $this->allTags = array();
+    }
     if ($request->hasParameter('slug'))
     {
       $item = $this->getItem();
@@ -764,7 +770,14 @@ class BaseaMediaActions extends aEngineActions
       $request->getFiles('a_media_items'));
 
 		$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
-		$this->allTags = PluginTagTable::getAllTagNameWithCount();
+  	if (sfConfig::get('app_a_all_tags', true))
+  	{
+  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    }
+    else
+    {
+      $this->allTags = array();
+    }
 
     $this->postMaxSizeExceeded = false;
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar

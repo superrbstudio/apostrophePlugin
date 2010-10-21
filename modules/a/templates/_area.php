@@ -15,19 +15,10 @@
 
 <?php slot('a-history-controls') ?>
 	<li>
-	  <?php $moreAjax = "jQuery.ajax({type:'POST',dataType:'html',success:function(data, textStatus){jQuery('#a-history-items-$pageid-$name').html(data);},url:'/admin/a/history/id/".$page->id."/name/$name/all/1'}); return false;"; ?>
-		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big"); ?>
-		<?php echo jq_link_to_remote('<span class="icon"></span>'.__("History", null, 'apostrophe'), array(
-	      "url" => "a/history?" . http_build_query(array("id" => $page->id, "name" => $name)),
-				'before' => '$(".a-history-browser .a-history-items").attr("id","a-history-items-'.$pageid.'-'.$name.'");
-										 $(".a-history-browser .a-history-items").attr("rel","a-area-'.$pageid.'-'.$name.'");
-	                   $(".a-history-browser .a-history-browser-view-more").attr("onClick", "'.$moreAjax.'").hide();
-										 $(".a-history-browser .a-history-browser-view-more .spinner").hide();',
-	      "update" => "a-history-items-$pageid-$name"), 
-				array(
-					'title' => 'Area History'.$history_button_style, 
-					'class' => 'a-btn icon a-history-btn '.((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style), 
-		)); ?>					
+		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big") ?>
+		<?php $history_button_id = "a-area-$pageid-$name-history-button" ?>
+		<?php echo a_js_button(a_('History'), array('icon', 'a-history-btn', ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style)), $history_button_id, a_('Area History')) ?>
+		<?php a_js_call('apostrophe.areaEnableHistoryButton(?)', array('buttonId' => $history_button_id, 'pageId' => $pageid, 'name' => $name, 'url' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))), 'moreUrl' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))))) ?>
 	</li>
 <?php end_slot() ?>
 
@@ -44,7 +35,7 @@
 		<?php # Slot Controls ?>
 			<li>
 				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big"); ?>				
-				<?php echo link_to_function('<span class="icon"></span>'.__('Add Content', null, 'apostrophe'), "", array('class' => 'a-btn icon a-add a-add-slot '.$addslot_button_style, 'id' => 'a-add-slot-'.$pageid.'-'.$name, )) ?>
+				<?php echo a_js_button(a_('Add Content'), array('a-add', 'a-add-slot', 'icon', 'big'), 'a-add-slot-'.$pageid.'-'.$name) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
@@ -112,18 +103,12 @@
 			<?php // Tom: Just a quick note about this -- Enabling the delete button for singleton slot works, it just clears out the value for that slot instead of deleting the slot. ?>
         <li>
 					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "no-label"); ?>
-          <?php echo jq_link_to_remote('<span class="icon"></span>'.__('Delete', null, 'apostrophe'), array(
-            "url" => "a/deleteSlot?" .http_build_query(array(
-              "id" => $page->id,
-              "name" => $name,
-              "permid" => $permid)),
-              "update" => "a-slots-$pageid-$name",
-							'before' => '$(this).parents(".a-slot").fadeOut();', 
-							'complete' => 'aUI()'), 
-              array(
-                'class' => 'a-btn icon a-delete '.$delete_button_style, 
-                'title' => __('Delete Slot', null, 'apostrophe'),
-								'confirm' => __('Are you sure you want to delete this slot?', null, 'apostrophe'), )) ?>
+					<?php $delete_button_id = "a-slot-$pageid-$name-$permid-delete-button" ?>
+					<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
+					<?php a_js_call('apostrophe.areaEnableDeleteSlotButton(?)', array('pageId' => $page->id, 'name' => $name, 'permid' => $permid, 'buttonId' => $delete_button_id, 'confirmPrompt' => a_('Are you sure you want to delete this slot?'), "url" => url_for("a/deleteSlot?" .http_build_query(array(
+            "id" => $page->id,
+            "name" => $name,
+            "permid" => $permid))))) ?>
         </li>			
       <?php endif ?>
 		</ul>

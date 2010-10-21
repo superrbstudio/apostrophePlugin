@@ -9,7 +9,7 @@
   $selectedCategory = isset($selectedCategory) ? $sf_data->getRaw('selectedCategory') : null;
   $selectedTag = isset($selectedTag) ? $sf_data->getRaw('selectedTag') : null;
 ?>
-<?php use_helper('a', 'Url') ?>
+<?php use_helper('a') ?>
 <?php // Media is now an engine, so there's a page ?>
 <?php $page = aTools::getCurrentPage() ?>
   

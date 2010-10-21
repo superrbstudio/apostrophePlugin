@@ -11,7 +11,7 @@ function _a_required_assets()
   $user = sfContext::getInstance()->getUser();
 
   sfContext::getInstance()->getConfiguration()->loadHelpers(
-    array("Url", "jQuery", "I18N", 'PkDialog'));
+    array('Url', 'I18N'));
 
   // Do not load redundant CSS and JS in an AJAX context. 
   // These are already loaded on the page in which the AJAX action
@@ -21,7 +21,6 @@ function _a_required_assets()
   {
     return;
   }
-  jq_add_plugins_by_name(array("ui"));
 
   if (sfConfig::get('app_a_use_bundled_stylesheet', true))
   {
@@ -31,6 +30,7 @@ function _a_required_assets()
  		aTools::addStylesheetsIfDesired(array('reset', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors', 'utility', 'audio'));
   }
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
+  $response->addJavascript("$webDir/js/jquery-1.4.2.min.js");
   $response->addJavascript("$webDir/js/aUI.js");
   $response->addJavascript("$webDir/js/aControls.js");
   $response->addJavascript("$webDir/js/plugins/jquery.autogrow.js"); // Autogrowing Textareas
@@ -41,6 +41,7 @@ function _a_required_assets()
   $response->addJavascript("$webDir/js/a.js");
   $response->addStylesheet("$webDir/css/ui-apostrophe/jquery-ui-1.8.2.custom.css");
   $response->addJavascript("$webDir/js/plugins/jquery-ui-1.8.2.custom.min.js");
+  $response->addJavascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js');
 }
 
 _a_required_assets();
@@ -158,87 +159,6 @@ function a_navaccordion()
   $page = aTools::getCurrentPage();
   $children = $page->getAccordionInfo(true);
   return a_navtree_body($children);
-}
-
-// Keeping this functionality in a helper is very questionable.
-// It should probably be a component.
-
-// ... Sure enough, it's now called by a component in preparation to migrate
-// the logic there as well.
-
-function a_navcolumn()
-{
-  $page = aTools::getCurrentPage();
-  return _a_navcolumn_body($page);
-}
-
-function _a_navcolumn_body($page)
-{
-  $sortHandle = "";
-  $sf_user = sfContext::getInstance()->getUser();
-  $admin = $page->userHasPrivilege('edit');
-  if ($admin)
-  {
-    $sortHandle = '<div class="a-btn icon a-drag"><span class="icon"></span></div>';
-  }
-  $result = "";
-  // Inclusion of archived pages should be a bit generous to allow for tricky situations
-  // in which those who can edit a subpage might not be able to find it otherwise.
-  // We don't want the performance hit of checking for the right to edit each archived
-  // subpage, so just allow those with potential-editor privs to see that archived pages
-  // exist, whether or not they are allowed to actually edit them
-  if (aTools::isPotentialEditor() && 
-    $sf_user->getAttribute('show-archived', true, 'apostrophe'))
-  {
-    $livingOnly = false;
-  }
-  else
-  {
-    $livingOnly = true;
-  }
-  $result = '<ul id="a-navcolumn" class="a-navcolumn">';
-  $childrenInfo = $page->getChildrenInfo($livingOnly);
-  if (!count($childrenInfo))
-  {
-    $childrenInfo = $page->getPeerInfo($livingOnly);
-  }
-	$n = 1;
-  foreach ($childrenInfo as $childInfo)
-  {
-    $class = "peer_item";
-
-    if ($childInfo['id'] == $page->id)
-    {
-      $class = "self_item";
-    }
-
-		if ($n == 1)
-		{
-			$class .= ' first';
-		}
-
-		if ($n == count($childrenInfo))
-		{
-			$class .= ' last';
-		}
-
-    // Specific format to please jQuery.sortable
-    $result .= "<li id=\"a-navcolumn-item-" . $childInfo['id'] . "\" class=\"a-navcolumn-item $class\">\n";
-    $title = $childInfo['title'];
-    if ($childInfo['archived'])
-    {
-      $title = '<span class="a-archived-page" title="&quot;'.$title.'&quot; is Unpublished">'.$title.'</span>';
-    }
-    $result .= $sortHandle.link_to($title, aTools::urlForPage($childInfo['slug']));
-    $result .= "</li>\n";
-		$n++;
-  }
-  $result .= "</ul>\n";
-  if ($admin)
-  {
-    $result .= jq_sortable_element('#a-navcolumn', array('url' => 'a/sort?page=' . $page->getId()));    
-  }
-  return $result;
 }
 
 function a_get_stylesheets()
@@ -521,10 +441,15 @@ function a_link_button($label, $symfonyUrl, $options = array(), $classes = array
   return a_button($label, url_for($symfonyUrl, $options), $classes, $id);
 }
 
-function a_button($label, $url, $classes = array(), $id = null)
+function a_button($label, $url, $classes = array(), $id = null, $name = null)
 {
   $hasIcon = in_array('icon', $classes);
-  $s = '<a href="' . a_entities($url) . '" ';
+  $s = '<a ';
+  if (!is_null($name))
+  {
+    $s .= 'name="' . a_entities($name) . '" ';
+  }
+  $s .= 'href="' . a_entities($url) . '" ';
   if (!is_null($id))
   {
     $s .= 'id="' . a_entities($id) . '" ';
@@ -570,15 +495,40 @@ function a_js_cancel_button($label = null, $compact = true, $id = null)
   return a_js_button($label, $classes, $id);
 }
 
-// A real submit button, styled for Apostrophe
+// A real submit button, styled for Apostrophe.
+// Should not need an id - we style these things by
+// class so there can be more than one on a page, right?
 
-function a_submit_button($label, $id = null)
+function a_submit_button($label, $classes = array(), $name = null)
 {
-  $s = '<input type="submit" value="' . a_entities($label) . '" class="a-btn a-submit" ';
-  if (!is_null($id))
+  $s = '<input type="submit" value="' . a_entities($label) . '" class="a-btn a-submit ' . implode(' ', $classes) . '" ';
+  if (!is_null($name))
   {
-    $s .= 'id="' . a_entities($id) . '" ';
+    $s .= 'name="' . a_entities($name) . '" ';
   }
   $s .= '/>';
   return $s;
+}
+
+// An anchor tag 'submit button', styled for Apostrophe
+// and configured behind the scenes to autosubmit the form when clicked 
+// like a real submit button would. However, this should
+// NOT be used in AJAX forms, because there is no consistent
+// way to avoid triggering the native submit behavior of
+// the form. For AJAX forms use real submit buttons
+// or attach the desired submit behavior directly to the button
+
+// A submit button should never need an id because you style them
+// by class - on the other hand it often needs a name so it can
+// be distinguished from other submit buttons when the form submission
+// is received, just like a normal submit button
+
+// You will often want to add the a-submit class, but not always as it's
+// not always the visual impact you want
+
+function a_anchor_submit_button($label, $classes = array(), $name = null)
+{
+  $classes[] = 'a-btn';
+  $classes[] = 'a-act-as-submit';
+  return a_button($label, '#', $classes, $name);
 }

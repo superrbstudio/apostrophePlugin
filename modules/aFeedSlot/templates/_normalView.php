@@ -9,7 +9,7 @@
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
   $url = isset($url) ? $sf_data->getRaw('url') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
 <?php if (!isset($url)): ?>
   <p class="aFeedSelect"><?php echo __('Click Edit to select a feed URL.', null, 'apostrophe') ?></p>

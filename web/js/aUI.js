@@ -1,5 +1,6 @@
+// Deprecated file - just call apostrophe.smartCSS instead
+
 function aUI(target)
 {
-	// So things don't break immediately.
-	apostrophe.buttonSauce(target);
+	apostrophe.smartCSS(target);
 }

@@ -9,12 +9,6 @@
  */
 class BaseaComponents extends BaseaSlotComponents
 {
-  public function executeBreadcrumb(sfRequest $request)
-  {
-    // Use our caching proxy implementation of getAncestors
-    $this->page = aTools::getCurrentPage();
-    $this->ancestorsInfo = $this->page->getAncestorsInfo();
-  }
   public function executeSubnav(sfRequest $request)
   {
 

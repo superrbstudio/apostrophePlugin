@@ -4,7 +4,7 @@
   $options = isset($options) ? $sf_data->getRaw('options') : null;
   $type = isset($type) ? $sf_data->getRaw('type') : null;
 ?>
-<?php use_helper('jQuery') ?>
+<?php use_helper('a') ?>
 
 <?php include_component('a', 'area', array('name' => $name, 'refresh' => true, 'addSlot' => $type, 'preview' => false, 'options' => $options))?>
 

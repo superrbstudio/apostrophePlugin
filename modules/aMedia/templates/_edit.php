@@ -101,7 +101,11 @@
       <?php echo $form['tags']->renderLabel() ?>
 			<div class="a-form-field">
       	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, array('popular-tags' => $popularTags, 'all-tags' => $allTags, 'tags-label' => '', 'commit-selector' => $submitSelector)) ?>
+      	<?php $options = array('popular-tags' => $popularTags, 'tags-label' => '', 'commit-selector' => $submitSelector, 'typeahead-url' => url_for('taggableComplete/complete')) ?>
+      	<?php if (sfConfig::get('app_a_all_tags', true)): ?>
+      	  <?php $options['all-tags'] = $allTags ?>
+      	<?php endif ?>
+				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '#a-media-item-tags-input-'.$i, $options) ?>
 			</div>
       <?php echo $form['tags']->renderError() ?>
     </div>
@@ -182,5 +186,4 @@
 <?php endif ?>
 
 <?php // include pkTagahead for the taggable widget ?>
-<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
-<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
+<?php use_javascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js') ?>

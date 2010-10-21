@@ -26,7 +26,8 @@
           <span class="a-btn alt a-disabled icon a-checked no-bg"><span class="icon"></span><?php echo $settings['label'] ?></span>
         </li>
         <li id="<?php echo $id ?>-inactive" class="inactive" style="<?php echo (!$active) ? '' : 'display: none' ?>">
-          <?php echo jq_link_to_remote('<span class="icon"></span>'.__($settings['label'], null, 'apostrophe'), array('url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))), 'update' => "a-slot-content-$pageid-$name-$permid"), array('class' => 'a-btn alt icon a-unchecked no-bg',)) ?>
+          <?php echo a_js_button(a_($settings['label']), array('alt', 'icon', 'a-unchecked', 'no-bg'), $id . '-button') ?>
+          <?php a_js_call('apostrophe.slotEnableVariantButton(?)', array('buttonId' => $id . '-button', 'slotContentId' => "a-slot-content-$pageid-$name-$permid", 'variant' => $variant)) ?>
         </li>
     		<script type="text/javascript" charset="utf-8">
     			$(document).ready(function() {

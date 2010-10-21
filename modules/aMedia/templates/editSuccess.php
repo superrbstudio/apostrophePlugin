@@ -5,7 +5,7 @@
   $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : array();
   $allTags = isset($allTags) ? $sf_data->getRaw('allTags') : array();
 ?>
-<?php use_helper('I18N', 'jQuery', 'a') ?>
+<?php use_helper('a') ?>
 
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
@@ -29,12 +29,3 @@
 	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags)) ?>		
 	</div>
 </div>
-
-<?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
-<?php /*  I'm pretty sure this stuff is completely redundant since these scripts are included in _edit.php and the
-          'a_include_js_calls()' is taken care of by the layout.
-
-<script src="/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.js"></script>
-<script src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
-
-a_include_js_calls() */ ?>

@@ -3,7 +3,7 @@
   $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
   $value = isset($value) ? $sf_data->getRaw('value') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php
   // Displays the slot's contents in a non-editable form.
   //

@@ -36,7 +36,7 @@ abstract class PluginaCategoryForm extends BaseaCategoryForm
     $candidateGroup = sfConfig::get('app_a_edit_candidate_group', false);
     if ($candidateGroup)
     {
-      $q->innerJoin('sfGuardUser.groups g')->addWhere('g.name = ?', array($candidateGroup));
+      $q->innerJoin('sfGuardUser.Groups g')->addWhere('g.name = ?', array($candidateGroup));
     }
     $this->setWidget('users_list',
       new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'sfGuardUser', 'query' => $q)));

@@ -1,4 +1,4 @@
-[?php use_helper('I18N', 'Date', 'jQuery') ?]
+[?php use_helper('a', 'Date') ?]
 [?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
 
 <div class="a-admin-container [?php echo $sf_params->get('module') ?]">
@@ -10,8 +10,8 @@
 		<div class="a-subnav-inner">
 			<ul class="a-ui a-controls">
 				<?php if ($this->configuration->hasFilterForm()): ?>
-	  			<li class="filters">[?php echo jq_link_to_function('<span class="icon"></span>'.a_('Filters'), "$('#a-admin-filters-container').slideToggle()" ,array('class' => 'a-btn icon a-settings', 'title'=>'Filter Data')) ?]</li>
-				<?php endif; ?>
+	  			<li class="filters">[?php echo a_js_button(a_('Filters'), array('icon', 'a-settings'), 'a-admin-filters-open-button') ?]</li>
+				<?php endif ?>
 					<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
 			</ul>
 		</div>
@@ -44,3 +44,5 @@
   </div>
 
 </div>
+
+[?php a_js_call('apostrophe.aAdminEnableFilters()') ?]

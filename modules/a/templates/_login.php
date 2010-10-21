@@ -9,7 +9,8 @@
   <?php // You can easily turn off the 'Log In' link via app.yml ?>
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li class="a-login-login last">
-			<?php echo jq_link_to_function(__('Login', null, 'apostrophe'), "$('#a-login-form-container').fadeIn(); $('#signin_username').focus(); $('.a-page-overlay').fadeIn('fast');", array('class' => 'a-btn','id' => 'a-login-button')) ?>	
+      <?php echo a_js_button(a_('Login'), array(), 'a-login-button') ?>
+			<?php a_js_call('apostrophe.enableLoginPopup()') ?>
 			<div id="a-login-form-container" class="dropshadow a-options">
 				<?php include_component('a','signinForm') ?>
 			</div>

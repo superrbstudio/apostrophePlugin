@@ -6,7 +6,7 @@
   $label = isset($label) ? $sf_data->getRaw('label') : null;
   $widget = isset($widget) ? $sf_data->getRaw('widget') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php if (isset($form[$widget])): ?>
     <div class="a-form-row">
   

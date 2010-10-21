@@ -2,7 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <?php echo $form ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {

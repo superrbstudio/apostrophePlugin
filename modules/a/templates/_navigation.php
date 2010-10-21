@@ -7,7 +7,7 @@
   $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
   $page = isset($page) ? $sf_data->getRaw('page') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <ul class="nav-level-depth-<?php echo $nest?>" id="a-tab-navigation-<?php echo $name ?>-<?php echo $nest ?>">
 <?php foreach ($navigation as $id => $item): ?>
 <li class="a-tab-nav-item <?php

@@ -5,7 +5,7 @@
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <ul>
   <li class="a-slideshow-image" style="height:<?php echo $options['height'] ?>px;<?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
   <?php if ($options['title']): ?>

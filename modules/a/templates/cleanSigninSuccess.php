@@ -1,4 +1,4 @@
-<?php use_helper('I18N') ?>
+<?php use_helper('a') ?>
 <script type="text/javascript" charset="utf-8">
 <?php // Break out of iframe or AJAX ?>
 	top.location.href = "<?php echo url_for("a/cleanSigninPhase2") ?>";

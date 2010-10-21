@@ -457,7 +457,14 @@ class BaseaActions extends sfActions
     $this->form = new aPageSettingsForm($this->page, $this->parent);
   	$this->existingTags = $this->page->getTags();
   	$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
-	$this->allTags = PluginTagTable::getAllTagNameWithCount();
+  	if (sfConfig::get('app_a_all_tags', true))
+  	{
+  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    }
+    else
+    {
+      $this->allTags = array();
+    }
 	
     $mainFormValid = false;
     
@@ -902,28 +909,6 @@ class BaseaActions extends sfActions
     $url = sfContext::getInstance()->getController()->genUrl('@homepage');
     header("Location: $url");
     exit(0);
-  }
-  
-  public function executePersonalSettings(sfWebRequest $request)
-  {
-    $this->forward404Unless(sfConfig::get('app_a_personal_settings_enabled', false));
-    $this->logMessage("ZZ hello", "info");
-    $this->forward404Unless($this->getUser()->isAuthenticated());
-    $this->logMessage("ZZ after auth", "info");
-    $profile = $this->getUser()->getProfile();
-    $this->logMessage("ZZ after fetch profile", "info");
-    $this->forward404Unless($profile);
-    $this->logMessage("ZZ after profile", "info");
-    $this->form = new aPersonalSettingsForm($profile);
-    if ($request->getParameter('submit'))
-    {
-      $this->form->bind($request->getParameter('settings'));
-      if ($this->form->isValid())
-      {
-        $this->form->save();
-        return 'Redirect';
-      }
-    }
   }
   
   public function executeLanguage(sfWebRequest $request)

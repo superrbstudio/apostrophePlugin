@@ -1,6 +1,6 @@
 [?php include_stylesheets_for_form($form) ?]
 [?php include_javascripts_for_form($form) ?]
-[?php use_helper('I18N') ?]
+[?php use_helper('a') ?]
 
 <div id="a-admin-filters-container">
 
@@ -32,7 +32,7 @@
         [?php echo $form->renderHiddenFields() ?]
 				<div class="a-form-row submit">
 					<ul class="a-ui a-controls">
-						<li>[?php echo jq_link_to_function('<span class="icon"></span>'.a_('Filter'), '$("#a-admin-filters-form").submit();', array('class' => 'a-btn', )) ?]</li>
+						<li>[?php echo a_anchor_submit_button(a_('Filter')) ?]</li>
 						<li>[?php echo link_to('<span class="icon"></span>'.a_('Reset'), '<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter'), array('query_string' => '_reset', 'method' => 'post', 'class' => 'a-btn icon a-cancel')) ?]</li>
 					</ul>
 				</div>

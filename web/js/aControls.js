@@ -1,4 +1,4 @@
-// This adds support for indexOF to browsers that are missing this functionality (IE)
+// This adds support for indexOf to browsers that are missing this functionality (IE)
 // https://developer.mozilla.org/En/Core_JavaScript_1.5_Reference:Objects:Array:indexOf#Compatibility
 if (!Array.prototype.indexOf)
 {
@@ -62,7 +62,34 @@ function aMultipleSelectAll(options)
 
 // Transforms multiple select elements into a much more attractive
 // and user-friendly control with a pulldown menu to add the next item and
-// links to remove already-selected choices
+// links to remove already-selected choices. 
+//
+// By default the first item becomes the label and can't be selected. This 
+// is lousy progressive enhancement, so set the 'choose-one' option to a 
+// better label and your first option is selectable again.
+//
+// Sometimes you want users to be able to create new options on the fly.
+// To support that, specify the 'add' option with a value of true. Now
+// users can add entirely new string values, which appear as an array of
+// checkboxes named originalname_add[]. (However, if the original element name
+// involves brackets, aMultipleSelect will do the right thing to create
+// a peer at the same level ending with _add. For instance, if the 
+// original name is thingy[myselect], the add checkbox array will be
+// named thingy[myselect_add][].)
+//
+// You can relabel the Add and Cancel buttons with the add-add-label and
+// add-cancel-label options.
+//
+// Sometimes a multiple select element is conceptually correct but there
+// are too many valid options to display, or even download. For this situation
+// try the 'typeahead' option. This option takes a callback URL as a parameter.
+// The user is shown a textfield instead of a select menu. This textfield
+// uses jQuery autocomplete to allow the user to build up a list of choices
+// in an otherwise normal manner without ever seeing a pulldown of every
+// possible choice. The user's input is posted to the callback URL, which 
+// should reply like so:
+//
+// TODO Pick Up Here
 
 function aMultipleSelect(target, options)
 {

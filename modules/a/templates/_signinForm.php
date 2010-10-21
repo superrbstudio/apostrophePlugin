@@ -2,7 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
-<?php use_helper('jQuery', 'I18N') ?>
+<?php use_helper('a') ?>
 
 <div class="a-ui a-signin" id="a-signin">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="a-signin-form" <?php echo ($form->hasErrors())? 'class="has-errors"':''; ?>>
@@ -28,7 +28,7 @@
 				<input type="submit" class="a-btn a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
 			</li>
 			<li>
-				<?php echo jq_link_to_function('<span class="icon"></span>'.a_('Cancel'), "$('#a-login-form-container').fadeOut('fast'); $('.a-page-overlay').fadeOut('fast');", array('class' => 'a-btn icon a-cancel', )) ?>
+			  <?php echo a_js_button(a_('Cancel'), array('a-cancel', 'a-login-cancel-button')) ?>
 			</li>
 		</ul>
 		
