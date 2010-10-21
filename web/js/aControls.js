@@ -650,7 +650,7 @@ function aSelectToList(selector, options)
 // provided its initial value is empty. On focus, if the label is present, it should clear.
 // If they defocus it and it's empty, you want the label to come back. Here you go.
 
-function aInputSelfLabel(selector, label, select)
+function aInputSelfLabel(selector, label, select, focus)
 {
 	var aInput = $(selector);
 		
@@ -659,18 +659,24 @@ function aInputSelfLabel(selector, label, select)
 		$(this).addClass('a-default-value');
 	});
 	
+	if (focus) 
+	{
+		$(aInput).focus();
+		if (select) 
+		{ 		
+			aInput.select();
+		}
+		else
+		{
+			aInput.aSetCursorPosition(0);			
+		}
+	};
+	
 	aInput.focus(function(){
 		var v = $(this).val();
 		if (v === label) 
 		{			
-			if (select) 
-			{ 		
-				aInput.select();
-			}
-			else
-			{	
-				aInput.aSetCursorPosition(0);
-			};
+				clearLabelIfNeeded(this);
 		};
 	});
 

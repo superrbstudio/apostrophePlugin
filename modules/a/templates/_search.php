@@ -8,4 +8,4 @@
 		</div>
   </form>
 </div>
-<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-search-cms-field', 'title' => a_('Search'))) ?>
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-search-cms-field', 'title' => a_('Search'), 'focus' => true )) ?>

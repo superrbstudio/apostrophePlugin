@@ -86,11 +86,7 @@ function aConstructor()
 	// options['focus'] = true -- Focuses the input on ready
 	this.selfLabel = function(options)
 	{
-		aInputSelfLabel(options['selector'], options['title'], options['select']);
-		if (options['focus'])
-		{
-			$(options['selector']).focus();
-		};
+		aInputSelfLabel(options['selector'], options['title'], options['select'], options['focus']);
 	};
 	
 	// Utility: Click an element once and convert it to a span
