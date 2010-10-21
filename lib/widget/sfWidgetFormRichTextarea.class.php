@@ -97,7 +97,7 @@ class sfWidgetFormRichTextarea extends sfWidgetFormTextarea
     $options = $attributes;
     $id = $options['id'];
 
-    $php_file = sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR.'fckeditor.php';
+    $php_file = sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR.'fckeditor.php';
 
     if (!is_readable(sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$php_file))
     {
