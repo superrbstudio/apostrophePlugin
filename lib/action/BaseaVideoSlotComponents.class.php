@@ -32,7 +32,7 @@ class BaseaVideoSlotComponents extends BaseaSlotComponents
         $this->item->width, 
         $this->item->height,
         $this->item->format, 
-        array("width" => $this->width,
+        array("width" => $this->options['width'],
           "height" => $this->options['flexHeight'] ? false : $this->options['height'],
           "resizeType" => $this->options['resizeType'],
           // Upsampling video is OK (and commonplace)
