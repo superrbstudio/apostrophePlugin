@@ -1,30 +1,10 @@
-<style>
-<?php // John you should move/fix me ?>
-#a-media-add
-{
-	display: none;
-	clear: both;
-}
-.a-media-add-subheading
-{
-  float: left;
-  width: 250px;
-}
-#a-media-add h2
-{
-  float: left;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-</style>
-
 <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
-	<div id="a-media-add">
+	<div id="a-media-add" class="a-media-add a-media-select">
     <?php if ($uploadAllowed): ?>
       <?php include_partial('aMedia/uploadMultiple', array('form' => new aMediaUploadMultipleForm())) ?>    
     <?php endif ?>
     <?php if ($uploadAllowed && $embedAllowed): ?>
-      <h2>OR</h2>
+      <h2 class="a-media-or">OR</h2>
     <?php endif ?>
     <?php if ($embedAllowed): ?>
       <?php include_partial('aMedia/embed') ?>    

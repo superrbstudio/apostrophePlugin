@@ -46,30 +46,12 @@ margin-left: 120px;
 
 .a-form-row.help,
 .a-form-row .help,
-.a-form-row .a-form-help-text
-{
-float: left;
-clear: both;
-font-size: 11px;
-color: #888;
-}
+.a-form-row .a-form-help-text { float: left; clear: both; font-size: 11px; color: #888; }
 
-.a-form-row .error_list
-{
-width: 100%;
-float: left;
-margin: 0;
-font-size: 11px;
-color: #900;
-}
+.a-form-row.example p { font-size: 11px; color: #888; padding: 5px; }
 
-.a-form-row .error_list li
-{
-	float: left;
-	width: 100%;
-	clear: both;
-	margin: 5px 0;
-}
+.a-form-row .error_list { width: 100%; float: left; margin: 0; font-size: 11px; color: #900; list-style: none; }
+.a-form-row .error_list li { float: left; width: 100%; clear: both; margin: 5px 0; }
 
 /* Make radio buttons in standard Symfony widgets usable 
 	(I styled them horizontally here, if you hate this give me a

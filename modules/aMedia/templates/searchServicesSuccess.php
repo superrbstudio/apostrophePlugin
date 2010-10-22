@@ -7,17 +7,42 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-library">
-  <h3><?php echo a_('Search Services') ?></h3>
-  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>">
-    <?php echo $form ?>
-    <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
-      <li><input type="submit" value="<?php echo a_('Go') ?>" class="a-btn a-submit" /></li>
-      <li>
-  			<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
-  		</li>
-    </ul>
-  </form>
+
+	<div class="a-media-select a-search">
+	  <h3><?php echo a_('Search Services') ?></h3>
+	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services">
+			<div class="a-form-row a-hidden">
+				<?php echo $form->renderHiddenFields() ?>
+			</div>
+
+	
+			<div class="a-form-row"> <?php // div is for page validation ?>
+				<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
+    		<?php echo $form['q']->render(array('class' => 'a-search-field')) ?>					
+				<?php if (isset($q)): ?>
+			    <?php echo link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('q' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>						
+				<?php else: ?>
+					<input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
+				<?php endif ?>
+			</div>
+
+			<div class="a-form-row service">
+				<?php echo $form['service']->renderLabel() ?>
+				<div class='a-form-field'>
+					<?php echo $form['service']->render() ?>
+				</div>
+				<?php echo $form['service']->renderError() ?>
+			</div>
+
+	    <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
+	      <li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel big")) ?></li>
+	    </ul>	
+	  </form>
+	
+	</div>
   <?php if (isset($pager)): ?>
     <?php include_partial('aMedia/videoSearch', array('url' => $url, 'pager' => $pager, 'service' => $service)) ?>
   <?php endif ?>
 </div>
+
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-media-search-services', 'title' => a_('Search'))) ?>
