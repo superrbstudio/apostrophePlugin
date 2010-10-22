@@ -49,7 +49,7 @@
 	    <?php endif ?>
     </li>
     <?php if ($options['title']): ?>
-      <li class="a-button-title">
+      <li class="a-button-title">				
       	<?php if ($options['link']): ?>
 					<a class="a-button-link" href="<?php echo $options['link'] ?>"><?php echo $options['title'] ?></a>      		
 				<?php else: ?>

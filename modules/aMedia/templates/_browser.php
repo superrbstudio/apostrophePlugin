@@ -118,7 +118,6 @@
 
 	<hr/>
 
-
 		<div class='a-subnav-section section tags'>
 
 		 <?php if (isset($selectedTag)): ?>
