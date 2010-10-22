@@ -52,9 +52,13 @@ class Minify_CSS_UriRewriter {
         self::$_docRoot = self::_realpath(
             $docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
         );
-        self::$_currentDir = self::_realpath($currentDir);
+        // tom@punkave.com: the webserver does not resolve symlinks before resolving
+        // relative paths, so we shouldn't either
+        // self::$_currentDir = self::_realpath($currentDir);
+        self::$_currentDir = $currentDir;
         self::$_symlinks = array();
         
+        error_log('REWRITING current is ' . self::$_currentDir . ' document root is ' . self::$_docRoot);
         // normalize symlinks
         foreach ($symlinks as $link => $target) {
             $link = ($link === '//')

@@ -289,24 +289,41 @@ function _a_get_assets_body($type, $assets)
       $content  = '';
       foreach ($files as $file)
       {
+        $path = null;
         if (sfConfig::get('app_a_stylesheet_cache_http', false))
         {
           $url = sfContext::getRequest()->getUriPrefix() . $file;
-          $content .= file_get_contents($url);
+          $fileContent = file_get_contents($url);
         }
         else
         {
-          $content .= file_get_contents(sfConfig::get('sf_web_dir') . $file);
+          $path = sfConfig::get('sf_web_dir') . $file;
+          $fileContent = file_get_contents($path);
         }
+        if ($type === 'stylesheets')
+        {
+          $options = array();
+          if (!is_null($path))
+          {
+            // Rewrite relative URLs in CSS files.
+            // This trick is available only when we don't insist on
+            // pulling our CSS files via http rather than the filesystem
+            
+            // dirname would resolve symbolic links, we don't want that
+            $fdir = preg_replace('/\/[^\/]*$/', '', $path);
+            $options['currentDir'] = $fdir;
+            $options['docRoot'] = sfConfig::get('sf_web_dir');
+            error_log("HAVE PATH: " . $fdir);
+          }
+          $fileContent = Minify_CSS::minify($fileContent, $options);
+        }
+        else
+        {
+          $fileContent = JSMin::minify($fileContent);
+        }
+        $content .= $fileContent;
       }
-      if ($type === 'stylesheets')
-      {
-        $content = Minify_CSS::minify($content);
-      }
-      else
-      {
-        $content = JSMin::minify($content);
-      }
+      error_log("AFTER");
       if ($gzip)
       {
         _gz_file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
