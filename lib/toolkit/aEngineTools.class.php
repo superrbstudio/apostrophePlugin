@@ -13,11 +13,15 @@ class aEngineTools
     // to get the same controller-free URL that the routing engine gets. TODO:
     // ask Fabien how we can do that.
     $uri = urldecode($actions->getRequest()->getUri());
-    $uriPrefix = $actions->getRequest()->getUriPrefix();
-    $uri = substr($uri, strlen($uriPrefix));
-    if (preg_match("/^\/[^\/]+\.php(.*)$/", $uri, $matches))
+    $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
+    error_log("In preExecute");
+    if (preg_match("/^(?:https?:\/\/[^\/]+)?$rr(?:\/[^\/]+\.php)?(.*)$/", $uri, $matches))
     {
       $uri = $matches[1];
+    }
+    else
+    {
+      throw new sfException("Unable to parse engine URL $uri");
     }
     // This will quickly fetch a result that was already cached when we 
     // ran through the routing table (unless we hit the routing table cache,

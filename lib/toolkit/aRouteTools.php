@@ -19,7 +19,6 @@ class aRouteTools
   static public function removePageFromUrl(sfRoute $route, $url)
   {
     $remainder = false;
-    // Modifies $remainder if it returns a matching page
     $page = aPageTable::getMatchingEnginePage($url, $remainder);
     if (!$page)
     {
@@ -175,13 +174,20 @@ class aRouteTools
     }
     
     $pageUrl = aTools::urlForPage($slug, $absolute);
+    
+    $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
+    
     // Strip controller off so it doesn't duplicate the controller in the 
-    // URL we just generated. We could use the slug directly, but that would
+    // URL we just generated. Also strip off sf_relative_root if any. 
+    // We could use the slug directly, but that would
     // break if the CMS were not mounted at the root on a particular site.
     // Take care to function properly in the presence of an absolute URL
-    if (preg_match("/^(https?:\/\/[^\/]+)?\/[^\/]+\.php(.*)$/", $pageUrl, $matches))
+    error_log("PAGE URL: " . $pageUrl);
+    if (preg_match("/^(?:https?:\/\/[^\/]+)?$rr(?:\/[^\/]+\.php)?(.*)$/", $pageUrl, $matches))
     {
-      $pageUrl = $matches[2];
+      error_log('Matching');
+      $pageUrl = $matches[1];
+      error_log('Matched ' . $pageUrl);
     }
     return $pageUrl . $url;
   }

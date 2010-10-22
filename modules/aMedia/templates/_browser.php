@@ -40,7 +40,7 @@
 					<?php if (isset($search)): ?>
 				    <?php echo link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>						
 					<?php else: ?>
-						<input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
+						<input type="image" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 					<?php endif ?>
 				</div>
 		  </form>
