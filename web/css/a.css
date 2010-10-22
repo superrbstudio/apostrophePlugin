@@ -370,7 +370,7 @@ margin-left: 120px;
 
 .a-form-row .a-form-field,
 .a-form-row .a-form-error,
-.a-form-row .a-form-help-text
+.a-form-row .a-form-help
 {
 	position: relative;	
 	float: left;
@@ -379,7 +379,7 @@ margin-left: 120px;
 
 .a-form-row.help,
 .a-form-row .help,
-.a-form-help-text
+.a-form-help
 {
 float: left;
 clear: both;
@@ -3146,12 +3146,12 @@ ul.a-controls .a-variant-options.loading
 	clear: both;
 }
 
-.a-options.a-slot-form .a-form-row:hover .a-form-help-text
+.a-options.a-slot-form .a-form-row:hover .a-form-help
 {
 	display: block;
 }
 
-.a-options.a-slot-form .a-form-help-text
+.a-options.a-slot-form .a-form-help
 {
 	position: absolute;
 	top: 0;
@@ -5650,7 +5650,7 @@ width: 100%;
 position: relative;
 }
 
-.a-admin-generator .a-form-help-text
+.a-admin-generator .a-form-help
 {
 display: block;
 clear: both;

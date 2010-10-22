@@ -15,7 +15,7 @@
 			</div>
 
       [?php if ($help || $help = $form[$name]->renderHelp()): ?]
-        <div class="a-form-help-text">
+        <div class="a-form-help">
 					[?php echo __($help, array(), '<?php echo $this->getI18nCatalogue() ?>') ?]
 				</div>
       [?php endif; ?]

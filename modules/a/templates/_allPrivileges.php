@@ -31,7 +31,7 @@
 	  <?php echo $form['view_options_apply_to_subpages']->renderRow() ?>
 	  <?php // Extended permissions, hidden when the setting is public or admins only ?>
 	  <div id="a-page-permissions-view-extended">
-  		<p class="a-form-help-text"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
+  		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
   		<div class="a-page-permissions-section">
   			<h4><?php echo a_('Groups') ?></h4>
   			<?php // This div is replaced by JS ?>
@@ -57,7 +57,7 @@
 	    <li><?php echo $form['edit_admin_lock'] ?><?php echo a_('Lock this page so only admins can edit or delete.') ?></li>
 	  </ul>
 	  <div id="a-page-permissions-edit-extended">
-  		<p class="a-form-help-text"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
+  		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
   		<div class="a-page-permissions-section">
   			<h4><?php echo a_('Groups') ?></h4>
   			<?php // This div is replaced by JS ?>

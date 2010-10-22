@@ -12,13 +12,12 @@
 	<?php echo $form->renderHiddenFields() ?>
 </div>
 
-<?php include_partial('aRawHTMLSlot/help', array('options' => $options)) ?>
-
 <div class="a-form-row value">
 	<div class="a-form-field">
 		<?php echo $form['value']->render() ?>
 	</div>
 	<div class="a-form-error"><?php echo $form['value']->renderError() ?></div>
+	<?php include_partial('aRawHTMLSlot/help', array('options' => $options)) ?>
 </div>
 
 <script type="text/javascript">

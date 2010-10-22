@@ -567,7 +567,7 @@ border-radius: 4px;
 .a-media-library .a-form-row.permissions .radio_list li label { position: absolute; top: 0; left: 25px; }
 .a-media-library .a-form-row.permissions .radio_list li input { float: left; } 
 
-.a-media-library .a-form-help-text { width: 200px; margin-left: 120px; }
+.a-media-library .a-form-help { width: 200px; margin-left: 120px; }
 
 .a-media-multiple-upload .a-media-library .a-media-edit-form,
 .a-media-multiple-upload .a-media-library .a-media-item,

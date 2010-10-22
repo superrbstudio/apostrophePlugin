@@ -42,11 +42,11 @@ margin-left: 120px;
 
 .a-form-row .a-form-field,
 .a-form-row .a-form-error,
-.a-form-row .a-form-help-text { float: left; }
+.a-form-row .a-form-help { float: left; }
 
 .a-form-row.help,
 .a-form-row .help,
-.a-form-row .a-form-help-text { float: left; clear: both; font-size: 11px; color: #888; }
+.a-form-row .a-form-help { float: left; clear: both; font-size: 11px; color: #888; }
 
 .a-form-row.example p { font-size: 11px; color: #888; padding: 5px; }
 
