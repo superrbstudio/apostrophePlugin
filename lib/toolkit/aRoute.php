@@ -44,6 +44,7 @@ class aRoute extends sfRoute
     
     // Note that you must pass false to parent::generate for the $absolute parameter
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
+    error_log($result);
     if ($slug)
     {
 			$defaults = $this->getDefaults();
