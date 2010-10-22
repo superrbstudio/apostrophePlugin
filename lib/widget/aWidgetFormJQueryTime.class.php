@@ -4,7 +4,8 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
 {
   protected function configure($options = array(), $attributes = array())
   {
-		use_javascript('/apostrophePlugin/js/timepicker.js');
+		$jq_path = '/apostrophePlugin/js/timepicker.js';	
+		sfContext::getInstance()->getResponse()->addJavascript($jq_path, 'first');
 		
     parent::configure($options, $attributes);
 
