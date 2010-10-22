@@ -49,10 +49,15 @@ class BaseaButtonForm extends BaseForm
 
     $this->setValidators(array(
 			'description' => new sfValidatorHtml(array('required' => false, 'allowed_tags' => $this->allowedTags, 'allowed_attributes' => $this->allowedAttributes, 'allowed_styles' => $this->allowedStyles)),
-			'url' => new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
+			'url' => new sfValidatorAnd(array(
+				// www.foo.bar => http://www.foo.bar
+	    	new sfValidatorCallback(array('callback' => array($this, 'validateLazyUrl'))), 
+	    	// Must be a valid URL to go past this stage
+    		new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
+			)),
       'title' => new sfValidatorString(array('required' => false)) 
 		));
-    
+
     // Ensures unique IDs throughout the page. Hyphen between slot and form to please our CSS
     $this->widgetSchema->setNameFormat('slotform-' . $this->id . '-%s');
     
@@ -61,6 +66,16 @@ class BaseaButtonForm extends BaseForm
 		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
   
+  // Add missing http://
+  public function validateLazyUrl($validator, $value)
+  {
+    if (preg_match('/^[\w\+-]+\./', $value))
+    {
+      return 'http://' . $value;
+    }
+    return $value;
+  }
+
   public function validateUrl($validator, $value)
   {
     $url = $value;
