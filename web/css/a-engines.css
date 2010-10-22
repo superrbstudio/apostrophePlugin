@@ -156,10 +156,43 @@ margin: 10px 0;
 margin: 5px 0 0;
 }
 
+.a-admin-sidebar .a-date-wrapper { margin-right: 5px; }
+
+.a-admin-sidebar .a-date-wrapper img { margin-left: -20px; }
+
 .a-admin-sidebar .a-time-wrapper input,
 .a-admin-sidebar .a-date-wrapper input
 {
-width: 75px;
+width: 62px;
+padding-right: 20px;
+}
+
+.a-admin-sidebar .time-item-enabled input 
+{ 
+width: 52px; 
+background: #fff url('../images/a-icon-time.png') no-repeat right 50%; 
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+border:1px solid #ddd;
+padding: 2px 20px 2px 3px;
+}
+
+.time-items
+{
+font-size:11px;
+width: 70px;
+background: #fff;
+border: 1px solid #ddd;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+padding: 5px;
+-moz-box-shadow:rgba(0,0,0,0.1) 0px 0px 6px;
+-webkit-box-shadow:rgba(0,0,0,0.1) 0px 0px 6px;
+-opera-box-shadow:rgba(0,0,0,0.1) 0px 0px 6px;
+-khtml-box-shadow:rgba(0,0,0,0.1) 0px 0px 6px;
+box-shadow:rgba(0,0,0,0.1) 0px 0px 6px;
 }
 
 .a-admin-sidebar hr,
