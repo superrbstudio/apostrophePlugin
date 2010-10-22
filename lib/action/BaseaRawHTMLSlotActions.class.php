@@ -22,7 +22,7 @@ class BaseaRawHTMLSlotActions extends BaseaSlotActions
     // break the rendering of the page to the point where you can't
     // easily edit it.
     
-    $value = $this->getRequestParameter('slotform-' . $this->id);
+    $value = $this->getRequestParameter('slot-form-' . $this->id);
     $this->form = new aRawHTMLForm($this->id);
     $this->form->bind($value);
     if ($this->form->isValid())

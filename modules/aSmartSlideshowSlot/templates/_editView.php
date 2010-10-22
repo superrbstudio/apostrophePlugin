@@ -6,7 +6,11 @@
   $itemIds = isset($itemIds) ? $sf_data->getRaw('itemIds') : null;
 ?>
 
-<?php echo $form->renderHiddenFields() ?>
+<h4 class="a-slot-edit-title"><?php echo a_('Smart Slideshow Slot') ?></h4>
+
+<div class='a-form-row a-hidden'>
+	<?php echo $form->renderHiddenFields() ?>
+</div>
 
 <div class="a-form-row count">
 	<?php echo $form['count']->renderLabel(a_('Images')) ?>
@@ -16,6 +20,7 @@
 	</div>
 	<div class="a-form-error"><?php echo $form['count']->renderError() ?></div>
 </div>
+
 <div class="a-form-row categories">
 	<?php echo $form['categories_list']->renderLabel(__('Category', array(), 'apostrophe')) ?>
 	<div class="a-form-field">

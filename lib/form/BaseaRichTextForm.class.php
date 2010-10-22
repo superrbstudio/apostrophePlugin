@@ -40,7 +40,7 @@ class BaseaRichTextForm extends BaseForm
     // There are problems with AJAX plus FCK plus Symfony forms. FCK insists on making the name and ID
     // the same and brackets are not valid in IDs which can lead to problems in strict settings
     // like AJAX in IE. Work around this by not attempting to use brackets here
-    $this->widgetSchema->setNameFormat('slotform-' . $this->id . '-%s');
+    $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '-%s');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
 }

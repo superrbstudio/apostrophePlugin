@@ -8,6 +8,8 @@
 
 <?php use_helper('a') ?>
 
+<h4 class="a-slot-edit-title"><?php echo a_('Button Slot') ?></h4>
+
 <?php if ($item): ?>
   <div class="a-form-row image">
 		<label for="a-button-edit-view-<?php echo $pageid.'-'.$name.'-'.$permid; ?>">Image</label>

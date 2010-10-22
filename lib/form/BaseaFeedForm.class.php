@@ -27,7 +27,7 @@ class BaseaFeedForm extends BaseForm
       new sfValidatorCallback(array('callback' => array($this, 'validateFeed')))))));
     
     // Ensures unique IDs throughout the page
-    $this->widgetSchema->setNameFormat('slotform-' . $this->id . '[%s]');
+    $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     

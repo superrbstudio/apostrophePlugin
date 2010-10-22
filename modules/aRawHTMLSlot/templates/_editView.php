@@ -6,6 +6,8 @@
 
 <?php use_helper('a') ?>
 
+<h4 class="a-slot-edit-title"><?php echo a_('HTML Slot') ?></h4>
+
 <div class="a-form-row a-hidden">
 	<?php echo $form->renderHiddenFields() ?>
 </div>
@@ -25,5 +27,6 @@
 			minHeight: 120,
 			lineHeight: 16
 		});
+		$('#a-<?php echo $form->getName() ?>').addClass('a-options dropshadow');		
 	});
 </script>

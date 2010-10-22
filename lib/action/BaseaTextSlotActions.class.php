@@ -6,7 +6,7 @@ class BaseaTextSlotActions extends BaseaSlotActions
   {
     $this->editSetup();
     
-    $value = $this->getRequestParameter('slotform-' . $this->id);
+    $value = $this->getRequestParameter('slot-form-' . $this->id);
     $this->options['multiline'] = $this->getOption('multiline', true);
 
     $this->form = new aTextForm($this->id, $this->slot->value, $this->options);

@@ -38,7 +38,7 @@ class BaseaButtonSlotActions extends BaseaSlotActions
 		$value = array();
 		foreach ($values as $k => $v)
 		{
-			if (preg_match('/^slotform-' . $this->id . '-(.*)$/', $k, $matches))
+			if (preg_match('/^slot-form-' . $this->id . '-(.*)$/', $k, $matches))
 			{
 				$value[$matches[1]] = $v;
 			}
