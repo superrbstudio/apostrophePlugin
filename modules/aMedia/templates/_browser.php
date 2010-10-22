@@ -25,7 +25,7 @@
 	    <?php echo isset($search) ? link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) : '' ?>
 	    <?php echo $searchForm->renderHiddenFields() ?>
 	    <?php echo $searchForm['search']->render() ?>
-	    <input width="29" type="image" height="20" title="<?php echo __('Click to Search', null, 'apostrophe') ?>" alt="<?php echo __('Search', null, 'apostrophe') ?>" src="/apostrophePlugin/images/a-special-blank.gif" value="<?php echo __('Submit', null, 'apostrophe') ?>" class="a-search-submit submit" id="a-media-search-submit" />
+	    <input width="29" type="image" height="20" title="<?php echo __('Click to Search', null, 'apostrophe') ?>" alt="<?php echo __('Search', null, 'apostrophe') ?>" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" value="<?php echo __('Submit', null, 'apostrophe') ?>" class="a-search-submit submit" id="a-media-search-submit" />
 	  </form>
 
 		<div class='a-subnav-section types'>

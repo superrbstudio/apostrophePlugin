@@ -97,11 +97,12 @@ class sfWidgetFormRichTextarea extends sfWidgetFormTextarea
     $options = $attributes;
     $id = $options['id'];
 
-    $php_file = sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR.'fckeditor.php';
+    // sf_web_dir already contains the relative root, don't append it twice
+    $php_file = '/'.sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR.'fckeditor.php';
 
     if (!is_readable(sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$php_file))
     {
-      throw new sfConfigurationException('You must install FCKEditor to use this widget (see rich_text_fck_js_dir settings).');
+      throw new sfConfigurationException('You must install FCKEditor to use this widget (see rich_text_fck_js_dir settings). ' . sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.$php_file);
     }
 
     // FCKEditor.php class is written with backward compatibility of PHP4.

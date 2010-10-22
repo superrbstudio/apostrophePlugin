@@ -80,6 +80,7 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
       {
         // Note change of key
         $urlStem = sfConfig::get('app_aPersistentFileUpload_preview_url', '/uploads/uploaded_image_preview');
+        $urlStem = sfContext::getInstance()->getRequest()->getRelativeUrlRoot() . $urlStem;
         // This is the corresponding directory path. You have to override one
         // if you override the other. You override this one by setting
         // app_aToolkit_upload_uploaded_image_preview_dir
