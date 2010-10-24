@@ -279,7 +279,6 @@ class PluginaPageTable extends Doctrine_Table
   
   static public function getMatchingEnginePage($url, &$remainder)
   {
-    error_log(aTrace::traceText());
     // Engines won't work on sites where the CMS is not mounted at the root of the site
     // unless we examine the a_page route to determine a prefix. Generate the route properly
     // then lop off the controller name, if any

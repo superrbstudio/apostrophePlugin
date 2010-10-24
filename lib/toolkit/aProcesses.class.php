@@ -60,6 +60,12 @@ class aProcesses
    
   static public function systemArray($args, &$result = null)
   {
+    /* for some reason argv[0] does not contain the PHP interpreter itself.
+      This is especially problematic on Windows */
+    if ($args[0] === 'symfony' || $args[0] === './symfony') 
+    {
+      $args[0] = 'php ./symfony';
+    }
     $eargs = array();
     foreach ($args as $arg)
     {
