@@ -296,7 +296,7 @@ class PluginaPageTable extends Doctrine_Table
     // else
     {
       $prefix = '';
-      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy'), false);
+      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => aTools::getUserCulture()), false);
       error_log("URL of dummy page is $dummyUrl");
       $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
       // The URL we're being asked to examine has already
