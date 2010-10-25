@@ -71,10 +71,11 @@ EOF;
       $rootDir = $this->configuration->getRootDir();
       $dataDir = $rootDir.'/data/a';
       $options['file'] = $dataDir.'/site.xml';
-      $options['pages'] = $dataDir;
+      $options['pages'] = $dataDir.'/pages';
+      $options['images'] = $dataDir.'/images';
     }
     
-    $importer = new aImporter($connection, $options['file'], $options['pages']);
+    $importer = new aImporter($connection, $options['file'], $options['pages'], $options['images']);
     $importer->import();
 
     
