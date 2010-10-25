@@ -25,7 +25,6 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-	
     if(!empty($value))
       $value = date($this->getOption('format'), strtotime($value));
 
@@ -33,7 +32,7 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
     $html = parent::render($name, $value, $attributes, $errors);
 		$wrapperID = $attributes['id'] . rand(0, 10000);
 		$html = $this->wrapInDiv($html, $wrapperID);
-    $html.= "<script type='text/javascript'>$(document).ready(function() { console.log('" . $wrapperID . "'); timepicker2('#" . $wrapperID . "', " . json_encode($attributes) . ") });</script>";
+    $html.= "<script type='text/javascript'>$(document).ready(function() { timepicker2('#" . $wrapperID . "', " . json_encode($attributes) . ") });</script>";
 
     return $html;
   }

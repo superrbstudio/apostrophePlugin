@@ -3,7 +3,6 @@ function timepicker2(selector, options_array)
 	$(selector).each(function()
 	{
 		var optionClass = options_array['time-class'];
-
 		if (typeof(optionClass) == 'undefined')
 		{
 			optionClass = 'time-item';
@@ -27,10 +26,11 @@ function timepicker2(selector, options_array)
 			twentyFourHour = true;
 		}
 
+
 		var timeinput = $(this);
 		var picker = $('<input />');
 		var options;
-		var id = 'timepicker-' + (Math.floor(Math.random() * 9999));
+		var id = 'timepicker-' + selector + '-' + (Math.floor(Math.random() * 9999));
 		var optionsId = 'options-' + (Math.floor(Math.random() * 9999));
 
 		// progressively E-N-H-A-N-C-E
@@ -42,7 +42,7 @@ function timepicker2(selector, options_array)
 		function replaceInput()
 		{
 			picker.attr({'id': id, 'autocomplete': 'off'});
-			picker.val(getTime());
+			picker.val(getTimeFromForm());
 			
 			options = $('<div />');
 			options.attr('id', optionsId);
@@ -84,16 +84,17 @@ function timepicker2(selector, options_array)
 				options.show();
 				
 				time = parseTime(picker.val());
+				time = prettyTime(time.hours, time.minutes);
 				if (time)
 				{
-					var index = time.hours;
-					if (!twentyFourHour)
-					{
-						index = index * 2;
-					}
-					var scroll = $(options.children()[index]);
+					var scroll = false;
+					options.children().each(function() {
+					 	if (closestTime($(this).html(), time))
+							scroll = $(this);
+					});
 					options.scrollTop(0);
-					options.scrollTop(scroll.position().top);
+					if (scroll)
+						options.scrollTop(scroll.position().top);
 				}
 			});
 			
@@ -115,8 +116,6 @@ function timepicker2(selector, options_array)
 		    		options.hide();
 		    	}
 			}
-
-
 
 			function defaultSelection()
 			{
@@ -202,14 +201,14 @@ function timepicker2(selector, options_array)
 			var time = parseTime(text);
 			
 			if (time)
-			{
+			{				
 				var inputs = timeinput.find('select');
 				$(inputs[0]).val(time.hours);
 				$(inputs[1]).val(time.minutes);
 			}
 		}
 		
-		function getTime()
+		function getTimeFromForm()
 		{
 			var inputs = timeinput.find('select');
 			if ($(inputs[0]).val() == '')
@@ -222,6 +221,33 @@ function timepicker2(selector, options_array)
 			}
 			
 			return prettyTime($(inputs[0]).val(), $(inputs[1]).val());
+		}
+		
+		function closestTime(optionValue, inputValue)
+		{
+			optionValue = parseTime(optionValue);
+			inputValue = parseTime(inputValue);
+			
+			if (!inputValue)
+				return false;
+			
+			if (optionValue.hours == inputValue.hours)
+			{
+				if (optionValue.minutes == inputValue.minutes)
+					return true;
+				
+				var diff = optionValue.minutes - inputValue.minutes;
+				return ((diff > 0) && (diff < minutesIncrement));
+			}
+			else if ((optionValue.hours - inputValue.hours) == 1)
+			{
+				optionValue.minutes = optionValue.minutes + 60;
+				
+				var diff = optionValue.minutes - inputValue.minutes;
+				
+				return ((diff > 0) && (diff < minutesIncrement));
+			}
+			return false;
 		}
 		
 		function parseTime(text, hand)
@@ -300,7 +326,7 @@ function timepicker2(selector, options_array)
 		}
 	
 		function prettyTime(hour, min)
-		{	
+		{
 		  var timeStr = '';
 		  
 		  if (!twentyFourHour)
