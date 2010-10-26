@@ -269,7 +269,6 @@ class aZendSearch
     // Index the search fields
     foreach ($fields as $key => $value)
     {
-      echo("Indexing $key:$value\n");
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
       {
@@ -290,9 +289,7 @@ class aZendSearch
 
     // store the data fields (a big performance win over hydrating things with Doctrine)
     foreach ($storedFields as $key => $value)
-    {
-      echo("Storing $key:$value\n");
-      
+    { 
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
     }
    
