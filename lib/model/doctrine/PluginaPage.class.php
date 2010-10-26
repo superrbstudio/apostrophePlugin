@@ -497,7 +497,7 @@ abstract class PluginaPage extends BaseaPage
   
   public function getInfo()
   {
-    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
   }
   
   protected $childrenInfo;
@@ -776,7 +776,7 @@ abstract class PluginaPage extends BaseaPage
     // in the WHERE clause. Otherwise we don't get any information at all about pages
     // not i18n'd yet
     $escCulture = $connection->quote($this->getCulture());
-    $query = "SELECT p.id, p.slug, p.view_is_secure, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
+    $query = "SELECT p.id, p.slug, p.view_is_secure, p.view_admin_lock, p.edit_admin_lock, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
       LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
@@ -1349,14 +1349,16 @@ abstract class PluginaPage extends BaseaPage
     // it lets us check explicit privileges
     unset($info['title']);
     aZendSearch::updateLuceneIndex($this, 
-      array('text' => $text, 'tags' => $tags, 'metadescription' => $metaDescription),
+      array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'metadescription' => $metaDescription),
       $this->getCulture(),
+      // 1.5: always store fields under a name different from that used to index them.
+      // Otherwise the storage overrides the indexing
       array(
-        'title' => $title,
-        'summary' => $summary,
-        'slug' => $slug,
-        'info' => serialize($info)),
-      array('tags' => 2.0, 'metadescription' => 1.2));
+        'title_stored' => $title,
+        'summary_stored' => $summary,
+        'slug_stored' => $slug,
+        'info_stored' => serialize($info)),
+      array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0));
   }
 
   public function getSearchSummary()

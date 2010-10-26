@@ -246,10 +246,12 @@ class aZendSearch
   // in a Doctrine transaction and rolling back on any Lucene exceptions.
 
   // The arguments are a bit messy for historical reasons (TODO: fix this in 2.0 with a nice options array).
-  // Note that really big things should never be storedAndIndexed, Lucene is not your database.
-  // That parameter is for fields that are all of the following: short, in need of storage for purposes
-  // of display in search results, and in need of searchability. For long things that must be searchable,
-  // use unStoredFields. For things that need not be indexed at all, like summaries, use unIndexedFields
+  // Note that Lucene is not your database.
+  
+  // For things that must be searchable, use $fields. For things that must be stored for display as part of the
+  // presentation of the search result, use $storedFields. Note that a searchable field is not stored for retrieval.
+  // IF YOU WISH TO HAVE IT BOTH WAYS, you must store the field under a DIFFERENT NAME than that used to
+  // index it, otherwise the storage overrides the indexing. Drove me nuts trying to figure this one out
 
   static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array(), $boostsByField = array())
   {
@@ -263,9 +265,11 @@ class aZendSearch
     {
       $doc->addField(Zend_Search_Lucene_Field::Keyword('culture', $culture, 'UTF-8'));
     }
-    // index the search fields
+
+    // Index the search fields
     foreach ($fields as $key => $value)
     {
+      echo("Indexing $key:$value\n");
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
       {
@@ -287,6 +291,8 @@ class aZendSearch
     // store the data fields (a big performance win over hydrating things with Doctrine)
     foreach ($storedFields as $key => $value)
     {
+      echo("Storing $key:$value\n");
+      
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
     }
    

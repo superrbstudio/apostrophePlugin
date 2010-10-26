@@ -672,16 +672,17 @@ class BaseaActions extends sfActions
 
     foreach ($values as $value)
     {
-      // doesn't implement isset
-      if (strlen($value->info))
+      // 1.5: the names under which we store columns in Zend Lucene have changed to
+      // avoid conflict with also indexing them
+      $info = unserialize($value->info_stored);
+      if (!aPageTable::checkPrivilege('view', $info))
       {
-        $info = unserialize($value->info);
-        if (!aPageTable::checkPrivilege('view', $info))
-        {
-          continue;
-        }
+        continue;
       }
-      $nvalue = $value;      
+      $nvalue = $value;
+      $nvalue->slug = $nvalue->slug_stored;
+      $nvalue->title = $nvalue->title_stored;
+      $nvalue->summary = $nvalue->summary_stored;
       if (substr($nvalue->slug, 0, 1) === '@')
       {
         // Virtual page slug is a named Symfony route, it wants search results to go there
