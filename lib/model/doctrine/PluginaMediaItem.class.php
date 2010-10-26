@@ -57,14 +57,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   
   public function updateLuceneIndex()
   {
-    aZendSearch::updateLuceneIndex($this, array(
+    aZendSearch::updateLuceneIndex(array('object' => $this, 'indexed' => array(
       'type' => $this->getType(),
       'title' => $this->getTitle(),
       'description' => $this->getDescription(),
       'credit' => $this->getCredit(),
       'categories' => implode(", ", $this->getCategoryNames()),
       'tags' => implode(", ", $this->getTags())
-    ));
+    )));
   }
   
   public function getCategoryNames()

@@ -49,7 +49,13 @@ aPage:
     view_admin_lock:
       type: boolean
       default: false
-    
+      
+    # Pages will not be returned by searches or the navigation get*Info methods if they have not reached their 
+    # published_at date. No UI for setting this yet in Apostrophe proper (we just set it to the current time), 
+    # but the blog plugin needs it now 
+    published_at:
+      type: timestamp
+      
     # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
     archived: boolean
     # 'admin' pages are hidden from all normal navigation and from search. They are linked to directly from

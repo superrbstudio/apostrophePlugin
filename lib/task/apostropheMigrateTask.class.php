@@ -206,6 +206,13 @@ but why take chances with your data?
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8'));
     }
     
+    if (!$this->migrate->columNExists('a_page', 'published_at'))
+    {
+      $this->migrate->sql(array(
+        'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL', 
+        'UPDATE a_page SET published_at = created_at WHERE published_at IS NULL'));
+    }
+    
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

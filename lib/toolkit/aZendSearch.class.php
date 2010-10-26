@@ -24,7 +24,7 @@ class aZendSearch
     return $nresults;
   }
   
-  static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null)
+  static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null, $andLuceneQuery = null)
    {
      // Ugh: UTF8 Lucene is case sensitive work around this
      if (function_exists('mb_strtolower'))
@@ -50,6 +50,12 @@ class aZendSearch
        $cultureQuery = new Zend_Search_Lucene_Search_Query_Term($cultureTerm);
        $query->addSubquery($cultureQuery, true);
      }
+     
+     if (!is_null($andLuceneQuery))
+     {
+      $query->addSubquery($andLuceneQuery, true); 
+     }
+     
      $index = $table->getLuceneIndex();
 
      $hits = $index->find($query);
@@ -253,8 +259,22 @@ class aZendSearch
   // IF YOU WISH TO HAVE IT BOTH WAYS, you must store the field under a DIFFERENT NAME than that used to
   // index it, otherwise the storage overrides the indexing. Drove me nuts trying to figure this one out
 
-  static public function updateLuceneIndex(Doctrine_Record $object, $fields = array(), $culture = null, $storedFields = array(), $boostsByField = array())
+  static public function updateLuceneIndex($options)
   {
+    // NEW WAY: options as a single array
+    if (is_array($options))
+    {
+      $object = $options['object'];
+      $culture = isset($options['culture']) ? $options['culture'] : null;
+      $fields = isset($options['indexed']) ? $options['indexed'] : array();
+      $storedFields = isset($options['stored']) ? $options['stored'] : array();
+      $keywords = isset($options['keywords']) ? $options['keywords'] : array();
+      $boostsByField = isset($options['boosts']) ? $options['boosts'] : array();
+    }
+    else
+    {
+      throw new sfException("updateLuceneIndex now expects a single array of options, see aZendSearch::updateLuceneIndex");
+    }
     self::deleteFromLuceneIndex($object, $culture);
     $index = self::getLuceneIndex($object->getTable());
     $doc = new Zend_Search_Lucene_Document();
@@ -278,7 +298,6 @@ class aZendSearch
       {
         $value = strtolower($value);
       }
-      
       $field = Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8');
       if (isset($boostsByField[$key]))
       {
@@ -286,10 +305,30 @@ class aZendSearch
       }
       $doc->addField($field);
     }
-
+    
+    // Index the keyword fields
+    foreach ($keywords as $key => $value)
+    {
+      // Ugh: UTF8 Lucene is case sensitive work around this
+      if (function_exists('mb_strtolower'))
+      {
+        $value = mb_strtolower($value);
+      }
+      else
+      {
+        $value = strtolower($value);
+      }
+      $field = Zend_Search_Lucene_Field::Keyword($key, $value, 'UTF-8');
+      if (isset($boostsByField[$key]))
+      {
+      	$field->boost = $boostsByField[$key];
+      }
+      $doc->addField($field);
+    }
+    
     // store the data fields (a big performance win over hydrating things with Doctrine)
     foreach ($storedFields as $key => $value)
-    { 
+    {
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed($key, $value, 'UTF-8'));
     }
    

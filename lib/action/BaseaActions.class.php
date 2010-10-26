@@ -640,15 +640,16 @@ class BaseaActions extends sfActions
   
   public function executeSearch(sfWebRequest $request)
   {
+    $now = date('YmdHis');
+    
     // create the array of pages matching the query
     $q = $request->getParameter('q');
     
     if ($request->hasParameter('x'))
     {
-      // We like to use input type="image" for presentation reasons, but it generates
+      // We sometimes like to use input type="image" for presentation reasons, but it generates
       // ugly x and y parameters with click coordinates. Get rid of those and come back.
-      return $this->redirect(sfContext::getInstance()->getController()->genUrl('a/search', true) . '?' .
-    http_build_query(array("q" => $q)));
+      return $this->redirect(sfContext::getInstance()->getController()->genUrl('a/search', true) . '?' . http_build_query(array("q" => $q)));
     }
     
     $key = strtolower(trim($q));
@@ -668,6 +669,12 @@ class BaseaActions extends sfActions
       $values = array();
     }
 
+    // The truth is that Zend cannot do all of our filtering for us, especially
+    // permissions-based. So we can do some other filtering as well, although it
+    // would be bad not to have Zend take care of the really big cuts (if 99% are
+    // not being prefiltered by Zend, and we have a Zend max results of 1000, then 
+    // we are reduced to working with a maximum of 10 real results).
+    
     $nvalues = array();
 
     foreach ($values as $value)
@@ -675,6 +682,12 @@ class BaseaActions extends sfActions
       // 1.5: the names under which we store columns in Zend Lucene have changed to
       // avoid conflict with also indexing them
       $info = unserialize($value->info_stored);
+      
+      if ($value->published_at > $now)
+      {
+        continue;
+      }
+      
       if (!aPageTable::checkPrivilege('view', $info))
       {
         continue;

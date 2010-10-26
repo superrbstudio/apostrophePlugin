@@ -789,6 +789,9 @@ abstract class PluginaPage extends BaseaPage
       // = FALSE is not SQL92 correct. IS FALSE is. And so it works in SQLite. Learn something
       // new every day. 
       $whereClauses[] = '(p.archived IS FALSE OR p.archived IS NULL)';
+      
+      // Filter out as-yet-unpublished pages as well
+      $whereClauses[] = '(p.published_at >= NOW())';
     }
     // admin pages are almost never visible in navigation
     if (!$admin)
@@ -1341,6 +1344,13 @@ abstract class PluginaPage extends BaseaPage
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
     $tags = implode(',', $this->getTags());
+    $categories = array();
+    $categoryObjects = $this->getCategories();
+    foreach ($categoryObjects as $category)
+    {
+      $categories[] = $category->getName();
+    }
+    $categories = implode(',', $categories);
     $metaDescription = $this->getMetaDescription();
     $slug = $this->getSlug();
     $info = $this->getInfo();
@@ -1348,17 +1358,23 @@ abstract class PluginaPage extends BaseaPage
     // Otherwise though the info structure is well worth it because
     // it lets us check explicit privileges
     unset($info['title']);
-    aZendSearch::updateLuceneIndex($this, 
-      array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'metadescription' => $metaDescription),
-      $this->getCulture(),
+    aZendSearch::updateLuceneIndex(array('object' => $this,
+      // We index the publication timestamp as a string consisting solely of digits. That allows
+      // us to use Zend Lucene's TO construct to look at items published from now until eternity
+      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'categories' => $categories, 'metadescription' => $metaDescription),
+      'culture' => $this->getCulture(),
       // 1.5: always store fields under a name different from that used to index them.
       // Otherwise the storage overrides the indexing
-      array(
+      'stored' => array(
         'title_stored' => $title,
         'summary_stored' => $summary,
         'slug_stored' => $slug,
         'info_stored' => serialize($info)),
-      array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0));
+      'boosts' => array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0),
+      'keywords' => array(
+        'published_at' => preg_replace('/[^\d]/', '', $this->published_at),
+        'category_ids' => implode(',', aArray::getIds($this->getCategories())),
+      )));
   }
 
   public function getSearchSummary()
