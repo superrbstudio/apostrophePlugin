@@ -487,7 +487,7 @@ function aConstructor()
 		$('#' + options['buttonId']).click(function() {
 			if (confirm(options['confirmPrompt']))
 			{
-				$(this).parents(".a-slot").fadeOut();
+				$(this).closest(".a-slot").fadeOut();
 				$.post(options['url'], {}, function(data) {
 					$("#a-slots-" + options['pageId'] + "-" + options['name']).html(data);
 					apostrophe.smartCSS();
