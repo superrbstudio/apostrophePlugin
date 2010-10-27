@@ -1798,7 +1798,8 @@ function aConstructor()
 		}
 
 		// Button Toggle
-		button.unbind('click').click(function(){
+		button.unbind('click').click(function(event){
+			event.preventDefault();
 			if (!button.hasClass('aActiveMenu')) 
 			{ 
 				menu.trigger('toggleOpen'); 
@@ -1813,6 +1814,7 @@ function aConstructor()
 		{
 			menu.bind('beforeOpen', beforeOpen);
 		}
+		
 		if (afterClosed)
 		{
 			menu.bind('afterClosed', afterClosed);
@@ -1848,14 +1850,8 @@ function aConstructor()
 			menu.trigger('afterClosed');
 		});
 
-		// Not sure why I did this part this way to begin with -- but I'm not changing it right now.
-		menu.click(function(event){
-			target = $(event.target);
-			if (target.hasClass('a-options-cancel')) 
-			{
-				menu.trigger('toggleClosed');
-			};	
-			return false;		
+		$('#' + menu.attr('id') + ' .a-options-cancel').live('click',function(){
+			menu.trigger('toggleClosed');
 		});
 
 	}
