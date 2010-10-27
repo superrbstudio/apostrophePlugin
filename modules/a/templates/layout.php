@@ -38,8 +38,7 @@
 	<?php include_partial('a/doNotEdit') ?>
   <?php include_partial('a/globalTools') ?>
 	
-
-	<div id="a-wrapper" class="a-wrapper">
+	<div class="a-wrapper clearfix">
 
     <?php // Note that just about everything can be suppressed or replaced by setting a ?>
     <?php // Symfony slot. Use them - don't write zillions of layouts or do layout stuff ?>
@@ -52,10 +51,10 @@
       <?php include_partial('a/search') ?>
     <?php endif ?>
     
+    <div class="a-header clearfix">
     <?php if (has_slot('a-header')): ?>
       <?php include_slot('a-header') ?>
     <?php else: ?>
-      <div id="a-header" class="a-header">
         <?php if (has_slot('a-logo')): ?>
           <?php include_slot('a-logo') ?>
         <?php else: ?>
@@ -65,12 +64,13 @@
 						'link' => url_for('@homepage'), 
 						'global' => true, 
 						'width' => 360, 
+						'height' => 200, 
 						'flexHeight' => true, 
 						'resizeType' => 's', 
 					)) ?>
         <?php endif ?>
-      </div>
     <?php endif ?>
+  	</div>
 
 		<?php if (has_slot('a-tabs')): ?>
 			<?php include_slot('a-tabs') ?>
@@ -94,7 +94,7 @@
 			<?php include_component('a', 'subnav', array('page' => $page)) # Subnavigation ?>
 		<?php endif ?>
 
-		<div id="a-content" class="a-content clearfix">
+		<div class="a-content clearfix">
 			<?php echo $sf_data->getRaw('sf_content') ?>
 		</div>
 	
