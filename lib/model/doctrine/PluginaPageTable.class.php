@@ -279,7 +279,6 @@ class PluginaPageTable extends Doctrine_Table
   
   static public function getMatchingEnginePage($url, &$remainder)
   {
-    error_log(aTrace::traceText());
     // Engines won't work on sites where the CMS is not mounted at the root of the site
     // unless we examine the a_page route to determine a prefix. Generate the route properly
     // then lop off the controller name, if any
@@ -298,7 +297,6 @@ class PluginaPageTable extends Doctrine_Table
     {
       $prefix = '';
       $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy'), false);
-      error_log("URL of dummy page is $dummyUrl");
       $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
       // The URL we're being asked to examine has already
       // lost its relative_root_url, so don't include $rr in
@@ -307,7 +305,6 @@ class PluginaPageTable extends Doctrine_Table
       {
         $prefix = $matches[1];
       }
-      error_log("Prefix is $prefix while URL is $url");
       self::$engineCachePagePrefix = $prefix;
     }
     $url = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $url);
@@ -317,7 +314,6 @@ class PluginaPageTable extends Doctrine_Table
     $twig = preg_replace('/\?.*$/', '', $url);
     while (true)
     {
-      error_log("Twig: " . $twig);
       if (($twig === '/') || (!strlen($twig)))
       {
         // Either we've been called for the home page, or we just
@@ -345,7 +341,6 @@ class PluginaPageTable extends Doctrine_Table
     self::$engineCacheRemainder = false;
     if ($page)
     {
-      error_log("Something matched");
       $remainder = substr($url, strlen($page->slug));
       self::$engineCacheRemainder = $remainder;
       return $page;
