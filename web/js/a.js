@@ -521,6 +521,31 @@ function aConstructor()
 	}
 
 	this.areaUpdateMoveButtons = function(updateAction, id, name)
+	{
+		var area = $('#a-area-' + id + '-' + name);
+		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
+		var slots = area.children('.a-slots').children('.a-slot');
+		var newSlots = area.children('.a-slots').children('.a-new-slot');
+		if (newSlots.length)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			
+			// You have to save a new slot before you can do any reordering.
+			// TODO: with a little more finesse we could support saving it with
+			// a rank, but think about how messy that might get
+		  slots.find('.a-slot-controls .a-move').hide();
+			return;
+		}
+		// I actually want a visible loop variable here
+		for (n = 0; (n < slots.length); n++)
+		{
+			var slot = slots[n];
+			// We use a nested function here because 
+			// a loop variable does *not* get captured
+			// in the closure at its current value otherwise
+			slotUpdateMoveButtons(id, name, slot, n, slots, updateAction);
+		}
+	}
 	
 	this.slotEnableVariantButton = function(options) {
 		$('#' + options['buttonId']).click(function() {
@@ -1830,7 +1855,7 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			};	
-			return true;		
+			return false;		
 		});
 
 	}
