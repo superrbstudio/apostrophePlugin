@@ -1772,8 +1772,8 @@ function aConstructor()
 			menu.attr('id', newID).addClass('a-options-container');
 		}
 
-		// Button Toggle
-		button.unbind('click').click(function(){
+		var toggleHandler = function()
+		{
 			if (!button.hasClass('aActiveMenu')) 
 			{ 
 				menu.trigger('toggleOpen'); 
@@ -1782,7 +1782,22 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			}
-		}).addClass('a-options-button');
+		}
+
+		var clickHandler = function(event){
+			var target = $(event.target);
+			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
+			{
+				menu.trigger('toggleClosed');
+			}
+			if ( !target.parents().is('#'+menu.attr('id')) ) 
+			{
+				menu.trigger('toggleClosed');
+			}
+		};
+		
+		// Button Toggle
+		button.unbind('click','toggleHandler').click(toggleHandler).addClass('a-options-button');
 
 		if (beforeOpen)
 		{
@@ -1799,17 +1814,7 @@ function aConstructor()
 			button.addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.stop().show(); }
-			$(document).click(function(event){
-				var target = $(event.target);
-				if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
-				{
-					menu.trigger('toggleClosed');
-				}
-				if ( !target.parents().is('#'+menu.attr('id')) ) 
-				{
-					menu.trigger('toggleClosed');
-				}
-			});	
+			$(document).click(clickHandler); 			
 		});
 
 		menu.bind('toggleClosed', function(){
@@ -1817,7 +1822,7 @@ function aConstructor()
 			button.removeClass('aActiveMenu');
 			menu.removeClass(classname);
 			if (overlay) { overlay.fadeOut(); };
-			$(document).unbind('click'); // Clear out click event		
+			$(document).unbind('click', 'clickHandler'); // Clear out click event		
 			menu.trigger('afterClosed');
 		});
 
