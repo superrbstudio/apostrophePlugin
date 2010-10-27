@@ -71,26 +71,23 @@ function aMultipleSelectAll(options)
 // Sometimes you want users to be able to create new options on the fly.
 // To support that, specify the 'add' option with a value of true. Now
 // users can add entirely new string values, which appear as an array of
-// checkboxes named originalname_add[]. (However, if the original element name
+// checkboxes named originalname_add[]. However, if the original element name
 // involves brackets, aMultipleSelect will do the right thing to create
 // a peer at the same level ending with _add. For instance, if the 
 // original name is thingy[myselect], the add checkbox array will be
-// named thingy[myselect_add][].)
+// named thingy[myselect_add][].
 //
 // You can relabel the Add and Cancel buttons with the add-add-label and
 // add-cancel-label options.
 //
 // Sometimes a multiple select element is conceptually correct but there
 // are too many valid options to display, or even download. For this situation
-// try the 'typeahead' option. This option takes a callback URL as a parameter.
+// try the 'autocomplete' option. This option takes a callback URL as a parameter.
 // The user is shown a textfield instead of a select menu. This textfield
 // uses jQuery UI autocomplete to allow the user to build up a list of choices
 // in an otherwise normal manner without ever seeing a pulldown of every
 // possible choice. The user's input is posted to the callback URL in a
-// parameter called 'term'. The user's current selections are posted
-// as well as an array of checkboxes called current[] to allow your callback
-// to filter out redundant responses and still display some new information before
-// reaching its query limit. The callback URL should reply with a JSON-encoded 
+// parameter called 'term'. The callback URL should reply with a JSON-encoded 
 // flat array of objects like so:
 //
 // [ { label: 'Foo', value: 1 }, { label: 'Bar', value: 2 } ]
@@ -98,9 +95,10 @@ function aMultipleSelectAll(options)
 // aMultipleSelect will display the specified labels and submit the specified values.
 // Note that this is easy to arrange with json_encode in PHP.
 //
-// The typeahead and "add" options can be used together, however that behavior
-// is not very intuitive (TODO: just allow non-matching data to be entered via typeahead
-// when add is present, and get rid of the regular add subdialog).
+// TODO: post back the selections already made so redundant suggestions are
+// not made.
+//
+// The autocomplete and "add" options cannot currently be used together.
 //
 // TODO: we have a bunch of Apostrophe-specific class names in here including
 // stuff that is not namespaced. Shame. Must clean up
@@ -120,10 +118,10 @@ function aMultipleSelect(target, options)
       var labels = [];
       var selected = [];
       var j;
-			var typeahead = false;
-			if (options['typeahead'] !== undefined)
+			var autocomplete = false;
+			if (options['autocomplete'] !== undefined)
 			{
-				typeahead = options['typeahead'];
+				autocomplete = options['autocomplete'];
 			}
 
 			// By default the first option is assumed to be a "choose one" label and cannot actually
@@ -177,22 +175,26 @@ function aMultipleSelect(target, options)
       	id = 'a_id_' + Math.floor(Math.random() * 1000000000);
       }
       var html = "<div class='a-multiple-select' id='" + id + "'>";
-			
-			if (typeahead)
+
+			if (options['add-add-label'] === undefined)
 			{
-				html += '<div class="a-typeahead">\n';
+				options['add-add-label'] = 'Add';
+			}
+			
+			if (autocomplete)
+			{
+				html += '<div class="a-autocomplete">\n';
 				html += "<input type='text' />";
-				html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
+// 				html += '<a href="#add" onclick="return false;" class="autocomplete-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
 				html += '</div>\n';
 			}
-      html += "<select class='a-multiple-select-input' name='select-" + name + "'>";
-      html += "</select>\n";
+			else
+			{
+	      html += "<select class='a-multiple-select-input' ";
+				html += "name='select-" + name + "'></select>\n";
+			}
 			if (addIndex !== undefined)
 			{
-				if (options['add-add-label'] === undefined)
-				{
-					options['add-add-label'] = 'Add';
-				}
 				if (options['add-cancel-label'] === undefined)
 				{
 					options['add-cancel-label'] = 'Cancel';
@@ -286,56 +288,66 @@ function aMultipleSelect(target, options)
         $(items[k]).click(function() { update($(this).data("boxid"), false); return false; });
       }
       
-			// Typeahead theory of operation: quietly add another hidden checkbox 
-			// and another remove link for each item added via typeahead. Reuse them
+			// Autocomplete theory of operation: quietly add another hidden checkbox 
+			// and another remove link for each item added via autocomplete. Reuse them
 			// if the item was added previously
 			
-      var typeaheadText = container.find('.a-typeahead').find('input[type=text]');
-			typeaheadText.autocomplete({
-				source: typeahead,
+      var autocompleteText = container.find('.a-autocomplete').find('input[type=text]');
+			autocompleteText.autocomplete({
+				source: autocomplete,
 				focus: function( event, ui ) {
-					typeaheadText.val(ui.item.label);
+					autocompleteText.val(ui.item.label);
 					return false;
 				},
 				select: function( event, ui ) {
-					typeaheadText.val(ui.item.label);
+					apostrophe.log('select');
+					autocompleteText.val('');
 					// Must use filter, can't have nasty characters in a selector
-					if (!container.find('input[type=checkbox]').filter(function() { $(this).val() === ui.item.value }).length)
+					if (!container.find('input[type=checkbox]').filter(function() { return $(this).val() === String(ui.item.value) }).length)
 					{
 						// TODO: this could share more code with the creation of the other checkboxes
 						var newBox = $('<input type="checkbox" />');
 						newBox[0].style.display = 'none';
 						newBox.attr('name', name);
-						newBox.attr('val', ui.item.value);
-						newBox.attr('checked', true);
+						newBox.val(ui.item.value);
 						container.append(newBox);
 						var li = $(liHtml(ui.item.label, options));
-						li.data("boxid", ui.item.value);
+						li.data("boxid", String(ui.item.value));
 		        li.click(function() { update($(this).data("boxid"), false); return false; });
-		        
-						update(false, false);
+		        container.find('ul').append(li);
 					}
+					update(false, false, String(ui.item.value));
 					return false;
 				}
 			});
 			
-      function update(remove, initial)
+      function update(remove, initial, add)
       {
+				var value = false;
+				if (add !== undefined)
+				{
+					value = add;
+				}
         var ul = $("#" + id + " ul");
-        var select = $("#" + id + " select")[0];
-        var index = select.selectedIndex;
-        var value = false;
-        if (index > 0)
-        {
-					if ((index === select.length - 1) && options['add'])
-					{
-						select.selectedIndex = 0;
-						$("#" + id + " .add").fadeIn().children('input').focus();
-						return;
-					}
-          value = select.options[index].value;
+				if (!autocomplete)
+				{
+	        var select = $("#" + id + " select")[0];
+	        var index = select.selectedIndex;
+				}
+				if (!autocomplete)
+				{
+	        if (index > 0)
+	        {
+						if ((index === select.length - 1) && options['add'])
+						{
+							select.selectedIndex = 0;
+							$("#" + id + " .add").fadeIn().children('input').focus();
+							return;
+						}
+	          value = select.options[index].value;
+	        }
         }
-        
+
         var boxes = $('#' + id + " input[type=checkbox]");
         
         boxes.each(function()
@@ -353,8 +365,16 @@ function aMultipleSelect(target, options)
         var items = $('#' + id + ' ul li');
         var k;
         var html;
+
+				if (autocomplete)
+				{
+					// The length is now variable 
+					length = items.length;
+				}
+				
         for (k = 0; (k < length); k++)
         {
+					apostrophe.log("Looking at box " + k);
           if ($(boxes[k]).is(':checked'))
           {
             $(items[k]).show();
@@ -362,30 +382,34 @@ function aMultipleSelect(target, options)
           else
           {
             $(items[k]).hide();
-            html += "<option ";
-            if (k == 0)
-            {
-              // First option is "pick one" message
-              html += " selected ";
-            }
-            html += "value=\"" + aHtmlEscape(values[k]) + "\">" +
-              labels[k] + "</option>";
+						if (!autocomplete)
+						{
+		           html += "<option ";
+		           if (k == 0)
+		           {
+		             // First option is "pick one" message
+		             html += " selected ";
+		           }
+		           html += "value=\"" + aHtmlEscape(values[k]) + "\">" +
+		             labels[k] + "</option>";
+						}
           }
         }
 				if (addIndex !== undefined)
 				{
 					html += "<option value=\"_new\">" + labels[addIndex] + "</option>";
 				}
-        // Necessary in IE
-        $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
-        $("#" + id + " select").change(function() { update(false, false); });
+				if (!autocomplete)
+				{
+	        // Necessary in IE
+	        $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
+	        $("#" + id + " select").change(function() { update(false, false); });
+				}
 				if (!initial)
 				{
 					onChange();
 				}
       }
-
-
 			
 			function onChange()
 			{

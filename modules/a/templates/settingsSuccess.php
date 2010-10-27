@@ -13,6 +13,7 @@
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
+
 <?php $create = $page->isNew() ?>
 <?php $stem = $page->isNew() ? 'a-create-page' : 'a-page-settings' ?>
 
