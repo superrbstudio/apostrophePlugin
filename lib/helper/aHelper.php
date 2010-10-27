@@ -498,17 +498,13 @@ function a_js_button($label, $classes = array(), $id = null)
 }
 
 // Even more convenient way to do a cancel button based on the above
-function a_js_cancel_button($label = null, $compact = true, $id = null)
+function a_js_cancel_button($label = null, $classes = array(), $id = null)
 {
   if (is_null($label))
   {
     $label = a_('Cancel');
   }
-  $classes = array('a-cancel');
-  if ($compact)
-  {
-    $classes[] = 'icon';
-  }
+  $classes[] = 'a-cancel';
   return a_js_button($label, $classes, $id);
 }
 

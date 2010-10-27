@@ -1004,7 +1004,7 @@ function aConstructor()
 			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
 
 			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed']);			
+				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed']);			
 			};	
 		};
 	}
@@ -1791,7 +1791,7 @@ function aConstructor()
 	{
 	}
 	
-	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed)
+	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed)
 	{	
 		// Menu must have an ID. 
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
@@ -1814,15 +1814,10 @@ function aConstructor()
 			}
 		}).addClass('a-options-button');
 
-		if (beforeOpen)
-		{
-			menu.bind('beforeOpen', beforeOpen);
-		}
-		
-		if (afterClosed)
-		{
-			menu.bind('afterClosed', afterClosed);
-		}
+		if (beforeOpen) { menu.bind('beforeOpen', beforeOpen); }
+		if (afterClosed) { menu.bind('afterClosed', afterClosed); }
+		if (afterOpen) { menu.bind('afterOpen', afterOpen);	}
+		if (beforeClosed) { menu.bind('beforeClosed', beforeClosed); }
 
 		var clickHandler = function(event){
 			var target = $(event.target);
@@ -1843,9 +1838,11 @@ function aConstructor()
 			menu.addClass(classname);			
 			if (overlay) { overlay.stop().show(); }
 			$(document).click(clickHandler); 			
+			menu.trigger('afterOpen');
 		});
 
 		menu.bind('toggleClosed', function(){
+			menu.trigger('beforeClosed');
 			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
 			menu.removeClass(classname);
@@ -1858,7 +1855,7 @@ function aConstructor()
 			menu.trigger('toggleClosed');
 		});
 
-	}
+	}	
 } 
 
 window.apostrophe = new aConstructor();
