@@ -1823,13 +1823,14 @@ function aConstructor()
 			menu.trigger('afterClosed');
 		});
 
+		// Not sure why I did this part this way to begin with -- but I'm not changing it right now.
 		menu.click(function(event){
 			target = $(event.target);
 			if (target.hasClass('a-options-cancel')) 
 			{
 				menu.trigger('toggleClosed');
 			};	
-			return false;		
+			return true;		
 		});
 
 	}
