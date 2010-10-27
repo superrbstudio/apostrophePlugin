@@ -1772,8 +1772,8 @@ function aConstructor()
 			menu.attr('id', newID).addClass('a-options-container');
 		}
 
-		var toggleHandler = function()
-		{
+		// Button Toggle
+		button.unbind('click').click(function(){
 			if (!button.hasClass('aActiveMenu')) 
 			{ 
 				menu.trigger('toggleOpen'); 
@@ -1782,6 +1782,15 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			}
+		}).addClass('a-options-button');
+
+		if (beforeOpen)
+		{
+			menu.bind('beforeOpen', beforeOpen);
+		}
+		if (afterClosed)
+		{
+			menu.bind('afterClosed', afterClosed);
 		}
 
 		var clickHandler = function(event){
@@ -1794,19 +1803,7 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			}
-		};
-		
-		// Button Toggle
-		button.unbind('click','toggleHandler').click(toggleHandler).addClass('a-options-button');
-
-		if (beforeOpen)
-		{
-			menu.bind('beforeOpen', beforeOpen);
-		}
-		if (afterClosed)
-		{
-			menu.bind('afterClosed', afterClosed);
-		}
+		};	
 
 		// Open Menu, Create Listener
 		menu.bind('toggleOpen', function(){
