@@ -924,7 +924,7 @@ abstract class PluginaPage extends BaseaPage
     {
       // New: support for specifying whether the new slot is at top or bottom of the area
       $top = (!isset($params['top'])) || $params['top'];
-      $diff = '<strong>' . aString::limitCharacters($params['slot']->getSearchText(), 20) . "</strong>";
+      $diff = (isset($params['slot']))? "<strong>" . aString::limitCharacters($params['slot']->getSearchText(), 20) . "</strong>" : '';
       $newSlots = $this->getArea($name, $params['slot'], $top);
     }
     else
@@ -963,7 +963,7 @@ abstract class PluginaPage extends BaseaPage
       {
         $oldText = $newSlots[$params['permid']]->getSearchText(); 
       }
-      $newText = $params['slot']->getSearchText();
+      $newText = (isset($params['slot']))? $params['slot']->getSearchText() : '';
       $fullDiff = aString::diff($oldText, $newText);
       $diff = '';
       if (!empty($fullDiff['onlyin1']))
