@@ -877,7 +877,11 @@ function aConstructor()
 	}
 
 	this.mediaDeselectItem = function(id)
-
+	{
+		$('#a-media-item-'+id).removeClass('a-media-selected');
+		$('#a-media-item-'+id).children('.a-media-selected-overlay').remove();
+	}
+	
 	this.mediaEnableSelect = function(options)
 	{
 		apostrophe.selectOptions = options;
