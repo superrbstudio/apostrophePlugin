@@ -37,8 +37,10 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     $this->options['title'] = $this->getOption('title', false);
     $this->options['description'] = $this->getOption('description', true);
 		$this->options['link'] = $this->getOption('link', false);
+		$this->options['url'] = $this->getOption('link', false);
 		$this->options['rollover'] = $this->getOption('rollover', true);
 		$this->options['defaultImage'] = $this->getOption('defaultImage', false);
+		$this->options['image'] = $this->getOption('image', true);		
 	}
 	
   public function executeEditView()
@@ -79,11 +81,6 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
 
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
-
-		if ($this->options['link'] && gettype($this->options['link']) != 'boolean') 
-		{
-			$this->options['url'] = $this->options['link'];
-		}
 
     if (isset($data['url']))
     {

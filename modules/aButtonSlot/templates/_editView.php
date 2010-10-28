@@ -24,13 +24,15 @@
 	<?php echo $form->renderHiddenFields() ?>
 </div>
 
-<div class="a-form-row title">
-	<?php echo $form['title']->renderLabel('Title') ?>
-	<div class="a-form-field">
-		<?php echo $form['title']->render() ?>
+<?php if ($options['title']): ?>
+	<div class="a-form-row title">
+		<?php echo $form['title']->renderLabel('Title') ?>
+		<div class="a-form-field">
+			<?php echo $form['title']->render() ?>
+		</div>
+		<?php echo $form['title']->renderError() ?>
 	</div>
-	<?php echo $form['title']->renderError() ?>
-</div>
+<?php endif ?>
 
 <div class="a-form-row link">
 	<?php echo $form['url']->renderLabel('Link') ?>
@@ -40,24 +42,26 @@
 	<?php echo $form['url']->renderError() ?>
 </div>
 
-<div class="a-form-row description">
-	<?php echo $form['description']->renderLabel('Description') ?>
-	<div class="a-form-field">
-		<?php echo $form['description']->render() ?>
+<?php if ($options['description']): ?>
+	<div class="a-form-row description">
+		<?php echo $form['description']->renderLabel('Description') ?>
+		<div class="a-form-field">
+			<?php echo $form['description']->render() ?>
+		</div>
+		<?php echo $form['description']->renderError() ?>
 	</div>
-	<?php echo $form['description']->renderError() ?>
-</div>
 
-<script type="text/javascript" charset="utf-8">
-window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
-  function(slotId)
-  {
-    <?php # FCK doesn't do this automatically on an AJAX "form" submit on every major browser ?>
-    var value = FCKeditorAPI.GetInstance('slotform-<?php echo $id ?>-description').GetXHTML();
-    $('#slotform-<?php echo $id ?>-description').val(value);
-  }
-);
-</script>
+	<script type="text/javascript" charset="utf-8">
+	window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
+	  function(slotId)
+	  {
+	    <?php # FCK doesn't do this automatically on an AJAX "form" submit on every major browser ?>
+	    var value = FCKeditorAPI.GetInstance('slotform-<?php echo $id ?>-description').GetXHTML();
+	    $('#slotform-<?php echo $id ?>-description').val(value);
+	  }
+	);
+	</script>
+<?php endif ?>
 
 <?php a_js_call('apostrophe.slotEnhancements(?)', array('slot' => '#a-slot-'.$pageid.'-'.$name.'-'.$permid, 'editClass' => 'a-options')) ?>
 <?php a_include_js_calls(); ?>

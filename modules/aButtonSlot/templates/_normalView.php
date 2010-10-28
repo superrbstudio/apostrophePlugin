@@ -32,7 +32,9 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-  		<?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+			<?php if ($options['image']): ?>
+  			<?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => __('Choose image', null, 'apostrophe'), 'label' => __('Select an Image', null, 'apostrophe'), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>				
+			<?php endif ?>
 			<?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page, 'controlsSlot' => false)) ?>
   <?php end_slot() ?>
 
@@ -63,7 +65,9 @@
   </ul>
 <?php else: ?>
 	
-	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Create a Button"), 'options' => $options)) ?>
+	<?php if ($options['image']): ?>
+		<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Create a Button"), 'options' => $options)) ?>
+	<?php endif ?>
 	
   <?php if ($options['defaultImage']): ?>
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
@@ -77,7 +81,7 @@
       </li>
     </ul>
 	<?php else: ?>
-		<?php if ($options['link']): ?>
+		<?php if ($options['link'] || $options['url']): ?>
 	  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
 	      <li class="a-button-image">
 	        <?php echo link_to((($options['title'])?$options['title']:$options['url']), $options['url'], array('class' => 'a-button-link')) ?>
@@ -88,4 +92,4 @@
 
 <?php endif ?>	
 
-<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'] && $options['url'])?$options['rollover']:false))) ?>
+<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'] && $options['link'])?$options['rollover']:false))) ?>
