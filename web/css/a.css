@@ -3049,6 +3049,7 @@ position: relative;
 float: left;
 width: 100%;
 margin-bottom: 10px !important;
+z-index: 999;
 }
 
 .a-area.singleton ul.a-controls.a-area-controls
