@@ -43,7 +43,7 @@
     <li class="a-button-image">
     	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
 	    <?php if ($options['link']): ?>
-	      <?php echo '<a class="a-button-link" href="'.$options['link'].'">'.$embed.'</a>' ?>
+	      <?php echo '<a class="a-button-link" href="'.$options['url'].'">'.$embed.'</a>' ?>
 			<?php else: ?>
 	    	<?php echo $embed ?>			
 	    <?php endif ?>
@@ -51,7 +51,7 @@
     <?php if ($options['title']): ?>
       <li class="a-button-title">				
       	<?php if ($options['link']): ?>
-					<a class="a-button-link" href="<?php echo $options['link'] ?>"><?php echo $options['title'] ?></a>      		
+					<a class="a-button-link" href="<?php echo $options['url'] ?>"><?php echo $options['title'] ?></a>      		
 				<?php else: ?>
 					<?php echo $options['title'] ?>
       	<?php endif ?>
@@ -70,22 +70,22 @@
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
         <?php if ($options['link']): ?>
-          <?php echo link_to(image_tag($options['defaultImage']), $options['link']) ?>
+          <?php echo link_to(image_tag($options['defaultImage']), $options['url']) ?>
         <?php else: ?>
           <?php echo image_tag($options['defaultImage']) ?>
         <?php endif ?>
       </li>
     </ul>
+	<?php else: ?>
+		<?php if ($options['link']): ?>
+	  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
+	      <li class="a-button-image">
+	        <?php echo link_to((($options['title'])?$options['title']:$options['url']), $options['url'], array('class' => 'a-button-link')) ?>
+	      </li>
+	    </ul>	
+		<?php endif ?>
   <?php endif ?>
-
-	<?php if ($options['link']): ?>
-  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
-      <li class="a-button-image">
-        <?php echo link_to((($options['title'])?$options['title']:$options['link']), $options['link'], array('class' => 'a-button-link')) ?>
-      </li>
-    </ul>	
-	<?php endif ?>
 
 <?php endif ?>	
 
-<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'] && $options['link'])?$options['rollover']:false))) ?>
+<?php a_js_call('apostrophe.buttonSlot(?)', array('button' => '#a-button-'.$pageid.'-'.$name.'-'.$permid, 'rollover' => (($options['rollover'] && $options['url'])?$options['rollover']:false))) ?>

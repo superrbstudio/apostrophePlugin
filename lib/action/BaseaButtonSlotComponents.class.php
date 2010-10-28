@@ -80,9 +80,14 @@ class BaseaButtonSlotComponents extends BaseaSlotComponents
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
 
+		if ($this->options['link'] && gettype($this->options['link']) != 'boolean') 
+		{
+			$this->options['url'] = $this->options['link'];
+		}
+
     if (isset($data['url']))
     {
-      $this->options['link'] = $data['url'];
+      $this->options['url'] = $data['url'];
     }
 
     if ($this->options['title'])
