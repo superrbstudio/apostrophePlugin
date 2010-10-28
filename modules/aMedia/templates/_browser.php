@@ -29,7 +29,7 @@
 
   	<h4><?php echo __('Find in Media', null, 'apostrophe') ?></h4>
 
-		<div id="a-search-media" class="a-search media">
+		<div id="a-search-media" class="a-search a-search-sidebar media">
 		  <form method="GET" action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" class="a-search-form media" id="a-search-form-sidebar">
 				<div class="a-form-row a-hidden">
 					<?php echo $searchForm->renderHiddenFields() ?>

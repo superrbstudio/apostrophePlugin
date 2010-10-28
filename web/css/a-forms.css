@@ -33,6 +33,8 @@ font-family:Arial,sans-serif;
 padding: 2px 3px;
 }
 
+.a-form-row input.big { font-size: 18px; }
+
 .a-form-row.submit
 {
 margin-left: 120px;

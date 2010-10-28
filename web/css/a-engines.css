@@ -31,7 +31,7 @@ width: 100%;
 margin: 0 0 10px 0;
 }
 
-.a-subnav-wrapper .a-search-form
+.a-subnav-wrapper .a-search-form	
 {
 margin: 10px 0;
 float: left;
@@ -1575,8 +1575,6 @@ overflow: hidden;
 
 .a-admin-header
 {
-width: 100%;
-overflow: hidden;
 clear: both;
 background: none;
 background: transparent url(../apostropheBlogPlugin/images/a-blog-td-bg.png) 0 100% repeat-x;
@@ -1591,3 +1589,8 @@ z-index: 199;
 	padding: 0;
 	margin: 0 0 10px 0;
 }
+
+
+/* New Blog / New Event Box */
+
+.a-blog-admin-new-form .a-form-row.title { margin: 0 0 5px 0 !important; }

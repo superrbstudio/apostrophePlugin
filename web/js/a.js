@@ -81,12 +81,13 @@ function aConstructor()
 	}
 	
 	// Utility: Self Labeling Input Element 
-	// Example: <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#forgot_password_email_address', 'title' => 'Email', 'select' => true, 'focus' => true)) ?>
+	// Example: <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#input_id', 'title' => 'Input Label', 'select' => true, 'focus' => false, 'persisentLabel' => false )) ?>
 	// options['select'] = true -- Selects the input on focus
 	// options['focus'] = true -- Focuses the input on ready
+	// options['persisentLabel'] = true -- Keeps the label visible until the person starts typing
 	this.selfLabel = function(options)
 	{
-		aInputSelfLabel(options['selector'], options['title'], options['select'], options['focus']);
+		aInputSelfLabel(options['selector'], options['title'], options['select'], options['focus'], options['persistentLabel']);
 	};
 	
 	// Utility: Click an element once and convert it to a span
@@ -1004,7 +1005,7 @@ function aConstructor()
 			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
 
 			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed']);			
+				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus']);			
 			};	
 		};
 	}
@@ -1791,7 +1792,7 @@ function aConstructor()
 	{
 	}
 	
-	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed)
+	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus)
 	{	
 		// Menu must have an ID. 
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
@@ -1837,7 +1838,11 @@ function aConstructor()
 			button.addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.stop().show(); }
-			$(document).click(clickHandler); 			
+			$(document).click(clickHandler);
+			if (focus) 
+			{
+				$(focus).focus();
+			};
 			menu.trigger('afterOpen');
 		});
 
@@ -1856,6 +1861,9 @@ function aConstructor()
 		});
 
 	}	
+
+
+
 } 
 
 window.apostrophe = new aConstructor();
