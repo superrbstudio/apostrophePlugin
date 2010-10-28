@@ -104,7 +104,14 @@ class PluginaMediaItemTable extends Doctrine_Table
       aDoctrine::orderByList($query, $params['ids']);
       $query->andWhereIn("aMediaItem.id", $params['ids']);
     }
-    if (isset($params['tag']))
+    // New: at least one of the specified tags must be present. This is kind of a pain to check for because
+    // tags can be specified as arrays or a comma separated string
+    if (isset($params['allowed_tags']) && (strlen($params['allowed_tags']) || (is_array($params['allowed_tags']) && count($params['allowed_tags']))))
+    {
+      $query = TagTable::getObjectTaggedWithQuery(
+        'aMediaItem', $params['allowed_tags'], $query, array('nb_common_tags' => 1));
+    }
+    elseif (isset($params['tag']))
     {
       $query = TagTable::getObjectTaggedWithQuery(
         'aMediaItem', $params['tag'], $query);
@@ -127,7 +134,6 @@ class PluginaMediaItemTable extends Doctrine_Table
         $query->andWhere("0 <> 0");
       }
     }
-
     if (isset($params['allowed_categories']))
     {
       if (!count($params['allowed_categories']))

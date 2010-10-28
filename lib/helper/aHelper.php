@@ -319,7 +319,12 @@ function _a_get_assets_body($type, $assets)
         }
         else
         {
-          $fileContent = JSMin::minify($fileContent);
+          // Trailing carriage return makes behavior more consistent with
+          // JavaScript's behavior when loading separate files. For instance,
+          // a missing trailing semicolon should be tolerated to the same
+          // degree it would be with separate files. The minifier is not
+          // a lint tool and should not surprise you with breakage
+          $fileContent = JSMin::minify($fileContent) . "\n";
         }
         $content .= $fileContent;
       }

@@ -47,18 +47,26 @@ class BaseaSmartSlideshowSlotComponents extends BaseaSlotComponents
       // respect it
       return;
     }
-    // Tag join will break if we give it a name other than the model name in the query
-    $q = Doctrine::getTable('aMediaItem')->createQuery();
-    if (isset($value['categories_list']) && count($value['categories_list']) > 0)
+    // We have getBrowseQuery, so reuse it!
+    $params = array();
+    if (isset($value['categories_list']))
     {
-      $q->innerJoin('aMediaItem.Categories c');
-      $q->andWhereIn('c.id', $value['categories_list']);
+      $params['allowed_categories'] = $value['categories_list'];
     }
-    if(isset($value['tags_list']) && strlen($value['tags_list']) > 0)
+    if (isset($value['tags_list']))
     {
-      PluginTagTable::getObjectTaggedWithQuery('aMediaItem', $value['tags_list'], $q, array('nb_common_tags' => 1));
+      $params['allowed_tags'] = $value['tags_list'];
     }
-    $q->andWhere('(aMediaItem.view_is_secure IS NULL OR aMediaItem.view_is_secure IS FALSE) AND aMediaItem.type = ?', array('image'));
+    if (isset($this->options['constraints']))
+    {
+      foreach ($this->options['constraints'] as $k => $v)
+      {
+        $params[$k] = $v;
+      }
+    }
+    $params['type'] = 'image';
+    $q = aMediaItemTable::getBrowseQuery($params);
+    $q->andWhere('(aMediaItem.view_is_secure IS NULL OR aMediaItem.view_is_secure IS FALSE)');
     $q->limit($value['count']);
     $q->orderBy('aMediaItem.created_at DESC');
     $this->items = $q->execute();

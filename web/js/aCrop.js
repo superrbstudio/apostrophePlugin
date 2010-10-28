@@ -208,4 +208,4 @@ aCrop = {
 		$('.cropping-now').removeClass('cropping-now');
 		$(".a-crop-workspace").fadeOut();
   }
-}
+};
