@@ -8,7 +8,7 @@
 <?php endif ?>
 
 <li class="a-controls-item edit">
-<?php echo jq_link_to_function(isset($label) ? __($label, null, 'apostrophe') : __("edit", null, 'apostrophe'), "", 
+<?php echo jq_link_to_function(isset($label) ? __($label, null, 'apostrophe') : __("Edit", null, 'apostrophe'), "", 
 			array(
 				'id' => "a-slot-edit-$pageid-$name-$permid",
 				'class' => isset($class) ? $class : 'a-btn icon a-edit', 
