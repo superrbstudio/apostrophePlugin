@@ -116,7 +116,7 @@
 				<?php echo $form['view_is_secure']->render() ?>
 			</div>
 			<?php echo $form['view_is_secure']->renderError() ?>
-	    <div class="a-form-help">
+	    <div class="a-form-help a-hidden">
 				<!-- John, we'll want to do jake's new question mark floating help here instead. -->
 				<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
 	    </div>
@@ -184,6 +184,8 @@
 <?php if($sf_request->isXmlHttpRequest()): ?>
 	<?php a_js_call('apostrophe.mediaAjaxSubmitListener(?)', array('form' => '#a-media-edit-form-'.$i, 'descId' => $form['description']->renderId(), 'url' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))), 'update' => '#a-media-item-'.$item->getId().' .a-media-item-information')) ?>
 <?php endif ?>
+
+<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.a-form-row.permissions .a-form-field', 'opt1Label' => 'public', 'opt2Label' => 'hidden')) ?>
 
 <?php // include pkTagahead for the taggable widget ?>
 <?php use_javascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js') ?>

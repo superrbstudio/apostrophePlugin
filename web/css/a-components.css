@@ -891,6 +891,13 @@ color: #333;
 	float: left;
 }
 
+.a-inline-taggable-widget-tag-container .a-tag span.a-tag-count
+{
+	float: right;
+	margin-left: 2px;
+	color: #999;
+}
+
 .a-inline-taggable-widget-tag-container .a-tag.a-popular span
 {
 	color: #999;
