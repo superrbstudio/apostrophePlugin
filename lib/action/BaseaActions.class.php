@@ -454,17 +454,8 @@ class BaseaActions extends sfActions
     }
     
     // get the form and page tags
+		$this->stem = $this->page->isNew() ? 'a-create-page' : 'a-page-settings';
     $this->form = new aPageSettingsForm($this->page, $this->parent);
-  	$this->existingTags = $this->page->getTags();
-  	$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
-  	if (sfConfig::get('app_a_all_tags', true))
-  	{
-  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
-    }
-    else
-    {
-      $this->allTags = array();
-    }
 	
     $mainFormValid = false;
     

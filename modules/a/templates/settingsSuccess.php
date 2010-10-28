@@ -7,15 +7,12 @@
   $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
   $page = isset($page) ? $sf_data->getRaw('page') : null;
   $parent = isset($parent) ? $sf_data->getRaw('parent') : null;
-  $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : null;
-  $existingTags = isset($existingTags) ? $sf_data->getRaw('existingTags') : null;
-  $allTags = isset($existingTags) ? $sf_data->getRaw('allTags') : null;
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
 
 <?php $create = $page->isNew() ?>
-<?php $stem = $page->isNew() ? 'a-create-page' : 'a-page-settings' ?>
+<?php $stem = isset($stem) ? $sf_data->getRaw('stem') : ($page->isNew() ? 'a-create-page' : 'a-page-settings') ?>
 
 <?php slot('a-create-options') ?>
 <?php 
@@ -125,10 +122,9 @@
 		<div class="a-accordion-content">			
 			<div class="a-form-row keywords">
 				<div class="a-form-field">
-					<?php echo $form['tags'] ?>
+					<?php echo $form['tags']->render() ?>
 				</div>
 				<?php echo $form['tags']->renderError() ?>
-				<?php a_js_call('pkInlineTaggableWidget(?, ?)', '.tags-input', array('popular-tags' => $popularTags, 'existing-tags' => $existingTags, 'all-tags' => $allTags, 'tags-label' => 'Page Tags', 'commit-selector' => '#' . $stem . '-submit')) ?>
 			</div>
 			<div class="a-form-row meta-description">
 				<h4 class="a-block"><?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>

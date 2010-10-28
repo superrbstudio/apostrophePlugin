@@ -139,9 +139,20 @@ class BaseaPageSettingsForm extends aPageForm
     }
 
   	// Tags
-  	$tagstring = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
+  	$options['default'] = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
+		if (sfConfig::get('app_a_all_tags', true))
+		{
+			$options['all-tags'] = PluginTagTable::getAllTagNameWithCount();
+		}
+		else
+		{
+			sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+			$options['typeahead-url'] = url_for('taggableComplete/complete');
+		}
+		$options['popular-tags'] = PluginTagTable::getPopulars(null, array(), false);
+		$options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';
   	// class tag-input enabled for typeahead support
-  	$this->setWidget('tags', new sfWidgetFormInput(array('default' => $tagstring), array('class' => 'tags-input')));
+  	$this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
   	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
   	// Meta Description
