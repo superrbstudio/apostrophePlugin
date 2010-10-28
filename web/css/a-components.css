@@ -860,7 +860,8 @@ color: #333;
 /* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
 ------------------------------------------- */
 
-.a-inline-taggable-widget-tag-container
+.a-inline-taggable-widget-tag-container,
+.a-inline-taggable-widget
 {
 	overflow: hidden;
 	clear: both;
@@ -916,8 +917,6 @@ color: #333;
 	width: 100%;
 	text-indent: 0;
 }
-
-.a-inline-taggable-widget { overflow: hidden; clear:both; }
 
 /* Apostrophe Attribution
 -------------------------------------*/
