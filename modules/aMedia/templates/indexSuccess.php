@@ -19,20 +19,7 @@
 <?php end_slot() ?>
 
 <?php slot('a-media-library-controls') ?>
-	<?php $views = array(20, 50, 100) ?>
-	<?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
-	<ul class="a-ui a-controls a-media-footer-controls">
-		<li class="a-media-footer-item-count"><?php echo $pager->count() ?> items</li>
-		<li class="a-media-footer-separator a">|</li>
-		<li class="a-media-footer-view-label">view</li>
-		<?php foreach($views as $n): ?>
-			<li class="a-media-footer-view-option"><?php echo link_to($n, aUrl::addParams($pagerUrl, array('max_per_page' => $n)), array('class' => 'a-btn lite alt'.(($max_per_page == $n)?' a-active':''))) ?></li>
-		<?php endforeach ?>
-		<li class="a-media-footer-separator b">|</li>
-		<?php foreach($enabled_layouts as $enabled_layout): ?>
-			<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label '.(($enabled_layout['name'] == $layout['name']) ? 'a-active':''))) ?></li>
-		<?php endforeach; ?>
-	</ul>
+  <?php include_partial('aMedia/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl, 'max_per_page' => $max_per_page, 'enabled_layouts' => $enabled_layouts, 'layout' => $layout)) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library">
