@@ -223,6 +223,7 @@ margin: 0;
 {
 font-size: 11px;
 margin: 0;
+clear: both;
 }
 
 .a-admin-sidebar .section h4
@@ -284,7 +285,7 @@ padding: 2px;
 
 .a-admin-sidebar .section.event-date div.start_date
 {
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .a-admin-sidebar .section.event-date div.start_date,
@@ -293,6 +294,19 @@ padding: 2px;
 float: left;
 width: 100%;
 clear: both;
+}
+
+.a-admin-sidebar .section.event-date .a-form-row.all_day { float: right; width: auto; clear: right;}
+
+.a-admin-sidebar .section.event-date .a-form-row.all_day { line-height: 24px; }
+
+.a-admin-sidebar .section.event-date .a-form-row.all_day label,
+.a-admin-sidebar .section.event-date .a-form-row.all_day .a-form-field
+{
+	float: left;
+	width: auto;
+	margin-right: 5px;
+	line-height: 20px;
 }
 
 
@@ -332,82 +346,30 @@ border-radius: 3px;
 width: 104px
 }
 
-.a-admin-sidebar .a-inline-taggable-widget input
-{
-	width: 120px;
-	margin-right: 2px;
-}
+.a-admin-sidebar .a-inline-taggable-widget input { width: 120px; margin-right: 2px; }
+.a-admin-sidebar .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
 
-.a-admin-sidebar .a-inline-taggable-widget .a-btn.a-add
-{
-	font-size: 11px;
-	height:17px;
-	line-height:17px !important;
-}
-
-.a-admin-sidebar .section.tags .a-admin-form-field-tags
-{
-margin-top: 10px;
-}
-
-.a-admin-sidebar .section.tags #blog-tag-list
-{
-margin-top: 5px;
-}
+.a-admin-sidebar .section.tags .a-admin-form-field-tags { margin-top: 10px; }
+.a-admin-sidebar .section.tags #blog-tag-list { margin-top: 5px; }
 
 .a-admin-sidebar .section.author select,
-.a-admin-sidebar .section.template select
-{
-max-width: 94px;
-float: right;
-font-family: Arial, sans-serif;
-border: 1px solid #ddd;
-padding: 2px;
-}
+.a-admin-sidebar .section.template select { max-width: 94px; float: right; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 2px; }
 
 .a-admin-sidebar .section.comments label,
-.a-admin-sidebar .section.comments input
-{
-line-height: 20px;
-float: right;
-}
+.a-admin-sidebar .section.comments input { line-height: 20px; float: right; }
 
 .a-admin-sidebar .section.comments h4,
-.a-admin-sidebar .section.comments .allow_comments_toggle
-{
-float: left;
-width: 100%;
-clear: both;
-}
-
-.a-admin-sidebar .section.comments .allow_comments_toggle span
-{
-color: inherit;
-display: none;
-}
-
+.a-admin-sidebar .section.comments .allow_comments_toggle { float: left; width: 100%; clear: both; }
+.a-admin-sidebar .section.comments .allow_comments_toggle span { color: inherit; display: none; }
 .a-admin-sidebar .section.comments .allow_comments_toggle.enabled span.enabled,
-.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled
-{
-display: inline;
-}
+.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled { display: inline; }
+.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled { color: #600; }
 
-.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled
-{
-color: #600;
-}
+.a-admin-sidebar .section.delete a.a-btn { font-size: 11px !important; line-height: 20px; }
 
-.a-admin-sidebar .section.delete a.a-btn
-{
-	font-size: 11px !important;
-	line-height: 20px;
-}
+.a-admin-sidebar .option { display: none; margin: 10px 0 0; }
 
-.a-admin-sidebar .option
-{
-display: none;
-margin: 10px 0 0;
-}
+.a-admin-sidebar .option.post-published-at { margin: 0; }
 
 
 /* Media Engine Layout
@@ -1206,8 +1168,6 @@ li.a-media-selection-preview-item .jcrop-holder {
 	margin-top:0;
 	clear: both;
 }
-
-.a-blog-item .aRichText iframe { height: 375px; }
 
 .a-blog-item-title,
 .a-blog-item-meta,
@@ -2011,8 +1971,6 @@ padding: 0 !important;
 width: 121px;
 text-align: center;
 margin-left: -1px;
-height: 30px;
-line-height: 30px;
 margin-bottom: 10px;
 text-decoration: none !important;
 text-shadow:0 1px 0 rgba(255, 255, 255, 0.2) !important;
@@ -2023,9 +1981,6 @@ text-shadow:0 1px 0 rgba(255, 255, 255, 0.2) !important;
 	width: 45px;
 	margin-left: 3px;
 	text-align: center;	
-	padding: 0; 	
-	height: 30px;
-	line-height: 30px;
 	margin-bottom: 10px;
 	text-decoration: none !important;
 	text-shadow:0 1px 0 rgba(255, 255, 255, 0.2) !important;

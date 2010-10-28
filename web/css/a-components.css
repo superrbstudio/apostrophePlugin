@@ -875,6 +875,9 @@ color: #333;
 	margin-right: 5px;
 }
 
+.a-inline-taggable-widget-tag-container.a-popular-tags { margin-top: 5px; clear: both; }
+
+
 .a-inline-taggable-widget-tag-container.a-popular-tags .a-tag
 {
 	display: block;
@@ -914,6 +917,7 @@ color: #333;
 	text-indent: 0;
 }
 
+.a-inline-taggable-widget { overflow: hidden; clear:both; }
 
 /* Apostrophe Attribution
 -------------------------------------*/
