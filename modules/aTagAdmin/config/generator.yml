@@ -28,21 +28,21 @@ generator:
         object_actions: []
         actions:
           new:
-            label: New Tag
+            label: <span class="icon"></span> New Tag
             action: new
             params:
-              class: a-btn big icon a-add alt
+              class: a-btn big icon a-add
           clean:
-            label: Clean Tags
+            label: <span class="icon"></span> Clean Tags
             action: clean
             params:
-              class: a-btn big icon alt
+              class: a-btn big
       
       form:
         class: aTagForm
       
       filter: ~
-        
+              
       edit:
         title: Edit Tag
         

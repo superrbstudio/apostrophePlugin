@@ -31,4 +31,10 @@ class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguratio
     return 'aTagForm';
   }
 
+	// public function hasFilterForm()
+	// {
+	// 	return false;
+	// }
+	// 
+
 }

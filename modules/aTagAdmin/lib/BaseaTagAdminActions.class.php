@@ -26,6 +26,19 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     return $query;
   }
 
+	protected function buildQuery()
+  {
+    $tableMethod = $this->configuration->getTableMethod();
+    $query = Doctrine::getTable('Tag')->createQuery('r');
+
+    $this->addSortQuery($query);
+
+    $event = $this->dispatcher->filter(new sfEvent($this, 'admin.build_query'), $query);
+    $query = $event->getReturnValue();
+
+    return $query;
+  }
+
   public function executeClean(sfWebRequest $request)
   {
     $deleted = PluginTagTable::purgeOrphans();

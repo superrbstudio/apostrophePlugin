@@ -20,12 +20,6 @@ text-decoration: none;
 color: #333;
 }
 
-.a-admin td
-{
-margin: 0;
-vertical-align: middle;
-}
-
 .a-admin-content
 {
 float: left;
@@ -115,10 +109,7 @@ font-weight: bold !important;
 color: #f33;
 }
 
-.a-admin ul.a-admin-td-actions
-{
-list-style-type: none;
-}
+.a-admin ul.a-admin-td-actions { list-style-type: none; display: block; float: left;}
 
 .a-admin ul.a-admin-td-actions li
 {
@@ -126,7 +117,7 @@ list-style-type: none;
 display: block;
 float: left;
 width: auto;
-margin: 0 1px 5px 0;
+margin: 1px;
 }
 
 .a-admin ul.a-admin-actions
@@ -222,8 +213,11 @@ width: 100px;
 .a-admin-list th,
 .a-admin-list td
 {
+position: relative;
 padding: 8px 5px;
 border: none;
+margin: 0;
+vertical-align: middle;
 }
 
 .a-admin-list thead th
@@ -601,4 +595,18 @@ background-color: #fff;
 border: none;
 }
 
+/* Tag and Category Admin */
 
+.a-admin-generator.aTagAdmin .a-subnav-wrapper.admin,
+.a-admin-generator.aCategoryAdmin .a-subnav-wrapper.admin
+{
+	display: none;
+}
+
+.a-admin-generator.aTagAdmin .a-content,
+.a-admin-generator.aTagAdmin .a-admin-content,
+.a-admin-generator.aCategoryAdmin .a-content,
+.a-admin-generator.aCategoryAdmin .a-admin-content
+{
+	width: 100%;
+}
