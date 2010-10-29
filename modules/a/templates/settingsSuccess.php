@@ -138,9 +138,7 @@
 
   <?php if ($sf_user->hasCredential('cms_admin')): ?>
  		<hr/>
-  	<div class="a-options-section a-accordion">
-      <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin)) ?>
-  	</div>
+    <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin)) ?>
   <?php endif ?>
   
 	<?php if ($create): ?>

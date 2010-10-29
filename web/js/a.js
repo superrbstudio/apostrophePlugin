@@ -1445,7 +1445,8 @@ function aConstructor()
 						liMarkup += '<li class="a-extra"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</li>';
 					}
 					liMarkup += '<li class="a-apply-to-subpages"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</li>';
-					liMarkup += '<li class="a-actions"><a href="#" class="a-remove">' + options['removeLabel'] + '</a></li></ul></li>';
+					// PLEASE NOTE code is targeting a-close-small, if you change that class you have to change the selector elsewhere
+					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
 					li = $(liMarkup);
 					li.find('.a-who').text(who);
 					if (options['extra'])
@@ -1469,7 +1470,7 @@ function aConstructor()
 				rebuild();
 				return false;
 			});
-			list.find('.a-remove').click(function() {
+			list.find('.a-close-small').click(function() {
 				var id = $(this).parents('.a-permission-entry').data('id');
 				var user = data[id];
 				if (user['selected'] === 'remove')

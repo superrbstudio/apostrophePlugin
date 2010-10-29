@@ -426,12 +426,69 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui .a-form-row.meta-description .a-form-field textarea { width: 342px; }
 
+.a-ui h3.a-permissions-heading
+{
+	margin-bottom: 10px;
+}
+
 .a-ui .a-page-permissions-section
 {
 	float: left;
 	clear: both;
 	width: 100%;
 	margin-bottom: 10px;
+}
+
+.a-page-permissions h4
+{
+	font-size: 16px;
+}
+
+.a-page-permissions-section h5
+{
+	font-weight: normal;
+	font-size: 14px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.a-page-permissions .a-indented-fields
+{
+	padding-top: 10px;
+	padding-left: 20px;
+}
+
+.a-ui .a-page-permissions .a-apply-to-subpages-row label
+{
+	width: auto;
+	display: inline;
+	float: none;
+	padding-right: 5px;
+}
+
+.a-page-permissions-section .a-apply-to-subpages
+{
+	padding-left: 10px;
+}
+
+.a-ui .a-page-permissions .a-permissions-add
+{
+	clear: left;
+}
+
+.a-ui .a-page-permissions .a-edit-admin-lock
+{
+	padding-top: 10px;
+}
+
+.a-ui .a-page-permissions .a-edit-admin-lock input
+{
+	margin-right: 5px;
+}
+
+.a-ui .a-page-permissions .a-form-help
+{
+	padding-top: 10px;
 }
 
 .a-page-settings-section.page-submit { margin: 10px 0 5px 0; }
