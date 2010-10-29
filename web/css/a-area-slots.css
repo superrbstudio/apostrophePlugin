@@ -459,48 +459,48 @@ overflow: hidden;
 	Rick's design has an inline feel, with inputs in the middle of sentences, thus
 	various overrides to go inline where we can */
 
-.aBlog .a-form-row.by-type input
+.aBlog .a-slot-form .a-form-row.by-type input
 {
 	float: left;
 	padding-top: 5px;
 }
 
-.aBlog .a-form-row.by-type .a-form-row input
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row input
 {
 	float: none;
 }
 
-.aBlog .a-form-row
+.aBlog .a-slot-form .a-form-row
 {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-.aBlog .a-form-row.by-type label
+.aBlog .a-slot-form .a-form-row.by-type label
 {
 	padding-left: 10px;
 }
 
-.aBlog .a-form-row.by-type .a-form-row label
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row label
 {
 	padding-left: 0px;
 }
 
-.aBlog .a-form-row .a-form-row
+.aBlog .a-slot-form .a-form-row .a-form-row
 {
 	padding-left: 20px;
 }
 
-.aBlog .a-form-row.conjunction
+.aBlog .a-slot-form .a-form-row.conjunction
 {
 	font-weight: bold;
 }
 
 /* Our PE controls are not happy inline, pair them with labels and float left */
-.aBlog .a-form-row.by-type .a-form-row.categories label,
-.aBlog .a-form-row.by-type .a-form-row.categories .a-multiple-select,
-.aBlog .a-form-row.by-type .a-form-row.tags label,
-.aBlog .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.categories label,
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.categories .a-multiple-select,
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags label,
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
 	width: auto;
 	float: left;
