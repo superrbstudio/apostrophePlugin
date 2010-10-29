@@ -10,13 +10,19 @@
 
 	<div class="a-media-select a-search">
 	  <h3><?php echo a_('Search Services') ?></h3>
-	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services">
+	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services" id="a-media-search-services">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>
 
+			<div class="a-form-row service">
+				<div class='a-form-field'>
+					<?php echo $form['service']->render() ?>
+				</div>
+				<?php echo $form['service']->renderError() ?>
+			</div>
 	
-			<div class="a-form-row"> <?php // div is for page validation ?>
+			<div class="a-form-row search"> <?php // div is for page validation ?>
 				<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
     		<?php echo $form['q']->render(array('class' => 'a-search-field')) ?>					
 				<?php if (isset($q)): ?>
@@ -24,14 +30,6 @@
 				<?php else: ?>
 					<input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 				<?php endif ?>
-			</div>
-
-			<div class="a-form-row service">
-				<?php echo $form['service']->renderLabel() ?>
-				<div class='a-form-field'>
-					<?php echo $form['service']->render() ?>
-				</div>
-				<?php echo $form['service']->renderError() ?>
 			</div>
 
 	    <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
@@ -45,4 +43,4 @@
   <?php endif ?>
 </div>
 
-<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-media-search-services', 'title' => a_('Search'))) ?>
+<?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-media-search-services .a-search-field', 'title' => a_('Search'))) ?>

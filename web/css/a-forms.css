@@ -59,22 +59,10 @@ margin-left: 120px;
 	(I styled them horizontally here, if you hate this give me a
 	more specific class in the slideshow slot and the page settings form plase). -Tom */
 
-.a-form-row .a-form-field .radio_list li
-{
-	float: left;
-}
-
-.a-form-row .a-form-field .radio_list li label
-{
-	padding-left: 10px;
-	padding-right: 10px;
-	width: auto;
-}
-
-.a-form-row .a-form-field .radio_list input
-{
-	float: left;
-}
+.radio_list  { list-style: none; }
+.radio_list li,
+.radio_list input { float: left; }
+.radio_list li label { padding-left: 10px; padding-right: 10px; width: auto; }
 
 /* Apostrophe Multiple Select (aControls.js)
 -------------------------------------*/

@@ -932,18 +932,17 @@ float: left;
 #a-media-video-search-results li a
 {
 display: block;
+clear: both;
 }
 
-#a-media-video-search-pagination li
+#a-media-video-search-results li object,
+#a-media-video-search-results li iframe
 {
-display: inline;
-margin-right: 20px;
+	float: left;
+	clear: both;
 }
 
-.a-media-search-select
-{
-display: none;
-}
+.a-media-search-select { display: none; }
 
 #a-media-video-search-results li
 {
@@ -2149,3 +2148,15 @@ clear: none;
 {
 	display: none;
 }
+
+.a-search form.a-media-search-services { background: none; height: auto; position:relative; }
+.a-media-search-services { clear: both; }
+.a-media-search-services .a-controls { margin: 10px 0 0; }
+
+.a-media-search-services .a-form-row.service { padding: 22px 0 10px 0; }
+.a-media-search-services .a-form-row.service input { position: relative; top: 50%; }
+.a-media-search-services .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; text-indent: -9999px; margin-top: -22px; }
+.a-media-search-services .a-form-row.service label.aMediaSearchServices_service_Vimeo { background: url(../images/a-media-service-vimeo.png) top left no-repeat; }
+.a-media-search-services .a-form-row.service label.aMediaSearchServices_service_YouTube { background: url(../images/a-media-service-youtube.png) top left no-repeat; }
+
+.a-media-search-services .a-form-row.search { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background:none repeat scroll 0 0 #FFFFFF; height:20px; width: 250px; }

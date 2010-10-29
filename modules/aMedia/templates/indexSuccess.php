@@ -8,6 +8,7 @@
 ?>
 
 <?php use_helper('a') ?>
+
 <?php slot('body_class','a-media a-media-index') ?>
 
 <?php $type = aMediaTools::getAttribute('type') ?>
@@ -38,9 +39,11 @@
 			<?php endif ?>
 	<?php endif ?>
 
+	<?php if ($pager->count()): ?>
 	<div class="a-media-library-controls a-ui top">
 		<?php include_slot('a-media-library-controls') ?>
 	</div>
+	<?php endif ?>
 	
 	<?php if ($limitSizes): ?>
 		<div class="a-media-selection-contraints">
@@ -58,6 +61,10 @@
 	 <?php endfor ?>
 	</div>
 
+	<?php if (!$pager->count()): ?>
+		<h3>Oops! You don't have anything in your media library <br /> Do you want to <a href="/#upload-images" id="a-upload-some-images">add some media?</a></h3>
+		<?php a_js_call('$("#a-upload-some-images").click(function(event){ event.preventDefault(); $("#a-media-add").show(); });') ?>
+	<?php endif ?>
 
 	<div class="a-media-footer">
 		<div class="a-media-library-controls a-ui bottom">
@@ -66,7 +73,6 @@
 	</div>
 	
 </div>
-
 
 <?php // Media Sidebar is wrapped slot('a-subnav') ?>
 <?php include_component('aMedia', 'browser') ?>
