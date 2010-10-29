@@ -44,7 +44,7 @@
   <ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button">
     <li class="a-button-image">
     	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
-	    <?php if ($options['link']): ?>
+	    <?php if ($options['url']): ?>
 	      <?php echo '<a class="a-button-link" href="'.$options['url'].'">'.$embed.'</a>' ?>
 			<?php else: ?>
 	    	<?php echo $embed ?>			
@@ -52,7 +52,7 @@
     </li>
     <?php if ($options['title']): ?>
       <li class="a-button-title">				
-      	<?php if ($options['link']): ?>
+      	<?php if ($options['url']): ?>
 					<a class="a-button-link" href="<?php echo $options['url'] ?>"><?php echo $options['title'] ?></a>      		
 				<?php else: ?>
 					<?php echo $options['title'] ?>
@@ -83,7 +83,7 @@
 	<?php else: ?>
 		<?php if ($options['link'] || $options['url']): ?>
 	  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
-	      <li class="a-button-image">
+	      <li class="a-button-title">
 	        <?php echo link_to((($options['title'])?$options['title']:$options['url']), $options['url'], array('class' => 'a-button-link')) ?>
 	      </li>
 	    </ul>	
