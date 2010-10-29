@@ -1132,7 +1132,7 @@ li.a-media-selection-preview-item .jcrop-holder {
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator { border-right: 1px solid #ddd; background-color: #efefef; width: 1px; overflow: hidden; text-indent: -9999px; margin: 0 4px 2px; }
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.b { margin-left: 0;}
 .a-ui.a-media-library-controls .a-media-footer-controls .a-media-footer-separator.a { margin-right: 8px;}
-
+.a-ui.a-media-library-controls .a-controls { clear: none; }
 
 /* Blog Engine Styles
 -------------------------------------*/
@@ -1308,8 +1308,6 @@ margin: 10px 0 5px 0;
 .a-tag-sidebar .a-tag-sidebar-title.all-tags.open.over { background-position: -6px -60px; }
 
 .a-tag-sidebar-list.all-tags { display: none; }
-
-
 
 /* 26. Shared Tag Suggestions
 -------------------------------------*/
