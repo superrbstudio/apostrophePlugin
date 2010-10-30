@@ -10,7 +10,7 @@
 
 	<div class="a-media-select a-search">
 	  <h3><?php echo a_('Search Services') ?></h3>
-	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services" id="a-media-search-services">
+	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services a-media-services-form" id="a-media-search-services">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>

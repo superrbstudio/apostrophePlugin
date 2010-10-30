@@ -753,9 +753,6 @@ padding: 0;
 
 .a-media-video-heading { float: left; display: inline; position: relative; font-size: 14px; }
 
-.a-account-preview-recent { padding-bottom: 10px; }
-.a-account-preview-recent li { float: left; padding: 10px; }
-
 .a-media-thumb-link { position: relative; float: left; line-height: 0; }
 .a-media-thumb-link:hover { text-decoration: none; }
 .a-media-thumb-link img { position: relative; z-index: 0; border: 0; }
@@ -1552,6 +1549,8 @@ width: 100%;
 	margin: 0 0 10px 0;
 }
 
+.a-ui.a-admin-header .a-btn.a-media-link-accounts { margin: 6px 0 0; }
+
 
 /* New Blog / New Event Box */
 .a-blog-admin-new-form .a-form-row.title { margin: 0 0 5px 0 !important; }
@@ -2153,10 +2152,21 @@ clear: none;
 .a-media-search-services { clear: both; }
 .a-media-search-services .a-controls { margin: 10px 0 0; }
 
-.a-media-search-services .a-form-row.service { padding: 22px 0 10px 0; }
-.a-media-search-services .a-form-row.service input { position: relative; top: 50%; }
-.a-media-search-services .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; text-indent: -9999px; margin-top: -22px; }
-.a-media-search-services .a-form-row.service label.aMediaSearchServices_service_Vimeo { background: url(../images/a-media-service-vimeo.png) top left no-repeat; }
-.a-media-search-services .a-form-row.service label.aMediaSearchServices_service_YouTube { background: url(../images/a-media-service-youtube.png) top left no-repeat; }
+.a-media-services-form .a-form-row.service { padding: 22px 0 10px 0; }
+.a-media-services-form .a-form-row.service input { position: relative; top: 50%; }
+.a-media-services-form .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; text-indent: -9999px; margin-top: -22px; }
+.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Vimeo,
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Vimeo { background: url(../images/a-media-service-vimeo.png) top left no-repeat; }
+.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_YouTube,
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_YouTube { background: url(../images/a-media-service-youtube.png) top left no-repeat; }
 
 .a-media-search-services .a-form-row.search { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background:none repeat scroll 0 0 #FFFFFF; height:20px; width: 250px; }
+
+
+.a-account-preview-recent { padding-bottom: 10px; }
+.a-account-preview-recent li { float: left; padding-right: 10px; }
+
+.a-account-preview-confirm
+{
+	clear: both;
+}
