@@ -56,8 +56,8 @@
 	  function(slotId)
 	  {
 	    <?php # FCK doesn't do this automatically on an AJAX "form" submit on every major browser ?>
-	    var value = FCKeditorAPI.GetInstance('slotform-<?php echo $id ?>-description').GetXHTML();
-	    $('#slotform-<?php echo $id ?>-description').val(value);
+	    var value = FCKeditorAPI.GetInstance('slot-form-<?php echo $id ?>-description').GetXHTML();
+	    $('#slot-form-<?php echo $id ?>-description').val(value);
 	  }
 	);
 	</script>
