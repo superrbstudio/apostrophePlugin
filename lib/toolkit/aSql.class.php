@@ -70,7 +70,7 @@ class aSql
     // This page needs to be the last child of its parent
     if(is_null($parentId))
     {
-      list($lft, $rgt, $level) = array(0,1,0);
+      list($lft, $rgt, $level) = array(0,1,-1);
     }
     else
     {
@@ -98,7 +98,7 @@ class aSql
 
     $this->insertArea($info['id'], 'title', array(array('type' => 'aText', 'value' => htmlentities($title))));
 
-    return $info;
+    return $info;    
   }
 
 
@@ -132,7 +132,7 @@ class aSql
           $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $mediaId, 'slot_id' => $slotId));
         }
       }
-      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') || ($slotInfo['type'] === 'callout'))
+      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton'))
       {
         $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $slotInfo['mediaId'], 'slot_id' => $slotId));
       }
@@ -157,7 +157,7 @@ class aSql
     $a->id = $this->lastInsertId();
   }
 
-  public function fastSaveTags($taggable_class, $taggable_id , $tags)
+  public function fastSaveTags($taggable_model, $taggable_id , $tags)
   {
     // It would be faster to do fewer queries by caching what we know so far about tags
     foreach ($tags as $tag)

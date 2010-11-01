@@ -30,10 +30,13 @@ class aImporter
     foreach ($this->pageFiles as $id => $info)
     {
       $file = $this->pagesDir . "/$id.xml";
-      $root = simplexml_load_file($file);
-      if ($root)
+      if(file_exists($file))
       {
-        $this->parseAreas($root, $info['id']);
+        $root = simplexml_load_file($file);
+        if ($root)
+        {
+          $this->parseAreas($root, $info['id']);
+        }
       }
     }
   }
@@ -42,7 +45,7 @@ class aImporter
   {
     $info = array();
     $info['slug'] = $root['slug']->__toString();
-    $info['template'] = $root['template']->__toString();
+    $info['template'] = isset($root['template']) ? $root['template']->__toString() : 'default';
     $title = $root['title']->__toString();
 
     $this->sql->insertPage($info, $title, $parentId);
@@ -78,10 +81,15 @@ class aImporter
           $method = 'parseSlot' . $type;
           if (method_exists($this, $method))
           {
-            $slotInfos = array_merge($slotInfos, $this->$method($slot));
+            $slotImport = $this->$method($slot);
+            if($slotImport)
+            {
+              $slotInfos = array_merge($slotInfos, $this->$method($slot));
+            }
           }
         }
-        $this->sql->insertArea($pageId, $name, $slotInfos);
+        if($slotInfos)
+          $this->sql->insertArea($pageId, $name, $slotInfos);
       }
     }
   }
@@ -101,6 +109,33 @@ class aImporter
     $info['value'] = aHtml::simplify($slot->value->__toString());
 
     return array($info);
+  }
+
+  protected function parseSlotaImage(SimpleXMLElement $slot)
+  {
+    $info = array();
+    $info['type'] = 'aImage';
+    $ids = $this->getMediaItems($slot);
+    $info['value'] = $ids;
+    if(count($ids))
+      return array($info);
+
+    return false;
+  }
+
+  public function getMediaItems(SimpleXMLElement $slot)
+  {
+    $ids = array();
+    foreach($slot->mediaItems as $item)
+    {
+      $id = $this->findOrAddMediaItem($item['src']);
+      if($id) 
+      {
+        $ids[] = $id;
+      }
+    }
+
+    return $ids;
   }
 
   protected function parseSlotForeignHtml(SimpleXMLElement $slot)
@@ -201,7 +236,7 @@ class aImporter
           {
             if (!copy($src, $tmpFile))
             {
-              throw new sfException('Could not copy file: %s', $src);
+              throw new sfException(sprintf('Could not copy file: %s', $src));
             }
             if (!$mediaItem->saveFile($tmpFile))
             {
@@ -234,6 +269,8 @@ class aImporter
     {
       return $mediaId;
     }
+
+    return false;
   }
 
 }

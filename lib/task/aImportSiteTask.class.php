@@ -2,9 +2,6 @@
 
 /*
  *
- * THIS DOESN'T WORK YET. Work in progress. Borrowed bits from a client project where we did
- * something similar. Need to refactor.
- *
  * This file is part of Apostrophe
  * (c) 2009 P'unk Avenue LLC, www.punkave.com
  */
