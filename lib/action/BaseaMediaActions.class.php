@@ -769,7 +769,7 @@ class BaseaMediaActions extends aEngineActions
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
 
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false);
+		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
