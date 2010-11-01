@@ -44,10 +44,13 @@ EOF;
 
   protected function execute($args = array(), $options = array())
   {
-    $conn = 'doctrine';
-    
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getDoctrineConnection();
+
+    if(!$this->askConfirmation("Importing any content will erase any existing content, are you sure? [y/N]", 'QUESTION_LARGE', false))
+    {
+      die("Import CANCELLED.  No changes made.\n");
+    }
 
     $connection->dropDatabase();
     $connection->createDatabase();
