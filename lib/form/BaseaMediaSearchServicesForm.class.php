@@ -11,7 +11,7 @@ class BaseaMediaSearchServicesForm extends BaseForm
   public function configure()
   {
     $services = aMediaTools::getEmbedServiceNames();
-    $this->setWidget('service', new aWidgetFormChoice(array('choices' => array_combine($services, $services), 'expanded' => true)));
+    $this->setWidget('service', new aWidgetFormChoice(array('choices' => array_combine($services, $services), 'expanded' => true, 'default' => 'YouTube')));
     $this->setValidator('service', new sfValidatorChoice(array('choices' => $services)));
     $this->setWidget('q', new sfWidgetFormInput(array(),array('class'=>'a-search-video a-search-form')));
     $this->setValidator('q', new sfValidatorString(array('required' => true)));

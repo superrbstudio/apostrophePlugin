@@ -29,19 +29,17 @@
 		    <?php endforeach ?>
 		  </ul>
 		<?php endif ?>
-		<h4><?php echo a_('Add Linked Account') ?></h4>
 		<form id="a-media-add-linked-account" method="POST" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-media-services-form">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
-			</div>
-		
+			</div>		
 			<div class="a-form-row service">
 				<div class='a-form-field'>
 					<?php echo $form['service']->render() ?>
 				</div>
 				<?php echo $form['service']->renderError() ?>
 			</div>
-		
+			<h4><?php echo a_('Add Linked Account') ?></h4>
 			<div class="a-form-row username">
 				<div class='a-form-field'>
 					<?php echo $form['username']->render() ?>
@@ -50,7 +48,7 @@
 			</div>
 		
 		  <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
-	      <li><input type="submit" value="<?php echo __('Add', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
+	      <li><input type="submit" value="<?php echo __('Preview', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 	      <li>
 	  			<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
 	  		</li>

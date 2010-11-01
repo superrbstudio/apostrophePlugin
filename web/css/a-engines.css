@@ -139,7 +139,8 @@ color: #666 !important;
 	color: #000;
 }
 
-.a-admin-sidebar hr
+.a-admin-sidebar hr,
+hr.a-hr
 {
 display: block;
 width: 100%;
@@ -149,6 +150,8 @@ background: rgba(255,255,255,0.35);
 border-top: 1px inset rgba(0,0,0,0.1);
 border-right: 1px inset rgba(0,0,0,0.1);
 margin: 10px 0;
+float: left;
+clear: both;
 }
 
 .a-admin-sidebar .a-controls
@@ -157,9 +160,7 @@ margin: 5px 0 0;
 }
 
 .a-admin-sidebar .a-date-wrapper { margin-right: 3px; }
-
 .a-admin-sidebar .a-date-wrapper img { margin-left: -20px; }
-
 .a-admin-sidebar .a-time-wrapper input,
 .a-admin-sidebar .a-date-wrapper input
 {
@@ -2169,4 +2170,23 @@ clear: none;
 .a-account-preview-confirm
 {
 	clear: both;
+}
+
+.a-account-preview-name
+{
+	margin: 5px 0;
+	clear: both;
+}
+
+.a-account-preview-name span
+{
+	display: block;
+	color: #888;
+}
+
+.a-account-preview-description
+{
+	font-weight: normal;
+	color: #888;
+	margin: 0 0 5px;
 }

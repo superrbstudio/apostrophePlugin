@@ -9,6 +9,6 @@
 		<?php endif ?>
 	</ul>
 	<?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
-		<a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon a-users lite mini a-align-right a-media-link-accounts"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a>
+		<a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon a-users lite mini a-align-right a-media-link-accounts alt"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a>
 	<?php endif ?>
 </div>

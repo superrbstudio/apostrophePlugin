@@ -9,8 +9,9 @@
 
 <?php use_helper('a') ?>
 
-<h4 class="a-account-preview-name"><?php echo a_entities($name) ?></h4>
-<div class="a-account-preview-description"><?php echo aHtml::textToHtml($description) ?></div>
+<hr class="a-hr"/>
+<h4 class="a-account-preview-name">Account: <span><?php echo a_entities($name) ?></span></h4>
+<h5 class="a-account-preview-description"><?php echo $description ?></h5>
 <ul class="a-account-preview-recent">
   <?php foreach ($results['results'] as $result): ?>
     <li><?php echo $service->embed($result['id'], aMediaTools::getOption('video_account_preview_width'), aMediaTools::getOption('video_account_preview_height')) ?></li>
@@ -18,11 +19,11 @@
 </ul>
 
 <div class="a-account-preview-confirm">
-<p>
+<p class="a-help">
 Automatically add all new media in this account? If you click OK, all new media added to this account will automatically be added to the media repository on an ongoing basis.
 </p>
-<ul class="a-controls">
-  <li><a href="#" id="a-account-preview-ok" class="">OK</a></li>
-  <li><a href="#" id="a-account-preview-cancel" class="a-btn a-cancel">Cancel</a></li>
+<ul class="a-ui a-controls">
+  <li><?php echo a_js_button(a_('Add This Account'), array('big', 'icon', 'a-add')) ?></li>
+  <li><?php echo a_js_button(a_('Cancel'), array('big', 'icon', 'a-cancel'), 'a-account-preview-cancel') ?></li>
 </ul>
 </div>

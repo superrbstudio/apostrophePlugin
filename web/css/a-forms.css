@@ -43,9 +43,9 @@ margin-left: 120px;
 .a-form-row.submit .a-btn { height: auto; }
 
 .a-form-row .a-form-field,
-.a-form-row .a-form-error,
-.a-form-row .a-form-help { float: left; }
+.a-form-row .a-form-error { float: left; }
 
+.a-help,
 .a-form-row.help,
 .a-form-row .help,
 .a-form-row .a-form-help { float: left; clear: both; font-size: 11px; color: #888; }
@@ -110,10 +110,11 @@ line-height: 20px;
 
 .categories .a-multiple-select-item { width: 100%; }
 
-
 /* Apostrophe Submit / Cancel 
 -------------------------------------*/
 
+.a-ui input.a-submit,
+.a-ui input.a-cancel,
 input.a-submit,
 input.a-cancel {
 float: left;
@@ -121,10 +122,10 @@ position: relative;
 color: #fff;
 font: 12px/normal arial, sans-serif;
 padding: 0px 4px;
-/*z-index: 2;*/ /* TODO: Figure out why this is here */
 width: auto;
 cursor: pointer;
 min-height: 20px;
+height: auto;
 }
 
 input.a-submit:hover { background-color: #888!important; cursor: pointer; }
