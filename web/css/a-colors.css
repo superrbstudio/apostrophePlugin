@@ -2,7 +2,7 @@
 -------------------------------------*/
 
 /* Apostrophe Mark - Color */
-.a-ui.a-global-toolbar .the-apostrophe { background-color: rgb(255,150,0); background-color: rgba(255,150,0,0.75); }
+.a-ui.a-global-toolbar .the-apostrophe { background-color: rgb(245,135,0); background-color: rgba(245,135,0,0.85); }
 
 /* Apostrophe Button - Color */
 .a-ui .a-btn,
@@ -10,23 +10,21 @@
 .a-ui .a-cancel
 { 
 	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-	background-color: rgb(255,150,0);
+	background-color: rgb(245,135,0);
 	background-color: rgba(245,135,0,0.85);	
 	background-image: -moz-linear-gradient(center bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)));
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(255,255,255,0)), color-stop(1, rgba(255,255,255,0.4)));
 	border:1px solid rgba(20,20,20,0.2);
 }
 
-.a-ui .a-btn.lite { color: #00f;}
-
-.a-media-footer-button:hover
-{
-	background-color: rgb(255,150,0);
-	background-color: rgba(255,150,0,0.75);	
-}
-
 /* Apostrophe Button - Border Radius */
-.a-btn, .a-submit, .a-cancel, .a-admin-list th a { -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }
+.a-btn, 
+.a-submit, 
+.a-cancel, 
+.a-admin-list th a 
+{ 
+	-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; 
+}
 
 /* Apostrophe Button - Hover & Focus */
 .a-btn:hover,
@@ -35,48 +33,56 @@
 .a-submit:focus,
 .the-apostrophe:hover
 { 
-color: #fff !important;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-text-decoration: none !important;
-background-color: #999 !important;
+	color: #fff;
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	text-decoration: none;
+	background-color: #999;
 }
-
-.a-cancel:hover,
-.a-cancel:focus,
-{ 
-color: #fff !important;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-background-color: #666 !important;
-text-decoration: none !important;
-}
-
 
 /* Apostrophe Button - Active */
 .a-btn:active
 { 
-color: #eee !important;
-text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-background-color: #111 !important;
-text-decoration: none !important;
+	color: #eee;
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	background-color: #111;
+	text-decoration: none;
 }
 
-.a-btn.lite.a-active
-{
-	color: #111;
-	background-color: #ccc;
-}
+.a-ui .a-btn.lite { color: #00f;}
+.a-ui .a-btn.lite.a-active { color: #111; background-color: #ccc; }
 
+.a-media-footer-button:hover { background-color: rgb(245,135,0); }
+
+.a-cancel:hover,
+.a-cancel:focus,
+{ 
+	color: #fff;
+	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+	background-color: #666;
+	text-decoration: none;
+}
 
 /* Apostrophe Button - Alternative Color */
+.a-ui .a-btn.alt,
+.a-ui .a-submit.alt,
+.a-ui .a-cancel.alt,
 .a-btn.alt,
 .a-submit.alt,
-.a-cancel.alt
+.a-cancel.alt,
+.a-history-browser
 {
-color: #444;
-text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+	color: #444;
+	text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+	border:1px solid rgb(255,150,20);
 }
 
 /* Apostrophe Button - Alternative Hover & Focus */
+.a-ui .a-btn.alt:hover,
+.a-ui .a-submit.alt:hover,
+.a-ui .a-cancel.alt:hover,
+.a-ui .a-btn.alt:focus,
+.a-ui .a-submit.alt:focus,
+.a-ui .a-cancel.alt:focus,
 .a-btn.alt:hover,
 .a-submit.alt:hover,
 .a-cancel.alt:hover,
@@ -84,11 +90,9 @@ text-shadow: 0 1px 0px rgba(255,255,255,255.20);
 .a-submit.alt:focus,
 .a-cancel.alt:focus
 { /* Button Styles */
-background-color: #E0E0E0;
+	color: #000;
+	background-color: #E0E0E0;
 }
-
-/* Apostrophe Button - Alternative Border Color */
-.a-btn.alt, .a-submit.alt, .a-cancel.alt, .a-history-browser { border:1px solid rgb(255,150,20) }
 
 /* Apostrophe Admin Link Color */
 .a-attribution a,
@@ -96,5 +100,5 @@ background-color: #E0E0E0;
 .a-global-toolbar .a-logged-in-user span,
 #a-personal-settings-heading span
 {
-color: rgb(255,150,0);
+	color: rgb(255,150,0);
 }

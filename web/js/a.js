@@ -1716,7 +1716,7 @@ function aConstructor()
 		if (n > 0)
 		{
 			// TODO: this is not sensitive enough to nested areas
-			up.parent().show();
+			up.parent().removeClass('a-hidden');
 			up.unbind('click').click(function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
@@ -1727,11 +1727,11 @@ function aConstructor()
 		}
 		else
 		{
-		  up.parent().hide();
+		  up.parent().addClass('a-hidden');
 		}
 		if (n < (slots.length - 1))
 		{
-			down.parent().show();
+			down.parent().removeClass('a-hidden');
 			down.unbind('click').click(function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
@@ -1742,7 +1742,7 @@ function aConstructor()
 		}
 		else
 		{
-			down.parent().hide();
+			down.parent().addClass('a-hidden');
 		}
 	}
 	
