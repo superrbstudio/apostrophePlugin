@@ -19,9 +19,7 @@
 </ul>
 
 <div class="a-account-preview-confirm">
-<p class="a-help">
-Automatically add all new media in this account? If you click OK, all new media added to this account will automatically be added to the media repository on an ongoing basis.
-</p>
+<p class="a-help">Add this account so that all new media associated with it will automatically be added to the media repository on an ongoing basis.</p>
 <ul class="a-ui a-controls">
   <li><?php echo a_js_button(a_('Add This Account'), array('big', 'icon', 'a-add')) ?></li>
   <li><?php echo a_js_button(a_('Cancel'), array('big', 'icon', 'a-cancel'), 'a-account-preview-cancel') ?></li>

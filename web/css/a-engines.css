@@ -2166,27 +2166,10 @@ clear: none;
 
 .a-account-preview-recent { padding-bottom: 10px; }
 .a-account-preview-recent li { float: left; padding-right: 10px; }
+.a-account-preview-confirm { clear: both; }
+.a-account-preview-name { margin: 5px 0; clear: both; }
+.a-account-preview-name span { display: block; color: #888; }
+.a-account-preview-description { font-weight: normal; color: #888; margin: 0 0 5px; }
+.a-account-preview-confirm .a-help { margin: 5px 0; width: 66%; clear: both;}
 
-.a-account-preview-confirm
-{
-	clear: both;
-}
-
-.a-account-preview-name
-{
-	margin: 5px 0;
-	clear: both;
-}
-
-.a-account-preview-name span
-{
-	display: block;
-	color: #888;
-}
-
-.a-account-preview-description
-{
-	font-weight: normal;
-	color: #888;
-	margin: 0 0 5px;
-}
+.a-media-search-services .a-form-row.cancel { width: auto; clear: none; float: left; margin-left: 10px; }

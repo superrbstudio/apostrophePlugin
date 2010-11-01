@@ -10,7 +10,7 @@
 
 	<div class="a-media-select a-search">
 	  <h3><?php echo a_('Search Services') ?></h3>
-	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services a-media-services-form" id="a-media-search-services">
+	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services a-media-services-form a-ui" id="a-media-search-services">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>
@@ -32,9 +32,9 @@
 				<?php endif ?>
 			</div>
 
-	    <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
-	      <li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel big")) ?></li>
-	    </ul>	
+	    <div class="a-form-row cancel" id="a-media-video-add-by-embed-form-submit">
+				<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
+	    </div>	
 	  </form>
 	
 	</div>
