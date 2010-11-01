@@ -798,11 +798,13 @@ function aConstructor()
 				previewUrl, 
 				$('#a-media-add-linked-account').serialize(),
 				function() {
-					$('#a-account-preview-ok').click(function() {
+					$('#a-account-preview-ok').click(function(event) {
+						event.preventDefault();
 						ready = true;
 						form.submit();
 					});
-					$('#a-account-preview-cancel').click(function() {
+					$('#a-account-preview-cancel').click(function(event) {
+						event.preventDefault();
 						$('#a-media-account-preview-wrapper').hide();
 						return false;
 					});

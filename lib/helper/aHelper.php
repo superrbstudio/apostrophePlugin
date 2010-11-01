@@ -463,13 +463,17 @@ function a_link_button($label, $symfonyUrl, $options = array(), $classes = array
   return a_button($label, url_for($symfonyUrl, $options), $classes, $id);
 }
 
-function a_button($label, $url, $classes = array(), $id = null, $name = null)
+function a_button($label, $url, $classes = array(), $id = null, $name = null, $title = null)
 {
   $hasIcon = in_array('icon', $classes);
   $s = '<a ';
   if (!is_null($name))
   {
     $s .= 'name="' . a_entities($name) . '" ';
+  }
+  if (!is_null($title))
+  {
+    $s .= 'title="' . a_entities($title) . '" ';
   }
   $s .= 'href="' . a_entities($url) . '" ';
   if (!is_null($id))

@@ -11,25 +11,7 @@
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 
-		<?php if (count($accounts)): ?>
-		  <p>
-		    <?php echo a_('All new items in these accounts are automatically added to the media repository on a scheduled basis.') ?>
-		  </p>
-		  <ul class="a-ui a-media-linked-accounts">
-		    <?php foreach ($accounts as $account): ?>
-		      <li>
-		        <ul>
-		          <li class="a-service a-<?php echo $account->service ?>"><?php echo $account->service ?></li>
-		          <li class="a-account"><?php echo a_entities($account->username) ?></li>
-		          <?php if (isset($form)): ?>
-		            <li class="a-actions"><?php echo link_to(a_('Remove'), 'aMedia/linkRemoveAccount?id=' . $account->id) ?></li>
-		          <?php endif ?>
-		        </ul>
-		      </li>
-		    <?php endforeach ?>
-		  </ul>
-		<?php endif ?>
-		<form id="a-media-add-linked-account" method="POST" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-media-services-form">
+		<form id="a-media-add-linked-account" method="POST" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-media-services-form a-media-linked-accounts-form">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>		
@@ -54,6 +36,26 @@
 	  		</li>
 	    </ul>
 		</form>
+	
+		<?php if (count($accounts)): ?>
+		  <ul class="a-ui a-media-linked-accounts">
+					<li><h5>Your Accounts</h5></li>
+		    <?php foreach ($accounts as $account): ?>
+		      <li>
+		        <ul class="a-media-linked-account">
+		          <li class="a-service a-<?php echo $account->service ?>"><?php echo $account->service ?></li>
+		          <li class="a-account"><?php echo a_entities($account->username) ?></li>
+		          <?php if (isset($form)): ?>
+		            <li class="a-actions"><?php echo a_button(a_('Remove'), 'aMedia/linkRemoveAccount?id=' . $account->id, array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
+		          <?php endif ?>
+		        </ul>
+		      </li>
+		    <?php endforeach ?>
+				<li class="a-help">
+				  <?php echo a_('All new items in these accounts are automatically added to the media repository on a scheduled basis.') ?>
+				</li>		
+		  </ul>
+		<?php endif ?>
 	
 		<div id="a-media-account-preview-wrapper"></div><?php // I am an AJAX target ?>
 	

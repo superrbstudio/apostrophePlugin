@@ -45,6 +45,10 @@ margin-left: 120px;
 .a-form-row .a-form-field,
 .a-form-row .a-form-error { float: left; }
 
+.a-ui .a-help,
+.a-ui .a-form-row.help,
+.a-ui .a-form-row .help,
+.a-ui .a-form-row .a-form-help,
 .a-help,
 .a-form-row.help,
 .a-form-row .help,
