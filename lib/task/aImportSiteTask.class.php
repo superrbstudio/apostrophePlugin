@@ -52,20 +52,6 @@ EOF;
       die("Import CANCELLED.  No changes made.\n");
     }
 
-    $connection->dropDatabase();
-    $connection->createDatabase();
-
-    $task = new sfDoctrineBuildSqlTask($this->dispatcher, $this->formatter);
-    $task->setCommandApplication($this->commandApplication);
-    $task->setConfiguration($this->configuration);
-    $ret = $task->run();
-
-    $task = new sfDoctrineInsertSqlTask($this->dispatcher, $this->formatter);
-    $task->setCommandApplication($this->commandApplication);
-    $task->setConfiguration($this->configuration);
-    $ret = $task->run();
-    
-
     if(is_null($options['file']))
     {
       $rootDir = $this->configuration->getRootDir();

@@ -22,6 +22,7 @@ class aImporter
 
   public function import()
   {
+    $this->sql->deleteNonAdminPages();
     foreach ($this->root->Page as $page)
     {
       $this->parsePage($page);
@@ -114,11 +115,12 @@ class aImporter
   protected function parseSlotaImage(SimpleXMLElement $slot)
   {
     $info = array();
-    $info['type'] = 'aImage';
-    $ids = $this->getMediaItems($slot);
-    $info['value'] = $ids;
-    if(count($ids))
-      return array($info);
+    foreach($this->getMediaItems($slot) as $id)
+    {
+      $info[] = array('type' => 'aImage', 'mediaId' => $id);
+    }
+    if(count($info))
+      return $info;
 
     return false;
   }
@@ -126,7 +128,7 @@ class aImporter
   public function getMediaItems(SimpleXMLElement $slot)
   {
     $ids = array();
-    foreach($slot->mediaItems as $item)
+    foreach($slot->MediaItem as $item)
     {
       $id = $this->findOrAddMediaItem($item['src']);
       if($id) 

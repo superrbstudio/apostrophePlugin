@@ -14,6 +14,12 @@ class aSql
     return $this->pdo;
   }
 
+  public function deleteNonAdminPages()
+  {
+    $sql = 'DELETE FROM a_page where admin IS FALSE AND slug <> :g';
+    $this->query($sql, array('g' => 'global'));
+  }
+
   public function query($s, $params = array())
   {
     $pdo = $this->getPDO();
