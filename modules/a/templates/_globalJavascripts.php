@@ -11,7 +11,7 @@
 <?php endif ?>
 
 <?php // A handful of fundamental improvements like a-autosubmit for anchor buttons ?>
-<?php a_js_call('apostrophe.setMessages(?)', array('updating' => 'Updating...', 'updated' => 'Updated')) ?>
+<?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'))) ?>
 <?php a_js_call('apostrophe.smartCSS()') ?>
 <?php // End of body - time to emit all of the queued JS as one script block ?>
 <?php a_include_js_calls() ?>
