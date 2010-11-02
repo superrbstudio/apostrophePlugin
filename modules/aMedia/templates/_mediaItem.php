@@ -9,21 +9,32 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkAttributes = "/#select-media-item"; ?>
+    <?php $linkHref = "/#select-media-item"; ?>
+    <?php $multipleStyleSelect = true ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkAttributes = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $multipleStyleSelect = false ?>
   <?php endif ?>
 <?php else: ?>
-  <?php $linkAttributes = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
+  <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
 <?php endif ?>
 
 <div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $mediaItem->getFormat() ?> a-type-<?php echo $mediaItem->getType() ?><?php echo ($mediaItem->getEmbeddable()) ? ' a-embedded-item':'' ?>">
-
+  
+  <?php // Selecting a video or other embeddable is currently very confusing. You wind up playing the video unless ?>
+  <?php // you click the title. Address that with an explicit select button. I also fixed the overlay text in the case ?>
+  <?php // where it plays rather than selecting (below) ?>
+  <?php if ((!$multipleStyleSelect) && ($mediaItem->getEmbeddable())): ?>
+    <div class="a-media-select-button">
+      <?php echo a_button('Select', $linkHref, array('title' => a_('Click to select this item.'))) ?>
+    </div>
+  <?php endif ?>
+  
 	<?php if (!isset($layout['showSuccess']) || ($layout['showSuccess'] && !$mediaItem->getEmbeddable())): ?>
 	<div class="a-media-item-thumbnail">
-	  <a href="<?php echo $linkAttributes ?>" class="a-media-thumb-link" id="<?php echo $domId ?>">
+	  <a href="<?php echo $linkHref ?>" class="a-media-thumb-link" id="<?php echo $domId ?>">
 
 			<?php // Embeddable Media (Videos) ?>
 	    <?php if ($mediaItem->getEmbeddable()): ?>
@@ -33,7 +44,11 @@
       <?php endif ?>
         
 			<?php if (aMediaTools::isSelecting()): ?>
-				<span class="a-media-select-overlay" title="<?php echo a_('Click to select this item.') ?>"><span><?php echo a_('Click to select this item.') ?></span></span>
+			  <?php if ($mediaItem->getEmbeddable()): ?>
+  				<span class="a-media-select-overlay" title="<?php echo a_('Click to play this item.') ?>"><span><?php echo a_('Click to play this item.') ?></span></span>
+  			<?php else: ?>
+				  <span class="a-media-select-overlay" title="<?php echo a_('Click to select this item.') ?>"><span><?php echo a_('Click to select this item.') ?></span></span>
+				<?php endif ?>
 			<?php endif ?>
 			
 			<?php // PDFs with an image preview ?>
@@ -43,9 +58,9 @@
  			<?php if ($mediaItem->getImageAvailable()): ?>
 	      	<img src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
  	    <?php else: ?>
-				<?php // Files (Word Docs, Powerpoints, Spreadsheets) ?>	
+				<?php // Files (Word Docs, Powerpoints, Spreadsheets) and embedded items with no preview available ?>	
  	      <?php // We can't render this format on this server but we need a placeholder thumbnail ?>
- 				<span class="a-media-type <?php echo $mediaItem->getFormat() ?>" ><b><?php echo $mediaItem->getFormat() ?></b></span>
+ 				<span class="a-media-type <?php echo $mediaItem->getType() ?> <?php echo $mediaItem->getFormat() ?>" ><b><?php echo strlen($mediaItem->getFormat()) ? $mediaItem->getFormat() : a_($mediaItem->getType()) ?></b></span>
  	    <?php endif ?>			
 	  </a>
 	</div>
@@ -64,7 +79,7 @@
 	<?php endif ?>
 
 	<div class="a-media-item-information">
-		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout, 'linkAttributes' => $linkAttributes)) ?>
+		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 	</div>
 
 </div>

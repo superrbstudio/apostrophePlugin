@@ -3,19 +3,19 @@
   $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
 ?>
 
-<?php // This linkAttributes is duplicate code from mediaItem ?>
-<?php // This was the quickest / easiest way to ensure $linkAttributes was defined when mediaItemMeta is returned with Ajax ?>
+<?php // This linkHref is duplicate code from mediaItem ?>
+<?php // This was the quickest / easiest way to ensure $linkHref was defined when mediaItemMeta is returned with Ajax ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkAttributes = "#select-image"; ?>
+    <?php $linkHref = "#select-image"; ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkAttributes = url_for('aMedia/multipleAdd?id=' . $mediaItem->id) ?>
+    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->id) ?>
   <?php endif ?>
 <?php else: ?>
-  <?php $linkAttributes = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
+  <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
 <?php endif ?>
 
 <ul>
@@ -25,7 +25,7 @@
 				<div class="a-media-item-controls">
 					<?php include_partial('aMedia/editLinks', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 				</div>
-				<a href="<?php echo $linkAttributes ?>" class="a-media-item-title-link"><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
+				<a href="<?php echo $linkHref ?>" class="a-media-item-title-link"><?php echo htmlspecialchars($mediaItem->getTitle()) ?></a>
 			</h3>
 		</li>
 	<?php endif ?>
