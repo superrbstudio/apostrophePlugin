@@ -27,6 +27,10 @@
 }
 
 /* Apostrophe Button - Hover & Focus */
+.a-ui .a-btn:hover,
+.a-ui .a-submit:hover,
+.a-ui .a-btn:focus,
+.a-ui .a-submit:focus,
 .a-btn:hover,
 .a-submit:hover,
 .a-btn:focus,
