@@ -104,12 +104,9 @@
 		
 	</div>
 
+  <?php // Invokes apostrophe.smartCSS, your project level JS hook and a_include_js_calls ?>
 	<?php include_partial('a/globalJavascripts') ?>
 	
-	<?php // Drop in the document.ready stuff at the bottom. ?>
-	<?php // If we try to do this sooner, it works for the template but ?>
-	<?php // doesn't yet know about any js calls relating to the layout. ?>
-  <?php a_include_js_calls() ?>
 	<?php // Disqus comments ?>
 	<?php if (sfConfig::get('app_aBlog_disqus_enabled', true) && sfConfig::get('app_aBlog_disqus_shortname')): ?>
 		<?php include_partial('aBlog/disqus_countcode') ?>

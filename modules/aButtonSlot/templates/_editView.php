@@ -64,4 +64,3 @@
 <?php endif ?>
 
 <?php a_js_call('apostrophe.slotEnhancements(?)', array('slot' => '#a-slot-'.$pageid.'-'.$name.'-'.$permid, 'editClass' => 'a-options')) ?>
-<?php a_include_js_calls(); ?>

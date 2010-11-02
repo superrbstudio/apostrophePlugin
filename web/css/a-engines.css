@@ -372,6 +372,11 @@ width: 104px
 
 .a-admin-sidebar .option.post-published-at { margin: 0; }
 
+/* Initially hidden, shown by JS if the status is Scheduled */
+.a-admin-sidebar .a-published-at-container
+{
+	display: none;
+}
 
 /* Media Engine Layout
 -------------------------------------*/
@@ -1846,14 +1851,13 @@ margin-top: -10px;
 #a-blog-item-title-interface
 {
 	display: block;
-	float: left;
 	width: 100%;
 	min-width:475px;
 	clear: both;
 	position: relative;
 }
 
-input#a_blog_item_title_interface
+#a-blog-item-title-interface .a-title
 {
 float: left;
 font-size: 18px;
@@ -1866,8 +1870,7 @@ font-family: Arial, sans-serif;
 border: 1px solid rgba(0,0,0,0.1);
 }
 
-.active input#a_blog_item_title_interface,
-input#a_blog_item_title_interface:hover
+#a-blog-item-title-interface .a-title:hover
 {
 float: left;
 font-size: 18px;
@@ -1880,7 +1883,7 @@ font-family: Arial, sans-serif;
 border: 1px solid rgba(0,0,0,0.35);
 }
 
-input#a_blog_item_title_interface:focus
+#a-blog-item-title-interface .a-title:focus
 {
 	border: 1px solid rgba(0,0,0,0.35);
 	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
@@ -1890,30 +1893,11 @@ input#a_blog_item_title_interface:focus
 	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
-
-#a-blog-item-title-placeholder
+#a-blog-item-permalink-interface
 {
-line-height: 30px;
-font-size: 18px;
-color: #999;
-margin-top: -30px;
-padding-left: 5px;
-display: none;
-float: left;
-clear: both;
-}
-
-#a-blog-item-permalink-interface,
-#a-blog-item-permalink-interface *
-{
-float: left;
 font-size: 11px;
 color: #999;
 line-height: 20px;
-}
-
-#a-blog-item-permalink-interface
-{
 margin: 10px 0;
 width: 100%;
 clear: both;
@@ -1921,12 +1905,20 @@ clear: both;
 
 #a-blog-item-permalink-interface h6
 {
+float: left;
 font-weight: bold;
 margin-right: 5px;
 }
 
-#a-blog-item-permalink-interface input
+.a-blog-item-permalink-wrapper
 {
+	float: left;
+}
+
+#a-blog-item-permalink-interface .a-slug
+{
+display: block;
+float: left;
 border: none;
 padding: 1px;
 margin: 0 2px;
@@ -1939,13 +1931,13 @@ line-height: 1.2;
 width: 160px;
 }
 
-#a-blog-item-permalink-interface input:hover,
-#a-blog-item-permalink-interface input:focus
+#a-blog-item-permalink-interface .a-slug:hover,
+#a-blog-item-permalink-interface .a-slug:focus
 {
 border: 1px solid rgba(0,0,0,0.15);
 }
 
-#a-blog-item-permalink-interface input:focus
+#a-blog-item-permalink-interface .a-slug:focus
 {
 color: #444;
 }

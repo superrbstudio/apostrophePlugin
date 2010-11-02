@@ -25,6 +25,11 @@ function aConstructor()
     }
   }
 
+	this.setMessages = function(messages)
+	{
+		this.messages = messages;
+	}
+	
 	// Utility: A DOM ready that can be used to hook into Apostrophe related events
 	this.ready = function(options)
 	{
@@ -159,10 +164,33 @@ function aConstructor()
 	this.formUpdates = function(options)
 	{
 		var form = $(options['selector']);
-		$(form).submit(function() {
+		
+		// Named bind prevents redundancy
+		form.unbind('submit.aFormUpdates');
+		form.bind('submit.aFormUpdates', function() {
+			var updating = $('#' + options['update']);
+			// Sometimes there's a better candidate to attach the updating tab to
+			var noticeAttach = updating.closest('.a-ajax-attach-updating');
+			if (!noticeAttach.length)
+			{
+				noticeAttach = updating;
+			}
+			var notice = $('<div class="a-ajax-form-updating">' + apostrophe.messages['updating'] + '</div>');
+			var offset = noticeAttach.offset();
+			$('body').append(notice);
+			$(function() {
+				notice.offset({ top: offset.top - 15, left: offset.left + 5});
+			});
+			updating.addClass('a-loading');
 			var action = form.attr('action');
 			$.post(action, form.serialize(), function(data) {
-				$('#' + options['update']).html(data);
+				updating.removeClass('a-loading');
+				updating.html(data);
+				updating.addClass('a-loaded');
+				notice.html(apostrophe.messages['updated']);
+				window.setTimeout(function() {
+					notice.remove();
+				}, 500);
 			});
 			return false;
 		});
@@ -473,7 +501,6 @@ function aConstructor()
 				$(this).closest(".a-slot").fadeOut();
 				$.post(options['url'], {}, function(data) {
 					$("#a-slots-" + options['pageId'] + "-" + options['name']).html(data);
-					apostrophe.smartCSS();
 				});
 			}
 			return false;
@@ -489,7 +516,6 @@ function aConstructor()
 				var slots = $('#a-slots-' + pageId + '-' + name);
 				slots.html(data);
 				var area = $('#a-area-' + pageId + '-' + name);
-				apostrophe.smartCSS(area);
 				area.removeClass('a-options-open');
 			});
 			return false;
@@ -897,7 +923,6 @@ function aConstructor()
 			var id = p.data('id');
 			$.get(options['removeUrl'], { id: id }, function(data) {
 				$('#a-media-selection-list').html(data);
-				apostrophe.smartCSS('#a-media-selection-list');
 				apostrophe.mediaDeselectItem(id);
 				apostrophe.mediaUpdatePreview();
 			});
@@ -916,7 +941,6 @@ function aConstructor()
 		$('.a-media-thumb-link').click(function() {
 			$.get(options['multipleAddUrl'], { id: $(this).data('id') }, function(data) {
 				$('#a-media-selection-list').html(data);
-				apostrophe.smartCSS('#a-media-selection-list');
 				apostrophe.mediaUpdatePreview();
 			});
 			$(this).addClass('a-media-selected');			
@@ -1191,7 +1215,6 @@ function aConstructor()
 				// through as a string "0", but PHP accepts that, fortunately
 		    $.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
 					engineSettings.html(data);
-					apostrophe.smartCSS(engineSettings);
 		    });
 		  }
 		}
@@ -1199,11 +1222,13 @@ function aConstructor()
 	}
 	
 	// A very small set of things that allow us to write CSS and HTML as if they were 
-	// better than they are. This is called on every a_include_js_calls(), so resist
+	// better than they are. This is called on every page load and AJAX refresh, so resist
 	// the temptation to get too crazy here.
 	
 	// Specifying a target option can help performance by not searching the rest 
 	// of the DOM for things that have already been magicked
+	
+	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
 		var target = 'body';
@@ -1218,25 +1243,22 @@ function aConstructor()
 		// for use in AJAX forms because calling submit() on a form doesn't
 		// consistently trigger its submit handlers before triggering native submit.
 		
-		$(target).find('.a-act-as-submit').click(function() {
+		var actAsSubmit = $(target).find('.a-act-as-submit');
+		actAsSubmit.unbind('click.aActAsSubmit');
+		actAsSubmit.bind('click.aActAsSubmit', function() {
 			var form = $(this).parents('form:first');
-			
-			if (!$(this).data('a-act-as-submit-enabled'))
+			var name = $(this).attr('name');
+			// Submit buttons have names used to distinguish them.
+			// Fortunately, anchors have names too. There is NO
+			// default name - and in particular 'submit' breaks
+			// form.submit, so don't use it
+			if (name.length)
 			{
-				$(this).data('a-act-as-submit-enabled', true);
-				var name = $(this).attr('name');
-				// Submit buttons have names used to distinguish them.
-				// Fortunately, anchors have names too. There is NO
-				// default name - and in particular 'submit' breaks
-				// form.submit, so don't use it
-				if (name.length)
-				{
-					var hidden = $('<input type="hidden"></input>');
-					hidden.attr('name', name);
-					hidden.attr('value', 1);
-					form.append(hidden);
-					form = $(this).parents('form:first');
-				}
+				var hidden = $('<input type="hidden"></input>');
+				hidden.attr('name', name);
+				hidden.attr('value', 1);
+				form.append(hidden);
+				form = $(this).parents('form:first');
 			}
 			form.submit();
 			return false;
@@ -1247,7 +1269,7 @@ function aConstructor()
 		// Once this function is empty it can be deleted
 		// called in partial a/globalJavascripts
 		// Variants
-		$('a.a-variant-options-toggle').click(function(){
+		$('a.a-variant-options-toggle').unbind('click.aVariantOptionsToggle').bind('click.aVariantOptionsToggle', function(){
 			$(this).parents('.a-slots').children().css('z-index','699');
 			$(this).parents('.a-slot').css('z-index','799');	
 		});
@@ -1615,7 +1637,6 @@ function aConstructor()
 					$(targetArea).addClass('previewing-history');
 					historyBtn.addClass('a-disabled');				
 					$('.a-page-overlay').hide();
-					apostrophe.smartCSS(targetArea);
 		    }
 		  );
 
@@ -1629,7 +1650,6 @@ function aConstructor()
 						$('#a-slots-' + id + '-' + name).html(result);			
 						historyBtn.removeClass('a-disabled');						
 						_closeHistory();
-						apostrophe.smartCSS(targetArea);
 			  	}
 				);	
 			});
@@ -1643,7 +1663,6 @@ function aConstructor()
 			     	$('#a-slots-' + id + '-' + name).html(result);
 					 	historyBtn.removeClass('a-disabled');								
 						_closeHistory();
-					 	apostrophe.smartCSS(targetArea);
 			  	}
 				);
 			});
@@ -1678,7 +1697,6 @@ function aConstructor()
 							$('#a-page-settings').html(data);
 						},
 						complete:function(XMLHttpRequest, textStatus){
-							apostrophe.smartCSS('#a-page-settings');
 						},
 						url: aPageSettingsURL
 				});	
@@ -1696,7 +1714,6 @@ function aConstructor()
 							$('#a-create-page').html(data);
 						},
 						complete:function(XMLHttpRequest, textStatus){
-							apostrophe.smartCSS('#a-create-page');
 						},
 						url: aPageSettingsCreateURL
 				});	
@@ -1756,7 +1773,6 @@ function aConstructor()
 		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
 		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
 		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
-		apostrophe.smartCSS('#' + editBtn.parents('.a-slot').attr('id')); // Refresh the UI scoped to this Slot
 	}
 
 	function _browseHistory(area)

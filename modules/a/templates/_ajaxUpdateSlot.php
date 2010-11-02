@@ -22,7 +22,9 @@
   <?php a_js_call('apostrophe.slotNotNew(?, ?, ?)', $pageid, $name, $permid) ?>
 <?php endif ?>
 <?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
-<?php a_include_js_calls() ?>
+
+<?php include_partial('a/globalJavascripts') ?>
+
 <?php if (isset($variant)): ?>
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function() {

@@ -9,5 +9,4 @@
 <?php include_component('a', 'area', array('name' => $name, 'refresh' => true, 'addSlot' => $type, 'preview' => false, 'options' => $options))?>
 
 <?php a_js_call('apostrophe.afterAddingSlot(?)', $name) ?>
-<?php // AJAX actions need to do this directly ?>
-<?php a_include_js_calls() ?>
+<?php include_partial('a/globalJavascripts') ?>

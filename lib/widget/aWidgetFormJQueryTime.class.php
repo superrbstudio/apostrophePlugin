@@ -26,7 +26,18 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
     if(!empty($value))
+    {
+      // Allow both array and string syntax
+      if (is_array($value))
+      {
+        $value = $value['hour'] . ':' . $value['minute'];
+        if (isset($value['second']))
+        {
+          $value .= ':' . $value['second'];
+        }
+      }
       $value = date($this->getOption('format'), strtotime($value));
+    }
 
     $attributes['id'] = $this->generateId($name);
     $html = parent::render($name, $value, $attributes, $errors);

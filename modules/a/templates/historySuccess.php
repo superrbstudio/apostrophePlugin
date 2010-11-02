@@ -48,4 +48,4 @@
 	</tr>
 <?php endif ?>
 
-<?php a_include_js_calls() ?>
+<?php include_partial('a/globalJavascripts') ?>

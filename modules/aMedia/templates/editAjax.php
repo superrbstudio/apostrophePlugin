@@ -7,4 +7,4 @@
 ?>
 <?php use_helper('a') ?>
 <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'withPreview' => false, 'popularTags' => $popularTags, 'allTags' => $allTags)) ?>
-<?php a_include_js_calls() ?>
+<?php include_partial('a/globalJavascripts') ?>

@@ -165,4 +165,4 @@
 <?php a_js_call('apostrophe.accordion(?)', array('accordion_toggle' => '.a-options-section:not(".open") h3')) ?>
 <?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.'.$stem.'-status', 'opt1Label' => 'on', 'opt2Label' => 'off')) ?>
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
-<?php a_include_js_calls() ?>
+<?php include_partial('a/globalJavascripts') ?>
