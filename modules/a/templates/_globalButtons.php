@@ -24,6 +24,7 @@
   		<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
   	</li>
   <?php endforeach ?>
+  <?php include_partial('a/globalProjectButtons', array()) ?>
 <?php endif ?>
 
 <?php // An alternative: call aTools::getGlobalButtonsByName(). Then you can emit them in any order you want with ?>
