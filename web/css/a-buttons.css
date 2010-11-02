@@ -83,7 +83,7 @@ margin-top: 0px;
 .a-btn.expanded .flag-label { display: block; }
 
 .a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid transparent; }
-.a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125); }
+.a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125) !important; }
 
 .a-btn.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
 .a-btn.big.no-label { background-position: center center; width: 24px; }

@@ -6,7 +6,7 @@
 <?php if (aMediaTools::getAttribute('type') === 'image'): ?>
   <?php // We went with something simpler when cropping is present ?>
 	<?php if ($limitSizes): ?>
-	<h4 class="a-help"><?php echo __('Some images in your media library may not be large enough to be selected. Only images that can be used are displayed below.', null, 'apostrophe') ?></h4>
+	<h4 class="a-help"><?php echo __('Only images that can be used are displayed below. <br/>Some images in your media library may not be large enough to be selected.', null, 'apostrophe') ?></h4>
 	<?php endif ?>
 <?php else: ?>
   <?php // No cropping, their only hope is to get proper details from us on what is allowed ?>

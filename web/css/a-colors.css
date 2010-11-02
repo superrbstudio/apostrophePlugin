@@ -48,11 +48,6 @@
 	text-decoration: none;
 }
 
-.a-ui .a-btn.lite { color: #00f;}
-.a-ui .a-btn.lite.a-active { color: #111; background-color: #ccc; }
-
-.a-media-footer-button:hover { background-color: rgb(245,135,0); }
-
 .a-cancel:hover,
 .a-cancel:focus,
 { 
@@ -73,7 +68,8 @@
 {
 	color: #444;
 	text-shadow: 0 1px 0px rgba(255,255,255,255.20);
-	border:1px solid rgb(255,150,20);
+	background-color: #f0f0f0;
+	border:1px solid #ccc;
 }
 
 /* Apostrophe Button - Alternative Hover & Focus */
@@ -93,6 +89,11 @@
 	color: #000;
 	background-color: #E0E0E0;
 }
+
+.a-ui .a-btn.lite { color: #00f; background: none; border: 1px solid transparent;}
+.a-ui .a-btn.lite.a-active { color: #111; background-color: #ccc; }
+
+.a-media-footer-button:hover { background-color: rgb(245,135,0); }
 
 /* Apostrophe Admin Link Color */
 .a-attribution a,
