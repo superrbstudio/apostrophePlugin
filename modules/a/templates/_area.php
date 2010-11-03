@@ -131,7 +131,7 @@
 <?php endif ?>
 
 <?php if ($editable): ?>
-	
+
 	<?php if ($preview): ?><?php // Previewing History for Area ?>
 	<?php a_js_call("$('.a-history-preview-notice').fadeIn(); $('body').addClass('history-preview');") ?>
 	<?php endif ?>
