@@ -206,7 +206,7 @@ function aMultipleSelect(target, options)
 					var remover = $(liHtml(v, options));
 					remover.click(function() {
 						// Must use filter, can't have nasty characters in a selector
-						container.find('input[type=checkbox]').filter(function() { $(this).val() === ev }).remove();
+						container.find('input[type=checkbox]').filter(function() { return $(this).val() === ev }).remove();
 						$(this).remove();
 						onChange();
 						return false;
