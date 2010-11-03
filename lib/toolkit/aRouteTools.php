@@ -152,7 +152,15 @@ class aRouteTools
     }
     elseif ((!$currentPage) || ($currentPage->engine !== $defaults['module']))
     {
-      $slug = aPageTable::getFirstEnginePage($defaults['module'])->slug;
+      $page = aPageTable::getFirstEnginePage($defaults['module']);
+      if (!$page)
+      {
+        $slug = null;
+      }
+      else
+      {
+        $slug = $page->slug;
+      }
     }
     else
     {

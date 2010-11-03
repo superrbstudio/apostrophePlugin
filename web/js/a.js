@@ -169,31 +169,52 @@ function aConstructor()
 		form.unbind('submit.aFormUpdates');
 		form.bind('submit.aFormUpdates', function() {
 			var updating = $('#' + options['update']);
+			apostrophe.updating(updating);
+			var action = form.attr('action');
+			$.post(action, form.serialize(), function(data) {
+				updating.trigger('aUpdated');
+				updating.html(data);
+			});
+			return false;
+		});
+	}
+	
+	// Pass a selector (or jQuery object) and an 'updating' tab will appear above it
+	// (or on its best alternative, if it has an ancestor with the a-ajax-attach-updating class).
+	// Then call .trigger('aUpdated') on your element when you're ready for the notice to change 
+	// to "updated" and disappear shortly thereafter on its own. Slick, no?
+	//
+	// You can bind additional handlers to the aUpdating and aUpdated events if you wish.
+	
+	this.updating = function(selector)
+	{
+		var updating = $(selector);
+		updating.unbind('aUpdating.core');
+		updating.bind('aUpdating.core', function() {
 			// Sometimes there's a better candidate to attach the updating tab to
 			var noticeAttach = updating.closest('.a-ajax-attach-updating');
 			if (!noticeAttach.length)
 			{
 				noticeAttach = updating;
 			}
+			updating.unbind('aUpdated.core');
 			var notice = $('<div class="a-ajax-form-updating">' + apostrophe.messages['updating'] + '</div>');
 			var offset = noticeAttach.offset();
 			$('body').append(notice);
 			$(function() {
 				notice.offset({ top: offset.top - 15, left: offset.left + 5});
 			});
-			updating.addClass('a-loading');
-			var action = form.attr('action');
-			$.post(action, form.serialize(), function(data) {
-				updating.removeClass('a-loading');
-				updating.html(data);
-				updating.addClass('a-loaded');
+			updating.addClass('a-updating');
+			updating.bind('aUpdated.core', function() {
+				updating.removeClass('a-updating');
+				updating.addClass('a-updated');
 				notice.html(apostrophe.messages['updated']);
 				window.setTimeout(function() {
 					notice.remove();
 				}, 500);
 			});
-			return false;
 		});
+		updating.trigger('aUpdating');
 	}
 	
 	// Utility: Create an anchor button that toggles between two radio buttons
