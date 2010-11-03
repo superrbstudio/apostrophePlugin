@@ -30,7 +30,7 @@ function _a_required_assets()
  		aTools::addStylesheetsIfDesired(array('reset', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors', 'utility', 'audio'));
   }
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
-  $response->addJavascript("$webDir/js/jquery-1.4.2.min.js");
+  $response->addJavascript("$webDir/js/jquery-1.4.3.min.js");
   $response->addJavascript("$webDir/js/aUI.js");
   $response->addJavascript("$webDir/js/aControls.js");
   $response->addJavascript("$webDir/js/plugins/jquery.autogrow.js"); // Autogrowing Textareas
