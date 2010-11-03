@@ -126,41 +126,24 @@
 <?php $i++; endforeach ?>
 
 <?php if (!$refresh): ?>
-  </div>  <?php // Closes the div wrapping all of the slots ?>
-</div> <?php // Closes the div wrapping all of the slots AND the area controls ?>
+  </div>  <?php // .a-slots ?>
+</div> <?php // .a-area ?>
 <?php endif ?>
 
 <?php if ($editable): ?>
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
+	
+	<?php if ($preview): ?><?php // Previewing History for Area ?>
+	<?php a_js_call("$('.a-history-preview-notice').fadeIn(); $('body').addClass('history-preview');") ?>
+	<?php endif ?>
 
-			<?php if ($infinite): ?>
-				var newSlot = $('#a-area-<?php echo "$pageid-$name" ?>').find('.a-new-slot');
-				if (newSlot.length) {
-					newSlot.effect("highlight", {}, 1000);
-					$('#a-add-slot-<?php echo $pageid.'-'.$name ?>').parent().trigger('toggleClosed');
-				};
-			<?php endif ?>
+	<?php if (!$infinite): ?><?php // Singleton Slots ?>
+		<?php a_js_call('apostrophe.areaSingletonSlot(?)', array('pageId' => $pageid, 'slotName' => $name)) ?>
+	<?php endif ?>
 
-			<?php if (!$infinite): ?>
-				<?php // Singleton Slot Controls ?>
-				$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls-moved').remove();
-					$('#a-area-<?php echo "$pageid-$name" ?>.singleton .a-slot-controls').prependTo($('#a-area-<?php echo "$pageid-$name" ?>')).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	<?php // Move up the slot controls and give them some class names. ?>
-					$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big'); <?php // Singleton Slots can't have big history buttons, Sorry Charlie! ?>
-			<?php endif ?>
-
-		<?php if ($preview): ?>
-			<?php // Previewing History for Area ?>
-			$('.a-history-preview-notice').fadeIn();
-			$('body').addClass('history-preview');
-		<?php endif ?>
-		
-	});
-</script>
-
-<?php if ($infinite): ?>
-	<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
-	<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>	
-<?php endif ?>
+	<?php if ($infinite): ?><?php // Normal Areas ?>
+		<?php a_js_call('apostrophe.areaHighliteNewSlot(?)', array('pageId' => $pageid, 'slotName' => $name)) ?>
+		<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
+		<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>	
+	<?php endif ?>
 
 <?php endif ?>

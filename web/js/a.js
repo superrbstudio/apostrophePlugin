@@ -594,7 +594,32 @@ function aConstructor()
 		}
 	}
 	
-	this.slotEnableVariantButton = function(options) {
+	this.areaHighliteNewSlot = function(options) 
+	{
+		var pageId = options['pageId'];
+		var slotName = options['slotName'];
+		var newSlot = $('#a-area-' + pageId + '-' + slotName).find('.a-new-slot');
+		if (newSlot.length) 
+		{
+			newSlot.effect("highlight", {}, 1000);
+			$('#a-add-slot-' + pageId + '-' + slotName).parent().trigger('toggleClosed');
+		};	
+	}
+	
+	this.areaSingletonSlot = function(options)
+	{
+		var pageId = options['pageId'];
+		var slotName = options['slotName'];		
+		// Singleton Slot Controls
+		$('#a-area-' + pageId + '-' + slotName + '.singleton .a-slot-controls-moved').remove();
+		// Move up the slot controls and give them some class names.
+		$('#a-area-' + pageId + '-' + slotName + '.singleton .a-slot-controls').prependTo($('#a-area-' + pageId + '-' + slotName)).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');	
+		// Singleton Slots can't have big history buttons!		
+		$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big');
+	}
+	
+	this.slotEnableVariantButton = function(options) 
+	{
 		$('#' + options['buttonId']).click(function() {
 			$.post(options['url'], {}, function(data) {
 				$('#' + options['slotContentId']).html(data);
