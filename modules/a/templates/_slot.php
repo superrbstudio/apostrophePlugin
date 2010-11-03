@@ -36,7 +36,7 @@
 
 	<ul class="a-ui a-controls">  
 	  <li>
-  		<?php echo a_anchor_submit_button(a_('Save'), array('a-save'), 'a-slot-form-submit-'.$id) ?>
+  		<?php echo a_anchor_submit_button(a_('Save'), array('a-save','a-show-busy'), 'a-slot-form-submit-'.$id) ?>
 		</li>
 	  <li>
   		<?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon'), 'a-slot-form-cancel-'.$id) ?>		

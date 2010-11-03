@@ -124,13 +124,17 @@ Toolbar Button
 
 .TB_Button_On, .TB_Button_Off, .TB_Button_On_Over, .TB_Button_Off_Over, .TB_Button_Disabled
 {
-	border: #fff 1px solid; /* This is the default border */
-	height: 22px; /* The height is necessary, otherwise IE will not apply the alpha */
+	border: 1px solid #fff; /* This is the default border */
+	height: 20px; /* The height is necessary, otherwise IE will not apply the alpha */
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;	
 }
 
 .TB_Button_On
 {
 	border: #fff 1px solid;
+/*	border: 1px solid rgba(0,0,0,0.2);*/
 	background-color: #e2e2e2;
 }
 
@@ -160,7 +164,7 @@ Toolbar Button
 {
 	visibility: hidden;
 	width: 3px;
-	height: 22px;
+	height: 20px;
 }
 
 .TB_Button_Image
@@ -168,7 +172,7 @@ Toolbar Button
 	overflow: hidden;
 	width: 16px;
 	height: 16px;
-	margin: 3px;
+	margin: 2px;
 	background-repeat: no-repeat;
 }
 
@@ -192,7 +196,7 @@ Toolbar Button
 
 .TB_Text
 {
-	height: 22px;
+	height: 20px;
 }
 
 .TB_Button_Off .TB_Text

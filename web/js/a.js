@@ -1293,6 +1293,10 @@ function aConstructor()
 		actAsSubmit.bind('click.aActAsSubmit', function() {
 			var form = $(this).parents('form:first');
 			var name = $(this).attr('name');
+			if ($(this).hasClass('a-show-busy'))
+			{
+				$(this).addClass('a-busy icon').prepend('<span class="icon"></span>');
+			};
 			// Submit buttons have names used to distinguish them.
 			// Fortunately, anchors have names too. There is NO
 			// default name - and in particular 'submit' breaks
