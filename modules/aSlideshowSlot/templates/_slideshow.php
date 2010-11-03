@@ -23,7 +23,6 @@
 	      $dimensions['resizeType'],
 	      $dimensions['format']),
 	    $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false)) ?>
-
 	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>" <?php echo ($first)? 'style="display:list-item;"':''; ?>>
 			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
 		</li>
