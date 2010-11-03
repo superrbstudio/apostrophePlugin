@@ -620,7 +620,21 @@ function aConstructor()
 	
 	this.slotEnableVariantButton = function(options) 
 	{
-		$('#' + options['buttonId']).click(function() {
+		var button = $('#' + options['buttonId']);
+		// This gets called more than once, use namespaces to avoid double binding without
+		// breaking other binds
+		button.unbind('click.slotEnableVariantButton');
+		button.bind('click.slotEnableVariantButton', function() {
+			// Change the visibility of the variant buttons to their active and inactive states as appropriate
+			var variants = $('#a-' + options['slotFullId'] + '-variant');
+  		variants.find('ul.a-variant-options').addClass('loading');
+  		variants.find('li.active').hide();
+			variants.find('ul.a-variant-options li.inactive').show();
+			var variantStem = '#a-' + options['slotFullId'] + '-variant-' + options['variant'];
+			$(variantStem + '-active').show();
+			$(variantStem + '-inactive').hide();
+			variants.find('ul.a-variant-options').hide();
+  		
 			$.post(options['url'], {}, function(data) {
 				$('#' + options['slotContentId']).html(data);
 			});
@@ -628,6 +642,38 @@ function aConstructor()
 		});
 	}
 
+	this.slotShowVariantsMenu = function(slot)
+	{
+		var outerWrapper = $(slot);
+		var singletonArea = outerWrapper.closest('.singleton');
+    if (singletonArea.length)
+    {
+      singletonArea.find('.a-controls li.variant').show();
+    }
+    else
+    {
+      outerWrapper.find('.a-controls li.variant').show();
+    } 
+	}
+	
+	this.slotHideVariantsMenu = function(menu)
+	{
+	  var menu = $(menu);
+		menu.removeClass('loading').fadeOut('slow').parent().removeClass('open');
+	}
+	
+	this.slotApplyVariantClass = function(slot, variant)
+	{
+		var outerWrapper = $(slot);
+	  outerWrapper.addClass(variant);
+	}
+
+	this.slotRemoveVariantClass = function(slot, variant)
+	{
+		var outerWrapper = $(slot);
+	  outerWrapper.removeClass(variant);
+	}
+	
 	this.slotEnhancements = function(options)
 	{
 		var slot = $(options['slot']);
@@ -681,6 +727,51 @@ function aConstructor()
  		});
   }
 
+	this.slotEnableForm = function(options)
+	{
+		$(options['slot-form']).submit(function() {
+	    $.post(
+	      // These fields are the context, not something the user gets to edit. So rather than
+	      // creating a gratuitous collection of hidden form widgets that are never edited, let's 
+	      // attach the necessary context fields to the URL just like Doctrine forms do.
+	      // We force a query string for compatibility with our simple admin routing rule
+	      options['url'],
+	      $(options['slot-form']).serialize(), 
+	      function(data) {
+	        $(options['slot-content']).html(data);
+	      },
+	      'html'
+	    );
+	    return false;
+  	});
+	}
+	
+	this.slotEnableFormButtons = function(options)
+	{
+    var view = $(options['view']);
+
+		$(options['cancel']).click(function(){
+  		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
+  		$(view).children('.a-controls li.variant').fadeIn();
+  		$(view).children('.a-slot-content').children('.a-slot-form').hide();
+  		$(view).find('.editing-now').removeClass('editing-now');
+ 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+  	});
+
+  	$(options['save']).click(function(){
+  		$(view).find('.editing-now').removeClass('editing-now');
+ 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+ 			window.apostrophe.callOnSubmit(options['slot-full-id']);
+ 			return true;
+  	});
+
+		if (options['showEditor'])
+		{
+			var editBtn = $(options['edit']);
+			editBtn.parent().addClass('editing-now');
+	  }  
+	}
+	
 	this.mediaCategories = function(options) 
 	{	
 		var newCategoryLabel = options['newCategoryLabel'];	

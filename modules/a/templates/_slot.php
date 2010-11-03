@@ -45,25 +45,7 @@
 
   </form>
   
-	<script type="text/javascript" charset="utf-8">
-		$('#a-slot-form-<?php echo $id ?>').submit(function() {
-	    $.post(
-	      <?php // These fields are the context, not something the user gets to edit. So rather than ?>
-	      <?php // creating a gratuitous collection of hidden form widgets that are never edited, let's ?> 
-	      <?php // attach the necessary context fields to the URL just like Doctrine forms do. ?>
-	      <?php // We force a query string for compatibility with our simple admin routing rule ?>
-	      <?php // TODO: remove real-slug in 1.5, it is backwards compatibility cruft ?>
-	      <?php echo json_encode(url_for($type . 'Slot/edit') . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug, 'real-slug' => $realSlug))) ?>, 
-	      $('#a-slot-form-<?php echo $id ?>').serialize(), 
-	      function(data) {
-	        $('#a-slot-content-<?php echo $id ?>').html(data);
-					aUI($('#a-slot-<?php echo $id ?>'));
-	      }, 
-	      'html'
-	    );
-	    return false;
-  	});
-  </script>  
+  <?php a_js_call('apostrophe.slotEnableForm(?)', array('slot-form' => '#a-slot-form-' . $id, 'slot-content' => '#a-slot-content-' . $id, 'url' => url_for($type . 'Slot/edit') . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug)))) ?>
 <?php endif ?>
 
 <?php if ($editable): ?>
@@ -84,35 +66,7 @@
 <?php endif ?>
 
 <?php if ($editable): ?>
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-
-    var view = $('#a-slot-<?php echo $id ?>');
-
-		// CANCEL
-		$('#a-slot-form-cancel-<?php echo $id ?>').click(function(){
-  		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-  		$(view).children('.a-controls li.variant').fadeIn();
-  		$(view).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
-  	});
-
-		// SAVE 
-  	$('#a-slot-form-submit-<?php echo $id ?>').click(function(){
-  		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
- 			window.apostrophe.callOnSubmit('<?php echo $id ?>');
- 			return true;
-  	});
-
-	<?php if ($showEditor): ?>
-		var editBtn = $('#a-slot-edit-<?php echo $id ?>');
-		editBtn.parent().addClass('editing-now');
-	<?php endif; ?>
-
-  });  
-  </script>
+  <?php a_js_call('apostrophe.slotEnableFormButtons(?)', array('view' => '#a-slot-' . $id, 'cancel' => '#a-slot-form-cancel-' . $id, 'save' => '#a-slot-form-submit-' . $id, 'slot-full-id' => $id, 'edit' => '#a-slot-edit-' . $id, 'showEditor' => $showEditor)) ?>
 <?php endif ?>
 
 <?php if ($sf_request->isXmlHttpRequest()): ?>
@@ -121,41 +75,16 @@
   <?php // we do assign a CSS class to the outer wrapper based on the variant ?>
   <?php $variants = aTools::getVariantsForSlotType($type, $options) ?>
   <?php $slotVariant = $slot->getEffectiveVariant($options) ?>
-  <?php if (count($variants)): ?>
-	<script type="text/javascript" charset="utf-8">
-     $(document).ready(function() {
-        var outerWrapper = $('#a-slot-<?php echo $id ?>');
-        <?php foreach ($variants as $variant => $data): ?>
-          <?php if ($slotVariant !== $variant): ?>
-            outerWrapper.removeClass(<?php echo json_encode($variant) ?>);
-          <?php else: ?>
-            outerWrapper.addClass(<?php echo json_encode($variant) ?>);
-          <?php endif ?>
-          <?php // It's OK to show the variants menu once we've saved something ?>
-          <?php if (!$slot->isNew()): ?>
-            var singletonArea = outerWrapper.closest('.singleton');
-            if (singletonArea.length)
-            {
-              singletonArea.find('.a-controls li.variant').show();
-            }
-            else
-            {
-              outerWrapper.find('.a-controls li.variant').show();
-            }
-          <?php endif ?>
-        <?php endforeach ?>
-      });
-    </script>
-  <?php endif ?>
-
-	<?php // Thanks Spike! ?>
-  <?php // have to explicitly show the controls when form validation fails, by calling aUI() ?>
-  <?php if (isset($validationData['form']) && !$validationData['form']->isValid()): ?>
-  <script type="text/javascript" charset="utf-8">
-    $(document).ready(function(){
-			aUI($('#a-slot-<?php echo $id ?>'));
-	   });
-  </script>
-  <?php endif; ?>
+  <?php foreach ($variants as $variant => $data): ?>
+    <?php if ($slotVariant !== $variant): ?>
+      <?php a_js_call('apostrophe.slotRemoveVariantClass(?, ?)', '#a-slot-' . $id, $variant) ?>
+    <?php else: ?>
+      <?php a_js_call('apostrophe.slotApplyVariantClass(?, ?)', '#a-slot-' . $id, $variant) ?>
+    <?php endif ?>
+    <?php // It's OK to show the variants menu once we've saved something ?>
+    <?php if (!$slot->isNew()): ?>
+      <?php a_js_call('apostrophe.slotShowVariantsMenu(?)', '#a-slot-' . $id) ?>
+    <?php endif ?>
+  <?php endforeach ?>
 
 <?php endif ?>

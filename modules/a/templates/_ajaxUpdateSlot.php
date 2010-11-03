@@ -23,12 +23,9 @@
 <?php endif ?>
 <?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
 
+<?php if (isset($variant)): ?>
+  <?php a_js_call('apostrophe.slotHideVariantsMenu(?)', "#a-$pageid-$name-$permid-variant ul.a-variant-options") ?>
+<?php endif ?>
+
 <?php include_partial('a/globalJavascripts') ?>
 
-<?php if (isset($variant)): ?>
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$('<?php echo "#a-$pageid-$name-$permid-variant ul.a-variant-options" ?>').removeClass('loading').fadeOut('slow').parent().removeClass('open');
-		});
-  </script>
-<?php endif ?>
