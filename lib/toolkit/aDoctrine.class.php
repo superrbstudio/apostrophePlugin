@@ -20,7 +20,7 @@ class aDoctrine
   // $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
   // $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
   
-  static public function orderByList($query, $ids)
+  static public function orderByList($query, $ids, $modelName = null)
   {
     // If there are no IDs, then we don't alter the query at all. Otherwise we wind up
     // with an ELSE clause alone, which is an error in SQL
@@ -28,7 +28,11 @@ class aDoctrine
     {
       return $query;
     }
-    $col = $query->getRootAlias() . '.id';
+    if (is_null($modelName))
+    {
+      $modelName = $query->getRootAlias();
+    }
+    $col = $modelName . '.id';
     $n = 1;
     $select = "(CASE $col";
     foreach ($ids as $id)

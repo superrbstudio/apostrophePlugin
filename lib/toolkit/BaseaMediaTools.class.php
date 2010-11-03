@@ -111,6 +111,14 @@ class BaseaMediaTools
     $type = aMediaTools::getType();
     if ($type)
     {
+      if ($type === '_downloadable')
+      {
+        return 'File';
+      }
+      elseif (substr($type, 0, 1))
+      {
+        return 'Media';
+      }
       $typeInfo = aMediaTools::getTypeInfo($type);
       return $typeInfo['label'];
     }

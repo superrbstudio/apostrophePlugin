@@ -486,6 +486,11 @@ overflow: hidden;
 box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 }
 
+.a-media-library .a-media-select-button
+{
+	padding-bottom: 5px;
+}
+
 .a-media-add-subheading { float: left; width: 338px; min-height: 280px;}
 
 .a-media-add-subheading.a-media-add-upload { border-right: 1px inset rgba(0,0,0,0.1); padding-right: 10px;}

@@ -13,7 +13,7 @@ class BaseaVideoSlotActions extends BaseaSlotActions
     $this->editSetup();
 
     $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'image'))
+    if ((!$item) || ($item->type !== 'video'))
     {
       return $this->redirectToPage();
     }
