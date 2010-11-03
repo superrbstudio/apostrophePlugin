@@ -36,10 +36,10 @@
 
 	<ul class="a-ui a-controls">  
 	  <li>
-			<input type="submit" name="Save" value="<?php echo htmlspecialchars(__('Save', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo 'a-slot-form-submit-' . $id ?>" />
+  		<?php echo a_anchor_submit_button(a_('Save'), array('a-save'), 'a-slot-form-submit-'.$id) ?>
 		</li>
 	  <li>
-			<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel" id="a-slot-form-cancel-<?php echo $id ?>"><span class="icon"></span><?php echo htmlspecialchars(__("Cancel", null, 'apostrophe')) ?></a>
+  		<?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon'), 'a-slot-form-cancel-'.$id) ?>		
 		</li>
 	</ul>
 
