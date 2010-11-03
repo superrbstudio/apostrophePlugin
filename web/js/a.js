@@ -347,9 +347,11 @@ function aConstructor()
 
 		var slideshowItems = $('#a-slideshow-' + id + ' .a-slideshow-item');
 		var img_count = slideshowItems.length;
+    
     if (img_count === 1)
     {
-      $('#a-slideshow-item-' + id + '-0').show().parents('.a-slideshow, .aSlideshow').addClass('single-image');
+		 	$('#a-slideshow-item-' + id + '-0').css('display', 'block').parents('.a-slideshow, .aSlideshow').addClass('single-image');
+			apostrophe.log('if is true');
     }
     else
     {
@@ -427,7 +429,7 @@ function aConstructor()
 
   		var position = 0;
 			setPosition(position);
-  		$('#a-slideshow-item-' + id + '-' + position).show();
+  		$('#a-slideshow-item-' + id + '-' + position).css('display', 'block');
 
   		if (positionFlag)
   		{
@@ -469,6 +471,7 @@ function aConstructor()
 
   	  interval();
 	  }
+	
 	};
 	
 	// aButtonSlot
