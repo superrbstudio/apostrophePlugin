@@ -26,11 +26,13 @@
   <?php // Selecting a video or other embeddable is currently very confusing. You wind up playing the video unless ?>
   <?php // you click the title. Address that with an explicit select button. I also fixed the overlay text in the case ?>
   <?php // where it plays rather than selecting (below) ?>
-  <?php if ((!$multipleStyleSelect) && ($mediaItem->getEmbeddable())): ?>
-    <div class="a-media-select-button">
-      <?php echo a_button('Select', $linkHref, array('title' => a_('Click to select this item.'))) ?>
-    </div>
-  <?php endif ?>
+	<?php if (aMediaTools::isSelecting()): ?>
+	  <?php if ((!$multipleStyleSelect) && ($mediaItem->getEmbeddable())): ?>
+	    <div class="a-media-select-button">
+	      <?php echo a_button('Select', $linkHref, array('title' => a_('Click to select this item.'))) ?>
+	    </div>
+	  <?php endif ?>
+	<?php endif ?>
   
 	<?php if (!isset($layout['showSuccess']) || ($layout['showSuccess'] && !$mediaItem->getEmbeddable())): ?>
 	<div class="a-media-item-thumbnail">

@@ -296,7 +296,8 @@ width: 104px
 
 .a-media-selection { margin-bottom: 0; }
 
-.a-media-selection-contraints h4.a-help { margin: 10px 0 20px 0; font-size: 14px; line-height: 1.2; width: 67%; }
+.a-media-selection-contraints { clear: both; overflow: hidden; }
+.a-media-selection-contraints h3 { margin: 0 0 10px 0; }
 
 .a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
 .a-media-row:last-child { border-bottom: none; }

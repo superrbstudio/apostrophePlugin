@@ -45,7 +45,7 @@
 	</div>
 	<?php endif ?>
 	
-	<?php if ($limitSizes): ?>
+	<?php if ($limitSizes && $pager->count()): ?>
 		<div class="a-media-selection-contraints">
 			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>		
 		</div>
