@@ -203,7 +203,6 @@ aCrop = {
     ];
     
     aCrop.api.setSelect(coords);
-  	aUI("a-media-selection-list");
 		$('.cropping-now').removeClass('cropping-now');
 		$(".a-crop-workspace").fadeOut();
   }

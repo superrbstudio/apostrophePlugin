@@ -1,32 +1,13 @@
-/* 27. Admin Generator
+/* Admin Generator
 -------------------------------------*/
 
 .a-admin a img,
 .a-admin a:link img,
-.a-admin a:visited img
-{
-border: none;
-}
+.a-admin a:visited img { border: none; }
 
-/* this overrode the blog admin sidebar styles, doesn't seem necessary to be so generic
-.a-admin a:link, 
-.a-admin a:visited
-{
-text-decoration: none;
-}*/
+.a-admin a:hover { color: #333; }
 
-.a-admin a:hover
-{
-color: #333;
-}
-
-.a-admin-content
-{
-float: left;
-display: inline;
-margin: 0;
-width: 720px;
-}
+.a-admin-content { float: left; display: inline; margin: 0; width: 720px; }
 
 .a-admin #a-admin-list-actions
 {
@@ -55,23 +36,11 @@ text-transform: capitalize;
 border-top: 1px #ddd solid;
 }
 
-.a-admin .a-admin-text input
-{
-	float: left;
-	clear: both;
-}
+.a-admin .a-admin-text input { float: left; clear: both; }
 
-.a-admin .a-admin-batch-actions-choice select
-{
-float: left;
-margin-right: 10px;
-}
+.a-admin .a-admin-batch-actions-choice select { float: left; margin-right: 10px; }
 
-.a-admin .save-ok
-{
-margin-bottom: 10px;
-border: 1px solid #73B65A;
-}
+.a-admin .save-ok { margin-bottom: 10px; border: 1px solid #73B65A; }
 
 .a-admin .save-ok h2
 {
@@ -98,16 +67,9 @@ line-height: 1.5;
 margin: 20px 0;
 }
 
-.a-admin label.required
-{
-color: #333 !important;
-font-weight: bold !important;
-}
+.a-admin label.required { color: #333 !important; font-weight: bold !important; }
 
-.a-admin .form-error
-{
-color: #f33;
-}
+.a-admin .form-error { color: #f33; }
 
 .a-admin ul.a-admin-td-actions { list-style-type: none; display: block; float: left;}
 
@@ -130,10 +92,7 @@ list-style-type: none;
 padding-top: 20px;
 }
 
-.a-admin ul.a-admin-actions a
-{
-color: #333;
-}
+.a-admin ul.a-admin-actions a { color: #333; }
 
 .a-admin ul.a-admin-actions li
 {
@@ -143,15 +102,9 @@ float: left;
 margin-right:1px !important;
 }
 
-.a-admin.sfGuardUser a.icon.a-add
-{
-	background-image: url(../images/a-icon-users.png);
-}
+.a-admin.sfGuardUser a.icon.a-add { background-image: url(../images/a-icon-users.png); }
 
-.a-admin ul.a-admin-actions li.a-admin-batch-actions-choice
-{
-float: left;
-}
+.a-admin ul.a-admin-actions li.a-admin-batch-actions-choice { float: left; }
 
 .a-admin ul.a-admin-actions input
 {
@@ -188,27 +141,12 @@ margin: 0;
 padding: 0;
 }
 
-.a-admin-form-container .a-admin-form-container
-{
-	margin-top: 40px;
-	margin-left: -120px;
-	
-}
+.a-admin-form-container .a-admin-form-container { margin-top: 40px; margin-left: -120px; }
 
-#a-admin-list-batch-actions
-{
-width: 20px;
-}
+#a-admin-list-batch-actions { width: 20px; }
+#a-admin-list-batch-actions * { display: block; }
 
-#a-admin-list-batch-actions *
-{
-display: block;
-}
-
-#a-admin-list-th-actions
-{
-width: 100px;
-}
+#a-admin-list-th-actions { width: 100px; }
 
 .a-admin-list th,
 .a-admin-list td
@@ -229,10 +167,7 @@ line-height: 24px;
 vertical-align: middle;
 }
 
-.a-admin-list thead th *
-{
-float: left;
-}
+.a-admin-list thead th * { float: left; }
 
 .a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded, 
 .a-admin-list thead th .a-btn.flag.no-label.a-sort-arrow.expanded { background-position: 0 -20px; }
@@ -244,41 +179,20 @@ border-left: none;
 border-right: none;
 }
 
-.a-admin-filter li
-{
-list-style-type: none;
-}
+.a-admin-filter li { list-style-type: none; }
 
-.a-admin-row td
-{
-border-left: 1px solid #e5e5e5;
-}
+.a-admin-row td { border-left: 1px solid #e5e5e5; }
 
-.a-admin-row.odd td
-{
-background-color: #f7f7f7;
-}
+.a-admin-row.odd td { background-color: #f7f7f7; }
 
-.a-admin .a-admin-row-1 td
-{
-border-top: 1px solid #e2e2e2;
-}
+.a-admin .a-admin-row-1 td { border-top: 1px solid #e2e2e2; }
 
-.a-admin-row td.first
-{
-	border-left: 0;
-}
+.a-admin-row td.first { border-left: 0; }
 
-.a-admin .a-admin-edit-help
-{
-color: #aaa;
-}
+.a-admin .a-admin-edit-help { color: #aaa; }
 
 .a-admin select.a-admin-multiple, 
-.a-admin select.a-admin-multiple-selected
-{
-width: 12em;
-}
+.a-admin select.a-admin-multiple-selected { width: 12em; }
 
 .a-admin ul.a-admin-checklist li
 {
@@ -287,11 +201,7 @@ list-style-position: outside !important;
 line-height: 1.5em;
 }
 
-.a-admin ul.a-admin-checklist li label
-{
-display: inline;
-float: none;
-}
+.a-admin ul.a-admin-checklist li label { display: inline; float: none; }
 
 .admin ul.a-controls li
 {
@@ -310,14 +220,7 @@ font-size: 12px !important;
 vertical-align: baseline !important;
 }
 
-.a-admin-actions input:hover
-{
-border-color: #666 !important;
-}
-
-.a-admin-date select
-{
-}
+.a-admin-actions input:hover { border-color: #666 !important; }
 
 .a-admin-list-results
 {
@@ -348,12 +251,6 @@ line-height: 24px;
 float: left;
 top: 0;
 text-transform: capitalize;
-}
-
-/* JQ Date Picker Fix */
-#ui-datepicker-div
-{
-z-index: 9999;
 }
 
 .a-date-wrapper,
@@ -610,3 +507,6 @@ border: none;
 {
 	width: 100%;
 }
+
+/* JQ Date Picker Fix */
+#ui-datepicker-div { z-index: 9999; }
