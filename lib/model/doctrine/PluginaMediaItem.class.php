@@ -115,7 +115,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   // the import-files task for how to exploit this outside of a form)
   public function preSaveFile($file)
   {
-    if (get_class($file) === 'aValidatedFile')
+    if (is_object($file) && (get_class($file) === 'aValidatedFile'))
     {
       $this->format = $file->getExtension();
       if (strlen($this->format))
@@ -171,7 +171,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         return false;
       }
     }
-    if (get_class($file) === 'aValidatedFile')
+    if (is_object($file) && (get_class($file) === 'aValidatedFile'))
     {
       $file = $file->getTempName();
     }
