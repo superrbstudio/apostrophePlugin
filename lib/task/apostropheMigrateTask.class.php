@@ -115,7 +115,14 @@ but why take chances with your data?
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_user_id_sf_guard_user_id FOREIGN KEY (user_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;"
         ));
-      $oldCategories = $this->migrate->query('SELECT * FROM a_media_category');
+      if ($this->migrate->tableExists('a_media_category'))
+      {
+        $oldCategories = $this->migrate->query('SELECT * FROM a_media_category');
+      }
+      else
+      {
+        $oldCategories = array();
+      }
       $newCategories = $this->migrate->query('SELECT * FROM a_category');
       $nc = array();
       foreach ($newCategories as $newCategory)
