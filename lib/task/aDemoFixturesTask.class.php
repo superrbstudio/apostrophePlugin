@@ -16,7 +16,8 @@ class aDemoFixturesTask extends sfBaseTask
   protected function configure()
   {
     $this->addOptions(array(
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev')
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Output more info during the update', null)
       // add your own options here
     ));
 
@@ -62,8 +63,8 @@ EOF;
     {
       throw new sfException('Unable to copy http://content.apostrophenow.com/uploads/apostrophedemo-uploads.zip to $dataZip');
     }
-    $this->unzip($dataDir, $dataZip);
-    $this->unzip($uploadDir, $uploadZip);
+    $this->unzip($dataDir, $dataZip, $options);
+    $this->unzip($uploadDir, $uploadZip, $options);
 
     // Yes, you need to have mysql to use this feature.
     // However you can set app_syncContent_mysql to
@@ -83,8 +84,10 @@ EOF;
     // The demo password is no secret, but new passwords set later should be, so we don't
     // want to force a salt when generating the demo dump. See aSyncActions for details
     
-    echo("Postprocessing users\n");
-    
+    if ($options['verbose'])
+    {
+      echo("Postprocessing users\n");
+    }
     $users = Doctrine::getTable('sfGuardUser')->findAll();
     foreach ($users as $user)
     {
@@ -101,15 +104,22 @@ EOF;
         }
       }
     }
-    
-    echo("Content loaded.\n");
+    if ($options['verbose'])
+    {
+      echo("Content loaded.\n");
+    }
   }
   
-  protected function unzip($dir, $file)
+  protected function unzip($dir, $file, $options)
   {
     // Does a nice job of leaving .svn and .cvs alone
     sfToolkit::clearDirectory($dir);
-    system("(cd " . escapeshellarg($dir) . "; unzip " . escapeshellarg($file) . " )", $result);
+    $zipOptions = '';
+    if (!$options['verbose'])
+    {
+      $zipOptions .= '-q ';
+    }
+    $cmd = "(cd " . escapeshellarg($dir) . "; unzip $zipOptions " . escapeshellarg($file) . " )", $result;
     if ($result != 0)
     {
       throw new sfException("unzip of $file to $dir failed. Maybe you don't have unzip in your PATH");
