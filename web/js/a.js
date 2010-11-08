@@ -1,6 +1,5 @@
 function aConstructor() 
 {
-	"use strict";
   this.onSubmitHandlers = new Object();
 
   this.registerOnSubmit = function (slotId, callback) 
