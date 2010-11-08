@@ -4,12 +4,12 @@
  */
 class PluginaPageTable extends Doctrine_Table
 {
-	// We always join with all of the current slots for the proper culture in this simplest page-getter method. 
-	// Otherwise we wreck the slot cache for slots on the page, etc., can't see titles or see the wrong versions 
+	// We always join with all of the current slots for the proper culture in this simplest page-getter method.
+	// Otherwise we wreck the slot cache for slots on the page, etc., can't see titles or see the wrong versions
 	// and cultures of slots. This is inefficient in some situations, but the
 	// right response to that is to recognize when you're about to fetch a page
 	// that has already been fetched and just reuse it. I can't make that call
-	//f or you at the model level
+	// for you at the model level
 
   static public function retrieveBySlug($slug, $culture = null)
   {
@@ -18,7 +18,7 @@ class PluginaPageTable extends Doctrine_Table
 
 	// CAREFUL: if you are not absolutely positive that you won't need other slots for this
 	// page (ie it is NOT the current page), then don't use this. Use retrieveBySlugWithSlots
-	
+
   // If culture is null you get the current user's culture,
   // or sf_default_culture if none is set or we're running in a task context
   static public function retrieveBySlugWithTitles($slug, $culture = null)
@@ -29,7 +29,7 @@ class PluginaPageTable extends Doctrine_Table
     }
     $query = self::queryWithTitles($culture);
     $page = $query->
-      where('p.slug = ?', $slug)->
+      andWhere('p.slug = ?', $slug)->
       fetchOne();
     // In case Doctrine is clever and returns the same page object
     if ($page)
@@ -39,7 +39,7 @@ class PluginaPageTable extends Doctrine_Table
     }
     return $page;
   }
-  
+
   // If culture is null you get the current user's culture,
   // or sf_default_culture if none is set or we're running in a task context
   static public function retrieveBySlugWithSlots($slug, $culture = null)
@@ -50,7 +50,7 @@ class PluginaPageTable extends Doctrine_Table
     }
     $query = self::queryWithSlots(false, $culture);
     $page = $query->
-      where('p.slug = ?', $slug)->
+      andWhere('p.slug = ?', $slug)->
       fetchOne();
     // In case Doctrine is clever and returns the same page object
     if ($page)
@@ -67,7 +67,7 @@ class PluginaPageTable extends Doctrine_Table
   {
     return self::queryWithSlot('title', $culture);
   }
-  
+
   // This is a slot name, like 'title'
   static public function queryWithSlot($slot, $culture = null)
   {
@@ -75,13 +75,10 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    return Doctrine_Query::Create()->
-      select("p.*, a.*, v.*, avs.*, s.*")->
-      from("aPage p")->
-      leftJoin('p.Areas a WITH (a.name = ? AND a.culture = ?)', array($slot, $culture))->
-      leftJoin('a.AreaVersions v WITH (a.latest_version = v.version)')->
-      leftJoin('v.AreaVersionSlots avs')->
-      leftJoin('avs.Slot s');
+    $query = self::queryWithSlots(false, $culture)
+      ->andWhere('a.name = ?', $slot);
+
+    return $query;
   }
 
   // This is a slot type, like 'aRichText'
@@ -91,15 +88,12 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    return Doctrine_Query::Create()->
-      select("p.*, a.*, v.*, avs.*, s.*")->
-      from("aPage p")->
-      leftJoin('p.Areas a WITH (a.culture = ?)', array($culture))->
-      leftJoin('a.AreaVersions v WITH (a.latest_version = v.version)')->
-      leftJoin('v.AreaVersionSlots avs')->
-      leftJoin('avs.Slot s WITH (s.type = ?)', array($slotType));
+    $query = self::queryWithSlots(false, $culture)
+      ->andWhere('s.type = ?', $slotType);
+
+    return $query;
   }
- 
+
   // If culture is null you get the current user's culture,
   // or sf_default_culture if none is set or we're running in a task context
 
@@ -117,7 +111,7 @@ class PluginaPageTable extends Doctrine_Table
       $culture = aTools::getUserCulture();
     }
     $page = self::queryWithSlots($version, $culture)->
-      where('p.id = ?', array($id))->
+      andWhere('p.id = ?', array($id))->
       fetchOne();
     // In case Doctrine is clever and returns the same page object
     if ($page)
@@ -130,55 +124,46 @@ class PluginaPageTable extends Doctrine_Table
     return $page;
   }
 
-  // If version is false you get the latest version of each slot.
-  
-  // If culture is null you get the current user's culture,
-  // or sf_default_culture if none is set or we're running in a task context
-  
-  // If culture is 'all' you get all cultures. This option is only for use in low level
-  // queries such as the implementation of the a:refresh task and will not 
-  // work as expected for page rendering purposes. Normally you never fetch all culture slots
-  // at once
-  
-  // Also brings in related media objects since the assumption is that you are actually
-  // rendering a page. See queryWithTitles and, better yet, the getChildrenInfo() method
-  // and its relatives for efficient ways to find out information about other pages quickly
-
-  static public function queryWithSlots($version = false, $culture = null)
+  /**
+   * Gets a query for slots and media items for pages, used for when rendering a page.
+   * @param int $version version of slot to query for, if false returns latest version of each slot
+   * @param $culture culture to retrieve from, if null the current user's culture, or sf_default_culture if cone is set or we're running in a task context
+   * @param Doctrine_Query $query
+   * @return Doctrine_Query $query
+   */
+  public static function queryWithSlots($version = false, $culture = null, $query = null)
   {
+    if(is_null($query))
+    {
+      $query = Doctrine::getTable('aPage')->createQuery('p');
+    }
     if (is_null($culture))
     {
       $culture = aTools::getUserCulture();
     }
-    $query = Doctrine_Query::Create()->
-      select("p.*, a.*, v.*, avs.*, s.*, m.*")->
-      from("aPage p");
-    if ($culture === 'all')
-    {
-      $query = $query->leftJoin('p.Areas a');
-    }
-    else
-    {
-      $query = $query->leftJoin('p.Areas a WITH a.culture = ?', array($culture));
-    }
-    if ($version === false)
-    {
-      $query = $query->
-        leftJoin('a.AreaVersions v WITH (a.latest_version = v.version)');
-    }
-    else
-    {
-      $query = $query->
-        leftJoin('a.AreaVersions v WITH (v.version = ?)', array($version));
-    }
-    return $query->leftJoin('v.AreaVersionSlots avs')->
+
+    $query->
+      leftJoin('p.Areas a')->
+      leftJoin('a.AreaVersions v')->
+      leftJoin('v.AreaVersionSlots avs')->
       leftJoin('avs.Slot s')->
       leftJoin('s.MediaItems m')->
       orderBy('avs.rank asc');
+    if ($culture !== 'all')
+    {
+      $query->andWhere('a.culture = ?', $culture);
+    }
+    if ($version === false)
+    {
+      $query->andWhere('a.latest_version = v.version');
+    } else
+    {
+      $query->andWhere('v.version = ?', $version);
+    }
+
+    return $query;
   }
-  
-  
-  
+   
   static private $treeObject = null;
   
   static public function treeTitlesOn()
