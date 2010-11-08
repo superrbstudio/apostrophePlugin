@@ -119,7 +119,7 @@ EOF;
     {
       $zipOptions .= '-q ';
     }
-    $cmd = "(cd " . escapeshellarg($dir) . "; unzip $zipOptions " . escapeshellarg($file) . " )", $result;
+    system("(cd " . escapeshellarg($dir) . "; unzip $zipOptions " . escapeshellarg($file) . " )", $result);
     if ($result != 0)
     {
       throw new sfException("unzip of $file to $dir failed. Maybe you don't have unzip in your PATH");
