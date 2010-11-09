@@ -428,14 +428,13 @@ function aConstructor()
   	  }
 
   		var position = 0;
-			setPosition(position);
   		$('#a-slideshow-item-' + id + '-' + position).css('display', 'block');
 
   		if (positionFlag)
   		{
     		var positionHead = $('#a-slideshow-controls-' + id + ' li.a-slideshow-position span.head');
-    		setPosition(position);
   		}
+  		setPosition(position);
 		
   		slideshowItems.attr('title', title);
 	
