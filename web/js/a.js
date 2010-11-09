@@ -1,5 +1,5 @@
 function aConstructor() 
-{
+{	
   this.onSubmitHandlers = new Object();
 
   this.registerOnSubmit = function (slotId, callback) 
@@ -1172,6 +1172,161 @@ function aConstructor()
 				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus']);			
 			};	
 		};
+	}
+	
+	this.pager = function(selector, pagerOptions)
+	{
+		$(selector + ':not(.a-pager-processed)').each(function() {
+			
+			var pager = $(this);
+			pager.addClass('a-pager-processed');
+			pager.outerWidth(pager.outerWidth());
+			pager.find('.a-page-navigation-number').css('display', 'block');
+			pager.find('.a-page-navigation-number').css('float', 'left');
+			
+			var nb_pages = parseInt(pagerOptions['nb-pages']);
+			var nb_links = parseInt(pagerOptions['nb-links']);
+			var selected = parseInt($(this).find('.a-page-navigation-number.a-pager-navigation-disabled').text());
+			
+			var min = selected;
+			var max = selected + nb_links - 1;
+			
+			var links_container_container = pager.find('.a-pager-navigation-links-container-container');
+			links_container_container.width((nb_links * pager.find('.a-page-navigation-number').first().outerWidth()) + 2);
+			links_container_container.css('overflow', 'hidden');
+			
+			var links_container = pager.find('.a-pager-navigation-links-container');
+			
+			var first = pager.find('.a-pager-navigation-first');
+			var prev = pager.find('.a-pager-navigation-previous');
+			var next = pager.find('.a-pager-navigation-next');
+			var last = pager.find('.a-pager-navigation-last')
+		
+			function calculateMinAndMax()
+			{	
+				if ((min < 1) && (max > nb_pages))
+				{
+					min = 1;
+					max = nb_pages;
+				}
+				else if (min < 1)
+				{
+					var diff = 0;
+					
+					if (min < 0)
+					{
+						diff = 0 - min;
+						diff = diff + 1;
+					}
+					else
+					{
+						diff = 1
+					}
+					min = 1;
+					max = max + diff;
+				}
+				else if (max > nb_pages)
+				{
+					var diff = max - nb_pages;
+					max = nb_pages;
+					min = min - diff;
+				}
+			}
+			
+			function toggleClasses()
+			{
+				pager.find('.a-pager-navigation-disabled').removeClass('a-pager-navigation-disabled');
+				if (min == 1)
+				{
+					first.addClass('a-pager-navigation-disabled');
+					prev.addClass('a-pager-navigation-disabled');
+				}
+				else if (min == ((nb_pages - nb_links) + 1))
+				{
+					next.addClass('a-pager-navigation-disabled');
+					last.addClass('a-pager-navigation-disabled');
+				}
+			}
+			
+			function updatePageNumbers()
+			{	
+				pager.find('.a-page-navigation-number').each(function() {
+					var current = parseInt($(this).text());	
+				
+					if ((current >= min) && (current <= max))
+					{
+						$(this).show();
+					}
+					else
+					{
+						$(this).hide();
+					}
+				});
+			}
+			
+			function animatePageNumbers() {				
+				var width = links_container.children('.a-page-navigation-number').first().outerWidth();
+
+				width = (min - 1) * -width;
+				links_container.animate({marginLeft: width}, 250, 'swing');
+			}
+			
+			next.click(function(e) {
+				e.preventDefault();
+
+				min = min + nb_links;
+				max = max + nb_links;
+				
+				calculateMinAndMax();
+				toggleClasses();
+				animatePageNumbers();
+				
+				return false;
+			});
+			
+			last.click(function(e) {
+				e.preventDefault();
+
+				min = nb_pages;
+				max = nb_pages + nb_links - 1;
+				
+				calculateMinAndMax();
+				toggleClasses();
+				animatePageNumbers();
+				
+				return false;
+			});
+			
+			prev.click(function(e) {
+				e.preventDefault();
+
+				min = min - nb_links;
+				max = max - nb_links;
+				
+				calculateMinAndMax();
+				toggleClasses();
+				animatePageNumbers();
+				
+				return false;
+			});
+			
+			first.click(function(e) {
+				e.preventDefault();
+
+				min = 1;
+				max = nb_links;
+				
+				calculateMinAndMax();
+				toggleClasses();
+				animatePageNumbers();
+				
+				return false;
+			});
+			
+			calculateMinAndMax();
+			toggleClasses();
+			animatePageNumbers();
+		});
 	}
 	
 		/* Example Mark-up
