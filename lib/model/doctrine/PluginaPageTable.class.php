@@ -142,24 +142,35 @@ class PluginaPageTable extends Doctrine_Table
       $culture = aTools::getUserCulture();
     }
 
+    // ACHTUNG: resist the temptation to move these into WHERE clauses.
+    // It looks all sweet and innocent until you don't get any records back
+    // and assume you have to recreate the global page... once on every page load.
+    // That's why we LEFT JOIN in the first place
+    $areaJoinArgs = array();
+    $areaJoin = 'p.Areas a';
+    if ($culture !== 'all')
+    {
+      $areaJoin .= ' WITH a.culture = ?';
+      $areaJoinArgs[] = $culture;
+    }
+    $versionJoinArgs = array();
+    $versionJoin = 'a.AreaVersions v';
+    if ($version === false)
+    {
+      $versionJoin .= ' WITH a.latest_version = v.version';
+    } else
+    {
+      $versionJoin .= ' WITH v.version = ?';
+      $versionJoinArgs[] = $version;
+    }
+    
     $query->
-      leftJoin('p.Areas a')->
-      leftJoin('a.AreaVersions v')->
+      leftJoin($areaJoin, $areaJoinArgs)->
+      leftJoin($versionJoin, $versionJoinArgs)->
       leftJoin('v.AreaVersionSlots avs')->
       leftJoin('avs.Slot s')->
       leftJoin('s.MediaItems m')->
       orderBy('avs.rank asc');
-    if ($culture !== 'all')
-    {
-      $query->andWhere('a.culture = ?', $culture);
-    }
-    if ($version === false)
-    {
-      $query->andWhere('a.latest_version = v.version');
-    } else
-    {
-      $query->andWhere('v.version = ?', $version);
-    }
 
     return $query;
   }
