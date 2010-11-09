@@ -86,7 +86,6 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
     $path = aMediaItemTable::getDirectory() . 
       DIRECTORY_SEPARATOR . $this->getSlug() . ".original.$format";
-    error_log("Media path will be $path");
     return $path;
   }
   
