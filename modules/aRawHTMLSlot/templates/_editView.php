@@ -22,10 +22,7 @@
 
 <script type="text/javascript">
 	$(document).ready (function() {
-		$('textarea.aRawHTMLSlotTextarea').autogrow({
-			minHeight: 120,
-			lineHeight: 16
-		});
+		$('textarea.aRawHTMLSlotTextarea').simpleautogrow();
 		$('#a-<?php echo $form->getName() ?>').addClass('a-options dropshadow');		
 	});
 </script>

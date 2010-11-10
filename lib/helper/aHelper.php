@@ -10,8 +10,7 @@ function _a_required_assets()
   $response = sfContext::getInstance()->getResponse();
   $user = sfContext::getInstance()->getUser();
 
-  sfContext::getInstance()->getConfiguration()->loadHelpers(
-    array('Url', 'I18N'));
+  sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url', 'I18N'));
 
   // Do not load redundant CSS and JS in an AJAX context. 
   // These are already loaded on the page in which the AJAX action
@@ -31,27 +30,18 @@ function _a_required_assets()
   }
   $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
   $response->addJavascript("$webDir/js/jquery-1.4.3.min.js");
-  $response->addJavascript("$webDir/js/aControls.js");
-  $response->addJavascript("$webDir/js/plugins/jquery.autogrow.js"); // Autogrowing Textareas
-	$response->addJavascript("$webDir/js/plugins/jquery.hoverIntent.js"); // keycodes
-	$response->addJavascript("$webDir/js/plugins/jquery.keycodes-0.2.js"); // keycodes
-	$response->addJavascript("$webDir/js/plugins/jquery.timer-1.2.js");	
-  $response->addJavascript("$webDir/js/json2.js");
   $response->addJavascript("$webDir/js/a.js");
-  $response->addStylesheet("$webDir/css/ui-apostrophe/jquery-ui-1.8.2.custom.css");
-  $response->addJavascript("$webDir/js/plugins/jquery-ui-1.8.2.custom.min.js");
+  $response->addJavascript("$webDir/js/aControls.js");
+  $response->addJavascript("$webDir/js/json2.js");
+  $response->addJavascript("$webDir/js/plugins/jquery.simpleautogrow.js"); // Autogrowing Plaintext + Raw HTML Textareas
+	$response->addJavascript("$webDir/js/plugins/jquery.hoverIntent.js"); // Hover Intent for Media Library
+  $response->addStylesheet("$webDir/css/ui-apostrophe/jquery-ui-1.8.6.custom.css");
+  $response->addJavascript("$webDir/js/plugins/jquery-ui-1.8.6.custom.min.js");
   $response->addJavascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js');
 }
 
 _a_required_assets();
 
-// Too many jquery problems
-//sfContext::getInstance()->getResponse()->addJavascript(
-// sfConfig::get('sf_a_web_dir', '/apostrophePlugin') . 
-// '/js/aSubmitButton.js');
-//<script type="text/javascript" charset="utf-8">
-//aSubmitButtonAll();
-//</script>
 function a_slot($name, $type, $options = false)
 {
   $options = a_slot_get_options($options);
