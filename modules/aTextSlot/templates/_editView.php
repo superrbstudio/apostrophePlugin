@@ -17,10 +17,7 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-	$('textarea.aTextSlot.multi-line').autogrow({
-		minHeight: 120,
-		lineHeight: 16
+	$(document).ready(function() {
+		$('textarea.aTextSlot.multi-line').simpleautogrow();
 	});
-});
 </script>

@@ -221,12 +221,17 @@ list-style: none;
 z-index: 799;
 }
 
+.a-slideshow.transition-crossfade { overflow: hidden; }
+/* Cross Fade Slideshows must have the items stacked up */
+.a-slideshow.transition-crossfade .a-slideshow-item { position: absolute; top: 0; left: 0; }
+
 .a-slideshow-item { overflow: hidden; display: none; }
 .a-slideshow-item .a-slideshow-title {  }
 .a-slideshow-item .a-slideshow-image { 
 	line-height: 0 !important; /* RB: fixes the bit of whitespace after img */
 	background-repeat: no-repeat; /* If there is a background image attached here, we don't want it to repeat */
 } 
+
 .a-slideshow-item .a-slideshow-image img { display: block; }
 
 /* aButton Slot Styles 
