@@ -232,7 +232,7 @@ z-index: 799;
 	background-repeat: no-repeat; /* If there is a background image attached here, we don't want it to repeat */
 } 
 
-.a-slideshow-item .a-slideshow-image img { display: block; visibility: hidden; }
+.a-slideshow-item .a-slideshow-image img { display: block; }
 
 /* aButton Slot Styles 
 ------------------------------------- */

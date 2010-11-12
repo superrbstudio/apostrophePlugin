@@ -4,8 +4,11 @@
   $items = isset($items) ? $sf_data->getRaw('items') : null;
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
+
+	$id = ($options['idSuffix']) ? $id.'-'.$options['idSuffix']:$id;
 ?>
 <?php use_helper('a') ?>
+
 <?php if (count($items)): ?>
 	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? 'style="height:'.$options['height'].'px; width:'.$options['width'].'px;"':'' ?>>
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
@@ -30,20 +33,16 @@
 	</ul>
 <?php endif ?>
 
-<?php if (has_slot('a-slideshow-controls')): ?>
-	<?php include_slot('a-slideshow-controls') ?>
-<?php else: ?>
-	<?php if ($options['arrows'] && (count($items) > 1)): ?>
-	<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-		<li class="a-arrow-btn icon a-arrow-left"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
-		<?php if ($options['position']): ?>
-			<li class="a-slideshow-position">
-				<span class="a-slideshow-position-head">1</span> of <span class="a-slideshow-position-total"><?php echo count($items); ?></span>
-			</li>
-		<?php endif ?>
-		<li class="a-arrow-btn icon a-arrow-right"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
-	</ul>
+<?php if ($options['arrows'] && (count($items) > 1)): ?>
+<ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
+	<li class="a-arrow-btn icon a-arrow-left"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
+	<?php if ($options['position']): ?>
+		<li class="a-slideshow-position">
+			<span class="a-slideshow-position-head">1</span> of <span class="a-slideshow-position-total"><?php echo count($items); ?></span>
+		</li>
 	<?php endif ?>
+	<li class="a-arrow-btn icon a-arrow-right"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
+</ul>
 <?php endif ?>
 
-<?php a_js_call('apostrophe.slideshowSlot(?)', array('debug' => false, 'id' => $id, 'position' => $options['position'], 'interval' => $options['interval'],  'transition' => $options['transition'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>
+<?php a_js_call('apostrophe.slideshowSlot(?)', array('debug' => true, 'id' => $id, 'position' => $options['position'], 'interval' => $options['interval'],  'transition' => $options['transition'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>

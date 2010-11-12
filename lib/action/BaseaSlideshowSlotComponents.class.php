@@ -51,5 +51,6 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
+		$this->options['idSuffix'] = $this->getOption('idSuffix', false); // I use this for Blog Posts so I can have unique ids for the same slideshows if they show up in separate slots
 	}
 }

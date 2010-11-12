@@ -229,10 +229,10 @@ function aConstructor()
 		
 		if (field.length)
 		{
-			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton -- debugging') : field.find('.radio_list').hide();
+			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --'+id+'-- debugging') : field.find('.radio_list').hide();
 			
 			var radios = field.find('input[type="radio"]');
-			radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No radio inputs found');			
+			radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --'+id+'-- No radio inputs found');			
 
 			var toggleButton = $('<a/>');			
 			toggleButton.addClass('a-btn icon lite a-toggle-btn');
@@ -355,14 +355,14 @@ function aConstructor()
 		
  		(options['title']) ? slideshowItems.attr('title', options['title']) : slideshowItems.attr('title','');
 		
-		( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Debugging') : '';
-		( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Item Count : ' + itemCount ) : '';									
+		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging') : '';
+		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Item Count : ' + itemCount ) : '';									
 		
     if (itemCount === 1)
     {
 			slideshow.addClass('single-image');
 			$(slideshowItems[0]).show();
-			( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Single Image') : '';			
+			( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Single Image') : '';			
     }
     else
     {	
@@ -384,7 +384,7 @@ function aConstructor()
 				currentItem = position;
 				(position == 0) ? position = itemCount - 1 : position--;
 				showItem(position, currentItem);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Previous : ' + currentItem + ' / ' + position) : '';							
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Previous : ' + currentItem + ' / ' + position) : '';							
   	  };
  
   	  function next()
@@ -392,7 +392,7 @@ function aConstructor()
 				currentItem = position;
 				(position == itemCount-1) ? position = 0 : position++; 
 				showItem(position, currentItem);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Next : ' + currentItem + ' / ' + position) : '';											
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Next : ' + currentItem + ' / ' + position) : '';											
   	  };
 	
 			function showItem(position, currentItem)
@@ -402,18 +402,18 @@ function aConstructor()
 				(transition == 'crossfade') ? oldItem.fadeOut('slow') : oldItem.hide();				
 				newItem.fadeIn('slow');
 			  setPosition(position);
-  			interval();				
+  			interval();
 			};
 	
 			function setPosition(p) 
 			{ 
 				slideshow.data('position', p);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- positionFlag : ' + positionFlag ) : '';																
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- setPosition : ' + (p + 1) ) : '';
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- positionFlag : ' + positionFlag ) : '';																
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + (p + 1) ) : '';
 	  		if (positionFlag && positionHead.length) 
 				{ 
 					positionHead.text(parseInt(p) + 1);	
-					( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- setPosition : ' + p + 1 ) : '';																
+					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + p + 1 ) : '';																
 				};
 			};
 			
@@ -427,7 +427,7 @@ function aConstructor()
   	    {
   	  	  intervalTimeout = setTimeout(next, intervalSetting * 1000);
   	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
-					( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Interval : ' + intervalSetting ) : '';											
+					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting ) : '';											
   	  	};
   	  };
 	
