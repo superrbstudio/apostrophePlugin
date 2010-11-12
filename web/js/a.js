@@ -339,22 +339,33 @@ function aConstructor()
 	// aSlideshowSlot
 	this.slideshowSlot = function(options)
 	{
+		var debug = options['debug'];
+		var transition = options['transition'];
 	  var id = options['id'];
 	  var intervalEnabled = !!options['interval'];
 	  var intervalSetting = options['interval'];
 	  var positionFlag = options['position'];
-	  var title = options['title'];
-
-		var slideshowItems = $('#a-slideshow-' + id + ' .a-slideshow-item');
-		var img_count = slideshowItems.length;
-    
-    if (img_count === 1)
+   	var position = (options['startingPosition']) ? options['startingPosition'] : 0;
+		var slideshow = $('#a-slideshow-' + id);
+		var slideshowControls = slideshow.next('.a-slideshow-controls');
+		var slideshowItems = slideshow.find('.a-slideshow-item');
+		var itemCount = slideshowItems.length;
+		var positionHead = slideshowControls.find('.a-slideshow-position-head');		
+		var intervalTimeout = null;
+		
+ 		(options['title']) ? slideshowItems.attr('title', options['title']) : slideshowItems.attr('title','');
+		
+		( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Debugging') : '';
+		( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Item Count : ' + itemCount ) : '';									
+		
+    if (itemCount === 1)
     {
-		 	$('#a-slideshow-item-' + id + '-0').css('display', 'block').parents('.a-slideshow, .aSlideshow').addClass('single-image');
-			apostrophe.log('if is true');
+			slideshow.addClass('single-image');
+			$(slideshowItems[0]).show();
+			( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Single Image') : '';			
     }
     else
-    {
+    {	
       // Clear any interval timer left running by a previous slot variant
       if (window.aSlideshowIntervalTimeouts !== undefined)
       {
@@ -370,104 +381,87 @@ function aConstructor()
 
   	  function previous() 
   	  {
-  		  var oldItem = $('#a-slideshow-item-' + id + '-' + position);
-
-				position--;
-				if ( position < 0 ) 
-				{ 
-				  position = img_count - 1; 
-				}
-
-				var newItem = $('#a-slideshow-item-' + id + '-' + position);
-				newItem.parents('.a-slideshow').css('height',newItem.height());
-				newItem.fadeIn('slow');			
-				oldItem.hide();
-			  setPosition(position);				
-  			interval();
-  	  }
+				currentItem = position;
+				(position == 0) ? position = itemCount - 1 : position--;
+				showItem(position, currentItem);
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Previous : ' + currentItem + ' / ' + position) : '';							
+  	  };
  
   	  function next()
   	  {
-    	  var oldItem = $('#a-slideshow-item-' + id + '-'+position);
-
-	  		position++;
-	  		if ( position == img_count) 
-	  		{ 
-	  		  position = 0; 
-	  		}
-
-				var newItem = $('#a-slideshow-item-' + id + '-' + position);
-				newItem.parents('.a-slideshow').css('height',newItem.height());
-	  		newItem.fadeIn('slow');			
-	  		oldItem.hide();
-  			setPosition(position);
-  	  	interval();
-  	  }
+				currentItem = position;
+				(position == itemCount-1) ? position = 0 : position++; 
+				showItem(position, currentItem);
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Next : ' + currentItem + ' / ' + position) : '';											
+  	  };
 	
-			function setPosition(pos) 
+			function showItem(position, currentItem)
+			{
+				newItem = $(slideshowItems[position]);
+				oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems; 
+				(transition == 'crossfade') ? oldItem.fadeOut('slow') : oldItem.hide();				
+				newItem.fadeIn('slow');
+			  setPosition(position);
+  			interval();				
+			};
+	
+			function setPosition(p) 
 			{ 
-				$('#a-slideshow-' + id).data('position', pos);
-	  		if (positionFlag)
-	  		{
-					positionHead.text(pos + 1);	
-				}
-			}
+				slideshow.data('position', p);
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- positionFlag : ' + positionFlag ) : '';																
+				( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- setPosition : ' + (p + 1) ) : '';
+	  		if (positionFlag && positionHead.length) 
+				{ 
+					positionHead.text(parseInt(p) + 1);	
+					( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- setPosition : ' + p + 1 ) : '';																
+				};
+			};
 			
-  		var intervalTimeout = null;
   	  function interval()
   	  {
   	    if (intervalTimeout)
   	    {
   	      clearTimeout(intervalTimeout);
-  	    }
+  	    };
   	    if (intervalEnabled)
   	    {
   	  	  intervalTimeout = setTimeout(next, intervalSetting * 1000);
   	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
-  	  	}
-  	  }
-
-  		var position = 0;
-  		$('#a-slideshow-item-' + id + '-' + position).css('display', 'block');
-
-  		if (positionFlag)
-  		{
-    		var positionHead = $('#a-slideshow-controls-' + id + ' li.a-slideshow-position span.head');
-  		}
-  		setPosition(position);
-		
-  		slideshowItems.attr('title', title);
+					( debug ) ? apostrophe.log('apostrophe.slideshowSlot -- Interval : ' + intervalSetting ) : '';											
+  	  	};
+  	  };
 	
-  		$('#a-slideshow-' + id).bind('showImage', function(e, num){
-  			position = num;
-  			slideshowItems.hide();
-  			$('#a-slideshow-item-' + id + '-' + position).fadeIn('slow');
-				setPosition(position);
-  		});
+  		slideshow.bind('showItem', function(e,p){ showItem(p); });
+			slideshow.bind('previousItem', function(){ previous(); });
+			slideshow.bind('nextItem', function(){ next(); });
 		
-  	  slideshowItems.find('.a-slideshow-image').click(function(event) {	
+  	  slideshow.find('.a-slideshow-image').click(function(event) {	
 				event.preventDefault();	
+  			intervalEnabled = false;				
 				next(); 
 			});
 
-  		$('#a-slideshow-controls-' + id + ' .a-arrow-left').click(function(event){
+  		slideshowControls.find('.a-arrow-left').click(function(event){
   			event.preventDefault();
   			intervalEnabled = false;
   			previous();
   		});
 
-  		$('#a-slideshow-controls-' + id + ' .a-arrow-right').click(function(event){
+  		slideshowControls.find('.a-arrow-right').click(function(event){
   			event.preventDefault();
   			intervalEnabled = false;
   			next();
   		});
 
-  		$('.a-slideshow-controls li').hover(function(){
-  			$(this).addClass('over');	
+  		slideshowControls.find('.a-arrow-left, .a-arrow-right').hover(function(){
+  			$(this).addClass('over');
   		},function(){
   			$(this).removeClass('over');
   		});
 
+			slideshowItems.hide();
+  		$(slideshowItems[position]).show();
+  		setPosition(position);
   	  interval();
 	  }
 	
