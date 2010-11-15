@@ -1324,7 +1324,7 @@ function aConstructor()
 	}
 	
 		/* Example Mark-up
-		<script>
+		<script type="text/javascript">
 			apostrophe.accordion({'accordion_toggle': '.a-accordion-item h3' });
 		</script> 
 

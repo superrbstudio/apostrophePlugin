@@ -52,7 +52,7 @@ FCKEditingArea.prototype.Start = function( html, secondCall )
 		// For FF, document.domain must be set only when different, otherwhise
 		// we'll strangely have "Permission denied" issues.
 		if ( FCK_IS_CUSTOM_DOMAIN )
-			html = '<script>document.domain="' + FCK_RUNTIME_DOMAIN + '";</script>' + html ;
+			html = '<script type="text/javascript">document.domain="' + FCK_RUNTIME_DOMAIN + '";</script>' + html ;
 
 		// IE has a bug with the <base> tag... it must have a </base> closer,
 		// otherwise the all successive tags will be set as children nodes of the <base>.
