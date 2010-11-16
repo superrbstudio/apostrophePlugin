@@ -268,13 +268,13 @@ line-height: 20px !important;
 /* Apostrophe Sort Arrow Button
 -------------------------------------*/
 
-.a-btn.a-sort-arrow { background-position: 0 0; }
-.a-btn.a-sort-arrow.sorting:hover { background-position: 0 -20px; }
-.a-btn.a-sort-arrow.sorting, .a-btn.a-sort-arrow:hover { background-position: 0 -20px; }
-.a-btn.a-sort-arrow.asc { background-image: url(../images/a-icon-sort-arrow-asc.png); }
-.a-btn.a-sort-arrow.desc { background-image: url(../images/a-icon-sort-arrow-desc.png); }
-.a-btn.a-sort-arrow.asc.sorting:hover { background-image: url(../images/a-icon-sort-arrow-desc.png); }
-.a-btn.a-sort-arrow.desc.sorting:hover { background-image: url(../images/a-icon-sort-arrow-asc.png); }
+.a-ui .a-btn.a-sort-arrow > .icon { background-position: 0 0; }
+.a-ui .a-btn.a-sort-arrow.sorting .icon:hover { background-position: 0 -20px; }
+.a-btn.a-sort-arrow.sorting .icon, .a-btn.a-sort-arrow .icon:hover { background-position: 0 -20px; }
+.a-btn.a-sort-arrow.asc .icon { background-image: url(../images/a-icon-sort-arrow-asc.png); }
+.a-btn.a-sort-arrow.desc .icon { background-image: url(../images/a-icon-sort-arrow-desc.png); }
+.a-btn.a-sort-arrow.asc.sorting .icon:hover { background-image: url(../images/a-icon-sort-arrow-desc.png); }
+.a-btn.a-sort-arrow.desc.sorting .icon:hover { background-image: url(../images/a-icon-sort-arrow-asc.png); }
 
 
 /* Apostrophe History Button
