@@ -383,11 +383,9 @@ border: 1px inset rgba(0,0,0,0);
 	border: 1px inset rgba(0,0,0,0.065);
 }
 
-.a-ui .a-options.a-page-form .a-form-row.a-page-title { margin: 0; }
+.a-ui .a-options.a-page-form .a-form-row.a-page-title { margin: 0; float: left; clear: right;}
 
-.a-ui .a-options.a-page-form .a-form-row.a-page-title label { display: none; }
-
-.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field { width: 342px; font-size: 18px; }
+.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field { width: 275px; font-size: 18px; }
 
 .a-ui .a-options.a-page-form .a-form-row input.a-page-title-field:focus
 {
@@ -410,23 +408,29 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui.a-page-form { position: absolute; z-index: 997;	}
 
+.a-ui.a-page-form { width: 342px; }
+
 .a-ui.a-page-form .a-options { display: block !important; min-width: 0; }
+
+.a-ui.a-page-form .a-options-section.title-permalink h3 { width: 42px; padding: 7px 0 7px 0; margin: 0 0 0 5px; float: left; clear: none; }
 
 .a-ui.a-page-form .a-page-settings-section { float: left; clear: both; width: 100%; }
 
 .a-ui.a-page-form .a-page-settings-section .content { margin: 0 16px; float: left; }
 
-.a-ui .a-page-settings-status { float: left; width: 230px; }
+.a-ui.a-page-form .a-form-help-text { float: left; clear: both; margin: 5px 0; color: #999; font-size: 11px; }
 
 .a-ui .a-page-settings-status .radio_list { float: left; width: 100%; }
 
 .a-ui.a-page-form h3 { margin: 0 5px; }
 
+.a-ui.a-page-form h4 { font-size: 14px; }
+
 .a-ui .a-form-row.keywords .a-inline-taggable-widget { float: left; margin: 2px 0; }
 
 .a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
 
-.a-ui .a-form-row.meta-description .a-form-field textarea { width: 342px; }
+.a-ui .a-form-row.meta-description .a-form-field textarea { width: 323px; }
 
 .a-ui h3.a-permissions-heading
 {
@@ -441,10 +445,7 @@ border: 1px inset rgba(0,0,0,0);
 	margin-bottom: 10px;
 }
 
-.a-page-permissions h4
-{
-	font-size: 16px;
-}
+
 
 .a-page-permissions-section h5
 {
@@ -507,6 +508,7 @@ text-indent: 16px;
 line-height: 20px;
 -webkit-user-select:none;
 -moz-user-select:none;
+margin-left: -12px;
 }
 
 .a-ui.a-page-form .a-accordion-toggle.hover,
@@ -517,10 +519,12 @@ line-height: 20px;
 .a-ui.a-page-form .open .a-accordion-toggle.hover,
 .a-ui.a-page-form .open .a-accordion-toggle:hover { background-position: -6px -60px; }
 
-.a-ui.a-page-form .a-form-row.a-page-slug { margin: 0; font-size: 11px; }
-.a-ui.a-page-form .a-form-row.a-page-slug h4 { float: left; margin: 0; font-size: 11px; color: #999; }
-.a-ui.a-page-form .a-form-row.a-page-slug label { text-transform: none; width: auto; margin-right: 5px; }
-.a-ui.a-page-form .a-form-row.a-page-slug input { width: 160px; font-size: 11px; }
+.a-ui.a-page-form .a-page-slug { font-size: 11px; float: left; clear: both; margin: 5px 0 0 0; }
+.a-ui.a-page-form .a-page-slug h4 { float: left; margin: 0; font-size: 11px; color: #999; }
+.a-ui.a-page-form .a-page-slug label { text-transform: none; width: auto; margin-right: 5px; max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
+.a-ui.a-page-form .a-page-slug input { width: 160px; font-size: 11px; }
+
+
 
 .a-ui.a-page-form .a-more-options-btn { margin-top: 10px; }
 
