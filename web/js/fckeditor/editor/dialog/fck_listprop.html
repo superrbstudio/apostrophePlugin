@@ -73,7 +73,8 @@ window.onload = function()
 function Ok()
 {
 	if ( oActiveEl ){
-		SetAttribute( oActiveEl, 'type'	, oActiveSel.value ) ;
+		oActiveEl.style.listStyleType = oActiveSel.value;
+		// SetAttribute( oActiveEl, 'type'	, oActiveSel.value ) ;
 		if(oActiveEl.tagName == 'OL')
 			SetAttribute( oActiveEl, 'start', GetE('txtStartPosition').value ) ;
 	}
@@ -103,11 +104,11 @@ function Ok()
 							</select>
 							<select id="selNumbered" style="display: none">
 								<option value="" selected="selected"></option>
-								<option value="1" fcklang="DlgLstTypeNumbers">Numbers (1, 2, 3)</option>
-								<option value="a" fcklang="DlgLstTypeLCase">Lowercase Letters (a, b, c)</option>
-								<option value="A" fcklang="DlgLstTypeUCase">Uppercase Letters (A, B, C)</option>
-								<option value="i" fcklang="DlgLstTypeSRoman">Small Roman Numerals (i, ii, iii)</option>
-								<option value="I" fcklang="DlgLstTypeLRoman">Large Roman Numerals (I, II, III)</option>
+								<option value="decimal" fcklang="DlgLstTypeNumbers">Numbers (1, 2, 3)</option>
+								<option value="lower-alpha" fcklang="DlgLstTypeLCase">Lowercase Letters (a, b, c)</option>
+								<option value="upper-alpha" fcklang="DlgLstTypeUCase">Uppercase Letters (A, B, C)</option>
+								<option value="lower-roman" fcklang="DlgLstTypeSRoman">Small Roman Numerals (i, ii, iii)</option>
+								<option value="upper-roman" fcklang="DlgLstTypeLRoman">Large Roman Numerals (I, II, III)</option>
 							</select>
 							&nbsp;
 						</td>
