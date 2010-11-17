@@ -602,7 +602,7 @@ clear: both;
 	position: relative;
 }
 
-.a-history-browser #a-history-close-button
+/*.a-history-browser #a-history-close-button
 {
 	position: absolute;
 	top: 50%;
@@ -621,7 +621,7 @@ clear: both;
 }
 
 .a-history-browser #a-history-close-button:hover { background-position: 0 -20px; }
-
+*/
 span#a-history-browser-number-of-revisions,
 a.a-history-browser-view-more
 {
