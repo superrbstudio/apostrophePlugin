@@ -38,7 +38,6 @@
 		'aSlideshow', 
 		'aAudio',
 		'aVideo',
-		'aBlog', 		 
 		'aImage', 
 		'aFeed', 
 		'aFile', 
