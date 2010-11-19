@@ -177,8 +177,12 @@ but why take chances with your data?
       $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
       $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
     }
+    
     // Migrate all IDs to BIGINT (the default in Doctrine 1.2) for compatibility with the
-    // new version of sfDoctrineGuardPlugin
+    // new version of sfDoctrineGuardPlugin. NOTE: we continue to use INT in create table
+    // statements BEFORE this point because we need to set up relations with what they already
+    // have - this call will clean that up
+    
     $this->migrate->upgradeIds();
     
     // sfDoctrineGuardPlugin 5.0.x requires this
@@ -213,7 +217,7 @@ but why take chances with your data?
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8'));
     }
     
-    if (!$this->migrate->columNExists('a_page', 'published_at'))
+    if (!$this->migrate->columnExists('a_page', 'published_at'))
     {
       $this->migrate->sql(array(
         'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL', 

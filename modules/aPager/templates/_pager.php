@@ -2,6 +2,9 @@
   // Compatible with sf_escaping_strategy: true
   $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
+	$nb_pages = $pager->getLastPage();
+	$nb_links = isset($nb_links) ? $sf_data->getRaw('nb_links') : sfConfig::get('app_a_pager_nb_links', 5);
+	$nb_links = ($nb_links > $nb_pages) ? $nb_pages : $nb_links;
 ?>
 <?php use_helper('a') ?>
 <?php # Not really a new pager - just a well-styled partial for use with ?>
@@ -12,27 +15,25 @@
 
 <?php if ($pager->haveToPaginate()): ?>
 <div class="a-pager-navigation">
-	<?php if ($pager->getPage() == 1):?>
-		<span class="a-pager-navigation-image a-pager-navigation-first a-pager-navigation-disabled"><?php echo __('First Page', null, 'apostrophe') ?></span>	
-	  <span class="a-pager-navigation-image a-pager-navigation-previous a-pager-navigation-disabled"><?php echo __('Previous Page', null, 'apostrophe') ?></span>
-	<?php else: ?>
 		<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => 1))) ?>" class="a-pager-navigation-image a-pager-navigation-first"><?php echo __('First Page', null, 'apostrophe') ?></a>
-  	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $pager->getPreviousPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
-	<?php endif ?>
+  	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() - $nb_links) > 0) ? $pager->getPage() - $nb_links : 1))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
 
-  <?php foreach ($pager->getLinks() as $page): ?>
+	<span class="a-pager-navigation-links-container-container">
+	<span class="a-pager-navigation-links-container">
+  <?php foreach ($pager->getLinks($nb_pages) as $page): ?>
     <?php if ($page == $pager->getPage()): ?>
       <span class="a-page-navigation-number a-pager-navigation-disabled"><?php echo $page ?></span>
     <?php else: ?>
-      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-page-navigation-number"><?php echo $page ?></a>
+      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-page-navigation-number<?php echo (($page < $pager->getPage())? " a-page-navigation-number-before" : (($page > $pager->getPage())? " a-page-navigation-number-after" : "")) ?>"><?php echo $page ?></a>
     <?php endif; ?>
   <?php endforeach; ?>
-	<?php if ($pager->getPage() >= $pager->getLastPage()):?>
-	  <span class="a-pager-navigation-image a-pager-navigation-next a-pager-navigation-disabled"><?php echo __('Next Page', null, 'apostrophe') ?></span>
-		<span class="a-pager-navigation-image a-pager-navigation-last a-pager-navigation-disabled"><?php echo __('Last Page', null, 'apostrophe') ?></span>	
-	<?php else: ?>
-	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $pager->getNextPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
+	</span>
+	</span>
+
+	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() + $nb_links) < $nb_pages) ? $pager->getPage() + $nb_links : $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
   	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-last"><?php echo __('Last Page', null, 'apostrophe') ?></a>
-	<?php endif ?>
+	
 </div>
 <?php endif ?>
+
+<?php a_js_call('apostrophe.pager(?, ?)', '.a-pager-navigation', array('nb-links' => $nb_links, 'nb-pages' => $nb_pages)) ?>

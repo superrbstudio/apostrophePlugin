@@ -791,7 +791,7 @@ abstract class PluginaPage extends BaseaPage
       $whereClauses[] = '(p.archived IS FALSE OR p.archived IS NULL)';
       
       // Filter out as-yet-unpublished pages as well
-      $whereClauses[] = '(p.published_at >= NOW())';
+      $whereClauses[] = '(p.published_at <= NOW())';
     }
     // admin pages are almost never visible in navigation
     if (!$admin)

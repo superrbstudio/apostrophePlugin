@@ -32,10 +32,7 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // Memory usage is a bit high here because we look at every page, and the Rackspace Cloud
-    // environment has a very low default memory limit for their ersatz "cron jobs."
-    // TODO: prioritize a low-memory solution for rebuild-search-index, which will be
-    // necessary for large sites anyway
+    // We've come a long way in reducing memory usage here, but it's still an expensive job
     
     ini_set('memory_limit', '256M');
     
@@ -117,7 +114,6 @@ EOF;
         }
         else
         {
-          echo("BUMMER\n");
           // We don't have a deferred update feature for other tables,
           // so we'll have to get them done in the memory available
           $table->rebuildLuceneIndex();

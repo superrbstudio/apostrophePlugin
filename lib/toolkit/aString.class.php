@@ -18,12 +18,19 @@ class aString
 	* 	if $options['append_ellipsis'] is set, append an ellipsis to the end 
   *   of strings that have been truncated
 	*
+	* Whitespace will be collapsed to single spaces. UTF8-aware where supported
+	*
 	* @return string
 	*   new string containing only words up to the word limit.
 	*/
 	public static function limitWords($string, $word_limit, $options = array())
 	{
-	  $words = explode(' ', $string, $word_limit + 1);
+	  $regexp = '/\s+/';
+	  if (function_exists('mb_strtolower'))
+    {
+      $regexp .= 'u';
+    }
+	  $words = preg_split($regexp, $string, $word_limit + 1);
     $num_words = count($words);
 
 		# TBB: if there are $word_limit words or less, this check is necessary
@@ -55,6 +62,7 @@ class aString
 	*
 	* @param uint $character_limit
 	*   maximum number of characters to return, inclusive of any added ellipsis
+	*   NOTE: this is characters, not bytes (think UTF8). Be generous with columns
 	* 
 	* @param optional array
 	* 	if $options['append_ellipsis'] is set, append an ellipsis to the end 
@@ -79,18 +87,18 @@ class aString
     if ($length < 12)
     {
       // Not designed to be elegant below this length
-      return substr($s, 0, $length);
+      return aString::substr($s, 0, $length);
     }
-    if (strlen($s) > $length)
+    if (aString::strlen($s) > $length)
     {
-      $s = substr($s, 0, $length - strlen($ellipsis));
-      $slength = strlen($s);
+      $s = aString::substr($s, 0, $length - aString::strlen($ellipsis));
+      $slength = aString::strlen($s);
       for ($i = 1; ($i <= 10); $i++)
       {
-        $c = substr($s, $slength - $i, 1);
+        $c = aString::substr($s, $slength - $i, 1);
         if (($c === ' ') || ($c === '\t') || ($c === '\r') || ($c === '\n'))
         {
-          return substr($s, 0, $slength) . $ellipsis;
+          return aString::substr($s, 0, $slength) . $ellipsis;
         }
       }
       return $s . $ellipsis;
@@ -118,10 +126,14 @@ class aString
       # to capture an arbitrary number of words preceding - no more
       # than three - and I don't want to reject cases with fewer
       # than three preceding either. 
-      $keyword = addslashes($keyword);
+      $keyword = preg_quote($keyword, '/');
       for ($wordsPreceding = 3; ($wordsPreceding >= 0); $wordsPreceding--) {
         $regexp = "(" . 
           str_repeat("\w+\W+", $wordsPreceding) . ")(" . $keyword . ")" . "(.*)/is";
+        if (function_exists('mb_strtolower'))
+        {
+          $regexp .= 'u';
+        }
         if (preg_match("/^" . $regexp, $text, $matches)) {
           return $matches[1] . "<b>" . $matches[2] . "</b>" . $matches[3]; 
         } 
@@ -204,6 +216,44 @@ class aString
     }
     return array("onlyin1" => array_values($onlyin1), "onlyin2" => array_values($onlyin2));
   }
+  
+  static public function strtolower($s)
+  {
+    if (function_exists('mb_strtolower'))
+    {
+      return mb_strtolower($s, 'UTF-8');
+    }
+    else
+    {
+      return strtolower($s);
+    }
+  }
+
+  static public function strlen($s)
+  {
+    if (function_exists('mb_strlen'))
+    {
+      return mb_strlen($s, 'UTF-8');
+    }
+    else
+    {
+      return strlen($s);
+    }
+  }
+
+  static public function substr($s, $start, $length = null)
+  {
+    // Frustratingly you can't pass 'null' as a safe way of skipping the length
+    // parameter, even with mb_substr which takes a fourth 'encoding' argument, so you
+    // have to make a superfluous mb_strlen call
+    if (function_exists('mb_substr'))
+    {
+      return mb_substr($s, $start, $length, is_null($length) ? mb_strlen($s) : $length, 'UTF-8');
+    }
+    else
+    {
+      return substr($s, $start, is_null($length) ? strlen($s) : $length);
+    }
+  }
 }
 
-?>

@@ -14,44 +14,6 @@
 <?php $create = $page->isNew() ?>
 <?php $stem = isset($stem) ? $sf_data->getRaw('stem') : ($page->isNew() ? 'a-create-page' : 'a-page-settings') ?>
 
-<?php slot('a-create-options') ?>
-<?php 
-	// if we are CREATING a new page these form rows are in different places than
-	// if we are MODIFYING an existing page's settings	
-	// Instead of creating a partial, I made it a slot, so all of the form markup can live in a single file.
-	// it seemed easier to maintain.
-?>
-
-<?php // We'll turn these into a combined control via JS ?>  
-<?php echo $form['engine']->render(array('style' => 'display: none')) ?>
-<?php echo $form['template']->render(array('style' => 'display: none')) ?>
-
-	<div class="a-form-row a-edit-page-template">
-		<h4><?php echo a_('Page Type') ?></h4>
-		<div class="a-form-field">
-		  <select name="combined_page_type"></select>
-		</div>
-	</div>
-
-   <?php // This outer div is an AJAX target, it has to be here all the time ?>
-   <?php // in case the user selects an engine ?>
-	<div class="a-engine-page-settings">
-	  <?php if (isset($engineSettingsPartial)): ?>
-	    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
-	  <?php endif ?>
-	</div>
-
-	<div class="a-form-row status">
-	  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
-  	<div class="<?php echo $stem ?>-status">
-			<?php echo $form['archived'] ?>
-			<?php if(isset($form['cascade_archived'])): ?>
-				<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
-			<?php endif ?> 
-		</div>
-	</div>			
-<?php end_slot() ?>
-
   <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
@@ -59,20 +21,9 @@
 
 	<?php echo $form->renderGlobalErrors() ?>
 
-	<div class="a-options-section open">
+	<div class="a-options-section title-permalink open">
 
-		<h3>
-			<?php if ($page->getSlug() == "/"): ?>
-				<?php echo __('Homepage Title', array(), 'apostrophe') ?>
-			<?php else: ?>
-				<?php if ($create): ?>
-					<?php echo __('Title', array(), 'apostrophe') ?>
-				<?php else: ?>
-					<?php echo __('Title &amp; Permalink', array(), 'apostrophe') ?>						
-				<?php endif ?>
-
-			<?php endif ?>
-		</h3>
+		<h3><?php echo __('Title', array(), 'apostrophe') ?></h3>
 
 		<div class="a-form-row a-page-title">
 		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
@@ -80,35 +31,52 @@
 						// in an unwanted fashion even if it allows them to be saved right ?>
 			<div class="a-form-field">
 				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
+			  <div class="a-page-slug<?php echo ($create)? ' a-hidden':'' ?>">
+					<h4><label>http://<?php echo $_SERVER['HTTP_HOST'] ?><?php echo ($page->getSlug() == '/') ? '/':'' ?></label></h4>
+					<?php if (isset($form['slug'])): ?>
+						<div class="a-form-field">
+			    		<?php echo $form['slug']->render() ?>
+						</div>
+			    	<?php echo $form['slug']->renderError() ?>
+					<?php endif ?>
+			  </div>
 			</div>
 			<?php echo $form['realtitle']->renderError() ?>
+
 		</div>
 
-		<?php if (isset($form['slug'])): ?>
-		  <div class="a-form-row a-page-slug<?php echo ($create)? ' a-hidden':'' ?>">
-				<h4><?php echo $form['slug']->renderLabel('http://'.$_SERVER['HTTP_HOST']) ?></h4>
+		<hr />
+
+		<?php // We'll turn these into a combined control via JS ?>  
+		<?php echo $form['engine']->render(array('style' => 'display: none')) ?>
+		<?php echo $form['template']->render(array('style' => 'display: none')) ?>
+
+			<div class="a-form-row a-edit-page-template">
+				<h4><label><?php echo a_('Page Type') ?></label></h4>
 				<div class="a-form-field">
-		    	<?php echo $form['slug'] ?>
+				  <select name="combined_page_type"></select>
 				</div>
-		    <?php echo $form['slug']->renderError() ?>
-		  </div>
-		<?php endif ?>
+			</div>
 
-		<?php if ($create): ?>
-			<?php include_slot('a-create-options') ?>
-		<?php endif ?>
+		   <?php // This outer div is an AJAX target, it has to be here all the time ?>
+		   <?php // in case the user selects an engine ?>
+			<div class="a-engine-page-settings">
+			  <?php if (isset($engineSettingsPartial)): ?>
+			    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
+			  <?php endif ?>
+			</div>
 
+			<div class="a-form-row status">
+			  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
+		  	<div class="<?php echo $stem ?>-status">
+					<?php echo $form['archived'] ?>
+					<?php if(isset($form['cascade_archived'])): ?>
+						<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
+					<?php endif ?> 
+				</div>
+			</div>
 	</div>
 	
-	<?php if (!$create): ?>
-	<hr/>	
-	<div class="a-options-section a-accordion">
-		<h3 class="a-accordion-toggle">Options</h3>
-		<div class="a-accordion-content">
-				<?php include_slot('a-create-options') ?>
-		</div>
-	</div>
-	<?php endif ?>	
 	
 	<?php if ($create): ?>
 	<a href="/#more-options" onclick="return false;" class="a-btn lite mini a-more-options-btn">More Options...</a>
@@ -117,7 +85,7 @@
 
 	<hr/>
 	
-	<div class="a-options-section a-accordion">
+	<div class="a-options-section tags-metadata a-accordion">
 		<h3>Tags &amp; Metadata</h3>
 		<div class="a-accordion-content">			
 			<div class="a-form-row keywords">
@@ -147,7 +115,7 @@
 
 	<hr/>
 
-	<div class="a-options-section">
+	<div class="a-options-section submit-settings">
 		<ul class="a-ui a-controls">		
 		  <li><input type="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
 			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Cancel', null, 'apostrophe') ?></a></li>

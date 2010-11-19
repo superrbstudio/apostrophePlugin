@@ -128,6 +128,23 @@ echo("after\n");
       echo("Warning: couldn't create a_slot_media_item table\n");
     }
     
+    echo("Adding critical columns (apostrophe:migrate will add the rest of the new stuff)\n");
+    try
+    {
+      $conn->query("ALTER TABLE a_page ADD COLUMN engine VARCHAR(255) default NULL");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add engine column to a_page table");
+    }
+
+    try
+    {
+      $conn->query("ALTER TABLE a_media_item ADD COLUMN lucene_dirty TINYINT(1) default 0");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add lucene_dirty column to a_media_item table");
+    }
+
     echo("Migrating media slots\n");
     $count = 0;
     $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
@@ -201,20 +218,22 @@ echo("after\n");
       echo("Warning: couldn't create a_media_item_category table\n");
     }
 
-    try
-    {
-      $conn->query("CREATE TABLE `a_media_page_category` (
-        `page_id` int(11) NOT NULL DEFAULT '0',
-        `media_category_id` int(11) NOT NULL DEFAULT '0',
-        PRIMARY KEY (`page_id`,`media_category_id`),
-        KEY `a_media_page_category_media_category_id_a_media_category_id` (`media_category_id`),
-        CONSTRAINT `a_media_page_category_media_category_id_a_media_category_id` FOREIGN KEY (`media_category_id`) REFERENCES `a_media_category` (`id`) ON DELETE CASCADE,
-        CONSTRAINT `a_media_page_category_page_id_a_page_id` FOREIGN KEY (`page_id`) REFERENCES `a_page` (`id`) ON DELETE CASCADE
-      ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-    } catch (Exception $e)
-    {
-      echo("Warning: couldn't create a_media_page_category table\n");
-    }
+    // Let apostrophe:migrate take care of this one
+    
+    // try
+    // {
+    //   $conn->query("CREATE TABLE `a_media_page_category` (
+    //     `page_id` int(11) NOT NULL DEFAULT '0',
+    //     `media_category_id` int(11) NOT NULL DEFAULT '0',
+    //     PRIMARY KEY (`page_id`,`media_category_id`),
+    //     KEY `a_media_page_category_media_category_id_a_media_category_id` (`media_category_id`),
+    //     CONSTRAINT `a_media_page_category_media_category_id_a_media_category_id` FOREIGN KEY (`media_category_id`) REFERENCES `a_media_category` (`id`) ON DELETE CASCADE,
+    //     CONSTRAINT `a_media_page_category_page_id_a_page_id` FOREIGN KEY (`page_id`) REFERENCES `a_page` (`id`) ON DELETE CASCADE
+    //   ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+    // } catch (Exception $e)
+    // {
+    //   echo("Warning: couldn't create a_media_page_category table\n");
+    // }
   
     echo("Rebuilding search index\n");
 		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];

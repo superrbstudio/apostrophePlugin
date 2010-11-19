@@ -148,6 +148,7 @@ line-height: 20px !important;
 .a-search > .icon { background-image: url(../images/a-icon-search.png); }
 .a-settings > .icon { background-image: url(../images/a-icon-settings.png); }
 .a-slideshow > .icon { background-image: url(../images/a-icon-photo.png); }
+.a-smartslideshow > .icon { background-image: url(../images/a-icon-smart-slideshow.png); }
 .a-templates > .icon { background-image: url(../images/a-icon-templates.png); }
 .a-unchecked > .icon { background-image: url(../images/a-icon-unchecked.png); }
 .a-users > .icon { background-image: url(../images/a-icon-users.png); }
@@ -207,6 +208,7 @@ line-height: 20px !important;
 .alt .a-text > .icon, 
 .a-text.alt > .icon { background-image: url(../images/a-icon-alt-text.png); }
 .alt .a-slideshow > .icon, .a-slideshow.alt > .icon { background-image: url(../images/a-icon-alt-photo.png); }
+.alt .a-smartslideshow > .icon, .a-smartslideshow.alt > .icon { background-image: url(../images/a-icon-alt-smart-slideshow.png); }
 .alt .a-search > .icon, .a-search.alt > .icon { background-image: url(../images/a-icon-search.png); }
 .alt .a-settings > .icon, .a-settings.alt > .icon { background-image: url(../images/a-icon-alt-settings.png); }
 .alt .a-templates > .icon, .a-templates.alt > .icon { background-image: url(../images/a-icon-alt-templates.png); }
