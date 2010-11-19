@@ -182,18 +182,9 @@ width: 100%;
 .a-pager-navigation.a-pager-processed { display: block; }
 
 .a-pager-navigation a,
-.a-pager-navigation span
-{
-display: inline;
-float: left;
-height: 20px;
-line-height: 20px;
-}
-
+.a-pager-navigation span { float: left; }
 .a-pager-navigation .a-page-navigation-number { width: 22px; text-align: center; }
-
 .a-pager-navigation .a-page-navigation-number.a-btn { padding:0; margin: 0; }
-
 .a-pager-navigation a.a-page-navigation-number:hover { color: #000; text-decoration: none; }
 
 .a-pager-navigation .a-pager-navigation-image
@@ -216,21 +207,8 @@ border-top-left-radius:10px;
 border-bottom-left-radius:10px;
 }
 
-.a-pager-navigation a.a-pager-navigation-previous
-{
-background-position: -22px 0;
-width: 19px;
-margin-right: 5px;
-margin-left:1px;
-}
-
-.a-pager-navigation a.a-pager-navigation-next
-{
-background-position: -41px 0;
-width: 19px;
-margin-left: 5px;
-margin-right: 1px;
-}
+.a-pager-navigation a.a-pager-navigation-previous { background-position: -22px 0; width: 19px; margin-right: 5px; margin-left:1px; }
+.a-pager-navigation a.a-pager-navigation-next { background-position: -41px 0; width: 19px; margin-left: 5px; margin-right: 1px; }
 
 .a-pager-navigation a.a-pager-navigation-last
 {
