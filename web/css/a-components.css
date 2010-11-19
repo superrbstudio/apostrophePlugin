@@ -172,12 +172,14 @@ margin: 10px 0;
 .a-pager-navigation
 {
 float: left;
-display: inline;
+display: none;
 overflow: hidden;
 margin: 10px 0;
 font-size: 11px;
 width: 100%;
 }
+
+.a-pager-navigation.a-pager-processed { display: block; }
 
 .a-pager-navigation a,
 .a-pager-navigation span
@@ -188,9 +190,11 @@ height: 20px;
 line-height: 20px;
 }
 
-.a-pager-navigation .a-page-navigation-number { padding: 0 6px; }
+.a-pager-navigation .a-page-navigation-number { width: 22px; text-align: center; }
 
-.a-pager-navigation a.a-page-navigation-number:hover { color: #000; }
+.a-pager-navigation .a-page-navigation-number.a-btn { padding:0; margin: 0; }
+
+.a-pager-navigation a.a-page-navigation-number:hover { color: #000; text-decoration: none; }
 
 .a-pager-navigation .a-pager-navigation-image
 {

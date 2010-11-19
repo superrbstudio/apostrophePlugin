@@ -1181,7 +1181,6 @@ function aConstructor()
 			
 			var pager = $(this);
 			pager.addClass('a-pager-processed');
-			pager.outerWidth(pager.outerWidth());
 			pager.find('.a-page-navigation-number').css('display', 'block');
 			pager.find('.a-page-navigation-number').css('float', 'left');
 			
@@ -1193,10 +1192,11 @@ function aConstructor()
 			var max = selected + nb_links - 1;
 			
 			var links_container_container = pager.find('.a-pager-navigation-links-container-container');
-			links_container_container.width((nb_links * pager.find('.a-page-navigation-number').first().outerWidth()) + 2);
+			links_container_container.width((nb_links * pager.find('.a-page-navigation-number').first().outerWidth()));
 			links_container_container.css('overflow', 'hidden');
 			
 			var links_container = pager.find('.a-pager-navigation-links-container');
+			links_container.width((nb_pages * pager.find('.a-page-navigation-number').first().outerWidth()));
 			
 			var first = pager.find('.a-pager-navigation-first');
 			var prev = pager.find('.a-pager-navigation-previous');

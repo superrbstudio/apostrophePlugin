@@ -22,9 +22,9 @@
 	<span class="a-pager-navigation-links-container">
   <?php foreach ($pager->getLinks($nb_pages) as $page): ?>
     <?php if ($page == $pager->getPage()): ?>
-      <span class="a-page-navigation-number a-pager-navigation-disabled"><?php echo $page ?></span>
+      <span class="a-btn lite a-page-navigation-number a-pager-navigation-disabled"><?php echo $page ?></span>
     <?php else: ?>
-      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-page-navigation-number<?php echo (($page < $pager->getPage())? " a-page-navigation-number-before" : (($page > $pager->getPage())? " a-page-navigation-number-after" : "")) ?>"><?php echo $page ?></a>
+      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-btn lite a-page-navigation-number<?php echo (($page < $pager->getPage())? " a-page-navigation-number-before" : (($page > $pager->getPage())? " a-page-navigation-number-after" : "")) ?>"><?php echo $page ?></a>
     <?php endif; ?>
   <?php endforeach; ?>
 	</span>

@@ -13,7 +13,7 @@
     [?php if ($page == $pager->getPage()): ?]
       <span class="a-page-navigation-number a-pager-navigation-disabled">[?php echo $page ?]</span>
     [?php else: ?]
-      <a href="[?php echo url_for('<?php echo $this->getUrlForAction('list') ?>') ?]?page=[?php echo $page ?]" class="a-page-navigation-number">[?php echo $page ?]</a>
+      <a href="[?php echo url_for('<?php echo $this->getUrlForAction('list') ?>') ?]?page=[?php echo $page ?]" class="a-page-navigation-number a-btn lite">[?php echo $page ?]</a>
     [?php endif; ?]
   [?php endforeach; ?]
 
