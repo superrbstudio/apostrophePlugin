@@ -6,7 +6,7 @@
 <?php // feel free to override and move this to the end, etc. ?>
 <?php if ($pageSettings): ?> 	
 	<li>
-		<a href="/#page-settings" onclick="return false;" class="a-btn icon a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
+		<a href="/#page-settings" onclick="return false;" class="a-btn icon alt no-bg a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
 		<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 	</li>				
 <?php endif ?>
@@ -21,7 +21,7 @@
   <?php $buttons = aTools::getGlobalButtons() ?>
   <?php foreach ($buttons as $button): ?>
   	<li>
-  		<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
+  		<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
   	</li>
   <?php endforeach ?>
   <?php include_partial('a/globalProjectButtons', array()) ?>
@@ -37,14 +37,14 @@
   <?php if (isset($buttons['media'])): ?>
     <?php $button = $buttons['media'] ?>
   	<li>
-  		<?php echo link_to('<span class="icon"></span>'.__('Picturebook', null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
+  		<?php echo link_to('<span class="icon"></span>'.__('Picturebook', null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
   	</li>
   <?php endif ?>
   <li>Separator Thing</li>
   <?php if (isset($buttons['blog'])): ?>
     <?php $button = $buttons['blog'] ?>
   	<li>
-  		<?php echo link_to('<span class="icon"></span>'.__('Journal', null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon ' . $button->getCssClass())) ?>
+  		<?php echo link_to('<span class="icon"></span>'.__('Journal', null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
   	</li>
   <?php endif ?>
 <?php endif ?>

@@ -325,6 +325,16 @@ padding: 5px 0 1px;
 
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-user span { text-decoration: underline; }
 
+.a-ui.a-global-toolbar .a-controls li { margin:0; padding: 0 3px; border-right: 1px solid rgba(0,0,0,0.05); }
+
+.a-ui.a-global-toolbar .a-controls li.the-apostrophe-container,
+.a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
+.a-ui.a-global-toolbar .a-controls li:last-child { border: none; }
+
+.a-ui.a-global-toolbar a.a-btn span.icon { opacity: 0.5;}
+
+.a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu a.a-btn span.icon { opacity: 1; }
+
 /*.a-logged-in-user a:hover { color: #000; }*/
 
 
