@@ -237,24 +237,31 @@ function aConstructor()
 			var toggleButton = $('<a/>');			
 			toggleButton.addClass('a-btn icon lite a-toggle-btn');
 			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>').addClass(optDefault);
-			field.prepend(toggleButton);
-			toggleButton.click(function(){
-				updateToggle($(this));
-			});
-			function updateToggle(button)
+			
+			if (!field.find('.a-toggle-btn').length)
 			{
-				button.toggleClass('option-1').toggleClass('option-2');
-				if ($(radios[0]).is(':checked'))
+				field.prepend(toggleButton);
+			
+				field.find('.a-toggle-btn').click(function(){
+					updateToggle($(this));
+				});
+			
+				function updateToggle(button)
 				{
-					$(radios[0]).attr('checked',null);
-					$(radios[1]).attr('checked','checked');
-				}
-				else
-				{
-					$(radios[1]).attr('checked',null);
-					$(radios[0]).attr('checked','checked');				
+					button.toggleClass('option-1').toggleClass('option-2');
+					if ($(radios[0]).is(':checked'))
+					{
+						$(radios[0]).attr('checked',null);
+						$(radios[1]).attr('checked','checked');
+					}
+					else
+					{
+						$(radios[1]).attr('checked',null);
+						$(radios[0]).attr('checked','checked');				
+					};
 				};
-			}
+			};
+			
 		}
 		else
 		{

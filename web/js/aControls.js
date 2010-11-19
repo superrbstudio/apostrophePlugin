@@ -374,7 +374,7 @@ function aMultipleSelect(target, options)
 				
         for (k = 0; (k < length); k++)
         {
-					apostrophe.log("Looking at box " + k);
+					// apostrophe.log("Looking at box " + k);
           if ($(boxes[k]).is(':checked'))
           {
             $(items[k]).show();
