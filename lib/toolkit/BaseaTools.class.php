@@ -722,7 +722,7 @@ class BaseaTools
     }
     // Removing - here expands flexibility and shouldn't hurt because it's the replacement anyway
     $regexp = "/[^$alnum]+/$modifier";
-    $path = aTools::strtolower(preg_replace($regexp, $betweenWords, $path));  
+    $path = aString::strtolower(preg_replace($regexp, $betweenWords, $path));  
     if ($allowSlashes)
     {
       // No multiple consecutive /
@@ -738,18 +738,7 @@ class BaseaTools
     return $path;
   }
 
-  static public function strtolower($s)
-  {
-    if (function_exists('mb_strtolower'))
-    {
-      return mb_strtolower($s, 'UTF-8');
-    }
-    else
-    {
-      return strtolower($s);
-    }
-  }
-  
+
   static public function addStylesheetsIfDesired($array)
   {
     $response = sfContext::getInstance()->getResponse();

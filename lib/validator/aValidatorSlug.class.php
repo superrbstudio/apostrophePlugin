@@ -42,7 +42,7 @@ class aValidatorSlug extends sfValidatorString
   protected function doClean($value)
   {
     $clean = (string) parent::doClean($value);
-    $clean = aTools::strtolower($clean);
+    $clean = aString::strtolower($clean);
     $slugified = aTools::slugify($clean, $this->getOption('allow_slashes'));
     if ($this->getOption('strict'))
     {
