@@ -151,6 +151,7 @@ class BaseaPageSettingsForm extends aPageForm
 		}
 		$options['popular-tags'] = PluginTagTable::getPopulars(null, array(), false, 10);
 		$options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';
+		$options['tags-label'] = '';
   	// class tag-input enabled for typeahead support
   	$this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
   	$this->setValidator('tags', new sfValidatorString(array('required' => false)));

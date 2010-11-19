@@ -21,7 +21,7 @@
 
 	<?php echo $form->renderGlobalErrors() ?>
 
-	<div class="a-options-section title-permalink open">
+	<div class="a-options-section title-permalink open clearfix">
 
 		<h3><?php echo __('Title', array(), 'apostrophe') ?></h3>
 
@@ -71,7 +71,9 @@
 		  	<div class="<?php echo $stem ?>-status">
 					<?php echo $form['archived'] ?>
 					<?php if(isset($form['cascade_archived'])): ?>
-						<?php echo $form['cascade_archived'] ?> <?php echo __('Cascade status changes to children', null, 'apostrophe') ?>
+						<div class="cascade-checkbox">
+							<?php echo $form['cascade_archived'] ?> <?php echo __('apply to subpages', null, 'apostrophe') ?>
+						</div>
 					<?php endif ?> 
 				</div>
 			</div>
@@ -85,7 +87,7 @@
 
 	<hr/>
 	
-	<div class="a-options-section tags-metadata a-accordion">
+	<div class="a-options-section tags-metadata a-accordion clearfix">
 		<h3>Tags &amp; Metadata</h3>
 		<div class="a-accordion-content">			
 			<div class="a-form-row keywords">
@@ -115,7 +117,7 @@
 
 	<hr/>
 
-	<div class="a-options-section submit-settings">
+	<div class="a-options-section submit-settings clearfix">
 		<ul class="a-ui a-controls">		
 		  <li><input type="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
 			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Cancel', null, 'apostrophe') ?></a></li>

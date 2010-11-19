@@ -1740,6 +1740,7 @@ function aConstructor()
 			option.val('');
 			option.text(options['addLabel']);
 			select.append(option);
+			var j = 0;
 			for (var i = 0; (i < ids.length); i++)
 			{
 				var user = data[ids[i]];
@@ -1754,12 +1755,12 @@ function aConstructor()
 				}
 				else
 				{
-					var liMarkup = '<li class="a-permission-entry"><ul><li class="a-who"></li>';
+					var liMarkup = '<li class="a-permission-entry ' + ((j%2) ? 'even':'odd') + ' clearfix"><ul><li class="a-who"></li>';
 					if (options['extra'])
 					{
 						liMarkup += '<li class="a-extra"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</li>';
 					}
-					liMarkup += '<li class="a-apply-to-subpages"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</li>';
+					liMarkup += '<li class="a-apply-to-subpages"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</div></li>';
 					// PLEASE NOTE code is targeting a-close-small, if you change that class you have to change the selector elsewhere
 					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
 					li = $(liMarkup);
@@ -1776,6 +1777,7 @@ function aConstructor()
 						li.find('.a-extra input').attr('disabled', true);
 					}
 					list.append(li);
+					j++;
 				}
 			}
 			select.val('');

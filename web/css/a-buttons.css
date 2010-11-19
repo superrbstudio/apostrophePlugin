@@ -418,6 +418,12 @@ text-indent: 0;
 /* Apostrophe Toggle Button
 -------------------------------------*/
 
+.a-btn.a-toggle-btn
+{
+	-moz-user-select: none;
+	user-select: none;
+}
+
 .a-btn.a-toggle-btn.option-1 .option-1,
 .a-btn.a-toggle-btn.option-2 .option-2 { display: block; }
 

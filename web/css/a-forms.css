@@ -65,7 +65,7 @@ margin-left: 120px;
 .radio_list  { list-style: none; }
 .radio_list li,
 .radio_list input { float: left; }
-.radio_list li label { padding-left: 10px; padding-right: 10px; width: auto; }
+.radio_list li label { padding-left: 5px; padding-right: 15px; width: auto; }
 
 /* Apostrophe Multiple Select (aControls.js)
 -------------------------------------*/
