@@ -1,7 +1,7 @@
 <?php
 
  /**
- * sfWidgetFormRichTextarea represents a rich text editor.
+ * aWidgetFormRichTextarea represents a rich text editor.
  * The FCK editor is always used in this implementation. 
  *
  * Originally based on Dominic Scheirlinck's implementation. However now
@@ -26,7 +26,7 @@
  *
  * @author     Tom Boutell <tom@punkave.com>
  */
-class sfWidgetFormRichTextarea extends sfWidgetFormTextarea 
+class aWidgetFormRichTextarea extends sfWidgetFormTextarea 
 {
   /**
    * @param array $options     An array of options

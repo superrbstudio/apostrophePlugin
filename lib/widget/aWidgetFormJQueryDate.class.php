@@ -9,16 +9,16 @@
  */
 
 /**
- * sfWidgetFormJQueryDate represents a date widget rendered by JQuery UI.
+ * aWidgetFormJQueryDate represents a date widget rendered by JQuery UI.
  *
  * This widget needs JQuery and JQuery UI to work.
  *
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWidgetFormJQueryDate.class.php 12875 2008-11-10 12:22:33Z fabien $
+ * @version    SVN: $Id: aWidgetFormJQueryDate.class.php 12875 2008-11-10 12:22:33Z fabien $
  */
-class sfWidgetFormJQueryDate extends sfWidgetFormDate
+class aWidgetFormJQueryDate extends sfWidgetFormDate
 {
   /**
    * Configures the current widget.

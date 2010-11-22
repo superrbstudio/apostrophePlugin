@@ -42,7 +42,7 @@ class BaseaButtonForm extends BaseForm
     }
     
     $this->setWidgets(array(
-			'description' => new sfWidgetFormRichTextarea($widgetOptions, $this->soptions),
+			'description' => new aWidgetFormRichTextarea($widgetOptions, $this->soptions),
 		  'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
 		  'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))	
 		));
