@@ -18,8 +18,7 @@ class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
   
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-		sfContext::getInstance()->getResponse()->addJavascript('/sfJqueryReloadedPlugin/js/plugins/jquery.autocomplete.min.js', 'last');
-    $date = $this->getDateWidget($attributes)->render($name, $value);
+		$date = $this->getDateWidget($attributes)->render($name, $value);
 
     if(!$this->getOption('with_time', true))
     {
@@ -41,7 +40,7 @@ class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
    */
   protected function getDateWidget($attributes = array())
   {
-    return new sfWidgetFormJQueryDate($this->getOptionsFor('date'), $this->getAttributesFor('date', $attributes));
+    return new aWidgetFormJQueryDate($this->getOptionsFor('date'), $this->getAttributesFor('date', $attributes));
   }
   /**
    * Returns the time widget.
