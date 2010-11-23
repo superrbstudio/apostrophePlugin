@@ -106,10 +106,6 @@
 
   <?php // Invokes apostrophe.smartCSS, your project level JS hook and a_include_js_calls ?>
 	<?php include_partial('a/globalJavascripts') ?>
-	
-	<?php // Disqus comments ?>
-	<?php if (sfConfig::get('app_aBlog_disqus_enabled', true) && sfConfig::get('app_aBlog_disqus_shortname')): ?>
-		<?php include_partial('aBlog/disqus_countcode') ?>
-	<?php endif ?>
+
 </body>
 </html>

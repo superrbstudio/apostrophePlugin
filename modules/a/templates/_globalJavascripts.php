@@ -9,6 +9,11 @@
 <?php if ($sf_user->isAuthenticated()): ?>
 	<?php a_js_call('apostrophe.enableCloseHistoryButtons(?)', array('close_history_buttons' => '#a-history-close-button, #a-history-heading-button')) ?>
 <?php endif ?>
+	
+<?php // Disqus comments ?>
+<?php if (sfConfig::get('app_aBlog_disqus_enabled', true) && sfConfig::get('app_aBlog_disqus_shortname')): ?>
+	<?php include_partial('aBlog/disqus_countcode') ?>
+<?php endif ?>
 
 <?php // A handful of fundamental improvements like a-autosubmit for anchor buttons ?>
 <?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'))) ?>
