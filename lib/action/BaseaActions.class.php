@@ -350,6 +350,7 @@ class BaseaActions extends sfActions
     $page = $this->retrievePageForAreaEditing();
     aTools::setCurrentPage($page);
     $this->name = $this->getRequestParameter('name');
+    $this->options = aTools::getAreaOptions($page->id, $this->name);
     $page->newAreaVersion($this->name, 'delete', 
       array('permid' => $this->getRequestParameter('permid')));
     $page = aPageTable::retrieveByIdWithSlots(
