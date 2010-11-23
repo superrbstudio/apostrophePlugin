@@ -1,3 +1,2 @@
 <?php use_helper('jQuery') ?>
-<?php include_component('a', 'area', 
-  array('name' => $name, 'refresh' => true, 'preview' => false))?>
+<?php include_component('a', 'area', array('name' => $name, 'refresh' => true, 'preview' => false, 'options' => $options))?>
