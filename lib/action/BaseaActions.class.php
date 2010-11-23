@@ -279,6 +279,7 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
     $slots = $page->getArea($this->name);
     $permid = $this->getRequestParameter('permid');
+    $this->options = aTools::getAreaOptions($page->id, $this->name);
     if (count($slots))
     {
       $permids = array_keys($slots);
