@@ -16,18 +16,18 @@ class BaseaUserAdminForm extends sfGuardUserAdminForm
     
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     // It's convenient to kill these when using Shibboleth
-    if (!sfConfig::get('app_a_userAdmin_password', true))
+    if (!sfConfig::get('app_a_user_admin_password', true))
     {
       unset($this['password']);
       unset($this['password_again']);
     }
-    if (!sfConfig::get('app_a_userAdmin_is_active', true))
+    if (!sfConfig::get('app_a_user_admin_is_active', true))
     {
       unset($this['is_active']);
     }
     // Handing out permissions directly is usually a mistake, use groups and
     // restrict full permissions admin to the superadmin
-    if (!sfConfig::get('app_a_userAdmin_permissions', false))
+    if (!sfConfig::get('app_a_user_admin_permissions', false))
     {
       unset($this['permissions_list']);
     }
