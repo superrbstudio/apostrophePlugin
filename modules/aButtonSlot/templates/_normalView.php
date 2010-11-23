@@ -86,6 +86,9 @@
 	      <li class="a-button-title">
 	        <?php echo link_to((($options['title'])?$options['title']:$options['url']), $options['url'], array('class' => 'a-button-link')) ?>
 	      </li>
+		    <?php if ($options['description']): ?>
+	      <li class="a-button-description"><?php echo $options['description'] ?></li>
+		    <?php endif ?>
 	    </ul>	
 		<?php endif ?>
   <?php endif ?>
