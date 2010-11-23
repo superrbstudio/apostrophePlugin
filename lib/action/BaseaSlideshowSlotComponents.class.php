@@ -36,10 +36,10 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
       $this->itemIds = array();
     }
   }
-  
-	public function executeSlideshow()
+
+	protected function setupOptions()
 	{
-    $this->options['width'] = $this->getOption('width', 440);
+		$this->options['width'] = $this->getOption('width', 440);
     $this->options['height'] = $this->getOption('height', false);
     $this->options['resizeType'] = $this->getOption('resizeType', 's');
     $this->options['flexHeight'] = $this->getOption('flexHeight');
@@ -51,6 +51,14 @@ class BaseaSlideshowSlotComponents extends BaseaSlotComponents
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
-		$this->options['idSuffix'] = $this->getOption('idSuffix', false); // I use this for Blog Posts so I can have unique ids for the same slideshows if they show up in separate slots
+
+		// I use the idSuffix with the Blog Post Slot that includes slideshows 
+		// so I can have unique ids for the same slideshows if they show up in separate slots
+		$this->options['idSuffix'] = $this->getOption('idSuffix', false); 
+	}
+  
+	public function executeSlideshow()
+	{
+		$this->setupOptions();
 	}
 }
