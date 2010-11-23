@@ -4,5 +4,5 @@
 ?>
 <?php use_helper('a') ?>
 <?php include_component('a', 'area', 
-  array('name' => $name, 'refresh' => true, 'preview' => false))?>
+  array('name' => $name, 'refresh' => true, 'preview' => false, 'options' => $options))?>
 <?php include_partial('a/globalJavascripts') ?>
