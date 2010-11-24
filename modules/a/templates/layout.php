@@ -52,24 +52,24 @@
     <?php endif ?>
     
     <div class="a-header clearfix">
-    <?php if (has_slot('a-header')): ?>
-      <?php include_slot('a-header') ?>
-    <?php else: ?>
-        <?php if (has_slot('a-logo')): ?>
-          <?php include_slot('a-logo') ?>
-        <?php else: ?>
-          <?php a_slot('logo', 'aButton', array(
-						'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
-						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
-						'link' => url_for('@homepage'), 
-						'global' => true, 
-						'width' => 360, 
-						'height' => 200, 
-						'flexHeight' => true, 
-						'resizeType' => 's', 
-					)) ?>
-        <?php endif ?>
-    <?php endif ?>
+	    <?php if (has_slot('a-header')): ?>
+	      <?php include_slot('a-header') ?>
+	    <?php else: ?>
+	        <?php if (has_slot('a-logo')): ?>
+	          <?php include_slot('a-logo') ?>
+	        <?php else: ?>
+	          <?php a_slot('logo', 'aButton', array(
+							'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
+							'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
+							'link' => url_for('@homepage'), 
+							'global' => true, 
+							'width' => 360, 
+							'height' => 200, 
+							'flexHeight' => true, 
+							'resizeType' => 's', 
+						)) ?>
+	        <?php endif ?>
+	    <?php endif ?>
   	</div>
 
 		<?php if (has_slot('a-tabs')): ?>
