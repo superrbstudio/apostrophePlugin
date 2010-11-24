@@ -235,6 +235,13 @@ clear: both;
 	line-height: 20px;
 }
 
+.a-admin-sidebar .section.event-date .error_list li
+{
+	/* width: 100% plus padding-left: 20px forces horizontal scrollbar. Thanks Jake. 
+		Not sure why that combination is good anywhere else... */
+	width: auto;
+}
+
 .a-admin-sidebar .section.categories select { width: 100%; display:inline; clear: both; }
 .a-admin-sidebar .section.categories .edit-categories { float: right; }
 .a-admin-sidebar .section.categories .a-multiple-select-item span { font-size: 11px; }

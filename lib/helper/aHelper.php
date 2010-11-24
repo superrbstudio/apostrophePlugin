@@ -21,23 +21,9 @@ function _a_required_assets()
     return;
   }
 
-  if (sfConfig::get('app_a_use_bundled_stylesheet', true))
-  {
-	
-		// This could be used as a way to manage what styles are included when logged in / out.	
-		// But it really seems like we use pieces of every one of these when logged in and out.
- 		aTools::addStylesheetsIfDesired(array('reset', 'forms', 'buttons', 'navigation', 'components', 'area-slots', 'engines', 'admin', 'colors', 'utility'));
-  }
-  $webDir = sfConfig::get('sf_a_web_dir', '/apostrophePlugin');
-  $response->addJavascript("$webDir/js/jquery-1.4.3.min.js");
-  $response->addJavascript("$webDir/js/a.js");
-  $response->addJavascript("$webDir/js/aControls.js");
-  $response->addJavascript("$webDir/js/json2.js");
-  $response->addJavascript("$webDir/js/plugins/jquery.simpleautogrow.js"); // Autogrowing Plaintext + Raw HTML Textareas
-	$response->addJavascript("$webDir/js/plugins/jquery.hoverIntent.js"); // Hover Intent for Media Library
-  $response->addStylesheet("$webDir/css/ui-apostrophe/jquery-ui-1.8.6.custom.css");
-  $response->addJavascript("$webDir/js/plugins/jquery-ui-1.8.6.custom.min.js");
-  $response->addJavascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js');
+	aTools::addStylesheetsIfDesired();
+
+  aTools::addJavascriptsIfDesired();
 }
 
 _a_required_assets();
