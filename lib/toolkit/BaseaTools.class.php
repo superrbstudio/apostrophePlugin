@@ -738,12 +738,30 @@ class BaseaTools
     return $path;
   }
 
+  // MUST BE KEPT UP TO DATE
+  static protected $cssByName = array(
+    'reset' => '/apostrophePlugin/css/a-reset.css',
+    'forms' => '/apostrophePlugin/css/a-forms.css',
+    'buttons' => '/apostrophePlugin/css/a-buttons.css',
+    'navigation' => '/apostrophePlugin/css/a-navigation.css',
+    'components' => '/apostrophePlugin/css/a-components.css',
+    'area-slots' => '/apostrophePlugin/css/a-area-slots.css',
+    'engines' => '/apostrophePlugin/css/a-engines.css',
+    'admin' => '/apostrophePlugin/css/a-admin.css',
+    'colors' => '/apostrophePlugin/css/a-colors.css',
+    'utility' => '/apostrophePlugin/css/a-utility.css',
+    'jquery-ui' => '/apostrophePlugin/css/ui-apostrophe/jquery-ui-1.8.6.custom.css'
+  );
 
-  static public function addStylesheetsIfDesired($array)
+  static public function addStylesheetsIfDesired()
   {
+    if (!sfConfig::get('app_a_use_bundled_stylesheets', true))
+    {
+      return;
+    }
     $response = sfContext::getInstance()->getResponse();
     $preferences = sfConfig::get('app_a_use_bundled_stylesheets', array());
-    foreach ($array as $stylesheet)
+    foreach (aTools::$cssByName as $stylesheet => $default)
     {
       $good = true;
       if (isset($preferences[$stylesheet]))
@@ -752,7 +770,60 @@ class BaseaTools
       }
       if ($good)
       {
-        $response->addStylesheet('/apostrophePlugin/css/a-' . $stylesheet . '.css');
+        if ($good === true)
+        {
+          $response->addStylesheet($default);
+        }
+        else
+        {
+          $response->addStylesheet($good);
+        }
+      }
+    }
+  }
+  
+  // MUST BE KEPT UP TO DATE
+  static protected $jsByName = array(
+    'jquery' => '/apostrophePlugin/js/jquery-1.4.3.min.js',
+    'main' => '/apostrophePlugin/js/a.js',
+    'controls' => '/apostrophePlugin/js/aControls.js',
+    'json2' => '/apostrophePlugin/js/json2.js',
+    'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
+    'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
+    'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.6.custom.min.js',
+    'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
+  );
+
+  static public function addJavascriptsIfDesired()
+  {
+    if (!sfConfig::get('app_a_use_bundled_javascripts', true))
+    {
+      return;
+    }
+    $response = sfContext::getInstance()->getResponse();
+    $preferences = sfConfig::get('app_a_use_bundled_javascripts', array());
+    foreach (aTools::$jsByName as $javascript => $default)
+    {
+      $good = true;
+      if (isset($preferences[$javascript]))
+      {
+        $good = $preferences[$javascript];
+      }
+      if ($good)
+      {
+        if ($good === true)
+        {
+          $response->addJavascript($default);
+        }
+        else
+        {
+          // Override with a new path
+          $response->addJavascript($good);
+        }
+      }
+      else
+      {
+        // They don't want it at all
       }
     }
   }
