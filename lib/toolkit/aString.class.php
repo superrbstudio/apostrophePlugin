@@ -248,7 +248,7 @@ class aString
     // have to make a superfluous mb_strlen call
     if (function_exists('mb_substr'))
     {
-      return mb_substr($s, $start, $length, is_null($length) ? mb_strlen($s) : $length, 'UTF-8');
+      return mb_substr($s, $start, is_null($length) ? mb_strlen($s) : $length, 'UTF-8');
     }
     else
     {
