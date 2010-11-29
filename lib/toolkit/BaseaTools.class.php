@@ -619,7 +619,13 @@ class BaseaTools
     $variants = $variants[$type];
     if (isset($allowedVariants))
     {
-      $allowed = array_flip($allowedVariants);
+			// Don't call array_flip since we seem to have decorated values coming in ):
+			// (TODO: find that and make it stop)
+			$allowed = array();
+			foreach ($allowedVariants as $name)
+			{
+				$allowed[$name] = true;
+			}
       $keep = array();
       foreach ($variants as $name => $value)
       {
