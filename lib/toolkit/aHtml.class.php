@@ -120,7 +120,13 @@ class aHtml
   // Safari sets the width and height attributes of the tags rather than going
   // the CSS route. The simplest workaround is to allow that too.
 
-  static public function simplify($value, $allowedTags = false, $complete = false, $allowedAttributes = false, $allowedStyles = false)
+  // loadHtml, in its infinite wisdom, insists on giving us br tags
+  // without a proper /> at the end. Force a fix by default (thanks to
+  // Geoff Hammond). This is done in a simple way that would have problems 
+  // if you were allowing script elements, but why would you do such a foolish thing?
+  static private $defaultHtmlStrictBr = true;
+
+  static public function simplify($value, $allowedTags = false, $complete = false, $allowedAttributes = false, $allowedStyles = false, $htmlStrictBr = false)
   {
     if ($allowedTags === false)
     {
@@ -136,6 +142,11 @@ class aHtml
     {
       // See above
       $allowedStyles = sfConfig::get('app_aToolkit_allowed_styles', self::$defaultAllowedStyles);
+    }
+    if ($htmlStrictBr === false)
+    {
+      // See above
+      $htmlStrictBr = sfConfig::get('app_aToolkit_html_strict_br', self::$defaultHtmlStrictBr);
     }
     $value = trim($value);
     if (!strlen($value))
@@ -205,6 +216,16 @@ class aHtml
     {
       // The user thought they were entering text and used & accordingly (as they so often do)
       $result = htmlspecialchars($value);
+    }
+
+    if($htmlStrictBr)
+    {
+      error_log("Whee strict");
+      $result = str_replace('<br>', '<br />', $result);
+    }
+    else
+    {
+      error_log("Loosey goosey");
     }
 
     if ($oldHandler)
