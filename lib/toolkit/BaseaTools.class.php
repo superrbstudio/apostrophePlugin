@@ -789,7 +789,7 @@ class BaseaTools
     'controls' => '/apostrophePlugin/js/aControls.js',
     'json2' => '/apostrophePlugin/js/json2.js',
     'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
-    'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
+    'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.hoverIntent.js',
     'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.6.custom.min.js',
     'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
   );
