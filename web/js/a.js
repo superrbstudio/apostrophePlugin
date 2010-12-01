@@ -569,16 +569,7 @@ function aConstructor()
 		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
 		var slots = area.children('.a-slots').children('.a-slot');
 		var newSlots = area.children('.a-slots').children('.a-new-slot');
-		if (newSlots.length)
-		{
-			// TODO: this is not sensitive enough to nested areas
-			
-			// You have to save a new slot before you can do any reordering.
-			// TODO: with a little more finesse we could support saving it with
-			// a rank, but think about how messy that might get
-		  slots.find('.a-slot-controls .a-move').hide();
-			return;
-		}
+
 		// I actually want a visible loop variable here
 		for (n = 0; (n < slots.length); n++)
 		{
@@ -588,6 +579,26 @@ function aConstructor()
 			// in the closure at its current value otherwise
 			slotUpdateMoveButtons(id, name, slot, n, slots, updateAction);
 		}
+
+		if (newSlots.length)
+		{
+			// TODO: this is not sensitive enough to nested areas
+			// TODO: with a little more finesse we could support saving it with
+			// a rank, but think about how messy that might get
+
+			// Hide the new slot's controls because it can't be moved until it is saved
+		  newSlots.find('.a-slot-controls .a-move').addClass('a-hidden');
+		
+			// Hide the next slot's UP arrow because the slot cannot switch places with the unsaved new slot
+			newSlots.next('.a-slot').find('.a-move.up').addClass('a-hidden');
+			
+			// Hide the prev slot's DOWN arrow because the slot cannot switch places with the unsaved new slot
+			newSlots.prev('.a-slot').find('.a-move.down').addClass('a-hidden');
+			
+			// apostrophe.log('apostrophe.areaUpdateMoveButtons -- newSlots in ' + area.attr('id'));
+			return;
+		}
+		// apostrophe.log('apostrophe.areaUpdateMoveButtons -- ' + area.attr('id'));
 	}
 	
 	this.areaHighliteNewSlot = function(options) 
@@ -2030,6 +2041,7 @@ function aConstructor()
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
 				apostrophe.swapNodes(slot, slots[n - 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				apostrophe.log('move up');
 				return false;
 			});
 		}
@@ -2045,6 +2057,7 @@ function aConstructor()
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
 				apostrophe.swapNodes(slot, slots[n + 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
+				apostrophe.log('move down');				
 				return false;
 			});
 		}
