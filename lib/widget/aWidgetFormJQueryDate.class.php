@@ -36,12 +36,14 @@ class aWidgetFormJQueryDate extends sfWidgetFormDate
    */
   protected function configure($options = array(), $attributes = array())
   {
+    parent::configure($options, $attributes);
+
     $this->addOption('image', false);
     $this->addOption('config', '{}');
     $this->addOption('culture', '');
-
-    parent::configure($options, $attributes);
-
+		$years = range(date('Y') - 150, date('Y') + 150);
+		$this->addOption('years', array_combine($years, $years));
+		
     $classes = preg_split('/\s+/', $this->getAttribute('class'));
     $classes[] = 'a-date-field';
     $this->setAttribute('class', implode(' ', $classes));
