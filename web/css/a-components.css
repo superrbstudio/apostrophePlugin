@@ -308,24 +308,25 @@ border-bottom: 1px solid #ddd;
 clear: both;
 z-index: 999;
 background:#fff;
-padding: 5px 0 1px;
 }
 
-.a-global-toolbar .a-options
-{
-	padding: 35px 20px 20px 20px;
-}
+.a-global-toolbar .a-options { padding: 35px 20px 20px 20px; }
 
 .a-ui.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(../images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
 
-.a-ui.a-global-toolbar .a-controls .a-login { float: right; display: inline; margin-right:5px; line-height: 20px; }
+.a-ui.a-global-toolbar .a-controls { margin: 0; }
+
+.a-ui.a-global-toolbar .a-controls > li { margin: 1px 0; padding: 5px; border-right: 1px solid rgba(0,0,0,0.05); }
+
+.a-ui.a-global-toolbar .a-controls li.last { border: none !important; margin: 0; }
+
+.a-ui.a-global-toolbar .a-controls li.a-login { float: right; display: inline; margin: 0 5px 0 0; line-height: 20px; padding: 0; }
+
+.a-ui.a-global-toolbar .a-controls .a-login li { padding: 5px 0; border: none !important;}
 
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-user,
-.a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 2px 0 !important; }
-
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 0 0; }
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-user span { text-decoration: underline; }
-
-.a-ui.a-global-toolbar .a-controls li { margin:0; padding: 0 3px; border-right: 1px solid rgba(0,0,0,0.05); }
 
 .a-ui.a-global-toolbar .a-controls li.the-apostrophe-container,
 .a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
