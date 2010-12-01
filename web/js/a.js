@@ -507,12 +507,12 @@ function aConstructor()
 		$('#a-login-button').click(function() {
 			$('#a-login-form-container').fadeIn(); 
 			$('#signin_username').focus(); 
-			$('.a-page-overlay').fadeIn('fast');
+			$('.a-page-overlay').fadeIn();
 			return false;
 		});
 		$('#a-login-cancel-button').click(function() {
 			$('#a-login-form-container').fadeOut('fast'); 
-			$('.a-page-overlay').fadeOut('fast');
+			$('.a-page-overlay').hide();
 			return false;
 		});
 	}
@@ -2092,7 +2092,7 @@ function aConstructor()
 	{
 		var areaControls = area.find('ul.a-area-controls');
 		var areaControlsTop = areaControls.offset().top;
-		$('.a-page-overlay').show();
+		$('.a-page-overlay').fadeIn();
 		// Clear Old History from the Browser
 		if (!area.hasClass('browsing-history')) 
 		{
@@ -2117,7 +2117,7 @@ function aConstructor()
 		$('a.a-history-btn').parents('.a-area').removeClass('previewing-history');
 		$('.a-history-browser, .a-history-preview-notice').hide();
 	  $('body').removeClass('history-preview');	
-		$('.a-page-overlay').fadeOut();
+		$('.a-page-overlay').hide();
 	}
 	
 	function _pageTemplateToggle(aPageTypeSelect, aPageTemplateSelect)
@@ -2135,7 +2135,7 @@ function aConstructor()
 		}
 
 		// Button Toggle
-		button.unbind('click').click(function(event){
+		button.unbind('click.menuToggle').bind('click.menuToggle', function(event){
 			event.preventDefault();
 			if (!button.hasClass('aActiveMenu')) 
 			{ 
@@ -2154,37 +2154,31 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
-			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel')) 
-			{
-				menu.trigger('toggleClosed');
-			}
-			if ( !target.parents().is('#'+menu.attr('id')) ) 
+			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel') || !target.parents().is('#'+menu.attr('id')))
 			{
 				menu.trigger('toggleClosed');
 			}
 		};	
 
 		// Open Menu, Create Listener
-		menu.bind('toggleOpen', function(){
+		menu.unbind('toggleOpen').bind('toggleOpen', function(){
 			menu.trigger('beforeOpen');
 			button.addClass('aActiveMenu');
 			menu.addClass(classname);			
-			if (overlay) { overlay.stop().show(); }
-			$(document).click(clickHandler);
-			if (focus) 
-			{
-				$(focus).focus();
-			};
+			if (overlay) { overlay.fadeIn(); }
+			$(document).bind('click.menuToggleClickHandler', clickHandler);
+			if (focus) { $(focus).focus(); };
 			menu.trigger('afterOpen');
 		});
 
-		menu.bind('toggleClosed', function(){
+		// Close Menu, Destroy Listener
+		menu.unbind('toggleClosed').bind('toggleClosed', function(){
 			menu.trigger('beforeClosed');
 			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
 			menu.removeClass(classname);
-			if (overlay) { overlay.fadeOut(); };
-			$(document).unbind('click', 'clickHandler'); // Clear out click event		
+			if (overlay) { overlay.hide(); };
+			$(document).unbind('click.menuToggleClickHandler'); // Clear out click event		
 			menu.trigger('afterClosed');
 		});
 
@@ -2193,8 +2187,6 @@ function aConstructor()
 		});
 
 	}	
-
-
 
 } 
 

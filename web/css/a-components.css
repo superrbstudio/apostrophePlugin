@@ -316,7 +316,7 @@ background:#fff;
 
 .a-ui.a-global-toolbar .a-controls { margin: 0; }
 
-.a-ui.a-global-toolbar .a-controls > li { margin: 1px 0; padding: 5px; border-right: 1px solid rgba(0,0,0,0.05); }
+.a-ui.a-global-toolbar > .a-controls > li { margin: 1px 0; padding: 5px; border-right: 1px solid rgba(0,0,0,0.05); }
 
 .a-ui.a-global-toolbar .a-controls li.last { border: none !important; margin: 0; }
 
@@ -332,6 +332,7 @@ background:#fff;
 .a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
 .a-ui.a-global-toolbar .a-controls li:last-child { border: none; }
 
+.a-ui.a-global-toolbar a.a-btn:hover span.icon { opacity: 1;}
 .a-ui.a-global-toolbar a.a-btn span.icon { opacity: 0.5;}
 
 .a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu a.a-btn span.icon { opacity: 1; }
