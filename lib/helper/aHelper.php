@@ -315,13 +315,15 @@ function _a_get_assets_body($type, $assets)
       @rename($dir . '/' . $groupFilename . '.tmp', $dir . '/' . $groupFilename);
     }
     $options = json_decode($optionsJson, true);
-    $options[($type === 'stylesheets') ? 'href' : 'src'] = '/uploads/asset-cache/' . $groupFilename;
+    // Use stylesheet_path and javascript_path so we can respect relative_root_dir
     if ($type === 'stylesheets')
     {
+      $options['href'] = stylesheet_path('/uploads/asset-cache/' . $groupFilename);
       $html .= tag('link', $options);
     }
     else
     {
+      $options['src'] = javascript_path('/uploads/asset-cache/' . $groupFilename);
       $html .= content_tag('script', '', $options); 
     }
   }
