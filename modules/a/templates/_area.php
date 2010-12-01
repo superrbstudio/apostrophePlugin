@@ -84,10 +84,10 @@
     <?php if ($editable): ?>
 		<ul class="a-ui a-controls a-slot-controls clearfix">		
       <?php if ($infinite): ?>
-				<li class="a-move">
+				<li class="a-move up">
 				  <a href="#move-up" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Up') ?></a>
 				</li>
-				<li class="a-move">
+				<li class="a-move down">
 				  <a href="#move-down" class="a-btn icon a-arrow-down no-label" title="<?php echo a_('Move Down') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Down') ?></a>
 				</li>
       <?php endif ?>
