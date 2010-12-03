@@ -3,7 +3,7 @@
 
 <div class="a-admin-container [?php echo $sf_params->get('module') ?]">
 
-  [?php include_partial('<?php echo $this->getModuleName() ?>/list_bar', array('filters' => $filters)) ?]
+  [?php include_partial('<?php echo $this->getModuleName() ?>/list_bar') ?]
 
 	[?php slot('a-subnav') ?]
 	<div class="a-subnav-wrapper admin">
