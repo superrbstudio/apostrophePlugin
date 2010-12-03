@@ -108,10 +108,10 @@ class aYoutube extends aEmbedService
     return $results;
   }
 
-  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
-    $url = "http://www.youtube.com/v/$id&fs=1";
+    $url = "http://www.youtube.com/v/$id&fs=1&autoplay=$autoplay";
 return <<<EOM
 <object alt="$title" width="$width" height="$height">
 	<param name="movie" value="$url"></param>

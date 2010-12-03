@@ -116,12 +116,12 @@ class aVimeo extends aEmbedService
     return $info;
   }
   
-  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
     // Ignore title: we can't make an iframe any more accessible, hopefully Vimeo is offering alt attributes of its own
     $id = urlencode($id);
     return <<<EOM
-<iframe src="http://player.vimeo.com/video/$id?portrait=0&title=0&byline=0" width="$width" height="$height" frameborder="0"></iframe>
+<iframe src="http://player.vimeo.com/video/$id?portrait=0&title=0&byline=0&autoplay=$autoplay" width="$width" height="$height" frameborder="0"></iframe>
 EOM
 ;
   }

@@ -997,11 +997,12 @@ function aConstructor()
 			items.each(function(){
 				var item = $(this);
 				item.bind('embedToggle',function(){
-					item.children('.a-media-item-thumbnail').addClass('a-hidden');
-					item.children('.a-media-item-embed').removeClass('a-hidden');					
+					var embed = item.data('embed_code');
+					item.find('.a-media-item-thumbnail').addClass('a-previewing');
+					item.find('.a-media-item-embed').removeClass('a-hidden').html(embed);
 				});
-				var link = item.find('.a-media-thumb-link');
-				link.unbind('click').click(function(e){
+				var link = item.find('.a-media-play-video');
+				link.unbind('click.mediaEmbeddableToggle').bind('click.mediaEmbeddableToggle',function(e){
 					e.preventDefault();
 					item.trigger('embedToggle');
 				});
@@ -1011,6 +1012,14 @@ function aConstructor()
 		{
 			apostrophe.log('apostrophe.mediaEmbeddableToggle -- no items found');
 		};
+	}
+	
+	this.mediaAttachEmbed = function(options)
+	{
+		var id = options['id'];
+		var embed = options['embed'];
+		var mediaItem = $('#a-media-item-' + id);
+		mediaItem.data('embed_code', embed);
 	}
 	
 	this.mediaItemsIndicateSelected = function(cropOptions)

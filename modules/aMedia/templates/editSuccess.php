@@ -28,4 +28,5 @@
 	<div class="a-media-items">			
 	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags)) ?>		
 	</div>
+	
 </div>

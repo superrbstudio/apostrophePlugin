@@ -90,7 +90,8 @@ margin-left: 120px;
 	margin: 5px 0;
 }
 
-.a-multiple-select .add input 
+.a-multiple-select .add .add-text,
+.a-multiple-select .add input[type="text"].add-text
 { 
 float: left;
 width: 120px;

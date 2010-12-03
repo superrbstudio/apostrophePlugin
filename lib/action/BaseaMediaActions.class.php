@@ -536,6 +536,15 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
+		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+  	if (sfConfig::get('app_a_all_tags', true))
+  	{
+  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    }
+    else
+    {
+      $this->allTags = array();
+    }
     if ($request->hasParameter('slug'))
     {
       $item = $this->getItem();

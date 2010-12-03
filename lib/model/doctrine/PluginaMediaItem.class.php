@@ -182,7 +182,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return $result;
   }
 
-  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque')
+  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque', $autoplay = false)
   {
     if ($height === false)
     {
@@ -197,7 +197,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       if ($this->service_url)
       {
         $service = aMediaTools::getEmbedService($this->service_url);
-        return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode);
+        return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode, $autoplay);
       }
       elseif ($this->embed)
       {
