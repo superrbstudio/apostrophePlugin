@@ -187,6 +187,8 @@ width: 100%;
 .a-pager-navigation .a-page-navigation-number.a-btn { padding:0; margin: 0; }
 .a-pager-navigation a.a-page-navigation-number:hover { color: #000; text-decoration: none; }
 
+.a-pager-navigation span.a-page-navigation-number.a-btn { color: #999; border: 1px solid #ccc;}
+
 .a-pager-navigation .a-pager-navigation-image
 {
 background: url(../images/a-page-arrows.png) no-repeat;
