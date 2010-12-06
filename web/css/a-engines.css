@@ -290,6 +290,9 @@ width: 104px
 
 /* Media Engine Layout
 -------------------------------------*/
+.a-media .a-subnav-wrapper { margin-right: 20px; }
+.a-media .a-content { width: 720px;}
+
 .a-media-library,
 .a-media-selection,
 .a-media-controls,
