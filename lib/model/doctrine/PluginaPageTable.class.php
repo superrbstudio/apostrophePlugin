@@ -141,7 +141,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-
+    
     // ACHTUNG: resist the temptation to move these into WHERE clauses.
     // It looks all sweet and innocent until you don't get any records back
     // and assume you have to recreate the global page... once on every page load.
@@ -171,6 +171,13 @@ class PluginaPageTable extends Doctrine_Table
       leftJoin('avs.Slot s')->
       leftJoin('s.MediaItems m')->
       orderBy('avs.rank asc');
+
+    // If we don't do this explicitly, ->getNode()->getChildren()
+    // will only pull a few page columns, resulting in 
+    // redundant and inaccurate queries. You can add more
+    // with addSelect()
+    
+    $query->addSelect('p.*,a.*,v.*,v.*,avs.*,s.*,m.*');
 
     return $query;
   }
@@ -486,7 +493,6 @@ class PluginaPageTable extends Doctrine_Table
       $privileges = explode("|", $privilege);
       foreach ($privileges as $privilege)
       {
-        error_log("Privilege $privilege");
         // Rule 1a: if edit_admin_lock is set, only admins can edit or manage
         if (($privilege === 'edit') || ($privilege === 'manage'))
         {
@@ -619,7 +625,6 @@ class PluginaPageTable extends Doctrine_Table
           execute(array(), Doctrine::HYDRATE_ARRAY);
         if (count($accesses) > 0)
         {
-          error_log("Got one");
           $result = true;
           break;
         }
