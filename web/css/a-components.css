@@ -749,39 +749,6 @@ font-size: 11px;
 .result-url { }
 
 
-/* Apostrophe Feedback Form
-------------------------------------------- */
-
-#feedback-form-container
-{
-display: none;
-position: absolute;
-right: 0;
-bottom: 0;
-z-index: 999;
-background: #fff;
-padding: 10px;
-border: 1px solid #ddd;
-}
-
-#a-feedback-form
-{
-margin: 10px 0;
-}
-
-#feedback-link
-{
-text-align: right;
-text-transform: capitalize;
-}
-
-#feedback-submitted
-{
-text-align: right;
-}
-
-
-
 /* Apostrophe Login Form **** This floats in the upper right corner when we use a login button
 -------------------------------------*/
 
