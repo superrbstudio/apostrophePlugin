@@ -486,6 +486,7 @@ class PluginaPageTable extends Doctrine_Table
       $privileges = explode("|", $privilege);
       foreach ($privileges as $privilege)
       {
+        error_log("Privilege $privilege");
         // Rule 1a: if edit_admin_lock is set, only admins can edit or manage
         if (($privilege === 'edit') || ($privilege === 'manage'))
         {
@@ -608,7 +609,7 @@ class PluginaPageTable extends Doctrine_Table
         {
           continue;
         }
-
+        
         // Make sure only groups that have the editor permission can win
         $accesses = Doctrine_Query::create()->
           select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.Permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
@@ -618,6 +619,7 @@ class PluginaPageTable extends Doctrine_Table
           execute(array(), Doctrine::HYDRATE_ARRAY);
         if (count($accesses) > 0)
         {
+          error_log("Got one");
           $result = true;
           break;
         }

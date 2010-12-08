@@ -338,7 +338,7 @@ class BaseaPageSettingsForm extends aPageForm
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
-        if (isset($info['privileges']['view']))
+        if (isset($info['privileges']['view_custom']))
         {
           $jinfo['selected'] = true;
         }
@@ -369,7 +369,7 @@ class BaseaPageSettingsForm extends aPageForm
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
-        if (isset($info['privileges']['view']))
+        if (isset($info['privileges']['view_custom']))
         {
           $jinfo['selected'] = true;
         }
@@ -629,26 +629,26 @@ class BaseaPageSettingsForm extends aPageForm
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
-      $this->clearAccessForPrivilege($object->id, 'view');
+      error_log("Clearing access for privilege");
+      $this->clearAccessForPrivilege($object->id, 'view_custom');
     }
     foreach ($values as $value)
     {
       if ($value['selected'] != '')
       {
-        $this->setAccessForPrivilege($object, $value['id'], 'view', ($value['selected'] === 'remove') ? false : true, $value['applyToSubpages']);
+        $this->setAccessForPrivilege($object, $value['id'], 'view_custom', ($value['selected'] === 'remove') ? false : true, $value['applyToSubpages']);
       }
     }
   }
 
   protected function clearAccessForPrivilege($pageId, $privilege)
   {
-    error_log("CLEARING ACCESS");
-    Doctrine::getTable('aAccess')->createQuery('a')->andWhere('a.page_id = ?', $pageId)->andWhere('a.privilege = ?', $privilege)->delete();
+    Doctrine_Query::create()->delete('aAccess')->where('page_id = ?', $pageId)->andWhere('privilege = ?', $privilege)->execute();
   }
 
   protected function clearGroupAccessForPrivilege($pageId, $privilege)
   {
-    Doctrine::getTable('aGroupAccess')->createQuery('a')->andWhere('a.page_id = ?', $pageId)->andWhere('a.privilege = ?', $privilege)->delete();
+    Doctrine_Query::create()->delete('aGroupAccess')->where('page_id = ?', $pageId)->andWhere('privilege = ?', $privilege)->execute();
   }
 
   protected function saveGroupEditPrivileges($object)
@@ -713,7 +713,7 @@ class BaseaPageSettingsForm extends aPageForm
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
-      $this->clearGroupAccessForPrivilege($object->id, 'view');
+      $this->clearGroupAccessForPrivilege($object->id, 'view_custom');
     }
     foreach ($values as $value)
     {
@@ -723,7 +723,7 @@ class BaseaPageSettingsForm extends aPageForm
       {
         if ($value['selected'] != '')
         {
-          $this->setGroupAccessForPrivilege($object, $value['id'], 'view', ($value['selected'] === 'remove') ? false: true, $value['applyToSubpages']);
+          $this->setGroupAccessForPrivilege($object, $value['id'], 'view_custom', ($value['selected'] === 'remove') ? false: true, $value['applyToSubpages']);
         }
       }
     }
