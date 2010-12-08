@@ -727,8 +727,11 @@ class BaseaTools
     {
       // No multiple consecutive /
       $path = preg_replace("/\/+/$modifier", "/", $path);
-      // No trailing /
-      $path = preg_replace("/\/$/$modifier", '', $path);
+      // No trailing / unless it's the homepage
+      if ($path !== '/')
+      {
+        $path = preg_replace("/\/$/$modifier", '', $path);
+      }
     }
     // No consecutive dashes
     $path = preg_replace("/$betweenWords+/$modifier", $betweenWords, $path);
