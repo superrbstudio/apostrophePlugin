@@ -130,6 +130,7 @@ line-height: 20px !important;
 .a-crop > .icon { background-image: url(../images/a-icon-crop.png); }
 .a-delete > .icon { background-image: url(../images/a-icon-alt-trash.png); }
 .a-download > .icon { background-image: url(../images/a-icon-download.png); }
+.a-dropdown-arrow > .icon { background-image: url(../images/a-icon-dropdown-arrow.png); }
 .a-drag > .icon { background-image: url(../images/a-icon-drag-simple.png); }
 .a-edit > .icon, .a-publish > .icon { background-image: url(../images/a-icon-edit.png); }
 .a-feed > .icon { background-image: url(../images/a-icon-feed.png); }
@@ -185,6 +186,7 @@ line-height: 20px !important;
 .alt .a-close > .icon, .a-close.alt > .icon { background-image: url(../images/a-icon-alt-close-simple.png); }
 .alt .a-delete > .icon, .a-delete.alt > .icon { background-image: url(../images/a-icon-alt-trash.png); }
 .alt .a-download > .icon, .a-download.alt > .icon { background-image: url(../images/a-icon-alt-download.png); }
+.alt .a-dropdown-arrow > .icon, .a-dropdown-arrow.alt > .icon { background-image: url(../images/a-icon-alt-dropdown-arrow.png); }
 .alt .a-drag > .icon, .a-drag.alt > .icon { background-image: url(../images/a-icon-alt-drag-simple.png); }
 .alt .a-edit .icon,
 .a-edit.alt .icon { background-image: url(../images/a-icon-alt-edit.png); }
