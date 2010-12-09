@@ -1,5 +1,8 @@
 <?php
 
+// Bring in LESS compiler
+require dirname(__FILE__) . '/../lessphp/lessc.inc.php';
+
 // Loading of the a CSS, JavaScript and helpers is now triggered here 
 // to ensure that there is a straightforward way to obtain all of the necessary
 // components from any partial, even if it is invoked at the layout level (provided
@@ -138,15 +141,49 @@ function a_navaccordion()
 
 function a_get_stylesheets()
 {
-  if (sfConfig::get('app_a_minify', false))
+  $lessc = new lessc();
+  $newStylesheets = array();
+  $response = sfContext::getInstance()->getResponse();
+  foreach ($response->getStylesheets() as $file => $options)
   {
-    $response = sfContext::getInstance()->getResponse();
-    return _a_get_assets_body('stylesheets', $response->getStylesheets());
+    if (preg_match('/\.less$/', $file))
+    {
+      $absolute = false;
+      if (isset($options['absolute']) && $options['absolute'])
+      {
+        unset($options['absolute']);
+        $absolute = true;
+      }
+      if (!isset($options['raw_name']))
+      {
+        $file = stylesheet_path($file, $absolute);
+      }
+      $path = sfConfig::get('sf_web_dir') . $file;
+      
+      $dir = aFiles::getUploadFolder(array('asset-cache'));
+      $name = md5($file) . '.less.css';
+      $compiled = "$dir/" . md5($file) . '.less.css';
+      
+      // When minify is turned on we already have a policy that you are responsible for
+      // hitting it with a 'symfony cc' to clear the asset cache if you make changes; so the
+      // only thing we check for is whether the compiled CSS file exists
+      
+      // When minify is not turned on (usually in dev) we should do everything we can to be as 
+      // tolerant as hitting refresh on a page with plain .css files in it would be, so we need to
+      // check the modification time of the .less file against the compiled file
+      
+      if ((!file_exists($compiled)) || ((!sfConfig::get('app_a_minify')) && (filemtime($compiled) < filemtime($path))))
+      {
+        file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
+      }
+      $newStylesheets['/uploads/asset-cache/' . $name] = $options;
+    }
+    else
+    {
+      $newStylesheets[$file] = $options;
+    }
   }
-  else
-  {
-    return get_stylesheets();
-  }
+  return _a_get_assets_body('stylesheets', $newStylesheets);
 }
 
 function a_get_javascripts()
@@ -168,6 +205,19 @@ function _a_get_assets_body($type, $assets)
   sfConfig::set('symfony.asset.' . $type . '_included', true);
 
   $html = '';
+
+  // We need our own copy of the trivial case here because we rewrote the asset list
+  // for stylesheets after LESS compilation, and there is no way to
+  // reset the list in the response object
+  if (!sfConfig::get('app_a_minify', false))
+  {
+    foreach ($assets as $file => $options)
+    {
+      $html .= stylesheet_tag($file, $options);
+    }
+    return $html;
+  }
+  
   $sets = array();
   foreach ($assets as $file => $options)
   {
@@ -179,7 +229,7 @@ function _a_get_assets_body($type, $assets)
      */
 
     $absolute = false;
-    if (isset($options['absolute']))
+    if (isset($options['absolute']) && $options['absolute'])
     {
       unset($options['absolute']);
       $absolute = true;
@@ -288,9 +338,11 @@ function _a_get_assets_body($type, $assets)
             $fdir = preg_replace('/\/[^\/]*$/', '', $path);
             $options['currentDir'] = $fdir;
             $options['docRoot'] = sfConfig::get('sf_web_dir');
-            error_log("HAVE PATH: " . $fdir);
           }
-          $fileContent = Minify_CSS::minify($fileContent, $options);
+          if (sfConfig::get('a_minify', false))
+          {
+            $fileContent = Minify_CSS::minify($fileContent, $options);
+          }
         }
         else
         {
@@ -303,7 +355,6 @@ function _a_get_assets_body($type, $assets)
         }
         $content .= $fileContent;
       }
-      error_log("AFTER");
       if ($gzip)
       {
         _gz_file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
