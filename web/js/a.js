@@ -100,7 +100,7 @@ function aConstructor()
 	this.aClickOnce = function(selector)
 	{
 		var selector = $(selector);
-		selector.unbind('click').click(function(){   
+		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){   
 			apostrophe.toSpan(selector);
 		});
 	}
