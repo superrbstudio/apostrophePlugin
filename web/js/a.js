@@ -22,6 +22,32 @@ function aConstructor()
       handlers[i](slotId);
     }
   }
+
+	// Utility: Click an element once and convert it to a span
+	// Useful for turning an <a> into a <span>
+	this.aClickOnce = function(selector)
+	{
+		var selector = $(selector);
+		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){   
+			apostrophe.toSpan(selector);
+		});
+	}
+
+	// Utility: Replaces selected node with <span>
+	this.toSpan = function(selector)
+	{
+		selector = $(selector);
+		if (selector.length) {
+			var id = ""; var clss = "";
+			if (selector.attr('id') != '') { id = "id='"+selector.attr('id')+"'"; };
+			if (selector.attr('class') != '') { clss = "class='"+selector.attr('class')+"'"; };		
+			selector.replaceWith("<span " + clss + " " + id +">" + selector.html() + "</span>");				
+		}
+		else
+		{
+			apostrophe.log('apostrophe.toSpan -- No Elements Found');
+		};
+	}
 }
 
 window.apostrophe = new aConstructor();
