@@ -672,4 +672,9 @@ class aHtml
 
     return $images;
   }
+  
+  static public function toPlaintext($html)
+  {
+    return html_entity_decode($html, ENT_COMPAT, 'UTF-8');
+  }
 }
