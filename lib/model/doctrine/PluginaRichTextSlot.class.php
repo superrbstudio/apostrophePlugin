@@ -28,4 +28,18 @@ abstract class PluginaRichTextSlot extends BaseaRichTextSlot
   {
     return $this->getSearchText();
   }
+  
+  /**
+   * This function returns a basic HTML representation of your slot's comments
+   * (passing the default settings of aHtml::simplify, for instance). Used for Google Calendar
+   * buttons, RSS feeds and similar
+   * @return string
+   */
+  public function getBasicHtml()
+  {
+    /* 
+      Already cleaned by aHtml::simplify
+    */
+    return $this->value;
+  }
 }

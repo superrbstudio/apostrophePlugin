@@ -46,6 +46,20 @@ abstract class PluginaSlot extends BaseaSlot
     return '';
   }
 
+  /**
+   * This function returns a basic HTML representation of your slot's comments
+   * (passing the default settings of aHtml::simplify, for instance). Used for Google Calendar
+   * buttons, RSS feeds and similar
+   * @return string
+   */
+  public function getBasicHtml()
+  {
+    /* 
+      If we don't expressly implement this, return the plaintext representation
+    */
+    return $this->getText();
+  }
+
   // Conveniences for slots that use $this->value to store all of their state
   // and wish to store an array there.
   

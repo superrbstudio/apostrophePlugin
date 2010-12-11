@@ -298,8 +298,6 @@ function _a_get_assets_body($type, $assets)
       // so that's not terrible, but it's usually simpler faster and less
       // buggy to grab the file content.
     }
-    // TODO: learn more about the safety/danger of using the md5 as an id all by itself.
-    // Otherwise we have to gzip or something, is that a bigger performance hit?
     // I tried just using $groupFilename as is (after stripping dangerous stuff) 
     // but it's too long for the OS if you include enough to make it unique
     $groupFilename = md5($groupFilename);
@@ -339,8 +337,9 @@ function _a_get_assets_body($type, $assets)
             $options['currentDir'] = $fdir;
             $options['docRoot'] = sfConfig::get('sf_web_dir');
           }
-          if (sfConfig::get('a_minify', false))
+          if (sfConfig::get('app_a_minify', false))
           {
+            error_log("Calling minify");
             $fileContent = Minify_CSS::minify($fileContent, $options);
           }
         }

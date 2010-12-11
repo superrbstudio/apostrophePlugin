@@ -109,6 +109,9 @@ abstract class PluginaPage extends BaseaPage
     return false;
   }
   
+  // Slightly misnamed, this method should really be called getAreaSlots but is
+  // named this way for historical reasons
+  
   // WARNING: You need to retrieve the slots properly before you can use this
   // reliably. That means using aPageTable::retrieveBySlugWithSlots() or
   // aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
@@ -158,6 +161,41 @@ abstract class PluginaPage extends BaseaPage
       $results[$permidAndRank['permid']] = $new;
     }
     return $results;
+  }
+
+  /* Returns entity-escaped plaintext with newlines */
+  public function getAreaText($areaname)
+  {
+    $slots = $this->getArea($areaname);
+    $text = '';
+    foreach ($slots as $slot)
+    {
+      if (strlen($text))
+      {
+        $text .= "\n\n";
+      }
+      $text .= $slot->getText();
+    }
+    return $text;
+  }
+
+  public function getAreaBasicHtml($areaname)
+  {
+    $slots = $this->getArea($areaname);
+    $text = '';
+    foreach ($slots as $slot)
+    {
+      if (strlen($text))
+      {
+        // div might not be permitted in a lot of 'basic html'
+        // contexts, but we do need some vertical break between
+        // two slots to reasonably reproduce what
+        // Apostrophe does with them
+        $text .= '<br />';
+      }
+      $text .= $slot->getBasicHtml();
+    }
+    return $text;
   }
 
   public function getNextPermidAndRank($name, $first = false)
