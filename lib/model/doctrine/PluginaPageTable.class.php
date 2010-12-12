@@ -616,9 +616,15 @@ class PluginaPageTable extends Doctrine_Table
           continue;
         }
         
-        // Make sure only groups that have the editor permission can win
-        $accesses = Doctrine_Query::create()->
-          select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g')->innerJoin('g.Permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'))->innerJoin('a.Page p')->
+        $query = Doctrine_Query::create()->
+          select('a.*')->from('aGroupAccess a')->innerJoin('a.Group g');
+        
+        // All groups are fair game to receive view permissions
+        if ($privilege !== 'view_custom')
+        {  
+          $query->innerJoin('g.Permissions per WITH per.name = ?', sfConfig::get('app_a_group_editor_permission', 'editor'));
+        }
+        $accesses = $query->innerJoin('a.Page p')->
           where("p.id = ? AND a.privilege = ?", array($pageOrInfo['id'], $privilege))->
           andWhereIn("a.group_id", $groupIds)->
           limit(1)->
