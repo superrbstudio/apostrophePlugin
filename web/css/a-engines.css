@@ -209,6 +209,11 @@ font-family: Arial, sans-serif;
 font-size: 11px;
 }
 
+.a-admin-sidebar .section.location textarea
+{
+	width: 172px;
+}
+
 .a-admin-sidebar .section.event-date div.start_date
 {
 	margin-bottom: 10px;

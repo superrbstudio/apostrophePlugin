@@ -519,12 +519,34 @@ class aHtml
 	  return $result;
 	}
 
+  // This is a quick and dirty implementation based on calling limitWords
+  // with an optimistic guess and then backing off a few times if necessary
+  // until we get under the byte limit. Note that limitBytes is designed
+  // to fit things in buffers, not save screen space, so it does have to
+  // make sure the result is not too big
+  
+	public static function limitBytes($string, $byte_limit, $options = array())
+	{
+	  $word_limit = (int) ($byte_limit / 8);
+	  while (true)
+	  {
+	    $s = aHtml::limitWords($string, $word_limit, $options);
+	    if (strlen($s) <= $byte_limit)
+	    {
+	      break;
+	    }
+	    $word_limit = (int) ($word_limit * 0.75);
+	  }
+	  return $s;
+	}
+
   public static function toText($html)
   {
     # Nothing fancy, we use the text for indexing only anyway.
     # It would be nice to do a prettier job here for future applications
     # that need pretty plaintext representations. That would be useful 
-    # as an alt-body in emails
+    # as an alt-body in emails. This does not entity-decode. See
+    // toPlaintext for that
     $txt = strip_tags($html);
     return $txt;
   }
@@ -655,5 +677,10 @@ class aHtml
     }
 
     return $images;
+  }
+  
+  static public function toPlaintext($html)
+  {
+    return html_entity_decode(strip_tags($html), ENT_COMPAT, 'UTF-8');
   }
 }
