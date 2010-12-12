@@ -255,5 +255,15 @@ class aString
       return substr($s, $start, is_null($length) ? strlen($s) : $length);
     }
   }
+  
+  static public function firstLine($s)
+  {
+    $ln = strpos($s, "\n");
+    if ($ln === false)
+    {
+      return $s;
+    }
+    return substr($s, 0, $ln);
+  }
 }
 
