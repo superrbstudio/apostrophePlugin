@@ -265,5 +265,15 @@ class aString
     }
     return substr($s, 0, $ln);
   }
+  
+  static public function toVcal($s)
+  {
+    // vcal is fairly picky. Avoid a lot of problems by
+    // simplifying whitespace
+    $s = preg_replace('/\s+/', ' ', $s);
+    $s = trim($s);
+    $s = addslashes($s);
+    return $s;
+  }
 }
 

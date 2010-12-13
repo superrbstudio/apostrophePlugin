@@ -56,8 +56,9 @@ abstract class PluginaSlot extends BaseaSlot
   {
     /* 
       If we don't expressly implement this, return the plaintext representation
+      with entity escaping restored
     */
-    return $this->getText();
+    return htmlentities($this->getText(), ENT_COMPAT, 'UTF-8');
   }
 
   // Conveniences for slots that use $this->value to store all of their state
