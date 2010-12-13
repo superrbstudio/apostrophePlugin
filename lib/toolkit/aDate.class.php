@@ -89,10 +89,12 @@ class aDate
   // YYYY-MM-DD 
   // YYYY-MM-DD hh:mm:ss
   // hh:mm:ss
-  // hh:mm:ss by itself is interpreted relative to the current day.
+  // hh:mm:ss by itself is interpreted relative to the current day
+  // unless timeOnly is true, in which case you get back only the offset in seconds
+  // from midnight.
   //
   // OUT: timestamp
-  static public function normalize($date)
+  static public function normalize($date, $timeOnly = false)
   {  
     if (preg_match("/^(\d\d\d\d)-(\d\d)-(\d\d)( (\d\d):(\d\d):(\d\d))?$/", $date, $matches))
     {
@@ -111,11 +113,15 @@ class aDate
     }  
     elseif (preg_match("/^(\d\d):(\d\d):(\d\d)?$/", $date, $matches))
     {
+      list($dummy1, $hour, $min, $sec) = $matches;
+      if ($timeOnly)
+      {
+        return $hour * 3600 + $min * 60 + $sec;
+      }
       $now = time();
       $year = date('Y', $now);
       $month = date('n', $now);
       $day = date('j', $now);
-      list($dummy1, $hour, $min, $sec) = $matches;
       $date = mktime($hour, $min, $sec, $month, $day, $year);
     }
     return $date;
