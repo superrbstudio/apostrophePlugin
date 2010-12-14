@@ -448,3 +448,5 @@ border: 1px inset rgba(0,0,0,0.20);
 	background-image: -moz-radial-gradient(center bottom, #F66 0%, #f00 100%);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, red), color-stop(1, #F66));
 }
+
+.a-ui .a-btn.a-sidebar-button { width: 99%; padding: 0; text-align: center; }

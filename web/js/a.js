@@ -2173,10 +2173,10 @@ function aConstructor()
 			menu.trigger('afterClosed');
 		});
 
-		$('#' + menu.attr('id') + ' .a-options-cancel').live('click',function(){
+		$('#' + menu.attr('id') + ' .a-options-cancel').live('click',function(e){
+			e.preventDefault();
 			menu.trigger('toggleClosed');
 		});
-
 	}	
 
 } 

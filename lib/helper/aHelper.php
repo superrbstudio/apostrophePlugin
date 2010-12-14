@@ -512,7 +512,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   {
     $s .= '<span class="icon"></span>';
   }
-  $s .= $label . '</a>';
+  $s .= a_($label) . '</a>';
   return $s;
 }
 

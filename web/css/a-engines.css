@@ -188,7 +188,6 @@ a.a-sidebar-toggle.post-editors-toggle { margin: 5px 0 0; }
 .a-admin-sidebar .section.tags h4 { width: 100%; }
 
 .a-admin-sidebar .section.published .post-save { margin-bottom: 10px; clear: both;}
-.a-admin-sidebar .section.published .a-save-blog-main { width: 99%; padding: 0; text-align: center; }
 .a-admin-sidebar .section.published h4, .a-admin-sidebar .section.published h4 label { width: auto; clear: left; }
 .a-admin-sidebar .section.published .a-form-row,
 .a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right;}
@@ -1122,22 +1121,6 @@ li.a-media-selection-preview-item .jcrop-holder {
 	display: inline;
 	position: relative;	
 	width: 100%;
-}
-
-.a-blog-main hr
-{
-	float: left;
-	width: 100%;
-	margin-bottom:10px;
-	height: 1px;
-	border: none;
-	background: rgba(0,0,0,0.125);
-}
-
-.a-blog-item .a-area
-{
-	margin-top:0;
-	clear: both;
 }
 
 .a-blog-item-title,
