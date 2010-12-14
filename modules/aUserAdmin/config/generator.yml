@@ -25,12 +25,9 @@ generator:
       form:
         class: aUserAdminForm
         actions:
-          _save:
+          _save_and_list:
           _list:
         fields:
-          groups_list:
-            # HTML no longer works here with sf_output_escaping: true turned on
-            help:       'If you want to grant a user the ability to edit a portion of the site as an individual, first add them to the editor group. Then browse to that area of the site and click Page Settings to add them to the list of users who can edit in that particular area. You can also add them to a group that has the Editor permission and grant that group editing privileges anywhere in the site. If you want a user to have full control over the entire site, add them to the admin group.'
       edit:
         title: Editing User "%%username%%"
       new:

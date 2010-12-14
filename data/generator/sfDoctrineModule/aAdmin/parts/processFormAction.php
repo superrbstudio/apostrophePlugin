@@ -16,6 +16,12 @@
 
         $this->redirect('@<?php echo $this->getUrlForAction('new') ?>');
       }
+      elseif ($request->hasParameter('_save_and_list'))
+      {
+        $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice'));
+
+        $this->redirect('@<?php echo $this->getUrlForAction('list') ?>');
+      }
       else
       {
         $this->redirect('@<?php echo $this->getUrlForAction('edit') ?>?<?php echo $this->getPrimaryKeyUrlParams() ?>);
