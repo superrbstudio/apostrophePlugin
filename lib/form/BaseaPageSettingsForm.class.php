@@ -530,6 +530,13 @@ class BaseaPageSettingsForm extends aPageForm
       $q->execute();
     }
     
+    // We have no UI for scheduling publication yet, so make sure
+    // we set the publication date when we save with archived false
+    if (!$values['archived'])
+    {
+      $object->setPublishedAt(aDate::mysql());
+    }
+    
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites
     // our attempt to invalidate the routing cache [groan]
