@@ -36,7 +36,8 @@
 
 	<ul class="a-ui a-controls">  
 	  <li>
-  		<?php echo a_anchor_submit_button(a_('Save'), array('a-save','a-show-busy'), 'a-slot-form-submit-'.$id) ?>
+	    <?php // We need an id, not a name. Fix Jake's "I can't edit anything" bug ?>
+  		<?php echo a_anchor_submit_button(a_('Save'), array('a-save','a-show-busy'), null, 'a-slot-form-submit-'.$id) ?>
 		</li>
 	  <li>
   		<?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon'), 'a-slot-form-cancel-'.$id) ?>		
