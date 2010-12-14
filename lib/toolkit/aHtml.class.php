@@ -676,6 +676,9 @@ class aHtml
   
   static public function toPlaintext($html)
   {
-    return html_entity_decode(strip_tags($html), ENT_COMPAT, 'UTF-8');
+    // Nonbreaking spaces don't work properly
+    // in a lot of contexts where plaintext is
+    // needed
+    return html_entity_decode(str_replace('&nbsp;', ' ', strip_tags($html)), ENT_COMPAT, 'UTF-8');
   }
 }
