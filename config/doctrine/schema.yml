@@ -465,6 +465,9 @@ aMediaItem:
     # and we can look directly at that file to finish the job
     
     # Otherwise we let the behavior do its job
+    
+    # Also, we need a wrapper method to avoid confusing aTools::slugify with
+    # additional parameters passed by the behavior that don't match its own
 
     Sluggable:
       fields: [title]
