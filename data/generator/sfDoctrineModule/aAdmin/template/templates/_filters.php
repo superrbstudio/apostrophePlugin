@@ -2,7 +2,7 @@
 [?php include_javascripts_for_form($form) ?]
 [?php use_helper('a') ?]
 
-<div id="a-admin-filters-container">
+<div id="a-admin-filters-container" class="a-ui">
 
 	  <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter')) ?]" method="post" id="a-admin-filters-form">
 		

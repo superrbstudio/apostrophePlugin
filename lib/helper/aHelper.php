@@ -559,6 +559,10 @@ function a_submit_button($label, $classes = array(), $name = null)
   return $s;
 }
 
+// TODO: having the options here be the reverse of the options to
+// a_button is absurd and we need an options array for both of them.
+// For now this is more backward compatible
+
 // An anchor tag 'submit button', styled for Apostrophe
 // and configured behind the scenes to autosubmit the form when clicked 
 // like a real submit button would. However, this should
@@ -575,9 +579,9 @@ function a_submit_button($label, $classes = array(), $name = null)
 // You will often want to add the a-submit class, but not always as it's
 // not always the visual impact you want
 
-function a_anchor_submit_button($label, $classes = array(), $name = null)
+function a_anchor_submit_button($label, $classes = array(), $name = null, $id = null)
 {
   $classes[] = 'a-btn';
   $classes[] = 'a-act-as-submit';
-  return a_button($label, '#', $classes, $name);
+  return a_button($label, '#', $classes, $id, $name);
 }

@@ -32,12 +32,12 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
 
   public function linkToList($params)
   {
-    return '<li class="a-admin-action-list">'.link_to('<span class="icon"></span>'.__($params['label'], array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel')).'</li>';
+    return '<li class="a-admin-action-list">'.link_to('<span class="icon"></span>'.__('Cancel', array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel')).'</li>';
   }
 
   public function linkToSave($object, $params)
   {
-    return '<li class="a-admin-action-save">' . a_anchor_submit_button(a_($params['label']), array('a-save')) . '</li>';
+    return '<li class="a-admin-action-save">' . a_anchor_submit_button(a_('Save', array(), 'apostrophe'), array('a-save')) . '</li>';
   }
 
   public function linkToSaveAndAdd($object, $params)
@@ -48,6 +48,12 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
     }
     return '<li class="a-admin-action-save-and-add">' . a_anchor_submit_button(a_($params['label']), array('a-save'), '_save_and_add') . '</li>';
   }
+
+  public function linkToSaveAndList($object, $params)
+  {
+    return '<li class="a-admin-action-save-and-list">' . a_anchor_submit_button(a_('Save'), array('a-save'), '_save_and_list') . '</li>';
+  }
+  
 
   public function getUrlForAction($action)
   {

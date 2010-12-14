@@ -2,9 +2,9 @@
 [?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
 
 [?php slot('a-page-header')?]
-<div class="a-admin-header">
+<div class="a-ui a-admin-header">
 	<h3 class="a-admin-title">[?php echo __('<?php echo $this->configuration->getValue('list.title') ?>', array(), 'apostrophe') ?]</h3>
-	<ul class="a-ui a-controls a-admin-controls">
+	<ul class="a-controls a-admin-controls">
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]   
   </ul>
 	<?php if ($this->configuration->hasFilterForm()): ?>
@@ -13,17 +13,17 @@
 </div>
 [?php end_slot() ?]
 
-<div class="a-admin-container [?php echo $sf_params->get('module') ?]">
+[?php slot('a-subnav') ?]
+<div class="a-ui a-subnav-wrapper admin">
+	<div class="a-subnav-inner">
+		<ul class="a-controls">
+				<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
+		</ul>
+	</div>
+</div>
+[?php end_slot() ?]
 
-	[?php slot('a-subnav') ?]
-	<div class="a-subnav-wrapper admin">
-		<div class="a-subnav-inner">
-			<ul class="a-ui a-controls">
-					<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
-			</ul>
-		</div>
-  </div>
-	[?php end_slot() ?]
+<div class="a-ui a-admin-container [?php echo $sf_params->get('module') ?]">
 
 	<div class="a-admin-content main">
 		

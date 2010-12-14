@@ -54,33 +54,29 @@ abstract class PluginaPage extends BaseaPage
 
   // The new API:
   //
-  // getArea(name)
-  // newAreaVersion(name, action, params)
- 
-
-  private function populateSlotCache()
-  {
-    if ($this->slotCache === false)
-    {
-      $this->slotCache = array();
-      // We have $this->Areas courtesy of whatever query
-      // fetched the page in the first place
-      foreach ($this->Areas as $area)
-      {
-        $areaVersion = $area->AreaVersions[0];
-        foreach ($areaVersion->AreaVersionSlots as $areaVersionSlot)
-        {
-          $slot = $areaVersionSlot->Slot;
-          $this->slotCache[$this->culture][$area->name][$areaVersionSlot->permid] = $slot;
-          // foreach ($slot->MediaItems as $mediaItem)
-          // {
-          //   echo($mediaItem->id . ',');
-          // }
-        }
-      }
-    }
-  }
+  // getArea(name)   returns slots for an area name (not an aArea object, which is low level implementation stuff)
+  // newAreaVersion(name, action, params)    makes a change to an area, see function for details
+  // getAllSlots()    returns all current slots on page, see function for details
   
+  // Simple public access to the current slots,
+  // organized by culture, area name and permid, ordered by rank in
+  // the area (assuming of course that you fetched this page
+  // properly with retrieveBySlug or another public function in
+  // aPageTable). Note that in most cases only slots for one culture
+  // are returned, you will never see more than one culture unless
+  // you expressly requested that in your query call. The result
+  // looks like this:
+  
+  // $allSlots['en']['body'][1] = aSlot subclass object
+  
+  // Note that some permids may not be present in a particular version, 
+  // you should be using a foreach loop, not assuming they start from 1
+  
+  public function getAllSlots()
+  {
+    return $this->slotCache;
+  }
+    
   // WARNING: You need to retrieve the slots properly before you can use this
   // reliably. That means using aPageTable::retrieveBySlugWithSlots() or
   // aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
@@ -163,6 +159,29 @@ abstract class PluginaPage extends BaseaPage
     return $results;
   }
 
+  private function populateSlotCache()
+  {
+    if ($this->slotCache === false)
+    {
+      $this->slotCache = array();
+      // We have $this->Areas courtesy of whatever query
+      // fetched the page in the first place
+      foreach ($this->Areas as $area)
+      {
+        $areaVersion = $area->AreaVersions[0];
+        foreach ($areaVersion->AreaVersionSlots as $areaVersionSlot)
+        {
+          $slot = $areaVersionSlot->Slot;
+          $this->slotCache[$this->culture][$area->name][$areaVersionSlot->permid] = $slot;
+          // foreach ($slot->MediaItems as $mediaItem)
+          // {
+          //   echo($mediaItem->id . ',');
+          // }
+        }
+      }
+    }
+  }
+  
   /* Returns entity-escaped plaintext with newlines */
   public function getAreaText($areaname)
   {
