@@ -535,7 +535,14 @@ overflow: hidden;
 	padding-right: 10px;
 }
 
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget-tag-container,
+.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
+{
+	margin-bottom: 10px;
+}
 .aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget input { width: 100px;}
+
+.aBlog .a-slot-form .a-form-help.collapsed{display: none;}
 
 .aBlog .a-slot-form hr {
 background-color:rgba(0, 0, 0, 0.1);
