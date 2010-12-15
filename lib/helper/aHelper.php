@@ -493,6 +493,7 @@ function a_link_button($label, $symfonyUrl, $options = array(), $classes = array
 function a_button($label, $url, $classes = array(), $id = null, $name = null, $title = null)
 {
   $hasIcon = in_array('icon', $classes);
+	$aLink = in_array('a-link', $classes);
   $s = '<a ';
   if (!is_null($name))
   {
@@ -507,7 +508,17 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   {
     $s .= 'id="' . a_entities($id) . '" ';
   }
-  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
+
+	if (!$aLink) {
+	  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
+	}
+	else
+	{
+		// a-link shares similar physical characteristic to a-btn
+		// but they avoid the aeshetic styling of a-btn entirely
+  	$s .= 'class="' . implode(' ', $classes) . '">';
+	}
+
   if ($hasIcon)
   {
     $s .= '<span class="icon"></span>';

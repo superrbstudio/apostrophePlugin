@@ -1211,9 +1211,7 @@ margin-bottom: 5px;
 .a-ui .a-tag-sidebar-list,
 .a-ui .a-blog-selected-tag { float: left; width: 100%; margin-bottom: 10px; }
  
-.a-tag-sidebar-list li { margin: 0 0 5px 0; }
-
-.a-tag-sidebar .a-tag-sidebar-tag-count { color: #fff; }
+.a-tag-sidebar-list li { margin: 1px 0; clear: both; overflow: hidden;}
 
 .a-tag-sidebar .a-tag-sidebar-title { float: left; 	width: 100%; }
 
