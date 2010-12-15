@@ -1139,20 +1139,6 @@ li.a-media-selection-preview-item .jcrop-holder {
 	width:auto;
 }
 
-.addthis_toolbox
-{
-	float:left;
-	width: auto;
-	clear: both;
-	padding: 5px;
-	background: #fff;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;	
-}
-
-.aEvent .addthis_toolbox { margin-left: 140px; font-size: 11px; color: #999; }
-
 .a-event-date-range span { float: left;	width: 100%; color: #222; }
 
 .a-event-date-range .end_date { margin-top: 5px; }

@@ -494,6 +494,13 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
 {
   $hasIcon = in_array('icon', $classes);
 	$aLink = in_array('a-link', $classes);
+
+	// if it's an a-events button, grab the date and append it as a class
+	$aEvents = in_array('a-events', $classes);
+	if ($aEvents) {
+		$classes[] = 'day-'.date('j');
+	}
+	
   $s = '<a ';
   if (!is_null($name))
   {

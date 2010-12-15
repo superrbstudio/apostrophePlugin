@@ -140,6 +140,7 @@ height: 20px !important;
 .a-feed > .icon { background-image: url(../images/a-icon-feed.png); }
 .a-rss-feed > .icon { background-image: url(../images/a-icon-rss-feed.png); }
 .a-file > .icon { background-image: url(../images/a-icon-file.png); }
+.a-google-maps > .icon { background-image: url(../images/a-icon-download.png); }
 .a-image > .icon { background-image: url(../images/a-icon-photo.png); }
 .a-history-btn > .icon, 
 .a-history-revert > .icon { background-image: url(../images/a-icon-alt-history.png); }
@@ -197,6 +198,7 @@ height: 20px !important;
 .a-edit.alt .icon { background-image: url(../images/a-icon-alt-edit.png); }
 .alt .a-feed > .icon, .a-feed.alt > .icon { background-image: url(../images/a-icon-alt-feed.png); }
 .alt .a-file > .icon, .a-file.alt > .icon { background-image: url(../images/a-icon-alt-file.png); }
+.alt .a-google-maps > .icon, .a-google-maps.alt > .icon { background-image: url(../images/a-icon-alt-download.png); }
 .alt .a-history-btn .icon,
 .alt .a-history-revert .icon,
 .a-history-btn.alt .icon,
@@ -241,37 +243,37 @@ height: 20px !important;
 .alt .a-events > .icon,
 .a-events.alt > .icon { background-image: url(../images/a-icon-alt-event-sprite.png); }
 
-.a-events.day-1 > .icon { background-position: 0 0px; }
-.a-events.day-2 > .icon { background-position: 0 -21px; }
-.a-events.day-3 > .icon { background-position: 0 -41px; }
-.a-events.day-4 > .icon { background-position: 0 -61px; }
-.a-events.day-5 > .icon { background-position: 0 -81px; }
-.a-events.day-6 > .icon { background-position: 0 -101px; }
-.a-events.day-7 > .icon { background-position: 0 -121px; }
-.a-events.day-8 > .icon { background-position: 0 -141px; }
-.a-events.day-9 > .icon { background-position: 0 -161px; }
-.a-events.day-10 > .icon { background-position: 0 -181px; }
-.a-events.day-11 > .icon { background-position: 0 -201px; }
-.a-events.day-12 > .icon { background-position: 0 -221px; }
-.a-events.day-13 > .icon { background-position: 0 -241px; }
-.a-events.day-14 > .icon { background-position: 0 -261px; }
-.a-events.day-15 > .icon { background-position: 0 -281px; }
-.a-events.day-16 > .icon { background-position: 0 -301px; }
-.a-events.day-17 > .icon { background-position: 0 -321px; }
-.a-events.day-18 > .icon { background-position: 0 -341px; }
-.a-events.day-19 > .icon { background-position: 0 -361px; }
-.a-events.day-20 > .icon { background-position: 0 -381px; }
-.a-events.day-21 > .icon { background-position: 0 -401px; }
-.a-events.day-22 > .icon { background-position: 0 -421px; }
-.a-events.day-23 > .icon { background-position: 0 -441px; }
-.a-events.day-24 > .icon { background-position: 0 -461px; }
-.a-events.day-25 > .icon { background-position: 0 -481px; }
-.a-events.day-26 > .icon { background-position: 0 -501px; }
-.a-events.day-27 > .icon { background-position: 0 -521px; }
-.a-events.day-28 > .icon { background-position: 0 -541px; }
-.a-events.day-29 > .icon { background-position: 0 -561px; }
-.a-events.day-30 > .icon { background-position: 0 -581px; }
-.a-events.day-31 > .icon, .a-event, .a-eventsingle { background-position: 0 -601px; }
+.a-ui .a-events.day-1 > .icon { background-position: 0 0px; }
+.a-ui .a-events.day-2 > .icon { background-position: 0 -21px; }
+.a-ui .a-events.day-3 > .icon { background-position: 0 -41px; }
+.a-ui .a-events.day-4 > .icon { background-position: 0 -61px; }
+.a-ui .a-events.day-5 > .icon { background-position: 0 -81px; }
+.a-ui .a-events.day-6 > .icon { background-position: 0 -101px; }
+.a-ui .a-events.day-7 > .icon { background-position: 0 -121px; }
+.a-ui .a-events.day-8 > .icon { background-position: 0 -141px; }
+.a-ui .a-events.day-9 > .icon { background-position: 0 -161px; }
+.a-ui .a-events.day-10 > .icon { background-position: 0 -181px; }
+.a-ui .a-events.day-11 > .icon { background-position: 0 -201px; }
+.a-ui .a-events.day-12 > .icon { background-position: 0 -221px; }
+.a-ui .a-events.day-13 > .icon { background-position: 0 -241px; }
+.a-ui .a-events.day-14 > .icon { background-position: 0 -261px; }
+.a-ui .a-events.day-15 > .icon { background-position: 0 -281px; }
+.a-ui .a-events.day-16 > .icon { background-position: 0 -301px; }
+.a-ui .a-events.day-17 > .icon { background-position: 0 -321px; }
+.a-ui .a-events.day-18 > .icon { background-position: 0 -341px; }
+.a-ui .a-events.day-19 > .icon { background-position: 0 -361px; }
+.a-ui .a-events.day-20 > .icon { background-position: 0 -381px; }
+.a-ui .a-events.day-21 > .icon { background-position: 0 -401px; }
+.a-ui .a-events.day-22 > .icon { background-position: 0 -421px; }
+.a-ui .a-events.day-23 > .icon { background-position: 0 -441px; }
+.a-ui .a-events.day-24 > .icon { background-position: 0 -461px; }
+.a-ui .a-events.day-25 > .icon { background-position: 0 -481px; }
+.a-ui .a-events.day-26 > .icon { background-position: 0 -501px; }
+.a-ui .a-events.day-27 > .icon { background-position: 0 -521px; }
+.a-ui .a-events.day-28 > .icon { background-position: 0 -541px; }
+.a-ui .a-events.day-29 > .icon { background-position: 0 -561px; }
+.a-ui .a-events.day-30 > .icon { background-position: 0 -581px; }
+.a-ui .a-events.day-31 > .icon, .a-ui .a-event, .a-eventsingle { background-position: 0 -601px; }
 
 
 /* Apostrophe Sort Arrow Button
