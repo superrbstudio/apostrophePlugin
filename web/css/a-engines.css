@@ -1156,20 +1156,6 @@ li.a-media-selection-preview-item .jcrop-holder {
 	width:auto;
 }
 
-.addthis_toolbox
-{
-	float:left;
-	width: auto;
-	clear: both;
-	padding: 5px;
-	background: #fff;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;	
-}
-
-.aEvent .addthis_toolbox { margin-left: 140px; font-size: 11px; color: #999; }
-
 .a-event-date-range span { float: left;	width: 100%; color: #222; }
 
 .a-event-date-range .end_date { margin-top: 5px; }
@@ -1240,9 +1226,7 @@ width: 100%;
 margin-bottom: 10px;
 }
  
-.a-tag-sidebar-list li { margin: 0 0 5px 0; }
-
-.a-tag-sidebar .a-tag-sidebar-tag-count { color: #fff; }
+.a-tag-sidebar-list li { margin: 1px 0; clear: both; overflow: hidden;}
 
 .a-tag-sidebar .a-tag-sidebar-title { float: left; 	width: 100%; }
 
@@ -1804,7 +1788,7 @@ margin-top: -10px;
 
 /* Blog Edit Post View */
 
-#a-blog-item-title-interface
+.a-ui .a-blog-item-title-interface
 {
 	display: block;
 	width: 100%;
@@ -1813,7 +1797,7 @@ margin-top: -10px;
 	position: relative;
 }
 
-#a-blog-item-title-interface .a-title
+.a-ui .a-blog-item-title-interface .a-title
 {
 float: left;
 font-size: 18px;
@@ -1826,7 +1810,7 @@ font-family: Arial, sans-serif;
 border: 1px solid rgba(0,0,0,0.1);
 }
 
-#a-blog-item-title-interface .a-title:hover
+.a-blog-item-title-interface .a-title:hover
 {
 float: left;
 font-size: 18px;
@@ -1839,7 +1823,7 @@ font-family: Arial, sans-serif;
 border: 1px solid rgba(0,0,0,0.35);
 }
 
-#a-blog-item-title-interface .a-title:focus
+.a-blog-item-title-interface .a-title:focus
 {
 	border: 1px solid rgba(0,0,0,0.35);
 	-moz-box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
@@ -1849,7 +1833,7 @@ border: 1px solid rgba(0,0,0,0.35);
 	box-shadow:rgba(0,0,0,0.45) 0px 0px 4px;
 }
 
-#a-blog-item-permalink-interface
+.a-ui .a-blog-item-permalink-interface
 {
 font-size: 11px;
 color: #999;
@@ -1859,11 +1843,13 @@ width: 100%;
 clear: both;
 }
 
-#a-blog-item-permalink-interface h6
+.a-ui .a-blog-item-permalink-interface h6
 {
 float: left;
 font-weight: bold;
 margin-right: 5px;
+font-size: 11px;
+line-height: 20px;
 }
 
 .a-blog-item-permalink-wrapper

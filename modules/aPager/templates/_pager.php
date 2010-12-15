@@ -14,7 +14,7 @@
 <?php # as appropriate. ?>
 
 <?php if ($pager->haveToPaginate()): ?>
-<div class="a-pager-navigation">
+<div class="a-pager-navigation a-ui">
 		<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => 1))) ?>" class="a-pager-navigation-image a-pager-navigation-first"><?php echo __('First Page', null, 'apostrophe') ?></a>
   	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() - $nb_links) > 0) ? $pager->getPage() - $nb_links : 1))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
 

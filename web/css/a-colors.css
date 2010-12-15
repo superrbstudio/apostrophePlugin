@@ -7,8 +7,12 @@
 /* Apostrophe Button - Color */
 .a-ui .a-btn,
 .a-ui .a-submit,
-.a-ui .a-cancel
+.a-ui .a-cancel,
+.a-btn,
+.a-submit,
+.a-cancel
 { 
+	color: #fff;
 	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 	background-color: rgb(245,135,0);
 	background-color: rgba(245,135,0,0.85);	

@@ -493,6 +493,15 @@ function a_link_button($label, $symfonyUrl, $options = array(), $classes = array
 function a_button($label, $url, $classes = array(), $id = null, $name = null, $title = null)
 {
   $hasIcon = in_array('icon', $classes);
+	$aLink = in_array('a-link', $classes);
+	$arrowBtn = in_array('a-arrow-btn', $classes);
+
+	// if it's an a-events button, grab the date and append it as a class
+	$aEvents = in_array('a-events', $classes);
+	if ($aEvents) {
+		$classes[] = 'day-'.date('j');
+	}
+	
   $s = '<a ';
   if (!is_null($name))
   {
@@ -507,7 +516,17 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   {
     $s .= 'id="' . a_entities($id) . '" ';
   }
-  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
+
+	if (!$aLink && !$arrowBtn) {
+	  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
+	}
+	else
+	{
+		// a-link shares similar physical characteristic to a-btn
+		// but they avoid the aeshetic styling of a-btn entirely
+  	$s .= 'class="' . implode(' ', $classes) . '">';
+	}
+
   if ($hasIcon)
   {
     $s .= '<span class="icon"></span>';
@@ -516,7 +535,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   return $s;
 }
 
-// For a link that will have an icon, specify the icon class.
+// For a button that will have an icon, specify the icon class.
 
 // Common cases to be aware of: 
 
