@@ -28,7 +28,7 @@
 				<input type="submit" class="a-btn a-submit" value="<?php echo __('Sign In', null, 'apostrophe') ?>" />
 			</li>
 			<li>
-			  <?php echo a_js_button(a_('Cancel'), array('a-cancel', 'a-login-cancel-button')) ?>
+			  <?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon', 'a-login-cancel-button')) ?>
 			</li>
 		</ul>
 		

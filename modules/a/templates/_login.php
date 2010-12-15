@@ -10,7 +10,6 @@
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li class="a-login-login last">
       <?php echo a_js_button(a_('Login'), array(), 'a-login-button') ?>
-			<?php a_js_call('apostrophe.enableLoginPopup()') ?>
 			<div id="a-login-form-container" class="dropshadow a-options">
 				<?php include_component('a','signinForm') ?>
 			</div>
@@ -18,3 +17,5 @@
   <?php endif ?>
 <?php endif ?>
 </ul>
+
+<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-login-button', 'classname' => 'a-options-open', 'overlay' => true, 'focus' => '#signin_username')) ?>	

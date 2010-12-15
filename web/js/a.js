@@ -502,21 +502,7 @@ function aConstructor()
 	{
 		$('#a-add-slot-form-' + name).hide();
 	}
-	
-	this.enableLoginPopup = function() {
-		$('#a-login-button').click(function() {
-			$('#a-login-form-container').fadeIn(); 
-			$('#signin_username').focus(); 
-			$('.a-page-overlay').fadeIn();
-			return false;
-		});
-		$('#a-login-cancel-button').click(function() {
-			$('#a-login-form-container').fadeOut('fast'); 
-			$('.a-page-overlay').hide();
-			return false;
-		});
-	}
-	
+		
 	this.areaEnableDeleteSlotButton = function(options) {
 		$('#' + options['buttonId']).click(function() {
 			if (confirm(options['confirmPrompt']))
@@ -1190,7 +1176,7 @@ function aConstructor()
 			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */ 
 
 			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus']);			
+				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus'], options['debug']);			
 			};	
 		};
 	}
@@ -2133,8 +2119,11 @@ function aConstructor()
 	{
 	}
 	
-	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus)
+	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{	
+
+		debug ? apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') ) : '';
+
 		// Menu must have an ID. 
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID		
 		if (menu.attr('id') == '') 
@@ -2163,7 +2152,8 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
-			if (target.hasClass('.a-page-overlay') || target.hasClass('.a-cancel') || !target.parents().is('#'+menu.attr('id')))
+			debug ? apostrophe.log(target) : '';
+			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || !target.parents().is('#'+menu.attr('id')))
 			{
 				menu.trigger('toggleClosed');
 			}
