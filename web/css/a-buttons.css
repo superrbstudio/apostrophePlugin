@@ -135,6 +135,7 @@ height: 20px !important;
 .a-drag > .icon { background-image: url(../images/a-icon-drag-simple.png); }
 .a-edit > .icon, .a-publish > .icon { background-image: url(../images/a-icon-edit.png); }
 .a-feed > .icon { background-image: url(../images/a-icon-feed.png); }
+.a-rss-feed > .icon { background-image: url(../images/a-icon-rss-feed.png); }
 .a-file > .icon { background-image: url(../images/a-icon-file.png); }
 .a-image > .icon { background-image: url(../images/a-icon-photo.png); }
 .a-history-btn > .icon, 
@@ -322,10 +323,12 @@ width: 20px;
 }
 
 .a-btn.a-close > .icon { background-image: url(../images/a-icon-close-simple.png); }
+.a-btn.a-selected > .icon,
 .a-btn.a-close-small > .icon { background-image: url(../images/a-icon-close-small-simple.png); }
 
-.a-btn.a-close:hover,
-.a-btn.a-close-small:hover
+.a-btn.a-close:hover > .icon,
+.a-btn.a-close-small:hover > .icon,
+.a-btn.a-selected:hover > .icon
 {
 opacity: 0.5;
 }
@@ -412,12 +415,6 @@ text-indent: 0;
 .a-btn.a-arrow-right.thin:hover { background-position: 0 center !important; }
 
 
-/* Apostrophe RSS Button
--------------------------------------*/
-
-.a-rss-feed { background: url(../images/a-icon-rss-feed.png) left center no-repeat; display: block; float: left; padding-left: 20px; }
-.alt .a-rss-feed, .a-rss-feed.alt { background-image: url(../images/a-icon-alt-rss-feed.png); }
-
 /* Apostrophe Toggle Button
 -------------------------------------*/
 
@@ -457,3 +454,6 @@ border: 1px inset rgba(0,0,0,0.20);
 }
 
 .a-ui .a-btn.a-sidebar-button { width: 99%; padding: 0; text-align: center; }
+
+.a-ui .a-btn.icon.a-selected { padding: 0 20px 0 4px; }
+.a-ui .a-btn.icon.a-selected > .icon { left: auto; right: 0; }
