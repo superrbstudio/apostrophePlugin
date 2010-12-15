@@ -21,7 +21,7 @@
   </ul>
   <br class="clear" />
 
-  <div id="a-media-video-search-pagination" class="a-pager-navigation">
+  <div id="a-media-video-search-pagination" class="a-pager-navigation a-ui">
     <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $url)) ?>
     <?php if (0): ?>
       <?php // really handy if we decide to re-ajax this ?>

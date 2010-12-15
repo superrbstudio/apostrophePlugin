@@ -494,6 +494,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
 {
   $hasIcon = in_array('icon', $classes);
 	$aLink = in_array('a-link', $classes);
+	$arrowBtn = in_array('a-arrow-btn', $classes);
 
 	// if it's an a-events button, grab the date and append it as a class
 	$aEvents = in_array('a-events', $classes);
@@ -516,7 +517,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
     $s .= 'id="' . a_entities($id) . '" ';
   }
 
-	if (!$aLink) {
+	if (!$aLink && !$arrowBtn) {
 	  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
 	}
 	else
@@ -534,7 +535,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   return $s;
 }
 
-// For a link that will have an icon, specify the icon class.
+// For a button that will have an icon, specify the icon class.
 
 // Common cases to be aware of: 
 

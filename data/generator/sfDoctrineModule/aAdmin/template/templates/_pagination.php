@@ -1,4 +1,4 @@
-<div class="a-pager-navigation">
+<div class="a-pager-navigation a-ui">
 	[?php use_helper('a') ?]
 	[?php if ($pager->getPage() == 1):?]
 		<span class="a-pager-navigation-image a-pager-navigation-first a-pager-navigation-disabled">[?php echo __('First Page', null, 'apostrophe') ?]</span>	
@@ -27,4 +27,3 @@
 	[?php endif ?]                                                                                                             
 
 </div>
- 
