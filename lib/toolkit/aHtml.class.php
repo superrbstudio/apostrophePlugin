@@ -466,8 +466,12 @@ class aHtml
 	  $result = "";
 	  $count = 0;
 		$num_words = count($words);
+		
+		$shortEnough = true;
+		
 	  foreach ($words as $word) {
-	    if ($count >= $word_limit) {
+	    if ($count > $word_limit) {
+				$shortEnough = false;
 	      break;
 	    } elseif (preg_match("/\<.*?\/\>/", $word)) {
 	      # XHTML non-container tag, we don't have to guess
@@ -502,6 +506,13 @@ class aHtml
 	      }
 	    }
 	  }
+	
+		if ($shortEnough)
+		{
+			// Leave it totally untouched if it is short enough.
+			// Now you can use !== to see if it changed anything.
+			return $string;
+		}
 
 		$append_ellipsis = false;
 		if (isset($options['append_ellipsis']))
