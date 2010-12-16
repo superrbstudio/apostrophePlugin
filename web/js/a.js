@@ -189,34 +189,43 @@ function aConstructor()
 	this.updating = function(selector)
 	{		
 		var updating = $(selector);
-			updating.unbind('aUpdating.core');
-			updating.bind('aUpdating.core', function() {
-				apostrophe.log('apostrophe.updating -- We are phasing this out, update your submit buttons...')
-				apostrophe.log('apostrophe.updating -- Make sure the submit button uses a_anchor_submit_button() helper and contains a class of .a-show-busy');
-				// Sometimes there's a better candidate to attach the updating tab to
-				var noticeAttach = updating.closest('.a-ajax-attach-updating');
-				if (!noticeAttach.length)
-				{
-					noticeAttach = updating;
-				}
-				updating.unbind('aUpdated.core');
-				var notice = $('<div class="a-ajax-form-updating">' + apostrophe.messages['updating'] + '</div>');
-				var offset = noticeAttach.offset();
-				$('body').append(notice);
-				$(function() {
-					notice.offset({ top: offset.top - 15, left: offset.left + 5});
-				});
-				updating.addClass('a-updating');
-				updating.bind('aUpdated.core', function() {
-					updating.removeClass('a-updating');
-					updating.addClass('a-updated');
-					notice.html(apostrophe.messages['updated']);
-					window.setTimeout(function() {
-						notice.remove();
-					}, 500);
-				});
-			});
-			updating.trigger('aUpdating');
+
+		var submit = updating.find('.a-show-busy');
+
+		if (!submit.data('busy'))
+		{
+			submit.data('busy',1).addClass('a-busy icon').prepend('<span class="icon"></span>');
+		};
+
+		// var updating = $(selector);
+		// 	updating.unbind('aUpdating.core');
+		// 	updating.bind('aUpdating.core', function() {
+		// 		apostrophe.log('apostrophe.updating -- We are phasing this out, update your submit buttons...')
+		// 		apostrophe.log('apostrophe.updating -- Make sure the submit button uses a_anchor_submit_button() helper and contains a class of .a-show-busy');
+		// 		// Sometimes there's a better candidate to attach the updating tab to
+		// 		var noticeAttach = updating.closest('.a-ajax-attach-updating');
+		// 		if (!noticeAttach.length)
+		// 		{
+		// 			noticeAttach = updating;
+		// 		}
+		// 		updating.unbind('aUpdated.core');
+		// 		var notice = $('<div class="a-ajax-form-updating">' + apostrophe.messages['updating'] + '</div>');
+		// 		var offset = noticeAttach.offset();
+		// 		$('body').append(notice);
+		// 		$(function() {
+		// 			notice.offset({ top: offset.top - 15, left: offset.left + 5});
+		// 		});
+		// 		updating.addClass('a-updating');
+		// 		updating.bind('aUpdated.core', function() {
+		// 			updating.removeClass('a-updating');
+		// 			updating.addClass('a-updated');
+		// 			notice.html(apostrophe.messages['updated']);
+		// 			window.setTimeout(function() {
+		// 				notice.remove();
+		// 			}, 500);
+		// 		});
+		// 	});
+		// 	updating.trigger('aUpdating');
 	}
 	
 	// Utility: Create an anchor button that toggles between two radio buttons
@@ -732,6 +741,7 @@ function aConstructor()
 	this.slotEnableForm = function(options)
 	{
 		$(options['slot-form']).submit(function() {
+			apostrophe.updating(options['slot-form']);			
 	    $.post(
 	      // These fields are the context, not something the user gets to edit. So rather than
 	      // creating a gratuitous collection of hidden form widgets that are never edited, let's 
@@ -1550,10 +1560,6 @@ function aConstructor()
 		actAsSubmit.bind('click.aActAsSubmit', function() {
 			var form = $(this).parents('form:first');
 			var name = $(this).attr('name');
-			if ($(this).hasClass('a-show-busy'))
-			{
-				$(this).addClass('a-busy icon').prepend('<span class="icon"></span>');
-			};
 			// Submit buttons have names used to distinguish them.
 			// Fortunately, anchors have names too. There is NO
 			// default name - and in particular 'submit' breaks

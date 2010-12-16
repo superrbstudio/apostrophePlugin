@@ -495,7 +495,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   $hasIcon = in_array('icon', $classes);
 	$aLink = in_array('a-link', $classes);
 	$arrowBtn = in_array('a-arrow-btn', $classes);
-
+	
 	// if it's an a-events button, grab the date and append it as a class
 	$aEvents = in_array('a-events', $classes);
 	if ($aEvents) {
@@ -531,7 +531,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   {
     $s .= '<span class="icon"></span>';
   }
-  $s .= a_($label) . '</a>';
+  $s .= '<span class="label">' . a_($label) . '</span></a>';
   return $s;
 }
 
