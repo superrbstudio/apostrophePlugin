@@ -43,10 +43,10 @@
 
 <?php if ($single): ?>	
   <?php // Editing one item, existing or otherwise ?>
-  <form method="POST" class="a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo $formAction ?>">
+  <form method="POST" class="a-ui a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo $formAction ?>">
 <?php else: ?>
   <?php // This is one of several items in a larger form ?>
-  <div class="a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
+  <div class="a-ui a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 <?php endif ?>
 
 <?php if ($withPreview): ?>

@@ -457,6 +457,7 @@ border: 1px inset rgba(0,0,0,0.20);
 
 /* a-sidebar-button is the wide button for Blog / Events at the top of the sidebar */
 .a-ui .a-btn.a-sidebar-button { width: 99%; padding: 0; text-align: center; }
+.a-ui.a-sidebar-button-wrapper { margin: 0 0 10px 0;}
 
 .a-ui .a-link, .a-link { padding: 1px 0; white-space: normal; height: auto; line-height: 16px; }
 
