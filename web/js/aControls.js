@@ -592,7 +592,7 @@ function aSelectToList(selector, options)
       {
         if (tags)
         {
-          itemTemplate = "_LABEL_ <span>(_COUNT_)";
+          itemTemplate = "_LABEL_ <span class='a-tag-count'>_COUNT_";
         }
         else
         {

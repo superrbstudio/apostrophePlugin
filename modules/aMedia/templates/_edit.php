@@ -23,11 +23,11 @@
 <?php // else: we're part of an annotation of potentially several new items in a bigger form ?>
 
 <?php if (!$item): ?>	
-<div class="a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
+<div class="a-ui a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 <?php endif ?>
 
 <?php if ($item): ?>
-<form method="POST" class="a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
+<form method="POST" class="a-ui a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug())))?>">
 <?php endif ?>
     
 		<?php if ($withPreview): ?>

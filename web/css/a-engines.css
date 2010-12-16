@@ -430,14 +430,14 @@ border-radius: 4px;
 .a-media-library .a-form-row.replace .a-new-file-message .a-options { position: relative; left:0; top:0; padding:10px; float: none; z-index: 1; }
 .a-media-library .a-form-row.replace .a-new-file-message .a-options span { color: #000 !important; }
 
-.a-media-library .a-form-row.categories .a-multiple-select-list { margin: 5px 0 10px 120px; }
-
 .a-media-library .a-form-row.service-url,
 .a-media-library .a-form-row.embed,
 .a-media-library .a-form-row.description { width: 343px; }
 .a-media-library .a-form-row.description .a-form-field { width: 100%; }
 
-/*.a-media-library .a-form-row.categories .a-form-field { float:none; }*/
+.a-media-edit-form  .tags .a-form-field,
+.a-media-edit-form  .a-inline-taggable-widget,
+.a-media-edit-form .a-inline-taggable-widget-tag-container { width: 223px; }
 
 .a-media-library .a-form-row.permissions .radio_list { float: left; display: inline; position: relative; }
 .a-media-library .a-form-row.permissions .radio_list li { float: left; display: inline; position: relative; width: 100px; }
@@ -1247,7 +1247,7 @@ height: 1px;
 	width: 360px;
 }
 
-#a-media-edit-form div.tag-suggestions
+.a-media-edit-form div.tag-suggestions
 {
 	margin-left: 120px;
 	width: 222px;
