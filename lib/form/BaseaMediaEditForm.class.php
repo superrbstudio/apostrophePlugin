@@ -132,7 +132,7 @@ class BaseaMediaEditForm extends aMediaItemForm
     {
       $values = $this->getValues();
     }
-    $object = parent::updateObject($values);
-    return $object;
+    
+    return parent::updateObject($values);
   }
 }

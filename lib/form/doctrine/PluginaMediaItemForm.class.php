@@ -38,6 +38,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       new sfValidatorCallback(array('callback' => array($this, 'postValidator')))
     );
   }
+  
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);

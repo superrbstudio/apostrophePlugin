@@ -411,9 +411,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   
   public function getImageAvailable()
   {
-    // We don't display thumbnails for non-native embeds anymore,
-    // and for new adds of non-native embeds we don't have them at all
-    return $this->width && (!strlen($this->embed));
+    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a width
+    return $this->width;
   }
   
   public function getCroppable()

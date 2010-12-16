@@ -1,19 +1,18 @@
 <?php
 
+// For embedded media for which we do *not* have an aEmbedService implementation
+
 class BaseaMediaVideoEmbedForm extends aMediaVideoForm
 {
   public function configure()
   {
     parent::configure();
+    
     unset($this['service_url']);
-    // TODO: custom validator looking for appropriate tags only
     $this->setValidator('embed',
       new sfValidatorCallback(
         array('required' => true, 'callback' => 'aMediaVideoEmbedForm::validateEmbed'),
-        array('required' => "Not a valid embed code", 'invalid' => "Not a valid embed code")));
-    $this->widgetSchema->setFormFormatterName('aAdmin');  
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
+        array('required' => "Not a valid embed code", 'invalid' => "Not a valid embed code")));        
   }
   static public function validateEmbed($validator, $value, $arguments)
   {
@@ -51,6 +50,10 @@ class BaseaMediaVideoEmbedForm extends aMediaVideoForm
   
   public function updateObject($values = null)
   {
+    if (is_null($values))
+    {
+      $values = $this->getValues();
+    }
     $object = parent::updateObject($values);
     // IGet the width and height from the embed code
     if (preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $object->embed, $matches))

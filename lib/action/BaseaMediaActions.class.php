@@ -560,6 +560,7 @@ class BaseaMediaActions extends aEngineActions
         $serviceId = $service->getIdFromEmbed($parameters['embed']);
         $parameters['service_url'] = $service->getUrlFromId($serviceId);
         unset($parameters['embed']);
+        $thumbnail = $service->getThumbnail($serviceId);
       }
     }
     if (aMediaTools::getOption('embed_codes') && 
@@ -588,7 +589,29 @@ class BaseaMediaActions extends aEngineActions
     if ($parameters)
     {
       $files = $request->getFiles('a_media_item');
+
+      // On the first pass with a youtube video we just make the service's thumbnail the
+      // default thumbnail. We don't force them to use it. This allows more code reuse
+      // (Moving this after the bind is necessary to keep it from being overwritten) 
+      if (isset($thumbnail))
+      {
+        // OMG file widgets can't have defaults! Ah, but our persistent file widget can
+        $tmpFile = aFiles::getTemporaryFilename();
+        file_put_contents($tmpFile, file_get_contents($thumbnail));
+        $vfp = new aValidatorFilePersistent();
+        $guid = aGuid::generate();
+        $vfp->clean(
+          array(
+            'newfile' => 
+              array('tmp_name' => $tmpFile), 
+            'persistid' => $guid));
+        // You can't mess about with widget defaults after a bind, but you
+        // *can* tweak the array you're about to bind with
+        $parameters['file']['persistid'] = $guid;
+      }
+      
       $this->form->bind($parameters, $files);
+            
       do
       {
         // first_pass forces the user to interact with the form
@@ -602,65 +625,38 @@ class BaseaMediaActions extends aEngineActions
         {
           break;
         }
-        // TODO: this is pretty awful factoring, I should have separate actions
-        // and migrate more of this code into the model layer
-        if ($embed)
+        $thumbnail = $this->form->getValue('file');
+        // The base implementation for saving files gets confused when 
+        // $file is not set, a situation that our code tolerates as useful 
+        // because if you're updating a record containing an image you 
+        // often don't need to submit a new one.
+        unset($this->form['file']);
+        $object = $this->form->getObject();
+        if ($thumbnail)
         {
-          $embed = $this->form->getValue("embed");
-          $thumbnail = $this->form->getValue('thumbnail');
-          // The base implementation for saving files gets confused when 
-          // $file is not set, a situation that our code tolerates as useful 
-          // because if you're updating a record containing an image you 
-          // often don't need to submit a new one.
-          unset($this->form['thumbnail']);
-          $object = $this->form->getObject();
-          if ($thumbnail)
-          {
-            $object->preSaveFile($thumbnail->getTempName());
-          }
-          $this->form->save();
-          if ($thumbnail)
-          {
-            $object->saveFile($thumbnail->getTempName());
-          }
-        } else
-        {
-          $url = $this->form->getValue("service_url");
-          $service = aMediaTools::getEmbedService($url);
-          $videoid = $service->getIdFromUrl($url);
-          if ($videoid === false)
-          {
-            $this->serviceError = true;
-            break;
-          }
-          $thumbnail = $service->getThumbnail($videoid);
-
-          if ($thumbnail === false)
-          {
-            $this->serviceError = true;
-            break;
-          }
-          // Grab a local copy of the thumbnail, and get the pain
-          // over with all at once in a predictable way if 
-          // the service provider fails to give it to us.
-
-          $thumbnailCopy = aFiles::getTemporaryFilename();
-          if (!copy($thumbnail, $thumbnailCopy))
-          {
-            $this->serviceError = true;
-            break;
-          }
-          $object = $this->form->getObject();
-          $new = !$object->getId();
-          $object->preSaveFile($thumbnailCopy);
-          $object->setServiceUrl($url);
-          $object->type = $service->getType();
-          $this->form->save();
-          $object->saveFile($thumbnailCopy);
-          unlink($thumbnailCopy);
+          $object->preSaveFile($thumbnail->getTempName());
         }
+        $this->form->save();
+        
+        if ($thumbnail)
+        {
+          $object->saveFile($thumbnail->getTempName());
+        }
+
         return $this->redirect("aMedia/resumeWithPage");
       } while (false);
+    }
+    // You filled this out on the first-pass form, you don't get to edit it some more
+    // and mess things up now that we've decided what kind of video it is overall
+    // (maybe we'll let you do that in 1.6). Once we tackle that there are a lot of
+    // fussy details, like overriding the old thumbnail, that have to be dealt with
+    if (isset($this->form['service_url']))
+    {
+      $this->form->setWidget('service_url', new sfWidgetFormInputHidden());
+    }
+    if (isset($this->form['embed']))
+    {
+      $this->form->setWidget('embed', new sfWidgetFormInputHidden());
     }
   }
 

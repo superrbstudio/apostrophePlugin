@@ -50,7 +50,7 @@
 			<div class='a-subnav-section types'>
 		  	<h4><?php echo __('Media Types', null, 'apostrophe') ?></h4>
 
-			  <div class="a-filter-options type">
+			  <div class="a-filter-options type clearfix">
 					<?php $type = isset($type) ? $type : '' ?>
 			    <?php $typesInfo = aMediaTools::getOption('types') ?>
 					<?php foreach ($typesInfo as $typeName => $typeInfo): ?>

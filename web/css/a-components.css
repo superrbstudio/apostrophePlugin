@@ -901,7 +901,7 @@ color: #333;
 
 .a-inline-taggable-widget-tag-container .a-tag.a-popular span
 {
-	color: #999;
+	opacity: 0.65;
 	margin-left: 5px;
 }
 

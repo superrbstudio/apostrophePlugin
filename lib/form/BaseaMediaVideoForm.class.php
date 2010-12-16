@@ -1,5 +1,9 @@
 <?php
 
+// Common base class of aMediaVideoEmbedForm (for embedded media we don't
+// have an aEmbedService for) and aMediaVideoYoutubeForm (for embedded media
+// we DO have an aEmbedService for)
+
 class BaseaMediaVideoForm extends aMediaItemForm
 {
   // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
@@ -45,13 +49,35 @@ class BaseaMediaVideoForm extends aMediaItemForm
 				'default' => 0
 				)));
     $this->setValidator('view_is_secure', new sfValidatorBoolean());
+    
+    $this->setWidget('file', new aWidgetFormInputFilePersistent());
+
+    $item = $this->getObject();
+    if (!$item->isNew())
+    {
+      $this->getWidget('file')->setOption('default-preview', $item->getOriginalPath());
+    }
+
+    $this->setValidator('file', new aValidatorFilePersistent(array(
+      'mime_types' => array('image/jpeg', 'image/png', 'image/gif'), 
+      'required' => false
+    ), array(
+      'mime_types' => 'JPEG, PNG and GIF only.',
+      'required' => 'Select a JPEG, PNG or GIF file as a thumbnail')
+    ));
+    
     $this->widgetSchema->setLabel("view_is_secure", "Permissions");
-    $this->widgetSchema->setlabel("categories_list", "Categories");
+    $this->widgetSchema->setLabel("categories_list", "Categories");
+    $label = 'Replace Thumbnail';
+    if (!$this['file']->getWidget()->getOption('default-preview'))
+    {
+      $label = 'Choose Thumbnail';
+    }
+    $this->widgetSchema->setLabel("file", $label);
     $this->widgetSchema->setFormFormatterName('aAdmin');  
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
-    
   }
+  
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
