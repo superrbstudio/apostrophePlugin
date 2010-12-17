@@ -433,7 +433,7 @@ function aMultipleSelect(target, options)
       }  
       function liHtml(label, options)
 			{
-				return '<li class="a-multiple-select-item" style="display: none;"><span>'+label+'</span><a href="#" title="Remove '+label+'" class="a-btn icon a-close-small no-label no-bg"><span class="icon"></span>'+ options['remove'] + '</a></li>\n';	
+				return '<li class="a-multiple-select-item" style="display: none;"><a href="#" class="a-link icon a-close-small" title="Remove '+label+'"><span class="label">'+label+'</span><span class="icon">'+ options['remove'] + '</span></a></li>\n';	
 			}
 			// We need this because you can't have nasty characters in a selector 
 			function containsLabel(v)
