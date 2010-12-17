@@ -174,6 +174,8 @@ a.a-sidebar-toggle.post-editors-toggle { margin: 5px 0 0; }
 .a-admin-sidebar .section.published h4, .a-admin-sidebar .section.published h4 label { width: auto; clear: left; }
 .a-admin-sidebar .section.published .a-form-row,
 .a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right; margin: 0;}
+
+.a-admin-sidebar .section.status .status-list.option,
 .a-admin-sidebar .section.author .author_id.option,
 .a-admin-sidebar .section.author #a_blog_item_editors_list
 {
@@ -253,6 +255,7 @@ width: 104px
 .a-admin-sidebar .section.tags .a-admin-form-field-tags { margin-top: 10px; }
 .a-admin-sidebar .section.tags #blog-tag-list { margin-top: 5px; }
 
+.a-admin-sidebar .section.status select,
 .a-admin-sidebar .section.author select,
 .a-admin-sidebar .section.template select { max-width: 94px; float: right; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 2px; }
 
