@@ -31,9 +31,17 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
         $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . ' ' . $this->__('You can add another one below.', null, 'apostrophe'));
 
         $this->redirect('@a_category_admin_new');
-      } else
+      } 
+      elseif ($request->hasParameter('_save'))
       {
         $this->redirect('@a_category_admin_edit?id=' . $a_category->getId());
+      }
+      // save_and_list is the default
+      else
+      {
+        $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice'));
+
+        $this->redirect('@a_category_admin');
       }
     } else
     {

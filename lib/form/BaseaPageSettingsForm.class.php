@@ -69,7 +69,7 @@ class BaseaPageSettingsForm extends aPageForm
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
     
-    $this->useFields(array('slug', 'template', 'engine', 'archived', 'edit_admin_lock'));
+    $this->useFields(array('slug', 'archived', 'edit_admin_lock'));
 
     $object = $this->getObject();
     
@@ -117,9 +117,29 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
     $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
     
-    $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
-    $this->setWidget('engine', new sfWidgetFormSelect(array('choices' => aTools::getEngines())));
+    // Changed the name so Doctrine doesn't get uppity
     
+    $engine = $object->engine;
+    $template = $object->template;
+    if (!strlen($object->template))
+    {
+      $object->template = 'default';
+    }
+    if (!is_null($object->engine))
+    {
+      $joinedTemplateName = $object->engine . ':' . $object->template;
+    }
+    else
+    {
+      $joinedTemplateName = 'a' . ':' . $object->template;
+    }
+    $choices = aTools::getTemplateChoices();
+    $this->setWidget('joinedtemplate', new sfWidgetFormSelect(array('choices' => $choices, 'default' => $joinedTemplateName)));
+    $this->setValidator('joinedtemplate', new sfValidatorChoice(array(
+      'required' => true,
+      'choices' => array_keys($choices)
+    )));
+
     // Published vs. Unpublished makes more sense to end users, but when we first
     // designed this feature we had an 'archived vs. unarchived'
     // approach in mind
@@ -196,18 +216,6 @@ class BaseaPageSettingsForm extends aPageForm
     $title = $this->getObject()->getTitle();
 		$this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
 		
-    $this->setValidator('template', new sfValidatorChoice(array(
-      'required' => true,
-      'choices' => array_keys(aTools::getTemplates())
-    )));
-
-    // Making the empty string one of the choices doesn't seem to be good enough
-    // unless we expressly clear 'required'
-    $this->setValidator('engine', new sfValidatorChoice(array(
-      'required' => false,
-      'choices' => array_keys(aTools::getEngines())
-    )));   
-
     // The slug of the home page cannot change (chicken and egg problems)
     if ($this->getObject()->getSlug() === '/')
     {
@@ -423,7 +431,6 @@ class BaseaPageSettingsForm extends aPageForm
   
   public function updateObject($values = null)
   {
-    error_log("in updateObject Parent is " . !!$this->parent);
     if (is_null($values))
     {
       $values = $this->getValues();
@@ -450,6 +457,20 @@ class BaseaPageSettingsForm extends aPageForm
       $q->execute();
     }
 
+    $template = $values['joinedtemplate'];
+    // $templates = aTools::getTemplates();
+    list($engine, $etemplate) = preg_split('/:/', $template);
+    error_log("Saving $engine $etemplate");
+    if ($engine === 'a')
+    {
+      $object->engine = null;
+    }
+    else
+    {
+      $object->engine = $engine;
+    }
+    $object->template = $etemplate;
+    
     // On manual change of slug, set up a redirect from the old slug,
     // and notify child pages so they can update their slugs if they are
     // not already deliberately different

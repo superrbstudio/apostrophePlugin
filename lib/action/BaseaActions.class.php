@@ -472,11 +472,21 @@ class BaseaActions extends sfActions
     if ($request->hasParameter('settings'))
     {
       $settings = $request->getParameter('settings');
-      $engine = $settings['engine'];
+      list($engine, $template) = preg_split('/:/', $settings['joinedtemplate']);
+      if ($engine === 'a')
+      {
+        $engine = '';
+      }
+      error_log("Engine is $engine template is $template");
       $this->form->bind($settings);
       if ($this->form->isValid())
       {
         $mainFormValid = true;
+      }
+      else
+      {
+        echo($this->form);
+        exit(0);
       }
     }
 
@@ -493,7 +503,7 @@ class BaseaActions extends sfActions
         $this->engineSettingsPartial = $engine . '/settings';
       }
     }
-    
+
     if ($mainFormValid && (!isset($this->engineForm)))
     {
       $this->form->save();

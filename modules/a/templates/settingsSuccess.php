@@ -47,14 +47,10 @@
 
 		<hr />
 
-		<?php // We'll turn these into a combined control via JS ?>  
-		<?php echo $form['engine']->render(array('style' => 'display: none')) ?>
-		<?php echo $form['template']->render(array('style' => 'display: none')) ?>
-
 			<div class="a-form-row a-edit-page-template">
 				<h4><label><?php echo a_('Page Type') ?></label></h4>
 				<div class="a-form-field">
-				  <select name="combined_page_type"></select>
+				  <?php echo $form['joinedtemplate']->render() ?>
 				</div>
 			</div>
 

@@ -280,6 +280,10 @@ class BaseaTools
     return $options;
   }
   
+  // Get template choices in the new format, then provide bc with the old format
+  // (one level with no engines specified), and also add entries for any engines
+  // listed in the old way that don't have templates specified in the new way
+  
   static public function getTemplates()
   {
     if (sfConfig::get('app_a_get_templates_method'))
@@ -288,10 +292,54 @@ class BaseaTools
 
       return call_user_func($method);
     }
-    return sfConfig::get('app_a_templates', array(
-      'default' => 'Default Page',
-      'home' => 'Home Page'));
+    $templates = sfConfig::get('app_a_templates', array(
+      'a' => array(
+        'default' => 'Default Page',
+        'home' => 'Home Page')));
+    // Provide bc 
+    $newTemplates = $templates;
+    foreach ($templates as $key => $value)
+    {
+      if (!is_array($value))
+      {
+        $newTemplates['a'][$key] = $value;
+        unset($newTemplates[$key]);
+      }
+    }
+    $templates = $newTemplates;
+    $engines = aTools::getEngines();
+    foreach ($engines as $name => $label)
+    {
+      if (!strlen($name))
+      {
+        // Ignore the "template-based" engine option
+        continue;
+      }
+      if (!isset($templates[$name]))
+      {
+        $templates[$name] = array('default' => $label);
+      }
+    }
+    return $templates;
   }
+  
+  // Flat name => label array for use in select elements
+  
+  static public function getTemplateChoices()
+  {
+    $templates = aTools::getTemplates();
+    $choices = array();
+    foreach ($templates as $engine => $etemplates)
+    {
+      foreach ($etemplates as $name => $label)
+      {
+        $choices["$engine:$name"] = $label;
+      }
+    }
+    return $choices;
+  }
+  
+  // Used to provide bc with the old app_a_engines way of listing engine choices
   
   static public function getEngines()
   {

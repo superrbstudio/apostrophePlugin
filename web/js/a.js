@@ -1466,58 +1466,18 @@ function aConstructor()
 			});	
 		}
 
-		var combinedPageType = form.find('[name=combined_page_type]');
-		
-		var template = form.find('[name=settings[template]]');
-		var engine = form.find('[name=settings[engine]]');
-		
-		for (var i = 0; (i < template[0].options.length); i++)
-		{
-			var option = template[0].options[i];
-			var item = $('<option></option>');
-			item.text($(option).text());
-			item.val(':' + option.value);
-			combinedPageType.append(item);
-		}
-		for (var i = 0; (i < engine[0].options.length); i++)
-		{
-			var option = engine[0].options[i];
-			if (option.value === '')
-			{
-				continue;
-			}
-			var item = $('<option></option>');
-			item.text($(option).text());
-			// For now the template field must be 'default'
-			// when the engine field is not empty
-			item.val(option.value + ':default');
-			combinedPageType.append(item);
-		}
-		if (engine.val() !== '')
-		{
-			combinedPageType.val(engine.val() + ':default');
-		}
-		else
-		{
-			combinedPageType.val(':' + template.val());
-		}
-		
-		combinedPageType.change(function() {
+		var joinedtemplate = form.find('[name=settings[joinedtemplate]]');
+		joinedtemplate.change(function() {
 			updateEngineAndTemplate();
 		});
 		
 		function updateEngineAndTemplate()
 		{
-			var components = combinedPageType.val().split(':');
-			var engineVal = components[0];
-			var templateVal = components[1];
-			engine.val(engineVal);
-			template.val(templateVal);
 			var url = options['engineUrl'];
 
 	    var engineSettings = form.find('.a-engine-page-settings');
-			var val = engine.val();
-		  if (!val.length)
+			var val = joinedtemplate.val().split(':')[0];
+		  if (val === 'a')
 		  {
 		    engineSettings.html('');
 		  }
