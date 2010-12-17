@@ -164,7 +164,7 @@ height: 20px !important;
 .a-audio > .icon { background-image: url(../images/a-icon-audio.png); }
 .a-categories > .icon,
 .a-tags > .icon { background-image: url(../images/a-icon-tag.png); }
-.a-busy > .icon { background-image: url(../images/a-icon-loader-2.gif); }
+.a-busy > .icon { background-image: url(../images/a-icon-loader-2.gif) !important; }
 .a-ui .a-btn.icon.a-busy > .icon { left: 2px; }
 .a-ui .a-btn.icon.a-busy { padding-left: 24px; }
 

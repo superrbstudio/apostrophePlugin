@@ -129,6 +129,6 @@
 
 <?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => $stem, 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => $slugStem,  'url' => url_for('a/settings') . '?' . http_build_query($page->isNew() ? array('new' => 1, 'parent' => $parent->slug) : array('id' => $page->id)), 'slugifyUrl' => url_for('a/slugify'), 'engineUrl' => url_for('a/engineSettings'))) ?>
 <?php a_js_call('apostrophe.accordion(?)', array('accordion_toggle' => '.a-options-section:not(".open") h3')) ?>
-<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.'.$stem.'-status', 'opt1Label' => 'on', 'opt2Label' => 'off')) ?>
+<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.'.$stem.'-status', 'opt1Label' => 'on', 'opt2Label' => 'off', 'debug' => false)) ?>
 <?php // All AJAX actions that use a_js_call must do this since they have no layout to do it for them ?>
 <?php include_partial('a/globalJavascripts') ?>

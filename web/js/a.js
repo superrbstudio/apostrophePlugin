@@ -189,12 +189,15 @@ function aConstructor()
 	this.updating = function(selector)
 	{		
 		var updating = $(selector);
-
 		var submit = updating.find('.a-show-busy');
 
 		if (!submit.data('busy'))
 		{
-			submit.data('busy',1).addClass('a-busy icon').prepend('<span class="icon"></span>');
+			submit.data('busy',1).addClass('a-busy');
+			if (!submit.hasClass('icon'))
+			{
+				submit.addClass('icon').prepend('<span class="icon"></span>');
+			}
 		};
 
 		// var updating = $(selector);
@@ -231,46 +234,31 @@ function aConstructor()
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
 	{
-		// Which label to show on load 'option-1' or 'option-2'
-		var optDefault = (options['optDefault'])? options['optDefault'] : 'option-1';
 		// Set the button toggle labels
 		var opt1Label = (options['opt1Label'])? options['opt1Label'] : 'on';
 		var opt2Label = (options['opt2Label'])? options['opt2Label'] : 'off';
 		var field = $(options['field']);
-		
+		var radios = field.find('input[type="radio"]');
+		radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --' + field + '-- No radio inputs found');			
+	
 		if (field.length)
 		{
-			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --'+id+'-- debugging') : field.find('.radio_list').hide();
-			
-			var radios = field.find('input[type="radio"]');
-			radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --'+id+'-- No radio inputs found');			
+			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --' + field + '-- debugging') : field.find('.radio_list').hide();			
 
 			var toggleButton = $('<a/>');			
 			toggleButton.addClass('a-btn icon lite a-toggle-btn');
-			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>').addClass(optDefault);
+			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>');
 			
 			if (!field.find('.a-toggle-btn').length)
 			{
 				field.prepend(toggleButton);
+				var btn = field.find('.a-toggle-btn');
+				
+				updateToggle(btn);
 			
-				field.find('.a-toggle-btn').click(function(){
-					updateToggle($(this));
+				btn.click(function(){
+					toggle(btn);
 				});
-			
-				function updateToggle(button)
-				{
-					button.toggleClass('option-1').toggleClass('option-2');
-					if ($(radios[0]).is(':checked'))
-					{
-						$(radios[0]).attr('checked',null);
-						$(radios[1]).attr('checked','checked');
-					}
-					else
-					{
-						$(radios[1]).attr('checked',null);
-						$(radios[0]).attr('checked','checked');				
-					};
-				};
 			};
 			
 		}
@@ -278,6 +266,34 @@ function aConstructor()
 		{
 			field.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No field found');
 		};
+
+		function toggle(button)
+		{			
+			if ($(radios[0]).is(':checked'))
+			{
+				$(radios[0]).attr('checked',null);
+				$(radios[1]).attr('checked','checked');
+			}
+			else
+			{
+				$(radios[1]).attr('checked',null);
+				$(radios[0]).attr('checked','checked');				
+			};
+			updateToggle(button);
+		};
+		
+		function updateToggle(button)
+		{
+			if ($(radios[0]).is(':checked'))
+			{
+				button.addClass('option-1').removeClass('option-2');				
+			}
+			else
+			{
+				button.addClass('option-2').removeClass('option-1');							
+			};
+		}
+
 	}
 
 	// Utility: IE6 Users get a special message when they log into apostrophe
@@ -1400,7 +1416,7 @@ function aConstructor()
 		
 	this.enablePageSettings = function(options)
 	{
-		apostrophe.log('enablePageSettings');
+		apostrophe.log('apostrophe.enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
 		// Why is this necessary?
 		$('#' + options['id'] + '-submit').click(function() {
@@ -1466,18 +1482,58 @@ function aConstructor()
 			});	
 		}
 
-		var joinedtemplate = form.find('[name=settings[joinedtemplate]]');
-		joinedtemplate.change(function() {
+		var combinedPageType = form.find('[name=combined_page_type]');
+		
+		var template = form.find('[name=settings[template]]');
+		var engine = form.find('[name=settings[engine]]');
+		
+		for (var i = 0; (i < template[0].options.length); i++)
+		{
+			var option = template[0].options[i];
+			var item = $('<option></option>');
+			item.text($(option).text());
+			item.val(':' + option.value);
+			combinedPageType.append(item);
+		}
+		for (var i = 0; (i < engine[0].options.length); i++)
+		{
+			var option = engine[0].options[i];
+			if (option.value === '')
+			{
+				continue;
+			}
+			var item = $('<option></option>');
+			item.text($(option).text());
+			// For now the template field must be 'default'
+			// when the engine field is not empty
+			item.val(option.value + ':default');
+			combinedPageType.append(item);
+		}
+		if (engine.val() !== '')
+		{
+			combinedPageType.val(engine.val() + ':default');
+		}
+		else
+		{
+			combinedPageType.val(':' + template.val());
+		}
+		
+		combinedPageType.change(function() {
 			updateEngineAndTemplate();
 		});
 		
 		function updateEngineAndTemplate()
 		{
+			var components = combinedPageType.val().split(':');
+			var engineVal = components[0];
+			var templateVal = components[1];
+			engine.val(engineVal);
+			template.val(templateVal);
 			var url = options['engineUrl'];
 
 	    var engineSettings = form.find('.a-engine-page-settings');
-			var val = joinedtemplate.val().split(':')[0];
-		  if (val === 'a')
+			var val = engine.val();
+		  if (!val.length)
 		  {
 		    engineSettings.html('');
 		  }
