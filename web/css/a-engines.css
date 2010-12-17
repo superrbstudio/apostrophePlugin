@@ -173,7 +173,7 @@ a.a-sidebar-toggle.post-editors-toggle { margin: 5px 0 0; }
 .a-admin-sidebar .section.published .post-save { margin-bottom: 10px; clear: both;}
 .a-admin-sidebar .section.published h4, .a-admin-sidebar .section.published h4 label { width: auto; clear: left; }
 .a-admin-sidebar .section.published .a-form-row,
-.a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right;}
+.a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right; margin: 0;}
 .a-admin-sidebar .section.author .author_id.option,
 .a-admin-sidebar .section.author #a_blog_item_editors_list
 {
