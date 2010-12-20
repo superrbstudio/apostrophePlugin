@@ -109,9 +109,9 @@ margin: 10px 0;
 
 /* aOptions Open */
 
-.a-options-open {  z-index: 999; }
+.a-options-open {  z-index: 997; }
 .a-options-open .a-options, .a-options.open {  display: block !important; }
-.a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 999; }
+.a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 997; }
 
 
 /* Apostrophe Reorganize Tree
@@ -310,7 +310,7 @@ float: left;
 width: 100%;
 border-bottom: 1px solid #ddd;
 clear: both;
-z-index: 999;
+z-index: 997;
 background:#fff;
 }
 
@@ -502,7 +502,7 @@ margin-left: -12px;
 .a-page-settings.aActiveMenu
 .a-create-page.aActiveMenu
 {
-	z-index: 999;
+	z-index: 997;
 }
 
 .a-create-page-form
@@ -543,7 +543,7 @@ margin-left: -480px;
 float: left;
 width: 960px;
 clear: both;
-z-index: 999;
+z-index: 997;
 overflow: hidden;
 display: none;
 background: #fff;
@@ -581,7 +581,7 @@ clear: both;
 	height: 20px;
 	width: 20px;
 	background-position: 0 0;
-	z-index: 999;
+	z-index: 997;
 }
 
 .a-history-browser #a-history-close-button span
@@ -681,7 +681,7 @@ display: none;
 position: fixed;
 top: 55px;
 left: 20px;
-z-index: 9999;
+z-index: 999;
 background: #fff;
 color: #900;
 border-bottom: 1px solid #ddd;
@@ -760,7 +760,7 @@ left: auto;
 top: 5px;
 right: 5px;
 padding: 0;
-z-index:9999 !important;
+z-index:999 !important;
 min-width: 0;
 }
 
@@ -902,7 +902,7 @@ color: #333;
 /* Apostrophe IE6 Warning for Admin
 -------------------------------------*/
 
-#ie6-warning { background: #f00; color: #fff; position: relative; z-index:9999; overflow: auto; }
+#ie6-warning { background: #f00; color: #fff; position: relative; z-index:999; overflow: auto; }
 #ie6-warning h2 { margin: 0; padding: 5px; font-size: 14px; }
 #ie6-warning h2 a { color: #fff; text-decoration: underline; }
 #ie6-warning h2 a:hover { color: #222; }
