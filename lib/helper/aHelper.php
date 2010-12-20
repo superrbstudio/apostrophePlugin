@@ -221,6 +221,13 @@ function _a_get_assets_body($type, $assets)
   $sets = array();
   foreach ($assets as $file => $options)
   {
+		if (preg_match('/^http(s)?:/', $file))
+		{
+			// Nonlocal URL. Don't get cute with it, otherwise things
+			// like Addthis don't work
+      $html .= stylesheet_tag($file, $options);
+			continue;
+		}
     /*
      *
      * Guts borrowed from stylesheet_tag and javascript_tag. We still do a tag if it's
