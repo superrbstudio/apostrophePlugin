@@ -281,8 +281,8 @@ class BaseaMediaTools
       'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false, 'downloadable' => true)),
     'embed_services' => array(
       array('class' => 'aYoutube', 'media_type' => 'video'),
-      array('class' => 'aVimeo', 'media_type' => 'video'))
-    );
+      array('class' => 'aVimeo', 'media_type' => 'video'),
+		));
 
   static protected $layouts = array(
     'one-up' => array(
