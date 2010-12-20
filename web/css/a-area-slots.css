@@ -339,105 +339,21 @@ margin-bottom: 10px;
 
 /* aPDF Slot Styles
 ------------------------------------- */
-.a-slot.aPDF { margin: 20px 0px; }
+.a-file-slot { position: relative; overflow: hidden; width: 100%; }
 
-.a-pdf-slot { position: relative; overflow: hidden; width: 100%; }
+.a-file-slot .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
 
-.a-pdf-slot .a-pdf-meta { position: relative; margin: 5px 0; }
+.a-file-slot .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
 
-.a-pdf-title { width: 100%; font-size: 16px; }
+.a-file-slot .a-file-meta li {list-style:none;}
 
-.a-pdf-description { margin-top: 0px; color: #666; width: 100%; margin: 5px 0; }
+.a-file-slot .a-file-title { width: 100%; font-size: 16px; }
 
-.a-pdf-download { margin-left: -3px; }
+.a-file-slot .a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
 
-.a-pdf-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+.a-file-slot .a-file-download { margin-left: -3px; }
 
-
-/* aPDF Slot No Label
------------------------------------------------- */
-.a-pdf-slot.no-label { height: auto !important; height: 43px; }
-
-.a-pdf-slot.no-label .a-media-pdf-icon
-{ 
-position: absolute;
-height: 43px;
-width: 34px;
-margin-top: 5px;
-top: 0;
-left: 0;
-z-index: 10;
-}
-
-.a-pdf-slot.no-label .a-media-pdf-icon a
-{ 
-float: left;
-background: url(../images/a-pdf-icon-tiny.png) no-repeat top left;
-height: 100%;
-width: 100%;
-overflow: hidden;
-text-indent: -9999px;
-}
-
-.a-pdf-slot.no-label .a-pdf-meta { padding-left: 45px; text-indent: 0 !important; }
-
-
-/* aPDF Slot Compact
------------------------------------------------- */
-.compact .a-pdf-slot.no-label .a-media-pdf-icon { 
-display: inline;
-position: absolute;
-top: 0;
-left: 0;
-height: 20px;
-width: 20px;
-margin-top: 4px;
-z-index: 10;
-}
-
-.compact .a-pdf-slot.no-label .a-media-pdf-icon a
-{ 
-float: left;
-background: url(../images/a-icon-pdf.png) no-repeat top left;
-height: 100%;
-width: 100%;
-overflow: hidden;
-text-indent: -9999px;
-}
-
-.compact .a-pdf-slot.no-label .a-pdf-meta { padding-left: 25px; }
-.compact .a-pdf-title { width: 100%; font-size: 14px; }
-.compact .a-pdf-description {  display: none; }
-.compact .a-pdf-download {  display: none; }
-
-
-/* aPDF Slot Compact with Preview
------------------------------------------------- */
-.compact .a-pdf-slot.with-preview .a-media-pdf-icon img
-{ 
-border: 1px solid #ddd;
-margin-right: 10px;
-margin-bottom: 5px;
-height: 70px;
-width: 56px;
-}
-
-.compact .a-pdf-slot.with-preview .a-media-pdf-icon
-{ 
-position: absolute;
-top: 0;
-left: 0;
-height: 70px;
-width: 56px;
-margin-top: 5px;
-z-index: 10;
-overflow: hidden;
-}
-
-.compact .a-pdf-slot.with-preview .a-media-pdf-icon a { float: left; height: 100%; width: 100%; text-indent: -9999px; }
-
-.compact .a-pdf-slot.with-preview .a-pdf-meta { padding-left: 70px; }
-
+.a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
 
 /* aSlot Content Styles 
 --------------------------------------- */
