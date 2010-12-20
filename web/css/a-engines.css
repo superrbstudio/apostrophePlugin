@@ -440,7 +440,9 @@ border-radius: 4px;
 
 .a-media-edit-form  .tags .a-form-field,
 .a-media-edit-form  .a-inline-taggable-widget,
-.a-media-edit-form .a-inline-taggable-widget-tag-container { width: 223px; }
+.a-media-edit-form .a-inline-taggable-widget-tag-container { width: 220px; line-height: 20px; }
+
+.a-media-edit-form .a-inline-taggable-widget-tag-container.a-existing-tags { margin: 2px 0 0; }
 
 .a-media-library .a-form-row.permissions .radio_list { float: left; display: inline; position: relative; }
 .a-media-library .a-form-row.permissions .radio_list li { float: left; display: inline; position: relative; width: 100px; }

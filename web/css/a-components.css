@@ -330,7 +330,6 @@ background:#fff;
 
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-user,
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 0 0; }
-.a-ui.a-global-toolbar .a-controls .a-login .a-login-user span { text-decoration: underline; }
 
 .a-ui.a-global-toolbar .a-controls li.the-apostrophe-container,
 .a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
@@ -418,7 +417,7 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui.a-page-form h4 { font-size: 14px; float: left; }
 
-.a-ui .a-form-row.keywords .a-inline-taggable-widget { float: left; margin: 2px 0; }
+.a-ui .a-form-row .a-inline-taggable-widget { float: left; margin: 5px 0; }
 
 .a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
 
@@ -863,28 +862,7 @@ color: #333;
 	clear: both;
 }
 
-.a-inline-taggable-widget-tag-container .a-tag
-{
-	float: left;
-	display: block;
-	font-size: 11px;
-	line-height: 18px;
-	margin-right: 5px;
-}
-
-.a-inline-taggable-widget-tag-container.a-popular-tags { margin-top: 5px; clear: both; }
-
-
-.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag
-{
-	display: block;
-	clear: both;
-}
-
-.a-inline-taggable-widget-tag-container .a-tag a
-{
-	cursor: pointer;
-}
+.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag { display: block; clear: both; }
 
 .a-inline-taggable-widget-tag-container .a-tag a,
 .a-inline-taggable-widget-tag-container .a-tag span

@@ -122,7 +122,7 @@
   <?php echo $form['tags']->renderLabel() ?>
 	<div class="a-form-field">
   	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-  	<?php $options = array('popular-tags' => $popularTags, 'tags-label' => '', 'commit-selector' => $submitSelector, 'typeahead-url' => url_for('taggableComplete/complete')) ?>
+  	<?php $options = array('popular-tags' => $popularTags, 'tags-label' => ' ', 'commit-selector' => $submitSelector, 'typeahead-url' => url_for('taggableComplete/complete')) ?>
   	<?php if (sfConfig::get('app_a_all_tags', true)): ?>
   	  <?php $options['all-tags'] = $allTags ?>
   	<?php endif ?>
