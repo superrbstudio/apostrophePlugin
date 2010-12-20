@@ -10,9 +10,9 @@
  */
 abstract class PluginaEmbedMediaAccountForm extends BaseaEmbedMediaAccountForm
 {
-  public function configure()
+  public function setup()
   {
-    parent::configure();
+    parent::setup();
     $services = aMediaTools::getEmbedServiceNames();
     $this->setWidget('service', new aWidgetFormChoice(array('choices' => array_combine($services, $services), 'expanded' => true, 'default' => 'YouTube')));
     $this->setValidator('service', new sfValidatorChoice(array('choices' => $services)));
