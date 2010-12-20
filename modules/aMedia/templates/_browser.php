@@ -91,7 +91,7 @@
 			<h4 class="a-tag-sidebar-title popular"><?php echo __('Popular Tags', null, 'apostrophe') ?></h4>
     	<ul class="a-ui a-tag-sidebar-list popular">
       	<?php $n=1; foreach ($popularTags as $tag => $count): ?>
-	  			<li <?php echo ($n == count($tag) ? 'class="last"':'') ?>>
+	  			<li <?php echo ($n == count($popularTags) ? 'class="last"':'') ?>>
 						<?php echo a_button('<span class="a-tag-count">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag')) ?>		
 					</li>
 	      <?php $n++; endforeach ?>
@@ -100,9 +100,8 @@
     	<h4 class="a-tag-sidebar-title all-tags"><?php echo __('All Tags', null, 'apostrophe') ?></h4>
 	    <ul class="a-ui a-tag-sidebar-list all-tags">
 	      <?php $n=1; foreach ($allTags as $tag => $count): ?>
-	  			<li <?php echo ($n == count($tag) ? 'class="last"':'') ?>>
-						<span class="a-tag-sidebar-tag"><?php echo link_to($tag, aUrl::addParams($current, array("tag" => $tag))) ?></span>
-						<span class="a-tag-sidebar-tag-count"><?php echo $count ?></span>
+	  			<li <?php echo ($n == count($allTags) ? 'class="last"':'') ?>>
+						<?php echo a_button('<span class="a-tag-count">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag')) ?>		
 					</li>
 	      <?php $n++; endforeach ?>
 	    </ul>
