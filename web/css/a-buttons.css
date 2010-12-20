@@ -36,6 +36,8 @@ background-repeat: no-repeat;
 overflow: hidden; text-indent: -9999px;
 }
 
+.a-ui .a-tag > .a-tag-count { text-indent: 0; text-align: center;}
+
 .a-ui .a-btn.icon:hover > .icon, 
 .a-ui .a-btn.icon:focus > .icon { background-color: none; }
 
@@ -463,9 +465,9 @@ border: 1px inset rgba(0,0,0,0.20);
 
 .a-ui .a-link, .a-link { padding: 1px 0; white-space: normal; height: auto; line-height: 16px; }
 
-.a-ui .a-link.icon,
-.a-ui .a-link.a-tag { padding: 1px 20px 1px 0; }
+.a-ui .a-link.icon { padding: 1px 20px 1px 0; }
 
 .a-ui .a-link.icon > .icon { left: auto; right: 0; }
 
+.a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }
 .a-ui .a-tag > .a-tag-count { left: auto; right: 0; line-height: 18px; color: #333;}
