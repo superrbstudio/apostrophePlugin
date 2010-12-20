@@ -61,7 +61,11 @@ EOF;
       $options['images'] = $dataDir.'/images';
     }
     
-    $importer = new aImporter($connection, $options['file'], $options['pages'], $options['images']);
+    $importer = new aImporter($connection, array(
+      'xmlFile' => $options['file'],
+      'pagesDir' => $options['pages'],
+      'imagesDir' => $options['images']
+    ));
     $importer->import();
 
     
