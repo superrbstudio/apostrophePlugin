@@ -394,34 +394,36 @@ margin-bottom: 10px;
 	Rick's design has an inline feel, with inputs in the middle of sentences, thus
 	various overrides to go inline where we can */
 
-.aBlog .a-slot-form .a-form-row.by-type input
+.a-blog-edit-wrapper { display: inline;position: relative;float: left;}
+
+.a-blog-edit-wrapper .a-form-row.by-type input
 {
 	float: left;
 	padding-top: 5px;
 }
 
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row input
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row input
 {
 	float: none;
 }
 
-.aBlog .a-slot-form .a-form-row
+.a-blog-edit-wrapper .a-form-row
 {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-.aBlog .a-slot-form .a-form-row.by-type label
+.a-blog-edit-wrapper .a-form-row.by-type label
 {
 	padding-left: 10px;
-	width: auto;
-	margin-bottom: 10px;
+	width: auto !important;
+	padding-bottom: 7px;
 	line-height: 14px;
 	font-size: 15px;
 }
 
 
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row label
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row label
 {
 	padding-left: 0px;
 	margin-bottom: 0px;
@@ -429,44 +431,44 @@ margin-bottom: 10px;
 	line-height: 20px;
 }
 
-.aBlog .a-slot-form.editState-title .a-form-row.by-type.meta div {display: none !important;}
-.aBlog .a-slot-form.editState-tags .a-form-row.by-type.title div {display: none !important;}
+.aBlog .a-slot-form.editState-title .a-form-row.by-type.meta div, .aEvent .a-slot-form.editState-title .a-form-row.by-type.meta div {display: none !important;}
+.aBlog .a-slot-form.editState-tags .a-form-row.by-type.title div, .aEvent .a-slot-form.editState-tags .a-form-row.by-type.title div  {display: none !important;}
 
-.aBlog .a-slot-form .a-inline-taggable-widget {margin-top: 3px;clear: none;}
+.a-blog-edit-wrapper .a-inline-taggable-widget {margin-top: 3px;clear: none;}
+.a-blog-edit-wrapper .a-inline-taggable-widget input { float: left !important; padding-top:0px !important; width: 120px; margin-right: 2px; }
+.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
+.a-blog-edit-wrapper h4 {padding-bottom: 5px;}
 
-.aBlog .a-slot-form .a-inline-taggable-widget input { float: left !important; padding-top:0px !important; width: 120px; margin-right: 2px; }
-.aBlog .a-slot-form .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
-
-.aBlog .a-slot-form .a-form-row .a-form-row
+.a-blog-edit-wrapper .a-form-row .a-form-row
 {
 	padding-left: 20px;
 }
-.aBlog .a-slot-form .a-form-row.blog-posts { width:100%;}
-.aBlog .a-slot-form .a-form-row.conjunction {  width: 100%; font-weight: bold; margin-top: 3px; margin-bottom: 8px; }
+.a-blog-edit-wrapper .a-form-row.blog-posts { width:100%;}
+.a-blog-edit-wrapper .a-form-row.conjunction {  width: 100%; font-weight: bold; margin-top: 3px; margin-bottom: 8px; }
 
-.a-form-row.categories{ margin-bottom: 8px !important; }
+.a-blog-edit-wrapper .a-form-row.categories{ margin-bottom: 8px !important; }
 
 /* Our PE controls are not happy inline, pair them with labels and float left */
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.categories label,
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.categories .a-multiple-select,
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags label,
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories label,
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories .a-multiple-select,
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags label,
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
 	width: auto;
 	float: left;
 	padding-right: 10px;
 }
 
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget-tag-container,
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget-tag-container,
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
 	margin-bottom: 10px;
 }
-.aBlog .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget input { width: 100px;}
+.a-blog-edit-wrapper .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget input { width: 100px;}
 
-.aBlog .a-slot-form .a-form-help.collapsed{display: none;}
+.a-blog-edit-wrapper .a-form-help.collapsed{display: none;}
 
-.aBlog .a-slot-form hr {
+.a-blog-edit-wrapper hr {
 background-color:rgba(0, 0, 0, 0.1);
 border:0 none;
 clear:both;
@@ -476,22 +478,21 @@ margin:10px 0;
 width:100%;
 }
 
-.aBlog .a-form-row.by-type.title
+.a-blog-edit-wrapper .a-form-row.by-type.title
 {
 	margin-top:10px !important;
 }
 
-.aBlog .a-form-row.by-type.meta
+.a-blog-edit-wrapper .a-form-row.by-type.meta
 {
 	margin-top:15px;
 	margin-bottom: 0px;
 }
 
-.aBlog .a-form-row.by-type .a-form-row.count {margin-top: 5px;}
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.count {margin-top: 5px;}
 
 .aBlogSingle .a-blogsingle-input,
-.aBlog .a-options.a-slot-form .a-form-row.tags input,
-.aEvent .a-options.a-slot-form .a-form-row.tags input { width: 160px; }
+.a-blog-edit-wrapper .a-options.a-slot-form .a-form-row.tags input { width: 160px; }
 
 .aBlogSingle .a-options.a-slot-form .a-form-row { padding: 0; }
 
