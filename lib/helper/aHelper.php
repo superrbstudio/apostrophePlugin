@@ -346,7 +346,6 @@ function _a_get_assets_body($type, $assets)
           }
           if (sfConfig::get('app_a_minify', false))
           {
-            error_log("Calling minify");
             $fileContent = Minify_CSS::minify($fileContent, $options);
           }
         }

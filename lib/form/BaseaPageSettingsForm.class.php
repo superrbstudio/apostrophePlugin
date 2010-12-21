@@ -31,12 +31,10 @@ class BaseaPageSettingsForm extends aPageForm
   // To edit an existing page, just set $page and leave $parent null
   public function __construct($page, $parent)
   {
-    error_log("Creating form page is " . !!$page . " parent is " . !!$parent);
     if ($page->isNew())
     {
       $this->parent = $parent;
       $this->new = true;
-      error_log("Has parent, parent slug is " . $parent->slug);
     }
     parent::__construct($page);
     if ($this->getObject()->isNew())
@@ -101,9 +99,9 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
     $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
 
-    $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
     if ($this->getObject()->hasChildren(false))
     {
+      $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
       $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
         'true_values' =>  array('true', 't', 'on', '1'),
         'false_values' => array('false', 'f', 'off', '0', ' ', '')
@@ -342,7 +340,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, $this->formatName($candidate), 'selected' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->formatName($candidate), 'selected' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -460,7 +458,6 @@ class BaseaPageSettingsForm extends aPageForm
     $template = $values['joinedtemplate'];
     // $templates = aTools::getTemplates();
     list($engine, $etemplate) = preg_split('/:/', $template);
-    error_log("Saving $engine $etemplate");
     if ($engine === 'a')
     {
       $object->engine = null;
@@ -494,11 +491,6 @@ class BaseaPageSettingsForm extends aPageForm
     if ($this->parent)
     {
       $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
-      error_log("Inserted as first child");
-    }
-    else
-    {
-      error_log("Did not insert as child");
     }
     
     $jvalues = json_decode($this->getValue('view_groups'), true);
@@ -581,7 +573,6 @@ class BaseaPageSettingsForm extends aPageForm
 	    $object->setMetaDescription(htmlentities($this->getValue('meta_description'), ENT_COMPAT, 'UTF-8'));
 	  }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
-    error_log("After save");
     return $object;
   }
   
@@ -657,7 +648,6 @@ class BaseaPageSettingsForm extends aPageForm
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
-      error_log("Clearing access for privilege");
       $this->clearAccessForPrivilege($object->id, 'view_custom');
     }
     foreach ($values as $value)

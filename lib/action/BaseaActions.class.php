@@ -436,10 +436,6 @@ class BaseaActions extends sfActions
     if ($new)
     {
       $this->page = new aPage();
-      // error_log("retrieving parent");
-      // ob_start();
-      // var_dump($_REQUEST);
-      // error_log(ob_get_clean());
       $this->parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
     }
     else
@@ -477,16 +473,10 @@ class BaseaActions extends sfActions
       {
         $engine = '';
       }
-      error_log("Engine is $engine template is $template");
       $this->form->bind($settings);
       if ($this->form->isValid())
       {
         $mainFormValid = true;
-      }
-      else
-      {
-        echo($this->form);
-        exit(0);
       }
     }
 

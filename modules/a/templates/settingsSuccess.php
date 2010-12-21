@@ -104,7 +104,8 @@
 
   <?php if ($sf_user->hasCredential('cms_admin')): ?>
  		<hr/>
-    <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin)) ?>
+ 		<?php $hasSubpages = $page->hasChildren(false) ?>
+    <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>
   <?php endif ?>
   
 	<?php if ($create): ?>
