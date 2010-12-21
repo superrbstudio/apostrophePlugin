@@ -90,12 +90,15 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $values;
   }
 
- public function updateCategoriesList($values)
+ public function updateCategoriesList(&$values)
   {
+    $cvalues = $values['categories_list_add'];
     $link = array();
-    if(!is_array($values))
-      $values = array();
-    foreach ($values as $value)
+    if(!is_array($cvalues))
+    {
+      $cvalues = array();
+    }
+    foreach ($cvalues as $value)
     {
       $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
       if($existing)
@@ -111,18 +114,20 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       $aCategory->save();
       $link[] = $aCategory['id'];
     }
-    if(!is_array($this->values['categories_list']))
+    if(!is_array($values['categories_list']))
     {
-      $this->values['categories_list'] = array();
+      $values['categories_list'] = array();
     }
-    $this->values['categories_list'] = array_merge($link, $this->values['categories_list']);
+    $values['categories_list'] = array_merge($link, $values['categories_list']);
+    // Needed when this is an embedded form
+    return $values['categories_list'];
   }
 
   protected function doSave($con = null)
   {
     if(isset($this['categories_list_add']))
     {
-      $this->updateCategoriesList($this->values['categories_list_add']);
+      $this->updateCategoriesList($this->values);
     }
     parent::doSave($con);
   }

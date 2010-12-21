@@ -44,5 +44,4 @@ class BaseaMediaEditMultipleForm extends BaseForm
 
     return md5($secret.session_id());
   }    
-  
 }

@@ -798,7 +798,11 @@ class BaseaMediaActions extends aEngineActions
       // This is NOT automatic since this isn't a Doctrine form. http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
       foreach ($this->form->getEmbeddedForms() as $key => $itemForm)
       {
+        // Called from doSave in the embedded form, these will never be called here if we don't call them ourselves.
+        // Modifies $values[$key] by reference
+        $itemForm->updateCategoriesList($values[$key]);
         $itemForm->updateObject($values[$key]);
+        
         $object = $itemForm->getObject();
         if ($object->getId())
         {
