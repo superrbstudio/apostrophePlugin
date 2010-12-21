@@ -51,7 +51,7 @@ class BaseaSmartSlideshowSlotComponents extends BaseaSlotComponents
     $params = array();
     if (isset($value['categories_list']))
     {
-      $params['allowed_categories'] = $value['categories_list'];
+      $params['allowed_categories'] = aCategoryTable::getInstance()->createQuery('c')->whereIn('c.id', $value['categories_list'])->execute();
     }
     if (isset($value['tags_list']))
     {
