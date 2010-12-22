@@ -689,6 +689,17 @@ class BaseaActions extends sfActions
       $nvalue->slug = $nvalue->slug_stored;
       $nvalue->title = $nvalue->title_stored;
       $nvalue->summary = $nvalue->summary_stored;
+      
+      if (strlen($nvalue->engine_stored))
+      {
+        $helperClass = $nvalue->engine_stored . 'SearchHelper';
+        if (class_exists($helperClass))
+        {
+          $searchHelper = new $helperClass;
+          $nvalue->partial = $searchHelper->getPartial();
+        }
+      }
+      
       if (substr($nvalue->slug, 0, 1) === '@')
       {
         // Virtual page slug is a named Symfony route, it wants search results to go there

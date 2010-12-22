@@ -26,12 +26,16 @@
 	
 	<dl class="a-search-results">
 	<?php foreach ($results as $result): ?>
-	  <?php $url = $result->url ?>
-	  <dt class="result-title <?php echo $result->class ?>">
-			<?php echo link_to($result->title, $url) ?>
-		</dt>
-	  <dd class="result-summary"><?php echo $result->summary ?></dd>
-		<dd class="result-url"><?php echo link_to($url,$url) ?></dd>
+	  <?php if (isset($result->partial)): ?>
+	    <?php include_partial($result->partial, array('result' => $result)) ?>
+	  <?php else: ?>
+  	  <?php $url = $result->url ?>
+  	  <dt class="result-title <?php echo $result->class ?>">
+  			<?php echo link_to($result->title, $url) ?>
+  		</dt>
+  	  <dd class="result-summary"><?php echo $result->summary ?></dd>
+  		<dd class="result-url"><?php echo link_to($url,$url) ?></dd>
+  	<?php endif ?>
 	<?php endforeach ?>
 	</dl>
 

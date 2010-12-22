@@ -1130,24 +1130,24 @@ abstract class PluginaPage extends BaseaPage
   	// save a variable for the update function
     if (sfConfig::get('app_a_defer_search_updates', false))
     {
-		// Deferred updates are sometimes nice for performance...
-		foreach($aPages as $page)
-  		{
-		    aLuceneUpdateTable::requestUpdate($page);
-		}
+  		// Deferred updates are sometimes nice for performance...
+  		foreach ($aPages as $page)
+    	{
+  		  aLuceneUpdateTable::requestUpdate($page);
+  		}
     }
     else
     {
-		// ... But the average developer hates cron.
+  		// ... But the average developer hates cron.
    		
-   		// Without this the changes we just made aren't visible to getSearchText,
-		// we need to trigger a thorough recaching
+    	// Without this the changes we just made aren't visible to getSearchText,
+  		// we need to trigger a thorough recaching
   	
-  		foreach($aPages as $page)
+  		foreach ($aPages as $page)
   		{
 		  	aPageTable::retrieveByIdWithSlots($page->id);
 		    $page->updateLuceneIndex();   
-		}
+  		}
     }
   }
   
@@ -1398,6 +1398,7 @@ abstract class PluginaPage extends BaseaPage
       return;
     }
     $title = $this->getTitle();
+    $engine = $this->getEngine();
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
     $tags = implode(',', $this->getTags());
@@ -1411,14 +1412,10 @@ abstract class PluginaPage extends BaseaPage
     $metaDescription = $this->getMetaDescription();
     $slug = $this->getSlug();
     $info = $this->getInfo();
-    // Already a separate field, so don't store it twice.
-    // Otherwise though the info structure is well worth it because
-    // it lets us check explicit privileges
-    unset($info['title']);
-    aZendSearch::updateLuceneIndex(array('object' => $this,
-      // We index the publication timestamp as a string consisting solely of digits. That allows
-      // us to use Zend Lucene's TO construct to look at items published from now until eternity
-      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'categories' => $categories, 'metadescription' => $metaDescription),
+    // Already separate fields, so don't store them twice.
+    unset($info['title'], $info['engine']);
+    $args = array('object' => $this,
+      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'categories' => $categories, 'metadescription' => $metaDescription, 'engine' => $engine),
       'culture' => $this->getCulture(),
       // 1.5: always store fields under a name different from that used to index them.
       // Otherwise the storage overrides the indexing
@@ -1426,12 +1423,26 @@ abstract class PluginaPage extends BaseaPage
         'title_stored' => $title,
         'summary_stored' => $summary,
         'slug_stored' => $slug,
+        // Nulls don't store well in Lucene
+        'engine_stored' => strlen($engine) ? $engine : '',
         'info_stored' => serialize($info)),
       'boosts' => array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0),
       'keywords' => array(
+        // We index the publication timestamp as a string consisting solely of digits. That allows
+        // us to use Zend Lucene's TO construct to look at items published from now until eternity
         'published_at' => preg_replace('/[^\d]/', '', $this->published_at),
         'category_ids' => implode(',', aArray::getIds($this->getCategories())),
-      )));
+      ));
+    if (strlen($engine))
+    {
+      $helperClass = $engine . 'SearchHelper';
+      if (class_exists($helperClass))
+      {
+        $searchHelper = new $helperClass;
+        $args = $searchHelper->filterUpdateLuceneIndex($args);
+      }
+    }
+    aZendSearch::updateLuceneIndex($args);
   }
 
   public function getSearchSummary()
