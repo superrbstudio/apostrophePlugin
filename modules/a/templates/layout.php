@@ -88,5 +88,7 @@
 	  <?php include_partial('a/footer') ?>
 	</div>
 
+	<?php include_partial('a/globalJavascripts') ?>
+	
 </body>
 </html>

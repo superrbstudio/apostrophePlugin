@@ -23,6 +23,15 @@ function aConstructor()
     }
   }
 
+	// Utility: console.log wrapper prevents JS errors 
+	// if we leave an apostrophe.log call hanging out in our code someplace
+	this.log = function(output)
+	{ 
+		if (window.console && console.log) {
+			console.log(output);
+		};
+	}
+
 	// Utility: Click an element once and convert it to a span
 	// Useful for turning an <a> into a <span>
 	this.aClickOnce = function(selector)

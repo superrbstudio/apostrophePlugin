@@ -17,6 +17,7 @@ class BaseaTools
   static protected $globalButtons = false;
   static protected $allowSlotEditing = true;
   static protected $realUrl = null;
+  static public $jsCalls = array();
   
   // Must reset ALL static variables to their initial state
   static public function listenToSimulateNewRequestEvent(sfEvent $event)
@@ -27,6 +28,7 @@ class BaseaTools
     self::$pageStack = array();
     self::$globalButtons = false;
     self::$allowSlotEditing = true;
+		aTools::$jsCalls = array();
     aNavigation::simulateNewRequest();
   }
   

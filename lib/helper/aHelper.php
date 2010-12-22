@@ -99,6 +99,83 @@ function a_slot_body($name, $type, $permid, $options, $validationData, $editorOp
   }
 }
 
+
+// Call like this:
+
+// a_js_call('object.property[?].method(?, ?)', 5, 'name', 'bob')
+
+// That is, use ?'s to insert correctly json-encoded arguments into your JS call.
+
+// Another, less-contrived example:
+
+// a_js_call('apostrophe.slideshowSlot(?)', array('id' => 'et-cetera', ...))
+
+// Notice that arguments can be strings, numbers, or arrays - JSON can handle all of them.
+
+// All calls made in this way are accumulated into a jQuery domready block which
+// appears at the end of the body element in our standard layout.php via a_include_js_calls.
+// We also insert these at the end when adding or updating a slot via AJAX. You can invoke it
+// yourself in other layouts etc.
+
+function a_js_call($callable /* , $arg1, $arg2, ... */ )
+{
+  $args = array_slice(func_get_args(), 1);
+  a_js_call_array($callable, $args);
+}
+
+function a_js_call_array($callable, $args)
+{
+  aTools::$jsCalls[] = array('callable' => $callable, 'args' => $args);
+}
+
+function a_include_js_calls()
+{
+  echo(a_get_js_calls());
+}
+
+function a_get_js_calls()
+{
+  $html = '';
+  if (count(aTools::$jsCalls))
+  {
+    $html .= '<script type="text/javascript" charset="utf-8">' . "\n";
+    $html .= '$(function() {' . "\n";
+    foreach (aTools::$jsCalls as $call)
+    {
+      $html .= _a_js_call($call['callable'], $call['args']);
+    }
+    $html .= '});' . "\n";
+    $html .= '</script>' . "\n";
+  }
+  return $html;
+}
+
+function _a_js_call($callable, $args)
+{
+  $clauses = preg_split('/(\?)/', $callable, null, PREG_SPLIT_DELIM_CAPTURE);
+  $code = '';
+  $n = 0;
+  $q = 0;
+  foreach ($clauses as $clause)
+  {
+    if ($clause === '?')
+    {
+      $code .= json_encode($args[$n++]);
+    }
+    else
+    {
+      $code .= $clause;
+    }
+  }
+  if ($n !== count($args))
+  {
+    throw new sfException('Number of arguments does not match number of ? placeholders in js call');
+  }
+  return $code . ";\n";
+}
+
+
+
 // Frequently convenient when you want to check an option in a template.
 // Doing the isset() ? foo : bar dance over and over is bug-prone and confusing
 
