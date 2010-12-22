@@ -753,7 +753,7 @@ class BaseaTools
     'admin' => '/apostrophePlugin/css/a-admin.css',
     'colors' => '/apostrophePlugin/css/a-colors.css',
     'utility' => '/apostrophePlugin/css/a-utility.css',
-    'jquery-ui' => '/apostrophePlugin/css/ui-apostrophe/jquery-ui-1.8.6.custom.css'
+    'jquery-ui' => '/apostrophePlugin/css/ui-apostrophe/jquery-ui.css'
   );
 
   static public function addStylesheetsIfDesired()
@@ -793,7 +793,7 @@ class BaseaTools
     'json2' => '/apostrophePlugin/js/json2.js',
     'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
     'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.hoverIntent.js',
-    'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.6.custom.min.js',
+    'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.7.custom.min.js',
     'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
   );
 
