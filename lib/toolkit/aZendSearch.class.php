@@ -155,7 +155,6 @@ class aZendSearch
       $q->addSelect($alias.'.*');
       aDoctrine::orderByList($q, $results);
       $q->whereIn($alias.'.id', $results);
-      $q->orderBy('field');
     }
     else
     {
