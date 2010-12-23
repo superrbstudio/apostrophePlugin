@@ -750,14 +750,32 @@ class BaseaActions extends sfActions
     // $q is the Zend query the user typed.
     //
     // Override me! Add more items to the $values array here (note that it was passed by reference).
-    // Example: $values[] = array('title' => 'Hi there', 'summary' => 'I like my blog', 
-    // 'link' => 'http://thissite/wherever', 'class' => 'blog_post', 'score' => 0.8)
+    
+    $value = new stdclass();
+    $value->url = $url;
+    $value->title = $article->getTitle();
+    $value->score = $articleScores[$article->getId()];
+    $value->summary = $article->getSearchSummary();
+    $value->class = 'HandbookArticle';
+    $values[] = $value;
+    $changed = true;
+    
+    // Example: 
+    //
+    // $value = new stdclass();
+    // $value->url = $url;
+    // $value->title = $title;
+    // $value->score = $scores[$id];
+    // $value->summary = $summary;
+    // $value->class = 'Article';
+    // $values[] = $value;
     //
     // 'class' is used to set a CSS class (see searchSuccess.php) to distinguish result types.
     //
-    // Best when used with results from a aZendSearch::searchLuceneWithValues call.
+    // Best when used with results from a aZendSearch::searchLuceneWithScores call. That call gives
+    // you access to the scores so you can pass them along to Apostrophe.
     //
-    // IF YOU CHANGE THE ARRAY you must return true, otherwise it will not be sorted by score.
+    // IF YOU CHANGE THE $values ARRAY you must return true, otherwise it will not be sorted by score.
     return false;
   }
   

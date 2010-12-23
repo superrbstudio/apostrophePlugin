@@ -554,7 +554,7 @@ abstract class PluginaPage extends BaseaPage
   
   public function getInfo()
   {
-    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_guest' => $this->view_guest, 'engine' => $this->engine, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
   }
   
   protected $childrenInfo;
@@ -833,7 +833,7 @@ abstract class PluginaPage extends BaseaPage
     // in the WHERE clause. Otherwise we don't get any information at all about pages
     // not i18n'd yet
     $escCulture = $connection->quote($this->getCulture());
-    $query = "SELECT p.id, p.slug, p.view_is_secure, p.view_admin_lock, p.edit_admin_lock, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
+    $query = "SELECT p.id, p.slug, p.view_is_secure, p.view_guest, p.view_admin_lock, p.edit_admin_lock, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
       LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
