@@ -377,10 +377,13 @@ margin-bottom: 10px;
 .aFeed .a-slot-content ul,
 .aImage .a-slot-content ul,
 .aVideo .a-slot-content ul,
+.aSmartSlideshow .a-slot-content ul,
 .aSlideshow .a-slot-content ul,
 .aPDF .a-slot-content ul,
 .aButton .a-slot-content ul { list-style: none; padding: 0; }
 
+.aSmartSlideshow .a-slideshow,
+.aSmartSlideshow .a-slideshow li,
 .aSlideshow .a-slideshow,
 .aSlideshow .a-slideshow li {	float: left; width: 100%; clear: both; }
 
