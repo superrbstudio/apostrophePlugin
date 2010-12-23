@@ -14,7 +14,7 @@
   <?php // You can't switch variants until you've saved something for architectural reasons, however ?>
   <?php // we do need this menu waiting in the wings so that we can turn it on on the first save of an edit view ?>
   <li class="a-ui variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
-		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><span class="icon"></span><?php echo __('Options', null, 'apostrophe') ?></a>
+		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon no-label a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><span class="icon"></span><?php echo __('Options', null, 'apostrophe') ?></a>
     <ul class="a-options a-variant-options dropshadow">
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
