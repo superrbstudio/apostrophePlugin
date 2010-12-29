@@ -751,14 +751,14 @@ class BaseaActions extends sfActions
     //
     // Override me! Add more items to the $values array here (note that it was passed by reference).
     
-    $value = new stdclass();
-    $value->url = $url;
-    $value->title = $article->getTitle();
-    $value->score = $articleScores[$article->getId()];
-    $value->summary = $article->getSearchSummary();
-    $value->class = 'HandbookArticle';
-    $values[] = $value;
-    $changed = true;
+    // $value = new stdclass();
+    // $value->url = $url;
+    // $value->title = $article->getTitle();
+    // $value->score = $articleScores[$article->getId()];
+    // $value->summary = $article->getSearchSummary();
+    // $value->class = 'HandbookArticle';
+    // $values[] = $value;
+    // $changed = true;
     
     // Example: 
     //
