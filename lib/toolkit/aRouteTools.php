@@ -133,6 +133,36 @@ class aRouteTools
   }
   
   /**
+   * If an engine page has already been pushed or we are on an engine page now,
+   * returns that engine page slug. Otherwise returns null. Useful to determine
+   * whether you should get clever or not in a getEngineSlug() method for an
+   * aDoctrineRoute.
+   *
+   * @param  sfRoute $route
+   *
+   * @return string The engine slug, or null
+   */
+  
+  static public function getContextEngineSlug(sfRoute $route)
+  {
+    $defaults = $route->getDefaults();
+    $currentPage = aTools::getCurrentPage();
+    $engine = $defaults['module'];
+    if (isset(self::$targetEnginePages[$engine]) && count(self::$targetEnginePages[$engine]))
+    {
+      return end(self::$targetEnginePages[$engine]);
+    }
+    elseif (($currentPage) && ($currentPage->engine === $defaults['module']))
+    {
+      return $currentPage->slug;
+    }
+    else
+    {
+      return null;
+    }
+  }
+  
+  /**
    * Prepends the current CMS page to the URL.
    *
    * @param  string $url The URL so far obtained from parent::generate
@@ -143,15 +173,10 @@ class aRouteTools
   
   static public function addPageToUrl(sfRoute $route, $url, $absolute)
   {
-    $defaults = $route->getDefaults();
-    $currentPage = aTools::getCurrentPage();
-    $engine = $defaults['module'];
-    if (isset(self::$targetEnginePages[$engine]) && count(self::$targetEnginePages[$engine]))
+    $slug = aRouteTools::getContextEngineSlug($route);
+    if (!$slug)
     {
-      $slug = end(self::$targetEnginePages[$engine]);
-    }
-    elseif ((!$currentPage) || ($currentPage->engine !== $defaults['module']))
-    {
+      $defaults = $route->getDefaults();
       $page = aPageTable::getFirstEnginePage($defaults['module']);
       if (!$page)
       {
@@ -161,10 +186,6 @@ class aRouteTools
       {
         $slug = $page->slug;
       }
-    }
-    else
-    {
-      $slug = $currentPage->slug;
     }
     if (!$slug)
     {

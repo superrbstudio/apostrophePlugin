@@ -1,7 +1,6 @@
 <?php
 
 // Used by engine pages.
-// Not yet: implements aRouteClass
 
 class aDoctrineRoute extends sfDoctrineRoute 
 {
@@ -37,6 +36,25 @@ class aDoctrineRoute extends sfDoctrineRoute
   {
     $slug = null;
     $defaults = $this->getDefaults();
+
+    if (isset($params['sf_subject']) && (!isset($params['engine-slug'])))
+    {
+      // Don't override the current page if it is an engine, or a previously
+      // pushed engine page
+      $slug = aRouteTools::getContextEngineSlug($this);
+      if ($slug)
+      {
+        $params['engine-slug'] = $slug;
+      }
+      else
+      {
+        if (method_exists($params['sf_subject'], 'getEngineSlug'))
+        {
+          $params['engine-slug'] = $params['sf_subject']->getEngineSlug();
+        }
+      }
+    }
+
     if (isset($params['engine-slug']))
     {
       $slug = $params['engine-slug'];
