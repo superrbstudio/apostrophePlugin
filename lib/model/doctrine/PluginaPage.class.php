@@ -1414,8 +1414,9 @@ abstract class PluginaPage extends BaseaPage
     $info = $this->getInfo();
     // Already separate fields, so don't store them twice.
     unset($info['title'], $info['engine']);
+    $tags = $this->getTags();
     $args = array('object' => $this,
-      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'categories' => $categories, 'metadescription' => $metaDescription, 'engine' => $engine),
+      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => implode(', ', $tags), 'categories' => $categories, 'metadescription' => $metaDescription, 'engine' => $engine),
       'culture' => $this->getCulture(),
       // 1.5: always store fields under a name different from that used to index them.
       // Otherwise the storage overrides the indexing
@@ -1430,8 +1431,7 @@ abstract class PluginaPage extends BaseaPage
       'keywords' => array(
         // We index the publication timestamp as a string consisting solely of digits. That allows
         // us to use Zend Lucene's TO construct to look at items published from now until eternity
-        'published_at' => preg_replace('/[^\d]/', '', $this->published_at),
-        'category_ids' => implode(',', aArray::getIds($this->getCategories())),
+        'published_at' => preg_replace('/[^\d]/', '', $this->published_at)
       ));
     if (strlen($engine))
     {
