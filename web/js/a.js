@@ -809,6 +809,36 @@ function aConstructor()
 		$('.a-remote-submit').aRemoteSubmit('#a-media-edit-categories');
 	}
 	
+	// We send people away to the media repo to pick things and then they
+	// decide to wander off and not pick things. We need to be realistic about
+	// this and cancel their selection. A better idea would be to make 
+	// media admin/selection a "most-of-page" experience, maybe via an iframe, but
+	// that's more of a 1.6 idea. For 1.5, this is a good band-aid fix
+	
+	this.mediaClearSelectingOnNavAway = function(mediaClearSelectingUrl)
+	{
+		$('a').click(function() {
+			var href = $(this).attr('href');
+			if (href.substr(0, 1) === '#')
+			{
+				return;
+			}
+			// Be tolerant of this being in the middle as a stopgap solution for the problem
+			// of alternate document roots and frontend controllers in URLs
+			if (href.match(/\/admin\/media/))
+			{
+				return;
+			}
+			apostrophe.log("Cancelling select for " + href);
+			// "Why is this synchronous?" So that we can allow the events associated with
+			// this link to execute normally (return true) after we request the cancel,
+			// rather than second-guessing the nature of the link and screwing lots of 
+			// things up any more than we'realready going to by interfering here
+			$.ajax({ url: mediaClearSelectingUrl, async: false });
+			return;
+		});
+	}
+	
 	this.mediaEnableRemoveButton = function(i)
 	{
 		var editor = $('#a-media-item-' + i);

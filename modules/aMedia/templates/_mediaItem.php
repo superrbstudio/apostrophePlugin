@@ -9,7 +9,7 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkHref = "/#select-media-item"; ?>
+    <?php $linkHref = "#select-media-item"; ?>
     <?php $multipleStyleSelect = true ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>

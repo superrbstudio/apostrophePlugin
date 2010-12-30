@@ -366,6 +366,7 @@ class BaseaMediaActions extends aEngineActions
   {
     $this->hasPermissionsForSelect();
     
+    error_log("Selecting is " . aMediaTools::isSelecting());
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
     $imageInfo = aMediaTools::getAttribute('imageInfo');
@@ -984,5 +985,11 @@ class BaseaMediaActions extends aEngineActions
   protected function hasPermissionsForSelect()
   {
     $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
+  }
+  
+  public function executeClearSelecting()
+  {
+    aMediaTools::clearSelecting();
+    exit(0);
   }
 }
