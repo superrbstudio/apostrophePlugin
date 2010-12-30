@@ -95,6 +95,26 @@ class aMigrate
     return (isset($data[0]['Create Table']));    
   }
   
+  public function constraintExists($tableName, $constraintName)
+  {
+    if (!preg_match('/^\w+$/', $tableName))
+    {
+      die("Bad table name in tableExists: $tableName\n");
+    }
+    $data = array();
+    try
+    {
+      $data = $this->conn->query("SHOW CREATE TABLE $tableName")->fetchAll();
+    } catch (Exception $e)
+    {
+    }
+    if (!isset($data[0]['Create Table'])) 
+    {
+      return false;
+    }    
+    return (strpos($data[0]['Create Table'], 'CONSTRAINT `' . $constraintName . '`') !== false);
+  }
+  
   public function columnExists($tableName, $columnName)
   {
     if (!preg_match('/^\w+$/', $tableName))
