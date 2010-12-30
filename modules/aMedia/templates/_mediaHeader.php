@@ -12,3 +12,4 @@
 		<a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon a-users lite mini a-align-right a-media-link-accounts alt"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a>
 	<?php endif ?>
 </div>
+<?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>
