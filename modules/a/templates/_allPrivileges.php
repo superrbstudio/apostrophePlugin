@@ -3,7 +3,9 @@
   $admin = isset($admin) ? $sf_data->getRaw('admin') : null;
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $inherited = isset($inherited) ? $sf_data->getRaw('inherited') : null;
+  $hasSubpages = isset($hasSubpages) ? $sf_data->getRaw('hasSubpages') : null;
 ?>
+
 
 <?php // Careful, leave "Apply to Subpages" alone. Striking through the Remove button ?>
 <?php // seems like a good way to suggest you can click again to undo it though ?>
@@ -20,66 +22,89 @@
 
 <?php use_helper('a') ?>
 
-<div class="a-options-section a-accordion">
+<div class="a-options-section permissions a-accordion clearfix">
+
   <h3 class="a-permissions-heading a-view-permissions"><?php echo a_('View Permissions') ?></h3>
+
   <div class="a-accordion-content">
-  	<div class="a-page-permissions a-form-row">
+  	<div class="a-form-row a-page-permissions">
+
   	  <h4><?php echo a_('Who can see this page?') ?></h4>
-  	  <div class="a-indented-fields">
-    	  <div class="a-form-field">
+
+   			<div class="a-page-permissions-section clearfix">
     	    <?php // Tristate radio button: public, login required, admins only ?>
-    	    <li><?php echo $form['view_options']->render(array('class' => 'view-options-widget')) ?></li>
+    	    <?php echo $form['view_options']->render(array('class' => 'view-options-widget')) ?>
     	  </div>
-    	  <li class="a-apply-to-subpages-row">
-    	    <?php echo $form['view_options_apply_to_subpages']->render() ?>
-    	    <?php echo $form['view_options_apply_to_subpages']->renderLabel() ?>
-    	  </li>
+
+        <?php if (isset($form['view_options_apply_to_subpages'])): ?>
+      	  <div class="cascade-checkbox a-apply-to-subpages-row">
+      	    <?php echo $form['view_options_apply_to_subpages']->render() ?>
+      	    <?php echo $form['view_options_apply_to_subpages']->renderLabel(a_('apply to subpages')) ?>
+      	  </div>
+        <?php endif ?>
+        
     	  <?php // Extended permissions, hidden when the setting is public or admins only ?>
     	  <div id="a-page-permissions-view-extended">
-      		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
-      		<div class="a-page-permissions-section">
-      			<h5><?php echo a_('Groups') ?></h5>
+
+					<hr />
+
+	    		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
+
+      		<div class="a-page-permissions-section clearfix">
+      			<h4><label><?php echo a_('Groups') ?></label></h4>
       			<?php // This div is replaced by JS ?>
-      			<div class="a-page-permissions-widget" id="a-page-permissions-view-groups"></div>
-      			<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-view-groups', 'hiddenField' => 'a_settings_settings_view_groups', 'name' => 'groups', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add a Group'), 'extra' => false, 'applyToSubpagesLabel' => a_('Apply to Subpages'))) ?>
+      			<div class="a-page-permissions-widget clearfix" id="a-page-permissions-view-groups"></div>
+      			<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-view-groups', 'hiddenField' => 'a_settings_settings_view_groups', 'name' => 'groups', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add a Group'), 'extra' => false, 'applyToSubpagesLabel' => a_('apply to subpages'), 'hasSubpages' => $hasSubpages)) ?>
       		</div>
-      		<div class="a-page-permissions-section">
-      			<h5><?php echo a_('Individuals') ?></h5>
+
+      		<div class="a-page-permissions-section clearfix">
+      			<h4><label><?php echo a_('Individuals') ?></label></h4>
       			<?php // This div is replaced by JS ?>
-      			<div class="a-page-permissions-widget" id="a-page-permissions-view-individuals"></div>
-        		<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-view-individuals', 'hiddenField' => 'a_settings_settings_view_individuals', 'name' => 'individuals', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add an Individual'), 'extra' => false, 'applyToSubpagesLabel' => a_('Apply to Subpages'))) ?>
+      			<div class="a-page-permissions-widget clearfix" id="a-page-permissions-view-individuals"></div>
+        		<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-view-individuals', 'hiddenField' => 'a_settings_settings_view_individuals', 'name' => 'individuals', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add an Individual'), 'extra' => false, 'applyToSubpagesLabel' => a_('apply to subpages'), 'hasSubpages' => $hasSubpages)) ?>
       		</div>
+
       	</div>
-      </div>
+
   	</div>
+
   </div>
 </div>
-<div class="a-options-section a-accordion">
+
+<hr />
+
+<div class="a-options-section permissions a-accordion clearfix">
   <h3 class="a-permissions-heading a-edit-permissions"><?php echo a_('Edit Permissions') ?></h3>
 
   <div class="a-accordion-content">
   	<div class="a-form-row a-page-permissions">
-  	  <h4><?php echo a_('Who can edit this page?') ?></h4>
-  	  <div class="a-indented-fields">
-    	  <ul>
-    	    <li class="a-edit-admin-lock"><?php echo $form['edit_admin_lock'] ?><?php echo a_('Lock this page so only admins can edit or delete.') ?></li>
-    	  </ul>
-    	  <div id="a-page-permissions-edit-extended">
-      		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
-      		<div class="a-page-permissions-section">
-      			<h5><?php echo a_('Groups') ?></h5>
-      			<?php // This div is replaced by JS ?>
-      			<div class="a-page-permissions-widget" id="a-page-permissions-groups"></div>
-      			<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-groups', 'hiddenField' => 'a_settings_settings_edit_groups', 'name' => 'groups', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add a Group'), 'data' => array(array('id' => 1, 'name' => 'Guests & Editors', 'selected' => true, 'extra' => true), array('id' => 2, 'name' => 'Faculty'), array('id' => 3, 'name' => 'Deans')), 'extra' => true, 'extraLabel' => a_('Add / Delete Pages'), 'applyToSubpagesLabel' => a_('Apply to Subpages'))) ?>
-      		</div>
-      		<div class="a-page-permissions-section">
-      			<h5><?php echo a_('Individuals') ?></h5>
-      			<?php // This div is replaced by JS ?>
-      			<div class="a-page-permissions-widget" id="a-page-permissions-individuals"></div>
-        		<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-individuals', 'hiddenField' => 'a_settings_settings_edit_individuals', 'name' => 'individuals', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add an Individual'), 'data' => array(array('id' => 1, 'name' => 'dick', 'selected' => true, 'extra' => true), array('id' => 2, 'name' => 'jane'), array('id' => 3, 'name' => 'larry')), 'extra' => true, 'extraLabel' => a_('Add / Delete Pages'), 'applyToSubpagesLabel' => a_('Apply to Subpages'))) ?>
-      		</div>
-      	</div>
+ 
+ 	  	<h4><?php echo a_('Who can edit this page?') ?></h4>
+
+   	  <div class="a-edit-admin-lock"><?php echo $form['edit_admin_lock'] ?><?php echo a_('Lock this page so only admins can edit or delete.') ?></div>
+
+   	  <div id="a-page-permissions-edit-extended">
+
+				<hr />
+
+	   		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
+
+     		<div class="a-page-permissions-section clearfix">
+     			<h4><label><?php echo a_('Groups') ?></label></h4>
+     			<?php // This div is replaced by JS ?>
+     			<div class="a-page-permissions-widget clearfix" id="a-page-permissions-groups"></div>
+     			<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-groups', 'hiddenField' => 'a_settings_settings_edit_groups', 'name' => 'groups', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add a Group'), 'data' => array(array('id' => 1, 'name' => 'Guests & Editors', 'selected' => true, 'extra' => true), array('id' => 2, 'name' => 'Faculty'), array('id' => 3, 'name' => 'Deans')), 'extra' => true, 'extraLabel' => a_('Add / Delete Pages'), 'applyToSubpagesLabel' => a_('apply to subpages'), 'hasSubpages' => $hasSubpages)) ?>
+     		</div>
+
+     		<div class="a-page-permissions-section clearfix">
+     			<h4><label><?php echo a_('Individuals') ?></label></h4>
+     			<?php // This div is replaced by JS ?>
+     			<div class="a-page-permissions-widget clearfix" id="a-page-permissions-individuals"></div>
+       		<?php a_js_call('apostrophe.enablePermissions(?)', array('id' => 'a-page-permissions-individuals', 'hiddenField' => 'a_settings_settings_edit_individuals', 'name' => 'individuals', 'removeLabel' => a_('Remove'), 'addLabel' => a_('+ Add an Individual'), 'data' => array(array('id' => 1, 'name' => 'dick', 'selected' => true, 'extra' => true), array('id' => 2, 'name' => 'jane'), array('id' => 3, 'name' => 'larry')), 'extra' => true, 'extraLabel' => a_('Add / Delete Pages'), 'applyToSubpagesLabel' => a_('apply to subpages'), 'hasSubpages' => $hasSubpages)) ?>
+     		</div>
+
     	</div>
+
   	</div>
   </div>
 </div>

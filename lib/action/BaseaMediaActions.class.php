@@ -255,7 +255,6 @@ class BaseaMediaActions extends aEngineActions
     $index = array_search($id, $selection);
     if ($index === false)
     {
-      error_log("ID is $id and not found in index which is " . implode(',', $selection));
       $this->forward404();
     }
     $cropLeft = floor($request->getParameter('cropLeft'));

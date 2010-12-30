@@ -25,7 +25,10 @@ class aGlobalButton
       // 1.5: we've had this sane alternative to pushing and popping engines for a while so use it.
       // It's also possible that you already did this for us and didn't bother passing $targetEnginePage,
       // which is fine
-      $link = aUrl::addParams($this->link, array('engine-slug' => $this->targetEnginePage));
+      
+      // Oops, I forgot to add $this->
+      
+      $this->link = aUrl::addParams($this->link, array('engine-slug' => $this->targetEnginePage));
     }
   }
 

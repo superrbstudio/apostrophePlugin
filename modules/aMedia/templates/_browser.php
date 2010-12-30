@@ -33,7 +33,7 @@
 		    <form action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" method="get">
 		  		<div class="a-form-row"> <?php // div is for page validation ?>
 		  			<label for="a-search-media-field" style="display:none;">Search</label><?php // label for accessibility ?>
-		  			<input type="text" name="q" value="<?php echo htmlspecialchars($sf_params->get('q', ESC_RAW)) ?>" class="a-search-field" id="a-search-media-field"/>
+		  			<input type="text" name="search" value="<?php echo htmlspecialchars($sf_params->get('search', ESC_RAW)) ?>" class="a-search-field" id="a-search-media-field"/>
 		  			<input type="image" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 		  		</div>
 		    </form>

@@ -94,12 +94,13 @@ class aSql
     if (!isset($info['archived']))
     {
       $info['archived'] = false;
+      $info['published_at'] = 'NOW()';
     }
     if (!isset($info['engine']))
     {
       $info['engine'] = null;
     }
-    $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, lft, rgt, level, engine) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :lft, :rgt, :level, :engine)', $info);
+    $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, published_at, lft, rgt, level, engine) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :published_at, :lft, :rgt, :level, :engine)', $info);
     $info['id'] = $this->lastInsertId();
 
     $this->insertArea($info['id'], 'title', array(array('type' => 'aText', 'value' => htmlentities($title))));
@@ -131,14 +132,14 @@ class aSql
       $this->query('INSERT INTO a_slot (type, value) VALUES (:type, :value)', array('type' => $slotInfo['type'], 'value' => (is_array($slotInfo['value']) ? serialize($slotInfo['value']) : $slotInfo['value'])));
       $slotId = $this->lastInsertId();
       $slotIds[] = $slotId;
-      if ($slotInfo['type'] === 'departmentSlideshow')
+      if ($slotInfo['type'] === 'aSlideshow')
       {
         foreach ($slotInfo['value']['order'] as $mediaId)
         {
           $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $mediaId, 'slot_id' => $slotId));
         }
       }
-      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton'))
+      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') && isset($slotInfo['mediaId']))
       {
         $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $slotInfo['mediaId'], 'slot_id' => $slotId));
       }

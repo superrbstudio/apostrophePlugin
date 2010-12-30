@@ -38,8 +38,9 @@ class aZendSearch
      
      // We have to register the autoloader before we can use these classes
      self::registerZend();
-     
-     $luceneQuery = Zend_Search_Lucene_Search_QueryParser::parse($luceneQueryString);
+
+     // Specify character set. Apostrophe is always UTF-8
+     $luceneQuery = Zend_Search_Lucene_Search_QueryParser::parse($luceneQueryString, 'utf-8');
      $query = new Zend_Search_Lucene_Search_Query_Boolean();
      $query->addSubquery($luceneQuery, true);
      if (!is_null($culture))
@@ -155,7 +156,6 @@ class aZendSearch
       $q->addSelect($alias.'.*');
       aDoctrine::orderByList($q, $results);
       $q->whereIn($alias.'.id', $results);
-      $q->orderBy('field');
     }
     else
     {

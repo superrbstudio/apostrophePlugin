@@ -31,12 +31,10 @@ class BaseaPageSettingsForm extends aPageForm
   // To edit an existing page, just set $page and leave $parent null
   public function __construct($page, $parent)
   {
-    error_log("Creating form page is " . !!$page . " parent is " . !!$parent);
     if ($page->isNew())
     {
       $this->parent = $parent;
       $this->new = true;
-      error_log("Has parent, parent slug is " . $parent->slug);
     }
     parent::__construct($page);
     if ($this->getObject()->isNew())
@@ -69,7 +67,7 @@ class BaseaPageSettingsForm extends aPageForm
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
     
-    $this->useFields(array('slug', 'template', 'engine', 'archived', 'edit_admin_lock'));
+    $this->useFields(array('slug', 'archived', 'edit_admin_lock'));
 
     $object = $this->getObject();
     
@@ -101,9 +99,9 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
     $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
 
-    $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
     if ($this->getObject()->hasChildren(false))
     {
+      $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
       $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
         'true_values' =>  array('true', 't', 'on', '1'),
         'false_values' => array('false', 'f', 'off', '0', ' ', '')
@@ -117,9 +115,29 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
     $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
     
-    $this->setWidget('template', new sfWidgetFormSelect(array('choices' => aTools::getTemplates())));
-    $this->setWidget('engine', new sfWidgetFormSelect(array('choices' => aTools::getEngines())));
+    // Changed the name so Doctrine doesn't get uppity
     
+    $engine = $object->engine;
+    $template = $object->template;
+    if (!strlen($object->template))
+    {
+      $object->template = 'default';
+    }
+    if (!is_null($object->engine))
+    {
+      $joinedTemplateName = $object->engine . ':' . $object->template;
+    }
+    else
+    {
+      $joinedTemplateName = 'a' . ':' . $object->template;
+    }
+    $choices = aTools::getTemplateChoices();
+    $this->setWidget('joinedtemplate', new sfWidgetFormSelect(array('choices' => $choices, 'default' => $joinedTemplateName)));
+    $this->setValidator('joinedtemplate', new sfValidatorChoice(array(
+      'required' => true,
+      'choices' => array_keys($choices)
+    )));
+
     // Published vs. Unpublished makes more sense to end users, but when we first
     // designed this feature we had an 'archived vs. unarchived'
     // approach in mind
@@ -195,18 +213,6 @@ class BaseaPageSettingsForm extends aPageForm
     $title = $this->getObject()->getTitle();
 		$this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
 		
-    $this->setValidator('template', new sfValidatorChoice(array(
-      'required' => true,
-      'choices' => array_keys(aTools::getTemplates())
-    )));
-
-    // Making the empty string one of the choices doesn't seem to be good enough
-    // unless we expressly clear 'required'
-    $this->setValidator('engine', new sfValidatorChoice(array(
-      'required' => false,
-      'choices' => array_keys(aTools::getEngines())
-    )));   
-
     // The slug of the home page cannot change (chicken and egg problems)
     if ($this->getObject()->getSlug() === '/')
     {
@@ -333,7 +339,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, $this->formatName($candidate), 'selected' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->formatName($candidate), 'selected' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -422,7 +428,6 @@ class BaseaPageSettingsForm extends aPageForm
   
   public function updateObject($values = null)
   {
-    error_log("in updateObject Parent is " . !!$this->parent);
     if (is_null($values))
     {
       $values = $this->getValues();
@@ -449,6 +454,19 @@ class BaseaPageSettingsForm extends aPageForm
       $q->execute();
     }
 
+    $template = $values['joinedtemplate'];
+    // $templates = aTools::getTemplates();
+    list($engine, $etemplate) = preg_split('/:/', $template);
+    if ($engine === 'a')
+    {
+      $object->engine = null;
+    }
+    else
+    {
+      $object->engine = $engine;
+    }
+    $object->template = $etemplate;
+    
     // On manual change of slug, set up a redirect from the old slug,
     // and notify child pages so they can update their slugs if they are
     // not already deliberately different
@@ -472,11 +490,6 @@ class BaseaPageSettingsForm extends aPageForm
     if ($this->parent)
     {
       $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
-      error_log("Inserted as first child");
-    }
-    else
-    {
-      error_log("Did not insert as child");
     }
     
     $jvalues = json_decode($this->getValue('view_groups'), true);
@@ -559,7 +572,6 @@ class BaseaPageSettingsForm extends aPageForm
 	    $object->setMetaDescription(htmlentities($this->getValue('meta_description'), ENT_COMPAT, 'UTF-8'));
 	  }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
-    error_log("After save");
     return $object;
   }
   
@@ -635,7 +647,6 @@ class BaseaPageSettingsForm extends aPageForm
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
-      error_log("Clearing access for privilege");
       $this->clearAccessForPrivilege($object->id, 'view_custom');
     }
     foreach ($values as $value)

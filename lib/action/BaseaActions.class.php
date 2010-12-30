@@ -436,10 +436,6 @@ class BaseaActions extends sfActions
     if ($new)
     {
       $this->page = new aPage();
-      // error_log("retrieving parent");
-      // ob_start();
-      // var_dump($_REQUEST);
-      // error_log(ob_get_clean());
       $this->parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
     }
     else
@@ -472,7 +468,11 @@ class BaseaActions extends sfActions
     if ($request->hasParameter('settings'))
     {
       $settings = $request->getParameter('settings');
-      $engine = $settings['engine'];
+      list($engine, $template) = preg_split('/:/', $settings['joinedtemplate']);
+      if ($engine === 'a')
+      {
+        $engine = '';
+      }
       $this->form->bind($settings);
       if ($this->form->isValid())
       {
@@ -493,7 +493,7 @@ class BaseaActions extends sfActions
         $this->engineSettingsPartial = $engine . '/settings';
       }
     }
-    
+
     if ($mainFormValid && (!isset($this->engineForm)))
     {
       $this->form->save();
@@ -689,6 +689,17 @@ class BaseaActions extends sfActions
       $nvalue->slug = $nvalue->slug_stored;
       $nvalue->title = $nvalue->title_stored;
       $nvalue->summary = $nvalue->summary_stored;
+      
+      if (strlen($nvalue->engine_stored))
+      {
+        $helperClass = $nvalue->engine_stored . 'SearchHelper';
+        if (class_exists($helperClass))
+        {
+          $searchHelper = new $helperClass;
+          $nvalue->partial = $searchHelper->getPartial();
+        }
+      }
+      
       if (substr($nvalue->slug, 0, 1) === '@')
       {
         // Virtual page slug is a named Symfony route, it wants search results to go there
@@ -739,14 +750,32 @@ class BaseaActions extends sfActions
     // $q is the Zend query the user typed.
     //
     // Override me! Add more items to the $values array here (note that it was passed by reference).
-    // Example: $values[] = array('title' => 'Hi there', 'summary' => 'I like my blog', 
-    // 'link' => 'http://thissite/wherever', 'class' => 'blog_post', 'score' => 0.8)
+    
+    // $value = new stdclass();
+    // $value->url = $url;
+    // $value->title = $article->getTitle();
+    // $value->score = $articleScores[$article->getId()];
+    // $value->summary = $article->getSearchSummary();
+    // $value->class = 'HandbookArticle';
+    // $values[] = $value;
+    // $changed = true;
+    
+    // Example: 
+    //
+    // $value = new stdclass();
+    // $value->url = $url;
+    // $value->title = $title;
+    // $value->score = $scores[$id];
+    // $value->summary = $summary;
+    // $value->class = 'Article';
+    // $values[] = $value;
     //
     // 'class' is used to set a CSS class (see searchSuccess.php) to distinguish result types.
     //
-    // Best when used with results from a aZendSearch::searchLuceneWithValues call.
+    // Best when used with results from a aZendSearch::searchLuceneWithScores call. That call gives
+    // you access to the scores so you can pass them along to Apostrophe.
     //
-    // IF YOU CHANGE THE ARRAY you must return true, otherwise it will not be sorted by score.
+    // IF YOU CHANGE THE $values ARRAY you must return true, otherwise it will not be sorted by score.
     return false;
   }
   

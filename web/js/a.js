@@ -189,12 +189,15 @@ function aConstructor()
 	this.updating = function(selector)
 	{		
 		var updating = $(selector);
-
 		var submit = updating.find('.a-show-busy');
 
 		if (!submit.data('busy'))
 		{
-			submit.data('busy',1).addClass('a-busy icon').prepend('<span class="icon"></span>');
+			submit.data('busy',1).addClass('a-busy');
+			if (!submit.hasClass('icon'))
+			{
+				submit.addClass('icon').prepend('<span class="icon"></span>');
+			}
 		};
 
 		// var updating = $(selector);
@@ -231,46 +234,66 @@ function aConstructor()
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
 	{
-		// Which label to show on load 'option-1' or 'option-2'
-		var optDefault = (options['optDefault'])? options['optDefault'] : 'option-1';
 		// Set the button toggle labels
 		var opt1Label = (options['opt1Label'])? options['opt1Label'] : 'on';
 		var opt2Label = (options['opt2Label'])? options['opt2Label'] : 'off';
 		var field = $(options['field']);
-		
+		var radios = field.find('input[type="radio"]');
+		radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --' + field + '-- No radio inputs found');			
+	
 		if (field.length)
 		{
-			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --'+id+'-- debugging') : field.find('.radio_list').hide();
-			
-			var radios = field.find('input[type="radio"]');
-			radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --'+id+'-- No radio inputs found');			
+			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --' + field + '-- debugging') : field.find('.radio_list').hide();			
 
 			var toggleButton = $('<a/>');			
 			toggleButton.addClass('a-btn icon lite a-toggle-btn');
-			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>').addClass(optDefault);
-			field.prepend(toggleButton);
-			toggleButton.click(function(){
-				updateToggle($(this));
-			});
-			function updateToggle(button)
+			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>');
+			
+			if (!field.find('.a-toggle-btn').length)
 			{
-				button.toggleClass('option-1').toggleClass('option-2');
-				if ($(radios[0]).is(':checked'))
-				{
-					$(radios[0]).attr('checked',null);
-					$(radios[1]).attr('checked','checked');
-				}
-				else
-				{
-					$(radios[1]).attr('checked',null);
-					$(radios[0]).attr('checked','checked');				
-				};
-			}
+				field.prepend(toggleButton);
+				var btn = field.find('.a-toggle-btn');
+				
+				updateToggle(btn);
+			
+				btn.click(function(){
+					toggle(btn);
+				});
+			};
+			
 		}
 		else
 		{
 			field.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No field found');
 		};
+
+		function toggle(button)
+		{			
+			if ($(radios[0]).is(':checked'))
+			{
+				$(radios[0]).attr('checked',null);
+				$(radios[1]).attr('checked','checked');
+			}
+			else
+			{
+				$(radios[1]).attr('checked',null);
+				$(radios[0]).attr('checked','checked');				
+			};
+			updateToggle(button);
+		};
+		
+		function updateToggle(button)
+		{
+			if ($(radios[0]).is(':checked'))
+			{
+				button.addClass('option-1').removeClass('option-2');				
+			}
+			else
+			{
+				button.addClass('option-2').removeClass('option-1');							
+			};
+		}
+
 	}
 
 	// Utility: IE6 Users get a special message when they log into apostrophe
@@ -988,11 +1011,12 @@ function aConstructor()
 			items.each(function(){
 				var item = $(this);
 				item.bind('embedToggle',function(){
-					item.children('.a-media-item-thumbnail').addClass('a-hidden');
-					item.children('.a-media-item-embed').removeClass('a-hidden');					
+					var embed = item.data('embed_code');
+					item.find('.a-media-item-thumbnail').addClass('a-previewing');
+					item.find('.a-media-item-embed').removeClass('a-hidden').html(embed);
 				});
-				var link = item.find('.a-media-thumb-link');
-				link.unbind('click').click(function(e){
+				var link = item.find('.a-media-play-video');
+				link.unbind('click.mediaEmbeddableToggle').bind('click.mediaEmbeddableToggle',function(e){
 					e.preventDefault();
 					item.trigger('embedToggle');
 				});
@@ -1002,6 +1026,14 @@ function aConstructor()
 		{
 			apostrophe.log('apostrophe.mediaEmbeddableToggle -- no items found');
 		};
+	}
+	
+	this.mediaAttachEmbed = function(options)
+	{
+		var id = options['id'];
+		var embed = options['embed'];
+		var mediaItem = $('#a-media-item-' + id);
+		mediaItem.data('embed_code', embed);
 	}
 	
 	this.mediaItemsIndicateSelected = function(cropOptions)
@@ -1183,7 +1215,6 @@ function aConstructor()
 			
 			var pager = $(this);
 			pager.addClass('a-pager-processed');
-			pager.outerWidth(pager.outerWidth());
 			pager.find('.a-page-navigation-number').css('display', 'block');
 			pager.find('.a-page-navigation-number').css('float', 'left');
 			
@@ -1195,10 +1226,11 @@ function aConstructor()
 			var max = selected + nb_links - 1;
 			
 			var links_container_container = pager.find('.a-pager-navigation-links-container-container');
-			links_container_container.width((nb_links * pager.find('.a-page-navigation-number').first().outerWidth()) + 2);
+			links_container_container.width((nb_links * pager.find('.a-page-navigation-number').first().outerWidth()));
 			links_container_container.css('overflow', 'hidden');
 			
 			var links_container = pager.find('.a-pager-navigation-links-container');
+			links_container.width((nb_pages * pager.find('.a-page-navigation-number').first().outerWidth()));
 			
 			var first = pager.find('.a-pager-navigation-first');
 			var prev = pager.find('.a-pager-navigation-previous');
@@ -1384,7 +1416,7 @@ function aConstructor()
 		
 	this.enablePageSettings = function(options)
 	{
-		apostrophe.log('enablePageSettings');
+		apostrophe.log('apostrophe.enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
 		// Why is this necessary?
 		$('#' + options['id'] + '-submit').click(function() {
@@ -1450,58 +1482,18 @@ function aConstructor()
 			});	
 		}
 
-		var combinedPageType = form.find('[name=combined_page_type]');
-		
-		var template = form.find('[name=settings[template]]');
-		var engine = form.find('[name=settings[engine]]');
-		
-		for (var i = 0; (i < template[0].options.length); i++)
-		{
-			var option = template[0].options[i];
-			var item = $('<option></option>');
-			item.text($(option).text());
-			item.val(':' + option.value);
-			combinedPageType.append(item);
-		}
-		for (var i = 0; (i < engine[0].options.length); i++)
-		{
-			var option = engine[0].options[i];
-			if (option.value === '')
-			{
-				continue;
-			}
-			var item = $('<option></option>');
-			item.text($(option).text());
-			// For now the template field must be 'default'
-			// when the engine field is not empty
-			item.val(option.value + ':default');
-			combinedPageType.append(item);
-		}
-		if (engine.val() !== '')
-		{
-			combinedPageType.val(engine.val() + ':default');
-		}
-		else
-		{
-			combinedPageType.val(':' + template.val());
-		}
-		
-		combinedPageType.change(function() {
+		var joinedtemplate = form.find('[name=settings[joinedtemplate]]');
+		joinedtemplate.change(function() {
 			updateEngineAndTemplate();
 		});
 		
 		function updateEngineAndTemplate()
 		{
-			var components = combinedPageType.val().split(':');
-			var engineVal = components[0];
-			var templateVal = components[1];
-			engine.val(engineVal);
-			template.val(templateVal);
 			var url = options['engineUrl'];
 
 	    var engineSettings = form.find('.a-engine-page-settings');
-			var val = engine.val();
-		  if (!val.length)
+			var val = joinedtemplate.val().split(':')[0];
+		  if (val === 'a')
 		  {
 		    engineSettings.html('');
 		  }
@@ -1745,6 +1737,7 @@ function aConstructor()
 			option.val('');
 			option.text(options['addLabel']);
 			select.append(option);
+			var j = 0;
 			for (var i = 0; (i < ids.length); i++)
 			{
 				var user = data[ids[i]];
@@ -1759,12 +1752,15 @@ function aConstructor()
 				}
 				else
 				{
-					var liMarkup = '<li class="a-permission-entry"><ul><li class="a-who"></li>';
+					var liMarkup = '<li class="a-permission-entry ' + ((j%2) ? 'even':'odd') + ' clearfix"><ul><li class="a-who"></li>';
 					if (options['extra'])
 					{
 						liMarkup += '<li class="a-extra"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</li>';
 					}
-					liMarkup += '<li class="a-apply-to-subpages"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</li>';
+					if (options['hasSubpages'])
+					{
+						liMarkup += '<li class="a-apply-to-subpages"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</div></li>';
+					}
 					// PLEASE NOTE code is targeting a-close-small, if you change that class you have to change the selector elsewhere
 					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
 					li = $(liMarkup);
@@ -1781,6 +1777,7 @@ function aConstructor()
 						li.find('.a-extra input').attr('disabled', true);
 					}
 					list.append(li);
+					j++;
 				}
 			}
 			select.val('');

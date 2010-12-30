@@ -13,6 +13,7 @@
 
 <?php use_helper('a') ?>
 
+<?php if ($editable): ?>
 <?php slot('a-history-controls') ?>
 	<li>
 		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big") ?>
@@ -21,6 +22,7 @@
 		<?php a_js_call('apostrophe.areaEnableHistoryButton(?)', array('buttonId' => $history_button_id, 'pageId' => $pageid, 'name' => $name, 'url' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))), 'moreUrl' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))))) ?>
 	</li>
 <?php end_slot() ?>
+<?php endif ?>
 
 <?php if (!$refresh): ?>
 

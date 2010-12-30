@@ -58,7 +58,6 @@ class Minify_CSS_UriRewriter {
         self::$_currentDir = $currentDir;
         self::$_symlinks = array();
         
-        error_log('REWRITING current is ' . self::$_currentDir . ' document root is ' . self::$_docRoot);
         // normalize symlinks
         foreach ($symlinks as $link => $target) {
             $link = ($link === '//')

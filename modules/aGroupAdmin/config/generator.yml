@@ -17,7 +17,11 @@ generator:
 
       form:
         class: aGroupAdminForm
-        display: [name, description, users_list, permissions_list]
+        # users_list is gone for now as it's not scalable,
+        # add users to a group by browsing to the user and
+        # adding them to the group. We could address this
+        # using aMultipleSelect typeahead in the future
+        display: [name, description, permissions_list]
       filter:
         class: aGroupAdminFilter
       edit:

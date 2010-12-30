@@ -2,8 +2,12 @@
 
 class aImporter
 {
-
+  
   protected $connection;
+  /**
+   *
+   * @var aSql
+   */
   protected $sql;
   protected $pageFiles = array();
   protected $pagesDir;
@@ -11,13 +15,18 @@ class aImporter
   protected $pseudoSlotTypes = array('foreignHtml' => 'aRichText');
   protected $failedMedia = array();
 
-  public function __construct(Doctrine_Connection $connection, $xmlFile, $pagesDir, $imagesDir)
+  public function __construct(Doctrine_Connection $connection, $params = array())
   {
     $this->connection = $connection;
-    $this->root = simplexml_load_file($xmlFile);
     $this->sql = new aSql($connection->getDbh());
-    $this->pagesDir = $pagesDir;
-    $this->imagesDir = $imagesDir;
+    $this->initialize($params);
+  }
+
+  public function initialize($params)
+  {
+    $this->root = simplexml_load_file($params['xmlFile']);
+    $this->pagesDir = $params['pagesDir'];
+    $this->imagesDir = $params['imagesDir'];
   }
 
   public function import()
@@ -47,7 +56,7 @@ class aImporter
     $info = array();
     $info['slug'] = $root['slug']->__toString();
     $info['template'] = isset($root['template']) ? $root['template']->__toString() : 'default';
-    $title = $root['title']->__toString();
+    $title = $root['title']->__toString();  
 
     $this->sql->insertPage($info, $title, $parentId);
 
@@ -63,6 +72,8 @@ class aImporter
     {
       $this->parsePage($page, $info['id']);
     }
+
+    return $info;
   }
 
   public function parseAreas($root, $pageId)
@@ -85,7 +96,7 @@ class aImporter
             $slotImport = $this->$method($slot);
             if($slotImport)
             {
-              $slotInfos = array_merge($slotInfos, $this->$method($slot));
+              $slotInfos = array_merge($slotInfos, $slotImport);
             }
           }
         }
@@ -112,17 +123,60 @@ class aImporter
     return array($info);
   }
 
-  protected function parseSlotaImage(SimpleXMLElement $slot)
+  protected function parseSlotAText(SimpleXMLElement $slot)
+  {
+    $info = array();
+    $info['type'] = 'aText';
+    $info['value'] = aHtml::simplify($slot->value->__toString());
+
+    return array($info);
+  }
+
+  protected function parseSlotAButton(SimpleXMLElement $slot)
+  {
+    $info = array();
+    $info['type'] = 'aButton';
+    $value = array();
+    $value['title'] = (string) $slot->title;
+    $value['url'] = (string) $slot->url;
+
+    $ids = $this->getMediaItems($slot);
+    
+    if(count($ids))
+    {
+      $info['mediaId'] = $ids[0];
+      $info['value'] = $value;
+    }
+
+    return array($info);
+  }
+
+  protected function parseSlotAImage(SimpleXMLElement $slot)
   {
     $info = array();
     foreach($this->getMediaItems($slot) as $id)
     {
       $info[] = array('type' => 'aImage', 'mediaId' => $id);
     }
+
     if(count($info))
       return $info;
 
     return false;
+  }
+
+  protected function parseSlotASlideshow(SimpleXMLElement $slot)
+  {
+    $info = array();
+    $value = array();
+    $order = array();
+    foreach($this->getMediaItems($slot) as $id)
+    {
+      $order[] = $id;
+    }
+    $value['order'] = $order;
+    $info = array('type' => 'aSlideshow', 'value' => $value);
+    return array($info);
   }
 
   public function getMediaItems(SimpleXMLElement $slot)

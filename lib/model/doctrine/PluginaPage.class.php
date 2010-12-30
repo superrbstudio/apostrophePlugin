@@ -554,7 +554,7 @@ abstract class PluginaPage extends BaseaPage
   
   public function getInfo()
   {
-    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_guest' => $this->view_guest, 'engine' => $this->engine, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
   }
   
   protected $childrenInfo;
@@ -833,7 +833,7 @@ abstract class PluginaPage extends BaseaPage
     // in the WHERE clause. Otherwise we don't get any information at all about pages
     // not i18n'd yet
     $escCulture = $connection->quote($this->getCulture());
-    $query = "SELECT p.id, p.slug, p.view_is_secure, p.view_admin_lock, p.edit_admin_lock, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
+    $query = "SELECT p.id, p.slug, p.view_is_secure, p.view_guest, p.view_admin_lock, p.edit_admin_lock, p.archived, p.lft, p.rgt, p.level, p.engine, p.template, s.value AS title FROM a_page p
       LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
@@ -1130,24 +1130,24 @@ abstract class PluginaPage extends BaseaPage
   	// save a variable for the update function
     if (sfConfig::get('app_a_defer_search_updates', false))
     {
-		// Deferred updates are sometimes nice for performance...
-		foreach($aPages as $page)
-  		{
-		    aLuceneUpdateTable::requestUpdate($page);
-		}
+  		// Deferred updates are sometimes nice for performance...
+  		foreach ($aPages as $page)
+    	{
+  		  aLuceneUpdateTable::requestUpdate($page);
+  		}
     }
     else
     {
-		// ... But the average developer hates cron.
+  		// ... But the average developer hates cron.
    		
-   		// Without this the changes we just made aren't visible to getSearchText,
-		// we need to trigger a thorough recaching
+    	// Without this the changes we just made aren't visible to getSearchText,
+  		// we need to trigger a thorough recaching
   	
-  		foreach($aPages as $page)
+  		foreach ($aPages as $page)
   		{
 		  	aPageTable::retrieveByIdWithSlots($page->id);
 		    $page->updateLuceneIndex();   
-		}
+  		}
     }
   }
   
@@ -1398,6 +1398,7 @@ abstract class PluginaPage extends BaseaPage
       return;
     }
     $title = $this->getTitle();
+    $engine = $this->getEngine();
     $summary = $this->getSearchSummary();
     $text = $this->getSearchText();
     $tags = implode(',', $this->getTags());
@@ -1411,14 +1412,11 @@ abstract class PluginaPage extends BaseaPage
     $metaDescription = $this->getMetaDescription();
     $slug = $this->getSlug();
     $info = $this->getInfo();
-    // Already a separate field, so don't store it twice.
-    // Otherwise though the info structure is well worth it because
-    // it lets us check explicit privileges
-    unset($info['title']);
-    aZendSearch::updateLuceneIndex(array('object' => $this,
-      // We index the publication timestamp as a string consisting solely of digits. That allows
-      // us to use Zend Lucene's TO construct to look at items published from now until eternity
-      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => $tags, 'categories' => $categories, 'metadescription' => $metaDescription),
+    // Already separate fields, so don't store them twice.
+    unset($info['title'], $info['engine']);
+    $tags = $this->getTags();
+    $args = array('object' => $this,
+      'indexed' => array('text' => $text, 'slug' => $slug, 'title' => $title, 'tags' => implode(', ', $tags), 'categories' => $categories, 'metadescription' => $metaDescription, 'engine' => $engine),
       'culture' => $this->getCulture(),
       // 1.5: always store fields under a name different from that used to index them.
       // Otherwise the storage overrides the indexing
@@ -1426,12 +1424,25 @@ abstract class PluginaPage extends BaseaPage
         'title_stored' => $title,
         'summary_stored' => $summary,
         'slug_stored' => $slug,
+        // Nulls don't store well in Lucene
+        'engine_stored' => strlen($engine) ? $engine : '',
         'info_stored' => serialize($info)),
       'boosts' => array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0),
       'keywords' => array(
-        'published_at' => preg_replace('/[^\d]/', '', $this->published_at),
-        'category_ids' => implode(',', aArray::getIds($this->getCategories())),
-      )));
+        // We index the publication timestamp as a string consisting solely of digits. That allows
+        // us to use Zend Lucene's TO construct to look at items published from now until eternity
+        'published_at' => preg_replace('/[^\d]/', '', $this->published_at)
+      ));
+    if (strlen($engine))
+    {
+      $helperClass = $engine . 'SearchHelper';
+      if (class_exists($helperClass))
+      {
+        $searchHelper = new $helperClass;
+        $args = $searchHelper->filterUpdateLuceneIndex($args);
+      }
+    }
+    aZendSearch::updateLuceneIndex($args);
   }
 
   public function getSearchSummary()

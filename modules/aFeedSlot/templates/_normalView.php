@@ -1,5 +1,6 @@
 <?php
   // Compatible with sf_escaping_strategy: true
+  $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
   $feed = isset($feed) ? $sf_data->getRaw('feed') : null;
   $invalid = isset($invalid) ? $sf_data->getRaw('invalid') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
@@ -10,7 +11,9 @@
   $url = isset($url) ? $sf_data->getRaw('url') : null;
 ?>
 <?php use_helper('a') ?>
+<?php if ($editable): ?>
 <?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
+<?php endif ?>
 <?php if (!isset($url)): ?>
   <p class="aFeedSelect"><?php echo __('Click Edit to select a feed URL.', null, 'apostrophe') ?></p>
 <?php elseif ($invalid): ?>

@@ -61,7 +61,7 @@
 	 <?php endfor ?>
 	</div>
 
-	<?php if (!$pager->count()): ?>
+	<?php if ((!$pager->count()) && (aMediaTools::userHasUploadPrivilege())): ?>
 		<h3>Oops! You don't have anything in your media library <br /> Do you want to <a href="/#upload-images" id="a-upload-some-images">add some media?</a></h3>
 		<?php a_js_call('$("#a-upload-some-images").click(function(event){ event.preventDefault(); $("#a-media-add").show(); });') ?>
 	<?php endif ?>

@@ -367,6 +367,10 @@ class PluginaPageTable extends Doctrine_Table
     $page = Doctrine_Query::create()->
      from('aPage p')->
      where('p.engine = ?', array($engine))->
+     // Take care NOT to match virtual pages. They use the engine column
+     // to indicate the engine they are associated with
+     // Don't match virtual pages
+     addWhere('slug LIKE "/%"')->
      limit(1)->
      fetchOne();
     self::$engineCacheFirstEnginePages[$engine] = $page;

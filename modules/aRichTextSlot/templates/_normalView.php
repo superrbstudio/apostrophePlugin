@@ -8,7 +8,9 @@
   $value = isset($value) ? $sf_data->getRaw('value') : null;
 ?>
 <?php use_helper('a') ?>
-<?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page)) ?>
+<?php if ($editable): ?>
+  <?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page)) ?>
+<?php endif ?>
 	
 <?php if (!strlen($value)): ?>
 

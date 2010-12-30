@@ -221,6 +221,13 @@ function _a_get_assets_body($type, $assets)
   $sets = array();
   foreach ($assets as $file => $options)
   {
+		if (preg_match('/^http(s)?:/', $file))
+		{
+			// Nonlocal URL. Don't get cute with it, otherwise things
+			// like Addthis don't work
+      $html .= stylesheet_tag($file, $options);
+			continue;
+		}
     /*
      *
      * Guts borrowed from stylesheet_tag and javascript_tag. We still do a tag if it's
@@ -339,7 +346,6 @@ function _a_get_assets_body($type, $assets)
           }
           if (sfConfig::get('app_a_minify', false))
           {
-            error_log("Calling minify");
             $fileContent = Minify_CSS::minify($fileContent, $options);
           }
         }
@@ -604,3 +610,27 @@ function a_anchor_submit_button($label, $classes = array(), $name = null, $id = 
   $classes[] = 'a-act-as-submit';
   return a_button($label, '#', $classes, $id, $name);
 }
+
+// A button that removes a filter (parameter) from the given URL.
+// Uses the "label followed by an x" style. $parameter can be an array of
+// several parameter names. Calls link_to on the URL. This means you can pass an easily manipulated 
+// Symfony URL with &-separated params but get a user friendly routed URL as final output.
+// This ought to call a_button but I'm wrestling with the incompatibility of inline
+// content and a_button's CSS. Notice that it's playing out rather well in the blog engine. -Tom
+
+function a_remove_filter_button($label, $url, $parameter)
+{
+  if (!is_array($parameter))
+  {
+    $parameter = array($parameter);
+  }
+  $remove = array();
+  foreach ($parameter as $p)
+  {
+    // aUrl::addParams removes when the value is blank
+    $remove[$p] = '';
+  }
+  $url = aUrl::addParams($url, $remove);
+  return link_to($label . image_tag('/apostrophePlugin/images/a-icon-close-small-simple.png'), url_for($url), array('class' => 'a-filter-link'));
+}
+
