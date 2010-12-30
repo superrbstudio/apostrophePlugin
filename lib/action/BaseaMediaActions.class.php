@@ -683,6 +683,12 @@ class BaseaMediaActions extends aEngineActions
     $this->form = new aMediaUploadMultipleForm();
     $this->mustUploadSomething = false;
     $this->postMaxSizeExceeded = false;
+    if (isset($_FILES['a_media_items']['error']['item-0']['file']['newfile']) && $_FILES['a_media_items']['error']['item-0']['file']['newfile'])
+    {
+      // upload_max_size exceeded
+      $this->getUser()->setFlash('aMedia.postMaxSizeExceeded', true);
+      $this->postMaxSizeExceeded = true;
+    }
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
     if ($request->isMethod('post') && (!count($request->getPostParameters())))
     {
@@ -739,8 +745,7 @@ class BaseaMediaActions extends aEngineActions
     // For errors we set some flash attributes and return to the index page
     // We use forward() because resume redirects - if we redirect twice
     // we'll lose the flash attributes telling us about the errors
-    // add=1 triggers the form to appear immediately
-    $this->forward('aMedia', 'resume?add=1');
+    $this->forward('aMedia', 'resume');
   }
 
   public function executeEditMultiple(sfWebRequest $request)

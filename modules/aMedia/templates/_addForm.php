@@ -11,7 +11,7 @@
     <?php endif ?>
   </div>
   
-  <?php if ($sf_params->get('add')): ?>
+  <?php if ($sf_params->get('add') || $sf_user->getFlash('aMedia.postMaxSizeExceeded')): ?>
     <?php // This is a validation error pass ?>
     <script type="text/javascript" charset="utf-8">
       $(function() {
