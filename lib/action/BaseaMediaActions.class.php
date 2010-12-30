@@ -927,7 +927,9 @@ class BaseaMediaActions extends aEngineActions
   
   public function isAdmin()
   {
-    return $this->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+    $isAdmin = $this->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+    error_log("is admin: $isAdmin");
+    return $isAdmin;
   }
   
   public function executeLink(sfRequest $request)

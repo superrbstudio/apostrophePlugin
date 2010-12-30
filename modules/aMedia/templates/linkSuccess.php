@@ -46,7 +46,7 @@
 		          <li class="a-service a-<?php echo $account->service ?>"><?php echo $account->service ?></li>
 		          <li class="a-account"><?php echo a_entities($account->username) ?></li>
 		          <?php if (isset($form)): ?>
-		            <li class="a-actions"><?php echo a_button(a_('Remove'), 'aMedia/linkRemoveAccount?id=' . $account->id, array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
+		            <li class="a-actions"><?php echo a_button(a_('Remove'), url_for('aMedia/linkRemoveAccount?id=' . $account->id), array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
 		          <?php endif ?>
 		        </ul>
 		      </li>
