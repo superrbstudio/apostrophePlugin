@@ -21,9 +21,12 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $this->setWidget('description', new aWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', 'height' => 125, )));
 		$this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
 
-		$q = Doctrine::getTable('aCategory')->createQuery()->orderBy('name')->where('aCategory.media_items = true');
+    $user = sfContext::getInstance()->getUser();
+    $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
+		$q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name')->andWhere('aCategory.media_items = true');
 		$this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
 		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
+		$categories = $q->execute();
 		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
 		$this->setWidget('categories_list_add', new sfWidgetFormInput());

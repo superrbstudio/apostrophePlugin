@@ -33,17 +33,17 @@ class PluginaCategoryTable extends Doctrine_Table
       // retained the relation to groups
       $groups = $user->getGroups();
       $groupIds = aArray::getIds($groups);
-      $q->leftJoin('aCategory.Groups')
-        ->leftJoin('aCategory.Users');
+      $q->leftJoin('aCategory.Groups g')
+        ->leftJoin('aCategory.Users u');
       // This is necessary because Doctrine doesn't have proper grouping syntax
       // available except via DQL
       $where = '';
       // Don't get burned by an empty IN clause matching everything
       if (count($groupIds))
       {
-        $where .= 'aCategory.Groups.id IN (' . implode(',', $groupIds) . ') OR ';
+        $where .= 'g.id IN (' . implode(',', $groupIds) . ') OR ';
       }
-      $q->andWhere('(' . $where . 'aCategory.Users.id = ?)', $user['id']);
+      $q->andWhere('(' . $where . 'u.id = ?)', array($user['id']));
     }
     return $q;
   }
