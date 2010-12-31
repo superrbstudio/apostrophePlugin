@@ -13,14 +13,6 @@ abstract class PluginaCategoryForm extends BaseaCategoryForm
   protected function getUseFields()
   {
     $useFields = array('name');
-    $event = new sfEvent(null, 'a.get_categorizables');
-    sfContext::getInstance()->getEventDispatcher()->filter($event, array());
-    $infos = $event->getReturnValue();
-    foreach ($infos as $info)
-    {
-      $table = Doctrine::getTable($info['class']);
-      $useFields[] = $table->getCategoryColumn();
-    }
     $useFields[] = 'groups_list';
     $useFields[] = 'users_list';
     return $useFields;

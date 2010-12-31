@@ -23,7 +23,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 
     $user = sfContext::getInstance()->getUser();
     $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
-		$q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name')->andWhere('aCategory.media_items = true');
+		$q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
 		$this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
 		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
 		$categories = $q->execute();
@@ -113,7 +113,6 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
         $aCategory = new aCategory();
         $aCategory['name'] = $value;
       }
-      $aCategory['media_items'] = true;
       $aCategory->save();
       $link[] = $aCategory['id'];
     }
