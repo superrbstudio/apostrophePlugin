@@ -2,7 +2,8 @@
   // Compatible with sf_escaping_strategy: true
   $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
-	$nb_pages = $pager->getLastPage();
+  // Our pager crashes the browser with 3,000+ pages as is common on YouTube
+	$nb_pages = min($pager->getLastPage(), 300);
 	$nb_links = isset($nb_links) ? $sf_data->getRaw('nb_links') : sfConfig::get('app_a_pager_nb_links', 5);
 	$nb_links = ($nb_links > $nb_pages) ? $nb_pages : $nb_links;
 ?>

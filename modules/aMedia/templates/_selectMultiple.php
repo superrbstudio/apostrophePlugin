@@ -49,9 +49,7 @@
 
 	<ul class="a-ui a-controls">
 		<li><?php echo link_to('<span class="icon"></span>'.__('Save Selection', null, 'apostrophe'), 'aMedia/selected', array('class'=>'a-btn save big','id' => 'a-save-media-selection', )) ?></li>
- 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big')) ?></li>
+ 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big a-select-cancel')) ?></li>
 	</ul>
 	
 </div>
-
-<?php a_js_call('apostrophe.aClickOnce(?)', array('selector' => '#a-save-media-selection')) ?>

@@ -13,3 +13,4 @@
 	<?php endif ?>
 </div>
 <?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>
+<?php a_js_call('apostrophe.clickOnce(?)', '#a-save-media-selection,.a-media-select-video,.a-select-cancel') ?>

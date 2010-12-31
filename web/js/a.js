@@ -97,7 +97,7 @@ function aConstructor()
 	
 	// Utility: Click an element once and convert it to a span
 	// Useful for turning an <a> into a <span>
-	this.aClickOnce = function(selector)
+	this.clickOnce = function(selector)
 	{
 		var selector = $(selector);
 		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){   
@@ -108,17 +108,14 @@ function aConstructor()
 	// Utility: Replaces selected node with <span>
 	this.toSpan = function(selector)
 	{
-		selector = $(selector);
-		if (selector.length) {
+		// Use an each here to avoid problems with all of the items getting the
+		// same span label
+		$(selector).each(function() {
 			var id = ""; var clss = "";
-			if (selector.attr('id') != '') { id = "id='"+selector.attr('id')+"'"; };
-			if (selector.attr('class') != '') { clss = "class='"+selector.attr('class')+"'"; };		
-			selector.replaceWith("<span " + clss + " " + id +">" + selector.html() + "</span>");				
-		}
-		else
-		{
-			apostrophe.log('apostrophe.toSpan -- No Elements Found');
-		};
+			if ($(this).attr('id') != '') { id = "id='"+$(this).attr('id')+"'"; };
+			if ($(this).attr('class') != '') { clss = "class='"+$(this).attr('class')+"'"; };		
+			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");				
+		});
 	}	
 	
 	// Utility: an updated version of the jq_link_to_remote helper

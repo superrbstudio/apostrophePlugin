@@ -23,16 +23,6 @@
 
   <div id="a-media-video-search-pagination" class="a-pager-navigation a-ui">
     <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $url)) ?>
-    <?php if (0): ?>
-      <?php // really handy if we decide to re-ajax this ?>
-      <script type="text/javascript" charset="utf-8">
-        $('#a-media-video-search-pagination a').click(function() {
-          var href = $(this).attr('href');
-          $('#a-media-video-search-results-container').load(href);
-          return false;
-        });
-      </script>
-    <?php endif ?>
   </div>
   <br class="clear" />
 <?php endif ?>
