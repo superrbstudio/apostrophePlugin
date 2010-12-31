@@ -964,6 +964,10 @@ abstract class PluginaPage extends BaseaPage
   
   public function newAreaVersion($name, $action, $params = false)
   {
+    // Lock this page while adding a new version to it. This prevents race conditions with the
+    // assignment of new permids and ranks (fixes #306)
+    aTools::lock('page_' . $this->id);
+    
     $diff = '';
     if ($params === false)
     {
@@ -1096,6 +1100,7 @@ abstract class PluginaPage extends BaseaPage
     $area->save();
     $this->requestSearchUpdate();
     $this->end();
+    aTools::unlock();
   }
     
   public function requestSearchUpdate($allcultures = false)
