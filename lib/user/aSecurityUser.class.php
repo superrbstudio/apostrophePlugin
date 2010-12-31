@@ -1,10 +1,5 @@
 <?php
 
-class aSecurityUser extends sfGuardSecurityUser
+class aSecurityUser extends BaseaSecurityUser
 {
-  function clearCredentials()
-  {
-    parent::clearCredentials();
-    $this->getAttributeHolder()->removeNamespace('apostrophe');
-  }
 }
