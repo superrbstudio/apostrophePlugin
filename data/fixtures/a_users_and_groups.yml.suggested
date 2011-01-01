@@ -12,41 +12,38 @@ sfGuardGroup:
     description: 'Editors can edit CMS pages, provided that they have been granted control over that particular part of the site by an administrator. Editors can also upload media, and manage media that they personally uploaded.'
 sfGuardGroupPermission:
   sfGuardGroupPermission_admin_admin:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_admin
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_admin
   sfGuardGroupPermission_admin_cms_admin:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_cms_admin
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_cms_admin
   sfGuardGroupPermission_admin_media_admin:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_media_admin
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_media_admin
   sfGuardGroupPermission_admin_media_upload:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_media_upload
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_media_upload
+  sfGuardGroupPermission_admin_blog_admin:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_blog_admin
   sfGuardGroupPermission_guest_guest:
-    sfGuardGroup: sfGuardGroup_guest
-    sfGuardPermission: sfGuardPermission_guest
+    Group: sfGuardGroup_guest
+    Permission: sfGuardPermission_guest
   sfGuardGroupPermission_editor_media_upload:
-    sfGuardGroup: sfGuardGroup_editor
-    sfGuardPermission: sfGuardPermission_media_upload
-
-  # We DON'T give the editor permission to the ad-hoc editor group because that would
-	# make it a candidate for giving blanket access to everyone in the group, defeating the
-	# purpose of being able to hand out editor permissions to individuals who are in the
-	# editor group.
-	
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_media_upload
   sfGuardGroupPermission_editor_blog_author:
-    sfGuardGroup: sfGuardGroup_editor
-    sfGuardPermission: sfGuardPermission_blog_author
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_blog_author
   sfGuardGroupPermission_guest_view_locked:
-    sfGuardGroup: sfGuardGroup_guest
-    sfGuardPermission: sfGuardPermission_view_locked
+    Group: sfGuardGroup_guest
+    Permission: sfGuardPermission_view_locked
   sfGuardGroupPermission_admin_view_locked:
-    sfGuardGroup: sfGuardGroup_admin
-    sfGuardPermission: sfGuardPermission_view_locked
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_view_locked
   sfGuardGroupPermission_editor_view_locked:
-    sfGuardGroup: sfGuardGroup_editor
-    sfGuardPermission: sfGuardPermission_view_locked
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_view_locked
 sfGuardPermission:
   sfGuardPermission_admin:
     name: admin
@@ -54,19 +51,9 @@ sfGuardPermission:
   sfGuardPermission_guest:
     name: guest
     description: 'Guest permission'
-
-	# Having the editor permission is NOT enough to put someone on the list of
-	# potential editors in the page settings dialog. This is because of the
-	# performance overhead of checking for a permission across all users
-	# on sites that are using LDAP under the hood to check group membership.
-	# For that, see the editor group, which is configured as the candidate group for
-	# ad hoc permissions in app.yml. The editor permission is used to distinguish
-	# groups that can potentially be granted edit access in their entirety from groups that
-	# can never have edit access
   sfGuardPermission_editor:
     name: editor
-    description: 'Editor permission'
-
+    description: 'For groups that will be given edit permissions at some point in the site'
   sfGuardPermission_cms_admin:
     name: cms_admin
     description: 'Executive control of the CMS'

@@ -120,6 +120,7 @@ aPage:
                       value: >
                         <h3>Découvrez <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> 
                         Une solution open source, robuste et extrêmement simple à utiliser!
+      
       admin:
         # By convention this page is the parent of all admin pages. Admin pages are
         # hidden from all normal navigation
