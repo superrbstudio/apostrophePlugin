@@ -29,6 +29,7 @@ class aRouteTools
     $defaults = $route->getDefaults();
     if ($page->engine !== $defaults['module'])
     {
+      error_log("Page engine: " . $page->engine . " defaults engine: " . $defaults['module']);
       return false;
     }
     // Allows aRoute URLs to be written like ordinary URLs rather than
