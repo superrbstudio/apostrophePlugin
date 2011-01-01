@@ -15,6 +15,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     unset($this['created_at']);
     unset($this['updated_at']);
     unset($this['owner_id']);
+    unset($this['lucene_dirty']);
     $this->setWidget('tags', new sfWidgetFormInput(array("default" => implode(", ", $this->getObject()->getTags())), array("class" => "tag-input", "autocomplete" => "off")));
     $this->setValidator('tags', new sfValidatorPass());
 		$this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
@@ -29,10 +30,13 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 		$categories = $q->execute();
 		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
-		$this->setWidget('categories_list_add', new sfWidgetFormInput());
-		//TODO: Make this validator better, should check for duplicate categories, etc.
-		$this->setValidator('categories_list_add', new sfValidatorPass(array('required' => false)));
-
+    if ($this->isAdmin())
+    {
+      // Only admins can add more categories
+  		$this->setWidget('categories_list_add', new sfWidgetFormInput());
+  		$this->setValidator('categories_list_add', new sfValidatorPass());
+    }
+    
 		// If I don't unset this saving the form will purge existing relationships to slots
 		unset($this['slots_list']);
 		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
@@ -63,8 +67,6 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     // We like all-lowercase tags for consistency
     $values['tags'] = aString::strtolower($values['tags']);
     $object->setTags($values['tags']);
-    $object->setOwnerId(
-      sfContext::getInstance()->getUser()->getGuardUser()->getId());
     return $object;
   }
 
@@ -93,9 +95,32 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $values;
   }
 
- public function updateCategoriesList(&$values)
+  public function isAdmin()
   {
-    $cvalues = $values['categories_list_add'];
+    return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+  }
+  
+  // Returns categories set on this item that this user is not eligible to remove.
+  // Used for static display
+  public function getAdminCategories()
+  {
+    $reserved = array();
+    $existing = Doctrine::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->object->id)->execute();
+    $categoriesForUser = aCategoryTable::getInstance()->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $this->isAdmin())->execute();
+    $ours = array_flip(aArray::getIds($categoriesForUser));
+    foreach ($existing as $category)
+    {
+      if (!isset($ours[$category->id]))
+      {
+        $reserved[] = $category;
+      }
+    }
+    return $reserved;
+  }
+
+  public function updateCategoriesList(&$values)
+  {
+    $cvalues = isset($values['categories_list_add']) ? $values['categories_list_add'] : array();
     $link = array();
     if(!is_array($cvalues))
     {
@@ -121,16 +146,23 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       $values['categories_list'] = array();
     }
     $values['categories_list'] = array_merge($link, $values['categories_list']);
+
+    // Never allow a non-admin to remove categories they are not eligible to add
+    $reserved = aArray::getIds($this->getAdminCategories());
+    foreach ($reserved as $id)
+    {
+      if (!in_array($id, $values['categories_list']))
+      {
+        $values['categories_list'][] = $id;
+      }
+    }
     // Needed when this is an embedded form
     return $values['categories_list'];
   }
 
   protected function doSave($con = null)
   {
-    if(isset($this['categories_list_add']))
-    {
-      $this->updateCategoriesList($this->values);
-    }
+    $this->updateCategoriesList($this->values);
     parent::doSave($con);
   }
     

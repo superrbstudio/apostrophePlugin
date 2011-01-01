@@ -113,6 +113,12 @@
 	<div class="a-form-field">
 		<?php echo $form['categories_list']->render() ?>
 	</div>
+	<?php $adminCategories = $form->getAdminCategories() ?>
+	<?php if (count($adminCategories)): ?>
+    <div class="a-form-field">
+	    <?php echo 'Set by admin: ' . implode(',', $form->getAdminCategories()) ?>
+	  </div>
+	<?php endif ?>
 	<?php if (!$firstPass): ?>
 		<?php echo $form['categories_list']->renderError() ?>
 	<?php endif ?>
