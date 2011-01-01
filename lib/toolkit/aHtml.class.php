@@ -590,20 +590,18 @@ class aHtml
   
   public static function obfuscateMailtoInstance($args)
   {
+    static $count = 0;
     list($user, $domain, $label) = array_slice($args, 1);
     // We get some weird escaping problems without the trims
     $user = trim($user);
     $domain = trim($domain);
-    $guid = aGuid::generate();
-    $href = self::jsEscape("mailto:$user@$domain");
-    $label = self::jsEscape(trim($label));
-    // ACHTUNG: this is carefully crafted to avoid introducing extra whitespace
-		// Note: $guid was returning IDs with leading numbers. This threw validation errors so I appended a 'g-' to the ID - JB 7.22.10
-    return "<a href='#' id='g-".$guid."'></a><script type='text/javascript' charset='utf-8'>
-  	  var e = document.getElementById('g-".$guid."');
-      e.setAttribute('href', '$href');
-      e.innerHTML = '$label';
-      </script>";
+    $id = 'a-email-' . ++$count;
+    $href = rawurlencode("mailto:$user@$domain");
+    $label = rawurlencode(trim($label));
+    // This is an acceptable way to stub in a js call for now, since it's the
+    // way the helper has to do it too
+    aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($id, $href, $label));
+    return "<a href='#' id='$id'></a>";
   }
 
   // This is intentionally obscure for use in mailto: obfuscators.
