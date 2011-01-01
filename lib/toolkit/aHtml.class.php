@@ -218,6 +218,13 @@ class aHtml
       $result = htmlspecialchars($value);
     }
 
+    // Browser RTEs love to insert <p>&nbsp;</p> where <br /> is all they really need.
+    // There are more elaborate cases we don't mess with because 
+    // introducing a <br /> as a replacement for <h4>&nbsp;</h4> would not
+    // have the same impact (an h4-sized gap between two h4s). Tested across
+    // browsers. Fixes #500
+    $result = str_replace('<p>&nbsp;</p>', '<br />', $result);
+    
     if($htmlStrictBr)
     {
       $result = str_replace('<br>', '<br />', $result);
