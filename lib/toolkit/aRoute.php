@@ -19,9 +19,7 @@ class aRoute extends sfRoute
    */
   public function matchesUrl($url, $context = array())
   {
-    error_log("Enter");
     $url = aRouteTools::removePageFromUrl($this, $url);
-    error_log("URL is $url length " . strlen($url) . " matching...");
     return parent::matchesUrl($url, $context);
   }
 
