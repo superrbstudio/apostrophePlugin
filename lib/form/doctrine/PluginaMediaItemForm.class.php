@@ -104,18 +104,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
   // Used for static display
   public function getAdminCategories()
   {
-    $reserved = array();
-    $existing = Doctrine::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->object->id)->execute();
-    $categoriesForUser = aCategoryTable::getInstance()->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $this->isAdmin())->execute();
-    $ours = array_flip(aArray::getIds($categoriesForUser));
-    foreach ($existing as $category)
-    {
-      if (!isset($ours[$category->id]))
-      {
-        $reserved[] = $category;
-      }
-    }
-    return $reserved;
+    return $this->object->getAdminCategories();
   }
 
   public function updateCategoriesList(&$values)

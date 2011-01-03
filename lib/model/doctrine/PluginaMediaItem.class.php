@@ -420,4 +420,28 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // Right now images are always croppable and nothing else is
     return ($this->type === 'image');
   }
+  
+  // Returns categories that were added to this object by someone else which this user
+  // is not eligible to remove
+  
+  public function getAdminCategories()
+  {
+    $reserved = array();
+    $existing = Doctrine::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->id)->execute();
+    $categoriesForUser = aCategoryTable::getInstance()->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $this->isAdmin())->execute();
+    $ours = array_flip(aArray::getIds($categoriesForUser));
+    foreach ($existing as $category)
+    {
+      if (!isset($ours[$category->id]))
+      {
+        $reserved[] = $category;
+      }
+    }
+    return $reserved;
+  }
+  
+  public function isAdmin()
+  {
+    return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+  }
 }
