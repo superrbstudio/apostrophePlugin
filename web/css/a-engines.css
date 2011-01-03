@@ -2078,3 +2078,9 @@ clear: none;
 .a-media-linked-account li { float: left; margin-right: 3px; }
 .a-media-linked-account .a-service.a-YouTube { text-indent: -9999px; height: 18px; width: 45px; background: url(../images/a-media-service-youtube-small.png) center center no-repeat;}
 .a-media-linked-account .a-service.a-Vimeo { text-indent: -9999px; height: 18px; width: 45px; background: url(../images/a-media-service-vimeo-small.png) center center no-repeat;}
+
+ul.a-media-unconfigured-services
+{
+	padding-top: 10px;
+	clear: both;
+}

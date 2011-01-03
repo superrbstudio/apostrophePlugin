@@ -20,8 +20,9 @@
 					<?php echo $form['service']->render() ?>
 				</div>
 				<?php echo $form['service']->renderError() ?>
+    	  <?php include_partial('aMedia/unconfiguredServices') ?>
 			</div>
-	
+
 			<div class="a-form-row search"> <?php // div is for page validation ?>
 				<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
     		<?php echo $form['q']->render(array('class' => 'a-search-field')) ?>					
@@ -36,7 +37,6 @@
 				<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
 	    </div>	
 	  </form>
-	
 	</div>
   <?php if (isset($pager)): ?>
     <?php include_partial('aMedia/videoSearch', array('url' => $url, 'pager' => $pager, 'service' => $service)) ?>

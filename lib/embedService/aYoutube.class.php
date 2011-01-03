@@ -78,6 +78,13 @@ class aYoutube extends aEmbedService
   {
     $params['start-index'] = ($page - 1) * $perPage + 1;
     $params['max-results'] = $perPage;
+    // YouTube will bounce our request for the last page of results if we 
+    // ask for nine results and there is only one left (eg page 112 of results
+    // for 'cats', which has the YouTube hard limit of 1000 results)
+    if ($params['start-index'] + $params['max-results'] > 1000)
+    {
+      $params['max-results'] = 1000 - $params['start-index'] + 1;
+    }
     $feed = $feed . '?' . http_build_query($params);
     $document = @simplexml_load_file($feed);
     if (!$document)
@@ -87,7 +94,11 @@ class aYoutube extends aEmbedService
     $namespaces = $document->getNameSpaces(true);
     $openSearch = $document->children($namespaces['openSearch']);
     $entries = $document->entry;
-    $results = array('total' => (int) $openSearch->totalResults);
+    // "Why no more than 1,000 results?" Because if you actually try to get at, say, page 500 of the 
+    // many thousands of results for "cats," YouTube gives a "sorry, YouTube does not serve more than 1,000 
+    // results for any query" error on the site, and appears to be similarly cutting things short
+    // at the API level. There is no point in claiming more pages than you can actually browse.
+    $results = array('total' => min((int) $openSearch->totalResults, 1000));
     $output = array();
     foreach ($entries as $entry)
     {

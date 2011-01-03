@@ -2,6 +2,23 @@
 
 abstract class aEmbedService
 {
+  // If the service is properly configured (any necessary api keys are in app.yml etc),
+  // return true, otherwise false. By default we return true (a service that requires no
+  // configuration, like the YouTube service)
+  public function configured()
+  {
+    return true;
+  }
+
+  // If configured() returns false, this must return the URL of a page that provides help
+  // on correctly configuring the Apostrophe site to support your service
+  // example: http://trac.apostrophenow.org/wiki/EmbedVimeo
+  
+  public function configurationHelpUrl()
+  {
+    return null;
+  }
+  
   // Return true or false depending on the value of $feature, which can be
   // browseUser, search or thumbnail
   abstract public function supports($feature);

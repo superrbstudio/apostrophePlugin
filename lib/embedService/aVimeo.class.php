@@ -6,6 +6,29 @@ class aVimeo extends aEmbedService
   {
   }
   
+  public function configured()
+  {
+    $settings = sfConfig::get('app_a_vimeo');
+    if (is_null($settings))
+    {
+      return false;
+    }
+    if (!isset($settings['oauthConsumerKey']))
+    {
+      return false;
+    }
+    if (!isset($settings['oauthConsumerSecret']))
+    {
+      return false;
+    }
+    return true;
+  }
+  
+  public function configurationHelpUrl()
+  {
+    return 'http://trac.apostrophenow.org/wiki/EmbedVimeo';
+  }
+  
   protected $features = array('thumbnail', 'search', 'browseUser');
   
   public function supports($feature)

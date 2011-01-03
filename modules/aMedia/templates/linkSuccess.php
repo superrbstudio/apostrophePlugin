@@ -20,6 +20,7 @@
 					<?php echo $form['service']->render() ?>
 				</div>
 				<?php echo $form['service']->renderError() ?>
+				<?php include_partial('aMedia/unconfiguredServices') ?>
 			</div>
 			<h4><?php echo a_('Add Linked Account') ?></h4>
 			<div class="a-form-row username">
