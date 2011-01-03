@@ -55,7 +55,7 @@ class BaseaMediaVideoEmbedForm extends aMediaVideoForm
       $values = $this->getValues();
     }
     $object = parent::updateObject($values);
-    // IGet the width and height from the embed code
+    // Get the width and height from the embed code
     if (preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $object->embed, $matches))
     {
       $object->width = $matches[2];

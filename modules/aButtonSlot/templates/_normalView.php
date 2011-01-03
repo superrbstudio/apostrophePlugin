@@ -33,7 +33,7 @@
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 			<?php if ($options['image']): ?>
-  			<?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'chooseLabel' => a_get_option($options, 'chooseLabel', a_('Choose image')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Image')), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>				
+  			<?php include_partial('aImageSlot/choose', array('action' => 'aButtonSlot/image', 'buttonLabel' => a_get_option($options, 'chooseLabel', a_('Choose image')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Image')), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>				
 			<?php endif ?>
 			<?php include_partial('a/simpleEditWithVariants', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page, 'controlsSlot' => false, 'label' => a_get_option($options, 'editLabel', a_('Edit')))) ?>
   <?php end_slot() ?>
