@@ -9,7 +9,7 @@
 ?>
 <?php use_helper('a') ?>
 <?php if ($editable): ?>
-<?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
+<?php include_partial('a/simpleEditButton', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'label' => a_get_option($options, 'edit-label', a_('Edit')))) ?>
 <?php endif ?>
 
 <?php if (!strlen($value)): ?>

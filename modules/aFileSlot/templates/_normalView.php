@@ -11,6 +11,7 @@
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
   $title = isset($title) ? $sf_data->getRaw('title') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
 <?php use_helper('a') ?>
 <?php if ($editable): ?>
@@ -29,7 +30,7 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
 	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-		  <?php include_partial('aImageSlot/choose', array('action' => 'aFileSlot/edit', 'buttonLabel' => a_('Choose File'), 'label' => __('Select a File', null, 'apostrophe'), 'type' => '_downloadable', 'class' => 'a-btn icon a-file', 'downloadable' => '1', 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+		  <?php include_partial('aImageSlot/choose', array('action' => 'aFileSlot/edit', 'buttonLabel' => a_get_option($options, 'button-label', a_('Choose File')), 'label' => a_get_option($options, 'browse-label', a_('Select a File')), 'type' => '_downloadable', 'class' => 'a-btn icon a-file', 'downloadable' => '1', 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 	<?php end_slot() ?>
 	

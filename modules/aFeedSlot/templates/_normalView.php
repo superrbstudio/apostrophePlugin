@@ -12,7 +12,7 @@
 ?>
 <?php use_helper('a') ?>
 <?php if ($editable): ?>
-<?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot)) ?>
+<?php include_partial('a/simpleEditWithVariants', array('name' => $name, 'permid' => $permid, 'pageid' => $pageid, 'slot' => $slot, 'label' => a_get_option($options, 'edit-label', a_('Edit')))) ?>
 <?php endif ?>
 <?php if (!isset($url)): ?>
   <p class="aFeedSelect"><?php echo __('Click Edit to select a feed URL.', null, 'apostrophe') ?></p>
