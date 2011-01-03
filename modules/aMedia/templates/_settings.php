@@ -1,11 +1,1 @@
-<?php
-  // Compatible with sf_escaping_strategy: true
-  $form = isset($form) ? $sf_data->getRaw('form') : null;
-?>
-<?php use_helper('a') ?>
-<?php echo $form ?>
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-		aMultipleSelectAll({'choose-one':<?php echo json_encode(__('Select to Add', null, 'apostrophe')) ?>});
-});
-</script>
+<?php include_partial('a/engineCategories', array('form' => $form)) ?>

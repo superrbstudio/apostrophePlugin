@@ -605,7 +605,8 @@ class BaseaActions extends sfActions
       if (class_exists($engineFormClass))
       {
         $form = new $engineFormClass($this->page);
-        return $this->renderPartial($engine . '/settings', array('form' => $form));
+        $this->form = $form;
+        $this->partial = $engine . '/settings';
       }
     }    
   }
