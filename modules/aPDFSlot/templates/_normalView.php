@@ -35,7 +35,7 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
 	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-		  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => a_get_option($options, 'button-label', a_('Choose PDF')), 'label' => a_get_option($options, 'browse-label', a_('Select a PDF File')), 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+		  <?php include_partial('aImageSlot/choose', array('action' => 'aPDFSlot/edit', 'buttonLabel' => a_get_option($options, 'buttonLabel', a_('Choose PDF')), 'label' => a_get_option($options, 'browseLabel', a_('Select a PDF File')), 'class' => 'a-btn icon a-pdf', 'type' => 'pdf', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 	<?php end_slot() ?>
 	

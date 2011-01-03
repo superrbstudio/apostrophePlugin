@@ -24,7 +24,7 @@
 
  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
    <li class="a-controls-item choose-images">
-   <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'button-label', a_('Choose images')),
+   <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'buttonLabel', a_('Choose images')),
      'aMedia/select',
      array(
        'query_string' => 
@@ -34,7 +34,7 @@
              array("multiple" => true,
              "aMediaIds" => implode(",", $itemIds),
              "type" => "image",
-             "label" => a_get_option($options, 'browse-label', a_('You are creating a slideshow of images.')),
+             "label" => a_get_option($options, 'browseLabel', a_('You are creating a slideshow of images.')),
              "after" => url_for("aSlideshowSlot/edit") . "?" . 
                http_build_query(
                  array(
