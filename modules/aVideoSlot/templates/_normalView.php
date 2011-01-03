@@ -32,7 +32,7 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
   <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'buttonLabel' => a_get_option($options, 'buttonLabel', a_('Choose Video')), 'label' => a_get_option($options, 'browseLabel', a_('Select a Video')), 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	    <?php include_partial('aImageSlot/choose', array('action' => 'aVideoSlot/edit', 'chooseLabel' => a_get_option($options, 'chooseLabel', a_('Choose Video')), 'label' => a_get_option($options, 'browseLabel', a_('Select a Video')), 'class' => 'a-btn icon a-media', 'type' => 'video', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
   <?php end_slot() ?>
 

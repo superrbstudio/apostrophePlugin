@@ -24,7 +24,7 @@
 
 <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-controls-item choose-audio">
-	  <?php include_partial('aImageSlot/choose', array('action' => 'aAudioSlot/edit', 'buttonLabel' => a_get_option($options, 'buttonLabel', a_('Choose Audio File')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Audio File')), 'class' => 'a-btn icon a-audio', 'type' => 'audio', 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+	  <?php include_partial('aImageSlot/choose', array('action' => 'aAudioSlot/edit', 'chooseLabel' => a_get_option($options, 'chooseLabel', a_('Choose Audio File')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Audio File')), 'class' => 'a-btn icon a-audio', 'type' => 'audio', 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 	</li>
 		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 <?php end_slot() ?>
