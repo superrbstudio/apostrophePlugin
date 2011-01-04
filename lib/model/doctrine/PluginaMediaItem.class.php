@@ -186,7 +186,25 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   {
     if ($height === false)
     {
-      // Scale the height. I had this backwards
+      // We need to scale the height. That requires knowing the true height
+      if (!$this->height)
+      {
+        // Not known yet. This comes up when previewing a video with a service URL that we haven't saved yet
+        if ($this->service_url)
+        {
+          $service = aMediaTools::getEmbedService($this->service_url);
+          $thumbnail = $service->getThumbnail($service->getIdFromUrl($this->service_url));
+          if ($thumbnail)
+          {
+            $info = aImageConverter::getInfo($thumbnail);
+            if (isset($info['width']))
+            {
+              $this->width = $info['width'];
+              $this->height = $info['height'];
+            }
+          }
+        }
+      }
       $height = floor(($width * $this->height / $this->width) + 0.5); 
     }
 
@@ -411,8 +429,9 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   
   public function getImageAvailable()
   {
-    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a width
-    return $this->width;
+    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a format.
+    // We used to check width, however width is set even for dumb video embeds now
+    return strlen($this->format);
   }
   
   public function getCroppable()

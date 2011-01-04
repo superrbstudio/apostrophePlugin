@@ -268,9 +268,11 @@ class BaseaMediaTools
     // Also see 'getDownloadable' and 'getEmbeddable' in aMediaItem
 
     'types' => array(
+      // You must have an image type
       'image' => array('label' => 'Image', 'extensions' => array('gif', 'png', 'jpg'), 'embeddable' => false, 'downloadable' => true),
       'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false, 'downloadable' => true),
       'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false, 'downloadable' => true),
+      // You must have a video type
       'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo')),
       
       // A long whitelist of file formats that are usually benign and useful.

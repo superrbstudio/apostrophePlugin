@@ -70,6 +70,11 @@ class BaseaMediaEditForm extends aMediaItemForm
       $extensions = array();
       foreach ($infos as $info)
       {
+        if ($info['embeddable'])
+        {
+          // This widget is actually supplying a thumbnail - allow gif, jpg and png
+          $info['extensions'] = array('gif', 'jpg', 'png');
+        }
         foreach ($info['extensions'] as $extension)
         {
           $extensions[] = $extension;

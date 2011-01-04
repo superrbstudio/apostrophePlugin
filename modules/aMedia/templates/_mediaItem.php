@@ -53,7 +53,7 @@
 
 				<?php // Images or anything else with an image thumbnail ?>	
 	 			<?php if ($mediaItem->getImageAvailable()): ?>
-		      	<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
+	      	<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
 	 	    <?php else: ?>
 				
 					<?php if ($embeddable): ?>

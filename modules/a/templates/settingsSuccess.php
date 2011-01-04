@@ -93,11 +93,11 @@
 				<?php echo $form['tags']->renderError() ?>
 			</div>
 			<div class="a-form-row meta-description">
-				<h4 class="a-block"><?php echo $form['meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>
+				<h4 class="a-block"><?php echo $form['real_meta_description']->renderLabel(__('Meta Description', array(), 'apostrophe')) ?></h4>
 				<div class="a-form-field">
-					<?php echo $form['meta_description'] ?>
+					<?php echo $form['real_meta_description'] ?>
 				</div>
-				<?php echo $form['meta_description']->renderError() ?>
+				<?php echo $form['real_meta_description']->renderError() ?>
 			</div>
 		</div>
 	</div>

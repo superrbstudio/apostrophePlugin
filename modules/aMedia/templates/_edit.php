@@ -19,6 +19,8 @@
   <?php $withPreview = false ?>
 <?php endif ?>
 
+<?php $embeddable = ($form instanceof BaseaMediaVideoForm) || ($item && $item->getEmbeddable()) ?>
+
 <?php use_helper('a') ?>
 
 <?php // Sometimes this is one item in a list of several in embedded forms, in ?>
@@ -49,9 +51,25 @@
   <div class="a-ui a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 <?php endif ?>
 
-<?php if ($withPreview): ?>
+<?php // Prepare to render an embed code even though this object hasn't been saved yet ?>
+<?php $embedValues = array() ?>
+<?php if (isset($form['embed']) && strlen($form['embed']->getValue())): ?>
+  <?php $embedValues['embed'] = $form['embed']->getValue() ?>
+<?php elseif (isset($form['service_url']) && strlen($form['service_url']->getValue())): ?>
+  <?php $embedValues['service_url'] = $form['service_url']->getValue() ?>
+<?php endif ?>
+<?php if (count($embedValues)): ?>
+  <?php $form->updateObject($embedValues) ?>
+  <?php $constraints = aMediaTools::getOption('gallery_constraints') ?>
+  <?php $width = $constraints['width'] ?>
+  <?php $height = $constraints['height'] ?>
+  <?php $embedCode = $form->getObject()->getEmbedCode($width, $height) ?>
+<?php endif ?>
+
+<?php if ($withPreview || $embedCode): ?>
   <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
   <div class="a-form-row preview">
+    <?php echo $embedCode ?>
     <?php $widget = $form['file']->getWidget() ?>
     <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
     <?php if ($previewUrl): ?>
@@ -154,8 +172,8 @@
 <?php // Let them replace an existing file. ?>
 <?php if (isset($form['file'])): ?>
 	<div class="a-form-row replace a-ui">
-		<div class="a-options-container">		
-			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $form instanceof BaseaMediaVideoForm ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
+		<div class="a-options-container">
+			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $embeddable ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
 			<div class="a-options dropshadow">
       	<?php echo $form['file']->renderLabel() ?>
 				<div class="a-form-field">
