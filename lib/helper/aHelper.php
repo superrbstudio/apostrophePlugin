@@ -211,6 +211,8 @@ function _a_get_assets_body($type, $assets)
   // reset the list in the response object
   if (!sfConfig::get('app_a_minify', false))
   {
+		// This branch is seen only for CSS, because javascript calls the original Symfony
+		// functionality when minify is off
     foreach ($assets as $file => $options)
     {
       $html .= stylesheet_tag($file, $options);
@@ -225,7 +227,14 @@ function _a_get_assets_body($type, $assets)
 		{
 			// Nonlocal URL. Don't get cute with it, otherwise things
 			// like Addthis don't work
-      $html .= stylesheet_tag($file, $options);
+			if ($type === 'stylesheets')
+			{
+      	$html .= stylesheet_tag($file, $options);
+			}
+			else
+			{
+      	$html .= javascript_include_tag($file, $options);
+			}
 			continue;
 		}
     /*
