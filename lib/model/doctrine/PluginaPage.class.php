@@ -11,12 +11,12 @@ abstract class PluginaPage extends BaseaPage
   // Keep all cached information here for easy reference and inclusion 
   // in the reset code in hydrate()
   public $privilegesCache = null;
-  private $slotCache = false;
-  private $childrenCache = null;
-  private $childrenCacheLivingOnly = null;
-  private $childrenCacheSlot = null;
-  private $ancestorsCache = false;
-  private $parentCache = false;
+  protected $slotCache = false;
+  protected $childrenCache = null;
+  protected $childrenCacheLivingOnly = null;
+  protected $childrenCacheSlot = null;
+  protected $ancestorsCache = false;
+  protected $parentCache = false;
 
   public function hydrate(array $data, $overwriteLocalChanges = true)
   {
@@ -42,7 +42,7 @@ abstract class PluginaPage extends BaseaPage
     $this->culture = aTools::getUserCulture();
     $this->privilegesCache = array();
   }
-  private function log($message)
+  protected function log($message)
   {
     sfContext::getInstance()->getLogger()->info("PAGE: $message");
   }
@@ -159,7 +159,7 @@ abstract class PluginaPage extends BaseaPage
     return $results;
   }
 
-  private function populateSlotCache()
+  protected function populateSlotCache()
   {
     if ($this->slotCache === false)
     {
