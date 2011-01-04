@@ -1,8 +1,5 @@
 <?php
 
-// Bring in LESS compiler
-require dirname(__FILE__) . '/../lessphp/lessc.inc.php';
-
 // Loading of the a CSS, JavaScript and helpers is now triggered here 
 // to ensure that there is a straightforward way to obtain all of the necessary
 // components from any partial, even if it is invoked at the layout level (provided
@@ -141,7 +138,6 @@ function a_navaccordion()
 
 function a_get_stylesheets()
 {
-  $lessc = new lessc();
   $newStylesheets = array();
   $response = sfContext::getInstance()->getResponse();
   foreach ($response->getStylesheets() as $file => $options)
@@ -174,6 +170,10 @@ function a_get_stylesheets()
       
       if ((!file_exists($compiled)) || ((!sfConfig::get('app_a_minify')) && (filemtime($compiled) < filemtime($path))))
       {
+        if (!isset($lessc))
+        {
+          $lessc = new lessc();
+        }
         file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
       }
       $newStylesheets['/uploads/asset-cache/' . $name] = $options;
