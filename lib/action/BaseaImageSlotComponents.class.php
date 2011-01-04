@@ -1,6 +1,6 @@
 <?php
 
-class BaseaImageSlotComponents extends BaseaSlotComponents
+class BaseaImageSlotComponents extends aSlotComponents
 {
   public function executeEditView()
   {

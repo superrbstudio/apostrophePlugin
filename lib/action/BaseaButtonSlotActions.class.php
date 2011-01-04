@@ -1,6 +1,6 @@
 <?php
 
-class BaseaButtonSlotActions extends BaseaSlotActions
+class BaseaButtonSlotActions extends aSlotActions
 {
   // Image association is handled by a separate action
   public function executeImage(sfRequest $request)

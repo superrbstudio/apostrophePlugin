@@ -102,8 +102,8 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       '/getpk/' => 'geta',
       '/setpk/' => 'seta',
       '/executePk/' => 'executeA',
-      '/aBaseActions/' => 'BaseaSlotActions',
-      '/aBaseComponents/' => 'BaseaSlotComponents',
+      '/aBaseActions/' => 'aSlotActions',
+      '/aBaseComponents/' => 'aSlotComponents',
       // aTagahead has to go back to being pkTagahead, it is part of the taggable plugin and
       // will not be renamed
       '/aTagahead/' => 'pkTagahead'

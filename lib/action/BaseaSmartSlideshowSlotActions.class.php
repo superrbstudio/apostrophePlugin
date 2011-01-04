@@ -1,6 +1,6 @@
 <?php
 
-class BaseaSmartSlideshowSlotActions extends BaseaSlotActions
+class BaseaSmartSlideshowSlotActions extends aSlotActions
 {
   public function executeEdit(sfRequest $request)
   {

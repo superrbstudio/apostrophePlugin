@@ -323,7 +323,7 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
   }
 
-  // TODO: refactor. This should probably move into BaseaSlotActions and share more code with executeEdit
+  // TODO: refactor. This should probably move into aSlotActions and share more code with executeEdit
   
   public function executeSetVariant(sfWebRequest $request)
   {
@@ -334,7 +334,7 @@ class BaseaActions extends sfActions
     $page->newAreaVersion($this->name, 'variant', 
       array('permid' => $this->permid, 'variant' => $variant));
     
-    // Borrowed from BaseaSlotActions::executeEdit
+    // Borrowed from aSlotActions::executeEdit
     // Refetch the page to reflect these changes before we
     // rerender the slot
     aTools::setCurrentPage(

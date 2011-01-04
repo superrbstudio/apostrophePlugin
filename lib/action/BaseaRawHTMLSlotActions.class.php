@@ -1,6 +1,6 @@
 <?php
 
-class BaseaRawHTMLSlotActions extends BaseaSlotActions
+class BaseaRawHTMLSlotActions extends aSlotActions
 {
   public function executeEdit(sfRequest $request)
   {
