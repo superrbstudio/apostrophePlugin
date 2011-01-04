@@ -53,6 +53,7 @@
 
 <?php // Prepare to render an embed code even though this object hasn't been saved yet ?>
 <?php $embedValues = array() ?>
+
 <?php if (isset($form['embed']) && strlen($form['embed']->getValue())): ?>
   <?php $embedValues['embed'] = $form['embed']->getValue() ?>
 <?php elseif (isset($form['service_url']) && strlen($form['service_url']->getValue())): ?>

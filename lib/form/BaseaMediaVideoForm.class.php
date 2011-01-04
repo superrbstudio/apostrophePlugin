@@ -38,18 +38,6 @@ class BaseaMediaVideoForm extends aMediaItemForm
           array('required' => "Not a valid YouTube URL")));
 //    }
 	
-
-		$this->setWidget('view_is_secure', new sfWidgetFormChoice(
-			array(
-				'expanded' => true,
-			  'choices' => array(
-				0 => "Public",
-				1 => "Hidden"
-				),
-				'default' => 0
-				)));
-    $this->setValidator('view_is_secure', new sfValidatorBoolean());
-    
     $this->setWidget('file', new aWidgetFormInputFilePersistent());
 
     $item = $this->getObject();
@@ -66,8 +54,6 @@ class BaseaMediaVideoForm extends aMediaItemForm
       'required' => 'Select a JPEG, PNG or GIF file as a thumbnail')
     ));
     
-    $this->widgetSchema->setLabel("view_is_secure", "Permissions");
-    $this->widgetSchema->setLabel("categories_list", "Categories");
     $label = 'Replace Thumbnail';
     if (!$this['file']->getWidget()->getOption('default-preview'))
     {

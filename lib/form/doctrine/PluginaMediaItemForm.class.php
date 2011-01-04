@@ -30,6 +30,29 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 		$categories = $q->execute();
 		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
+    $this->setValidator('title', new sfValidatorString(array(
+      'min_length' => 3,
+      'max_length' => 200,
+      'required' => true
+    ), array(
+      'min_length' => 'Title must be at least 3 characters.',
+      'max_length' => 'Title must be <200 characters.',
+      'required' => 'You must provide a title.')
+    ));
+
+		$this->setWidget('view_is_secure', new sfWidgetFormSelectRadio(array(
+		  'choices' => array(0 => 'Public', 1 => 'Hidden'),
+		  'default' => 0
+		)));
+	
+		$this->setValidator('view_is_secure', new sfValidatorBoolean());
+
+    $this->widgetSchema->setLabel('view_is_secure', 'Permissions');
+    
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
+    
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+
     if ($this->isAdmin())
     {
       // Only admins can add more categories
