@@ -70,7 +70,9 @@
 <?php if ($withPreview || $embedCode): ?>
   <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
   <div class="a-form-row preview">
-    <?php echo $embedCode ?>
+    <?php if (isset($embedCode)): ?>
+			<?php echo $embedCode ?>
+		<?php endif ?>
     <?php $widget = $form['file']->getWidget() ?>
     <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
     <?php if ($previewUrl): ?>
