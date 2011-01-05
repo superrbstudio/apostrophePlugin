@@ -44,8 +44,6 @@ table.a-calendar
 	background-image:none;
 }
 
-.a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: static; }
-
 /* Color Fixes for <= IE7
 -------------------------------------*/
 

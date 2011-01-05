@@ -9,7 +9,7 @@
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li class="a-login-login last">
       <?php echo a_js_button(a_('Login'), array(), 'a-login-button') ?>
-			<div id="a-login-form-container" class="dropshadow a-options">
+			<div id="a-login-form-container" class="a-login-form-container dropshadow a-options">
 				<?php include_component('a','signinForm') ?>
 			</div>
 		</li>

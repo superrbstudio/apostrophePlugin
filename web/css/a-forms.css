@@ -21,6 +21,12 @@ width: 120px;
 line-height: 20px;
 }
 
+.a-ui .a-form-row label.full,
+.a-form-row label.full
+{
+	width: 100%;
+}
+
 .a-form-row input[type="text"],
 .a-form-row input[type="password"],
 .a-form-row select,

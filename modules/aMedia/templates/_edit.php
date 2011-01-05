@@ -73,19 +73,25 @@
   <?php if ($withPreview || isset($embedCode)): ?>
     <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
     <div class="a-form-row preview">
-      <?php if (isset($embedCode)): ?>
-  			<?php echo $embedCode ?>
+	    <?php if (isset($embedCode)): ?>
+				<label class="full">Embed Preview</label>
+				<div class="a-form-field">
+  				<?php echo $embedCode ?>
+				</div>
+				<label class="full">Embed Thumbnail</label>
   		<?php endif ?>
       <?php $widget = $form['file']->getWidget() ?>
       <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
-      <?php if ($previewUrl): ?>
-        <?php echo image_tag($previewUrl) ?>
-      <?php else: ?>
-        <?php $format = $widget->getFormat($form['file']->getValue()) ?>
-        <?php if ($format): ?>
-          <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
-        <?php endif ?>
-      <?php endif ?>
+			<div class="a-form-field">
+	      <?php if ($previewUrl): ?>
+	        <?php echo image_tag($previewUrl) ?>
+	      <?php else: ?>
+	        <?php $format = $widget->getFormat($form['file']->getValue()) ?>
+	        <?php if ($format): ?>
+	          <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+	        <?php endif ?>
+	      <?php endif ?>
+			</div>
     </div>
   <?php endif ?>
 <?php endif ?>
