@@ -526,6 +526,8 @@ margin-left: -12px;
 	z-index: 998;
 }
 
+.a-controls.a-area-controls.aActiveMenu { z-index: 999; }
+
 .a-ui .show-options .a-options
 {
 	display: block !important;

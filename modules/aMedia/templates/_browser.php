@@ -25,7 +25,7 @@
 
 <?php include_partial('aMedia/browserBefore') ?>				
 
-<div class="a-subnav-wrapper media a-ui clearfix">
+<div class="a-ui a-subnav-wrapper media clearfix">
 	<div class="a-subnav-inner">
 	
 		<div class="a-subnav-section search">
@@ -148,7 +148,7 @@
 	allTags.click(function(){
 		allTags.toggleClass('open');
 		allTags.next().toggle();
-	})
+	});
 	
 </script>
 

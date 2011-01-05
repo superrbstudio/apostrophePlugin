@@ -13,7 +13,7 @@
 <?php slot('body_class') ?>a-media a-media-multiple-upload<?php end_slot() ?>
 
 <?php slot('a-page-header') ?>
-  <div class="a-admin-header">
+  <div class="a-ui a-admin-header">
     <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
   </div>
 <?php end_slot() ?>

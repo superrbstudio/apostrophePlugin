@@ -24,7 +24,7 @@
 
  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
    <li class="a-controls-item choose-images">
-   <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'chooseLabel', a_('Choose images')),
+   <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'chooseLabel', a_('Choose Images')),
      'aMedia/select',
      array(
        'query_string' => 

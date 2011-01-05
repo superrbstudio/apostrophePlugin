@@ -1,4 +1,4 @@
-<div class="a-admin-header a-ui">
+<div class="a-ui a-admin-header">
   <ul class="a-ui a-controls a-admin-controls">
 		<li><h3 class="a-admin-title"><?php echo link_to('<span class="icon"></span>'.__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big lite'))?></h3></li>
   	<?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>

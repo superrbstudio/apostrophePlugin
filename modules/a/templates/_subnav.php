@@ -1,7 +1,7 @@
 <?php use_helper('a') ?>
 <?php $page = aTools::getCurrentPage() ?>
 	
-<div class="a-subnav-wrapper">
+<div class="a-ui a-subnav-wrapper">
 	<div class="a-subnav-inner">
 		<?php // echo a_navcolumn(false) ?>
 		<?php $drag = $page->userHasPrivilege('manage') ?>

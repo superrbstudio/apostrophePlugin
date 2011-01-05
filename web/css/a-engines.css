@@ -2,7 +2,7 @@
 -------------------------------------*/
 
 /*  Subnav Wrapper and Bundled Subnav Navigation */
-.a-subnav-wrapper
+.a-ui.a-subnav-wrapper
 {
 	width: 200px;
 	margin: 0 40px 0 0;
@@ -11,7 +11,7 @@
 	position:relative;
 }
 
-.a-subnav-inner
+.a-ui .a-subnav-inner
 {
 	width: 180px;
 	padding: 10px;
@@ -31,7 +31,7 @@ width: 100%;
 /*margin: 0 0 10px 0;*/
 }
 
-.a-subnav-wrapper .a-search-form	
+.a-ui.a-subnav-wrapper .a-search-form	
 {
 margin: 10px 0;
 float: left;
@@ -40,19 +40,10 @@ width: 178px;
 }
 
 
-.a-subnav-wrapper .a-filter-options
-{
-	margin: 5px 0 0 0;
-	clear: both;
-}
+.a-ui.a-subnav-wrapper .a-filter-options { margin: 5px 0 0 0;clear: both; }
+.a-ui.a-subnav-wrapper .a-filter-options .a-filter-option { float: left; clear: both; }
 
-.a-subnav-wrapper .a-filter-options .a-filter-option
-{
-	float: left;
-	clear: both;
-}
-
-.a-subnav-wrapper a.selected
+.a-ui.a-subnav-wrapper a.selected
 {
 float: left;
 display: inline;
@@ -62,9 +53,9 @@ padding-right: 20px;
 background: url(../images/a-icon-close.png) top right no-repeat;
 }
 
-.a-subnav-wrapper a.selected:hover { background-position: 100% 100%; }
+.a-ui.a-subnav-wrapper a.selected:hover { background-position: 100% 100%; }
 
-.a-nav-subnav .a-nav-item
+.a-ui .a-nav-subnav .a-nav-item
 {
 float: left;
 width: 100%;
@@ -74,8 +65,8 @@ line-height: 20px;
 margin-bottom: 5px;
 }
 
-.a-nav-subnav .a-nav-item.last { margin-bottom: 0; }
-.a-nav-subnav .a-nav-item a { float: left; width: 155px; height: 100%; padding: 0 20px 0 5px; }
+.a-ui .a-nav-subnav .a-nav-item.last { margin-bottom: 0; }
+.a-ui .a-nav-subnav .a-nav-item a { float: left; width: 155px; height: 100%; padding: 0 20px 0 5px; }
 
 /* Admin Sidebar ==================== */
 
@@ -187,29 +178,14 @@ clear: none;
 }
 
 .a-admin-sidebar .a-form-row select,
-.a-admin-sidebar .a-form-row input[type="text"]
-{
-font-family: Arial, sans-serif;
-font-size: 11px;
-}
+.a-admin-sidebar .a-form-row input[type="text"] { font-family: Arial, sans-serif; font-size: 11px; }
 
-.a-admin-sidebar .section.location textarea
-{
-	width: 172px;
-}
+.a-admin-sidebar .section.location textarea { width: 172px; }
 
-.a-admin-sidebar .section.event-date div.start_date
-{
-	margin-bottom: 10px;
-}
+.a-admin-sidebar .section.event-date div.start_date { margin-bottom: 10px; }
 
 .a-admin-sidebar .section.event-date div.start_date,
-.a-admin-sidebar .section.event-date div.end_date
-{
-float: left;
-width: 100%;
-clear: both;
-}
+.a-admin-sidebar .section.event-date div.end_date { float: left; width: 100%; clear: both; }
 
 .a-admin-sidebar .section.event-date .a-form-row.all_day { float: right; width: auto; clear: right;}
 
@@ -1432,7 +1408,7 @@ overflow: hidden;
 
 .a-ui.a-admin-controls { width: auto; clear: none; float: left; }
 
-.a-admin-header
+.a-ui.a-admin-header
 {
 float: left;	
 clear: both;

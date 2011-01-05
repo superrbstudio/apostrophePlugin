@@ -415,6 +415,16 @@ function aConstructor()
         window.aSlideshowIntervalTimeouts = {};
       }
 
+			function init()
+			{
+				// Initialize the slideshow 
+				// Hiding all of the items, showing the first one, setting the position, and starting the timer
+				slideshowItems.hide();
+				$(slideshowItems[position]).show();
+	  		setPosition(position);
+	  	  interval();
+			}
+
   	  function previous() 
   	  {
 				currentItem = position;
@@ -433,12 +443,30 @@ function aConstructor()
 	
 			function showItem(position, currentItem)
 			{
-				newItem = $(slideshowItems[position]);
-				oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems; 
-				(transition == 'crossfade') ? oldItem.fadeOut('slow') : oldItem.hide();				
-				newItem.fadeIn('slow');
-			  setPosition(position);
-  			interval();
+				if (!slideshow.data('showItem'))
+				{
+					slideshow.data('showItem', 1);
+					newItem = $(slideshowItems[position]);
+					oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems;
+					if (transition == 'crossfade')
+					{
+						oldItem.fadeOut(300);
+					}
+					else
+					{
+						// Some browsers jump / scroll up if the parent loses height for the split second the oldItem is hidden
+						// So we set the height here before changing the slideshow item. This is not a problem when crossfading, because there is always an item visible
+						newItemHeight = newItem.height() + 'px';
+						slideshow.css('height',newItemHeight);
+						// Since we are not crossfading, just hide all of the slideshowItems
+						slideshowItems.hide();
+					};
+					newItem.fadeIn(300,function(){
+						slideshow.data('showItem', 0);
+					  setPosition(position);
+						interval();
+					});
+				};
 			};
 	
 			function setPosition(p) 
@@ -464,9 +492,13 @@ function aConstructor()
   	  	  intervalTimeout = setTimeout(next, intervalSetting * 1000);
   	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
 					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting ) : '';											
-  	  	};
+  	  	}
   	  };
 	
+			// 1. Initialize the slideshow
+			init(); 
+	
+			// 2. Bind events
   		slideshow.bind('showItem', function(e,p){ showItem(p); });
 			slideshow.bind('previousItem', function(){ previous(); });
 			slideshow.bind('nextItem', function(){ next(); });
@@ -495,12 +527,7 @@ function aConstructor()
   			$(this).removeClass('over');
   		});
 
-			slideshowItems.hide();
-  		$(slideshowItems[position]).show();
-  		setPosition(position);
-  	  interval();
 	  }
-	
 	};
 	
 	// aButtonSlot
@@ -2188,6 +2215,7 @@ function aConstructor()
 		menu.unbind('toggleOpen').bind('toggleOpen', function(){
 			menu.trigger('beforeOpen');
 			button.addClass('aActiveMenu');
+			button.closest('.a-controls').addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.fadeIn(); }
 			$(document).bind('click.menuToggleClickHandler', clickHandler);
@@ -2200,6 +2228,7 @@ function aConstructor()
 			menu.trigger('beforeClosed');
 			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
+			button.closest('.a-controls').removeClass('aActiveMenu');			
 			menu.removeClass(classname);
 			if (overlay) { overlay.hide(); };
 			$(document).unbind('click.menuToggleClickHandler'); // Clear out click event		
