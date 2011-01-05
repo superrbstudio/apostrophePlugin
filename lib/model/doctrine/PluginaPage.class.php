@@ -183,7 +183,7 @@ abstract class PluginaPage extends BaseaPage
   }
   
   /* Returns entity-escaped plaintext with newlines */
-  public function getAreaText($areaname)
+  public function getAreaText($areaname, $word_limit = false)
   {
     $slots = $this->getArea($areaname);
     $text = '';
@@ -195,10 +195,16 @@ abstract class PluginaPage extends BaseaPage
       }
       $text .= $slot->getText();
     }
-    return $text;
+		if ($word_limit) {
+			return aString::limitWords($text, $word_limit, array('append_ellipsis' => true));
+		}
+		else
+		{
+	    return $text;			
+		}
   }
 
-  public function getAreaBasicHtml($areaname)
+  public function getAreaBasicHtml($areaname, $word_limit = false)
   {
     $slots = $this->getArea($areaname);
     $text = '';
@@ -214,7 +220,13 @@ abstract class PluginaPage extends BaseaPage
       }
       $text .= $slot->getBasicHtml();
     }
-    return $text;
+		if ($word_limit) {
+	    return aHtml::limitWords($text, $word_limit, array('append_ellipsis' => true));
+		}
+		else
+		{
+	    return $text;			
+		}
   }
 
   public function getNextPermidAndRank($name, $first = false)

@@ -16,6 +16,15 @@
 	<?php // a_include_stylesheets has a built in caching combiner/minimizer when enabled ?>
   <?php a_include_stylesheets() ?>
 	<?php a_include_javascripts() ?>
+	
+	<?php if (has_slot('og-meta')): ?>
+		<?php include_slot('og-meta') ?>
+	<?php endif ?>
+
+	<?php if ($fb_page_id = sfConfig::get('app_a_facebook_page_id')): ?>
+		<meta property="fb:page_id" content="<?php echo $fb_page_id ?>" />		
+	<?php endif ?>
+	
 	<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<!--[if lt IE 7]>
