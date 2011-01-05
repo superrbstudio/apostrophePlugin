@@ -905,13 +905,19 @@ function aConstructor()
     var file = form.find('input[type="file"]');
 		var descId = options['descId'];
 		var fck = $('#'+descId);
+		var embedChanged = false;
 		if (form.length) {
+			form.find('.a-form-row.embed textarea').change(function() {
+				embedChanged = true;
+			});
 		  form.submit(function(event) {
 				if (fck.length) {
 					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());						
 				};
-				// If the file field is empty we can submit the edit form asynchronously
-		    if(file.val() == '')
+				// If the file field is empty and the embed code hasn't been changed,
+				// we can submit the edit form asynchronously
+				apostrophe.log(embedChanged);
+		    if((file.val() == '') && (!embedChanged))
 		    { 
 		      event.preventDefault();
 		      $.post(url, form.serialize(), function(data) {

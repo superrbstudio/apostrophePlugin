@@ -56,6 +56,10 @@ class aYoutube extends aEmbedService
     $namespaces = $xml->getNameSpaces(true);
     $media = $xml->children($namespaces['media']);
     $tags = array();
+    if (!isset($media->group->player))
+    {
+      return false;
+    }
     foreach ($xml->category as $category)
     {
       // Don't bring in non-human-friendly metadata
@@ -170,7 +174,15 @@ EOM
     }
     // get nodes in media: namespace for media information
     $media = $entry->children('http://search.yahoo.com/mrss/');
-      
+    if (!$media)
+    {
+      return false;
+    }
+    if (!isset($media->group->player))
+    {
+      // Probably a geographical restriction 
+      return false;
+    }
     // get a more canonical video player URL
     $attrs = $media->group->player->attributes();
     $canonicalUrl = $attrs['url']; 

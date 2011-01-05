@@ -465,7 +465,17 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('edit'));
     }
     $this->item = $item;
-    $this->form = new aMediaEditForm($item);
+    if ($this->item->getEmbeddable())
+    {
+      // Handles the embed field correctly
+      $this->form = new aMediaVideoForm($item);
+    }
+    else
+    {
+      $this->form = new aMediaEditForm($item);
+    }
+    $this->form->getWidgetSchema()->setNameFormat('a_media_item_'.$item->id.'_%s');
+    
     $this->postMaxSizeExceeded = false;
     // An empty POST is an anomaly indicating that we hit the php.ini max_post_size or similar
     if ($request->isMethod('post') && (!count($request->getPostParameters())))
@@ -492,6 +502,13 @@ class BaseaMediaActions extends aEngineActions
         }
       }  
       $parameters = $value;
+      
+      if (isset($parameters['embed']))
+      {
+        // We need to do some prevalidation of the embed code so we can prestuff fields
+        $result = $this->form->classifyEmbed($parameters['embed']);
+      }
+      
       $this->form->bind($parameters, $files);
       if ($this->form->isValid())
       {
@@ -522,6 +539,7 @@ class BaseaMediaActions extends aEngineActions
               'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
             ));
         }
+        error_log("resumeWithPage");
         return $this->redirect("aMedia/resumeWithPage");
       }
     }
@@ -555,49 +573,32 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('edit'));
     }
     $this->item = $item;
-    $subclass = 'aMediaVideoYoutubeForm';
     $embed = false;
     $parameters = $request->getParameter('a_media_item');
-    
-    // If we recognize the embed code, upgrade to a real service URL and
-    // don't rely on a canned embed code
-    if (isset($parameters['embed']) && strlen($parameters['embed']))
-    {
-      $service = aMediaTools::getEmbedService($parameters['embed']);
-      if ($service)
-      {
-        $serviceId = $service->getIdFromEmbed($parameters['embed']);
-        $parameters['service_url'] = $service->getUrlFromId($serviceId);
-        unset($parameters['embed']);
-        $thumbnail = $service->getThumbnail($serviceId);
-      }
-    }
-    if (aMediaTools::getOption('embed_codes') && 
-      (($item && strlen($item->embed)) || (isset($parameters['embed']))))
-    {
-      $subclass = 'aMediaVideoEmbedForm';
-      $embed = true;
-    } elseif (strlen($parameters['service_url']) && $this->hasRequestParameter('first_pass'))
-    {
-      if (!isset($serviceId))
-      {
-        $service = aMediaTools::getEmbedService($parameters['service_url']);
-        $serviceId = $service->getIdFromUrl($parameters['service_url']);
-      }
-      if (isset($serviceId))
-      {
-        $info = $service->getInfo($serviceId);
-        $parameters['title'] = $info['title'];
-        $parameters['tags'] = $info['tags'];
-        $parameters['description'] = aHtml::textToHtml($info['description']);
-        $parameters['credit'] = $info['credit'];
-      }
-    } 
-    
-    $this->form = new $subclass($item);
+        
     if ($parameters)
     {
       $files = $request->getFiles('a_media_item');
+      
+      $this->form = new aMediaVideoForm($item);
+      
+      if (isset($parameters['embed']))
+      {
+        // We need to do some prevalidation of the embed code so we can prestuff the
+        // file, title, tags and description widgets
+        $result = $this->form->classifyEmbed($parameters['embed']);
+        if (isset($result['thumbnail']))
+        {
+          $thumbnail = $result['thumbnail'];
+          if ((!isset($parameters['title'])) && (!isset($parameters['tags'])) && (!isset($parameters['description'])) && (!isset($parameters['credit'])))
+          {
+            $parameters['title'] = $result['serviceInfo']['title'];
+            $parameters['tags'] = $result['serviceInfo']['tags'];
+            $parameters['description'] = aHtml::textToHtml($result['serviceInfo']['description']);
+            $parameters['credit'] = $result['serviceInfo']['credit'];
+          }
+        }
+      }
 
       // On the first pass with a youtube video we just make the service's thumbnail the
       // default thumbnail. We don't force them to use it. This allows more code reuse
@@ -654,18 +655,6 @@ class BaseaMediaActions extends aEngineActions
 
         return $this->redirect("aMedia/resumeWithPage");
       } while (false);
-    }
-    // You filled this out on the first-pass form, you don't get to edit it some more
-    // and mess things up now that we've decided what kind of video it is overall
-    // (maybe we'll let you do that in 1.6). Once we tackle that there are a lot of
-    // fussy details, like overriding the old thumbnail, that have to be dealt with
-    if (isset($this->form['service_url']))
-    {
-      $this->form->setWidget('service_url', new sfWidgetFormInputHidden());
-    }
-    if (isset($this->form['embed']))
-    {
-      $this->form->setWidget('embed', new sfWidgetFormInputHidden());
     }
   }
 

@@ -106,7 +106,8 @@ class BaseaMediaEditForm extends aMediaItemForm
       array("mime_types" => "The following file types are accepted: " . implode(', ', $extensions))));
 
     // Necessary to work around FCK's "id and name cannot differ" problem
-    $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
+    // ... But we do it in the action which knows when that matters
+    // $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
   }
   

@@ -88,7 +88,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     }
     // Now we're ready to play
     // We like all-lowercase tags for consistency
-    $values['tags'] = aString::strtolower($values['tags']);
+    $values['tags'] = aString::strtolower(isset($values['tags']) ? $values['tags'] : '');
     $object->setTags($values['tags']);
     return $object;
   }

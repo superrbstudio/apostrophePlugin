@@ -54,53 +54,75 @@
 <?php // Prepare to render an embed code even though this object hasn't been saved yet ?>
 <?php $embedValues = array() ?>
 
-<?php if (isset($form['embed']) && strlen($form['embed']->getValue())): ?>
-  <?php $embedValues['embed'] = $form['embed']->getValue() ?>
-<?php elseif (isset($form['service_url']) && strlen($form['service_url']->getValue())): ?>
-  <?php $embedValues['service_url'] = $form['service_url']->getValue() ?>
-<?php endif ?>
-<?php if (count($embedValues)): ?>
-  <?php $form->updateObject($embedValues) ?>
-  <?php $constraints = aMediaTools::getOption('gallery_constraints') ?>
-  <?php $width = $constraints['width'] ?>
-  <?php $height = $constraints['height'] ?>
-  <?php $embedCode = $form->getObject()->getEmbedCode($width, $height) ?>
-<?php endif ?>
+<?php // Preview of image and/or embed code. We do not need this when we are editing an existing item via AJAX ?>
+<?php // because a preview is on the screen ?>
+<?php if (!$item): ?>
+  <?php if (isset($form['embed']) && (!$form['embed']->hasError()) && strlen($form['embed']->getValue())): ?>
+    <?php $embedValues['embed'] = $form['embed']->getValue() ?>
+  <?php elseif (isset($form['service_url']) && strlen($form['service_url']->getValue())): ?>
+    <?php $embedValues['service_url'] = $form['service_url']->getValue() ?>
+  <?php endif ?>
+  <?php if (count($embedValues)): ?>
+    <?php $form->updateObject($embedValues) ?>
+    <?php $constraints = aMediaTools::getOption('gallery_constraints') ?>
+    <?php $width = $constraints['width'] ?>
+    <?php $height = $constraints['height'] ?>
+    <?php $embedCode = $form->getObject()->getEmbedCode($width, $height, 'c') ?>
+  <?php endif ?>
 
-<?php if ($withPreview || $embedCode): ?>
-  <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
-  <div class="a-form-row preview">
-    <?php if (isset($embedCode)): ?>
-			<?php echo $embedCode ?>
-		<?php endif ?>
-    <?php $widget = $form['file']->getWidget() ?>
-    <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
-    <?php if ($previewUrl): ?>
-      <?php echo image_tag($previewUrl) ?>
-    <?php else: ?>
-      <?php $format = $widget->getFormat($form['file']->getValue()) ?>
-      <?php if ($format): ?>
-        <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+  <?php if ($withPreview || isset($embedCode)): ?>
+    <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
+    <div class="a-form-row preview">
+      <?php if (isset($embedCode)): ?>
+  			<?php echo $embedCode ?>
+  		<?php endif ?>
+      <?php $widget = $form['file']->getWidget() ?>
+      <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
+      <?php if ($previewUrl): ?>
+        <?php echo image_tag($previewUrl) ?>
+      <?php else: ?>
+        <?php $format = $widget->getFormat($form['file']->getValue()) ?>
+        <?php if ($format): ?>
+          <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+        <?php endif ?>
       <?php endif ?>
-    <?php endif ?>
-  </div>
+    </div>
+  <?php endif ?>
 <?php endif ?>
 
-<?php // * If there is a file widget with an error put it on top ?>
-<?php // * If there is an embedded media form with no thumbnail yet, put it on top ?>
-<?php // * Then unset it so it doesn't get displayed later in the form. ?>
+<?php // Special handling for a new submission ?>
 
-<?php if (isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
-	<div class="a-form-row replace a-ui">
-    <?php echo $form['file']->renderLabel() ?>
-    <?php echo $form['file']->renderError() ?>
-    <?php echo $form['file']->render() ?>
-		<?php if ((!$single) && (!$item)): ?>
-      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
-      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
-    <?php endif ?>
-	</div>
-	<?php unset($form['file']) ?>
+<?php if (!$item): ?>
+
+  <?php // * If there is an embed widget with an error put it on top ?>
+  <?php // * If there is no value for the embed widget yet, put it on top ?>
+  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+
+  <?php if (isset($form['embed']) && ($form['embed']->hasError() || (!$form['file']->getValue()))): ?>
+  	<div class="a-form-row embed a-ui">
+      <?php echo $form['embed']->renderLabel() ?>
+      <?php echo $form['embed']->renderError() ?>
+      <?php echo $form['embed']->render() ?>
+  	</div>
+  	<?php unset($form['embed']) ?>
+  <?php endif ?>
+
+  <?php // * If there is a file widget with an error put it on top ?>
+  <?php // * If there is an embedded media form with no thumbnail yet, put it on top ?>
+  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+
+  <?php if (isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
+  	<div class="a-form-row replace a-ui">
+      <?php echo $form['file']->renderLabel() ?>
+      <?php echo $form['file']->renderError() ?>
+      <?php echo $form['file']->render() ?>
+  		<?php if ((!$single) && (!$item)): ?>
+        <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
+        <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+      <?php endif ?>
+  	</div>
+  	<?php unset($form['file']) ?>
+  <?php endif ?>
 <?php endif ?>
 
 <div class="a-form-row title">
@@ -171,6 +193,16 @@
 		<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
   </div>
 </div>
+
+<?php // Let them replace an existing embed code. ?>
+<?php // TODO: have john wrap the "replace file" button or similar around this so it's not always in your face ?>
+<?php if (isset($form['embed'])): ?>
+  <div class="a-form-row embed a-ui">
+    <?php echo $form['embed']->renderLabel() ?>
+    <?php echo $form['embed']->renderError() ?>
+    <?php echo $form['embed']->render() ?>
+	</div>
+<?php endif ?>
 
 <?php // Let them replace an existing file. ?>
 <?php if (isset($form['file'])): ?>
