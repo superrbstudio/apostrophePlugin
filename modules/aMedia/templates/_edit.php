@@ -229,31 +229,30 @@
 <?php endif ?>
 
 <?php if ($single): ?>
-<ul class="a-ui a-controls">
- 	<li>
-		<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
-	</li>
- 	<li>
-		<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
-	</li>
-	<?php if ($item): ?>
-  	<li>
-  		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
-       array("slug" => $item->slug)),
-       array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
-       array("target" => "_top")) ?>
+  <ul class="a-ui a-controls">
+   	<li>
+  		<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
   	</li>
-  <?php endif ?>
+   	<li>
+  		<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
+  	</li>
+  	<?php if ($item): ?>
+    	<li>
+    		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+         array("slug" => $item->slug)),
+         array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
+         array("target" => "_top")) ?>
+    	</li>
+    <?php endif ?>
 	</ul>
-<div class="a-form-row a-hidden">
-		<?php echo $form->renderHiddenFields() ?>
-</div>
+  <div class="a-form-row a-hidden">
+  		<?php echo $form->renderHiddenFields() ?>
+  </div>
 </form>
+<?php else: ?>
+</div>
 <?php endif ?>
 			
-<?php if (!$item): ?>
-	</div>
-<?php endif ?>
 
 <?php if (!isset($itemFormScripts)): ?>
 <?php // TODO: When Categories and Tags are updated to use our inline JS widgets, these scripts can get removed ?>
