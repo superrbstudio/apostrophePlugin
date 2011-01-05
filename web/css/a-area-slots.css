@@ -133,8 +133,6 @@ width: auto;
 clear: both;
 }
 
-.a-ui.a-options.a-slot-form .a-form-help:hover { cursor: pointer;}
-
 .a-ui.a-options.a-slot-form .a-form-help:hover .a-form-help { display: block; }
 
 .a-ui.a-options.a-slot-form .a-form-row label { width: 80px; float: left; margin: 0 10px 0 0; color: #666; }

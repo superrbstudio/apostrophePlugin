@@ -12,7 +12,7 @@ class BaseaSmartSlideshowForm extends BaseForm
   {
     $this->widgetSchema['count'] = new sfWidgetFormInput(array(), array('size' => 2, 'default' => 5));
     $this->validatorSchema['count'] = new sfValidatorNumber(array('min' => 1, 'max' => 100));
-		$this->widgetSchema->setHelp('count', '<span class="a-help-arrow"></span> Set the number of images to display – 100 max.');
+		$this->widgetSchema->setHelp('count', 'Set the number of images to display – 100 max.');
     if(!$this->hasDefault('count'))
 		{
       $this->setDefault('count', 1);
@@ -22,11 +22,11 @@ class BaseaSmartSlideshowForm extends BaseForm
       new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'aCategory'));
     $this->validatorSchema['categories_list'] =
       new sfValidatorDoctrineChoice(array('model' => 'aCategory', 'multiple' => true, 'required' => false));
-		$this->widgetSchema->setHelp('categories_list', '<span class="a-help-arrow"></span> Filter Images by Category');
+		$this->widgetSchema->setHelp('categories_list', 'Filter Images by Category');
 
     $this->widgetSchema['tags_list']       = new sfWidgetFormInput(array(), array('class' => 'tag-input', 'autocomplete' => 'off'));
     $this->validatorSchema['tags_list']    = new sfValidatorString(array('required' => false));
-		$this->widgetSchema->setHelp('tags_list','<span class="a-help-arrow"></span> Filter Images by Tag');
+		$this->widgetSchema->setHelp('tags_list','Filter Images by Tag');
 
     // Ensures unique IDs throughout the page
     $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '[%s]');
