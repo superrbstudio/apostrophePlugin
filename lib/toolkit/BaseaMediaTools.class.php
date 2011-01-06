@@ -644,7 +644,6 @@ class BaseaMediaTools
     {
       $results[] = $service->getName();
     }
-    sort($results);
     return $results;
   }
 
