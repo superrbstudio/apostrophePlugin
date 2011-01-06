@@ -453,7 +453,7 @@ border-radius: 4px;
 
 .a-media-add { display: none; clear: both; }
 
-.a-media-select
+.a-ui.a-media-select
 {
 padding: 10px;
 margin: 0 0 20px -1px;
@@ -2026,6 +2026,7 @@ clear: none;
 .a-media-search-services .a-controls { margin: 10px 0 0; }
 
 .a-media-services-form .a-form-row.service { padding: 22px 0 10px 0; }
+.a-media-services-form .a-form-row.service li { line-height: 44px; }
 .a-media-services-form .a-form-row.service input { position: relative; top: 50%; }
 .a-media-services-form .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; text-indent: -9999px; margin-top: -22px; }
 .a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Vimeo,
