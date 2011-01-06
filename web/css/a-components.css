@@ -754,7 +754,7 @@ font-size: 11px;
 /* Apostrophe Login Form **** This floats in the upper right corner when we use a login button
 -------------------------------------*/
 
-.a-login-form-container
+#a-login-form-container
 {
 position: absolute;
 display: none;
