@@ -110,12 +110,10 @@ but why take chances with your data?
         "CREATE TABLE a_category_group (category_id INT, group_id INT, PRIMARY KEY(category_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
         "CREATE TABLE a_category_user (category_id INT, user_id INT, PRIMARY KEY(category_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
         "CREATE TABLE `a_media_item_to_category` (
-          `media_item_id` bigint(20) NOT NULL DEFAULT '0',
-          `category_id` bigint(20) NOT NULL DEFAULT '0',
+          `media_item_id` INT NOT NULL DEFAULT '0',
+          `category_id` INT NOT NULL DEFAULT '0',
           PRIMARY KEY (`media_item_id`,`category_id`),
-          KEY `a_media_item_to_category_category_id_a_category_id` (`category_id`),
-          CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE,
-          CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE
+          KEY `a_media_item_to_category_category_id_a_category_id` (`category_id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;",
@@ -162,13 +160,6 @@ but why take chances with your data?
         $this->migrate->query('INSERT INTO a_media_item_to_category (media_item_id, category_id) VALUES (:media_item_id, :category_id)', $info);
       }
     }
-    // Early 1.5 was missing these thanks Jeremy
-    if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
-    {
-      $this->migrate->sql(array(
-        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
-        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE"));
-    }
     if (!$this->migrate->tableExists('a_embed_media_account'))
     {
       $this->migrate->sql(array(
@@ -198,6 +189,14 @@ but why take chances with your data?
     // have - this call will clean that up
     
     $this->migrate->upgradeIds();
+    
+    // We can add these constraints now that we have IDs of the right size
+    if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
+    {
+      $this->migrate->sql(array(
+        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
+        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE"));
+    }
     
     // sfDoctrineGuardPlugin 5.0.x requires this
     if (!$this->migrate->columnExists('sf_guard_user', 'email_address'))
