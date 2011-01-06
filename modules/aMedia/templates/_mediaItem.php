@@ -71,7 +71,7 @@
 		<?php // four-up is not playing videos in place, they clickthrough to show-success. So there's no reason to weight down the page with hidden embed elements ?>
 		<div class="a-media-item-embed<?php echo (!isset($layout['showSuccess']))? ' a-hidden':'' ?>">
 			<?php $embedCode = $mediaItem->getEmbedCode($embedConstraints['width'], $embedConstraints['height'], $embedConstraints['resizeType'], $mediaItem->getFormat(), false, 'opaque', $autoplay) ?>
-			<?php if ($layout['showSuccess']): ?>
+			<?php if (isset($layout['showSuccess']) && $layout['showSuccess']): ?>
 				<?php // Just output the embed if it is showSuccess ?>
 				<?php echo $embedCode ?>
 			<?php else: ?>
