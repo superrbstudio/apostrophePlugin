@@ -11,6 +11,7 @@ class BaseaTextSlotComponents extends aSlotComponents
 	    $this->options['multiline'] = $this->getOption('multiline', true);	
       $this->form = new aTextForm($this->id, $this->slot->value, $this->options);
     }
+		$this->options['pageTitle'] = $this->getOption('pageTitle', false);
   }
   public function executeNormalView()
   {
