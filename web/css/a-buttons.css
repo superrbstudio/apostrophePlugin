@@ -466,7 +466,8 @@ border: 1px inset rgba(0,0,0,0.20);
 .a-ui .a-link, .a-link { padding: 1px 0; white-space: normal; height: auto; line-height: 16px; }
 
 .a-ui .a-link.icon { padding: 1px 20px 1px 0; }
-
+.a-ui .a-tag .a-link.icon,
+.a-ui .a-popular.a-tag .a-link { padding: 1px 18px 1px 0; }
 .a-ui .a-link.icon > .icon { left: auto; right: 0; }
 
 .a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }

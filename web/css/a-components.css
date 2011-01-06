@@ -417,7 +417,7 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui.a-page-form h4 { font-size: 14px; float: left; }
 
-.a-ui .a-form-row .a-inline-taggable-widget { float: left; margin: 5px 0; }
+.a-ui .a-form-row .a-inline-taggable-widget { float: left; margin: 5px 0 10px 0; }
 
 .a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
 
@@ -864,12 +864,25 @@ color: #333;
 	clear: both;
 }
 
-.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag { display: block; clear: both; }
+.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag 
+{ 
+  float: left;
+  width: 50%;
+}
+
+.a-inline-taggable-widget-tag-container.a-popular-tags h4.a-tag-heading
+{
+	font-size: 12px;
+/*	color: #000;*/
+}
 
 .a-inline-taggable-widget-tag-container .a-tag a,
 .a-inline-taggable-widget-tag-container .a-tag span
 {
 	float: left;
+	font-size: 11px;
+	line-height: 1.2;
+	margin: 2px 0;
 }
 
 .a-inline-taggable-widget-tag-container .a-tag span.a-tag-count
@@ -877,6 +890,33 @@ color: #333;
 	float: right;
 	margin-left: 2px;
 	color: #999;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular span.a-tag-count
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1px 0;
+	width: 20px;
+	text-align: center;
+}
+
+
+.a-inline-taggable-widget-tag-container .a-tag.a-existing
+{
+	margin-right: 5px;
+	float: left;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular
+{
+	color: #666;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular a:hover
+{
+	color: #000;
 }
 
 .a-inline-taggable-widget-tag-container .a-tag.a-popular span

@@ -390,7 +390,6 @@ border-radius: 4px;
 .a-media-library .a-form-row textarea { float: left; width: 212px; }
 
 .a-media-library .a-form-row .a-inline-taggable-widget input { width: 160px; margin-right: 2px; }
-.a-media-library .a-form-row .a-inline-taggable-widget-tag-container h4 { font-size: 14px; }
 
 .a-media-library .a-form-row textarea { width: 330px; height: 100px; line-height: 1.6; }
 .a-media-library .a-form-row select { float: left; min-width: 220px; max-width: 218px; }
