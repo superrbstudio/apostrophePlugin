@@ -1,5 +1,5 @@
 <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
-	<div id="a-media-add" class="a-media-add a-media-select">
+	<div id="a-media-add" class="a-ui a-media-select a-media-add clearfix">
     <?php if ($uploadAllowed): ?>
       <?php include_partial('aMedia/uploadMultiple', array('form' => new aMediaUploadMultipleForm())) ?>    
     <?php endif ?>

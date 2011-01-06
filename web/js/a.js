@@ -848,6 +848,10 @@ function aConstructor()
 	{
 		$('a').click(function() {
 			var href = $(this).attr('href');
+			if (href === undefined)
+			{
+				return;
+			}
 			if (href.substr(0, 1) === '#')
 			{
 				return;

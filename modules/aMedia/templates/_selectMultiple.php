@@ -12,7 +12,7 @@
 <?php use_javascript("/apostrophePlugin/js/aCrop.js") ?>
 <?php use_stylesheet("/apostrophePlugin/css/Jcrop/jquery.Jcrop.css") ?>
 
-<div class="a-media-select clearfix">
+<div class="a-ui a-media-select clearfix">
 	<h3><?php echo $label ?></h3>
 
   <div class="a-ui">

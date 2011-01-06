@@ -7,7 +7,7 @@
 
 <?php include_component('aMedia', 'browser') ?>
 <div class="a-media-library">
-	<div class="a-media-select a-ui">
+	<div class="a-ui a-media-select clearfix">
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 

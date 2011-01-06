@@ -8,7 +8,7 @@
 
 <div class="a-media-library">
 
-	<div class="a-media-select a-search">
+	<div class="a-ui a-media-select a-search clearfix">
 	  <h3><?php echo a_('Search Services') ?></h3>
 	  <form method="POST" action="<?php echo url_for('aMedia/searchServices') ?>" class="a-search-form a-media-search-services a-media-services-form a-ui" id="a-media-search-services">
 			<div class="a-form-row a-hidden">

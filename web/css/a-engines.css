@@ -2005,21 +2005,9 @@ clear: none;
 	display: none;
 }
 
-.a-ui h3.a-blog-filters
-{
-	font-size: 16px;
-	padding-bottom: 15px;
-}
-
-.a-ui h3.a-blog-filters .a-filter-link:hover
-{
-	text-decoration: none;
-}
-
-.a-ui h3.a-blog-filters .a-filter-link img
-{
-	vertical-align: middle;
-}
+.a-ui h3.a-blog-filters { font-size: 16px; padding-bottom: 15px; }
+.a-ui h3.a-blog-filters .a-filter-link:hover { text-decoration: none; }
+.a-ui h3.a-blog-filters .a-filter-link img { vertical-align: middle; }
 
 .a-search form.a-media-search-services { background: none; height: auto; position:relative; }
 .a-media-search-services { clear: both; }
@@ -2027,17 +2015,16 @@ clear: none;
 
 .a-media-services-form .a-form-row.service { padding: 22px 0 10px 0; }
 .a-media-services-form .a-form-row.service li { line-height: 44px; }
-.a-media-services-form .a-form-row.service input { position: relative; top: 50%; }
-.a-media-services-form .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; text-indent: -9999px; margin-top: -22px; }
+.a-media-services-form .a-form-row.service input { position: relative; top: 50%; margin-top: -5px; }
+.a-media-services-form .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; margin-top: -22px; line-height: 44px; }
 .a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Vimeo,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Vimeo { background: url(../images/a-media-service-vimeo.png) top left no-repeat; }
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Vimeo { background: url(../images/a-media-service-vimeo.png) top left no-repeat; text-indent: -9999px; }
 .a-media-services-form .a-form-row.service label.aMediaSearchServices_service_YouTube,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_YouTube { background: url(../images/a-media-service-youtube.png) top left no-repeat; }
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_YouTube { background: url(../images/a-media-service-youtube.png) top left no-repeat; text-indent: -9999px; }
 .a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Viddler,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Viddler { background: url(../images/a-media-service-viddler.png) top left no-repeat; }
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Viddler { background: url(../images/a-media-service-viddler.png) top left no-repeat; text-indent: -9999px; }
 
 .a-media-search-services .a-form-row.search { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background:none repeat scroll 0 0 #FFFFFF; height:20px; width: 250px; }
-
 
 .a-account-preview-recent { padding-bottom: 10px; }
 .a-account-preview-recent li { float: left; padding-right: 10px; }
@@ -2049,19 +2036,16 @@ clear: none;
 
 .a-media-search-services .a-form-row.cancel { width: auto; clear: none; float: left; margin-left: 10px; }
 
-.a-ui .a-media-linked-accounts-form { width: 338px; float: left; border-right:1px inset rgba(0, 0, 0, 0.1); padding-right:10px; }
-.a-ui .a-media-linked-accounts { float:left; min-height:150px; width:338px; border-left:1px solid rgba(255, 255, 255, 0.35); padding-left:10px; }
+.a-ui .a-media-linked-accounts-form { width: 450px; float: left; border-right:1px inset rgba(0, 0, 0, 0.1); padding-right:10px; }
+.a-ui .a-media-linked-accounts { float:left; min-height:150px; width:220px; border-left:1px solid rgba(255, 255, 255, 0.35); padding-left:10px; }
 .a-ui .a-media-linked-accounts h5 { margin: 10px 0 5px 0;}
 .a-ui .a-media-linked-accounts .a-help { margin: 5px 0; }
 
 .a-media-linked-account { clear: both; margin: 0 0 5px; }
 .a-media-linked-account li { float: left; margin-right: 3px; }
-.a-media-linked-account .a-service.a-YouTube { text-indent: -9999px; height: 18px; width: 45px; background: url(../images/a-media-service-youtube-small.png) center center no-repeat;}
-.a-media-linked-account .a-service.a-Vimeo { text-indent: -9999px; height: 18px; width: 45px; background: url(../images/a-media-service-vimeo-small.png) center center no-repeat;}
-.a-media-linked-account .a-service.a-Viddler { text-indent: -9999px; height: 18px; width: 45px; background: url(../images/a-media-service-viddler-small.png) center center no-repeat;}
+.a-media-linked-account .a-service { height: 18px; width: 45px; }
+.a-media-linked-account .a-service.a-YouTube { text-indent: -9999px; background: url(../images/a-media-service-youtube-small.png) center center no-repeat;}
+.a-media-linked-account .a-service.a-Vimeo { text-indent: -9999px; background: url(../images/a-media-service-vimeo-small.png) center center no-repeat;}
+.a-media-linked-account .a-service.a-Viddler { text-indent: -9999px; background: url(../images/a-media-service-viddler-small.png) center center no-repeat;}
 
-ul.a-media-unconfigured-services
-{
-	padding-top: 10px;
-	clear: both;
-}
+ul.a-media-unconfigured-services { padding-top: 10px; clear: both; }

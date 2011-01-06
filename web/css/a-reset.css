@@ -10,12 +10,12 @@ body { margin: 0; padding: 0; }
 .a-ui pre, .a-ui a, .a-ui img, 
 .a-ui ol, .a-ui ul, .a-ui li, 
 .a-ui fieldset, .a-ui form, .a-ui label, .a-ui legend, 
-.a-ui table, .a-ui caption, .a-ui tbody, .a-ui tfoot, .a-ui thead, .a-ui tr, .a-ui th, .a-ui td,
-div.a-ui, span.a-ui, iframe.a-ui,
+.a-ui table, .a-ui caption, .a-ui tbody, .a-ui tfoot, .a-ui thead, .a-ui tr, .a-ui th, .a-ui td
+/*div.a-ui, span.a-ui, iframe.a-ui,
 pre.a-ui, a.a-ui, img.a-ui,
 ol.a-ui, ul.a-ui, li.a-ui, 
 fieldset.a-ui, form.a-ui, label.a-ui, legend.a-ui, 
-table.a-ui, caption.a-ui, tbody.a-ui, tfoot.a-ui, thead.a-ui, tr.a-ui, th.a-ui, td.a-ui
+table.a-ui, caption.a-ui, tbody.a-ui, tfoot.a-ui, thead.a-ui, tr.a-ui, th.a-ui, td.a-ui*/
 { 
 	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; 
 }

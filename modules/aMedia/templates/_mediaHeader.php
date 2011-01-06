@@ -12,5 +12,9 @@
 		<a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon a-users lite mini a-align-right a-media-link-accounts alt"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a>
 	<?php endif ?>
 </div>
-<?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>
+
 <?php a_js_call('apostrophe.clickOnce(?)', '#a-save-media-selection,.a-media-select-video,.a-select-cancel') ?>
+
+<?php if (aMediaTools::isSelecting()): ?>
+	<?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>	
+<?php endif ?>

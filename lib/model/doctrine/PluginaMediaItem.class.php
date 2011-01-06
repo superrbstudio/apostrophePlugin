@@ -429,9 +429,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   
   public function getImageAvailable()
   {
-    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a format.
-    // We used to check width, however width is set even for dumb video embeds now
-    return strlen($this->format);
+    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a format AND
+		// a width. We used to check width alone, however width is set even for dumb video embeds now, and non-image files
+		// have a format but no width
+    return $this->width && strlen($this->format);
   }
   
   public function getCroppable()
