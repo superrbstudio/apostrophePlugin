@@ -13,8 +13,9 @@
   <ul class="a-ui" id="a-media-video-search-results">
     <?php foreach ($pager->getResults() as $result): ?>
       <li>
-        <?php // I could avoid the csrf nonsense by instantiating forms for all 9, but forms are very slow ?>
-        <?php echo link_to(a_('Select%buttonspan%', array('%buttonspan%' => '<span></span>')), 'aMedia/editVideo?' . http_build_query(array('first_pass' => 1, 'a_media_item' => array('title' => $result['title'], '_csrf_token' => md5(sfConfig::get('sf_csrf_secret') . session_id()), 'service_url' => $result['url']))), array('class' => 'a-media-search-select a-btn')) ?>
+        <?php // embed is correct, the form takes either a URL or an embed code (and URLs are more reasonable) ?>
+        <?php // Don't pass the title, the form will talk to the service ?>
+        <?php echo link_to(a_('Select%buttonspan%', array('%buttonspan%' => '<span></span>')), 'aMedia/editVideo?' . http_build_query(array('first_pass' => 1, 'a_media_item' => array('_csrf_token' => md5(sfConfig::get('sf_csrf_secret') . session_id()), 'view_is_secure' => 0, 'embed' => $result['url']))), array('class' => 'a-media-search-select a-btn')) ?>
         <?php echo $service->embed($result['id'], aMediaTools::getOption('video_search_preview_width'), aMediaTools::getOption('video_search_preview_height')) ?>
       </li>
     <?php endforeach ?>  

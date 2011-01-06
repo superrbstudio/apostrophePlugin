@@ -539,7 +539,6 @@ class BaseaMediaActions extends aEngineActions
               'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
             ));
         }
-        error_log("resumeWithPage");
         return $this->redirect("aMedia/resumeWithPage");
       }
     }

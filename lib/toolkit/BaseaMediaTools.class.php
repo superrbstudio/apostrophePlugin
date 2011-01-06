@@ -284,6 +284,7 @@ class BaseaMediaTools
     'embed_services' => array(
       array('class' => 'aYoutube', 'media_type' => 'video'),
       array('class' => 'aVimeo', 'media_type' => 'video'),
+      array('class' => 'aViddler', 'media_type' => 'video'),
 		));
 
   static protected $layouts = array(

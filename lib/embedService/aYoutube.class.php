@@ -125,6 +125,10 @@ class aYoutube extends aEmbedService
 
   public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
+    if ($autoplay)
+    {
+      $autoplay = 't';
+    }
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
     $url = "http://www.youtube.com/v/$id&fs=1&autoplay=$autoplay";
 return <<<EOM
@@ -133,6 +137,7 @@ return <<<EOM
 	<param name="allowFullScreen" value="true"></param>
 	<param name="allowscriptaccess" value="always"></param>
 	<param name="wmode" value="$wmode"></param>
+	<param name="autoplay" value="$autoplay"></param>
 	<embed alt="$title" src="$url" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOM

@@ -82,7 +82,7 @@ class BaseaMediaVideoForm extends aMediaItemForm
    **/
   public function classifyEmbed($value)
   {
-    // If it is a URL recognized by one of the services we support, use that service
+    // If it is a URL or embed code recognized by one of the services we support, use that service
     $service = aMediaTools::getEmbedService($value);
     if ($service)
     {
