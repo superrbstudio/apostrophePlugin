@@ -78,10 +78,13 @@ function aConstructor()
 	}
 
 	// Utility: Use to select contents of an input on focus
+	// The mouseup event is a workaround for a Chrome bug that deselects the text after focus
 	this.selectOnFocus = function(selector)
 	{
 		$(selector).focus(function(){
 			$(this).select();
+		}).mouseup(function(e){
+			e.preventDefault();
 		});
 	}
 	
