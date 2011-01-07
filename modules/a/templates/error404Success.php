@@ -1,17 +1,31 @@
+<?php slot('body_class') ?>a-error404<?php end_slot() ?>
 <?php use_helper('a') ?>
 
-<?php $page = aPageTable::retrieveBySlug('error404') ?>
-<?php $slots = $page->getArea('body') ?>
-
-<?php if (!count($slots)): ?>
-	<h2><?php echo __('Error 404 &mdash; The page you are looking for could not be found.', null, 'apostrophe') ?></h2>
-	<h3><a href="/"><?php echo __('Go Home.', null, 'apostrophe') ?></a></h3>
+<?php if (!$page): ?>
+	<?php // We need to retrieve the page if we are not at /admin/error404 ?>
+	<?php $page = aPageTable::retrieveBySlug('/admin/error404') ?>	
 <?php endif ?>
 
-<?php if (count($slots) || $sf_user->isAuthenticated()): ?>
-	
+<?php $slots = $page->getArea('body') ?>
+
+<?php // If there are no slots, show some default text ?>
+<?php if (!count($slots)): ?>
+	<h2><?php echo a_('Error 404 &mdash; The page you are looking for could not be found.') ?></h2>
+	<h3><a href="/"><?php echo a_('Go Home.') ?></a></h3>
+<?php endif ?>
+
+<?php // Display some help information to admins so they know they can customize the Error404 page ?>
+<?php if ($sf_user->hasCredential('admin')): ?>
+	<div class="a-help">
+		<?php echo a_('You can customize the error404 page by adding your own content below.') ?>
+	</div>
+<?php endif ?>	
+
+<?php // Only display this area if there is content in it OR if the user is logged-in & admin. ?>
+<?php // Note: The sandbox pages.yml fixtures pre-populate an 'en' RichText slot with a 404 message. ?>
+<?php if (count($slots) || $sf_user->hasCredential('admin')): ?>
 	<?php a_area('body', array(
-		'slug' => 'error404',
+		'slug' => '/admin/error404', 
 		'allowed_types' => array(
 			'aRichText', 
 			'aVideo',		
@@ -122,7 +136,5 @@
 			),
 			'aRawHTML' => array(
 			), 
-		))) ?>	
-
+		))) ?>
 <?php endif ?>
-		
