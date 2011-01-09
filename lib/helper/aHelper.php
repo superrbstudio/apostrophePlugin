@@ -174,6 +174,7 @@ function a_get_stylesheets()
         {
           $lessc = new lessc();
         }
+        $lessc->importDir = dirname($path).'/';
         file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
       }
       $newStylesheets['/uploads/asset-cache/' . $name] = $options;
