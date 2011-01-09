@@ -169,14 +169,18 @@ class BaseaPageSettingsForm extends aPageForm
 		}
 		$options['popular-tags'] = PluginTagTable::getPopulars(null, array(), false, 10);
 		$options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';
+		$options['tags-label'] = '';
   	// class tag-input enabled for typeahead support
   	$this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
   	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
   	// Meta Description
+  	// Call the widget real_meta_description to avoid conflicts with the automatic behavior
+  	// of Doctrine forms (which will call setMetaDescription before the page is saved, something
+  	// that newAreaVersion does not support)
   	$metaDescription = $this->getObject()->getMetaDescription();
-  	$this->setWidget('meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
-  	$this->setValidator('meta_description', new sfValidatorString(array('required' => false)));
+  	$this->setWidget('real_meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
+  	$this->setValidator('real_meta_description', new sfValidatorString(array('required' => false)));
 
     $privilegePage = $this->getObject();
     if ($privilegePage->isNew())
@@ -204,9 +208,9 @@ class BaseaPageSettingsForm extends aPageForm
 	  }
 
     // Named 'realtitle' to avoid excessively magic Doctrine form behavior.
-    // Unfortunately no amount of care will allow us to make &lt; appear in 
-    // a title (as opposed to a < ) due to Symfony's hard override of 
-    // double escaping. Fortunately, that's not a likely thing to want in a title
+    // Specifically, updateObject() will automatically call setTitle() if there
+    // is such a method and a widget named 'title', and we don't want that to 
+    // happen until after the page is saved so we can store it in a slot
     
     $this->setValidator('realtitle', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
 
@@ -567,9 +571,10 @@ class BaseaPageSettingsForm extends aPageForm
     $this->saveGroupEditPrivileges($object);
     // Update meta-description on Page
     // This involves creating a slot so it has to happen last
-    if ($this->getValue('meta_description') != '')
+    if ($this->getValue('real_meta_description') != '')
     {
-	    $object->setMetaDescription(htmlentities($this->getValue('meta_description'), ENT_COMPAT, 'UTF-8'));
+      error_log("Calling setMetaDescription");
+	    $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
 	  }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
     return $object;

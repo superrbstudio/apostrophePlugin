@@ -304,7 +304,10 @@ class PluginaPageTable extends Doctrine_Table
       // The URL we're being asked to examine has already
       // lost its relative_root_url, so don't include $rr in
       // the prefix we attempt to remove
-      if (preg_match("/^(?:\/\w+\.php)?$rr(.*)\/dummy$/", $dummyUrl, $matches))
+      
+      // Tolerate and ignore a query string (which will be there if sf_culture is not prettified by the route)
+      $re = "/^(?:\/\w+\.php)?$rr(.*)\/dummy(?:\?.*)?$/";
+      if (preg_match($re, $dummyUrl, $matches))
       {
         $prefix = $matches[1];
       }

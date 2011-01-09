@@ -10,7 +10,7 @@
 <?php use_helper('a') ?>
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
-<div class="a-admin-header">
+<div class="a-ui a-admin-header">
   <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
     
     

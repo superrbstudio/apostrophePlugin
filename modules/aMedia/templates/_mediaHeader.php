@@ -1,4 +1,4 @@
-<div class="a-admin-header a-ui">
+<div class="a-ui a-admin-header">
   <ul class="a-ui a-controls a-admin-controls">
 		<li><h3 class="a-admin-title"><?php echo link_to('<span class="icon"></span>'.__('Media Library', null, 'apostrophe'), '@a_media_index', array('class' => 'a-btn big lite'))?></h3></li>
   	<?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
@@ -12,4 +12,9 @@
 		<a href="<?php echo url_for("aMedia/link") ?>" class="a-btn icon a-users lite mini a-align-right a-media-link-accounts alt"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a>
 	<?php endif ?>
 </div>
-<?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>
+
+<?php a_js_call('apostrophe.clickOnce(?)', '#a-save-media-selection,.a-media-select-video,.a-select-cancel') ?>
+
+<?php if (aMediaTools::isSelecting()): ?>
+	<?php a_js_call('apostrophe.mediaClearSelectingOnNavAway(?)', url_for('aMedia/clearSelecting')) ?>	
+<?php endif ?>

@@ -1,6 +1,6 @@
 <?php
 
-class BaseaButtonSlotComponents extends BaseaSlotComponents
+class BaseaButtonSlotComponents extends aSlotComponents
 {
 	protected function getButtonMedia()
 	{

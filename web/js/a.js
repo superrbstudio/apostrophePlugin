@@ -78,10 +78,13 @@ function aConstructor()
 	}
 
 	// Utility: Use to select contents of an input on focus
+	// The mouseup event is a workaround for a Chrome bug that deselects the text after focus
 	this.selectOnFocus = function(selector)
 	{
 		$(selector).focus(function(){
 			$(this).select();
+		}).mouseup(function(e){
+			e.preventDefault();
 		});
 	}
 	
@@ -97,7 +100,7 @@ function aConstructor()
 	
 	// Utility: Click an element once and convert it to a span
 	// Useful for turning an <a> into a <span>
-	this.aClickOnce = function(selector)
+	this.clickOnce = function(selector)
 	{
 		var selector = $(selector);
 		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){   
@@ -108,17 +111,14 @@ function aConstructor()
 	// Utility: Replaces selected node with <span>
 	this.toSpan = function(selector)
 	{
-		selector = $(selector);
-		if (selector.length) {
+		// Use an each here to avoid problems with all of the items getting the
+		// same span label
+		$(selector).each(function() {
 			var id = ""; var clss = "";
-			if (selector.attr('id') != '') { id = "id='"+selector.attr('id')+"'"; };
-			if (selector.attr('class') != '') { clss = "class='"+selector.attr('class')+"'"; };		
-			selector.replaceWith("<span " + clss + " " + id +">" + selector.html() + "</span>");				
-		}
-		else
-		{
-			apostrophe.log('apostrophe.toSpan -- No Elements Found');
-		};
+			if ($(this).attr('id') != '') { id = "id='"+$(this).attr('id')+"'"; };
+			if ($(this).attr('class') != '') { clss = "class='"+$(this).attr('class')+"'"; };		
+			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");				
+		});
 	}	
 	
 	// Utility: an updated version of the jq_link_to_remote helper
@@ -154,6 +154,11 @@ function aConstructor()
 		apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');				
 		};
 	}
+
+  this.unobfuscateEmail = function(id, email, label)
+  {
+    $('#' + id).attr('href', unescape(email)).html(unescape(label));
+  }
 	
 	// Turns a form into an AJAX form that updates the element
 	// with the DOM ID specified by options['update']. You must
@@ -413,6 +418,16 @@ function aConstructor()
         window.aSlideshowIntervalTimeouts = {};
       }
 
+			function init()
+			{
+				// Initialize the slideshow 
+				// Hiding all of the items, showing the first one, setting the position, and starting the timer
+				slideshowItems.hide();
+				$(slideshowItems[position]).show();
+	  		setPosition(position);
+	  	  interval();
+			}
+
   	  function previous() 
   	  {
 				currentItem = position;
@@ -431,12 +446,30 @@ function aConstructor()
 	
 			function showItem(position, currentItem)
 			{
-				newItem = $(slideshowItems[position]);
-				oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems; 
-				(transition == 'crossfade') ? oldItem.fadeOut('slow') : oldItem.hide();				
-				newItem.fadeIn('slow');
-			  setPosition(position);
-  			interval();
+				if (!slideshow.data('showItem'))
+				{
+					slideshow.data('showItem', 1);
+					newItem = $(slideshowItems[position]);
+					oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems;
+					if (transition == 'crossfade')
+					{
+						oldItem.fadeOut(300);
+					}
+					else
+					{
+						// Some browsers jump / scroll up if the parent loses height for the split second the oldItem is hidden
+						// So we set the height here before changing the slideshow item. This is not a problem when crossfading, because there is always an item visible
+						newItemHeight = newItem.height() + 'px';
+						slideshow.css('height',newItemHeight);
+						// Since we are not crossfading, just hide all of the slideshowItems
+						slideshowItems.hide();
+					};
+					newItem.fadeIn(300,function(){
+						slideshow.data('showItem', 0);
+					  setPosition(position);
+						interval();
+					});
+				};
 			};
 	
 			function setPosition(p) 
@@ -462,9 +495,13 @@ function aConstructor()
   	  	  intervalTimeout = setTimeout(next, intervalSetting * 1000);
   	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
 					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting ) : '';											
-  	  	};
+  	  	}
   	  };
 	
+			// 1. Initialize the slideshow
+			init(); 
+	
+			// 2. Bind events
   		slideshow.bind('showItem', function(e,p){ showItem(p); });
 			slideshow.bind('previousItem', function(){ previous(); });
 			slideshow.bind('nextItem', function(){ next(); });
@@ -493,12 +530,7 @@ function aConstructor()
   			$(this).removeClass('over');
   		});
 
-			slideshowItems.hide();
-  		$(slideshowItems[position]).show();
-  		setPosition(position);
-  	  interval();
 	  }
-	
 	};
 	
 	// aButtonSlot
@@ -819,6 +851,10 @@ function aConstructor()
 	{
 		$('a').click(function() {
 			var href = $(this).attr('href');
+			if (href === undefined)
+			{
+				return;
+			}
 			if (href.substr(0, 1) === '#')
 			{
 				return;
@@ -903,13 +939,19 @@ function aConstructor()
     var file = form.find('input[type="file"]');
 		var descId = options['descId'];
 		var fck = $('#'+descId);
+		var embedChanged = false;
 		if (form.length) {
+			form.find('.a-form-row.embed textarea').change(function() {
+				embedChanged = true;
+			});
 		  form.submit(function(event) {
 				if (fck.length) {
 					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());						
 				};
-				// If the file field is empty we can submit the edit form asynchronously
-		    if(file.val() == '')
+				// If the file field is empty and the embed code hasn't been changed,
+				// we can submit the edit form asynchronously
+				apostrophe.log(embedChanged);
+		    if((file.val() == '') && (!embedChanged))
 		    { 
 		      event.preventDefault();
 		      $.post(url, form.serialize(), function(data) {
@@ -2180,6 +2222,7 @@ function aConstructor()
 		menu.unbind('toggleOpen').bind('toggleOpen', function(){
 			menu.trigger('beforeOpen');
 			button.addClass('aActiveMenu');
+			button.closest('.a-controls').addClass('aActiveMenu');
 			menu.addClass(classname);			
 			if (overlay) { overlay.fadeIn(); }
 			$(document).bind('click.menuToggleClickHandler', clickHandler);
@@ -2192,6 +2235,7 @@ function aConstructor()
 			menu.trigger('beforeClosed');
 			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
+			button.closest('.a-controls').removeClass('aActiveMenu');			
 			menu.removeClass(classname);
 			if (overlay) { overlay.hide(); };
 			$(document).unbind('click.menuToggleClickHandler'); // Clear out click event		

@@ -268,9 +268,11 @@ class BaseaMediaTools
     // Also see 'getDownloadable' and 'getEmbeddable' in aMediaItem
 
     'types' => array(
+      // You must have an image type
       'image' => array('label' => 'Image', 'extensions' => array('gif', 'png', 'jpg'), 'embeddable' => false, 'downloadable' => true),
       'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false, 'downloadable' => true),
       'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false, 'downloadable' => true),
+      // You must have a video type
       'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo')),
       
       // A long whitelist of file formats that are usually benign and useful.
@@ -282,6 +284,7 @@ class BaseaMediaTools
     'embed_services' => array(
       array('class' => 'aYoutube', 'media_type' => 'video'),
       array('class' => 'aVimeo', 'media_type' => 'video'),
+      array('class' => 'aViddler', 'media_type' => 'video'),
 		));
 
   static protected $layouts = array(
@@ -567,25 +570,44 @@ class BaseaMediaTools
     return aTools::slugify($path);
   }
   
-  static protected $embedServices;
-  static protected $embedServiceTypes;
+  static protected $embedServices = array();
   
-  static public function getEmbedServices()
+  // Default is to return only services that are ready to be used.
+  // If you pass boolean false, you'll get services that are NOT ready to be used.
+  // If you pass null, you'll get all services
+  static public function getEmbedServices($configured = true)
   {
-    if (!isset(aMediaTools::$embedServices))
+    if (!isset(aMediaTools::$embedServices[$configured]))
     {
-      aMediaTools::$embedServices = array();
-      aMediaTools::$embedServiceTypes = array();
+      aMediaTools::$embedServices[$configured] = array();
       $serviceInfos = aMediaTools::getOption('embed_services');
       foreach ($serviceInfos as $serviceInfo)
       {
         $class = $serviceInfo['class'];
         $service = new $class;
         $service->setType($serviceInfo['media_type']);
-        aMediaTools::$embedServices[] = $service;
+        if ($configured)
+        {
+          if (!$service->configured())
+          {
+            continue;
+          }
+        }
+        elseif ($configured === false)
+        {
+          if ($service->configured())
+          {
+            continue;
+          }
+        }
+        else
+        {
+          // null = all
+        }
+        aMediaTools::$embedServices[$configured][] = $service;
       }
     }
-    return aMediaTools::$embedServices;
+    return aMediaTools::$embedServices[$configured];
   }
   
   static public function getEmbedService($nameUrlOrEmbed)
@@ -622,10 +644,9 @@ class BaseaMediaTools
     {
       $results[] = $service->getName();
     }
-    sort($results);
     return $results;
   }
-  
+
   static public function filenameToTitle($filename)
   {
     $title = preg_replace('/\.\w+$/', '', $filename);

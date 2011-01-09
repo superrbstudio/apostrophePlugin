@@ -1,5 +1,5 @@
 <?php
-class BaseaAudioSlotActions extends BaseaSlotActions
+class BaseaAudioSlotActions extends aSlotActions
 {
   public function executeEdit(sfRequest $request)
   {

@@ -11,12 +11,12 @@ abstract class PluginaPage extends BaseaPage
   // Keep all cached information here for easy reference and inclusion 
   // in the reset code in hydrate()
   public $privilegesCache = null;
-  private $slotCache = false;
-  private $childrenCache = null;
-  private $childrenCacheLivingOnly = null;
-  private $childrenCacheSlot = null;
-  private $ancestorsCache = false;
-  private $parentCache = false;
+  protected $slotCache = false;
+  protected $childrenCache = null;
+  protected $childrenCacheLivingOnly = null;
+  protected $childrenCacheSlot = null;
+  protected $ancestorsCache = false;
+  protected $parentCache = false;
 
   public function hydrate(array $data, $overwriteLocalChanges = true)
   {
@@ -42,7 +42,7 @@ abstract class PluginaPage extends BaseaPage
     $this->culture = aTools::getUserCulture();
     $this->privilegesCache = array();
   }
-  private function log($message)
+  protected function log($message)
   {
     sfContext::getInstance()->getLogger()->info("PAGE: $message");
   }
@@ -159,7 +159,7 @@ abstract class PluginaPage extends BaseaPage
     return $results;
   }
 
-  private function populateSlotCache()
+  protected function populateSlotCache()
   {
     if ($this->slotCache === false)
     {
@@ -183,7 +183,7 @@ abstract class PluginaPage extends BaseaPage
   }
   
   /* Returns entity-escaped plaintext with newlines */
-  public function getAreaText($areaname)
+  public function getAreaText($areaname, $word_limit = false)
   {
     $slots = $this->getArea($areaname);
     $text = '';
@@ -195,10 +195,16 @@ abstract class PluginaPage extends BaseaPage
       }
       $text .= $slot->getText();
     }
-    return $text;
+		if ($word_limit) {
+			return aString::limitWords($text, $word_limit, array('append_ellipsis' => true));
+		}
+		else
+		{
+	    return $text;			
+		}
   }
 
-  public function getAreaBasicHtml($areaname)
+  public function getAreaBasicHtml($areaname, $word_limit = false)
   {
     $slots = $this->getArea($areaname);
     $text = '';
@@ -214,7 +220,13 @@ abstract class PluginaPage extends BaseaPage
       }
       $text .= $slot->getBasicHtml();
     }
-    return $text;
+		if ($word_limit) {
+	    return aHtml::limitWords($text, $word_limit, array('append_ellipsis' => true));
+		}
+		else
+		{
+	    return $text;			
+		}
   }
 
   public function getNextPermidAndRank($name, $first = false)
@@ -964,6 +976,10 @@ abstract class PluginaPage extends BaseaPage
   
   public function newAreaVersion($name, $action, $params = false)
   {
+    // Lock this page while adding a new version to it. This prevents race conditions with the
+    // assignment of new permids and ranks (fixes #306)
+    aTools::lock('page_' . $this->id);
+    
     $diff = '';
     if ($params === false)
     {
@@ -1096,6 +1112,7 @@ abstract class PluginaPage extends BaseaPage
     $area->save();
     $this->requestSearchUpdate();
     $this->end();
+    aTools::unlock();
   }
     
   public function requestSearchUpdate($allcultures = false)

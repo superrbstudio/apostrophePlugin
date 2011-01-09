@@ -6,6 +6,29 @@ class aVimeo extends aEmbedService
   {
   }
   
+  public function configured()
+  {
+    $settings = sfConfig::get('app_a_vimeo');
+    if (is_null($settings))
+    {
+      return false;
+    }
+    if (!isset($settings['oauthConsumerKey']))
+    {
+      return false;
+    }
+    if (!isset($settings['oauthConsumerSecret']))
+    {
+      return false;
+    }
+    return true;
+  }
+  
+  public function configurationHelpUrl()
+  {
+    return 'http://trac.apostrophenow.org/wiki/EmbedVimeo';
+  }
+  
   protected $features = array('thumbnail', 'search', 'browseUser');
   
   public function supports($feature)
@@ -116,12 +139,12 @@ class aVimeo extends aEmbedService
     return $info;
   }
   
-  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
     // Ignore title: we can't make an iframe any more accessible, hopefully Vimeo is offering alt attributes of its own
     $id = urlencode($id);
     return <<<EOM
-<iframe src="http://player.vimeo.com/video/$id?portrait=0&title=0&byline=0" width="$width" height="$height" frameborder="0"></iframe>
+<iframe src="http://player.vimeo.com/video/$id?portrait=0&title=0&byline=0&autoplay=$autoplay" width="$width" height="$height" frameborder="0"></iframe>
 EOM
 ;
   }

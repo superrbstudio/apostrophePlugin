@@ -6,6 +6,26 @@
 
 class BaseaMediaVideoForm extends aMediaItemForm
 {
+  protected $classifyEmbedResult;
+ 
+  public function __construct($item = null)
+  {
+    parent::__construct($item);
+    // If the item already has an embed code classify it
+    if ($item && strlen($item->embed))
+    {
+      $this->classifyEmbed($item->embed);
+      // Never make anyone stare at an embed code when we natively support
+      // a service. This is crucial in part because we can't give the false
+      // impression that they can customize the YouTube embed code 
+      // (since we really generate it on the fly).
+      if (strlen($item->service_url))
+      {
+        $this->setDefault('embed', $item->service_url);
+      }
+    }
+  }
+  
   // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
   // it's just here for our i18n-update task to sniff
   private function i18nDummy()
@@ -19,37 +39,13 @@ class BaseaMediaVideoForm extends aMediaItemForm
     // This call was missing, preventing easy extension of all media item edit forms at the project level
     parent::configure();
     
-    unset($this['id'], $this['type'], $this['slug'], $this['width'], $this['height'], $this['format']);
+    unset($this['id'], $this['type'], $this['slug'], $this['width'], $this['height'], $this['format'], $this['service_url']);
     $object = $this->getObject();
-//    if ($object->embed)
-//    {
-//      unset($this['service_url']);
-//      $this->setValidator('embed',
-//        new sfValidatorText(
-//          array('required' => true, 'trim' => true),
-//          array('required' => "Not a valid embed code")));
-//    }
-//    else
-//    {
-//      unset($this['embed']);
-      $this->setValidator('service_url',
-        new sfValidatorUrl(
-          array('required' => true, 'trim' => true),
-          array('required' => "Not a valid YouTube URL")));
-//    }
+    $this->validatorSchema->setPostValidator(
+      new sfValidatorCallback(
+        array('required' => true, 'callback' => array($this, 'validateEmbed')),
+        array('required' => "Not a valid embed code", 'invalid' => "Not a valid embed code")));        
 	
-
-		$this->setWidget('view_is_secure', new sfWidgetFormChoice(
-			array(
-				'expanded' => true,
-			  'choices' => array(
-				0 => "Public",
-				1 => "Hidden"
-				),
-				'default' => 0
-				)));
-    $this->setValidator('view_is_secure', new sfValidatorBoolean());
-    
     $this->setWidget('file', new aWidgetFormInputFilePersistent());
 
     $item = $this->getObject();
@@ -66,22 +62,140 @@ class BaseaMediaVideoForm extends aMediaItemForm
       'required' => 'Select a JPEG, PNG or GIF file as a thumbnail')
     ));
     
-    $this->widgetSchema->setLabel("view_is_secure", "Permissions");
-    $this->widgetSchema->setLabel("categories_list", "Categories");
     $label = 'Replace Thumbnail';
     if (!$this['file']->getWidget()->getOption('default-preview'))
     {
       $label = 'Choose Thumbnail';
     }
-    $this->widgetSchema->setLabel("file", $label);
+    $this->widgetSchema->setLabel('file', $label);
+    $this->widgetSchema->setLabel('embed', 'Embed Code or URL');
     $this->widgetSchema->setFormFormatterName('aAdmin');  
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+  }
+
+  /**
+   * preValidateEmbed
+   *
+   * @param $value
+   * @return array
+   * @author Thomas Boutell
+   **/
+  public function classifyEmbed($value)
+  {
+    // If it is a URL or embed code recognized by one of the services we support, use that service
+    $service = aMediaTools::getEmbedService($value);
+    if ($service)
+    {
+      $id = $service->getIdFromUrl($value);
+      $serviceInfo = $service->getInfo($id);
+      if (!$serviceInfo)
+      {
+        $this->classifyEmbedResult = array('ok' => false, 'error' => 'That video does not exist or you cannot access it.');
+        return $this->classifyEmbedResult;
+      }
+      $thumbnail = $service->getThumbnail($id);
+      $info = aImageConverter::getInfo($thumbnail);
+      if (!isset($info['width']))
+      {
+        $this->classifyEmbedResult = array('ok' => false, 'error' => 'That video exists but the service provider does not allow you to embed it.');
+        return $this->classifyEmbedResult;
+      }
+      $this->classifyEmbedResult = array('ok' => true, 'thumbnail' => $thumbnail, 'serviceInfo' => $serviceInfo, 'embed' => $service->embed($id, $info['width'], $info['height']), 'width' => $info['width'], 'height' => $info['height'], 'format' => $info['format'], 'serviceUrl' => $service->getUrlFromId($id));
+      return $this->classifyEmbedResult;
+    }
+    // Don't let this become a way to embed arbitrary HTML
+    $value = trim(strip_tags($value, "<embed><object><param><applet><iframe>"));
+    // Kill any text outside of tags
+    if (preg_match_all("/<.*?>/", $value, $matches))
+    {
+      $value = implode("", $matches[0]);
+    }
+    else
+    {
+      $value = '';
+    }
+    if (!strlen($value))
+    {
+      $this->classifyEmbedResult = array('ok' => false, 'error' => 'A valid embed code or recognized media service URL is required.');
+      return $this->classifyEmbedResult;
+    }
+    
+    // For existing objects the embed code will already be parameterized, in that situation
+    // we don't try (and fail) to extract the dimensions again
+    if (strpos($value, '_WIDTH_') === false)
+    {
+      // If the width or height is not available, we can't process it correctly
+      if ((!preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $value)) || (!preg_match("/height\s*=\s*([\"'])(\d+)\\1/i", $value, $matches)))
+      {
+        $this->classifyEmbedResult = array('ok' => false, 'error' => 'No width and height in embed code');
+        return $this->classifyEmbedResult;
+      }
+      if (preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $value, $matches))
+      {
+        $result['width'] = $matches[2];
+      }
+      if (preg_match("/height\s*=\s*([\"'])(\d+)\\1/i", $value, $matches))
+      {
+        $result['height'] = $matches[2];
+      }
+    }
+    else
+    {
+      $result['width'] = $this->getObject()->width;
+      $result['height'] = $this->getObject()->height;
+    }
+    
+    // Put placeholders in the embed/applet/object tags
+    $value = preg_replace(
+      array(
+        "/width\s*=\s*([\"'])\d+%?\\1/i",
+        "/height\s*=\s*([\"'])\d+%?\\1/i",
+        "/alt\s*\s*([\"']).*?\\1/i"),
+      array(
+        "width=\"_WIDTH_\"",
+        "height=\"_HEIGHT_\"",
+        "alt=\"_TITLE_\""),
+      $value);
+    
+    $result['ok'] = true;
+    $result['embed'] = $value;
+    $this->classifyEmbedResult = $result;
+    return $this->classifyEmbedResult;
+  }
+
+  public function validateEmbed($validator, $values)
+  {
+    if (!$this->classifyEmbedResult['ok'])
+    {
+      throw new sfValidatorErrorSchema($validator, array('embed' => new sfValidatorError($validator, $this->classifyEmbedResult['error'])));
+    }
+    $values['embed'] = $this->classifyEmbedResult['embed'];
+    return $values;
   }
   
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
+    // TODO: scan types for services etc. don't assume.
+    // But then we'd also have to prompt, if it's a nonnative embed
     $object->type = 'video';
+    
+    if (isset($this->classifyEmbedResult['serviceUrl']))
+    {
+      $object->service_url = $this->classifyEmbedResult['serviceUrl'];
+      $object->width = $this->classifyEmbedResult['width'];
+      $object->height = $this->classifyEmbedResult['height'];
+      $object->format = $this->classifyEmbedResult['format'];
+    }
+    else
+    {
+      // Don't let a new nonnative embed code be overshadowed by
+      // an old service URL
+      $object->service_url = null;
+    }
+    $object->width = $this->classifyEmbedResult['width'];
+    $object->height = $this->classifyEmbedResult['height'];
+    
     return $object;
   }
 }

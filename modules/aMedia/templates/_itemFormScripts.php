@@ -1,6 +1,7 @@
 <?php use_helper('a') ?>
-<script src='/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'></script>
-<script type="text/javascript" charset="utf-8">
-	pkTagahead(<?php echo json_encode(url_for("taggableComplete/complete")) ?>);
- 	aMultipleSelectAll({'choose-one':<?php echo json_encode(__('Choose Categories', null, 'apostrophe')) ?>, 'add': '+ New Category'});
-</script>
+<?php use_javascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js') ?>
+<?php $options = array('choose-one' => a_('Choose Categories')) ?>
+<?php if (sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
+  <?php $options['add'] = a_('+ New Category') ?>
+<?php endif ?>
+<?php a_js_call('aMultipleSelectAll(?)', $options) ?>

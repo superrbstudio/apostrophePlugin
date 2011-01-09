@@ -3,7 +3,7 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
 ?>
 <?php use_helper('a') ?>
-<?php slot('body_class') ?>a-media<?php end_slot() ?>
+<?php slot('body_class') ?>a-media a-media-upload<?php end_slot() ?>
 
 <div class="a-media-library">
 

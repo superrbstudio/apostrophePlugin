@@ -1,8 +1,5 @@
 <?php
 
-// Bring in LESS compiler
-require dirname(__FILE__) . '/../lessphp/lessc.inc.php';
-
 // Loading of the a CSS, JavaScript and helpers is now triggered here 
 // to ensure that there is a straightforward way to obtain all of the necessary
 // components from any partial, even if it is invoked at the layout level (provided
@@ -141,7 +138,6 @@ function a_navaccordion()
 
 function a_get_stylesheets()
 {
-  $lessc = new lessc();
   $newStylesheets = array();
   $response = sfContext::getInstance()->getResponse();
   foreach ($response->getStylesheets() as $file => $options)
@@ -174,6 +170,11 @@ function a_get_stylesheets()
       
       if ((!file_exists($compiled)) || ((!sfConfig::get('app_a_minify')) && (filemtime($compiled) < filemtime($path))))
       {
+        if (!isset($lessc))
+        {
+          $lessc = new lessc();
+        }
+        $lessc->importDir = dirname($path).'/';
         file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
       }
       $newStylesheets['/uploads/asset-cache/' . $name] = $options;
@@ -211,6 +212,8 @@ function _a_get_assets_body($type, $assets)
   // reset the list in the response object
   if (!sfConfig::get('app_a_minify', false))
   {
+		// This branch is seen only for CSS, because javascript calls the original Symfony
+		// functionality when minify is off
     foreach ($assets as $file => $options)
     {
       $html .= stylesheet_tag($file, $options);
@@ -225,7 +228,14 @@ function _a_get_assets_body($type, $assets)
 		{
 			// Nonlocal URL. Don't get cute with it, otherwise things
 			// like Addthis don't work
-      $html .= stylesheet_tag($file, $options);
+			if ($type === 'stylesheets')
+			{
+      	$html .= stylesheet_tag($file, $options);
+			}
+			else
+			{
+      	$html .= javascript_include_tag($file, $options);
+			}
 			continue;
 		}
     /*

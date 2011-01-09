@@ -14,11 +14,13 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
   {
     // These were merged in from the separate plugins. TODO: clean up a little.
     
-    if (sfConfig::get('app_a_routes_register', true) && in_array('a', sfConfig::get('sf_enabled_modules', array())))
-    {
-      $this->dispatcher->connect('routing.load_configuration', array('aRouting', 'listenToRoutingLoadConfigurationEvent'));
-    }
-
+    // There is no more "default" routing outside the sandbox project. We never used it (thus never tested it) and it stopped working 
+    // with the introduction of plugins like the blog that need routes that appear before the a_page route, so it's gone.
+    // It's very simple to write an a_page route at the project level that puts CMS pages somewhere other than
+    // the root, just edit the one that's in our sandbox project routing.yml.
+    
+    // Routes for various admin modules
+    
     if (sfConfig::get('app_a_admin_routes_register', true))
     {
       $this->dispatcher->connect('routing.load_configuration', array('aRouting', 'listenToRoutingAdminLoadConfigurationEvent'));

@@ -1,6 +1,6 @@
 <?php
 
-class BaseaVideoSlotActions extends BaseaSlotActions
+class BaseaVideoSlotActions extends aSlotActions
 {
   public function executeEdit(sfRequest $request)
   {

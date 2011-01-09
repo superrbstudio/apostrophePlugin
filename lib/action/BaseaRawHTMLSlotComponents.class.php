@@ -1,6 +1,6 @@
 <?php
 
-class BaseaRawHTMLSlotComponents extends BaseaSlotComponents
+class BaseaRawHTMLSlotComponents extends aSlotComponents
 {
   
   // Very raw, very unfiltered, that's the point. Don't use this

@@ -56,6 +56,10 @@ class aYoutube extends aEmbedService
     $namespaces = $xml->getNameSpaces(true);
     $media = $xml->children($namespaces['media']);
     $tags = array();
+    if (!isset($media->group->player))
+    {
+      return false;
+    }
     foreach ($xml->category as $category)
     {
       // Don't bring in non-human-friendly metadata
@@ -78,6 +82,13 @@ class aYoutube extends aEmbedService
   {
     $params['start-index'] = ($page - 1) * $perPage + 1;
     $params['max-results'] = $perPage;
+    // YouTube will bounce our request for the last page of results if we 
+    // ask for nine results and there is only one left (eg page 112 of results
+    // for 'cats', which has the YouTube hard limit of 1000 results)
+    if ($params['start-index'] + $params['max-results'] > 1000)
+    {
+      $params['max-results'] = 1000 - $params['start-index'] + 1;
+    }
     $feed = $feed . '?' . http_build_query($params);
     $document = @simplexml_load_file($feed);
     if (!$document)
@@ -87,7 +98,11 @@ class aYoutube extends aEmbedService
     $namespaces = $document->getNameSpaces(true);
     $openSearch = $document->children($namespaces['openSearch']);
     $entries = $document->entry;
-    $results = array('total' => (int) $openSearch->totalResults);
+    // "Why no more than 1,000 results?" Because if you actually try to get at, say, page 500 of the 
+    // many thousands of results for "cats," YouTube gives a "sorry, YouTube does not serve more than 1,000 
+    // results for any query" error on the site, and appears to be similarly cutting things short
+    // at the API level. There is no point in claiming more pages than you can actually browse.
+    $results = array('total' => min((int) $openSearch->totalResults, 1000));
     $output = array();
     foreach ($entries as $entry)
     {
@@ -108,16 +123,21 @@ class aYoutube extends aEmbedService
     return $results;
   }
 
-  public function embed($id, $width, $height, $title = '', $wmode = 'opaque')
+  public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
+    if ($autoplay)
+    {
+      $autoplay = 't';
+    }
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
-    $url = "http://www.youtube.com/v/$id&fs=1";
+    $url = "http://www.youtube.com/v/$id&fs=1&autoplay=$autoplay";
 return <<<EOM
 <object alt="$title" width="$width" height="$height">
 	<param name="movie" value="$url"></param>
 	<param name="allowFullScreen" value="true"></param>
 	<param name="allowscriptaccess" value="always"></param>
 	<param name="wmode" value="$wmode"></param>
+	<param name="autoplay" value="$autoplay"></param>
 	<embed alt="$title" src="$url" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOM
@@ -159,7 +179,15 @@ EOM
     }
     // get nodes in media: namespace for media information
     $media = $entry->children('http://search.yahoo.com/mrss/');
-      
+    if (!$media)
+    {
+      return false;
+    }
+    if (!isset($media->group->player))
+    {
+      // Probably a geographical restriction 
+      return false;
+    }
     // get a more canonical video player URL
     $attrs = $media->group->player->attributes();
     $canonicalUrl = $attrs['url']; 

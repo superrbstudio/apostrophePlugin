@@ -3,7 +3,15 @@
   $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
 ?>
 <?php use_helper('a') ?>
-<?php slot('body_class','a-media a-media-show') ?>
+
+<?php $type = aMediaTools::getAttribute('type') ?>
+<?php $selecting = aMediaTools::isSelecting() ?>
+<?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
+
+<?php $body_class = 'a-media a-media-show'?>
+<?php $body_class .= ($selecting) ? ' a-media-selecting a-previewing':'' ?>
+<?php slot('body_class', $body_class) ?>
+
 <?php $id = $mediaItem->getId() ?>
 <?php $i = 1 ?>
 <?php // If we can't render this format on this particular server platform (ie PDF on Windows), ?>
@@ -25,7 +33,7 @@
 
 <div class="a-media-library">	
 	<div class="a-media-items">		
-    <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem, 'options' => $options,  'layout' => $layout, 'i' => $i )) ?>
+    <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem, 'options' => $options,  'layout' => $layout, 'i' => $i, 'selecting' => $selecting, 'autoplay' => true)) ?>
 	</div>
 </div>
 

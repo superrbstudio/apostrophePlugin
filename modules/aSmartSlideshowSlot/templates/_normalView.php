@@ -15,7 +15,7 @@
 <?php use_helper('a') ?>
 
 <?php if ($editable): ?>
-  <?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page)) ?>
+  <?php include_partial('a/simpleEditWithVariants', array('pageid' => $page->id, 'name' => $name, 'permid' => $permid, 'slot' => $slot, 'page' => $page, 'label' => a_get_option($options, 'editLabel', a_('Edit')))) ?>
 <?php endif ?>
 
 <?php if (count($items)): ?>

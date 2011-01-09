@@ -1,3 +1,4 @@
+<?php // This is curerently not fully supported. Possibly later in a personal settings dialog ?>
 <?php use_helper('a') ?>
 <?php $page = aTools::getCurrentPage(); ?>
 <?php if ($page): ?>

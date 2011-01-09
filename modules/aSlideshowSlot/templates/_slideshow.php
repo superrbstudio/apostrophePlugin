@@ -5,6 +5,7 @@
   $n = isset($n) ? $sf_data->getRaw('n') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 
+  $title = count($items) > 1 ? __('Click For Next Image', null, 'apostrophe') : false;
 	$id = ($options['idSuffix']) ? $id.'-'.$options['idSuffix']:$id;
 ?>
 <?php use_helper('a') ?>
@@ -45,4 +46,4 @@
 </ul>
 <?php endif ?>
 
-<?php a_js_call('apostrophe.slideshowSlot(?)', array('debug' => false, 'id' => $id, 'position' => $options['position'], 'interval' => $options['interval'],  'transition' => $options['transition'], 'title' => __('Click For Next Image', null, 'apostrophe'))) ?>
+<?php a_js_call('apostrophe.slideshowSlot(?)', array('debug' => false, 'id' => $id, 'position' => $options['position'], 'interval' => $options['interval'],  'transition' => $options['transition'], 'title' => $title)) ?>

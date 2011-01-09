@@ -70,6 +70,11 @@ class BaseaMediaEditForm extends aMediaItemForm
       $extensions = array();
       foreach ($infos as $info)
       {
+        if ($info['embeddable'])
+        {
+          // This widget is actually supplying a thumbnail - allow gif, jpg and png
+          $info['extensions'] = array('gif', 'jpg', 'png');
+        }
         foreach ($info['extensions'] as $extension)
         {
           $extensions[] = $extension;
@@ -99,31 +104,11 @@ class BaseaMediaEditForm extends aMediaItemForm
         'validated_file_class' => 'aValidatedFile',
         "required" => $this->getObject()->isNew() ? true : false),
       array("mime_types" => "The following file types are accepted: " . implode(', ', $extensions))));
-    
-    $this->setValidator('title', new sfValidatorString(array(
-      'min_length' => 3,
-      'max_length' => 200,
-      'required' => true
-    ), array(
-      'min_length' => 'Title must be at least 3 characters.',
-      'max_length' => 'Title must be <200 characters.',
-      'required' => 'You must provide a title.')
-    ));
 
-		$this->setWidget('view_is_secure', new sfWidgetFormSelectRadio(array(
-		  'choices' => array(0 => 'Public', 1 => 'Hidden'),
-		  'default' => 0
-		)));
-	
-		$this->setValidator('view_is_secure', new sfValidatorBoolean());
-
-    $this->widgetSchema->setLabel('view_is_secure', 'Permissions');
-    $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
+    // Necessary to work around FCK's "id and name cannot differ" problem
+    // ... But we do it in the action which knows when that matters
+    // $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
-    
-    $this->widgetSchema->setLabel('categories_list', 'Categories');
-    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
   }
   
   public function updateObject($values = null)

@@ -429,6 +429,12 @@ text-indent: 0;
 	user-select: none;
 }
 
+.a-btn.a-toggle-btn
+{
+	-moz-user-select: none;
+	user-select: none;
+}
+
 .a-btn.a-toggle-btn.option-1 .option-1,
 .a-btn.a-toggle-btn.option-2 .option-2 { display: block; }
 
@@ -466,7 +472,8 @@ border: 1px inset rgba(0,0,0,0.20);
 .a-ui .a-link, .a-link { padding: 1px 0; white-space: normal; height: auto; line-height: 16px; }
 
 .a-ui .a-link.icon { padding: 1px 20px 1px 0; }
-
+.a-ui .a-tag .a-link.icon,
+.a-ui .a-popular.a-tag .a-link { padding: 1px 18px 1px 0; }
 .a-ui .a-link.icon > .icon { left: auto; right: 0; }
 
 .a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }

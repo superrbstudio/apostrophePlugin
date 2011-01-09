@@ -21,13 +21,21 @@ width: 120px;
 line-height: 20px;
 }
 
+.a-ui .a-form-row label.full,
+.a-form-row label.full
+{
+	width: 100%;
+}
+
 .a-form-row input[type="text"],
 .a-form-row input[type="password"],
 .a-form-row select,
 .a-form-row textarea
 {
 font-size: 12px;
--moz-border-radius:3px 3px 3px 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
 border:1px solid #ddd;
 float:left;
 font-family:Arial,sans-serif;
@@ -67,7 +75,7 @@ margin-left: 120px;
 .radio_list  { list-style: none; }
 .radio_list li,
 .radio_list input { float: left; }
-.radio_list li label { padding-left: 10px; padding-right: 10px; width: auto; }
+.radio_list li label { padding-left: 5px; padding-right: 15px; width: auto; }
 
 /* Apostrophe Multiple Select (aControls.js)
 -------------------------------------*/
@@ -90,7 +98,8 @@ margin-left: 120px;
 	margin: 5px 0;
 }
 
-.a-multiple-select .add input 
+.a-multiple-select .add .add-text,
+.a-multiple-select .add input[type="text"].add-text
 { 
 float: left;
 width: 120px;

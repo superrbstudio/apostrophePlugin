@@ -9,11 +9,13 @@
 
 <?php use_helper('a') ?>
 
-<?php slot('body_class','a-media a-media-index') ?>
-
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>
 <?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
+
+<?php $body_class = 'a-media a-media-index'?>
+<?php $body_class .= ($selecting) ? ' a-media-selecting':'' ?>
+<?php slot('body_class', $body_class) ?>
 
 <?php slot('a-page-header') ?>
 	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
@@ -55,7 +57,7 @@
 	 <?php for ($n = 0; ($n < count($results)); $n += $layout['columns']): ?>
 	   <div class="a-media-row">
 	   	<?php for ($i = $n; ($i < min(count($results), $n + $layout['columns'])); $i++): ?>
-        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $results[$i], 'layout' => $layout, 'i' => $i )) ?>
+        <?php include_partial('aMedia/mediaItem', array('mediaItem' => $results[$i], 'layout' => $layout, 'i' => $i, 'selecting' => $selecting, 'autoplay' => true)) ?>
 	   	<?php endfor ?>
 	   </div>
 	 <?php endfor ?>
@@ -78,7 +80,11 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <?php a_js_call('apostrophe.selectOnFocus(?)', '.a-select-on-focus') ?>
-<?php a_js_call('apostrophe.mediaEmbeddableToggle(?)', array('selector' => '.a-media-item.a-embedded-item')) ?>
+
+<?php if ($layout['name'] != "four-up"): ?>
+	<?php a_js_call('apostrophe.mediaEmbeddableToggle(?)', array('selector' => '.a-media-item.a-embedded-item')) ?>
+<?php endif ?>
+
 <?php if ($layout['name'] == "four-up" && !$selecting): ?>
-<?php a_js_call('apostrophe.mediaFourUpLayoutEnhancements(?)', array('selector' => '.four-up .a-media-item.a-type-image, .four-up .a-media-item.a-type-video')) ?>
+<?php a_js_call('apostrophe.mediaFourUpLayoutEnhancements(?)', array('selector' => '.four-up .a-media-item.a-type-image')) ?>
 <?php endif ?>

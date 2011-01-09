@@ -338,6 +338,23 @@ class aArray
   }
 
   /**
+   * Filter out null values. Works on both flat and associative arrays
+   */
+  public static function filterNulls($a)
+  {
+    $b = array();
+    foreach ($a as $key => $val)
+    {
+      if (is_null($val))
+      {
+        continue;
+      }
+      $b[$key] = $val;
+    }
+    return $b;
+  }
+
+  /**
    * Helpers for the above. 
    *
    * Compare two objects as strings via their string conversion methods.

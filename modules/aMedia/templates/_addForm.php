@@ -1,5 +1,5 @@
 <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
-	<div id="a-media-add" class="a-media-add a-media-select">
+	<div id="a-media-add" class="a-ui a-media-select a-media-add clearfix">
     <?php if ($uploadAllowed): ?>
       <?php include_partial('aMedia/uploadMultiple', array('form' => new aMediaUploadMultipleForm())) ?>    
     <?php endif ?>
@@ -11,7 +11,7 @@
     <?php endif ?>
   </div>
   
-  <?php if ($sf_params->get('add')): ?>
+  <?php if ($sf_params->get('add') || $sf_user->getFlash('aMedia.postMaxSizeExceeded')): ?>
     <?php // This is a validation error pass ?>
     <script type="text/javascript" charset="utf-8">
       $(function() {

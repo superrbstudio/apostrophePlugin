@@ -1,6 +1,6 @@
 <?php
 
-class BaseaSmartSlideshowSlotComponents extends BaseaSlotComponents
+class BaseaSmartSlideshowSlotComponents extends aSlotComponents
 {
   public function executeEditView()
   {

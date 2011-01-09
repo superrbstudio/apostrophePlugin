@@ -6,7 +6,7 @@
 <?php // Pretties up metatypes like _downloadable, returns "media item" if there is no specific type ?>
 <?php $type = aMediaTools::getNiceTypeName() ?>
 
-<div class="a-media-select clearfix">
+<div class="a-ui a-media-select clearfix">
   <?php // Thanks to Galileo for i18n corrections here ?>
   <?php // I adjusted the wording here to avoid saying "click on" as sometimes there is an explicit select button etc. ?>
   <p><?php echo __('Use the browsing and searching features to locate the %type% you want, then click to select it.', array('%type%' => __($type, null, 'apostrophe')), 'apostrophe') ?>

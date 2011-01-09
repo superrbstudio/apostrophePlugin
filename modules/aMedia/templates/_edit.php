@@ -19,6 +19,8 @@
   <?php $withPreview = false ?>
 <?php endif ?>
 
+<?php $embeddable = ($form instanceof BaseaMediaVideoForm) || ($item && $item->getEmbeddable()) ?>
+
 <?php use_helper('a') ?>
 
 <?php // Sometimes this is one item in a list of several in embedded forms, in ?>
@@ -49,37 +51,84 @@
   <div class="a-ui a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
 <?php endif ?>
 
-<?php if ($withPreview): ?>
-  <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
-  <div class="a-form-row preview">
-    <?php $widget = $form['file']->getWidget() ?>
-    <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
-    <?php if ($previewUrl): ?>
-      <?php echo image_tag($previewUrl) ?>
-    <?php else: ?>
-      <?php $format = $widget->getFormat($form['file']->getValue()) ?>
-      <?php if ($format): ?>
-        <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
-      <?php endif ?>
-    <?php endif ?>
-  </div>
+<?php // Prepare to render an embed code even though this object hasn't been saved yet ?>
+<?php $embedValues = array() ?>
+
+<?php // Preview of image and/or embed code. We do not need this when we are editing an existing item via AJAX ?>
+<?php // because a preview is on the screen ?>
+<?php if (!$item): ?>
+  <?php if (isset($form['embed']) && (!$form['embed']->hasError()) && strlen($form['embed']->getValue())): ?>
+    <?php $embedValues['embed'] = $form['embed']->getValue() ?>
+  <?php elseif (isset($form['service_url']) && strlen($form['service_url']->getValue())): ?>
+    <?php $embedValues['service_url'] = $form['service_url']->getValue() ?>
+  <?php endif ?>
+  <?php if (count($embedValues)): ?>
+    <?php $form->updateObject($embedValues) ?>
+    <?php $constraints = aMediaTools::getOption('gallery_constraints') ?>
+    <?php $width = $constraints['width'] ?>
+    <?php $height = $constraints['height'] ?>
+    <?php $embedCode = $form->getObject()->getEmbedCode($width, $height, 'c') ?>
+  <?php endif ?>
+
+  <?php if ($withPreview || isset($embedCode)): ?>
+    <?php // This is how we get the preview and/or file extension outside of the widget. Jamming it into the widget made templating weird ?>
+    <div class="a-form-row preview">
+	    <?php if (isset($embedCode)): ?>
+				<label class="full">Embed Preview</label>
+				<div class="a-form-field">
+  				<?php echo $embedCode ?>
+				</div>
+				<label class="full">Embed Thumbnail</label>
+  		<?php endif ?>
+      <?php $widget = $form['file']->getWidget() ?>
+      <?php $previewUrl = $widget->getPreviewUrl($form['file']->getValue(), aMediaTools::getOption('gallery_constraints')) ?>
+			<div class="a-form-field">
+	      <?php if ($previewUrl): ?>
+	        <?php echo image_tag($previewUrl) ?>
+	      <?php else: ?>
+	        <?php $format = $widget->getFormat($form['file']->getValue()) ?>
+	        <?php if ($format): ?>
+	          <span class="a-media-type <?php echo $format ?>" ><b><?php echo $format ?></b></span>
+	        <?php endif ?>
+	      <?php endif ?>
+			</div>
+    </div>
+  <?php endif ?>
 <?php endif ?>
 
-<?php // * If there is a file widget with an error put it on top ?>
-<?php // * If there is an embedded media form with no thumbnail yet, put it on top ?>
-<?php // * Then unset it so it doesn't get displayed later in the form. ?>
+<?php // Special handling for a new submission ?>
 
-<?php if (isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
-	<div class="a-form-row replace a-ui">
-    <?php echo $form['file']->renderLabel() ?>
-    <?php echo $form['file']->renderError() ?>
-    <?php echo $form['file']->render() ?>
-		<?php if ((!$single) && (!$item)): ?>
-      <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
-      <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
-    <?php endif ?>
-	</div>
-	<?php unset($form['file']) ?>
+<?php if (!$item): ?>
+
+  <?php // * If there is an embed widget with an error put it on top ?>
+  <?php // * If there is no value for the embed widget yet, put it on top ?>
+  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+
+  <?php if (isset($form['embed']) && ($form['embed']->hasError() || (!$form['file']->getValue()))): ?>
+  	<div class="a-form-row embed a-ui">
+      <?php echo $form['embed']->renderLabel() ?>
+      <?php echo $form['embed']->renderError() ?>
+      <?php echo $form['embed']->render() ?>
+  	</div>
+  	<?php unset($form['embed']) ?>
+  <?php endif ?>
+
+  <?php // * If there is a file widget with an error put it on top ?>
+  <?php // * If there is an embedded media form with no thumbnail yet, put it on top ?>
+  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+
+  <?php if (isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
+  	<div class="a-form-row replace a-ui">
+      <?php echo $form['file']->renderLabel() ?>
+      <?php echo $form['file']->renderError() ?>
+      <?php echo $form['file']->render() ?>
+  		<?php if ((!$single) && (!$item)): ?>
+        <a class="a-btn icon a-delete lite" href="#"><span class="icon"></span>Delete File</a>
+        <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
+      <?php endif ?>
+  	</div>
+  	<?php unset($form['file']) ?>
+  <?php endif ?>
 <?php endif ?>
 
 <div class="a-form-row title">
@@ -113,6 +162,14 @@
 	<div class="a-form-field">
 		<?php echo $form['categories_list']->render() ?>
 	</div>
+	<?php if ($item): ?>
+  	<?php $adminCategories = $item->getAdminCategories() ?>
+  	<?php if (count($adminCategories)): ?>
+      <div class="a-form-field">
+  	    <?php echo 'Set by admin: ' . implode(',', $adminCategories) ?>
+  	  </div>
+  	<?php endif ?>
+  <?php endif ?>
 	<?php if (!$firstPass): ?>
 		<?php echo $form['categories_list']->renderError() ?>
 	<?php endif ?>
@@ -143,11 +200,21 @@
   </div>
 </div>
 
+<?php // Let them replace an existing embed code. ?>
+<?php // TODO: have john wrap the "replace file" button or similar around this so it's not always in your face ?>
+<?php if (isset($form['embed'])): ?>
+  <div class="a-form-row embed a-ui">
+    <?php echo $form['embed']->renderLabel() ?>
+    <?php echo $form['embed']->renderError() ?>
+    <?php echo $form['embed']->render() ?>
+	</div>
+<?php endif ?>
+
 <?php // Let them replace an existing file. ?>
 <?php if (isset($form['file'])): ?>
 	<div class="a-form-row replace a-ui">
-		<div class="a-options-container">		
-			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $form instanceof BaseaMediaVideoForm ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
+		<div class="a-options-container">
+			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $embeddable ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
 			<div class="a-options dropshadow">
       	<?php echo $form['file']->renderLabel() ?>
 				<div class="a-form-field">
@@ -168,31 +235,30 @@
 <?php endif ?>
 
 <?php if ($single): ?>
-<ul class="a-ui a-controls">
- 	<li>
-		<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
-	</li>
- 	<li>
-		<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
-	</li>
-	<?php if ($item): ?>
-  	<li>
-  		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
-       array("slug" => $item->slug)),
-       array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
-       array("target" => "_top")) ?>
+  <ul class="a-ui a-controls">
+   	<li>
+  		<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
   	</li>
-  <?php endif ?>
+   	<li>
+  		<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
+  	</li>
+  	<?php if ($item): ?>
+    	<li>
+    		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
+         array("slug" => $item->slug)),
+         array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
+         array("target" => "_top")) ?>
+    	</li>
+    <?php endif ?>
 	</ul>
-<div class="a-form-row a-hidden">
-		<?php echo $form->renderHiddenFields() ?>
-</div>
+  <div class="a-form-row a-hidden">
+  		<?php echo $form->renderHiddenFields() ?>
+  </div>
 </form>
+<?php else: ?>
+</div>
 <?php endif ?>
 			
-<?php if (!$item): ?>
-	</div>
-<?php endif ?>
 
 <?php if (!isset($itemFormScripts)): ?>
 <?php // TODO: When Categories and Tags are updated to use our inline JS widgets, these scripts can get removed ?>

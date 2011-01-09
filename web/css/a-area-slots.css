@@ -26,14 +26,15 @@
 /* .a-area wraps .a-slots */
 /* .a-slots wraps all slots, .a-slot */
 /* .a-slot wraps .a-slot-content */
-/* .a-slot-content wraps .a-slot-content-container AND .a-slot-form :: BOTH .a-slot-content-container AND .a-slot-form are not output when logged out */
+/* .a-slot-content wraps .a-slot-content-container AND .a-slot-form */
+/* BOTH .a-slot-content-container AND .a-slot-form are not output when logged out */
 
 .a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: relative; }
 
 .a-area.editing-now,
 .a-slot.editing-now { z-index: 900; }
 
-.logged-in .a-slot { min-height: 20px; margin-bottom: 20px; }
+.logged-in .a-slot { min-height: 20px; }
 
 
 /* Controls for Areas & Slots
@@ -41,7 +42,7 @@
 
 .a-ui.a-controls
 { 
-position: relative;
+
 margin: 0;
 padding: 0;
 list-style: none;
@@ -62,7 +63,7 @@ clear: none;
 }
 
 .a-ui.a-controls li:last-child,
-.a-ui.a-controls li.last { margin: 0 0 2px 0 !important; } /* .last option has no margin */
+.a-ui.a-controls li.last { margin: 0 0 2px 0 } /* .last option has no margin */
 
 .a-ui.a-controls.stacked li
 {

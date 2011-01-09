@@ -182,11 +182,29 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     return $result;
   }
 
-  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque')
+  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque', $autoplay = false)
   {
     if ($height === false)
     {
-      // Scale the height. I had this backwards
+      // We need to scale the height. That requires knowing the true height
+      if (!$this->height)
+      {
+        // Not known yet. This comes up when previewing a video with a service URL that we haven't saved yet
+        if ($this->service_url)
+        {
+          $service = aMediaTools::getEmbedService($this->service_url);
+          $thumbnail = $service->getThumbnail($service->getIdFromUrl($this->service_url));
+          if ($thumbnail)
+          {
+            $info = aImageConverter::getInfo($thumbnail);
+            if (isset($info['width']))
+            {
+              $this->width = $info['width'];
+              $this->height = $info['height'];
+            }
+          }
+        }
+      }
       $height = floor(($width * $this->height / $this->width) + 0.5); 
     }
 
@@ -197,7 +215,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       if ($this->service_url)
       {
         $service = aMediaTools::getEmbedService($this->service_url);
-        return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode);
+        return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode, $autoplay);
       }
       elseif ($this->embed)
       {
@@ -411,13 +429,39 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   
   public function getImageAvailable()
   {
-    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a width
-    return $this->width;
+    // All that has to happen is we have an original (sometimes it's a thumbnail of a video) and therefore a format AND
+		// a width. We used to check width alone, however width is set even for dumb video embeds now, and non-image files
+		// have a format but no width
+    return $this->width && strlen($this->format);
   }
   
   public function getCroppable()
   {
     // Right now images are always croppable and nothing else is
     return ($this->type === 'image');
+  }
+  
+  // Returns categories that were added to this object by someone else which this user
+  // is not eligible to remove
+  
+  public function getAdminCategories()
+  {
+    $reserved = array();
+    $existing = Doctrine::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->id)->execute();
+    $categoriesForUser = aCategoryTable::getInstance()->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $this->isAdmin())->execute();
+    $ours = array_flip(aArray::getIds($categoriesForUser));
+    foreach ($existing as $category)
+    {
+      if (!isset($ours[$category->id]))
+      {
+        $reserved[] = $category;
+      }
+    }
+    return $reserved;
+  }
+  
+  public function isAdmin()
+  {
+    return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
   }
 }

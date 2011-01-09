@@ -7,7 +7,7 @@
 
 <?php include_component('aMedia', 'browser') ?>
 <div class="a-media-library">
-	<div class="a-media-select a-ui">
+	<div class="a-ui a-media-select clearfix">
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 
@@ -20,6 +20,7 @@
 					<?php echo $form['service']->render() ?>
 				</div>
 				<?php echo $form['service']->renderError() ?>
+				<?php include_partial('aMedia/unconfiguredServices') ?>
 			</div>
 			<h4><?php echo a_('Add Linked Account') ?></h4>
 			<div class="a-form-row username">
@@ -46,7 +47,7 @@
 		          <li class="a-service a-<?php echo $account->service ?>"><?php echo $account->service ?></li>
 		          <li class="a-account"><?php echo a_entities($account->username) ?></li>
 		          <?php if (isset($form)): ?>
-		            <li class="a-actions"><?php echo a_button(a_('Remove'), 'aMedia/linkRemoveAccount?id=' . $account->id, array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
+		            <li class="a-actions"><?php echo a_button(a_('Remove'), url_for('aMedia/linkRemoveAccount?id=' . $account->id), array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
 		          <?php endif ?>
 		        </ul>
 		      </li>

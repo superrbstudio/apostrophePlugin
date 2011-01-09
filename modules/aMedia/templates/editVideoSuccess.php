@@ -8,7 +8,7 @@
 ?>
 <?php use_helper('a') ?>
 
-<?php slot('body_class') ?>a-media<?php end_slot() ?>
+<?php slot('body_class') ?>a-media a-media-upload<?php end_slot() ?>
 
 <div class="a-media-library">
 
@@ -24,10 +24,8 @@
      </h3>
   </div>
 
-  <div class="a-media-items">				
-  	<div class="a-media-items">			
-  	<?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for('aMedia/editVideo'))) ?>		
-  	</div>
+  <div class="a-media-items a-media-edit-video">				
+	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for('aMedia/editVideo'))) ?>		
   </div>
 
 </div>

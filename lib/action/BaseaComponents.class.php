@@ -7,7 +7,7 @@
  * @subpackage a
  * @author     P'unk Ave
  */
-class BaseaComponents extends BaseaSlotComponents
+class BaseaComponents extends aSlotComponents
 {
   public function executeSubnav(sfRequest $request)
   {

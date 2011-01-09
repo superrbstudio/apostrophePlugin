@@ -1,5 +1,5 @@
 <?php
-class BaseaAudioSlotComponents extends BaseaSlotComponents
+class BaseaAudioSlotComponents extends aSlotComponents
 {
   public function executeEditView()
   {

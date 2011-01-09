@@ -24,9 +24,6 @@ generator:
         class: aUserAdminFilter
       form:
         class: aUserAdminForm
-        display:
-          # hid permissions because groups imply them and don't confuse admins
-          "NONE":                   [username, password, password_again, email_address, first_name, last_name, is_active, groups_list]
         actions:
           _save_and_list:
           _list:

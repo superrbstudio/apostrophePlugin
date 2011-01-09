@@ -12,7 +12,7 @@
 <?php use_javascript("/apostrophePlugin/js/aCrop.js") ?>
 <?php use_stylesheet("/apostrophePlugin/css/Jcrop/jquery.Jcrop.css") ?>
 
-<div class="a-media-select clearfix">
+<div class="a-ui a-media-select clearfix">
 	<h3><?php echo $label ?></h3>
 
   <div class="a-ui">
@@ -49,9 +49,7 @@
 
 	<ul class="a-ui a-controls">
 		<li><?php echo link_to('<span class="icon"></span>'.__('Save Selection', null, 'apostrophe'), 'aMedia/selected', array('class'=>'a-btn save big','id' => 'a-save-media-selection', )) ?></li>
- 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big')) ?></li>
+ 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big a-select-cancel')) ?></li>
 	</ul>
 	
 </div>
-
-<?php a_js_call('apostrophe.aClickOnce(?)', array('selector' => '#a-save-media-selection')) ?>

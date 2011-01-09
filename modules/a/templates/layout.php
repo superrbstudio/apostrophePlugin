@@ -8,7 +8,6 @@
   <?php $root = aPageTable::retrieveBySlug('/') ?>
 <head>
 	<?php // What do you guys think about Chrome frame? It's out of beta now :D ?>
-	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
 	<?php include_title() ?>
@@ -16,6 +15,15 @@
 	<?php // a_include_stylesheets has a built in caching combiner/minimizer when enabled ?>
   <?php a_include_stylesheets() ?>
 	<?php a_include_javascripts() ?>
+	
+	<?php if (has_slot('og-meta')): ?>
+		<?php include_slot('og-meta') ?>
+	<?php endif ?>
+
+	<?php if ($fb_page_id = sfConfig::get('app_a_facebook_page_id')): ?>
+		<meta property="fb:page_id" content="<?php echo $fb_page_id ?>" />		
+	<?php endif ?>
+	
 	<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<!--[if lt IE 7]>
@@ -52,24 +60,24 @@
     <?php endif ?>
     
     <div class="a-header clearfix">
-    <?php if (has_slot('a-header')): ?>
-      <?php include_slot('a-header') ?>
-    <?php else: ?>
-        <?php if (has_slot('a-logo')): ?>
-          <?php include_slot('a-logo') ?>
-        <?php else: ?>
-          <?php a_slot('logo', 'aButton', array(
-						'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
-						'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
-						'link' => url_for('@homepage'), 
-						'global' => true, 
-						'width' => 360, 
-						'height' => 200, 
-						'flexHeight' => true, 
-						'resizeType' => 's', 
-					)) ?>
-        <?php endif ?>
-    <?php endif ?>
+	    <?php if (has_slot('a-header')): ?>
+	      <?php include_slot('a-header') ?>
+	    <?php else: ?>
+	        <?php if (has_slot('a-logo')): ?>
+	          <?php include_slot('a-logo') ?>
+	        <?php else: ?>
+	          <?php a_slot('logo', 'aButton', array(
+							'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
+							'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
+							'link' => url_for('@homepage'), 
+							'global' => true, 
+							'width' => 360, 
+							'height' => 200, 
+							'flexHeight' => true, 
+							'resizeType' => 's', 
+						)) ?>
+	        <?php endif ?>
+	    <?php endif ?>
   	</div>
 
 		<?php if (has_slot('a-tabs')): ?>

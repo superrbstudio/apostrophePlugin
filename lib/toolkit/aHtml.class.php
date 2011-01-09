@@ -218,14 +218,16 @@ class aHtml
       $result = htmlspecialchars($value);
     }
 
+    // Browser RTEs love to insert <p>&nbsp;</p> where <br /> is all they really need.
+    // There are more elaborate cases we don't mess with because 
+    // introducing a <br /> as a replacement for <h4>&nbsp;</h4> would not
+    // have the same impact (an h4-sized gap between two h4s). Tested across
+    // browsers. Fixes #500
+    $result = str_replace('<p>&nbsp;</p>', '<br />', $result);
+    
     if($htmlStrictBr)
     {
-      error_log("Whee strict");
       $result = str_replace('<br>', '<br />', $result);
-    }
-    else
-    {
-      error_log("Loosey goosey");
     }
 
     if ($oldHandler)
@@ -466,12 +468,8 @@ class aHtml
 	  $result = "";
 	  $count = 0;
 		$num_words = count($words);
-		
-		$shortEnough = true;
-		
 	  foreach ($words as $word) {
-	    if ($count > $word_limit) {
-				$shortEnough = false;
+	    if ($count >= $word_limit) {
 	      break;
 	    } elseif (preg_match("/\<.*?\/\>/", $word)) {
 	      # XHTML non-container tag, we don't have to guess
@@ -506,13 +504,6 @@ class aHtml
 	      }
 	    }
 	  }
-	
-		if ($shortEnough)
-		{
-			// Leave it totally untouched if it is short enough.
-			// Now you can use !== to see if it changed anything.
-			return $string;
-		}
 
 		$append_ellipsis = false;
 		if (isset($options['append_ellipsis']))
@@ -530,34 +521,12 @@ class aHtml
 	  return $result;
 	}
 
-  // This is a quick and dirty implementation based on calling limitWords
-  // with an optimistic guess and then backing off a few times if necessary
-  // until we get under the byte limit. Note that limitBytes is designed
-  // to fit things in buffers, not save screen space, so it does have to
-  // make sure the result is not too big
-  
-	public static function limitBytes($string, $byte_limit, $options = array())
-	{
-	  $word_limit = (int) ($byte_limit / 8);
-	  while (true)
-	  {
-	    $s = aHtml::limitWords($string, $word_limit, $options);
-	    if (strlen($s) <= $byte_limit)
-	    {
-	      break;
-	    }
-	    $word_limit = (int) ($word_limit * 0.75);
-	  }
-	  return $s;
-	}
-
   public static function toText($html)
   {
     # Nothing fancy, we use the text for indexing only anyway.
     # It would be nice to do a prettier job here for future applications
     # that need pretty plaintext representations. That would be useful 
-    # as an alt-body in emails. This does not entity-decode. See
-    // toPlaintext for that
+    # as an alt-body in emails
     $txt = strip_tags($html);
     return $txt;
   }
@@ -588,20 +557,18 @@ class aHtml
   
   public static function obfuscateMailtoInstance($args)
   {
+    static $count = 0;
     list($user, $domain, $label) = array_slice($args, 1);
     // We get some weird escaping problems without the trims
     $user = trim($user);
     $domain = trim($domain);
-    $guid = aGuid::generate();
-    $href = self::jsEscape("mailto:$user@$domain");
-    $label = self::jsEscape(trim($label));
-    // ACHTUNG: this is carefully crafted to avoid introducing extra whitespace
-		// Note: $guid was returning IDs with leading numbers. This threw validation errors so I appended a 'g-' to the ID - JB 7.22.10
-    return "<a href='#' id='g-".$guid."'></a><script type='text/javascript' charset='utf-8'>
-  	  var e = document.getElementById('g-".$guid."');
-      e.setAttribute('href', '$href');
-      e.innerHTML = '$label';
-      </script>";
+    $id = 'a-email-' . ++$count;
+    $href = rawurlencode("mailto:$user@$domain");
+    $label = rawurlencode(trim($label));
+    // This is an acceptable way to stub in a js call for now, since it's the
+    // way the helper has to do it too
+    aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($id, $href, $label));
+    return "<a href='#' id='$id'></a>";
   }
 
   // This is intentionally obscure for use in mailto: obfuscators.
@@ -688,13 +655,5 @@ class aHtml
     }
 
     return $images;
-  }
-  
-  static public function toPlaintext($html)
-  {
-    // Nonbreaking spaces don't work properly
-    // in a lot of contexts where plaintext is
-    // needed
-    return html_entity_decode(str_replace('&nbsp;', ' ', strip_tags($html)), ENT_COMPAT, 'UTF-8');
   }
 }

@@ -594,10 +594,6 @@ aCategory:
     name:
       type: string(255)
       unique: true
-    # Other types add more booleans in their own schema.yml files
-    media_items:
-      type: boolean
-      default: false
       
     description:
       type: string

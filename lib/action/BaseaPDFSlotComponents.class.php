@@ -1,6 +1,6 @@
 <?php
 
-class BaseaPDFSlotComponents extends BaseaSlotComponents
+class BaseaPDFSlotComponents extends aSlotComponents
 {
   public function executeEditView()
   {

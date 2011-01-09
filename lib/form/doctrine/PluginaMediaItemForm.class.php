@@ -15,21 +15,51 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     unset($this['created_at']);
     unset($this['updated_at']);
     unset($this['owner_id']);
+    unset($this['lucene_dirty']);
     $this->setWidget('tags', new sfWidgetFormInput(array("default" => implode(", ", $this->getObject()->getTags())), array("class" => "tag-input", "autocomplete" => "off")));
     $this->setValidator('tags', new sfValidatorPass());
 		$this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
     $this->setWidget('description', new aWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', 'height' => 125, )));
 		$this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
 
-		$q = Doctrine::getTable('aCategory')->createQuery()->orderBy('name')->where('aCategory.media_items = true');
+    $user = sfContext::getInstance()->getUser();
+    $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
+		$q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
 		$this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
 		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
+		$categories = $q->execute();
 		$this->widgetSchema->setLabel('categories_list', 'Categories');
 
-		$this->setWidget('categories_list_add', new sfWidgetFormInput());
-		//TODO: Make this validator better, should check for duplicate categories, etc.
-		$this->setValidator('categories_list_add', new sfValidatorPass(array('required' => false)));
+    $this->setValidator('title', new sfValidatorString(array(
+      'min_length' => 3,
+      'max_length' => 200,
+      'required' => true
+    ), array(
+      'min_length' => 'Title must be at least 3 characters.',
+      'max_length' => 'Title must be <200 characters.',
+      'required' => 'You must provide a title.')
+    ));
 
+		$this->setWidget('view_is_secure', new sfWidgetFormSelectRadio(array(
+		  'choices' => array(0 => 'Public', 1 => 'Hidden'),
+		  'default' => 0
+		)));
+	
+		$this->setValidator('view_is_secure', new sfValidatorBoolean());
+
+    $this->widgetSchema->setLabel('view_is_secure', 'Permissions');
+    
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
+    
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+
+    if ($this->isAdmin())
+    {
+      // Only admins can add more categories
+  		$this->setWidget('categories_list_add', new sfWidgetFormInput());
+  		$this->setValidator('categories_list_add', new sfValidatorPass());
+    }
+    
 		// If I don't unset this saving the form will purge existing relationships to slots
 		unset($this['slots_list']);
 		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
@@ -58,10 +88,8 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     }
     // Now we're ready to play
     // We like all-lowercase tags for consistency
-    $values['tags'] = aString::strtolower($values['tags']);
+    $values['tags'] = aString::strtolower(isset($values['tags']) ? $values['tags'] : '');
     $object->setTags($values['tags']);
-    $object->setOwnerId(
-      sfContext::getInstance()->getUser()->getGuardUser()->getId());
     return $object;
   }
 
@@ -90,9 +118,21 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $values;
   }
 
- public function updateCategoriesList(&$values)
+  public function isAdmin()
   {
-    $cvalues = $values['categories_list_add'];
+    return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+  }
+  
+  // Returns categories set on this item that this user is not eligible to remove.
+  // Used for static display
+  public function getAdminCategories()
+  {
+    return $this->object->getAdminCategories();
+  }
+
+  public function updateCategoriesList(&$values)
+  {
+    $cvalues = isset($values['categories_list_add']) ? $values['categories_list_add'] : array();
     $link = array();
     if(!is_array($cvalues))
     {
@@ -110,7 +150,6 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
         $aCategory = new aCategory();
         $aCategory['name'] = $value;
       }
-      $aCategory['media_items'] = true;
       $aCategory->save();
       $link[] = $aCategory['id'];
     }
@@ -119,16 +158,23 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       $values['categories_list'] = array();
     }
     $values['categories_list'] = array_merge($link, $values['categories_list']);
+
+    // Never allow a non-admin to remove categories they are not eligible to add
+    $reserved = aArray::getIds($this->getAdminCategories());
+    foreach ($reserved as $id)
+    {
+      if (!in_array($id, $values['categories_list']))
+      {
+        $values['categories_list'][] = $id;
+      }
+    }
     // Needed when this is an embedded form
     return $values['categories_list'];
   }
 
   protected function doSave($con = null)
   {
-    if(isset($this['categories_list_add']))
-    {
-      $this->updateCategoriesList($this->values);
-    }
+    $this->updateCategoriesList($this->values);
     parent::doSave($con);
   }
     

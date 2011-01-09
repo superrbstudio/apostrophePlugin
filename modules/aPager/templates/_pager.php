@@ -2,7 +2,8 @@
   // Compatible with sf_escaping_strategy: true
   $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
-	$nb_pages = $pager->getLastPage();
+  // Our pager crashes the browser with 3,000+ pages as is common on YouTube
+	$nb_pages = min($pager->getLastPage(), 300);
 	$nb_links = isset($nb_links) ? $sf_data->getRaw('nb_links') : sfConfig::get('app_a_pager_nb_links', 5);
 	$nb_links = ($nb_links > $nb_pages) ? $nb_pages : $nb_links;
 ?>
@@ -22,9 +23,9 @@
 	<span class="a-pager-navigation-links-container">
   <?php foreach ($pager->getLinks($nb_pages) as $page): ?>
     <?php if ($page == $pager->getPage()): ?>
-      <span class="a-page-navigation-number a-pager-navigation-disabled"><?php echo $page ?></span>
+      <span class="a-btn lite a-page-navigation-number a-pager-navigation-disabled"><?php echo $page ?></span>
     <?php else: ?>
-      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-page-navigation-number<?php echo (($page < $pager->getPage())? " a-page-navigation-number-before" : (($page > $pager->getPage())? " a-page-navigation-number-after" : "")) ?>"><?php echo $page ?></a>
+      <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $page))) ?>" class="a-btn lite a-page-navigation-number<?php echo (($page < $pager->getPage())? " a-page-navigation-number-before" : (($page > $pager->getPage())? " a-page-navigation-number-after" : "")) ?>"><?php echo $page ?></a>
     <?php endif; ?>
   <?php endforeach; ?>
 	</span>

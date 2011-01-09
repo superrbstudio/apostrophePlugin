@@ -134,7 +134,7 @@ EOM
   $typeForm = $type . 'SlotEditForm';
   $this->ensureAndCreate("$module/actions/actions.class.php", '<?' . 'php' . <<<EOM
 
-class $typeSlotActions extends BaseaSlotActions
+class $typeSlotActions extends aSlotActions
 {
   public function executeEdit(sfRequest \$request)
   {
@@ -209,7 +209,7 @@ EOM
   $typeSlotComponents = $typeSlot . 'Components';
   $this->ensureAndCreate("$module/actions/components.class.php", '<?' . 'php' . <<<EOM
 
-class $typeSlotComponents extends BaseaSlotComponents
+class $typeSlotComponents extends aSlotComponents
 {
   public function executeEditView()
   {
