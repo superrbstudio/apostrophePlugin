@@ -68,11 +68,10 @@
 	        <?php else: ?>
 	          <?php a_slot('logo', 'aButton', array(
 							'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
-							'defaultImage' => '/apostrophePlugin/images/cmstest-sample-logo.png',
+							'defaultImage' => '/apostrophePlugin/images/asandbox-logo.png',
 							'link' => url_for('@homepage'), 
 							'global' => true, 
-							'width' => 360, 
-							'height' => 200, 
+							'width' => 360,
 							'flexHeight' => true, 
 							'resizeType' => 's', 
 						)) ?>

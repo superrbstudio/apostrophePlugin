@@ -391,8 +391,8 @@ background-repeat: no-repeat;
 .a-arrow-btn,
 .a-arrow-up, 
 .a-arrow-down
-.a-arrow-left,
-.a-arrow-right { text-indent: -9999px; padding: 0; width: 20px; height: 20px; background-position: 50% 50%; }
+.a-arrow-left.no-label,
+.a-arrow-right.no-label { text-indent: -9999px; padding: 0; width: 20px; height: 20px; background-position: 50% 50%; }
 
 .a-arrow-btn.a-arrow-left { background-image: url(../images/a-icon-arrow-left-solid-simple.png); }
 .a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-solid-simple.png); }
