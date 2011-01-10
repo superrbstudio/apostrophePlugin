@@ -257,7 +257,7 @@ width: 104px
 /* Media Engine Layout
 -------------------------------------*/
 .a-media .a-subnav-wrapper { margin-right: 20px; }
-.a-media .a-content { width: 720px;}
+.a-media .a-content { width: 720px; float: left; clear: none; }
 
 .a-media-library,
 .a-media-selection,
@@ -450,7 +450,7 @@ border-radius: 4px;
 /* Media Select -- Adding Media, Selecting Media
 -------------------------------------*/
 
-.a-media-add { display: none; clear: both; }
+.a-ui.a-media-add { display: none; clear: both; }
 
 .a-ui.a-media-select
 {
