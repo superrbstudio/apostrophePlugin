@@ -257,7 +257,8 @@ width: 104px
 /* Media Engine Layout
 -------------------------------------*/
 .a-media .a-subnav-wrapper { margin-right: 20px; }
-.a-media .a-content { width: 720px; float: left; clear: none; }
+.a-media .a-content,
+.a-blog .a-content { width: 720px; float: left; clear: none; }
 
 .a-media-library,
 .a-media-selection,
@@ -1994,15 +1995,11 @@ clear: none;
 	padding-right: 4px;
 }
 
-/* This fixes a bug where the area div covers the elements above it 
-	causing edit buttons to be not clickable */
+/* This fixes a bug where the area div covers the elements above it causing edit buttons to be not clickable */
 .a-blog.index .a-content .a-area { display: inline-block !important; }
 
 /* Initially invisible form for creating new blog posts inline */
-.a-blog-admin-new-ajax
-{
-	display: none;
-}
+.a-blog-admin-new-ajax { display: none; }
 
 .a-ui h3.a-blog-filters { font-size: 16px; padding-bottom: 15px; }
 .a-ui h3.a-blog-filters .a-filter-link:hover { text-decoration: none; }
