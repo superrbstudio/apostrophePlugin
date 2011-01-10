@@ -30,6 +30,9 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
 
     $this->addOption('type', 'file');
     $this->addOption('existing-html', false);
+    // Provides an inline preview. You can also call getPreviewUrl() to get the
+    // current preview URL for the image if there is one, which allows you to
+    // preview outside the widget
     $this->addOption('image-preview', null);
     $this->addOption('default-preview', null);
     $this->setOption('needs_multipart', true);
