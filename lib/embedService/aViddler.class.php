@@ -46,33 +46,30 @@ class aViddler extends aEmbedService
     return in_array($feature, $this->features);
   }
   
+  // Fetch 100, we do our own pagination because Viddler doesn't return total items
   public function search($q, $page = 1, $perPage = 50)
   {
-    $results = $this->getApi()->viddler_videos_search(array('type' => 'allvideos', 'query' => $q, 'per_page' => $perPage, 'page' => $page));
-    return $this->parseFeed($results, $page);
+    $results = $this->getApi()->viddler_videos_search(array('type' => 'allvideos', 'query' => $q, 'per_page' => 100, 'page' => 1));
+    return $this->parseFeed($results, $page, $perPage);
   }
   
   // Parses results from viddler_videos_search, viddler_videos_getByUser, etc.
-  protected function parseFeed($results, $page)
+  // Note that we always get feeds of 100 items and then implement our own pagination
+  // with array_slice. This is a workaround for the fact that Viddler doesn't offer
+  // a way to get the total # of items that would match the feed if you paged far enough
+  protected function parseFeed($results, $page, $perPage)
   {
     if (!$results)
     {
       return false;
     }
-    if ($results['list_result']['page'] != $page)
-    {
-      // Viddler gives you the last page if you ask for something beyond the last page.
-      // Work around it
-      return array('total' => 0, 'results' => array());
-    }
     $infos = array();
     $videos = $results['list_result']['video_list'];
-    foreach ($videos as $video)
+    $pagedVideos = array_slice($videos, ($page - 1) * $perPage, $perPage);
+    foreach ($pagedVideos as $video)
     {
       $infos[] = array('id' => $video['id'], 'title' => $video['title'], 'url' => $video['url']);
     }
-    // TODO find out how to get a real total of all available pages, not just the number we just asked for!
-    // Right now Viddler seems not to support this
     return array('total' => count($videos), 'results' => $infos);
   }
   
@@ -90,10 +87,12 @@ class aViddler extends aEmbedService
     return array('name' => $result['username'] . '(' . $result['first_name'] . ' ' . $result['last_name'] . ')', 'description' => $result['about_me']);
   }
   
+  // Fetch 100, we do our own pagination because Viddler doesn't return total items
+  
   public function browseUser($user, $page = 1, $perPage = 50)
   {
-    $results = $this->getApi()->viddler_videos_getByUser(array('type' => 'allvideos', 'user' => $user, 'per_page' => $perPage, $page));
-    return $this->parseFeed($results, $page);
+    $results = $this->getApi()->viddler_videos_getByUser(array('type' => 'allvideos', 'user' => $user, 'per_page' => 100, 'page' => 1));
+    return $this->parseFeed($results, $page, $perPage);
   }
   
   public function getInfo($id)
