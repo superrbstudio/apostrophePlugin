@@ -1085,6 +1085,8 @@ li.a-media-selection-preview-item .jcrop-holder {
 
 .a-blog-item-status { color: #888; }
 
+.a-ui.a-controls.a-blog-browser-controls { float: right; }
+
 .a-blog .a-controls.a-blog-post-controls { margin: 0 !important; position: absolute; left: -25px; top: 2px;}
 
 .a-blog ul.a-slideshow-controls
@@ -2004,6 +2006,7 @@ clear: none;
 .a-ui h3.a-blog-filters { font-size: 16px; padding-bottom: 15px; }
 .a-ui h3.a-blog-filters .a-filter-link:hover { text-decoration: none; }
 .a-ui h3.a-blog-filters .a-filter-link img { vertical-align: middle; }
+.a-ui h3.a-blog-filters.browser { border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
 
 .a-search form.a-media-search-services { background: none; height: auto; position:relative; }
 .a-media-search-services { clear: both; }
