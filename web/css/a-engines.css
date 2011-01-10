@@ -1085,7 +1085,7 @@ li.a-media-selection-preview-item .jcrop-holder {
 
 .a-blog-item-status { color: #888; }
 
-.a-ui.a-controls.a-blog-browser-controls { float: right; }
+.a-ui.a-controls.a-blog-browser-controls { float: right; clear: both; }
 
 .a-blog .a-controls.a-blog-post-controls { margin: 0 !important; position: absolute; left: -25px; top: 2px;}
 
