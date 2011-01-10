@@ -25,24 +25,23 @@
 
 <div id="a-media-item-<?php echo $mediaItem->getId() ?>" class="a-ui a-media-item <?php echo ($i%$layout['columns'] == 0)? 'first':'' ?> <?php echo ($i%$layout['columns'] < $layout['columns'] - 1)? '' : 'last' ?> a-format-<?php echo $mediaItem->getFormat() ?> a-type-<?php echo $mediaItem->getType() ?><?php echo ($embeddable) ? ' a-embedded-item':'' ?>">
     
-	<?php if (!isset($layout['showSuccess']) || $embeddable): ?>
 	<div class="a-media-item-thumbnail">
 	  
-	<?php if ($embeddable && !(!$selecting && isset($layout['showSuccess']))): ?>
-				<div class="a-media-select-overlay<?php echo ($selecting) ? ' selecting':'' ?>">
-					<?php if ($selecting): ?>
-						<a class="a-media-select-video" href="<?php echo $linkHref ?>" title="<?php echo a_('Click to select this item.') ?>">
-							<span class="label">
-								<span class="label-wrapper"><?php echo a_('Select') ?></span>
-							</span>
-						</a>
-					<?php endif ?>
-						<a class="a-media-play-video" href="<?php echo $showUrl ?>" title="<?php echo a_('Click to play this item.') ?>">
-							<span class="label">
-								<span class="label-wrapper"><?php echo a_('Play') ?><span class="icon"><?php echo image_tag('/apostrophePlugin/images/a-icon-video.png', array('height' => 20, 'width' => 20)) ?></span></span>
-							</span>
-						</a>
-				</div>
+		<?php if ($embeddable && !(!$selecting && isset($layout['showSuccess']))): ?>
+			<div class="a-media-select-overlay<?php echo ($selecting) ? ' selecting':'' ?>">
+				<?php if ($selecting): ?>
+					<a class="a-media-select-video" href="<?php echo $linkHref ?>" title="<?php echo a_('Click to select this item.') ?>">
+						<span class="label">
+							<span class="label-wrapper"><?php echo a_('Select') ?></span>
+						</span>
+					</a>
+				<?php endif ?>
+					<a class="a-media-play-video" href="<?php echo $showUrl ?>" title="<?php echo a_('Click to play this item.') ?>">
+						<span class="label">
+							<span class="label-wrapper"><?php echo a_('Play') ?><span class="icon"><?php echo image_tag('/apostrophePlugin/images/a-icon-video.png', array('height' => 20, 'width' => 20)) ?></span></span>
+						</span>
+					</a>
+			</div>
 		<?php endif ?>
 		
 		<?php if (!($embeddable && isset($layout['showSuccess']))): ?>	
@@ -53,7 +52,7 @@
 
 				<?php // Images or anything else with an image thumbnail ?>	
 	 			<?php if ($mediaItem->getImageAvailable()): ?>
-	      	<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(aMediaTools::getOption('gallery_constraints'))) ?>" />						
+	      	<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(($embedConstraints))) ?>" />						
 	 	    <?php else: ?>
 				
 					<?php if ($embeddable): ?>
@@ -82,7 +81,6 @@
 		<?php endif ?>
 
 	</div>
-	<?php endif ?>
 
   <?php if ($mediaItem->getType() == 'audio'): ?>
 		<?php $playerOptions = array('width' => (($layout['name'] == 'four-up') ? 165 : $galleryConstraints['width']), 'download' => false, 'player' => 'lite') ?>
