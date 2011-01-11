@@ -47,6 +47,14 @@
 	background-color: #999;
 }
 
+.a-ui .a-link:hover,
+.a-ui .a-link:focus,
+.a-link:hover,
+.a-link:focus
+{
+	color: #000;
+}
+
 /* Apostrophe Button - Active */
 .a-btn:active
 { 

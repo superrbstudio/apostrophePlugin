@@ -51,42 +51,8 @@ width: 18px;
 
 .a-btn.no-label:hover { text-indent: -9999px; }
 
-.a-btn.flag.a-btn.expanded, .a-btn.flag.no-label.expanded { background-position: -1px center; width: auto; }
-.a-btn.flag.icon { padding: 0 0 0 18px; }
-.a-btn.flag.a-btn.no-label { padding: 0; }
-.a-btn.flag:hover, .a-btn.flag.no-label:hover { z-index:9999; padding: 0 0 0 18px; } /* Hovering Flag Buttons - Pop to the top */
-
-.a-btn .flag-label {
-display: none;
-white-space: nowrap;
-line-height: 18px;
-padding: 0 4px;
-text-indent: 0 !important;
-}
-
-.a-btn:hover .flag-label { background-color: transparent !important; }
-
-.a-btn.flag-left .flag-label  { position: absolute; left: auto; right: 100%; margin-right: 3px; }
-.a-btn.flag-right .flag-label { position: absolute; right: auto; left: 100%; margin-left: 3px; }
-
-.a-btn.flag-left:hover .flag-label,
-.a-btn.flag-right:hover .flag-label {
-font-size: 11px;
-color: #fff;
-background: rgba(0,0,0,0.75) !important;
-background: #000;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
-background-image: -moz-linear-gradient(center bottom, #000 0%, #525252 100%	);
-background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #525252));
-text-shadow: none;
-height: 18px;
-line-height: 18px;
-margin-top: 0px;
-}
-
-.a-btn.expanded .flag-label { display: block; }
+/* Buttons with No Label and an Icon should center the icon on the button */
+.a-btn.no-label.icon > .icon { left: 50%; top: 50%; margin: -9px 0 0 -9px;}
 
 .a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid transparent; }
 .a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125) !important; }
@@ -336,7 +302,10 @@ width: 20px;
 
 .a-close:hover > .icon,
 .a-selected:hover > .icon,
-.a-close-small:hover > .icon { opacity: 0.5; }
+.a-close-small:hover > .icon,
+.a-close:focus > .icon,
+.a-selected:focus > .icon,
+.a-close-small:focus > .icon { opacity: 0.5; }
 
 
 /* Apostrophe Drag Button
