@@ -1827,11 +1827,11 @@ function aConstructor()
 					var liMarkup = '<li class="a-permission-entry ' + ((j%2) ? 'even':'odd') + ' clearfix"><ul><li class="a-who"></li>';
 					if (options['extra'])
 					{
-						liMarkup += '<li class="a-extra"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</li>';
+						liMarkup += '<li class="a-cascade-option extra"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['extraLabel'] + '</div></li>';
 					}
 					if (options['hasSubpages'])
 					{
-						liMarkup += '<li class="a-apply-to-subpages"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</div></li>';
+						liMarkup += '<li class="a-cascade-option apply-to-subpages"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</div></li>';
 					}
 					// PLEASE NOTE code is targeting a-close-small, if you change that class you have to change the selector elsewhere
 					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
