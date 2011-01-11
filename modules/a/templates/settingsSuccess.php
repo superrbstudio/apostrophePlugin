@@ -67,7 +67,7 @@
 		  	<div class="<?php echo $stem ?>-status">
 					<?php echo $form['archived'] ?>
 					<?php if(isset($form['cascade_archived'])): ?>
-						<div class="cascade-checkbox">
+						<div class="cascade-checkbox a-cascade-option">
 							<?php echo $form['cascade_archived'] ?> <?php echo __('apply to subpages', null, 'apostrophe') ?>
 						</div>
 					<?php endif ?> 

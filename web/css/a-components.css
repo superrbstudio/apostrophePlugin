@@ -397,7 +397,7 @@ border: 1px inset rgba(0,0,0,0);
 
 .a-ui.a-page-form { position: absolute; z-index: 997;	}
 
-.a-ui.a-page-form { width: 342px; }
+.a-ui.a-page-form { width: 440px; }
 
 .a-ui.a-page-form .a-options { display: block !important; min-width: 0; }
 
@@ -465,14 +465,13 @@ margin-left: -12px;
 .a-ui.a-page-form .a-page-slug label { text-transform: none; width: auto; margin-right: 5px; max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
 .a-ui.a-page-form .a-page-slug input { width: 160px; font-size: 11px; }
 
-.a-ui.a-page-form .cascade-checkbox,
-.a-apply-to-subpages { float: left; font-size: 11px; color: #999; line-height: 20px; }
-
 .a-ui.a-page-form .a-form-row.status .cascade-checkbox { float: right; }
 
 .a-ui.a-page-form .a-more-options-btn { margin-top: 10px; }
 
 .a-page-permissions-widget { clear: both; }
+
+.a-ui.a-page-form .view-options-widget-container label { width: auto; margin-right: 10px; width: auto; }
 
 .a-ui.a-page-form .a-permissions-entries { width: 100%; clear: both; float: left; line-height: 20px;}
 
@@ -490,12 +489,15 @@ margin-left: -12px;
 
 .a-ui.a-page-form .a-permission-entry ul { width: 100%; float: left; }
 
-.a-ui.a-page-form .a-permission-entry .a-who { width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.a-ui.a-page-form .a-permission-entry .a-who { width: 120px; margin: 0 10px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .a-ui.a-page-form .a-permission-entry .a-actions { float: right; }
 
 .a-ui.a-page-form .a-permission-entry.odd { background: #efefef; background: rgba(0,0,0,0.05); }
 
-.a-ui.a-page-form .a-permission-entry ul li { margin: 0; }
+.a-ui.a-page-form .a-permission-entry ul li { margin: 0 10px 0 0; }
+.a-ui.a-page-form .a-permission-entry ul li:last-child { margin-right: 0; }
+
+.a-ui.a-page-form .a-cascade-option { float: left; font-size: 11px; color: #999; line-height: 20px; margin: 0 10px 0 0; }
 
 /* Create Page Form
 --------------------------------------*/
