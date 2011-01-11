@@ -1107,7 +1107,8 @@ li.a-media-selection-preview-item .jcrop-holder {
 
 .a-event-date-range .end_date { margin-top: 5px; }
 
-.a-help.a-blog { float: none;	padding-bottom: 10px; }
+.a-no-items h3 { margin-bottom: 10px; }
+.a-no-items .a-help { float: none;	padding-bottom: 10px; }
 
 #disqus_thread
 {
