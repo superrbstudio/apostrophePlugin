@@ -975,7 +975,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       // Careful: with the new LEFT JOINs on access rights we have extra rows. 
       // Get only one for each page
-      if ($seenId[$result['id']])
+      if (isset($seenId[$result['id']]))
       {
         continue;
       }
