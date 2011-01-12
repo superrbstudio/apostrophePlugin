@@ -14,30 +14,6 @@ class BaseaComponents extends aSlotComponents
 
   }
   
-  public function executeTabs(sfRequest $request)
-  {
-    $this->page = aTools::getCurrentPage();
-    if (!$this->page)
-    {
-      // Tabs on non-CMS pages are relative to the home page
-      $this->page = aPageTable::retrieveBySlug('/');
-    }
-    $ancestorsInfo = $this->page->getAncestorsInfo();
-    if (!count($ancestorsInfo))
-    {
-      $ancestorsInfo = array($this->page);	
-    }
-    $homeInfo = $ancestorsInfo[0];
-    
-    // Show archived tabs only to those who are potential editors.
-    $this->tabs = $this->page->getTabsInfo(!(aTools::isPotentialEditor() &&  $this->getUser()->getAttribute('show-archived', true, 'apostrophe')), $homeInfo);
-    if (sfConfig::get('app_a_home_as_tab', true))
-    {
-      array_unshift($this->tabs, $homeInfo);
-    }
-    $this->draggable = $this->page->userHasPrivilege('edit');
-  }
-  
   public function executeSlot()
   {
     $this->setup();
