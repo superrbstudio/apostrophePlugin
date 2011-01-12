@@ -55,18 +55,6 @@ background: url(../images/a-icon-close.png) top right no-repeat;
 
 .a-ui.a-subnav-wrapper a.selected:hover { background-position: 100% 100%; }
 
-.a-ui .a-nav-subnav .a-nav-item
-{
-float: left;
-width: 100%;
-clear: both;
-position: relative;
-line-height: 20px;
-margin-bottom: 5px;
-}
-
-.a-ui .a-nav-subnav .a-nav-item.last { margin-bottom: 0; }
-.a-ui .a-nav-subnav .a-nav-item a { float: left; width: 155px; height: 100%; padding: 0 20px 0 5px; }
 
 /* Admin Sidebar ==================== */
 
