@@ -970,8 +970,16 @@ class PluginaPageTable extends Doctrine_Table
     $resultSet = $pdo->query($query);
     // Turn it into an actual array rather than some iterable almost-array thing
     $results = array();
+    $seenId = array();
     foreach ($resultSet as $result)
     {
+      // Careful: with the new LEFT JOINs on access rights we have extra rows. 
+      // Get only one for each page
+      if ($seenId[$result['id']])
+      {
+        continue;
+      }
+      $seenId[$result['id']] = true;
       // If there is no title yet, supply one to help the translator limp along
       if (!strlen($result['title']))
       {
