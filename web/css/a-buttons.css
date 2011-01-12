@@ -311,45 +311,12 @@ width: 20px;
 /* Apostrophe Drag Button
 -------------------------------------*/
 
-.a-btn.a-drag {
-display: block;
-position: absolute;
-right: 0;
-cursor: move;
-text-indent: -9999px;
-height: 20px;
-width: 20px;
-padding: 0;
-margin: 0;
-border: 0 !important;
--moz-box-shadow: 0 0 0 transparent;
--webkit-box-shadow: 0 0 0 transparent;
--opera-box-shadow: 0 0 0 transparent;
--khtml-box-shadow: 0 0 0 transparent;
-box-shadow: 0 0 0 transparent;
--moz-border-radius: 2px;
--webkit-border-top-left-radius: 2px;
--webkit-border-top-right-radius: 2px;
--webkit-border-bottom-right-radius: 2px;
--webkit-border-bottom-left-radius: 2px;
-border-radius: 2px;
-background-color: #ddd;
-}
+.a-btn.a-drag { cursor: move; }
 
-.a-btn.a-drag > .icon
-{
-background-image: url(../images/a-icon-drag-simple.png);
-float: left;
-display: block;
-height: 20px;
-width: 20px;
-position: absolute;
-background-position: 50% 50%;
-background-repeat: no-repeat;
-}
+.a-btn.a-drag > .icon { background-image: url(../images/a-icon-drag-simple.png); }
 
-.a-btn.a-drag:hover { background-color: #888; }
-.a-btn.a-drag.alt:hover { background-color: #333; }
+.alt .a-btn.a-drag > .icon,
+.a-btn.a-drag.alt > .icon { background-image: url(../images/a-icon-alt-drag-simple.png); }
 
 
 /* Apostrophe Arrows

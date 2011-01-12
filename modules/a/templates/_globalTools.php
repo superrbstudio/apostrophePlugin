@@ -17,11 +17,11 @@
   <div class="a-ui a-global-toolbar">
   	<ul class="a-ui a-controls">
 
+      <?php include_partial('a/apostrophe') ?>
+
       <?php $buttons = aTools::getGlobalButtonsByName() ?>
 
   	  <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
-
-        <?php include_partial('a/apostrophe') ?>
         
         <?php include_partial('a/globalButtons', array('pageSettings' => $pageSettings, 'addPage' => $addPage)) ?>
 			
