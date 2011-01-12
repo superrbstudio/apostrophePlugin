@@ -37,7 +37,7 @@
 		<?php # Slot Controls ?>
 			<li>
 				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big"); ?>				
-				<?php echo a_js_button(a_get_option($options, 'area_add_content_label', a_('Add Content')), array('a-add', 'a-add-slot', 'icon', 'big'), 'a-add-slot-'.$pageid.'-'.$name) ?>
+				<?php echo a_js_button(a_get_option($options, 'area_label', a_('Add Content')), array('a-add', 'a-add-slot', 'icon', 'big'), 'a-add-slot-'.$pageid.'-'.$name) ?>
 				<ul class="a-options a-area-options dropshadow">
 	      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options)) ?>
 				</ul>
