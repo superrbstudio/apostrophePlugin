@@ -550,133 +550,67 @@ clear: both;
 z-index: 997;
 overflow: hidden;
 display: none;
-background: #fff;
 -moz-border-radius: 5px;
 -webkit-border-radius: 5px;
 border-radius: 5px;
+background: #e2e2e2;
+background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(255,255,255)),
+    color-stop(0.5, rgb(247,247,247)),
+    color-stop(1, rgb(255,255,255))
+);
+background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,255,255) 0%,
+    rgb(247,247,247) 50%,
+    rgb(255,255,255) 100%
+);
 }
 
-.a-history-browser h3
-{
-font-size: 16px;
-color: #666;
-float: left;
-/*	width: 100%;*/
-width: 100%;
-margin: 0;
-padding: 10px;
-clear: both;
-}
+.a-ui .a-history-browser-heading { float: left; margin: 4px; padding-left: 22px; background: url('/apostrophePlugin/images/a-icon-alt-history.png') 0 50% no-repeat; }
+.a-ui .a-history-browser-heading-container .a-btn.a-close { float: right; margin: 4px 2px; }
 
-.a-history-browser-heading
-{
-	float: left;
-	clear: both;
-	width: 100%;
-	position: relative;
-}
+.a-ui .a-history-browser-all:hover { background-color: #ddd; }
 
-/*.a-history-browser #a-history-close-button
-{
-	position: absolute;
-	top: 50%;
-	right: 10px;
-	margin-top: -10px;
-	height: 20px;
-	width: 20px;
-	background-position: 0 0;
-	z-index: 997;
-}
+/*This CAN make history a scrollable box, sets width to be width of site */
+.a-ui .a-history-browser-crop { width: 100%; margin: 0; border-top: 1px solid #ddd; float: left; clear: both; }
 
-.a-history-browser #a-history-close-button span
-{
-	color: #333 !important;
-	text-shadow: none !important;
-}
+.a-ui.a-history-browser table { width: 100%; table-layout: fixed; font-size: 11px; color: #333; }
 
-.a-history-browser #a-history-close-button:hover { background-position: 0 -20px; }
-*/
-span#a-history-browser-number-of-revisions,
-a.a-history-browser-view-more
-{
-float: left;
-display: inline;
-padding: 0 8px;
-line-height: 20px;
-position: relative;
-line-height: 1.2;
-}
+.a-ui.a-history-browser .date { width: 15%; }
+.a-ui.a-history-browser .editor { width: 15%; }
+.a-ui.a-history-browser .preview { width: 70%; }
 
-a.a-history-browser-view-more
-{
-	border-left: 1px solid #ddd;
-}
+.a-ui.a-history-browser thead th,
+.a-ui.a-history-browser tfoot td { text-align: left; font-weight: bold; padding: 8px 6px; }
 
-a.a-history-browser-view-more .spinner
+.a-ui.a-history-browser tbody tr:first-child td { background: transparent url(../images/a-blog-td-bg.png) 0 0 repeat-x; }
+.a-ui.a-history-browser tbody tr:last-child td { background: transparent url(../images/a-blog-td-bg-2.png) 0 100% repeat-x; }
+
+.a-ui.a-history-browser tbody tr:nth-child(2n+0),
+.a-ui.a-history-browser tbody tr:nth-child(even) { background-color: #f0f0f0; }
+
+.a-ui.a-history-browser tbody tr:hover { background-color: #ddd; color: #000; }
+
+.a-ui.a-history-browser tbody td { overflow: hidden; white-space: nowrap; height: 30px; vertical-align: middle; padding: 0 6px; }
+
+.a-ui.a-history-browser tfoot,
+.a-ui.a-history-browser tfoot a { color: #888;}
+
+.a-ui .a-history-browser-revisions { float: left; padding: 0 8px 0 0; line-height: 20px; }
+
+.a-ui .a-history-browser-view-more { float: left; padding: 0 8px; line-height: 20px; display: none; border-left: 1px solid #ddd; }
+
+.a-ui .a-history-browser-view-more .spinner
 {
 	position: absolute;
 	top: 50%;
 	margin-top: -8px;
 	right: -16px;
 	display: none;
-}
-
-a.a-history-browser-all:hover { background-color: #ddd; }
-
-.a-history-browser-crop
-{ /*This CAN make history a scrollable box, sets width to be width of site */
-width: 100%;
-margin: 0;
-border-top: 1px solid #ddd;
-float: left;
-clear: both;
-}
-
-.a-history-browser table
-{
-width: 100%;
-table-layout: fixed;
-font-size: 11px;
-color: #333;
-}
-
-.a-history-browser thead th
-{
-font-weight: bold;
-padding: 8px 4px;
-border-bottom: 1px solid #ddd;
-}
-
-.a-history-browser tbody tr:hover { background-color: #e2e2e2; }
-
-.a-history-browser tbody td
-{
-overflow: hidden;
-white-space: nowrap;
-height: 30px;
-vertical-align: middle;
-padding: 0 4px;
-}
-
-.a-history-browser tfoot td
-{
-border-top: 1px solid #ddd;
-padding: 8px 4px;
-}
-
-.a-history-browser .date
-{
-width: 15%;
-}
-
-.a-history-browser .editor
-{
-width: 15%;
-}
-
-.a-history-browser .preview
-{
-width: 70%;
 }
 
 .a-history-preview-notice
@@ -707,24 +641,11 @@ margin-right: 10px;
 }
 
 .a-history-preview-notice h4,
-.a-history-preview-notice .a-history-options
-{
-	margin: 10px;
-}
+.a-history-preview-notice .a-history-options { margin: 10px; }
 
-.a-history-options .a-history-revert
-{
-	margin-right: 2px !important;
-}
+.a-history-options .a-history-revert { margin-right: 2px !important; }
 
-#a-history-preview-notice-toggle
-{
-color: #ddd;
-position: absolute;
-top: 10px;
-right: 10px;
-font-size: 11px;	
-}
+#a-history-preview-notice-toggle { color: #ddd; position: absolute; top: 10px; right: 10px; font-size: 11px; }
 
 
 /* Apostrophe Search
