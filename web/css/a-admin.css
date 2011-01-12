@@ -7,6 +7,7 @@
 
 .a-admin a:hover { color: #333; }
 
+.a-admin .a-content,
 .a-admin-content { float: left; display: inline; margin: 0; width: 720px; }
 
 .a-admin #a-admin-list-actions
