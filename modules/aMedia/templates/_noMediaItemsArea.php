@@ -23,6 +23,6 @@
 <?php if (count($slots) || $sf_user->hasCredential('admin')): ?>
 	<?php a_slot('body', 'aRichText', array('tool' => 'Main', 'slug' => 'aErrors:aMedia')) ?>
 <?php endif ?>
-</a>
+</div>
 
 <?php a_js_call('$("#a-upload-some-images").click(function(event){ event.preventDefault(); $("#a-media-add").show(); });') ?>
