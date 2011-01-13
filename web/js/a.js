@@ -576,7 +576,10 @@ function aConstructor()
 	}
 	
 	this.areaEnableAddSlotChoice = function(options) {
+		var debug = options['debug'];
 		var button = $("#" + options['buttonId']);
+		(debug) ? apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug') : '';
+		(debug) ? apostrophe.log(button) : '';
 		$(button).click(function() {
 			var name = options['name'];
 			var pageId = options['pageId'];

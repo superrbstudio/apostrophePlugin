@@ -104,13 +104,15 @@
 		<div class="a-content clearfix">
 			<?php echo $sf_data->getRaw('sf_content') ?>
 		</div>
-	
+			
+	</div>
+
+	<div class='a-footer-wrapper clearfix'>
 		<div class='a-footer clearfix'>
 	  	<?php include_partial('a/footer') ?>
 		</div>
-		
 	</div>
-
+	
   <?php // Invokes apostrophe.smartCSS, your project level JS hook and a_include_js_calls ?>
 	<?php include_partial('a/globalJavascripts') ?>
 

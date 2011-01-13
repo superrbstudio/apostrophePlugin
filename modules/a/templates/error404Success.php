@@ -1,16 +1,8 @@
 <?php slot('body_class') ?>a-error404<?php end_slot() ?>
 <?php use_helper('a') ?>
 
-<?php if (!$page): ?>
-	<?php // We need to retrieve the page if we are not at /admin/error404 ?>
-	<?php $page = aPageTable::retrieveBySlug('aErrors:404') ?>	
-<?php endif ?>
-
-<?php if ($page): ?>
-	<?php $slots = $page->getArea('body') ?>
-<?php else: ?>
-	<?php $slots = array() ?>
-<?php endif ?>
+<?php $page = aPageTable::retrieveBySlug('/admin/error404') ?>	
+<?php ($page) ? $slots = $page->getArea('body') : $slots = array() ?>
 
 <?php // If there are no slots, show some default text ?>
 <?php if (!count($slots)): ?>
@@ -29,21 +21,21 @@
 <?php // Note: The sandbox pages.yml fixtures pre-populate an 'en' RichText slot with a 404 message. ?>
 <?php if (count($slots) || $sf_user->hasCredential('admin')): ?>
 	<?php a_area('body', array(
-		'slug' => 'aErrors:404', 
+		'slug' => '/admin/error404', 
 		'allowed_types' => array(
 			'aRichText', 
 			'aVideo',		
 			'aSlideshow', 
-			'aSmartSlideshow', 	
-			'aFile',
-			'aAudio',		
-			'aFeed', 		
-			'aButton', 
-			'aBlog',
-			'aEvent',
-			'aEventSingle',
-			'aText',
-			'aRawHTML', 		
+			// 'aSmartSlideshow', 	
+			// 'aFile',
+			// 'aAudio',		
+			// 'aFeed', 		
+			// 'aButton', 
+			// 'aBlog',
+			// 'aEvent',
+			// 'aEventSingle',
+			// 'aText',
+			// 'aRawHTML', 		
 		),
 	  'type_options' => array(
 			'aRichText' => array(
