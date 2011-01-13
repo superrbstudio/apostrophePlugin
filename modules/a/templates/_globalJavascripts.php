@@ -11,7 +11,7 @@
 <?php endif ?>
 	
 <?php // Disqus comments ?>
-<?php if (sfConfig::get('app_aBlog_disqus_enabled', true) && sfConfig::get('app_aBlog_disqus_shortname')): ?>
+<?php if (has_slot('disqus_needed')): ?>
 	<?php include_partial('aBlog/disqus_countcode') ?>
 <?php endif ?>
 
