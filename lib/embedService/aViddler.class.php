@@ -137,7 +137,12 @@ EOM
   
   public function getIdFromUrl($url)
   {
-    
+    $key = "id-from-url:$url";
+    $id = $this->getCached($key);
+    if (!is_null($id))
+    {
+      return $id;
+    }
     // Viddler is atypical in that you cannot determine the id from the URL,
     // so let's ask them
     if (preg_match("/viddler.com\/explore\//", $url))
@@ -145,8 +150,12 @@ EOM
       $result = $this->getApi()->viddler_videos_getDetails(array('url' => $url));
       if (isset($result['video']['id']))
       {
-        return $result['video']['id'];
+        $id = $result['video']['id'];
+        // Cache the information for a day
+        $this->setCached($key, $id, 86400);
+        return $id;
       }
+      // TODO: should we cache negatives? Not as important on plain old page loads
     }
     return false;
   }
@@ -163,10 +172,19 @@ EOM
   
   public function getUrlFromId($id)
   {
+    $key = "url-from-id:$id";
+    $url = $this->getCached($key);
+    if (!is_null($url))
+    {
+      return $url;
+    }
     $info = $this->getInfo($id);
     if (isset($info['url']))
     {
-      return $info['url'];
+      $url = $info['url'];
+      // Cache the information for a day
+      $this->setCached($key, $url, 86400);
+      return $url;
     }
     return false;
   }

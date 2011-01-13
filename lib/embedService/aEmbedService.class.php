@@ -98,4 +98,56 @@ abstract class aEmbedService
   {
     return $this->type;
   }
+  
+  // Rock the Symfony cache to avoid fetching the same external data over and over.
+  // This helps avoid beating up on external APIs while still allowing you to remain
+  // current by not having an overly long (or permanent) cache lifetime. 
+  
+  // The default setup is safe and boring and way faster than bashing on other servers.
+  // But here's a tip. If you don't have APC enabled your site is probably running very, 
+  // very slowly, so fix that. And then do this for even better speed:
+  //
+  // a:
+  //   embed:
+  //     cache_class: sfAPCCache
+  //     cache_options: { }
+  //
+  // Returns null if the cache does not have the named item.
+  // That works well for our API since we generally use false to mean
+  // something is actually not valid
+  
+  protected $cache;
+  
+  public function getCached($key)
+  {
+    $cache = $this->getCache();
+    $key = $this->getName() . ':' . $key;
+    $value = $cache->get($key, null);
+    if ($value === null)
+    {
+      return null;
+    }
+    return unserialize($value);
+  }
+
+  // Interval (lifetime) is in seconds
+  
+  public function setCached($key, $value, $interval = 3600)
+  {
+    error_log("Storing " . serialize($value) . " for $key\n");
+    $cache = $this->getCache();
+    $key = $this->getName() . ':' . $key;
+    $cache->set($key, serialize($value), $interval);
+  }
+  
+  private function getCache()
+  {
+    if ($this->cache)
+    {
+      return $this->cache;
+    }
+    $cacheClass = sfConfig::get('app_a_embed_cache_class', 'sfFileCache');
+    $this->cache = new $cacheClass(sfConfig::get('app_a_embed_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_embed_cache')))));
+    return $this->cache;
+  }
 }
