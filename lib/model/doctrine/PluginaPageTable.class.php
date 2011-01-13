@@ -929,10 +929,10 @@ class PluginaPageTable extends Doctrine_Table
       // OR
       // p.archived is false AND p.published_at is in the past AND p.view_is_secure is true AND (p.view_guest is true OR you have view_locked OR you have an explicit view privilege
       $whereClauses[] = '(p.view_admin_lock IS FALSE AND (((aa.privilege = "edit") || (ga.privilege = "edit")) OR ' .
-        '((p.archived IS FALSE OR p.archived IS NULL) AND p.published_at < NOW()) AND ' .
+        '((p.archived IS FALSE OR p.archived IS NULL) AND p.published_at < NOW() AND ' .
         '((p.view_is_secure IS FALSE OR p.view_is_secure IS NULL) OR ' .
           '(p.view_is_secure IS TRUE AND ' .
-            ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom" OR ga.privilege = "view_custom")' : '0 <> 0') . '))))';
+            ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom" OR ga.privilege = "view_custom")' : '0 <> 0') . ')))))';
     }
     
     if (!isset($options['admin']))
