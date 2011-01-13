@@ -129,8 +129,9 @@ return <<<EOM
   <param name="movie" value="http://www.viddler.com/player/$id/" />
   <param name="allowScriptAccess" value="always" />
   <param name="allowFullScreen" value="true" />
+  <param name="wmode" value="$wmode"></param>
   <param name="flashvars" value="fake=1"/>
-  <embed src="http://www.viddler.com/player/$id/" width="$width" height="$height" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" flashvars="fake=1" name="viddler" ></embed></object>
+  <embed src="http://www.viddler.com/player/$id/" width="$width" height="$height" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" flashvars="fake=1" name="viddler" wmode="$wmode"></embed></object>
 EOM
 ;
   }
