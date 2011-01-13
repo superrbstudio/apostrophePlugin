@@ -1297,6 +1297,10 @@ function aConstructor()
 			var nb_links = parseInt(pagerOptions['nb-links']);
 			var selected = parseInt($(this).find('.a-page-navigation-number.a-pager-navigation-disabled').text());
 			
+			// If the number of links present is less than the max number of pages
+			// then we do not need the arrows. So let's use this class name so scope 'disabled' styles.
+			(nb_links <= nb_pages) ? pager.addClass('a-pager-arrows-disabled') : pager.removeClass('a-pager-arrows-disabled');
+			
 			var min = selected;
 			var max = selected + nb_links - 1;
 			
