@@ -137,9 +137,10 @@ EOM
   
   public function getIdFromUrl($url)
   {
+    
     // Viddler is atypical in that you cannot determine the id from the URL,
     // so let's ask them
-    if (preg_match("/viddler.com.*/", $url, $matches))
+    if (preg_match("/viddler.com\/explore\//", $url))
     {
       $result = $this->getApi()->viddler_videos_getDetails(array('url' => $url));
       if (isset($result['video']['id']))
@@ -150,11 +151,12 @@ EOM
     return false;
   }
 
-  public function getIdFromEmbed($url)
+  public function getIdFromEmbed($embed)
   {
-    if (preg_match('/viddler.com\/player\/(\w+)/', $url, $matches))
+    if (preg_match('/viddler.com\/player\/(\w+)/', $embed, $matches))
     {
-      return $matches[1];
+      $id = $matches[1];
+      return $id;
     }
     return false;
   }

@@ -87,6 +87,11 @@ class BaseaMediaVideoForm extends aMediaItemForm
     if ($service)
     {
       $id = $service->getIdFromUrl($value);
+      if (!$id)
+      {
+        // Not every service considers URLs and embed codes interchangeable
+        $id = $service->getIdFromEmbed($value);
+      }
       $serviceInfo = $service->getInfo($id);
       if (!$serviceInfo)
       {

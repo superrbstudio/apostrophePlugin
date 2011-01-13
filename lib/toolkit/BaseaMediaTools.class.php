@@ -635,6 +635,7 @@ class BaseaMediaTools
         return $service;
       }
     }
+    return null;
   }
   
   static public function getEmbedServiceNames()
