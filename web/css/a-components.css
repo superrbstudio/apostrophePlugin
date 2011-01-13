@@ -297,7 +297,12 @@ margin-right:1px;
 	background-color:#e2e2e2;
 }
 
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-image { opacity: 0.65; cursor: default; }
 
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-first:hover { background-position: 0px 0px; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-previous:hover { background-position: -22px -20px !important; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-next:hover { background-position: -41px -40px; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-last:hover { background-position: -60px -60px; }
 
 /* 11. Apostrophe Global Toolbar
 -------------------------------------*/
