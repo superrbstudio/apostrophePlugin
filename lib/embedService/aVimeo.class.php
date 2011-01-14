@@ -171,9 +171,13 @@ EOM
   
   public function getThumbnail($videoid)
   {
-    // TODO: validation here would be good
     $feed = "http://vimeo.com/api/v2/video/$videoid.json";
     $entry = json_decode(file_get_contents($feed), true);
+    if (!isset($entry[0]))
+    {
+      // This means we're not actually allowed access to this video
+      return false;
+    }
     $entry = $entry[0];
     return $entry['thumbnail_large'];
   }

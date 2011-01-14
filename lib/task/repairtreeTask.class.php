@@ -22,7 +22,7 @@ class repairtreeTask extends sfBaseTask
     $this->name             = 'repair-tree';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [apostrohe:repair-tree|INFO] task rebuilds the Doctrine nested set tree of your site.
+The [apostrophe:repair-tree|INFO] task rebuilds the Doctrine nested set tree of your site.
 This can be done in three ways: (1) based on the slugs of your pages, which will always work 
 even if the nested set has somehow become corrupted but discards order of pages at the same 
 level, (2) by renumbering the adjacency list, which will halt the inconsistencies but
@@ -45,7 +45,7 @@ Any way you do it, you'll be spending some quality time with the 'reorganize' fe
 
 Call it with:
 
-  [php symfony a:repair-tree --method=(slug|list) OR --csv=csvfile.csv|INFO]
+  [php symfony apostrophe:repair-tree --method=(slug|list) OR --csv=csvfile.csv|INFO]
 EOF;
   }
 

@@ -46,33 +46,35 @@ class aViddler extends aEmbedService
     return in_array($feature, $this->features);
   }
   
+  // Fetch 100, we do our own pagination because Viddler doesn't return total items
   public function search($q, $page = 1, $perPage = 50)
   {
-    $results = $this->getApi()->viddler_videos_search(array('type' => 'allvideos', 'query' => $q, 'per_page' => $perPage, 'page' => $page));
-    return $this->parseFeed($results, $page);
+    $results = $this->getApi()->viddler_videos_search(array('type' => 'allvideos', 'query' => $q, 'per_page' => 100, 'page' => 1));
+    return $this->parseFeed($results, $page, $perPage);
   }
   
   // Parses results from viddler_videos_search, viddler_videos_getByUser, etc.
-  protected function parseFeed($results, $page)
+  // Note that we always get feeds of 100 items and then implement our own pagination
+  // with array_slice. This is a workaround for the fact that Viddler doesn't offer
+  // a way to get the total # of items that would match the feed if you paged far enough
+  protected function parseFeed($results, $page, $perPage)
   {
     if (!$results)
     {
       return false;
     }
-    if ($results['list_result']['page'] != $page)
-    {
-      // Viddler gives you the last page if you ask for something beyond the last page.
-      // Work around it
-      return array('total' => 0, 'results' => array());
-    }
     $infos = array();
+    // Fault tolerance is important
+    if (!isset($results['list_result']['video_list']))
+    {
+      return false;
+    }
     $videos = $results['list_result']['video_list'];
-    foreach ($videos as $video)
+    $pagedVideos = array_slice($videos, ($page - 1) * $perPage, $perPage);
+    foreach ($pagedVideos as $video)
     {
       $infos[] = array('id' => $video['id'], 'title' => $video['title'], 'url' => $video['url']);
     }
-    // TODO find out how to get a real total of all available pages, not just the number we just asked for!
-    // Right now Viddler seems not to support this
     return array('total' => count($videos), 'results' => $infos);
   }
   
@@ -90,10 +92,12 @@ class aViddler extends aEmbedService
     return array('name' => $result['username'] . '(' . $result['first_name'] . ' ' . $result['last_name'] . ')', 'description' => $result['about_me']);
   }
   
+  // Fetch 100, we do our own pagination because Viddler doesn't return total items
+  
   public function browseUser($user, $page = 1, $perPage = 50)
   {
-    $results = $this->getApi()->viddler_videos_getByUser(array('type' => 'allvideos', 'user' => $user, 'per_page' => $perPage, $page));
-    return $this->parseFeed($results, $page);
+    $results = $this->getApi()->viddler_videos_getByUser(array('type' => 'allvideos', 'user' => $user, 'per_page' => 100, 'page' => 1));
+    return $this->parseFeed($results, $page, $perPage);
   }
   
   public function getInfo($id)
@@ -130,42 +134,63 @@ return <<<EOM
   <param name="movie" value="http://www.viddler.com/player/$id/" />
   <param name="allowScriptAccess" value="always" />
   <param name="allowFullScreen" value="true" />
+  <param name="wmode" value="$wmode"></param>
   <param name="flashvars" value="fake=1"/>
-  <embed src="http://www.viddler.com/player/$id/" width="$width" height="$height" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" flashvars="fake=1" name="viddler" ></embed></object>
+  <embed src="http://www.viddler.com/player/$id/" width="$width" height="$height" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" flashvars="fake=1" name="viddler" wmode="$wmode"></embed></object>
 EOM
 ;
   }
   
   public function getIdFromUrl($url)
   {
+    $key = "id-from-url:$url";
+    $id = $this->getCached($key);
+    if (!is_null($id))
+    {
+      return $id;
+    }
     // Viddler is atypical in that you cannot determine the id from the URL,
     // so let's ask them
-    if (preg_match("/viddler.com.*/", $url, $matches))
+    if (preg_match("/viddler.com\/explore\//", $url))
     {
       $result = $this->getApi()->viddler_videos_getDetails(array('url' => $url));
       if (isset($result['video']['id']))
       {
-        return $result['video']['id'];
+        $id = $result['video']['id'];
+        // Cache the information for a day
+        $this->setCached($key, $id, 86400);
+        return $id;
       }
+      // TODO: should we cache negatives? Not as important on plain old page loads
     }
     return false;
   }
 
-  public function getIdFromEmbed($url)
+  public function getIdFromEmbed($embed)
   {
-    if (preg_match('/viddler.com\/player\/(\w+)/', $url, $matches))
+    if (preg_match('/viddler.com\/player\/(\w+)/', $embed, $matches))
     {
-      return $matches[1];
+      $id = $matches[1];
+      return $id;
     }
     return false;
   }
   
   public function getUrlFromId($id)
   {
+    $key = "url-from-id:$id";
+    $url = $this->getCached($key);
+    if (!is_null($url))
+    {
+      return $url;
+    }
     $info = $this->getInfo($id);
     if (isset($info['url']))
     {
-      return $info['url'];
+      $url = $info['url'];
+      // Cache the information for a day
+      $this->setCached($key, $url, 86400);
+      return $url;
     }
     return false;
   }

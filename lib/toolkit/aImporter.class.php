@@ -31,11 +31,18 @@ class aImporter
 
   public function import()
   {
-    $this->sql->deleteNonAdminPages();
+    $this->sql->query('DELETE FROM a_page where slug <> "global"');
+    $this->sql->query('DELETE FROM a_media_item');
     foreach ($this->root->Page as $page)
     {
       $this->parsePage($page);
     }
+    //Add admin pages
+    $root = current($this->sql->query('SELECT * FROM a_page where slug = :slug', array('slug' => '/')));
+    $admin = array('slug' => '/admin', 'admin' => '1');
+    $this->sql->insertPage($admin, 'Admin', $root['id']);
+    $adminMedia = array('slug' => '/admin/media', 'admin' => '1', 'engine' => 'aMedia');
+    $this->sql->insertPage($adminMedia, 'Media', $admin['id']);
 
     foreach ($this->pageFiles as $id => $info)
     {
@@ -145,9 +152,8 @@ class aImporter
     if(count($ids))
     {
       $info['mediaId'] = $ids[0];
-      $info['value'] = $value;
     }
-
+    $info['value'] = $value;
     return array($info);
   }
 

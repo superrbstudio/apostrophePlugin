@@ -6,7 +6,7 @@
 		'aRichText', 
 		'aVideo',		
 		'aSlideshow', 
-		'aSmartSlideshow', 	
+		'aSmartSlideshow',
 		'aFile',
 		'aAudio',		
 		'aFeed', 		

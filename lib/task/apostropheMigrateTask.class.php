@@ -115,6 +115,8 @@ but why take chances with your data?
           PRIMARY KEY (`media_item_id`,`category_id`),
           KEY `a_media_item_to_category_category_id_a_category_id` (`category_id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
+        "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_user_id_sf_guard_user_id FOREIGN KEY (user_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;",
@@ -190,6 +192,9 @@ but why take chances with your data?
     
     $this->migrate->upgradeIds();
     
+    // Upgrade all charsets to UTF-8 otherwise we can't store a lot of what comes back from embed services
+    $this->migrate->upgradeCharsets();
+    
     // We can add these constraints now that we have IDs of the right size
     if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
     {
@@ -236,6 +241,12 @@ but why take chances with your data?
         'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL', 
         'UPDATE a_page SET published_at = created_at WHERE published_at IS NULL'));
     }
+
+    // Remove any orphaned media items created by insufficiently carefully written embed services,
+    // these can break the media repository
+    $this->migrate->sql(array(
+      'DELETE FROM a_media_item WHERE type="video" AND embed IS NULL AND service_url IS NULL'
+    ));
     
     echo("Finished updating tables.\n");
     if (count($postTasks))

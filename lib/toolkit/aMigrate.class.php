@@ -145,6 +145,20 @@ class aMigrate
     return $val[0];
   }
   
+  public function upgradeCharsets()
+  {
+    $tables = $this->getTables();
+    foreach ($tables as $table)
+    {
+      $r = $this->query('SHOW CREATE TABLE ' . $table);
+      $c = $r[0]['Create Table'];
+      if (strpos($c, 'DEFAULT CHARSET=utf8') === false)
+      {
+        $this->query("alter table `$table` convert to character set utf8 collate utf8_general_ci");
+      }
+    }
+  }
+  
   // Drop all integer foreign key constraints, turn both columns involved into BIGINTs, 
   // and reestablish the constraints
   public function upgradeIds()

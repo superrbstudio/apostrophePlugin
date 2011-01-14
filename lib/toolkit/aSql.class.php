@@ -100,7 +100,15 @@ class aSql
     {
       $info['engine'] = null;
     }
-    $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, published_at, lft, rgt, level, engine) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :published_at, :lft, :rgt, :level, :engine)', $info);
+    if(!isset($info['admin']))
+    {
+      $info['admin'] = false;
+    }
+    if(!isset($info['template']))
+    {
+      $info['template'] = 'default';
+    }
+    $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, published_at, lft, rgt, level, engine, admin) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :published_at, :lft, :rgt, :level, :engine, :admin)', $info);
     $info['id'] = $this->lastInsertId();
 
     $this->insertArea($info['id'], 'title', array(array('type' => 'aText', 'value' => htmlentities($title))));

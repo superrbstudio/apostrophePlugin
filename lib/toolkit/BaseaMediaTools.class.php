@@ -171,12 +171,6 @@ class BaseaMediaTools
 
   static public function getAttribute($attribute, $default = null)
   {
-    // If you are logged out, you should have no attributes, as
-    // all attributes used in the media engine relate to selection
-    if (!aMediaTools::getUser()->isAuthenticated())
-    {
-      return $default;
-    }
     $attribute = "aMedia-$attribute";
     return aMediaTools::getUser()->getAttribute($attribute, $default, 'apostrophe_media');
   }
@@ -285,6 +279,7 @@ class BaseaMediaTools
       array('class' => 'aYoutube', 'media_type' => 'video'),
       array('class' => 'aVimeo', 'media_type' => 'video'),
       array('class' => 'aViddler', 'media_type' => 'video'),
+      array('class' => 'aSlideShare', 'media_type' => 'video'),
 		));
 
   static protected $layouts = array(
@@ -634,6 +629,7 @@ class BaseaMediaTools
         return $service;
       }
     }
+    return null;
   }
   
   static public function getEmbedServiceNames()

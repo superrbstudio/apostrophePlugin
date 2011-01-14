@@ -20,7 +20,7 @@
 	  <?php // Avoid a crash in some versions of PHP when date columns ?>
 	  <?php // are null or all zeroes ?>
 	  <?php if ($data['created_at'] > '0000-00-00 00:00:00'): ?>
-		  <?php echo format_date(strtotime($data['created_at'])) ?>
+		  <?php echo aDate::pretty($data['created_at']) . ' ' . aDate::time($data['created_at']) ?>
 		<?php endif ?>
 	</td>
 	<td class="editor">

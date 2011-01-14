@@ -145,6 +145,15 @@ echo("after\n");
       echo("Warning: couldn't add lucene_dirty column to a_media_item table");
     }
 
+    try
+    {
+      $conn->query('UPDATE tagging SET taggable_model = "aMediaItem" WHERE taggable_model = "pkMediaItem"');
+      $conn->query('UPDATE tagging SET taggable_model = "aBlogItem" WHERE taggable_model = "pkBlogItem"');
+    } catch (Exception $e)
+    {
+      echo("Warning: unable to update taggable model names");
+    }
+
     echo("Migrating media slots\n");
     $count = 0;
     $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();

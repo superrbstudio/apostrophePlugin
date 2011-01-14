@@ -30,20 +30,18 @@ li.a-ui, ul.a-ui, ol.a-ui { list-style: none; }
 .a-ui h5, h5.a-ui { font-size: 12px; font-weight: bold; }
 .a-ui h6, h6.a-ui { font-size: 12px; color: #999; }
 
-/* Clear Fix
+/* Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com/
 -------------------------------------*/
 
-.clearfix:after {
-	content: ".";
-	display: block;
-	clear: both;
-	visibility: hidden;
-	line-height: 0;
-	height: 0;
-}
- 
-.clearfix { display: inline-block; }
-html[xmlns] .clearfix { display: block; }
-* html .clearfix { height: 1%; }
+.clearfix:before, 
+.clearfix:after 
+{
+  content: "\0020"; 
+	display: block; 
+	height: 0; 
+	visibility: hidden;	
+} 
 
-form .a-ui.clearfix { display: inline-block; float: left; width: 100%;clear: both; }
+.clearfix:after { clear: both; }
+
+.clearfix { zoom: 1; }
