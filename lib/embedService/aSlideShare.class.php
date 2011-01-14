@@ -50,7 +50,6 @@ class aSlideShare extends aEmbedService
   
   public function configurationHelpUrl()
   {
-    // TODO: Create this wiki page
     return 'http://trac.apostrophenow.org/wiki/EmbedSlideShare';
   }
   
@@ -85,11 +84,11 @@ class aSlideShare extends aEmbedService
   public function getInfo($id)
   {
     $data = $this->getSlideInfo($id);
-        
+    
     return array('id' => $data['id'],
            'url' => $data['url'],
            'title' => $data['title'],
-           'description' => aHtml::simplify($data['description']),
+           'description' => html_entity_decode($data['description'], ENT_COMPAT, 'UTF-8'),
            'tags' => $data['tags'],
            'credit' => $data['credit']);
   }
@@ -111,7 +110,7 @@ EOT;
 }
 
   public function getIdFromUrl($url)
-  {
+  {    
     // Apostrophe calls both this and the getIdFromEmbed method,
     // let's make sure it happens in the cheapest order, avoiding
     // unnecessary API calls and ruling out situations where we
@@ -125,6 +124,13 @@ EOT;
     
     if (strpos($url, 'slideshare.net') !== false)
     {
+      /* We must strip the '?from=ss_embed' suffix off the SlideShare URL if it exists (this suffix shows up
+       * when a user gets to the SlideShare page by clicking the 'View on SlideShare' button within a slideshow */
+      if (strpos($url, '?from=ss_embed') !== false)
+      {
+        $url = substr($url, 0, strpos($url, '?from=ss_embed'));
+      }
+      
       $slideInfo = $this->getSlideInfo($url);
       
       if (!$slideInfo)
