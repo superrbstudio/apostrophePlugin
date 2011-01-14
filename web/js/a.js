@@ -2200,8 +2200,9 @@ function aConstructor()
 		menu.unbind('toggleOpen').bind('toggleOpen', function(){
 			menu.trigger('beforeOpen');
 			button.addClass('aActiveMenu');
+			menu.parents().addClass('ie-z-index-fix');
 			button.closest('.a-controls').addClass('aActiveMenu');
-			menu.addClass(classname);			
+			menu.addClass(classname);
 			if (overlay) { overlay.fadeIn(); }
 			$(document).bind('click.menuToggleClickHandler', clickHandler);
 			if (focus) { $(focus).focus(); };
@@ -2212,6 +2213,7 @@ function aConstructor()
 		menu.unbind('toggleClosed').bind('toggleClosed', function(){
 			menu.trigger('beforeClosed');
 			button.removeClass('aActiveMenu');
+			menu.parents().removeClass('ie-z-index-fix');			
 			button.closest('.a-controls').removeClass('aActiveMenu');			
 			menu.removeClass(classname);
 			if (overlay) { overlay.hide(); };

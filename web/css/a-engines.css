@@ -1419,10 +1419,6 @@ width: 100%;
 
 .a-ui.a-admin-header .a-btn.a-media-link-accounts { margin: 6px 0 0; }
 
-
-/* New Blog / New Event Box */
-.a-blog-admin-new-form .a-form-row.title { margin: 0 0 5px 0 !important; }
-
 /* New Events Date Time Widget */
 .time-item-enabled { clear: right; float: left; margin-left: 2px; }
 
@@ -1991,6 +1987,8 @@ clear: none;
 
 /* Initially invisible form for creating new blog posts inline */
 .a-blog-admin-new-ajax { display: none; }
+.a-blog-admin-new-ajax .title input { width: 172px; }
+.a-blog-admin-new-ajax .a-form-row { margin: 0 0 5px 0 !important; }
 
 .a-ui h3.a-blog-filters { font-size: 16px; padding-bottom: 15px; }
 .a-ui h3.a-blog-filters .a-filter-link:hover { text-decoration: none; }

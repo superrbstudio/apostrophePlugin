@@ -116,8 +116,9 @@
 
 	<div class="a-options-section submit-settings clearfix">
 		<ul class="a-ui a-controls">		
-		  <li><input type="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
-			<li><a href="#cancel" onclick="return false;" class="a-btn icon a-cancel a-options-cancel" title="<?php echo __('Cancel', null, 'apostrophe') ?>"><span class="icon"></span><?php echo __('Cancel', null, 'apostrophe') ?></a></li>
+		  <li style="display:none;"><input type="submit" value="<?php echo htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')) ?>" class="a-btn a-submit" id="<?php echo $stem ?>-submit" /></li>
+		  <li><?php echo a_anchor_submit_button(htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')), array('a-submit', 'big'), $stem.'-submit', $stem.'-submit') ?></li>
+			<li><?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon', 'a-options-button', 'big')) ?></li>
 			<?php if ((!$page->isNew()) && $page->userHasPrivilege('manage')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>

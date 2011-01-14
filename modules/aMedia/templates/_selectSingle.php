@@ -15,7 +15,7 @@
   <?php echo __('Only appropriately sized %typeplural% are shown.', array('%typeplural%' => __($type . 's', null, 'apostrophe')), 'apostrophe') ?>
   <?php endif ?>
   </p>
-  <ul class="a-controls">
+  <ul class="a-ui a-controls">
     <li><?php echo link_to('<span class="icon"></span>'.a_('Cancel'), "aMedia/selectCancel", array("class"=>"a-btn icon a-cancel")) ?></li>
   </ul>
 </div>

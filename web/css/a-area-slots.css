@@ -40,41 +40,29 @@
 /* Controls for Areas & Slots
 -------------------------------------*/
 
-.a-ui.a-controls
-{ 
+.a-ui.a-controls { margin: 0; padding: 0; list-style: none; clear: both; }
 
-margin: 0;
-padding: 0;
-list-style: none;
-clear: both;
-}
-
-.a-ui.a-controls li
+.a-ui.a-controls li 
 { /* All controls buttons are wrapped in a list. */
 float: left;
-display: inline;
+clear: none;
 position: relative;
 margin: 0px 2px 2px 0;
 width: auto;
-height: auto;
 border: none;
 list-style: none;
-clear: none;
 }
 
 .a-ui.a-controls li:last-child,
 .a-ui.a-controls li.last { margin: 0 0 2px 0 } /* .last option has no margin */
 
-.a-ui.a-controls.stacked li
-{
-	width: 100%;
-}
+.a-ui.a-controls.stacked li {	width: 100%; }
 
 .a-ui.a-controls.a-over { position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important; } /* Explicitly place the controls over the slot */
 
 .a-area > .a-ui.a-controls { margin: 0 0 10px; }
-
 .a-slot > .a-ui.a-controls { width: 100%; }
+
 .a-slot.editing-now > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
 
 
