@@ -13,15 +13,18 @@ require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';
  */
 abstract class BaseaTagAdminActions extends autoaTagAdminActions
 {
+  protected $models;
+  
   public function preExecute()
   {
     parent::preExecute();
+    $this->models = $this->configuration->getTaggableModels();
     $this->dispatcher->connect('admin.build_query', array($this, 'addCounts'));
   }
 
   public function addCounts($event, $query)
   {
-    Doctrine::getTable('Tag')->queryTagsWithCountsByModel($this->configuration->getTaggableModels(), $query);
+    Doctrine::getTable('Tag')->queryTagsWithCountsByModel($this->models, $query);
     
     return $query;
   }
@@ -31,14 +34,49 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     $tableMethod = $this->configuration->getTableMethod();
     $query = Doctrine::getTable('Tag')->createQuery('r');
 
+    $event = $this->dispatcher->filter(new sfEvent($this, 'admin.build_query'), $query);
     $this->addSortQuery($query);
 
-    $event = $this->dispatcher->filter(new sfEvent($this, 'admin.build_query'), $query);
     $query = $event->getReturnValue();
 
     return $query;
   }
 
+  protected function addSortQuery($query)
+  {
+    if (array(null, null) == ($sort = $this->getSort()))
+    {
+      return;
+    }
+ 
+    if (!in_array(strtolower($sort[1]), array('asc', 'desc')))
+    {
+      $sort[1] = 'asc';
+    }
+    
+ 
+    // Really a filter as well as a sort
+    
+    if (preg_match('/^tag_(\w+)/', $sort[0], $matches))
+    {
+      $model = $matches[1];
+      if (in_array($model, $this->models))
+      {
+        $query->andWhere('tg.taggable_model = ?', array($model));
+        $query->addOrderBy($model . 'Count ' . $sort[1]);
+      }
+    }
+    else
+    {
+      $query->addOrderBy($sort[0] . ' ' . $sort[1]);
+    }
+  }
+  
+  protected function isValidSortColumn($column)
+  {
+    return Doctrine_Core::getTable('Tag')->hasColumn($column) || in_array($column, $this->models);
+  }
+  
   public function executeClean(sfWebRequest $request)
   {
     $deleted = PluginTagTable::purgeOrphans();
