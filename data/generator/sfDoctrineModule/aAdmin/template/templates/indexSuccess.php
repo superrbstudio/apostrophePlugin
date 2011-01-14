@@ -4,7 +4,7 @@
 [?php slot('a-page-header')?]
 <div class="a-ui a-admin-header">
 	<h3 class="a-admin-title">[?php echo __('<?php echo $this->configuration->getValue('list.title') ?>', array(), 'apostrophe') ?]</h3>
-	<ul class="a-controls a-admin-controls">
+	<ul class="a-ui a-controls a-admin-controls">
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]   
   </ul>
 	<?php if ($this->configuration->hasFilterForm()): ?>
@@ -16,7 +16,7 @@
 [?php slot('a-subnav') ?]
 <div class="a-ui a-subnav-wrapper admin">
 	<div class="a-subnav-inner">
-		<ul class="a-controls">
+		<ul class="a-ui a-controls">
 				<li>[?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('pager' => $pager)) ?]</li>
 		</ul>
 	</div>

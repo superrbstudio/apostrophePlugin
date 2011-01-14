@@ -692,7 +692,20 @@ right: 5px;
 padding: 0;
 z-index:999 !important;
 min-width: 0;
+overflow: visible;
 }
+
+#a-login-form-container label { white-space: nowrap; }
+
+.a-ui.a-signin-popup { float: left; position: relative; display: block; clear: both; margin: 0; }
+.a-ui.a-signin-popup form { }
+.a-ui.a-signin-popup label { display: block; width: 100% !important; float: none; font-size: 16px; width: auto; margin-bottom: 2px; }
+.a-ui.a-signin-popup .a-form-row input[type="text"],
+.a-ui.a-signin-popup .a-form-row input[type="password"] { width: 175px; padding: 4px; }
+.a-ui.a-signin-popup .a-form-row { float: left; width: auto; clear: both; display: inline; margin: 20px 20px -10px; }
+.a-ui.a-signin-popup .a-form-row.submit { margin: 30px 20px 20px; }
+.a-ui.a-signin-popup .a-form-row.submit .a-controls { width: 100%; }
+.a-ui.a-signin-popup .a-forgot-password { display: block; font-size: 11px; margin: -10px 20px 10px; float: left; color: #999; }
 
 #a-login-form
 {
