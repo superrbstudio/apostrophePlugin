@@ -446,7 +446,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
@@ -553,7 +553,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
@@ -767,7 +767,7 @@ class BaseaMediaActions extends aEngineActions
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
 
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
