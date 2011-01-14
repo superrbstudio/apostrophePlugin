@@ -3,34 +3,17 @@
 
 
 input.checkbox,
-input.radio,
-{
-	width: auto;
-	border: none !important;
-}
+input.radio { width: auto; border: none !important; }
 
-ul.a-slideshow
-{
-	background: none !important;
-}
+ul.a-slideshow { background: none !important; }
 
 /* RGBA is awesome. Except for IE. Solid Colors */
-
-.a-page-overlay
-{
-	background: #fff;
-}
+.a-page-overlay {	background: #fff; }
 
 div.tag-suggestions li a,
-div.tag-suggestions li a:link
-{
-background: #444;
-}
+div.tag-suggestions li a:link { background: #444; }
 
-.a-slot.aSlideshow.compact .a-slideshow-title
-{
-	background: #000;
-}
+.a-slot.aSlideshow.compact .a-slideshow-title { background: #000; }
 
 .dropshadow
 {
@@ -39,10 +22,7 @@ background: #444;
 	border-right-color:#888;
 }
 
-table.a-calendar
-{
-	background-image:none;
-}
+table.a-calendar { background-image:none; }
 
 /* Color Fixes for <= IE7
 -------------------------------------*/
