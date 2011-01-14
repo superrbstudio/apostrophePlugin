@@ -2218,8 +2218,9 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
+			debug ? apostrophe.log('apostrophe.menuToggle -- clickHandler Target') : '';
 			debug ? apostrophe.log(target) : '';
-			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || !target.parents().is('#'+menu.attr('id')))
+			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')))
 			{
 				menu.trigger('toggleClosed');
 			}
@@ -2240,7 +2241,6 @@ function aConstructor()
 		// Close Menu, Destroy Listener
 		menu.unbind('toggleClosed').bind('toggleClosed', function(){
 			menu.trigger('beforeClosed');
-			// Close Menu, Destroy Listener
 			button.removeClass('aActiveMenu');
 			button.closest('.a-controls').removeClass('aActiveMenu');			
 			menu.removeClass(classname);
