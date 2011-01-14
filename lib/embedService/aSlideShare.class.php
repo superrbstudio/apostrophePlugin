@@ -85,18 +85,26 @@ class aSlideShare extends aEmbedService
   {
     $data = $this->getSlideInfo($id);
     
-    return array('id' => $data['id'],
+    if ($data)
+    {
+      return array('id' => $data['id'],
            'url' => $data['url'],
            'title' => $data['title'],
            'description' => html_entity_decode($data['description'], ENT_COMPAT, 'UTF-8'),
            'tags' => $data['tags'],
            'credit' => $data['credit']);
+    }
+    
+    return false;
   }
 
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
     $slideInfo = $this->getSlideInfo($id);
-    $player = $this->showPlayers[$slideInfo['showType']];
+    
+    if ($slideInfo)
+    {
+      $player = $this->showPlayers[$slideInfo['showType']];
 
 return <<<EOT
 <object id="__sse$id" width="$width" height="$height">
@@ -107,6 +115,9 @@ return <<<EOT
     <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOT;
+    }
+    
+    return false;
 }
 
   public function getIdFromUrl($url)
@@ -133,12 +144,10 @@ EOT;
       
       $slideInfo = $this->getSlideInfo($url);
       
-      if (!$slideInfo)
+      if ($slideInfo)
       {
-        return false;
+        return $slideInfo['id'];
       }
-      
-      return $slideInfo['id'];
     }
     
     return false;
@@ -147,7 +156,13 @@ EOT;
   public function getUrlFromId($id)
   {
     $slideInfo = $this->getSlideInfo($id);
-    return $slideInfo['url'];
+    
+    if ($slideInfo)
+    {
+      return $slideInfo['url'];
+    }
+    
+    return false;
   }
 
   public function getIdFromEmbed($embed)
@@ -197,7 +212,12 @@ EOT;
       return false;
     }
     
-    return utf8_encode($result);
+    if ($result)
+    {
+      return utf8_encode($result);
+    }
+    
+    return false;
   }
   
   private function searchApi($call, $params, $browseUser=false)
@@ -205,6 +225,12 @@ EOT;
     $slideshowInfo = array();
     
     $data = new SimpleXMLElement($this->getData($call, $params));
+    
+    // If our API call fails, return false so we don't error on our foreach() call
+    if (!$data)
+    {
+      return false;
+    }
     
     foreach ($data->Slideshow as $show)
     {
@@ -232,6 +258,12 @@ EOT;
     $params = (strpos($id, 'http://') !== false) ? array('slideshow_url' => $id, 'detailed' => 1) : array('slideshow_id' => $id, 'detailed' => 1);
 
     $data = new SimpleXMLElement($this->getData($call, $params));
+    
+    // If our API call fails, return false so we don't error on our foreach() call
+    if (!$data)
+    {
+      return false;
+    }
     
     // Convert tags into comma-separated list
     foreach ($data->Tags->Tag as $tag)
