@@ -55,14 +55,13 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     }
     
  
-    // Really a filter as well as a sort
-    
     if (preg_match('/^tag_(\w+)/', $sort[0], $matches))
     {
       $model = $matches[1];
       if (in_array($model, $this->models))
       {
-        $query->andWhere('tg.taggable_model = ?', array($model));
+          // Can act as a filter too, but I think that's inconsistent 
+          // $query->andWhere('tg.taggable_model = ?', array($model));
         $query->addOrderBy($model . 'Count ' . $sort[1]);
       }
     }
