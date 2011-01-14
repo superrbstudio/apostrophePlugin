@@ -157,7 +157,7 @@ EOT;
   {
     $slideInfo = $this->getSlideInfo($id);
     
-    if (strlen($slideInfo['thumbnail']) > 0)
+    if (isset($slideInfo['thumbnail']) && (strlen($slideInfo['thumbnail']) > 0))
     {
       return $slideInfo['thumbnail'];
     }

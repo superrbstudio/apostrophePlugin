@@ -91,6 +91,11 @@ EOF;
           // and set lucene_dirty to let that clean itself up later
           $id = $service->getIdFromUrl($serviceUrl);
           $info = $service->getInfo($id);
+          if (!$info)
+          {
+            // We are not actually allowed meaningful access to this video. Password protected for example
+            continue;
+          }
           $item = new aMediaItem();
           $item->setTitle($info['title']);
           $item->setTags($info['tags']);
@@ -106,7 +111,7 @@ EOF;
           // filename based on the slug, which is unknown until after save
           
           $thumbnail = $service->getThumbnail($id);
-
+          
           if ($thumbnail)
           {
             // Grab a local copy of the thumbnail, and get the pain
@@ -120,8 +125,9 @@ EOF;
             }
           }
           
+          echo("Saving $serviceUrl\n");
           $item->save();
-
+          
           if ($thumbnail)
           {
             $item->saveFile($thumbnailCopy);

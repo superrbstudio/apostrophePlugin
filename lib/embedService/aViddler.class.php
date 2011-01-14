@@ -64,6 +64,11 @@ class aViddler extends aEmbedService
       return false;
     }
     $infos = array();
+    // Fault tolerance is important
+    if (!isset($results['list_result']['video_list']))
+    {
+      return false;
+    }
     $videos = $results['list_result']['video_list'];
     $pagedVideos = array_slice($videos, ($page - 1) * $perPage, $perPage);
     foreach ($pagedVideos as $video)

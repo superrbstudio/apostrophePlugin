@@ -192,6 +192,9 @@ but why take chances with your data?
     
     $this->migrate->upgradeIds();
     
+    // Upgrade all charsets to UTF-8 otherwise we can't store a lot of what comes back from embed services
+    $this->migrate->upgradeCharsets();
+    
     // We can add these constraints now that we have IDs of the right size
     if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
     {
@@ -238,6 +241,12 @@ but why take chances with your data?
         'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL', 
         'UPDATE a_page SET published_at = created_at WHERE published_at IS NULL'));
     }
+
+    // Remove any orphaned media items created by insufficiently carefully written embed services,
+    // these can break the media repository
+    $this->migrate->sql(array(
+      'DELETE FROM a_media_item WHERE type="video" AND embed IS NULL AND service_url IS NULL'
+    ));
     
     echo("Finished updating tables.\n");
     if (count($postTasks))
