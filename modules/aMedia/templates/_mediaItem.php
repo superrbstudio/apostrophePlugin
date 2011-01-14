@@ -52,7 +52,9 @@
 
 				<?php // Images or anything else with an image thumbnail ?>	
 	 			<?php if ($mediaItem->getImageAvailable()): ?>
-	      	<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(($embedConstraints))) ?>" />						
+	      	<span class="a-media-item-thumbnail-span" style="background-image: url('<?php echo url_for($mediaItem->getScaledUrl(($embedConstraints))) ?>')">
+						<img class="a-media-item-thumbnail-image" src="<?php echo url_for($mediaItem->getScaledUrl(($embedConstraints))) ?>" />						
+					</span>
 	 	    <?php else: ?>
 				
 					<?php if ($embeddable): ?>

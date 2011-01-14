@@ -104,7 +104,8 @@ return <<<EOT
     <param name="movie" value="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" />
     <param name="allowFullScreen" value="true" />
     <param name="allowScriptAccess" value="always" />
-    <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height"></embed>
+	  <param name="wmode" value="$wmode"></param>
+    <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOT;
 }
