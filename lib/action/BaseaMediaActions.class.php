@@ -592,7 +592,8 @@ class BaseaMediaActions extends aEngineActions
           if ((!isset($parameters['title'])) && (!isset($parameters['tags'])) && (!isset($parameters['description'])) && (!isset($parameters['credit'])))
           {
             $parameters['title'] = $result['serviceInfo']['title'];
-            $parameters['tags'] = $result['serviceInfo']['tags'];
+            // We want tags to be lower case, and slashes break routes in most server configs. 
+            $parameters['tags'] = str_replace('/', '-', aString::strtolower($result['serviceInfo']['tags']));
             $parameters['description'] = aHtml::textToHtml($result['serviceInfo']['description']);
             $parameters['credit'] = $result['serviceInfo']['credit'];
           }

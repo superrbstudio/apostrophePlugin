@@ -98,6 +98,8 @@ EOF;
           }
           $item = new aMediaItem();
           $item->setTitle($info['title']);
+          // We want tags to be lower case, and slashes break routes in most server configs. 
+          $info['tags'] = str_replace('/', '-', aString::strtolower($info['tags']));
           $item->setTags($info['tags']);
           $item->setDescription(aHtml::textToHtml($info['description']));
           $item->setCredit($info['credit']);

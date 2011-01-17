@@ -24,6 +24,11 @@ class BaseaMediaVideoForm extends aMediaItemForm
         $this->setDefault('embed', $item->service_url);
       }
     }
+    elseif (strlen($item->service_url))
+    {
+      // Why do we sometimes not have the embed field set at all?
+      $this->setDefault('embed', $item->service_url);
+    }
   }
   
   // Use this to i18n select choices that SHOULD be i18ned. It never gets called,

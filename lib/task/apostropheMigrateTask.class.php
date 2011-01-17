@@ -252,6 +252,11 @@ but why take chances with your data?
       'DELETE FROM a_media_item WHERE type="video" AND embed IS NULL AND service_url IS NULL'
     ));
     
+    // Rename any tags with slashes in them to avoid breaking routes in Symfony
+    $this->migrate->sql(array(
+      'UPDATE tag SET name = replace(name, "/", "-")'
+    ));
+    
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

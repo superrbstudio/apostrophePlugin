@@ -437,13 +437,12 @@ class BaseaPageSettingsForm extends aPageForm
       $values = $this->getValues();
     }
     $oldSlug = $this->getObject()->slug;
-    $object = parent::updateObject($values);
     
-    // Update tags on Page
-    if ($this->getValue('tags') != '')
-    {
-	    $this->getObject()->addTag($this->getValue('tags'));
-	  }
+    // Slashes break routes in most server configs. Do NOT force case of tags.
+    
+    $values['tags'] = str_replace('/', '-', isset($values['tags']) ? $values['tags'] : '');
+
+    $object = parent::updateObject($values);
 
     // Check for cascading operations
     if ($this->getValue('cascade_archived'))
