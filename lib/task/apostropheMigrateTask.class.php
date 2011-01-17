@@ -195,10 +195,14 @@ but why take chances with your data?
     // Upgrade all charsets to UTF-8 otherwise we can't store a lot of what comes back from embed services
     $this->migrate->upgradeCharsets();
     
+		
     // We can add these constraints now that we have IDs of the right size
     if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
     {
       $this->migrate->sql(array(
+				// IDs of a_media_item_to_category might still be too small because we forgot the constraints at first
+				'ALTER TABLE a_media_item_to_category MODIFY COLUMN category_id BIGINT',					
+				'ALTER TABLE a_media_item_to_category MODIFY COLUMN media_item_id BIGINT',
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE"));
     }
