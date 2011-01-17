@@ -415,9 +415,9 @@ display:inline;
 
 /* "Is Empty" is inline */
 
-.a-admin .aUserAdmin .a-form-row .a-admin-filter-field label,
-.a-admin .aGroupAdmin .a-form-row .a-admin-filter-field label,
-.a-admin .aPermissionAdmin .a-form-row .a-admin-filter-field label
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
 {
 	display: inline;
 	width: auto;
@@ -427,9 +427,9 @@ display:inline;
 
 /* "Is Empty" is inline; checkboxes need a min-width override that really works cross-browser */
 
-.a-admin .aUserAdmin .a-form-row .a-admin-filter-field input[type="checkbox"],
-.a-admin .aGroupAdmin .a-form-row .a-admin-filter-field input[type="checkbox"],
-.a-admin .aPermissionAdmin .a-form-row .a-admin-filter-field input[type="checkbox"]
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"]
 {
 	display: inline;
 	width: auto;
