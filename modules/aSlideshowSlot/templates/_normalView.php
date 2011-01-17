@@ -24,27 +24,29 @@
 
  <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
    <li class="a-controls-item choose-images">
-   <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'chooseLabel', a_('Choose Images')),
-     'aMedia/select',
-     array(
-       'query_string' => 
-         http_build_query(
-           array_merge(
-             $options['constraints'],
-             array("multiple" => true,
-             "aMediaIds" => implode(",", $itemIds),
-             "type" => "image",
-             "label" => a_get_option($options, 'browseLabel', a_('You are creating a slideshow of images.')),
-             "after" => url_for("aSlideshowSlot/edit") . "?" . 
-               http_build_query(
-                 array(
-                   "slot" => $name, 
-                   "slug" => $slug, 
-                   "permid" => $permid,
-                   "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
-                   'actual_url' => aTools::getRealUrl(),
-                   "noajax" => 1))))),
-       'class' => 'a-btn icon a-media')) ?>
+     <?php aRouteTools::pushTargetEngineSlug('/admin/media', 'aMedia') ?>
+     <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'chooseLabel', a_('Choose Images')),
+       'aMedia/select',
+       array(
+         'query_string' => 
+           http_build_query(
+             array_merge(
+               $options['constraints'],
+               array("multiple" => true,
+               "aMediaIds" => implode(",", $itemIds),
+               "type" => "image",
+               "label" => a_get_option($options, 'browseLabel', a_('You are creating a slideshow of images.')),
+               "after" => url_for("aSlideshowSlot/edit") . "?" . 
+                 http_build_query(
+                   array(
+                     "slot" => $name, 
+                     "slug" => $slug, 
+                     "permid" => $permid,
+                     "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
+                     'actual_url' => aTools::getRealUrl(),
+                     "noajax" => 1))))),
+         'class' => 'a-btn icon a-media')) ?>
+     <?php aRouteTools::popTargetEnginePage('aMedia') ?>
    </li>
 
    <?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
