@@ -17,21 +17,28 @@
 
     aTools::setAllowSlotEditing(false);
 
-    $defaults = $this->configuration->getFilterDefaults();
-    $filters = $this->getFilters();
     // There is no really great way to determine whether the filters differ from the defaults
+    // do it the tedious way
     $this->filtersActive = false;
-    foreach ($filters as $key => $val)
+
+    // Without this check we crash admin gen that has no filters
+    if ($this->configuration->hasFilterForm())
     {
-      if (isset($defaults[$key]))
+      $defaults = $this->configuration->getFilterDefaults();
+      $filters = $this->getFilters();
+    
+      foreach ($filters as $key => $val)
       {
-        $this->filtersActive = true;
-      }
-      else
-      {
-        if (!$this->isEmptyFilter($val))
+        if (isset($defaults[$key]))
         {
           $this->filtersActive = true;
+        }
+        else
+        {
+          if (!$this->isEmptyFilter($val))
+          {
+            $this->filtersActive = true;
+          }
         }
       }
     }
