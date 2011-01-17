@@ -24,7 +24,7 @@ class BaseaMediaVideoForm extends aMediaItemForm
         $this->setDefault('embed', $item->service_url);
       }
     }
-    elseif (strlen($item->service_url))
+    elseif ($item && strlen($item->service_url))
     {
       // Why do we sometimes not have the embed field set at all?
       $this->setDefault('embed', $item->service_url);
