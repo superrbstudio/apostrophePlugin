@@ -2066,6 +2066,13 @@ function aConstructor()
 		});
 	}
 
+	this.enableUserAdmin = function(options)
+	{
+		// Right now this is also called for groups and permissions admin, account for that if you add anything nutty. -Tom
+		$('.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field br').replaceWith('<div class="a-spacer"></div>');
+		aMultipleSelectAll({ 'choose-one': options['choose-one-label']});
+	}
+	
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{

@@ -1447,6 +1447,14 @@ a.a-blog-back-btn
 
 a.all-posts-btn:hover { color: #000; text-decoration: underline; }
 
+/* Anywhere we still have plain vanilla Symfony filters we need to display them in 
+	a reasonable plain vanilla way. Rework them entirely and we'll eventually not need
+	this, but right now users admin, groups admin, etc. definitely needs this. -Tom */
+.a-admin-filters-fields
+{
+	
+}
+
 .a-admin-batch-checkbox, 
 .a-admin-list-batch-checkbox-toggle { margin: 0 0 0 3px; }
 
