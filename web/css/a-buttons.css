@@ -57,7 +57,8 @@ width: 18px;
 .a-ui .a-btn.lite { text-shadow: none; background: none; line-height: 18px; border: 1px solid transparent; }
 .a-ui .a-btn.lite:hover { color: #000 !important; background-color: rgba(0,0,0,0.125) !important; border: 1px inset rgba(0,0,0,0.125) !important; }
 
-.a-btn.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
+.a-btn.big, input.a-btn.a-submit.big { font-size: 18px; height: 24px; line-height: 24px; background-position: center left; }
+input.a-btn.a-submit.big { height: 26px; } /* inputs need 2px more for some reason */
 .a-btn.big.no-label { background-position: center center; width: 24px; }
 
 .a-btn.mini { font-size: 10px !important; height: 16px; line-height: 16px !important; background-position: center left; }

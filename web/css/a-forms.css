@@ -42,14 +42,7 @@ font-family:Arial,sans-serif;
 padding: 2px 3px;
 }
 
-.a-form-row input.big { font-size: 18px; }
-
-.a-form-row.submit
-{
-margin-left: 120px;
-}
-
-.a-form-row.submit .a-btn { height: auto; }
+.a-form-row.submit { margin-left: 120px; }
 
 .a-form-row .a-form-field,
 .a-form-row .a-form-error { float: left; }
@@ -134,7 +127,9 @@ input.a-cancel {
 float: left;
 position: relative;
 color: #fff;
-font: 12px/normal arial, sans-serif;
+font-size: 12px;
+font-family: arial, sans-serif;
+line-height:  normal;
 padding: 0px 4px;
 width: auto;
 cursor: pointer;
