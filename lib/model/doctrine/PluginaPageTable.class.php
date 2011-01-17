@@ -796,7 +796,8 @@ class PluginaPageTable extends Doctrine_Table
     $id = $options['info']['id'];
     if (!isset(aPageTable::$peersInfo[$id]))
     {
-      $parentInfo = aPageTable::getParentInfo($options);
+      // Even if the parent is archived we need to know our true peers
+      $parentInfo = aPageTable::getParentInfo(array_merge($options, array('ignore_permissions' => true)));
       if (!$parentInfo)
       {
         // It's the home page. Return a stub: the home page is its only peer

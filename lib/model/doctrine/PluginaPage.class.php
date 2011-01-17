@@ -639,7 +639,7 @@ abstract class PluginaPage extends BaseaPage
     }
     if (!$found)
     {
-			// Activate page is not a descendant of the root. Just return the children of the root.
+			// Active page is not a descendant of the root. Just return the children of the root.
 			// This makes the accordion more useful when you are not yet under its root
 			// I don't have a handy way to do this without cache issues in the table class yet so...
 			// This is not a proper info structure but it will work for this job
@@ -667,7 +667,8 @@ abstract class PluginaPage extends BaseaPage
       {
         // TODO: this is inefficient, come up with a way to call getPeerInfo for an
         // alternate ID without fetching that entire page
-        $result[] = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
+        $peers = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
+        $result[] = $peers;
       }
     }
     // Current page peers level
