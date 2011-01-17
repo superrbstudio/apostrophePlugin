@@ -762,13 +762,14 @@ class PluginaPageTable extends Doctrine_Table
     $includeSelf = isset($options['includeSelf']) ? $options['includeSelf'] : false;
     // We cache the results of one simple query that gets the whole lineage, and permute that a little
     // for the includeSelf case
-    if (!isset(aPageTable::$ancestorsInfo[$id]))
+		$key = serialize($options);
+    if (!isset(aPageTable::$ancestorsInfo[$key]))
     {
       // Since our presence on an admin page implies we know about it, it's OK to include
       // admin pages in the breadcrumb. It's not OK in other navigation
-      aPageTable::$ancestorsInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => "( p.lft <= " . $options['info']['lft'] . " AND p.rgt >= " . $options['info']['rgt'] . ' )')));
+      aPageTable::$ancestorsInfo[$key] = aPageTable::getPagesInfo(array_merge($options, array('where' => "( p.lft <= " . $options['info']['lft'] . " AND p.rgt >= " . $options['info']['rgt'] . ' )')));
     }
-		$ancestorsInfo = aPageTable::$ancestorsInfo[$id];
+		$ancestorsInfo = aPageTable::$ancestorsInfo[$key];
 		if (!$includeSelf)
 		{
 			array_pop($ancestorsInfo);
@@ -856,7 +857,12 @@ class PluginaPageTable extends Doctrine_Table
   static public function getPagesInfo($options)
   {
     $whereClauses = array();
-    
+    $ignorePermissions = false;
+		if (isset($options['ignore_permissions']))
+		{
+			// getAncestorsInfo has to return everything in some contexts to work properly
+			$ignorePermissions = $options['ignore_permissions'];
+		}
     if (!isset($options['culture']))
     {
       $options['culture'] = aTools::getUserCulture();
@@ -919,7 +925,7 @@ class PluginaPageTable extends Doctrine_Table
       $viewLockedClause = 'OR p.view_guest IS TRUE ';
     }
     // CMS admin can always view
-    if (!$hasCmsAdmin)
+    if (!$hasCmsAdmin && (!$ignorePermissions))
     {
       // YOU CAN VIEW IF
       // * view_admin_lock is NOT set, AND
