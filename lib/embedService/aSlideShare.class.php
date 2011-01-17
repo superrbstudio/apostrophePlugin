@@ -111,7 +111,7 @@ return <<<EOT
     <param name="movie" value="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" />
     <param name="allowFullScreen" value="true" />
     <param name="allowScriptAccess" value="always" />
-	  <param name="wmode" value="$wmode"></param>
+    <param name="wmode" value="$wmode"></param>
     <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOT;
@@ -253,6 +253,15 @@ EOT;
   // Will retrieve slideshow from given ID, URL (intelligently decides which to use)
   private function getSlideInfo($id)
   {
+    // Check if we have the media cached before hitting the API
+    $cacheKey = "get-slideinfo:$id";
+    $slideInfo = $this->getCached($cacheKey);
+    
+    if (!is_null($slideInfo))
+    {
+      return $slideInfo;
+    }  
+  
     $call = 'get_slideshow';
     $tags = '';
     $params = (strpos($id, 'http://') !== false) ? array('slideshow_url' => $id, 'detailed' => 1) : array('slideshow_id' => $id, 'detailed' => 1);
@@ -276,7 +285,8 @@ EOT;
       $tags = substr($tags, 0, -2); // Remove the trailing comma
     }
     
-    return array('id' => (int) $data->ID,
+    $slideInfo = array(
+         'id' => (int) $data->ID,
            'url' => (string) $data->URL,
            'title' => (string) $data->Title,
            'description' => (string) $data->Description,
@@ -284,7 +294,13 @@ EOT;
            'credit' => (string) $data->Username,
            'thumbnail' => (string) $data->ThumbnailURL,
            'embedUrl' => (string) $data->PPTLocation,
-           'showType' => (int) $data->SlideshowType);
+           'showType' => (int) $data->SlideshowType
+         );
+    
+    // Cache this media for a day to reduce our API hits
+    $this->setCached($cacheKey, $slideInfo, aEmbedService::SECONDS_IN_DAY);
+    
+    return $slideInfo;
   }
 }
 

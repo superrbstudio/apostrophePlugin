@@ -116,17 +116,21 @@ abstract class aEmbedService
   // That works well for our API since we generally use false to mean
   // something is actually not valid
   
+  const SECONDS_IN_DAY = 86400;
   protected $cache;
   
   public function getCached($key)
   {
+    error_log("aEmbedService::getCached(): Retrieving $key...");
     $cache = $this->getCache();
     $key = $this->getName() . ':' . $key;
     $value = $cache->get($key, null);
     if ($value === null)
     {
+      error_log("aEmbedService::getCached(): Failed! ($key does not exist)");
       return null;
     }
+    error_log("aEmbedService::getCached(): Successfully retrieved $key!");
     return unserialize($value);
   }
 
@@ -134,7 +138,7 @@ abstract class aEmbedService
   
   public function setCached($key, $value, $interval = 3600)
   {
-    error_log("Storing " . serialize($value) . " for $key\n");
+    error_log("aEmbedService::getCached(): Storing $key: " . serialize($value));
     $cache = $this->getCache();
     $key = $this->getName() . ':' . $key;
     $cache->set($key, serialize($value), $interval);
