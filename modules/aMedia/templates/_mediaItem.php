@@ -1,7 +1,9 @@
 <?php
   // Compatible with sf_escaping_strategy: true
   $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
+  $layout = isset($layout) ? $sf_data->getRaw('layout') : null;
 ?>
+
 <?php use_helper('a') ?>
 <?php $domId = 'a-media-thumb-link-' . $mediaItem->getId() ?>
 <?php $galleryConstraints = aMediaTools::getOption('gallery_constraints'); ?>
