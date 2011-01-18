@@ -54,6 +54,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
+		$this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');
 		$this->options['random'] = $this->getOption('random', false);
 		
 		// We automatically set up the aspect ratio if the resizeType is set to 'c'
