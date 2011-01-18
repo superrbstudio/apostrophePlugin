@@ -800,7 +800,6 @@ class BaseaTools
     'reset' => '/apostrophePlugin/css/a-reset.css',
     'forms' => '/apostrophePlugin/css/a-forms.css',
     'buttons' => '/apostrophePlugin/css/a-buttons.css',
-    'navigation' => '/apostrophePlugin/css/a-navigation.css',
     'components' => '/apostrophePlugin/css/a-components.css',
     'area-slots' => '/apostrophePlugin/css/a-area-slots.css',
     'engines' => '/apostrophePlugin/css/a-engines.css',

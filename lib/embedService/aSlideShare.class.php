@@ -50,7 +50,6 @@ class aSlideShare extends aEmbedService
   
   public function configurationHelpUrl()
   {
-    // TODO: Create this wiki page
     return 'http://trac.apostrophenow.org/wiki/EmbedSlideShare';
   }
   
@@ -85,33 +84,44 @@ class aSlideShare extends aEmbedService
   public function getInfo($id)
   {
     $data = $this->getSlideInfo($id);
-        
-    return array('id' => $data['id'],
+    
+    if ($data)
+    {
+      return array('id' => $data['id'],
            'url' => $data['url'],
            'title' => $data['title'],
-           'description' => aHtml::simplify($data['description']),
+           'description' => html_entity_decode($data['description'], ENT_COMPAT, 'UTF-8'),
            'tags' => $data['tags'],
            'credit' => $data['credit']);
+    }
+    
+    return false;
   }
 
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
     $slideInfo = $this->getSlideInfo($id);
-    $player = $this->showPlayers[$slideInfo['showType']];
+    
+    if ($slideInfo)
+    {
+      $player = $this->showPlayers[$slideInfo['showType']];
 
 return <<<EOT
 <object id="__sse$id" width="$width" height="$height">
     <param name="movie" value="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" />
     <param name="allowFullScreen" value="true" />
     <param name="allowScriptAccess" value="always" />
-	  <param name="wmode" value="$wmode"></param>
+    <param name="wmode" value="$wmode"></param>
     <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
 </object>
 EOT;
+    }
+    
+    return false;
 }
 
   public function getIdFromUrl($url)
-  {
+  {    
     // Apostrophe calls both this and the getIdFromEmbed method,
     // let's make sure it happens in the cheapest order, avoiding
     // unnecessary API calls and ruling out situations where we
@@ -125,14 +135,19 @@ EOT;
     
     if (strpos($url, 'slideshare.net') !== false)
     {
-      $slideInfo = $this->getSlideInfo($url);
-      
-      if (!$slideInfo)
+      /* We must strip the '?from=ss_embed' suffix off the SlideShare URL if it exists (this suffix shows up
+       * when a user gets to the SlideShare page by clicking the 'View on SlideShare' button within a slideshow */
+      if (strpos($url, '?from=ss_embed') !== false)
       {
-        return false;
+        $url = substr($url, 0, strpos($url, '?from=ss_embed'));
       }
       
-      return $slideInfo['id'];
+      $slideInfo = $this->getSlideInfo($url);
+      
+      if ($slideInfo)
+      {
+        return $slideInfo['id'];
+      }
     }
     
     return false;
@@ -141,7 +156,13 @@ EOT;
   public function getUrlFromId($id)
   {
     $slideInfo = $this->getSlideInfo($id);
-    return $slideInfo['url'];
+    
+    if ($slideInfo)
+    {
+      return $slideInfo['url'];
+    }
+    
+    return false;
   }
 
   public function getIdFromEmbed($embed)
@@ -191,7 +212,12 @@ EOT;
       return false;
     }
     
-    return utf8_encode($result);
+    if ($result)
+    {
+      return utf8_encode($result);
+    }
+    
+    return false;
   }
   
   private function searchApi($call, $params, $browseUser=false)
@@ -199,6 +225,12 @@ EOT;
     $slideshowInfo = array();
     
     $data = new SimpleXMLElement($this->getData($call, $params));
+    
+    // If our API call fails, return false so we don't error on our foreach() call
+    if (!$data)
+    {
+      return false;
+    }
     
     foreach ($data->Slideshow as $show)
     {
@@ -221,11 +253,26 @@ EOT;
   // Will retrieve slideshow from given ID, URL (intelligently decides which to use)
   private function getSlideInfo($id)
   {
+    // Check if we have the media cached before hitting the API
+    $cacheKey = "get-slideinfo:$id";
+    $slideInfo = $this->getCached($cacheKey);
+    
+    if (!is_null($slideInfo))
+    {
+      return $slideInfo;
+    }  
+  
     $call = 'get_slideshow';
     $tags = '';
     $params = (strpos($id, 'http://') !== false) ? array('slideshow_url' => $id, 'detailed' => 1) : array('slideshow_id' => $id, 'detailed' => 1);
 
     $data = new SimpleXMLElement($this->getData($call, $params));
+    
+    // If our API call fails, return false so we don't error on our foreach() call
+    if (!$data)
+    {
+      return false;
+    }
     
     // Convert tags into comma-separated list
     foreach ($data->Tags->Tag as $tag)
@@ -238,7 +285,8 @@ EOT;
       $tags = substr($tags, 0, -2); // Remove the trailing comma
     }
     
-    return array('id' => (int) $data->ID,
+    $slideInfo = array(
+         'id' => (int) $data->ID,
            'url' => (string) $data->URL,
            'title' => (string) $data->Title,
            'description' => (string) $data->Description,
@@ -246,7 +294,13 @@ EOT;
            'credit' => (string) $data->Username,
            'thumbnail' => (string) $data->ThumbnailURL,
            'embedUrl' => (string) $data->PPTLocation,
-           'showType' => (int) $data->SlideshowType);
+           'showType' => (int) $data->SlideshowType
+         );
+    
+    // Cache this media for a day to reduce our API hits
+    $this->setCached($cacheKey, $slideInfo, aEmbedService::SECONDS_IN_DAY);
+    
+    return $slideInfo;
   }
 }
 

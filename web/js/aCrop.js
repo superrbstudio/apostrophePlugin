@@ -1,4 +1,4 @@
-aCrop = {
+window.aCrop = {
   api: null,
   
   // these are the params we expect
@@ -12,7 +12,7 @@ aCrop = {
     previewList: '#a-media-selection-preview',
     previewImages: '#a-media-selection-preview img',
     slideshowList: '#a-media-selection-list',    
-    slideshowImages: '#a-media-selection-list img',
+    slideshowImages: '#a-media-selection-list img'
   },
    
   init: function(options){
@@ -207,3 +207,4 @@ aCrop = {
 		$(".a-crop-workspace").fadeOut();
   }
 };
+

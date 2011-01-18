@@ -13,6 +13,7 @@
 	$submitSelector = $item ? ('#' . $item->getSlug() . '-submit') : '.a-media-multiple-submit-button';
 	$single = isset($single) ? $sf_data->getRaw('single') : false;
 	$formAction = isset($formAction) ? $sf_data->getRaw('formAction') : null;
+	$editVideoSuccess = isset($editVideoSuccess) ? $sf_data->getRaw('editVideoSuccess') : null;
 ?>
 
 <?php if (!isset($form['file'])): ?>
@@ -46,6 +47,10 @@
 <?php if ($single): ?>	
   <?php // Editing one item, existing or otherwise ?>
   <form method="POST" class="a-ui a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo $formAction ?>">
+		<?php if ($editVideoSuccess): ?>
+			<div class="a-media-editor a-even last">
+				<div class="a-ui a-media-item a-media-edit-form even">
+		<?php endif ?>
 <?php else: ?>
   <?php // This is one of several items in a larger form ?>
   <div class="a-ui a-media-item a-media-edit-form <?php echo ($n%2) ? "odd" : "even" ?>" id="a-media-item-<?php echo $i ?>">
@@ -233,15 +238,21 @@
 		<?php endif ?>
 	</div>
 <?php endif ?>
-
 <?php if ($single): ?>
-  <ul class="a-ui a-controls">
-   	<li>
-  		<input type="submit" value="<?php echo __('Save', null, 'apostrophe') ?>" class="a-btn a-submit" id="<?php echo substr($submitSelector, 1) ?>" />
-  	</li>
-   	<li>
-  		<?php echo link_to("<span class='icon'></span>".__('Cancel', null, 'apostrophe'), "aMedia/resumeWithPage", array("class" => "a-btn icon a-cancel")) ?>
-  	</li>
+
+	<?php if ($editVideoSuccess): ?>
+			</div>
+		</div>
+	<?php endif ?>
+
+  <ul class="a-ui a-controls a-align-left bottom">
+		<?php if ($editVideoSuccess): ?>
+	   	<li><?php echo a_js_button(a_('Cancel'), array('icon','a-cancel', 'big')) ?></li>
+	   	<li><?php echo a_anchor_submit_button(a_('Save Media'), array('big'), substr($submitSelector, 1)) ?></li>
+		<?php else: ?>
+	   	<li><?php echo a_anchor_submit_button(a_('Save'), array(), substr($submitSelector, 1)) ?></li>
+	   	<li><?php echo a_js_button(a_('Cancel'), array('icon','a-cancel')) ?></li>
+		<?php endif ?>
   	<?php if ($item): ?>
     	<li>
     		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(

@@ -875,6 +875,7 @@ color: #333;
 	text-indent: 0;
 }
 
+
 /* Apostrophe Attribution
 -------------------------------------*/
 
@@ -890,3 +891,9 @@ color: #333;
 #ie6-warning h2 a { color: #fff; text-decoration: underline; }
 #ie6-warning h2 a:hover { color: #222; }
 .ie6 .a-controls, .ie6 .a-btn { display: none !important; } /* Added precaution -- Let's hide any controls from IE6 */
+
+
+/* Apostrophe Navigation
+-------------------------------------*/
+
+.a-archived-page a { text-decoration: line-through; opacity: 0.5; }

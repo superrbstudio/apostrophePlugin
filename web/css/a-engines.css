@@ -287,6 +287,10 @@ width: 104px
 .a-media-item .a-media-item-embed,
 .a-media-item .a-media-item-thumbnail { width: 340px; float: left; position: relative; }
 
+.a-media-show .a-media-item .a-media-item-embed,
+.a-media-show .a-media-item .a-media-item-thumbnail { width: 720px; }
+.a-media-show .a-media-item-thumbnail-span { background-position: 0 0; }
+	
 .a-media-item .a-media-item-information { float: left; width: 100%;}
 
 .a-media-item .a-media-item-title { width: 100%; float: left; margin: 5px 0; }
@@ -1457,6 +1461,14 @@ a.a-blog-back-btn
 }
 
 a.all-posts-btn:hover { color: #000; text-decoration: underline; }
+
+/* Anywhere we still have plain vanilla Symfony filters we need to display them in 
+	a reasonable plain vanilla way. Rework them entirely and we'll eventually not need
+	this, but right now users admin, groups admin, etc. definitely needs this. -Tom */
+.a-admin-filters-fields
+{
+	
+}
 
 .a-admin-batch-checkbox, 
 .a-admin-list-batch-checkbox-toggle { margin: 0 0 0 3px; }

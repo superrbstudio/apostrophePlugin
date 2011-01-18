@@ -12,5 +12,16 @@ class aTagForm extends TagForm
 
     $this->useFields(array('name'));
   }
-
+  
+  public function updateObject($values)
+  {
+    if (is_null($values))
+    {
+      $values = $this->getValues();
+    }
+    // Slashes break routes in most server configs. Do NOT force case of tags.
+    
+    $values['name'] = str_replace('/', '-', isset($values['name']) ? $values['name'] : '');
+    parent::updateObject($values);
+  }
 }

@@ -31,6 +31,10 @@ class BaseaUserAdminForm extends sfGuardUserAdminForm
     {
       unset($this['permissions_list']);
     }
+    foreach ($this->getUseFields() as $field)
+    {
+      $this->getWidget($field)->setAttribute('autocomplete', 'off');
+    }
   }
   
   private function i18nDummy()

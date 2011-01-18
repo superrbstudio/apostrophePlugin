@@ -13,6 +13,7 @@ generator:
     config:
       
       list:
+        sort: [name, asc]
         title: Categories Admin
         display: [ _name, _users, _groups ]
         object_actions: []

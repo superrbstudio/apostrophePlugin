@@ -204,36 +204,6 @@ function aConstructor()
 				submit.addClass('icon').prepend('<span class="icon"></span>');
 			}
 		};
-
-		// var updating = $(selector);
-		// 	updating.unbind('aUpdating.core');
-		// 	updating.bind('aUpdating.core', function() {
-		// 		apostrophe.log('apostrophe.updating -- We are phasing this out, update your submit buttons...')
-		// 		apostrophe.log('apostrophe.updating -- Make sure the submit button uses a_anchor_submit_button() helper and contains a class of .a-show-busy');
-		// 		// Sometimes there's a better candidate to attach the updating tab to
-		// 		var noticeAttach = updating.closest('.a-ajax-attach-updating');
-		// 		if (!noticeAttach.length)
-		// 		{
-		// 			noticeAttach = updating;
-		// 		}
-		// 		updating.unbind('aUpdated.core');
-		// 		var notice = $('<div class="a-ajax-form-updating">' + apostrophe.messages['updating'] + '</div>');
-		// 		var offset = noticeAttach.offset();
-		// 		$('body').append(notice);
-		// 		$(function() {
-		// 			notice.offset({ top: offset.top - 15, left: offset.left + 5});
-		// 		});
-		// 		updating.addClass('a-updating');
-		// 		updating.bind('aUpdated.core', function() {
-		// 			updating.removeClass('a-updating');
-		// 			updating.addClass('a-updated');
-		// 			notice.html(apostrophe.messages['updated']);
-		// 			window.setTimeout(function() {
-		// 				notice.remove();
-		// 			}, 500);
-		// 		});
-		// 	});
-		// 	updating.trigger('aUpdating');
 	}
 	
 	// Utility: Create an anchor button that toggles between two radio buttons
@@ -813,7 +783,8 @@ function aConstructor()
 	{
     var view = $(options['view']);
 
-		$(options['cancel']).click(function(){
+		$(options['cancel']).click(function(e){
+			e.preventDefault();
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls li.variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
@@ -1297,9 +1268,9 @@ function aConstructor()
 			var nb_links = parseInt(pagerOptions['nb-links']);
 			var selected = parseInt($(this).find('.a-page-navigation-number.a-pager-navigation-disabled').text());
 			
-			// If the number of links present is less than the max number of pages
+			// If the number of links allowed is greater than the total number of pages returned
 			// then we do not need the arrows. So let's use this class name so scope 'disabled' styles.
-			(nb_links <= nb_pages) ? pager.addClass('a-pager-arrows-disabled') : pager.removeClass('a-pager-arrows-disabled');
+			(nb_links >= nb_pages) ? pager.addClass('a-pager-arrows-disabled') : pager.removeClass('a-pager-arrows-disabled');
 			
 			var min = selected;
 			var max = selected + nb_links - 1;
@@ -2096,6 +2067,13 @@ function aConstructor()
 		});
 	}
 
+	this.enableUserAdmin = function(options)
+	{
+		// Right now this is also called for groups and permissions admin, account for that if you add anything nutty. -Tom
+		$('.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field br').replaceWith('<div class="a-spacer"></div>');
+		aMultipleSelectAll({ 'choose-one': options['choose-one-label']});
+	}
+	
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{

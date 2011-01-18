@@ -158,7 +158,7 @@ EOM
       {
         $id = $result['video']['id'];
         // Cache the information for a day
-        $this->setCached($key, $id, 86400);
+        $this->setCached($key, $id, aEmbedService::SECONDS_IN_DAY);
         return $id;
       }
       // TODO: should we cache negatives? Not as important on plain old page loads
@@ -189,7 +189,7 @@ EOM
     {
       $url = $info['url'];
       // Cache the information for a day
-      $this->setCached($key, $url, 86400);
+      $this->setCached($key, $url, aEmbedService::SECONDS_IN_DAY);
       return $url;
     }
     return false;

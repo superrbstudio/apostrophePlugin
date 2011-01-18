@@ -41,8 +41,6 @@
   				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Crop', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
   				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn icon a-cancel', 'id' => 'a-cancel-crop', )) ?></li>
   		  </ul>
-  		  <script type="text/javascript" charset="utf-8">
-  		  </script>
   		</div>
   	</div>
   </div>

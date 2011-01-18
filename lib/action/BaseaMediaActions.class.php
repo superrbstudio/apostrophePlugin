@@ -446,7 +446,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
@@ -553,7 +553,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
@@ -592,7 +592,8 @@ class BaseaMediaActions extends aEngineActions
           if ((!isset($parameters['title'])) && (!isset($parameters['tags'])) && (!isset($parameters['description'])) && (!isset($parameters['credit'])))
           {
             $parameters['title'] = $result['serviceInfo']['title'];
-            $parameters['tags'] = $result['serviceInfo']['tags'];
+            // We want tags to be lower case, and slashes break routes in most server configs. 
+            $parameters['tags'] = str_replace('/', '-', aString::strtolower($result['serviceInfo']['tags']));
             $parameters['description'] = aHtml::textToHtml($result['serviceInfo']['description']);
             $parameters['credit'] = $result['serviceInfo']['credit'];
           }
@@ -767,7 +768,7 @@ class BaseaMediaActions extends aEngineActions
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
 
-		$this->popularTags = PluginTagTable::getPopulars(null, array(), false, 10);
+		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
   	if (sfConfig::get('app_a_all_tags', true))
   	{
   	  $this->allTags = PluginTagTable::getAllTagNameWithCount();

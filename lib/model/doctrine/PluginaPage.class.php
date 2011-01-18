@@ -620,13 +620,18 @@ abstract class PluginaPage extends BaseaPage
     // If you have enabled children of archived ancestors and you don't
     // want the ancestors to show up, you probably shouldn't be using
     // an accordion contro. in the first place
-    $ancestors = $this->getAncestorsInfo();
+
+		// We need all of the ancestors to build an accordion successfully, in particular
+		// since we often want a hidden parent to be the root. Give more thought to whether 
+		// we can do this just for the root
+    $ancestors = aPageTable::getAncestorsInfo(array('info' => $this->getInfo(), 'ignore_permissions' => true));
     // Dump ancestors we don't care about
     $found = false;
     for ($i = 0; ($i < count($ancestors)); $i++)
     {
       if ($ancestors[$i]['slug'] === $root)
       {
+				$rootLevel = $ancestors[$i]['level'];
         $ancestors = array_slice($ancestors, $i);
         $found = true;
         break;
@@ -634,18 +639,27 @@ abstract class PluginaPage extends BaseaPage
     }
     if (!$found)
     {
-      throw new sfException("Root slug $root never found among ancestors in getAccordionInfo");
+			// Active page is not a descendant of the root. Just return the children of the root.
+			// This makes the accordion more useful when you are not yet under its root
+			// I don't have a handy way to do this without cache issues in the table class yet so...
+			// This is not a proper info structure but it will work for this job
+			$rootInfo = Doctrine::getTable('aPage')->createQuery('p')->where('slug = ?', array($root))->execute(array(), Doctrine::HYDRATE_ARRAY);
+			if (!count($rootInfo))
+			{
+				throw new sfException("Root page of accordion does not exist!");
+			}
+			$rootInfo = $rootInfo[0];
+			return aPageTable::getChildrenInfo(array('info' => $rootInfo));
     }
     $result = array();
-    // Ancestor levels
     foreach ($ancestors as $ancestor)
     {
-      if ($livingOnly && ($ancestor['archived']))
+      if (($ancestor['level'] > $rootLevel) && $livingOnly && ($ancestor['archived']))
       {
         continue;
       }
       $lineage[] = $ancestor['id'];
-      if ($ancestor['level'] == 0)
+      if ($ancestor['level'] == $rootLevel)
       {
         $result[] = array($ancestor);
       }
@@ -653,7 +667,8 @@ abstract class PluginaPage extends BaseaPage
       {
         // TODO: this is inefficient, come up with a way to call getPeerInfo for an
         // alternate ID without fetching that entire page
-        $result[] = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
+        $peers = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
+        $result[] = $peers;
       }
     }
     // Current page peers level

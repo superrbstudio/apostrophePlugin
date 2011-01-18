@@ -40,7 +40,7 @@
   </ul>
 <?php else: ?>
 	
-	<?php if ($options['image']): ?>
+	<?php if ($options['image'] && (!strlen($options['url']))): ?>
 		<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Create a Button"), 'options' => $options)) ?>
 	<?php endif ?>
 	

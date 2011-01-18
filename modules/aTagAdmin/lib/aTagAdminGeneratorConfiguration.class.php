@@ -10,13 +10,29 @@
  */
 class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguration
 {
+  // Convince the admin generator that the tag columns are "real" and can therefore
+  // be sorted upon. Thanks to Dan
+
+  public function getFieldsDefault()
+  {
+    $models = $this->getTaggableModels();
+    $fields = parent::getFieldsDefault();
+    foreach ($models as $model)
+    {
+      if (!isset($fields['tag_' . $model]))
+      {
+        $fields['tag_' . $model] = array('is_link' => false,  'is_real' => true,  'is_partial' => false,  'is_component' => false,  'type' => 'Tag');
+      }
+    }
+    return $fields;
+  }
 
   public function getTaggableModels()
   {
     $fields = array();
     foreach($this->getListDisplay() as $field)
     {
-      $parts = preg_split('/^tag_/', $field);
+      $parts = preg_split('/^=?tag_/', $field);
       if(count($parts) > 1)
       {
         $fields[] = $parts[1];

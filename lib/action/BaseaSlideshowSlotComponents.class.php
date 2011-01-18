@@ -10,16 +10,19 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
   public function executeNormalView()
   {
     $this->setup();
+		$this->setupOptions();
     $this->getLinkedItems();
     
-    if ($this->getOption('random', false))
+    if ($this->options['random'])
     {
       shuffle($this->items);
     }
-
-		$this->options['constraints'] = $this->getOption('constraints', array());
-    
   }
+
+	public function executeSlideshow()
+	{
+		$this->setupOptions();
+	}
 
   protected function getLinkedItems()
   {
@@ -51,14 +54,20 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
+		$this->options['random'] = $this->getOption('random', false);
+		
+		// We automatically set up the aspect ratio if the resizeType is set to 'c'
+		$constraints = $this->getOption('constraints', array());
+		if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && (!isset($constraints['aspect-width'])))
+		{
+			$constraints['aspect-width'] = $constraints['minimum-width'];
+			$constraints['aspect-height'] = $constraints['minimum-height'];
+		}
+		$this->options['constraints'] = $constraints;
 
-		// I use the idSuffix with the Blog Post Slot that includes slideshows 
-		// so I can have unique ids for the same slideshows if they show up in separate slots
+		// idSuffix works with the Blog Slot slideshows 
+		// Creates unique ids for the same slideshows if they show up in separate slots on a single page.
 		$this->options['idSuffix'] = $this->getOption('idSuffix', false); 
 	}
-  
-	public function executeSlideshow()
-	{
-		$this->setupOptions();
-	}
+
 }

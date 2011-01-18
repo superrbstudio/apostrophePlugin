@@ -344,6 +344,11 @@ color: #333;
 border: 1px solid #e2e2e2;
 }
 
+.a-admin #a-admin-filters-container.a-active
+{
+display: block;
+}
+
 .a-admin #a-admin-filters-container #a-admin-filters-form
 {
 padding: 10px;
@@ -372,7 +377,6 @@ display:inline;
 
 .a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
 {
-	float:left;
 	display:inline;
 	margin:0 0 0 120px;
 	width: 580px;
@@ -386,6 +390,73 @@ display:inline;
 }
 
 
+/* 29. a-user-admin and friends are still very vanilla, help them work in a vanilla way
+-----------------------------------------------------------------------------------------*/
+
+/* Label floats to the left of main filter field */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+{
+	width:120px;
+	float: left;
+	display: block;
+}
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+{
+	margin: 0px 0px 10px 120px;
+	width: 580px;
+	display: block;
+}
+
+/* "Is Empty" is inline */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+{
+	display: inline;
+	width: auto;
+	float: none;
+	min-width: 0px;
+}
+
+/* "Is Empty" is inline; checkboxes need a min-width override that really works cross-browser */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"]
+{
+	display: inline;
+	width: auto;
+	float: none;
+	margin-left: 10px;
+	min-width: 0px;
+}
+	
+/* The actual data entry fields are inline so they can be consecutive on a line etc. as in date range widgets */
+
+.a-admin .aUserAdmin .a-form-row input[type="text"], .aUserAdmin .a-form-row input[type="password"], .aUserAdmin .a-form-row select, .aUserAdmin .a-form-row textarea,
+.a-admin .aGroupAdmin .a-form-row input[type="text"], .aGroupAdmin .a-form-row input[type="password"], .aGroupAdmin .a-form-row select, .aGroupAdmin .a-form-row textarea,
+.a-admin .aPermissionAdmin .a-form-row input[type="text"], .aPermissionAdmin .a-form-row input[type="password"], .aPermissionAdmin .a-form-row select, .aPermissionAdmin .a-form-row textarea
+{
+	float: none;
+	display: inline;
+}
+
+/* br is a special case, it's not really an element that can be styled consistently: 
+	http://stackoverflow.com/questions/899252/can-you-target-br-with-css
+	So we transform it via jQuery (apostrophe.enableUserAdmin) into a div with a class that we can style */
+	
+.a-admin div.a-spacer
+{
+	display: block;
+	padding-bottom: 6px;
+}
 
 /* 33. Some Admin Generator Styles
 -------------------------------------*/

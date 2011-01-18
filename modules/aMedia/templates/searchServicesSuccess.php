@@ -33,9 +33,11 @@
 				<?php endif ?>
 			</div>
 
+<?php /* Removed the cancel button because everyone kept clicking cancel instead of search. If you want to get back to media click the media heading. ?> 
 	    <div class="a-form-row cancel" id="a-media-video-add-by-embed-form-submit">
 				<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
 	    </div>	
+<?php //*/ ?>
 	  </form>
 	</div>
   <?php if (isset($pager)): ?>

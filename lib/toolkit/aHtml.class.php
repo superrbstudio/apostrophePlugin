@@ -557,12 +557,11 @@ class aHtml
   
   public static function obfuscateMailtoInstance($args)
   {
-    static $count = 0;
     list($user, $domain, $label) = array_slice($args, 1);
     // We get some weird escaping problems without the trims
     $user = trim($user);
     $domain = trim($domain);
-    $id = 'a-email-' . ++$count;
+    $id = 'a-email-' . sprintf("%u", crc32($user . $domain));
     $href = rawurlencode("mailto:$user@$domain");
     $label = rawurlencode(trim($label));
     // This is an acceptable way to stub in a js call for now, since it's the

@@ -762,13 +762,14 @@ class PluginaPageTable extends Doctrine_Table
     $includeSelf = isset($options['includeSelf']) ? $options['includeSelf'] : false;
     // We cache the results of one simple query that gets the whole lineage, and permute that a little
     // for the includeSelf case
-    if (!isset(aPageTable::$ancestorsInfo[$id]))
+		$key = serialize($options);
+    if (!isset(aPageTable::$ancestorsInfo[$key]))
     {
       // Since our presence on an admin page implies we know about it, it's OK to include
       // admin pages in the breadcrumb. It's not OK in other navigation
-      aPageTable::$ancestorsInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => "( p.lft <= " . $options['info']['lft'] . " AND p.rgt >= " . $options['info']['rgt'] . ' )')));
+      aPageTable::$ancestorsInfo[$key] = aPageTable::getPagesInfo(array_merge($options, array('where' => "( p.lft <= " . $options['info']['lft'] . " AND p.rgt >= " . $options['info']['rgt'] . ' )')));
     }
-		$ancestorsInfo = aPageTable::$ancestorsInfo[$id];
+		$ancestorsInfo = aPageTable::$ancestorsInfo[$key];
 		if (!$includeSelf)
 		{
 			array_pop($ancestorsInfo);
@@ -795,7 +796,8 @@ class PluginaPageTable extends Doctrine_Table
     $id = $options['info']['id'];
     if (!isset(aPageTable::$peersInfo[$id]))
     {
-      $parentInfo = aPageTable::getParentInfo($options);
+      // Even if the parent is archived we need to know our true peers
+      $parentInfo = aPageTable::getParentInfo(array_merge($options, array('ignore_permissions' => true)));
       if (!$parentInfo)
       {
         // It's the home page. Return a stub: the home page is its only peer
@@ -856,7 +858,12 @@ class PluginaPageTable extends Doctrine_Table
   static public function getPagesInfo($options)
   {
     $whereClauses = array();
-    
+    $ignorePermissions = false;
+		if (isset($options['ignore_permissions']))
+		{
+			// getAncestorsInfo has to return everything in some contexts to work properly
+			$ignorePermissions = $options['ignore_permissions'];
+		}
     if (!isset($options['culture']))
     {
       $options['culture'] = aTools::getUserCulture();
@@ -919,7 +926,7 @@ class PluginaPageTable extends Doctrine_Table
       $viewLockedClause = 'OR p.view_guest IS TRUE ';
     }
     // CMS admin can always view
-    if (!$hasCmsAdmin)
+    if (!$hasCmsAdmin && (!$ignorePermissions))
     {
       // YOU CAN VIEW IF
       // * view_admin_lock is NOT set, AND
@@ -928,11 +935,12 @@ class PluginaPageTable extends Doctrine_Table
       // p.archived is false AND p.published_at is in the past AND p.view_is_secure is false
       // OR
       // p.archived is false AND p.published_at is in the past AND p.view_is_secure is true AND (p.view_guest is true OR you have view_locked OR you have an explicit view privilege
+      // However note that if you have a group privilege you don't need to have hasViewLockedPermission (all groups are candidates)
       $whereClauses[] = '(p.view_admin_lock IS FALSE AND (((aa.privilege = "edit") || (ga.privilege = "edit")) OR ' .
         '((p.archived IS FALSE OR p.archived IS NULL) AND p.published_at < NOW() AND ' .
         '((p.view_is_secure IS FALSE OR p.view_is_secure IS NULL) OR ' .
           '(p.view_is_secure IS TRUE AND ' .
-            ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom" OR ga.privilege = "view_custom")' : '0 <> 0') . ')))))';
+            '(ga.privilege = "view_custom" OR ' . ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom")' : '(0 <> 0)') . '))))))';
     }
     
     if (!isset($options['admin']))

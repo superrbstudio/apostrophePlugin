@@ -24,6 +24,11 @@ class BaseaMediaVideoForm extends aMediaItemForm
         $this->setDefault('embed', $item->service_url);
       }
     }
+    elseif ($item && strlen($item->service_url))
+    {
+      // Why do we sometimes not have the embed field set at all?
+      $this->setDefault('embed', $item->service_url);
+    }
   }
   
   // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
@@ -40,6 +45,10 @@ class BaseaMediaVideoForm extends aMediaItemForm
     parent::configure();
     
     unset($this['id'], $this['type'], $this['slug'], $this['width'], $this['height'], $this['format'], $this['service_url']);
+    
+    // Slideshare has very long default embed codes. We're not going to alter our database for them, but we do have to
+    // let it be initially pasted so we can get past form validation and regenerate a shorter embed code
+    $this->getValidator('embed')->setOption('max_length', 2000);
     $object = $this->getObject();
     $this->validatorSchema->setPostValidator(
       new sfValidatorCallback(

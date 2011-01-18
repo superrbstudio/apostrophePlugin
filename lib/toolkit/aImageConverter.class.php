@@ -808,7 +808,16 @@ class aImageConverter
     }
     if ($extension === 'pdf')
     {
-      $cmd = 'gs';
+      // DEPRECATED. GhostScript just isn't reliable enough. It rejects too many valid
+      // PDFs which is a much bigger issue than lack of preview. See #558
+      if (sfConfig::get('app_a_pdf_preview', false))
+      {
+        $cmd = 'gs';
+      }
+      else
+      {
+        return false;
+      }
     }
     elseif (!isset($types[$extension]))
     {

@@ -28,7 +28,7 @@
 	<div class="a-admin-content main">
 		
 		<?php if ($this->configuration->hasFilterForm()): ?>
-		  [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'configuration' => $configuration)) ?]
+		  [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'configuration' => $configuration, 'filtersActive' => $filtersActive)) ?]
 		<?php endif; ?>
 
 		[?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]
