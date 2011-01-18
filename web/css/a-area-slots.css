@@ -63,7 +63,8 @@ list-style: none;
 .a-area > .a-ui.a-controls { margin: 0 0 10px; }
 .a-slot > .a-ui.a-controls { width: 100%; }
 
-.a-slot.editing-now > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
+.a-slot.a-new-slot > .a-ui.a-controls,
+.a-slot.editing-now > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
 
 
 /* Singlton Slot Controls
@@ -112,14 +113,7 @@ background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-re
 -------------------------------------------------------------------- */
 .a-ui.a-options.a-slot-form { width: 100%; top: -27px; left:-5px; padding:30px 5px 5px; overflow: visible;}
 
-.a-ui.a-options.a-slot-form .a-form-row
-{ 
-line-height: 20px;
-margin: 0 0 15px 0;
-padding: 0 10px;
-width: auto;
-clear: both;
-}
+.a-ui.a-options.a-slot-form .a-form-row { line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both; }
 
 .a-ui.a-options.a-slot-form .a-form-help:hover .a-form-help { display: block; }
 
@@ -156,41 +150,31 @@ background-image: url(../images/a-icon-help.png);
 
 .a-slot-form .a-form-help.collapsed .a-form-help-text
 {
-	position: absolute;
-	top: 0;
-	left: 100%;
-	white-space: nowrap;
-	width: auto;
-	margin-left: 20px;
-	padding: 0 6px 0 0;
-	background: rgba(0,0,0,1);
-	color: #e1e1e1;
-	font-weight: normal;
-	line-height: 21px;
-	-moz-border-radius: 0 4px 4px 0px;
-	-webkit-border-radius: 0 4px 4px 0px;
-	border-radius: 0 4px 4px 0px;
-	-moz-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-	-webkit-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-	-opera-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-	-khtml-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-	box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-	display: none;
+position: absolute;
+top: 0;
+left: 100%;
+white-space: nowrap;
+width: auto;
+margin-left: 20px;
+padding: 0 6px 0 0;
+background: rgba(0,0,0,1);
+color: #e1e1e1;
+font-weight: normal;
+line-height: 21px;
+-moz-border-radius: 0 4px 4px 0px;
+-webkit-border-radius: 0 4px 4px 0px;
+border-radius: 0 4px 4px 0px;
+-moz-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
+-webkit-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
+-opera-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
+-khtml-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
+box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
+display: none;
 }
 
-.a-slot-form .a-form-help.collapsed:hover div
-{
-	display: inline;
-}
+.a-slot-form .a-form-help.collapsed:hover div {	display: inline; }
 
-.a-slot-form .a-form-help.simple 
-{ 
-position: relative; 
-display: block; 
-font-size: 11px; 
-color: #888; 
-margin: 0;
-}
+.a-slot-form .a-form-help.simple { position: relative; display: block; font-size: 11px; color: #888; margin: 0; }
 
 .a-ui.a-options.a-slot-form .a-form-help .a-help-arrow
 { 
@@ -323,7 +307,6 @@ margin-bottom: 10px;
 .a-slot.aFeed .a-feed .a-feed-item .description { font-size: 11px; line-height: 1.4; }
 
 
-
 /* aPDF Slot Styles
 ------------------------------------- */
 .a-file-slot { position: relative; overflow: hidden; width: 100%; }
@@ -342,9 +325,9 @@ margin-bottom: 10px;
 
 .a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
 
+
 /* aSlot Content Styles 
 --------------------------------------- */
-
 .aRichText .a-slot-content strong,
 .aRichText .a-slot-content b { font-weight: bold; }
 
@@ -376,25 +359,15 @@ margin-bottom: 10px;
 
 .aButton a img { border: 0; }
 
+
+/* Blog / Event Slot Styles
+------------------------------------- */
 .aBlog .a-options.a-slot-form,
-.aEvent .a-options.a-slot-form { width: 300px; }
+.aEvent .a-options.a-slot-form { min-width: 285px; }
 
-/* Tom's implementation of Rick's design for the new blog slot. 
-	Rick's design has an inline feel, with inputs in the middle of sentences, thus
-	various overrides to go inline where we can */
+.a-blog-edit-wrapper .a-form-row.by-type input { float: left; padding-top: 5px; }	
 
-.a-blog-edit-wrapper { display: inline;position: relative;float: left;}
-
-.a-blog-edit-wrapper .a-form-row.by-type input
-{
-	float: left;
-	padding-top: 5px;
-}
-
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row input
-{
-	float: none;
-}
+.a-blog-edit-wrapper .a-form-row.by-type input[type="radio"] { margin: 5px 0 0 0; }
 
 .a-blog-edit-wrapper .a-form-row
 {
@@ -402,15 +375,9 @@ margin-bottom: 10px;
 	padding-bottom: 5px;
 }
 
-.a-blog-edit-wrapper .a-form-row.by-type label
-{
-	padding-left: 10px;
-	width: auto !important;
-	padding-bottom: 7px;
-	line-height: 14px;
-	font-size: 15px;
-}
+.a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type label { width: 120px; }
 
+.a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type h4 label { width: 100%; clear: both; padding-left: 10px; }
 
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row label
 {
@@ -420,27 +387,30 @@ margin-bottom: 10px;
 	line-height: 20px;
 }
 
+.a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type { margin: 0; }
+.a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type.title { margin: 0 0 10px 0; }
+
+.a-blog-edit-wrapper .a-form-row.by-type .a-form-row { margin: 5px 0; }
+
+
 .aBlog .a-slot-form.editState-title .a-form-row.by-type.meta div, .aEvent .a-slot-form.editState-title .a-form-row.by-type.meta div {display: none !important;}
 .aBlog .a-slot-form.editState-tags .a-form-row.by-type.title div, .aEvent .a-slot-form.editState-tags .a-form-row.by-type.title div  {display: none !important;}
 
-.a-blog-edit-wrapper .a-inline-taggable-widget {margin-top: 3px;clear: none;}
-.a-blog-edit-wrapper .a-inline-taggable-widget input { float: left !important; padding-top:0px !important; width: 120px; margin-right: 2px; }
-.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
-.a-blog-edit-wrapper h4 {padding-bottom: 5px;}
+/*.a-blog-edit-wrapper .a-inline-taggable-widget { margin-top: 3px;clear: none;}*/
+/*.a-blog-edit-wrapper .a-inline-taggable-widget input { margin-right: 2px; }*/
+/*.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }*/
 
-.a-blog-edit-wrapper .a-form-row .a-form-row
-{
-	padding-left: 20px;
-}
-.a-blog-edit-wrapper .a-form-row.blog-posts { width:100%;}
-.a-blog-edit-wrapper .a-form-row.conjunction {  width: 100%; font-weight: bold; margin-top: 3px; margin-bottom: 8px; }
+.a-blog-edit-wrapper h4 { float: left; }
+
+.a-blog-edit-wrapper .a-form-row .a-form-row { padding-left: 20px; }
+
+.a-blog-edit-wrapper .a-form-row.blog-posts .a-multiple-select-item { margin: 2px 0; }
+.a-blog-edit-wrapper .a-form-row.conjunction { font-weight: bold; margin-top: 3px; margin-bottom: 8px; }
 
 .a-blog-edit-wrapper .a-form-row.categories{ margin-bottom: 8px !important; }
 
 /* Our PE controls are not happy inline, pair them with labels and float left */
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories label,
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories .a-multiple-select,
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags label,
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
 	width: auto;
@@ -448,14 +418,9 @@ margin-bottom: 10px;
 	padding-right: 10px;
 }
 
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget-tag-container,
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
-{
-	margin-bottom: 10px;
-}
 .a-blog-edit-wrapper .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget input { width: 100px;}
 
-.a-blog-edit-wrapper .a-form-help.collapsed{display: none;}
+.a-blog-edit-wrapper .a-form-help.collapsed { display: none; }
 
 .a-blog-edit-wrapper hr {
 background-color:rgba(0, 0, 0, 0.1);
@@ -466,28 +431,6 @@ height:1px;
 margin:10px 0;
 width:100%;
 }
-
-.a-blog-edit-wrapper .a-form-row.by-type.title
-{
-	margin-top:10px !important;
-}
-
-.a-blog-edit-wrapper .a-form-row.by-type.meta
-{
-	margin-top:15px;
-	margin-bottom: 0px;
-}
-
-.a-blog-edit-wrapper .a-form-row.by-type .a-form-row.count {margin-top: 5px;}
-
-.aBlogSingle .a-blogsingle-input,
-.a-blog-edit-wrapper .a-options.a-slot-form .a-form-row.tags input { width: 160px; }
-
-.aBlogSingle .a-options.a-slot-form .a-form-row { padding: 0; }
-
-.aBlogSingle .a-form-row.search label { width: 120px; }
-
-
 
 
 /* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
