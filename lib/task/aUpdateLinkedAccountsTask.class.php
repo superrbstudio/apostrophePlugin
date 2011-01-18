@@ -127,7 +127,6 @@ EOF;
             }
           }
           
-          echo("Saving $serviceUrl\n");
           $item->save();
           
           if ($thumbnail)

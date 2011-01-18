@@ -108,6 +108,12 @@ EOF;
     {
       echo("Content loaded.\n");
     }
+    system('./symfony apostrophe:rebuild-search-index', $result);
+    if ($result != 0)
+    {
+      throw new sfException('Problem executing apostrophe:rebuild-search-index task.');
+    }
+    
   }
   
   protected function unzip($dir, $file, $options)
