@@ -783,7 +783,8 @@ function aConstructor()
 	{
     var view = $(options['view']);
 
-		$(options['cancel']).click(function(){
+		$(options['cancel']).click(function(e){
+			e.preventDefault();
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls li.variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
