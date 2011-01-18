@@ -4,6 +4,7 @@
   $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $sf_user = isset($sf_user) ? $sf_data->getRaw('sf_user') : null;
 ?>
 
 <?php use_helper('a') ?>
