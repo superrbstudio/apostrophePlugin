@@ -2023,6 +2023,8 @@ clear: none;
 .a-media-services-form .a-form-row.service label.a_embed_media_account_service_Viddler { background: url(../images/a-media-service-viddler.png) top left no-repeat; text-indent: -9999px; }
 .a-media-services-form .a-form-row.service label.aMediaSearchServices_service_SlideShare,
 .a-media-services-form .a-form-row.service label.a_embed_media_account_service_SlideShare { background: url(../images/a-media-service-slideshare.png) top left no-repeat; text-indent: -9999px; }
+.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_SoundCloud,
+.a-media-services-form .a-form-row.service label.a_embed_media_account_service_SoundCloud { background: url(../images/a-media-service-soundcloud.png) top left no-repeat; text-indent: -9999px; }
 
 .a-media-search-services .a-form-row.search { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background:none repeat scroll 0 0 #FFFFFF; height:20px; width: 250px; }
 
@@ -2048,5 +2050,7 @@ clear: none;
 .a-media-linked-account .a-service.a-Vimeo { text-indent: -9999px; background: url(../images/a-media-service-vimeo-small.png) center center no-repeat;}
 .a-media-linked-account .a-service.a-Viddler { text-indent: -9999px; background: url(../images/a-media-service-viddler-small.png) center center no-repeat;}
 .a-media-linked-account .a-service.a-SlideShare { text-indent: -9999px; background: url(../images/a-media-service-slideshare-small.png) center center no-repeat;}
+.a-media-linked-account .a-service.a-SoundCloud { text-indent: -9999px; background: url(../images/a-media-service-soundcloud-small.png) center center no-repeat;}
+
 
 ul.a-media-unconfigured-services { padding-top: 10px; clear: both; }

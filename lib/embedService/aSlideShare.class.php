@@ -193,7 +193,7 @@ EOT;
   }
   
   // This is the only function that actually talks to the SlideShare API
-  private function getData($call, $params)
+  private function getData($call, $params=array())
   {
     $timeStamp = time();
     $hash = sha1($this->sharedSecret.$timeStamp);
@@ -224,13 +224,15 @@ EOT;
   {
     $slideshowInfo = array();
     
-    $data = new SimpleXMLElement($this->getData($call, $params));
+    $data = $this->getData($call, $params);
     
     // If our API call fails, return false so we don't error on our foreach() call
     if (!$data)
     {
       return false;
     }
+    
+    $data = new SimpleXMLElement($data);
     
     foreach ($data->Slideshow as $show)
     {
@@ -250,7 +252,7 @@ EOT;
     }
   }
   
-  // Will retrieve slideshow from given ID, URL (intelligently decides which to use)
+  // Will retrieve slideshow from given ID or URL (intelligently decides which to use)
   private function getSlideInfo($id)
   {
     // Check if we have the media cached before hitting the API
@@ -266,13 +268,15 @@ EOT;
     $tags = '';
     $params = (strpos($id, 'http://') !== false) ? array('slideshow_url' => $id, 'detailed' => 1) : array('slideshow_id' => $id, 'detailed' => 1);
 
-    $data = new SimpleXMLElement($this->getData($call, $params));
+    $data = $this->getData($call, $params);
     
     // If our API call fails, return false so we don't error on our foreach() call
     if (!$data)
     {
       return false;
     }
+    
+    $data = new SimpleXMLElement($data);
     
     // Convert tags into comma-separated list
     foreach ($data->Tags->Tag as $tag)

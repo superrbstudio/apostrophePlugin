@@ -280,6 +280,7 @@ class BaseaMediaTools
       array('class' => 'aVimeo', 'media_type' => 'video'),
       array('class' => 'aViddler', 'media_type' => 'video'),
       array('class' => 'aSlideShare', 'media_type' => 'video'),
+      array('class' => 'aSoundCloud', 'media_type' => 'video'),
 		));
 
   static protected $layouts = array(

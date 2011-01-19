@@ -121,24 +121,19 @@ abstract class aEmbedService
   
   public function getCached($key)
   {
-    error_log("aEmbedService::getCached(): Retrieving $key...");
     $cache = $this->getCache();
     $key = $this->getName() . ':' . $key;
     $value = $cache->get($key, null);
     if ($value === null)
     {
-      error_log("aEmbedService::getCached(): Failed! ($key does not exist)");
       return null;
     }
-    error_log("aEmbedService::getCached(): Successfully retrieved $key!");
     return unserialize($value);
   }
 
   // Interval (lifetime) is in seconds
-  
-  public function setCached($key, $value, $interval = 3600)
+  public function setCached($key, $value, $interval=3600)
   {
-    error_log("aEmbedService::getCached(): Storing $key: " . serialize($value));
     $cache = $this->getCache();
     $key = $this->getName() . ':' . $key;
     $cache->set($key, serialize($value), $interval);
