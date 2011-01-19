@@ -120,7 +120,8 @@ EOF;
   {
     // Does a nice job of leaving .svn and .cvs alone
     sfToolkit::clearDirectory($dir);
-    $zipOptions = '';
+    // Overwrite existing files. Without this it'll fail when used to regularly refresh a demo
+    $zipOptions = '-o ';
     if (!$options['verbose'])
     {
       $zipOptions .= '-q ';

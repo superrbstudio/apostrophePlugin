@@ -14,6 +14,8 @@ class toolkitRebuildIndex extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('table', null, sfCommandOption::PARAMETER_OPTIONAL, 'The table name', null),
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Output more info during the rebuild', null),
+      
       // add your own options here
     ));
 
@@ -89,8 +91,11 @@ EOF;
           {
             break;
           }
-          $this->logSection('toolkit', "$count pages remain to be indexed, starting another update pass...");
-          $this->update('aPage');
+          if ($options['verbose'])
+          {
+            $this->logSection('toolkit', "$count pages remain to be indexed, starting another update pass...");
+          }
+          $this->update('aPage', $options);
         }
       }
       else
@@ -108,8 +113,11 @@ EOF;
             {
               break;
             }
-            $this->logSection('toolkit', "$count $index objects remain to be indexed, starting another update pass...");
-            $this->update($index);
+            if ($options['verbose'])
+            {
+              $this->logSection('toolkit', "$count $index objects remain to be indexed, starting another update pass...");
+            }
+            $this->update($index, $options);
           }
         }
         else
@@ -119,14 +127,19 @@ EOF;
           $table->rebuildLuceneIndex();
         }
       }
-      $this->logSection('toolkit', sprintf('Index for "%s" rebuilt', $index));
+      if ($options['verbose'])
+      {
+        $this->logSection('toolkit', sprintf('Index for "%s" rebuilt', $index));
+      }
     }
   }
   
-  protected function update($index)
+  protected function update($index, $options)
   {
-    $this->logSection('toolkit', "Executing an update pass on $index...");
-    
+    if ($options['verbose'])
+    {
+      $this->logSection('toolkit', "Executing an update pass on $index...");
+    }
     // task->run is really nice, but doesn't help us with the PHP 5.2 + Doctrine out of memory issue
     
     $args = $_SERVER['argv'];

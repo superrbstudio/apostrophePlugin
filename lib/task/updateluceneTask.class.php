@@ -15,6 +15,8 @@ class aupdateluceneTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('limit', null, sfCommandOption::PARAMETER_REQUIRED, 'Max pages to update on this pass', false),
       new sfCommandOption('table', null, sfCommandOption::PARAMETER_REQUIRED, 'Table to update', 'aPage'),
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Output more info during the update (ignored)', null),
+      
       // add your own options here
     ));
 
