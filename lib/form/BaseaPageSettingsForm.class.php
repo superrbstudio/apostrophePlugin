@@ -28,9 +28,20 @@ class BaseaPageSettingsForm extends aPageForm
   protected $parent = null;
   
   // If you are making a new page pass a new page object and set $parent also.
-  // To edit an existing page, just set $page and leave $parent null
-  public function __construct($page, $parent)
+  // To edit an existing page, just set $page and leave $parent null.
+  // At least one must not be null for normal use, but both can be null for
+  // ai18nupdate
+  public function __construct($page = null, $parent = null)
   {
+    if (!$page)
+    {
+      $page = new aPage();
+      if (!$parent)
+      {
+        echo("Creating parent object, this does not make sense unless you are running ai18nupdate\n");
+        $parent = new aPage();
+      }
+    }
     if ($page->isNew())
     {
       $this->parent = $parent;
