@@ -52,7 +52,7 @@ EOF;
       die("Import CANCELLED.  No changes made.\n");
     }
 
-    if(is_null($options['file']))
+    if (is_null($options['file']))
     {
       $rootDir = $this->configuration->getRootDir();
       $dataDir = $rootDir.'/data/a';
