@@ -17,8 +17,13 @@ border: none;
 }
 
 .a-ui .a-btn.icon,
-.a-ui .a-link.icon { padding: 0 4px 0 20px; }
+.a-ui .a-link.icon,
+.a-ui.a-btn.icon,
+.a-ui.a-link.icon { padding: 0 4px 0 20px; }
 
+.a-ui.a-btn.icon > .icon,
+.a-ui.a-link.icon > .icon,
+.a-ui.a-tag > .a-tag-count,
 .a-ui .a-btn.icon > .icon,
 .a-ui .a-link.icon > .icon,
 .a-ui .a-tag > .a-tag-count
@@ -107,6 +112,7 @@ height: 20px !important;
 .a-dropdown-arrow > .icon { background-image: url(../images/a-icon-dropdown-arrow.png); }
 .a-drag > .icon { background-image: url(../images/a-icon-drag-simple.png); }
 .a-edit > .icon, .a-publish > .icon { background-image: url(../images/a-icon-edit.png); }
+.a-email > .icon { background-image: url(../images/a-icon-email.png); }
 .a-feed > .icon { background-image: url(../images/a-icon-feed.png); }
 .a-rss-feed > .icon { background-image: url(../images/a-icon-rss-feed.png); }
 .a-file > .icon { background-image: url(../images/a-icon-file.png); }
@@ -166,6 +172,7 @@ height: 20px !important;
 .alt .a-drag > .icon, .a-drag.alt > .icon { background-image: url(../images/a-icon-alt-drag-simple.png); }
 .alt .a-edit .icon,
 .a-edit.alt .icon { background-image: url(../images/a-icon-alt-edit.png); }
+.alt .a-email > .icon, .a-email.alt > .icon { background-image: url(../images/a-icon-alt-email.png); }
 .alt .a-feed > .icon, .a-feed.alt > .icon { background-image: url(../images/a-icon-alt-feed.png); }
 .alt .a-file > .icon, .a-file.alt > .icon { background-image: url(../images/a-icon-alt-file.png); }
 .alt .a-google-maps > .icon, .a-google-maps.alt > .icon { background-image: url(../images/a-icon-alt-download.png); }
@@ -278,24 +285,12 @@ height: 20px !important;
 /* Apostrophe Delete Button
 -------------------------------------*/
 
+.a-ui.a-btn.a-delete.no-label,
 .a-ui .a-btn.a-delete.no-label { background-color: #fff; color: #000; }
 
 
 /* Apostrophe Close Button
 -------------------------------------*/
-
-.a-btn.a-close,
-.a-btn.a-close-small
-{
-background: transparent no-repeat scroll 0 0;
-float: left;
-overflow: hidden;
-height: 20px;
-line-height: 20px;
-padding: 0;
-text-indent: -9999px;
-width: 20px;
-}
 
 .a-close > .icon { background-image: url(../images/a-icon-close-simple.png); }
 .a-selected > .icon,

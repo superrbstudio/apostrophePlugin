@@ -8,11 +8,18 @@
 .a-ui .a-btn,
 .a-ui .a-submit,
 .a-ui .a-cancel,
+a.a-btn,
+a.a-submit,
+a.a-cancel,
+a:visited.a-btn,
+a:visited.a-submit,
+a:visited.a-cancel,
 .a-btn,
 .a-submit,
 .a-cancel
 { 
 	color: #fff;
+	text-decoration: none;
 	text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
 	background-color: rgb(245,135,0);
 	background-color: rgba(245,135,0,0.85);	
