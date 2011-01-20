@@ -972,6 +972,10 @@ class PluginaPageTable extends Doctrine_Table
     {
       $whereClauses[] = '(p.admin IS FALSE OR p.admin IS NULL)';
     }
+		// Virtual pages are never appropriate for getPagesInfo. Note that privileges for virtual pages
+		// are by definition always the responsibility of the code that brought them into being and never
+		// based on "normal" page permissions, so getPagesInfo is entirely the wrong API for them
+		$whereClauses[] = '(substr(p.slug, 1, 1) = "/")';
     $whereClauses[] = $where;
     $query .= "WHERE " . implode(' AND ', $whereClauses);
     $query .= " ORDER BY p.lft";
