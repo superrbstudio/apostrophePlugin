@@ -583,7 +583,6 @@ class BaseaPageSettingsForm extends aPageForm
     // This involves creating a slot so it has to happen last
     if ($this->getValue('real_meta_description') != '')
     {
-      error_log("Calling setMetaDescription");
 	    $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
 	  }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));

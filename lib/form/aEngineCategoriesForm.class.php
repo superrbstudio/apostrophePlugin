@@ -38,7 +38,6 @@ class aEngineCategoriesForm extends aPageForm
     }
     foreach ($addValues as $value)
     {
-      error_log("Adding value $value");
       $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
       if ($existing)
       {

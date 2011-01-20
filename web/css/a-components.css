@@ -879,9 +879,8 @@ color: #333;
 /* Apostrophe Attribution
 -------------------------------------*/
 
-.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
+.a-attribution { display: block; float: left; width: 720px; margin: 20px 0px 0px 0px; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
 .a-attribution a:hover { text-decoration:underline; }
-
 
 /* Apostrophe IE6 Warning for Admin
 -------------------------------------*/
