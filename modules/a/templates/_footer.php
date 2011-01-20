@@ -16,7 +16,7 @@
   <div class="a-attribution">Built with <a href="http://www.apostrophenow.com/">Apostrophe</a></div>
 <?php endif ?>
 <div class="a-servergrove-attribution">
-<?php if (sfConfig::get('app_a_servergroveCredit', true)): ?>
+<?php if (sfConfig::get('app_a_servergroveCredit', false)): ?>
   <?php echo link_to(image_tag('/images/sg160x40_g.png'), 'http://www.servergrove.com/', array('title' => 'We recommend ServerGrove Symfony hosting')) ?>
 <?php endif ?>
 </div>
