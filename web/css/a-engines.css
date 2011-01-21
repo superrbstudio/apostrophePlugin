@@ -654,8 +654,10 @@ padding: 0;
 .a-media-item-source .a-media-icon-as-thumbnail { padding-top: 66px; }
 
 .a-media-select-overlay { position: absolute; z-index: 10; width: 100%; height: 100%; background: rgba(0,0,0,0.35); color: #fff; text-align: center; line-height: 100%; }
-.a-media-select-overlay a { font-size: 16px; color: #fff; height: 100%; position: absolute; top: 0; left: 0; width: 100%; text-align: center; text-decoration: none; }
-.a-media-select-overlay.selecting a { right: 50%; left: auto; width: 50%; }
+.a-media-select-overlay a,
+.a-media-select-overlay .a-media-select-video { font-size: 16px; color: #fff; height: 100%; position: absolute; top: 0; left: 0; width: 100%; text-align: center; text-decoration: none; }
+.a-media-select-overlay.selecting a, 
+.a-media-select-overlay.selecting .a-media-select-video { right: 50%; left: auto; width: 50%; }
 .a-media-select-overlay.selecting .a-media-play-video { left: 50%; right: auto;}
 
 .a-media-select-overlay .label { display: block; line-height: 36px; position: absolute; top: 50%; margin-top: -18px; left: 0; width: 100%; text-align: center; }
