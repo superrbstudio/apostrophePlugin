@@ -12,6 +12,11 @@
 <?php use_helper('a') ?>
 
 <?php $create = $page->isNew() ?>
+<?php $admin = $sf_user->hasCredential('cms_admin') ?>
+
+<?php // If you are making a new page you must have manage privileges. Otherwise check the existing ?>
+<?php // page object for manage privileges ?>
+<?php $manage = $create || $page->userHasPrivilege('manage') ?>
 <?php $stem = isset($stem) ? $sf_data->getRaw('stem') : ($page->isNew() ? 'a-create-page' : 'a-page-settings') ?>
 
   <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
@@ -102,7 +107,7 @@
 		</div>
 	</div>
 
-  <?php if ($sf_user->hasCredential('cms_admin')): ?>
+  <?php if ($manage): ?>
  		<hr/>
  		<?php $hasSubpages = $page->hasChildren(false) ?>
     <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>

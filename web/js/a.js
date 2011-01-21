@@ -1817,9 +1817,9 @@ function aConstructor()
 					li.find('.a-who').text(who);
 					if (options['extra'])
 					{
-						li.find('.a-extra [type=checkbox]').attr('checked', user['extra']);
+						li.find('.extra [type=checkbox]').attr('checked', user['extra']);
 					}
-					li.find('.a-apply-to-subpages [type=checkbox]').attr('checked', user['applyToSubpages']);
+					li.find('.apply-to-subpages [type=checkbox]').attr('checked', user['applyToSubpages']);
 					li.data('id', id);
 					if (user['selected'] === 'remove')
 					{
@@ -1851,13 +1851,13 @@ function aConstructor()
 				rebuild();
 				return false;
 			});
-			list.find('.a-extra [type=checkbox]').change(function() {
+			list.find('.extra [type=checkbox]').change(function() {
 				var id = $(this).parents('.a-permission-entry').data('id');
 				data[id]['extra'] = $(this).attr('checked');
 				updateHiddenField();
 				return true;
 			});
-			list.find('.a-apply-to-subpages [type=checkbox]').change(function() {
+			list.find('.apply-to-subpages [type=checkbox]').change(function() {
 				var id = $(this).parents('.a-permission-entry').data('id');
 				data[id]['applyToSubpages'] = $(this).attr('checked');
 				updateHiddenField();
