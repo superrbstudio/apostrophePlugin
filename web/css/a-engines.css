@@ -283,6 +283,8 @@ width: 104px
 	
 .a-media-item .a-media-item-information { float: left; width: 100%;}
 
+.a-media-item .a-media-item-information.a-remote-data-loading ul { opacity: 0.25; }
+
 .a-media-item .a-media-item-title { width: 100%; float: left; margin: 5px 0; }
 
 .a-media-item .a-media-item-title .a-media-item-title-link { text-decoration: none; font-size: 18px; line-height: 1.2; }

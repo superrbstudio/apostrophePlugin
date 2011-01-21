@@ -91,7 +91,6 @@
 		<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
 	<?php endif ?>
 	
-
 	<div class="a-media-item-information">
 		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 	</div>

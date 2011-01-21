@@ -20,7 +20,7 @@ class aEngineCategoriesForm extends aPageForm
       $this->setValidator('categories_list_add',
         new sfValidatorPass(array('required' => false)));
     }
-    $this->widgetSchema->setLabel('categories_list', 'Content Categories');
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
     $this->widgetSchema->setHelp('categories_list','(Defaults to All Cateogories)');
     $this->getValidator('categories_list')->setOption('required', false);
     $this->widgetSchema->setNameFormat('enginesettings[%s]');
