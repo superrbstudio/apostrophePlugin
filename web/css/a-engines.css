@@ -436,6 +436,8 @@ border-radius: 4px;
 
 .a-media-upload .a-media-library .a-form-row.preview { float: left; clear: none; }
 
+.a-media-upload .a-media-library .a-form-row.preview .a-form-field { margin-bottom: 10px; }
+
 .a-media-upload .a-media-library .a-controls { width: auto; }
 .a-media-upload .a-media-library .a-controls.top { margin: -25px 0 20px; }
 .a-media-upload .a-media-library .a-controls.bottom { width: 100%; margin-top:5px;}
