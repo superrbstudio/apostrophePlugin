@@ -49,6 +49,11 @@ EOF;
     {
       $perPage = 50;
       $service = aMediaTools::getEmbedService($a->service);
+      if (!$service)
+      {
+        // An account for a service that has been deconfigured
+        continue;
+      }
       $total = null;
       $page = 1;
       $serviceUrls = array();
