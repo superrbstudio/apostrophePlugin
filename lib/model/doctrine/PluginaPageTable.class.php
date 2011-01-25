@@ -21,7 +21,7 @@ class PluginaPageTable extends Doctrine_Table
 
   static public function retrieveBySlug($slug, $culture = null)
   {
-    return self::retrieveBySlugWithSlots($slug, $culture);
+    return aPageTable::retrieveBySlugWithSlots($slug, $culture);
   }
 
 	// CAREFUL: if you are not absolutely positive that you won't need other slots for this
@@ -35,7 +35,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    $query = self::queryWithTitles($culture);
+    $query = aPageTable::queryWithTitles($culture);
     $page = $query->
       andWhere('p.slug = ?', $slug)->
       fetchOne();
@@ -56,7 +56,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    $query = self::queryWithSlots(false, $culture);
+    $query = aPageTable::queryWithSlots(false, $culture);
     $page = $query->
       andWhere('p.slug = ?', $slug)->
       fetchOne();
@@ -73,7 +73,7 @@ class PluginaPageTable extends Doctrine_Table
 
   static public function queryWithTitles($culture = null)
   {
-    return self::queryWithSlot('title', $culture);
+    return aPageTable::queryWithSlot('title', $culture);
   }
 
   // This is a slot name, like 'title'
@@ -83,7 +83,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    $query = self::queryWithSlots(false, $culture)
+    $query = aPageTable::queryWithSlots(false, $culture)
       ->andWhere('a.name = ?', $slot);
 
     return $query;
@@ -96,7 +96,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    $query = self::queryWithSlots(false, $culture)
+    $query = aPageTable::queryWithSlots(false, $culture)
       ->andWhere('s.type = ?', $slotType);
 
     return $query;
@@ -107,7 +107,7 @@ class PluginaPageTable extends Doctrine_Table
 
   static public function retrieveByIdWithSlots($id, $culture = null)
   {
-    return self::retrieveByIdWithSlotsForVersion($id, false, $culture);
+    return aPageTable::retrieveByIdWithSlotsForVersion($id, false, $culture);
   }
   // If culture is null you get the current user's culture,
   // or sf_default_culture if none is set or we're running in a task context
@@ -118,7 +118,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $culture = aTools::getUserCulture();
     }
-    $page = self::queryWithSlots($version, $culture)->
+    $page = aPageTable::queryWithSlots($version, $culture)->
       andWhere('p.id = ?', array($id))->
       fetchOne();
     // In case Doctrine is clever and returns the same page object
@@ -190,31 +190,31 @@ class PluginaPageTable extends Doctrine_Table
     return $query;
   }
    
-  static private $treeObject = null;
+  static protected $treeObject = null;
   
   static public function treeTitlesOn()
   {
-    self::treeSlotOn('title');
+    aPageTable::treeSlotOn('title');
   }
   
   static public function treeSlotOn($slot)
   {
     $query = aPageTable::queryWithSlot($slot);
-    self::$treeObject = Doctrine::getTable('aPage')->getTree();
+    aPageTable::$treeObject = Doctrine::getTable('aPage')->getTree();
     // I'm not crazy about how I have to set the base query and then
     // reset it, instead of simply passing it to getChildren. A
     // Doctrine oddity
-    self::$treeObject->setBaseQuery($query);
+    aPageTable::$treeObject->setBaseQuery($query);
   }
   
   static public function treeTitlesOff()
   {
-    self::treeSlotOff();
+    aPageTable::treeSlotOff();
   }
   
   static public function treeSlotOff()
   {
-    self::$treeObject->resetBaseQuery();
+    aPageTable::$treeObject->resetBaseQuery();
   } 
   
   public function getLuceneIndexFile()
@@ -244,7 +244,7 @@ class PluginaPageTable extends Doctrine_Table
       $cultures = array_keys($cultures);
       foreach ($cultures as $culture)
       {
-        $cpage = self::retrieveBySlugWithSlots($page['slug'], $culture);
+        $cpage = aPageTable::retrieveBySlugWithSlots($page['slug'], $culture);
         $cpage->updateLuceneIndex();
       }
     }
@@ -294,15 +294,15 @@ class PluginaPageTable extends Doctrine_Table
     // unless we examine the a_page route to determine a prefix. Generate the route properly
     // then lop off the controller name, if any
     
-    if ($url === self::$engineCacheUrl)
+    if ($url === aPageTable::$engineCacheUrl)
     {
-      $remainder = self::$engineCacheRemainder;
-      return self::$engineCachePage;
+      $remainder = aPageTable::$engineCacheRemainder;
+      return aPageTable::$engineCachePage;
     }
     
-    // if (self::$engineCachePagePrefix)
+    // if (aPageTable::$engineCachePagePrefix)
     // {
-    //   $prefix = self::$engineCachePagePrefix;
+    //   $prefix = aPageTable::$engineCachePagePrefix;
     // }
     // else
     {
@@ -319,7 +319,7 @@ class PluginaPageTable extends Doctrine_Table
       {
         $prefix = $matches[1];
       }
-      self::$engineCachePagePrefix = $prefix;
+      aPageTable::$engineCachePagePrefix = $prefix;
     }
     $url = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $url);
     
@@ -350,13 +350,13 @@ class PluginaPageTable extends Doctrine_Table
       orderBy('len desc')->
       limit(1)->
       fetchOne();
-    self::$engineCachePage = $page;
-    self::$engineCacheUrl = $url;
-    self::$engineCacheRemainder = false;
+    aPageTable::$engineCachePage = $page;
+    aPageTable::$engineCacheUrl = $url;
+    aPageTable::$engineCacheRemainder = false;
     if ($page)
     {
       $remainder = substr($url, strlen($page->slug));
-      self::$engineCacheRemainder = $remainder;
+      aPageTable::$engineCacheRemainder = $remainder;
       return $page;
     }
     return false;
@@ -371,9 +371,9 @@ class PluginaPageTable extends Doctrine_Table
   
   static public function getFirstEnginePage($engine)
   {
-    if (isset(self::$engineCacheFirstEnginePages[$engine]))
+    if (isset(aPageTable::$engineCacheFirstEnginePages[$engine]))
     {
-      return self::$engineCacheFirstEnginePages[$engine];
+      return aPageTable::$engineCacheFirstEnginePages[$engine];
     }
     $page = Doctrine_Query::create()->
      from('aPage p')->
@@ -384,7 +384,7 @@ class PluginaPageTable extends Doctrine_Table
      addWhere('slug LIKE "/%"')->
      limit(1)->
      fetchOne();
-    self::$engineCacheFirstEnginePages[$engine] = $page;
+    aPageTable::$engineCacheFirstEnginePages[$engine] = $page;
     return $page;
   }
   
@@ -478,12 +478,12 @@ class PluginaPageTable extends Doctrine_Table
       $privilege = 'edit|manage';
     }
 
-    if (isset(self::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
+    if (isset(aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
     {
-      return self::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
+      return aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
     }
     $result = $this->checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username);
-    self::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
+    aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
     return $result;
   }
   

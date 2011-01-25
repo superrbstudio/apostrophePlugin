@@ -67,8 +67,8 @@ class PluginaCategoryTable extends Doctrine_Table
 
   public static function retrieveCategoriesWithCounts()
   {
-    $categorizables = self::getCategorizables();
-    $q = self::getInstance()->createQuery();
+    $categorizables = aCategoryTable::getCategorizables();
+    $q = aCategoryTable::getInstance()->createQuery();
 
     foreach($categorizables as $key => $info)
     {
