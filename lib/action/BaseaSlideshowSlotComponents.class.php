@@ -52,6 +52,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['interval'] = $this->getOption('interval', 0) + 0;
     $this->options['arrows'] = $this->getOption('arrows', true);
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
+    $this->options['duration'] = $this->getOption('duration', 300) + 0;
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
 		$this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');

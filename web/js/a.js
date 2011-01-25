@@ -374,6 +374,7 @@ function aConstructor()
 	  var intervalSetting = options['interval'];
 	  var positionFlag = options['position'];
    	var position = (options['startingPosition']) ? options['startingPosition'] : 0;
+   	var duration = (options['duration']) ? options['duration'] : 300;
 		var slideshow = $('#a-slideshow-' + id);
 		var slideshowControls = slideshow.next('.a-slideshow-controls');
 		var slideshowItems = slideshow.find('.a-slideshow-item');
@@ -442,7 +443,7 @@ function aConstructor()
 					oldItem = (currentItem) ? $(slideshowItems[currentItem]) : slideshowItems;
 					if (transition == 'crossfade')
 					{
-						oldItem.fadeOut(300);
+						oldItem.fadeOut(duration);
 					}
 					else
 					{
@@ -453,7 +454,7 @@ function aConstructor()
 						// Since we are not crossfading, just hide all of the slideshowItems
 						slideshowItems.hide();
 					};
-					newItem.fadeIn(300,function(){
+					newItem.fadeIn(duration,function(){
 						slideshow.data('showItem', 0);
 					  setPosition(position);
 						interval();
