@@ -71,17 +71,17 @@
 
 		// CANCEL
 		$('#a-slot-form-cancel-<?php echo $id ?>').click(function(){
-  		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-  		$(view).children('.a-controls-item variant').fadeIn();
-  		$(view).children('.a-slot-content').children('.a-slot-form').hide();
+  		$(view).find('.a-slot-content-container').fadeIn();
+  		$(view).find('.a-controls-item variant').fadeIn();
+  		$(view).find('.a-slot-form').hide();
   		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+ 			$(view).closest('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
   	});
 
 		// SAVE 
   	$('#a-slot-form-submit-<?php echo $id ?>').click(function(){
   		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+ 			$(view).closest('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
  			window.apostrophe.callOnSubmit('<?php echo $id ?>');
  			return true;
   	});
