@@ -74,8 +74,10 @@ input.a-btn.a-submit.big { height: 26px; } /* inputs need 2px more for some reas
 
 .a-btn.nobg,
 .a-btn.nobg:hover,
+.a-btn.nobg:focus,
 .a-btn.no-bg,
-.a-btn.no-bg:hover {
+.a-btn.no-bg:hover,
+.a-btn.no-bg:focus {
 border: 0 !important;
 text-shadow: none !important;
 background: none !important;
