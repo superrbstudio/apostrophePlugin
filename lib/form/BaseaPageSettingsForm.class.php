@@ -303,7 +303,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->getGroupCandidateName($candidate), 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -396,7 +396,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->getGroupCandidateName($candidate), 'selected' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -408,6 +408,12 @@ class BaseaPageSettingsForm extends aPageForm
       $jinfos[] = $jinfo;
     }
     return json_encode($jinfos);
+  }
+
+  // A useful override point if you prefer to show the description
+  protected function getGroupCandidateName($groupCandidate)
+  {
+    return $groupCandidate['name'];
   }
 
   public function validateViewIndividuals($validator, $value)
@@ -709,7 +715,6 @@ class BaseaPageSettingsForm extends aPageForm
     {
       return;
     }
-    error_log($value);
     
     $values = json_decode($value, true);
     
