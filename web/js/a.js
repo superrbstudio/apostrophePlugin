@@ -57,6 +57,28 @@ function aConstructor()
 			apostrophe.log('apostrophe.toSpan -- No Elements Found');
 		};
 	}
+	
+	// aButtonSlot
+	this.buttonSlot = function(options)
+	{
+		var button = (options['button'])? $(options['button']) : false;
+		var rollover = (options['rollover']) ? options['rollover'] : false;
+
+		if (button.length)
+		{
+			if (rollover)
+			{
+				var link = button.find('.a-button-title .a-button-link');
+				var image = button.find('.a-button-image img');
+				image.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
+				link.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
+			};
+		}
+		else
+		{
+			apostrophe.log('apostrophe.buttonSlot -- no button found');
+		};
+	}
 }
 
 window.apostrophe = new aConstructor();
