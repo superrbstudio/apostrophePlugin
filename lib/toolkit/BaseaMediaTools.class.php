@@ -520,17 +520,24 @@ class BaseaMediaTools
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     $aspectRatio = aMediaTools::getAspectRatio();
     
+		$imageAspectRatio = $mediaItem->getWidth() / $mediaItem->getHeight();
+		
     if ($aspectRatio)
-    {    
-      if ($aspectRatio > 1)
+    {     
+			// We have an aspect ratio constraint
+      if ($aspectRatio > $imageAspectRatio)
       {
         $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
         $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
+		    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+		    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
       }
       else
       {
         $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
         $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
+		    $imageInfo[$mediaItem->id]['cropLeft'] = floor(($mediaItem->getWidth() - $imageInfo[$mediaItem->id]['cropWidth']) / 2);
+		    $imageInfo[$mediaItem->id]['cropTop'] = 0;
       }
     }
     else
@@ -538,10 +545,7 @@ class BaseaMediaTools
       $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
       $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
     }
-    
-    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
-    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
-        
+            
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
   
