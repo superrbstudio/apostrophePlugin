@@ -106,7 +106,7 @@ but why take chances with your data?
     if (!$this->migrate->tableExists('a_category'))
     {
       $this->migrate->sql(array(
-        "CREATE TABLE a_category (id INT AUTO_INCREMENT, name VARCHAR(255) UNIQUE, media_items TINYINT(1) DEFAULT '0', description TEXT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, slug VARCHAR(255), UNIQUE INDEX a_category_sluggable_idx (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE a_category (id INT AUTO_INCREMENT, name VARCHAR(255) UNIQUE, description TEXT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, slug VARCHAR(255), UNIQUE INDEX a_category_sluggable_idx (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
         "CREATE TABLE a_category_group (category_id INT, group_id INT, PRIMARY KEY(category_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
         "CREATE TABLE a_category_user (category_id INT, user_id INT, PRIMARY KEY(category_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
         "CREATE TABLE `a_media_item_to_category` (
@@ -143,13 +143,11 @@ but why take chances with your data?
       {
         if (isset($nc[$category['slug']]))
         {
-          $this->migrate->query('UPDATE a_category SET media_items = true WHERE slug = :slug', $category);
           $oldIdToNewId[$category['id']] = $nc[$category['slug']]['id'];
-          
         }
         else
         {
-          $this->migrate->query('INSERT INTO a_category (name, description, slug, media_items) VALUES (:name, :description, :slug, true)', $category);
+          $this->migrate->query('INSERT INTO a_category (name, description, slug) VALUES (:name, :description, :slug)', $category);
           $oldIdToNewId[$category['id']] = $this->migrate->lastInsertId();
         }
       }

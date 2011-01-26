@@ -762,6 +762,8 @@ class BaseaTools
     if (function_exists('mb_strtolower'))
     {
       // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
+      // ... Except when PCRE is built without unicode properties and PHP can't tell! We'll
+      // put that in servercheck.php
       $alnum = '\p{L}\p{N}' . ($allowUnderscores ? '_' : '');
       $modifier = 'u';
     }
