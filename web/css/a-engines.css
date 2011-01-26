@@ -1164,13 +1164,14 @@ margin-bottom: 5px;
 .a-subnav-section .a-tag-sidebar-title.all-tags,
 .a-tag-sidebar .a-tag-sidebar-title.all-tags
 {
-background: url(../images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+position: relative;
+clear: both;
 cursor: pointer;
+margin: 0 0 5px 0;
+width: 100%;
+background: url(../images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
 text-indent: 16px;
 line-height: 20px;
-width: 100%;
-position: relative;
-margin: 0 0 5px 0;
 }
 
 .a-subnav-section .a-tag-sidebar-title.all-tags.open,
