@@ -808,13 +808,13 @@ function aConstructor()
   		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
   		$(view).children('.a-controls li.variant').fadeIn();
   		$(view).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+  		$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
+ 			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
   	});
 
   	$(options['save']).click(function(){
-  		$(view).find('.editing-now').removeClass('editing-now');
- 			$(view).parents('.a-area.editing-now').removeClass('editing-now').find('.editing-now').removeClass('editing-now'); // for singletons
+  		$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
+ 			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
  			window.apostrophe.callOnSubmit(options['slot-full-id']);
  			return true;
   	});
@@ -822,7 +822,7 @@ function aConstructor()
 		if (options['showEditor'])
 		{
 			var editBtn = $(options['edit']);
-			editBtn.parent().addClass('editing-now');
+			editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
 	  }
 	}
 
@@ -2141,7 +2141,7 @@ function aConstructor()
  		var editBtn = $('#a-slot-edit-' + fullId);
  		var editSlot = $('#a-slot-' + fullId);
 
-		editBtn.parents('.a-slot, .a-area').addClass('editing-now'); // Apply a class to the Area and Slot Being Edited
+		editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
 		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
 		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
 		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options

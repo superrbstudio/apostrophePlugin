@@ -26,7 +26,7 @@
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?><?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area a-normal <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?><?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>
@@ -87,12 +87,14 @@
  <?php end_slot() ?>
 
 	<!-- START SLOT -->
-	<div class="a-slot <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
-	  <?php // Make the slot aware of its permid for simpler JS later ?>
-	  <?php a_js_call('$(?).data(?, ?)', "#a-slot-$pageid-$name-$permid", 'a-permid', $permid) ?>
+	<div class="a-slot a-normal <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
  		
 		<?php // Slot Controls ?>
     <?php if ($editable): ?>
+
+	  <?php // Make the slot aware of its permid for simpler JS later ?>
+	  <?php a_js_call('$(?).data(?, ?)', "#a-slot-$pageid-$name-$permid", 'a-permid', $permid) ?>
+
 		<ul class="a-ui a-controls a-slot-controls clearfix">		
       <?php if ($infinite): ?>
 				<li class="a-move up">

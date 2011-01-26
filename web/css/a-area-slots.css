@@ -31,8 +31,8 @@
 
 .a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: relative; }
 
-.a-area.editing-now,
-.a-slot.editing-now { z-index: 900; }
+.a-area.a-editing,
+.a-slot.a-editing { z-index: 900; }
 
 .logged-in .a-slot { min-height: 20px; }
 
@@ -64,14 +64,14 @@ list-style: none;
 .a-slot > .a-ui.a-controls { width: 100%; }
 
 .a-slot.a-new-slot > .a-ui.a-controls,
-.a-slot.editing-now > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
+.a-slot.a-editing > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
 
 
 /* Singlton Slot Controls
 ------------------------------------------------ */
 .a-area.singleton > .a-controls { position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important; } /* Singletons place the controls over the slot */
 
-.a-area.singleton.editing-now > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
+.a-area.singleton.a-editing > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
 
 .a-area.singleton .a-slot-controls { display: none; } /* There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load */
 

@@ -1,7 +1,7 @@
 /* Apostrophe Buttons
 -------------------------------------*/
-.a-ui .a-btn, .a-btn,
-.a-ui .a-link, .a-link {
+.a-ui .a-btn, .a-ui.a-btn, .a-ui .a-ui.a-btn, .a-btn,
+.a-ui .a-link, .a-ui.a-link, .a-ui .a-ui.a-link, .a-link {
 position: relative;
 float: left;
 display: inline;
