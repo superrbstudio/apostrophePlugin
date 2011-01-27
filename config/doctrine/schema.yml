@@ -89,11 +89,13 @@ aPage:
       foreign: id
       local: author_id
       type: one
+      onDelete: SET NULL
     Deleter:
       class: sfGuardUser
       foreign: id
       local: deleter_id
       type: one
+      onDelete: SET NULL
 
 aArea:
   options:
