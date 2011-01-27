@@ -16,7 +16,7 @@ class csscolorsreportTask extends sfBaseTask
       // add your own options here
     ));
 
-    $this->namespace        = 'apostrophe';
+    $this->namespace        = '';
     $this->name             = 'css-colors-report';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
@@ -73,16 +73,17 @@ EOF;
 
     echo(<<<EOM
 <style>
-div.colorBar { font-size: 20px; float: left; width: 300px; height: 24px; overflow: hidden; vertical-align: center; border: 4px solid white }
-div.colorBar .usages { background-color: white }
-div:hover.colorBar { height: auto; overflow: auto }
+div.colorBar { font-size: 16px; font-family: arial, helvetica, sans-serif; float: left; width: 290px; height: auto; clear:both; vertical-align: center; padding: 5px; margin-bottom:4px; }
+div.colorBar .usages { display:none; float:left; width: auto; height: auto; font-size:12px; padding: 0 10px; padding-left:20px; }
+div.colorBar:hover {cursor: pointer;}
+div.colorBar:hover .usages { cursor: default; position:absolute; left:300px; margin-top:-5px;display:inline; line-height:1.6em; }
 </style>
 EOM
     );
 
     foreach ($this->colors as $color => $matching)
     {
-      echo("<div style='background-color: $color' class='colorBar'>" . count($matching) . ": $color<div class='usages'>$color<br />" . implode("<br />\n", $matching) . "</div></div>\n");
+      echo("<div style='background-color: $color' class='colorBar'>" . count($matching) . ": $color<div class='usages'>" . implode("<br />\n", $matching) . "</div></div>\n");
     }
 
     file_put_contents(sfConfig::get('sf_web_dir') . '/css-colors-report.html', ob_get_clean());
