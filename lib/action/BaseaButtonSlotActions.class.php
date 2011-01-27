@@ -43,7 +43,7 @@ class BaseaButtonSlotActions extends aSlotActions
 				$value[$matches[1]] = $v;
 			}
 		}
-		$this->form = new aButtonForm($this->id);
+		$this->form = new aButtonForm($this->id, $this->options);
 		$this->form->bind($value);
 		if ($this->form->isValid())
 		{

@@ -55,7 +55,7 @@ class BaseaButtonSlotComponents extends aSlotComponents
     // from an earlier pass
     if (!isset($this->form))
     {
-      $this->form = new aButtonForm($this->id);
+      $this->form = new aButtonForm($this->id, $this->options);
       $value = $this->slot->getArrayValue();
       if (isset($value['url']))
       {
