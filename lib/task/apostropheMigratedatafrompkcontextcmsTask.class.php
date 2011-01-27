@@ -24,6 +24,10 @@ The [apostrophe:migrate-data-from-pkcontextcms|INFO] task migrates CMS-related t
 to the new Apostrophe naming convention. It also rebuilds the search index since the naming
 convention used inside the Zend indexes has also changed.
 
+This task brings your site up to Apostrophe 1.0's schema. After completing this task
+successfully you must run apostrophe:migrate to complete the transition to the current
+release of Apostrophe.
+
 Call it with:
 
   [php symfony apostrophe:migrate-data-from-pkcontextcms --application=frontend --env=staging|INFO]
@@ -139,6 +143,46 @@ echo("after\n");
 
     try
     {
+      $conn->query("ALTER TABLE a_page ADD COLUMN view_guest TINYINT(1) default 1");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add view_guest column to a_page table");
+    }
+
+    try
+    {
+      $conn->query("ALTER TABLE a_page ADD COLUMN edit_admin_lock TINYINT(1) default 0");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add edit_admin_lock column to a_page table");
+    }
+
+    try
+    {
+      $conn->query("ALTER TABLE a_page ADD COLUMN view_admin_lock TINYINT(1) default 0");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add view_admin_lock column to a_page table");
+    }
+
+    try
+    {
+      $conn->query("ALTER TABLE a_page ADD COLUMN published_at datetime default NULL");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't add published_at column to a_page table");
+    }
+
+    try
+    {
+      $conn->query("UPDATE a_page SET published_at = created_at WHERE published_at IS NULL");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't set published_at on a_page table");
+    }
+
+    try
+    {
       $conn->query("ALTER TABLE a_media_item ADD COLUMN lucene_dirty TINYINT(1) default 0");
     } catch (Exception $e)
     {
@@ -155,6 +199,41 @@ echo("after\n");
     }
 
     echo("Migrating media slots\n");
+    
+    try
+    {
+      $conn->query("CREATE TABLE `a_category` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `name` varchar(255) DEFAULT NULL,
+        `description` text,
+        `created_at` datetime NOT NULL,
+        `updated_at` datetime NOT NULL,
+        `slug` varchar(255) DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `name` (`name`),
+        UNIQUE KEY `a_category_sluggable_idx` (`slug`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't create a_category table\n");
+    }
+
+    try
+    {
+      $conn->query("CREATE TABLE `a_media_item_to_category` (
+        `media_item_id` int(11) NOT NULL DEFAULT '0',
+        `category_id` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`media_item_id`,`category_id`),
+        KEY `a_media_item_to_category_category_id_a_category_id` (`category_id`),
+        CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE
+      ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+    } catch (Exception $e)
+    {
+      echo("Warning: couldn't create a_media_item_to_category table\n");
+    }
+    
+    
     $count = 0;
     $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
     $total = count($mediaSlots);
@@ -194,7 +273,7 @@ echo("after\n");
         }
       }
     }
-    
+          
     try
     {
       $conn->query("CREATE TABLE `a_media_category` (
@@ -225,6 +304,14 @@ echo("after\n");
     } catch (Exception $e)
     {
       echo("Warning: couldn't create a_media_item_category table\n");
+    }
+
+    echo("Running apostrophe:migrate\n");
+		$cmd = "./symfony apostrophe:migrate --env=" . $options['env'];
+    system($cmd, $result);
+    if ($result != 0)
+    {
+      die("Unable to run apostrophe:migrate to complete the transition from pkContextCMS\n");
     }
 
     // Let apostrophe:migrate take care of this one

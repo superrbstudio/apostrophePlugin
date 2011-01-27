@@ -103,25 +103,37 @@ but why take chances with your data?
         'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;',
         'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;'));
     }
-    if (!$this->migrate->tableExists('a_category'))
+    if ((!$this->migrate->tableExists('a_category')) || (!$this->migrate->tableExists('a_category_group')))
     {
       $this->migrate->sql(array(
-        "CREATE TABLE a_category (id INT AUTO_INCREMENT, name VARCHAR(255) UNIQUE, description TEXT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, slug VARCHAR(255), UNIQUE INDEX a_category_sluggable_idx (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
-        "CREATE TABLE a_category_group (category_id INT, group_id INT, PRIMARY KEY(category_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
-        "CREATE TABLE a_category_user (category_id INT, user_id INT, PRIMARY KEY(category_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
-        "CREATE TABLE `a_media_item_to_category` (
+        "CREATE TABLE IF NOT EXISTS a_category (id INT AUTO_INCREMENT, name VARCHAR(255) UNIQUE, description TEXT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, slug VARCHAR(255), UNIQUE INDEX a_category_sluggable_idx (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE IF NOT EXISTS a_category_group (category_id INT, group_id INT, PRIMARY KEY(category_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE IF NOT EXISTS a_category_user (category_id INT, user_id INT, PRIMARY KEY(category_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;",
+        "CREATE TABLE IF NOT EXISTS `a_media_item_to_category` (
           `media_item_id` INT NOT NULL DEFAULT '0',
           `category_id` INT NOT NULL DEFAULT '0',
           PRIMARY KEY (`media_item_id`,`category_id`),
           KEY `a_media_item_to_category_category_id_a_category_id` (`category_id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8"));
+      // These constraints might already be present, be tolerant
+      $constraints = array(
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_group ADD CONSTRAINT a_category_group_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_user_id_sf_guard_user_id FOREIGN KEY (user_id) REFERENCES sf_guard_user(id) ON DELETE CASCADE;",
         "ALTER TABLE a_category_user ADD CONSTRAINT a_category_user_category_id_a_category_id FOREIGN KEY (category_id) REFERENCES a_category(id) ON DELETE CASCADE;"
-        ));
+        );
+      foreach ($constraints as $c)
+      {
+        try
+        {
+          $this->migrate->sql(array($c));
+        } catch (Exception $e)
+        {
+          echo("Error creating constraint, most likely already exists, which is OK $c\n");
+        }
+      }
       if ($this->migrate->tableExists('a_media_category'))
       {
         $oldCategories = $this->migrate->query('SELECT * FROM a_media_category');
