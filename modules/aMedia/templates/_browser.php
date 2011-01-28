@@ -33,7 +33,9 @@
 		    <form action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" method="get">
 		  		<div class="a-form-row"> <?php // div is for page validation ?>
 		  			<label for="a-search-media-field" style="display:none;">Search</label><?php // label for accessibility ?>
-		  			<input type="text" name="search" value="<?php echo htmlspecialchars($sf_params->get('search', ESC_RAW)) ?>" class="a-search-field" id="a-search-media-field"/>
+		  			<?php // Second parameter as escaping method is hopelessly broken when escaping is turned off, ?>
+		  			<?php // we're stuck relying on the double escape guard in htmlspecialchars ?>
+		  			<input type="text" name="search" value="<?php echo htmlspecialchars($sf_params->get('search')) ?>" class="a-search-field" id="a-search-media-field"/>
 		  			<input type="image" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 		  		</div>
 		    </form>
