@@ -655,7 +655,7 @@ class aImageConverter
     if ($data === '%PDF')
     {
       // format-only 
-      if ((!aImageConverter::supportsInput('pdf')) || $formatOnly)
+      if ($formatOnly || (!aImageConverter::supportsInput('pdf')))
       {
         // All we can do is confirm the format and allow
         // download of the original (which, for PDF, is
