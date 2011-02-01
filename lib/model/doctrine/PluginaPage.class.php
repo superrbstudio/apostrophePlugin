@@ -225,6 +225,11 @@ abstract class PluginaPage extends BaseaPage
 		}
   }
 
+	public function getRichTextForArea($areaname, $word_limit = false)
+	{
+		$this->getAreaBasicHtml($areaname, $word_limit);
+	}
+
   public function getNextPermidAndRank($name, $first = false)
   {
     $query = Doctrine_Query::create()->
