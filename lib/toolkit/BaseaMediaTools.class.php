@@ -542,6 +542,8 @@ class BaseaMediaTools
     }
     else
     {
+	    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+	    $imageInfo[$mediaItem->id]['cropTop'] = 0;
       $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
       $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
     }
