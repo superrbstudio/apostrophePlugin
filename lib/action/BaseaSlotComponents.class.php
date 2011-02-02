@@ -4,6 +4,7 @@
 
 class BaseaSlotComponents extends sfComponents
 {
+  static protected $originalOptionsCache = array();
   protected function setup()
   {
     if (!isset($this->options))
@@ -11,16 +12,17 @@ class BaseaSlotComponents extends sfComponents
       // Prevents numerous warnings and problems if there are no slot options present
       $this->options = array();
     }
+  
     $this->page = aTools::getCurrentPage();
     $this->slug = $this->page->slug;
-    
+  
     // TODO: remove this workaround in 1.5. All uses of actual_slug and real-slug need to go away
     // in favor of actual_url, we just don't want to break any old overrides in client projects.
-    
+  
     // Gone in 1.5
-    
+  
     // $this->realSlug = aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global';
-    
+  
     $this->slot = $this->page->getSlot(
           $this->name, $this->permid);
     if ((!$this->slot) || ($this->slot->type !== $this->type))
@@ -61,9 +63,19 @@ class BaseaSlotComponents extends sfComponents
         // options in the attribute. However, we also need to know what the original, pristine
         // options from a_slot or a_area were in order to allow variants to be switched without
         // having side effects on each other's option sets
-        $user->setAttribute("slot-original-options-$id-$name-$permid", 
-          $this->options, 'apostrophe');
 
+        // To make matters crazier, this method is called as many as three times per slot: by the outer 'slot' component,
+        // by the 'normalView' component, and by the 'editView' component. We should cache that work, but for starters make
+        // sure we set originalOptionsCache only once per action so we don't wind up storing variant options in it
+        // (this was a big bug on FM)
+        $key = "$id-$name-$permid";
+        if (!isset(aSlotComponents::$originalOptionsCache[$key]))
+        {
+          $user->setAttribute("slot-original-options-$id-$name-$permid", 
+            $this->options, 'apostrophe');
+          aSlotComponents::$originalOptionsCache[$key] = $this->options;
+        }
+        
         // Refactored to get rid of duplicate logic
         $allowedVariants = array_keys(aTools::getVariantsForSlotType($this->type, $this->options));
         $user->setAttribute("slot-allowed-variants-$id-$name-$permid", $allowedVariants, 'apostrophe');
@@ -71,7 +83,7 @@ class BaseaSlotComponents extends sfComponents
       $user->setAttribute("slot-options-$id-$name-$permid", 
         $this->options, 'apostrophe');
     }
-    
+  
     // Calling getEffectiveVariant ensures we default to the behavior of the first one
     // defined, or the first one allowed if there is an allowed_variants option
     $variant = $this->slot->getEffectiveVariant($this->options);
@@ -86,7 +98,7 @@ class BaseaSlotComponents extends sfComponents
         $this->options = array_merge($this->options, $options);
       }
     }
-    
+  
     $this->pageid = $this->page->id;
     $this->id = $this->pageid . '-' . $this->name . '-' . $this->permid;
     // The basic slot types, and some custom slot types, are

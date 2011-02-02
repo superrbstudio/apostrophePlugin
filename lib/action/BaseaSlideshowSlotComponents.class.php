@@ -60,7 +60,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
 		
 		// We automatically set up the aspect ratio if the resizeType is set to 'c'
 		$constraints = $this->getOption('constraints', array());
-		if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && (!isset($constraints['aspect-width'])))
+		if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
 		{
 			$constraints['aspect-width'] = $constraints['minimum-width'];
 			$constraints['aspect-height'] = $constraints['minimum-height'];
