@@ -17,7 +17,7 @@
 
   <div class="a-ui">
 
-  	<div id="a-media-selection-wrapper">
+  	<div id="a-media-selection-wrapper" class="a-media-selection-wrapper">
 
 			<div class="a-media-selection-help">
 			  <?php if (aMediaTools::isMultiple()): ?>
@@ -46,8 +46,8 @@
   </div>
 
 	<ul class="a-ui a-controls">
-		<li><?php echo link_to('<span class="icon"></span>'.__('Save Selection', null, 'apostrophe'), 'aMedia/selected', array('class'=>'a-btn save big','id' => 'a-save-media-selection', )) ?></li>
- 	  <li><?php echo link_to('<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), 'aMedia/selectCancel', array('class'=>'a-btn icon a-cancel big a-select-cancel')) ?></li>
+		<li><?php echo a_button(a_('Save Selection'), url_for("aMedia/selected"), array('save','big','a-select-save'), 'a-save-media-selection') ?></li>
+		<li><?php echo a_button(a_('Cancel'), url_for("aMedia/selectCancel"), array('icon','a-cancel','big','a-select-cancel')) ?></li>
 	</ul>
 	
 </div>

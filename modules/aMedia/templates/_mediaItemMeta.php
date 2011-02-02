@@ -8,7 +8,7 @@
 
 <?php if (aMediaTools::isSelecting()): ?>
 	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkHref = "#select-image"; ?>
+    <?php $linkHref = "#select-media-item"; ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>

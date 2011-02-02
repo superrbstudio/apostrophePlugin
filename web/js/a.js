@@ -1157,7 +1157,7 @@ function aConstructor()
 		// clicks on one of the buttons hovering on this
 
 		// I had to bind to all of these to guarantee a click would come through
-	  $('.a-media-selection-list-item .a-delete').click(function(e) {
+	  $('.a-media-selection-list-item .a-delete').unbind('click.aMedia').bind('click.aMedia', function(e) {
 			var p = $(this).parents('.a-media-selection-list-item');
 			var id = p.data('id');
 			$.get(options['removeUrl'], { id: id }, function(data) {
@@ -1177,7 +1177,10 @@ function aConstructor()
 			$(this).removeClass('over');
 		});
 
-		$('.a-media-thumb-link').click(function() {
+		// When you're in selecting mode, you can't click through to the showSuccess
+		// So we use the thumbnail AND the title for making your media selection.
+		$('.a-media-thumb-link, .a-media-item-title-link').unbind('click.aMedia').bind('click.aMedia', function(e) {
+			e.preventDefault();
 			$.get(options['multipleAddUrl'], { id: $(this).data('id') }, function(data) {
 				$('#a-media-selection-list').html(data);
 				apostrophe.mediaUpdatePreview();
