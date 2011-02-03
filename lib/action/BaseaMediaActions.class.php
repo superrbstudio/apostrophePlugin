@@ -60,6 +60,14 @@ class BaseaMediaActions extends aEngineActions
     $tag = $request->getParameter('tag');
     $type = aMediaTools::getType();
     $type = $type ? $type : $request->getParameter('type');
+    // It is permissible to filter more narrowly if the overall type is a metatype (_downloadable)
+    if (substr($type, 0, 1) === '_')
+    {
+      if ($request->getParameter('type'))
+      {
+        $type = $request->getParameter('type');
+      }
+    }
 
 		$this->embedAllowed = aMediaTools::getEmbedAllowed();
 		$this->uploadAllowed = aMediaTools::getUploadAllowed();

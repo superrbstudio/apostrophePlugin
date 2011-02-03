@@ -39,6 +39,13 @@ class BaseaMediaTools
     {
       aMediaTools::setAttribute($key, $val);
     }
+    $type = aMediaTools::getType();
+    if (substr($type, 0, 1) === '_')
+    {
+      // We need to let people filter more narrowly, but also
+      // be able to remember what the metatype was originally
+      aMediaTools::setAttribute('metatype', $type);
+    }
   }
   static public function clearSelecting()
   {
@@ -104,6 +111,11 @@ class BaseaMediaTools
   static public function getType()
   {
     return aMediaTools::getAttribute('type');
+  }
+
+  static public function getMetatype()
+  {
+    return aMediaTools::getAttribute('metatype');
   }
   
   static public function getBestTypeLabel()

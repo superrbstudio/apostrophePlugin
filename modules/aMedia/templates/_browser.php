@@ -42,7 +42,7 @@
 		  </div>
 		</div>				
 
-    <?php if (!aMediaTools::getType()): ?>
+    <?php if ((!aMediaTools::getType()) || (substr(aMediaTools::getType(), 0, 1) === '_')): ?>
 			<hr class="a-hr" />
 			<div class='a-subnav-section types'>
 		  	<h4><?php echo a_('Browse by') ?></h4>
@@ -50,6 +50,13 @@
 					<?php $type = isset($type) ? $type : '' ?>
 			    <?php $typesInfo = aMediaTools::getOption('types') ?>
 					<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
+					  <?php // If a metatype such as _downloadable or _embeddable is in force show only types that support it ?>
+					  <?php $metatype = aMediaTools::getMetatype() ?>
+					  <?php if ($metatype): ?>
+					    <?php if (!a_get_option($typeInfo, substr($metatype, 1), false)): ?>
+					      <?php continue ?>
+					    <?php endif ?>
+					  <?php endif ?>
 	  				<div class="a-filter-option">
 							<?php $selected_type = ($typeName == $type) ? $selected : array() ?>
 	  					<?php echo a_button(a_($typeInfo['label']), url_for(aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName))), array_merge(array('a-link'),$selected_type)) ?>
