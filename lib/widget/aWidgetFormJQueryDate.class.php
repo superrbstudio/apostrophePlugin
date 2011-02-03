@@ -115,6 +115,7 @@ function %s_read_linked()
 
 function %s_update_linked(date)
 {
+  apostrophe.log(date);
   var components = date.match(/(\d+)\/(\d+)\/(\d\d\d\d)/);
   var month = "#%s";
   var day = "#%s";
@@ -123,7 +124,8 @@ function %s_update_linked(date)
   {
     if (date.length)
     {
-      alert("The date must be in MM/DD/YYYY format. Example: 09/29/2009. Hint: select a date from the calendar.");
+      apostrophe.log("Bad format");
+      // alert("The date must be in MM/DD/YYYY format. Example: 09/29/2009. Hint: select a date from the calendar.");
       $('#$id').focus();
     }
     // TODO: an option to make it mandatory
@@ -132,9 +134,11 @@ function %s_update_linked(date)
     \$(year).val('');
     return;
   }
-  \$(month).val(parseInt(components[1]));
-  \$(day).val(parseInt(components[2]));
-  \$(year).val(parseInt(components[3]));
+  
+  // Leading zeroes cannot be removed by parseInt alone
+  \$(month).val(components[1].replace(/^0+/, ''));
+  \$(day).val(components[2].replace(/^0+/, ''));
+  \$(year).val(components[3].replace(/^0+/, ''));
   
   // Something we can bind to update other fields 
   $('#$id').trigger('aDateUpdated');
