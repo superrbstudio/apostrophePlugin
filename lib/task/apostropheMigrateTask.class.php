@@ -267,6 +267,25 @@ but why take chances with your data?
       'UPDATE tag SET name = replace(name, "/", "-")'
     ));
     
+    $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
+    if (!$mediaEnginePage)
+    {
+      $mediaEnginePage = new aPage();
+      $root = aPageTable::retrieveBySlug('/');
+      $mediaEnginePage->getNode()->insertAsFirstChildOf($root);
+    }
+    $mediaEnginePage->slug = '/admin/media';
+    $mediaEnginePage->engine = 'aMedia';
+    $mediaEnginePage->setAdmin(true);
+    $mediaEnginePage->setPublishedAt(aDate::mysql());
+    $new = $mediaEnginePage->isNew();
+    $mediaEnginePage->save();
+    if ($new)
+    {
+      $mediaEnginePage->setTitle('Media');
+    }
+    echo("Ensured there is an admin media engine\n");
+    
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {
