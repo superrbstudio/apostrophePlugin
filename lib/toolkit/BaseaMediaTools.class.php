@@ -218,7 +218,7 @@ class BaseaMediaTools
         "resizeType" => "s"),
     "selected_constraints" => array(
         "width" => false,
-        "height" => 85,
+        "height" => 75,
         "resizeType" => "s"),
     "show_constraints" => array(
         "width" => 720,

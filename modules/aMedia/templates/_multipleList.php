@@ -8,22 +8,25 @@
 	<?php $id = $item->getId() ?>
 	<?php $domId = "a-media-selection-list-item-$id" ?>
 	<li id="<?php echo $domId ?>" class="a-media-selection-list-item">
-		<ul class="a-ui a-controls a-over">
+		<ul class="a-ui a-controls a-over a-media-selection-controls">
 			<li>
-				<?php echo link_to('<span class="icon"></span>'.__("Edit", null, 'apostrophe'), "aMedia/edit", array("query_string" => http_build_query(array("slug" => $item->getSlug())), "class" => "a-btn icon no-label a-edit")) ?>
+				<?php echo a_js_button(a_('Drag'), array('icon', 'a-drag', 'lite', 'no-label', 'alt')) ?>
 			</li>
 			<li>
-			  <?php echo content_tag('a', '<span class="icon"></span>'.a_("Crop"), array('href' => '#', 'class' => 'a-btn icon a-crop no-label', 'title' => a_('Crop'))) ?>
+				<?php echo a_button(a_('Edit'), url_for("aMedia/edit", array("query_string" => http_build_query(array("slug" => $item->getSlug())))), array('icon', 'a-edit', 'lite', 'no-label')) ?>
 			</li>
 			<li>
-			  <?php echo content_tag('a', '<span class="icon"></span>'.a_("remove this item"), array('href' => '#', 'class' => 'a-btn icon a-delete no-label', 'title' => a_('Remove'))) ?>
+				<?php echo a_js_button(a_('Crop'), array('icon', 'a-crop', 'lite', 'no-label')) ?>
+			</li>
+			<li>
+				<?php echo a_js_button(a_('Delete'), array('icon','a-delete', 'lite', 'no-label')) ?>
 			</li>
 		</ul>
-	  <?php if (aMediaTools::isMultiple()): ?>
-	 		<div class="a-media-selected-item-drag-overlay" title="<?php echo __('Drag &amp; Drop to Order', null, 'apostrophe') ?>"></div>
-	  <?php endif ?>
-		<div class="a-media-selected-item-overlay"></div>
-	  <div class="a-thumbnail-container" style="background: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;"><img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" style="visibility:hidden;" /></div>
+
+	  <div class="a-thumbnail-container" style="background: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;">
+			<img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" style="visibility:hidden;" />	
+		</div>
+
 	</li>
 	<?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 <?php $n++; endforeach ?>
