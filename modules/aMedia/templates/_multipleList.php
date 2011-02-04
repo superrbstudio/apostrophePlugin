@@ -13,7 +13,7 @@
 				<?php echo a_js_button(a_('Drag'), array('icon', 'a-drag', 'lite', 'no-label', 'alt')) ?>
 			</li>
 			<li>
-				<?php echo a_button(a_('Edit'), url_for("aMedia/edit", array("query_string" => http_build_query(array("slug" => $item->getSlug())))), array('icon', 'a-edit', 'lite', 'no-label')) ?>
+				<?php echo a_button(a_('Edit'), aUrl::addParams(url_for("aMedia/edit"), array("slug" => $item->getSlug())), array('icon', 'a-edit', 'lite', 'no-label')) ?>
 			</li>
 			<li>
 				<?php echo a_js_button(a_('Crop'), array('icon', 'a-crop', 'lite', 'no-label')) ?>
