@@ -848,7 +848,9 @@ class BaseaTools
     'json2' => '/apostrophePlugin/js/json2.js',
     'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
     'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.hoverIntent.js',
+		'jquery-scrollto' => '/apostrophePlugin/js/plugins/jquery.scrollTo-1.4.2-min.js', 
     'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.7.custom.min.js',
+		'jquery-jplayer' => '/apostrophePlugin/js/plugins/jquery.jplayer.js', 
     'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
   );
 

@@ -33,7 +33,7 @@
   			</ul>
 
       <?php a_js_call('apostrophe.mediaEnableSelectionSort(?)', url_for('aMedia/multipleOrder')) ?>
-   		<div class="a-crop-workspace">
+   		<div id="a-crop-workspace" class="a-crop-workspace">
   		  <ul id="a-media-selection-preview">
   		  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
   		  </ul>

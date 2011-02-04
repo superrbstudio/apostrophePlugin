@@ -381,7 +381,10 @@ function aConstructor()
 		var itemCount = slideshowItems.length;
 		var positionHead = slideshowControls.find('.a-slideshow-position-head');
 		var intervalTimeout = null;
-
+		var currentItem;
+		var newItem;
+		var oldItem;
+		
  		(options['title']) ? slideshowItems.attr('title', options['title']) : slideshowItems.attr('title','');
 
 		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging') : '';
@@ -1141,6 +1144,15 @@ function aConstructor()
 	    aCrop.resetCrop(true);
 			// Selection may have changed
 			apostrophe.mediaItemsIndicateSelected(apostrophe.selectOptions);
+			// Normalize heights of thumbnails for visual consistency
+			var items = $('.a-media-selection-list-item');
+			var listHeight = 0;
+			items.each(function(){
+				var item = $(this);
+				(listHeight < item.height()) ? listHeight = item.height() : '';
+			});
+			items.css('height',listHeight);
+			apostrophe.log(listHeight);
 	  });
 	}
 

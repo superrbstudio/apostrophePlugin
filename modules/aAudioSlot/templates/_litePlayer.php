@@ -8,7 +8,7 @@
 ?>
 <?php extract($options) ?>
 
-<?php use_javascript('/apostrophePlugin/js/jquery.jplayer.js') ?>
+<?php use_helper('a') ?>
 
 <div class="a-ui a-audio-player-container" id="a-audio-player-container-<?php echo $uniqueID ?>">
 

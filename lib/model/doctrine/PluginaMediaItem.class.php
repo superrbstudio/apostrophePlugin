@@ -336,6 +336,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     
     
     $imageInfo = aMediaTools::getAttribute('imageInfo');
+
     if (isset($imageInfo[$this->id]['cropLeft']) &&
         isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
     {
