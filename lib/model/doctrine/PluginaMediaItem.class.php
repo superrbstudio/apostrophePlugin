@@ -328,10 +328,21 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     
     if ($aspectRatio = aMediaTools::getAspectRatio()) // this returns 0 if aspect-width and aspect-height were not set
     {
-      $selectedConstraints = array_merge(
-        $selectedConstraints, 
-        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
-      );
+			// Allow for either the width or the height to be flex
+			if (isset($selectedConstraints['height']) && ($selectedConstraints['height'] !== false))
+			{
+	      $selectedConstraints = array_merge(
+	        $selectedConstraints, 
+	        array('width' => floor($selectedConstraints['height'] * $aspectRatio))
+	      );
+			}
+			else
+			{
+	      $selectedConstraints = array_merge(
+	        $selectedConstraints, 
+	        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
+	      );
+			}
     }
     
     
@@ -350,7 +361,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         )
       );
     }
-      
+    
     return $this->getScaledUrl($selectedConstraints);
   }
   

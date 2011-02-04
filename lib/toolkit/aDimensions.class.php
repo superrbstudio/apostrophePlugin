@@ -53,9 +53,7 @@ class aDimensions
     if ($height === false)
     {
       $height = ceil(($eWidth * $originalHeight) / $originalWidth);
-/bin/bash: -c: line 0: syntax error near unexpected token `('
-/bin/bash: -c: line 0: `      $height = ceil(($eWidth * $originalHeight) / $originalWidth);'
-g    }
+		}
 
     if (!(isset($options['forceScale']) && $options['forceScale']))
     {
