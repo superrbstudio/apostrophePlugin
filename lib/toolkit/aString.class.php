@@ -15,8 +15,10 @@ class aString
 	*   number of words to return
 	* 
 	* @param optional array
-	* 	if $options['append_ellipsis'] is set, append an ellipsis to the end 
+	* 	if $options['append_ellipsis'] is set, append that string to the end 
   *   of strings that have been truncated
+  *   if $options['characters'] is true, limit by characters rather than words
+	*   (a single API call for both is convenient when this is wrapped by other calls)
 	*
 	* Whitespace will be collapsed to single spaces. UTF8-aware where supported
 	*
@@ -32,6 +34,11 @@ class aString
     }
 	  $words = preg_split($regexp, $string, $word_limit + 1);
     $num_words = count($words);
+	  if (isset($options['characters']) && $options['characters'])
+	  {
+	    // Call limitCharacters, but only after ensuring the same space-folding behavior
+	    return aString::limitCharacters(implode(' ', $words), $word_limit, $options);
+	  }
 
 		# TBB: if there are $word_limit words or less, this check is necessary
     # to prevent the last word from being lost.
@@ -65,7 +72,7 @@ class aString
 	*   NOTE: this is characters, not bytes (think UTF8). Be generous with columns
 	* 
 	* @param optional array
-	* 	if $options['append_ellipsis'] is set, append an ellipsis to the end 
+	* 	if $options['append_ellipsis'] is set, append that string to the end 
   *   of strings that have been truncated
 	*
 	* @return string
