@@ -95,6 +95,61 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
   <changelog>
     <release>
       <version>
+        <release>1.5.1</release>
+        <api>1.5.1</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2011-02-05</date>
+      <notes> 
+This version contains fixes made since the release of 1.5.0. It is a stability and quality fix, consisting entirely of bug fixes and a very small number of minor features addressing obvious oversights. This version is a strongly recommended upgrade. Please note that tarball releases are not the best way to get this plugin and keep it up to date with fixes. A better idea is to use svn:externals to bring the 1.5 stable branch of apostrophePlugin into your project's plugins folder and just type `svn update` regularly.
+
+Fixes in version 1.5.1:
+
+ * Users with "Add/Delete Pages" can add pages without validation errors
+ * "Add/Delete Pages" and "apply to subpages" work properly again for view and edit permissions 
+ * Fixed many issues regarding cropping, strongly recommend an upgrade for those who like the cropping feature
+ * Lots of fixes to apostrophe:migrate-data-from-pkcontextcms and apostrophe:migrate. The former now triggers the latter on success since it is required to complete the job. Please, take the plunge and get off pkContextCMS
+ * File slot now allows filtering by type, and lists only types that are downloadable 
+ * New .a-editing and .a-normal classes replace .editing-now and provide a class for the case where the slot is not being edited. Much easier to customize slot styles based on whether the user is editing
+ * getPagesInfo never returns virtual pages. Helps with custom navigation
+ * Google Analytics is supported out of the box in Apostrophe via app.yml
+ * Cancel button works properly when editing media items
+ * Video selection fixes, various jQuery double binds eliminated
+ * Eliminated more usages of self:: to allow overriding of the related methods
+ * Applied gido's patch to provide a transition duration option for slideshow slots. Thanks gido
+ * Behaves properly if an embedded media service is deconfigured and a linked account still exists
+ * Admin generator theme no longer caching CSRF inappropriately, fixes issue for multiple admin users. Thanks Jeremy
+ * --verbose option to rebuild-search-index, it now runs quietly otherwise
+ * Small CSS changes to button colors and color selectors
+ * UI improvements and fixes to media editing
+ * i18n fixes
+ * Fixes to cache-friendly email obfuscation
+ * Removed obsolete columns from apostrophe:migrate
+ * Easier overrides in various places
+ * Many CSS and UI fixes
+ * Gave the user administration filter links better UI treatment
+ * css-colors-report task reports all colors used in apostrophePlugin CSS files, plus your project level CSS files
+ * Fixed a bug in the button slot where you ccouldn't set the FCK toolbar for the richtext
+ * Workaround for http://trac.symfony-project.org/ticket/8861
+ * Media type detection improvements
+ * Improvements to button.css, notably the .icon-right class
+ * Scoped the audio slot ui to be more specific to avoid css conflicts
+ * Media selection UI fixes
+ * Images can be selected successfully for a file slot (this downloads the original of the image)
+ * Clean off leading zeroes in a cross-browser fashion using a regexp. Fixes a bug with one-digit dates in the date widget
+ * Styles for our "do not edit, this is a staging site" banner are now included
+ * For the oldest formerly-pkcontextcms sites, create the media admin engine page. For everybody, make sure it stays published
+ * Moved jquery.jplayer into the /js/plugins folder, added it to the JS in BaseaTools, made sure to use_helper(a) in the partials 
+ * Added jquery.scrollTo for the Cropper. When you are building a slideshow and have numerous thumbnails, often the cropper opens below the fold. Now, the cropper will scroll into view when you engage it, and return you back to you to the top of media when you are finished
+ * Updated the look / feel of the slideshow controls when selecting
+ * aString::limitWords now has a 'characters' option, which can be used to limit by characters rather than words, but otherwise behave exactly like limitWords (notably, all whitespace is converted to single spaces). The benefit is that methods that layer on top of aString::limitWords() can be called with a character limit instead. Set 'characters' to true and the 'word_limit' parameter becomes a character limit
+</notes>
+    </release>
+    <release>
+      <version>
         <release>1.5.0</release>
         <api>1.5.0</api>
       </version>
@@ -106,30 +161,30 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
       <notes> 
         * Manual cropping in the media repository. You can now select images that would not have met the constraints for a particular slot previously, as long as you crop them
         * Big improvements in performance: CSS and JavaScript are minified and compressed to reduce the number of requests and the amount of traffic, speeding page load and helping the server run more smoothly. A new JavaScript integration strategy improves overall performance as well
-        * Page permissions completely reworked: you can now set “view” permissions on a per-page, per-individual-or-group basis. Edit permissions can now be set on a per-group-or-individual basis. Inheritance of permissions from parent pages has been discarded in favor of explicit one-time “cascade to child pages” features
+        * Page permissions completely reworked: you can now set &#x201C;view&#x201D; permissions on a per-page, per-individual-or-group basis. Edit permissions can now be set on a per-group-or-individual basis. Inheritance of permissions from parent pages has been discarded in favor of explicit one-time &#x201C;cascade to child pages&#x201D; features
         * Pages you cannot visit due to a lack of privileges are no longer shown in navigation
-        * “Audio” media type added, allowing you to directly host MP3 files with a nice MP3 player and an audio slot that embeds it
+        * &#x201C;Audio&#x201D; media type added, allowing you to directly host MP3 files with a nice MP3 player and an audio slot that embeds it
         * Built-in support for the LESS CSS compiler make stylesheets much easier to maintain
-        * Media types are much more open. For instance there is now an “Office” type for MS Office documents, plus text files and a few other related things. You can override these types via app.yml
-        * We added a “File” slot and deprecated the old PDF slot. The “File” slot can be used for any downloadable file format you have chosen to allow on the site, such as a Word document
-        * Vimeo, Viddler and SlideShare now gets the same “special treatment” as YouTube when adding video (integrated search, support for pasting just the URL), and there is a simple way to add support for more such embedded services via plugins. We've also improved our support for "unknown" embed codes
-        * You can set up Vimeo, Viddler, SlideShare and YouTube accounts to be automatically synced to your media repository via a cron job and our new “Linked Accounts” feature. This too can be extended
+        * Media types are much more open. For instance there is now an &#x201C;Office&#x201D; type for MS Office documents, plus text files and a few other related things. You can override these types via app.yml
+        * We added a &#x201C;File&#x201D; slot and deprecated the old PDF slot. The &#x201C;File&#x201D; slot can be used for any downloadable file format you have chosen to allow on the site, such as a Word document
+        * Vimeo, Viddler and SlideShare now gets the same &#x201C;special treatment&#x201D; as YouTube when adding video (integrated search, support for pasting just the URL), and there is a simple way to add support for more such embedded services via plugins. We've also improved our support for "unknown" embed codes
+        * You can set up Vimeo, Viddler, SlideShare and YouTube accounts to be automatically synced to your media repository via a cron job and our new &#x201C;Linked Accounts&#x201D; feature. This too can be extended
         * Videos can be replaced with new videos, even videos from another service, without editing each slot that uses them
-        * A new “Smart Slideshow” slot brings in images automatically via categories or tags
+        * A new &#x201C;Smart Slideshow&#x201D; slot brings in images automatically via categories or tags
         * Categories have been unified throughout the site; there is a single category admin page. This makes Apostrophe more consistent and extensible
-        * A single “Upload Media” form now accepts all permitted file types, no more separate UIs for images vs. PDFs etc. Uploaded filenames are automatically “humanized” to become a suggested title, saves a great deal of time if your media is already well-labeled
+        * A single &#x201C;Upload Media&#x201D; form now accepts all permitted file types, no more separate UIs for images vs. PDFs etc. Uploaded filenames are automatically &#x201C;humanized&#x201D; to become a suggested title, saves a great deal of time if your media is already well-labeled
         * iPhone and other cameras that save orientation hints in JPEGs are now fully compatible, Apostrophe auto-rotates these images
-        * Pages now have meta tag and description fields; Google doesn’t care about tags, but our internal search feature can leverage them to produce more relevant results
-        * Eliminated confusing distinction between “template-based” and “engine” pages (engines still exist "under the hood" for developers). There is one page type menu and configuration has been simplified as well
+        * Pages now have meta tag and description fields; Google doesn&#x2019;t care about tags, but our internal search feature can leverage them to produce more relevant results
+        * Eliminated confusing distinction between &#x201C;template-based&#x201D; and &#x201C;engine&#x201D; pages (engines still exist "under the hood" for developers). There is one page type menu and configuration has been simplified as well
         * New import-site task accepts XML files and loads a full-fledged Apostrophe site, including conversion of HTML blocks with embedded
         images into a series of rich text and image slots in an area
-        * Batch import of all filetypes supported by the upgraded media repository (Word, Excel, etc. in addition to images, PDFs…)
+        * Batch import of all filetypes supported by the upgraded media repository (Word, Excel, etc. in addition to images, PDFs&#x2026;)
         * Button slots can now feature an optional rich text description for more flexibility
-        * Search has been enhanced. You can now search on specific fields (title, slug, tags, categories, body) and appropriate fields are given extra weight in ordinary search results. Example: title:”monkey mittens”
+        * Search has been enhanced. You can now search on specific fields (title, slug, tags, categories, body) and appropriate fields are given extra weight in ordinary search results. Example: title:&#x201D;monkey mittens&#x201D;
         * The culture can be part of the page URL for better SEO of internationalized sites
         * Apostrophe sites can be a subdirectory of an existing site (although we strongly recommend a holistic rethink of your site if you're considering this in most cases)
         * Better pagination
-        * “This Page” button eliminated in favor of separate “Page Settings” and “Add Page” buttons. You can now set all of the properties of a new page at creation time. Managing pages is just plain pleasant
+        * &#x201C;This Page&#x201D; button eliminated in favor of separate &#x201C;Page Settings&#x201D; and &#x201C;Add Page&#x201D; buttons. You can now set all of the properties of a new page at creation time. Managing pages is just plain pleasant
         * Many other usability improvements
         * Full names and email addresses are now part of the user management system, not just usernames
       </notes>
