@@ -216,6 +216,8 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media_prefs'));
     $this->enabled_layouts = aMediaTools::getEnabledLayouts();
+
+    return $this->pageTemplate;
   }
 
   public function executeResume()
@@ -862,6 +864,8 @@ class BaseaMediaActions extends aEngineActions
     // Doing this here seemed like a good way to keep the templates cleaner
     $this->layout['showSuccess'] = true;
     $this->layout['gallery_constraints'] = $this->layout['show_constraints'];
+
+    return $this->pageTemplate;
   }
 
   public function executeMeta()
