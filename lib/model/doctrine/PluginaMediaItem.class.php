@@ -215,6 +215,12 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       if ($this->service_url)
       {
         $service = aMediaTools::getEmbedService($this->service_url);
+        if (!$service)
+        {
+          // Most likely explanation: this service was configured, now it's not.
+          // Don't crash
+          return '<div>Video Service Not Available</div>';
+        }
         return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode, $autoplay);
       }
       elseif ($this->embed)
