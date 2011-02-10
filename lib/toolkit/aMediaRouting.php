@@ -21,12 +21,13 @@ class aMediaRouting
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$')));
 
       // Allow permalinks for PDF originals
-      $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
+      
+      $r->prependRoute('a_media_image_original', new sfRoute(sfConfig::get('app_a_routes_media_image_original', '/uploads/media_items/:slug.original.:format'), array(
         'module' => 'aMediaBackend',
         'action' => 'original'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(\w+)$')));
 
-      $route = new sfRoute('/uploads/media_items/:slug.:width.:height.:resizeType.:format', array(
+      $route = new sfRoute(sfConfig::get('app_a_routes_media_image', '/uploads/media_items/:slug.:width.:height.:resizeType.:format'), array(
         'module' => 'aMediaBackend',
         'action' => 'image'
       ), array(
@@ -38,7 +39,7 @@ class aMediaRouting
       ));
       $r->prependRoute('a_media_image', $route);
 
-      $route = new sfRoute('/uploads/media_items/:slug.:cropLeft.:cropTop.:cropWidth.:cropHeight.:width.:height.:resizeType.:format', array(
+      $route = new sfRoute(sfConfig::get('app_a_routes_media_image_cropped', '/uploads/media_items/:slug.:cropLeft.:cropTop.:cropWidth.:cropHeight.:width.:height.:resizeType.:format'), array(
         'module' => 'aMediaBackend',
         'action' => 'image'
       ), array(
