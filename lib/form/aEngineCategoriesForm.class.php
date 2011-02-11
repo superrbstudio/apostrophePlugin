@@ -10,6 +10,7 @@ class aEngineCategoriesForm extends aPageForm
     parent::setup();
 
     $this->useFields(array('categories_list'));
+    $this->getWidget('categories_list')->setOption('query', Doctrine::getTable('aCategory')->createQuery()->orderBy('aCategory.name asc'));
     if (sfContext::getInstance()->getUser()->hasCredential('admin'))
     {
       // If we make this a "hidden" field renderHiddenFields will output it, 
