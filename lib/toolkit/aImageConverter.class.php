@@ -359,6 +359,9 @@ class aImageConverter
     // capabilities are added - we need to make sure they are not active etc. before using this trick. TODO: check for this in
     // netpbm land too, right now in a typical configuration it's not checked over 1024x768    
     
+    // Default to normal orientation
+    $orientation = 1;
+    
     $imageInfo = getimagesize($fileIn);
     // Don't panic on a PDF, fall through to the fake handler for that.
     if ($imageInfo)

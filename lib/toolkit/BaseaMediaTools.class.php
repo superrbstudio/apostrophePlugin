@@ -279,7 +279,8 @@ class BaseaMediaTools
       'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false, 'downloadable' => true),
       'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false, 'downloadable' => true),
       // You must have a video type
-      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo')),
+      // embedServices list is not actually consulted in 1.5, all embedServices are considered video for now
+      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo', 'Viddler')),
       
       // A long whitelist of file formats that are usually benign and useful.
       // No .exe, no .zip. You can add them via app.yml if you really want them.
@@ -288,6 +289,7 @@ class BaseaMediaTools
       
       'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false, 'downloadable' => true)),
     'embed_services' => array(
+      // media_type is not consulted yet in 1.5
       array('class' => 'aYoutube', 'media_type' => 'video'),
       array('class' => 'aVimeo', 'media_type' => 'video'),
       array('class' => 'aViddler', 'media_type' => 'video'),
