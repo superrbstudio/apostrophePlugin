@@ -52,13 +52,15 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['interval'] = $this->getOption('interval', 0) + 0;
     $this->options['arrows'] = $this->getOption('arrows', true);
     $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
+    $this->options['duration'] = $this->getOption('duration', 300) + 0;
     $this->options['position'] = $this->getOption('position', false);
 		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
+		$this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');
 		$this->options['random'] = $this->getOption('random', false);
 		
 		// We automatically set up the aspect ratio if the resizeType is set to 'c'
 		$constraints = $this->getOption('constraints', array());
-		if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && (!isset($constraints['aspect-width'])))
+		if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
 		{
 			$constraints['aspect-width'] = $constraints['minimum-width'];
 			$constraints['aspect-height'] = $constraints['minimum-height'];

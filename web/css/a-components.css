@@ -31,7 +31,7 @@ top: -6px;
 left: -6px;
 z-index: 1;
 list-style: none;
-min-width: 120px;
+min-width: 100px;
 width: auto;
 margin: 0;
 background-color: #fff; /* TODO: Debug for IE */
@@ -50,6 +50,8 @@ overflow: hidden;
 /* This forces any options menus that are using the clearfix to behave properly */
 .a-ui .a-options.clearfix { display: none; }
 
+.a-ui .a-options .a-options-heading { position: absolute; top: 0; right: 0; margin: 5px 10px 0 10px; }
+.a-ui .a-options .a-options-heading h4 { line-height: 20px; }
 /* aOptions Menu Item */
 
 .a-ui .a-options .a-options-item,
@@ -879,9 +881,8 @@ color: #333;
 /* Apostrophe Attribution
 -------------------------------------*/
 
-.a-attribution { margin: 20px 0; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
+.a-attribution { display: block; float: left; width: 720px; margin: 20px 0px 0px 0px; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
 .a-attribution a:hover { text-decoration:underline; }
-
 
 /* Apostrophe IE6 Warning for Admin
 -------------------------------------*/

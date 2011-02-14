@@ -73,6 +73,7 @@ padding: 2px 3px;
 /* Apostrophe Multiple Select (aControls.js)
 -------------------------------------*/
 
+.a-ui.a-multiple-select-list,
 .a-multiple-select-list
 {
 	float: left;
@@ -103,6 +104,7 @@ margin: -1px 0 0 0;
 
 .a-multiple-select .add .a-btn { margin-left: 2px; }
 
+.a-ui.a-multiple-select-list .a-multiple-select-item,
 .a-multiple-select-item
 {
 position: relative;	
@@ -126,7 +128,6 @@ input.a-submit,
 input.a-cancel {
 float: left;
 position: relative;
-color: #fff;
 font-size: 12px;
 font-family: arial, sans-serif;
 line-height:  normal;

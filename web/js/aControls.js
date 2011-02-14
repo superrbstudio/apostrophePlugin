@@ -996,7 +996,7 @@ function aBusy(selector)
 {
 	$(selector).each(function() {
 		$(this).data('a-busy-html', $(this).html());
-		$(this).html("<img src=\"/apostrophePlugin/images/a-icon-loader.gif\"/>");
+		$(this).html("<img src=\"/apostrophePlugin/images/a-icon-loader-2.gif\"/>");
 	});
 }
 

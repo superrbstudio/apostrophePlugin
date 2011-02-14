@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>apostrophePlugin</name>
   <channel>plugins.symfony-project.org</channel>
@@ -18,30 +18,48 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
     <email>alex@punkave.com</email>
     <active>yes</active>
   </lead>
-  <developer>
+  <lead>
     <name>John Benson</name>
     <user>johnnyoffline</user>
     <email>johnny@punkave.com</email>
     <active>yes</active>
-  </developer>
-  <developer>
+  </lead>
+  <lead>
     <name>Rick Banister</name>
     <user>rickybanister</user>
     <email>rick@punkave.com</email>
     <active>yes</active>
+  </lead>
+  <developer>
+    <name>Dan Ordille</name>
+    <user>dordille</user>
+    <email>dan@punkave.com</email>
+    <active>yes</active>
   </developer>
   <developer>
-      <name>Dan Ordille</name>
-      <user>dordille</user>
-      <email>dan@punkave.com</email>
-      <active>yes</active>
+    <name>Jake Hiller</name>
+    <user>jakehiller</user>
+    <email>jake@punkave.com</email>
+    <active>yes</active>
   </developer>
   <developer>
-      <name>Jake Hiller</name>
-      <user>jakehiller</user>
-      <email>jake@punkave.com</email>
-      <active>yes</active>
+    <name>Wesley John-Alder</name>
+    <user>wjohnald</user>
+    <email>wes@punkave.com</email>
+    <active>yes</active>
   </developer>
+  <developer>
+    <name>Graham Swan</name>
+    <user>thinkswan</user>
+    <email>graham@punkave.com</email>
+    <active>yes</active>
+  </developer>
+  <lead>
+    <name>Geoff DiMasi</name>
+    <user>geoffd</user>
+    <email>geoff@punkave.com</email>
+    <active>yes</active>
+  </lead>
   <date>##CURRENT_DATE##</date>
   <version>
     <release>##PLUGIN_VERSION##</release>
@@ -73,8 +91,277 @@ Apostrophe is a Symfony and Doctrine-based CMS that emphasizes in-context editin
       </package>
     </required>
   </dependencies>
-  <phprelease></phprelease>
+  <phprelease/>
   <changelog>
+    <release>
+      <version>
+        <release>1.5.1</release>
+        <api>1.5.1</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2011-02-05</date>
+      <notes> 
+This version contains fixes made since the release of 1.5.0. It is a stability and quality fix, consisting entirely of bug fixes and a very small number of minor features addressing obvious oversights. This version is a strongly recommended upgrade. Please note that tarball releases are not the best way to get this plugin and keep it up to date with fixes. A better idea is to use svn:externals to bring the 1.5 stable branch of apostrophePlugin into your project's plugins folder and just type `svn update` regularly.
+
+Fixes in version 1.5.1:
+
+ * Users with "Add/Delete Pages" can add pages without validation errors
+ * "Add/Delete Pages" and "apply to subpages" work properly again for view and edit permissions 
+ * Fixed many issues regarding cropping, strongly recommend an upgrade for those who like the cropping feature
+ * Lots of fixes to apostrophe:migrate-data-from-pkcontextcms and apostrophe:migrate. The former now triggers the latter on success since it is required to complete the job. Please, take the plunge and get off pkContextCMS
+ * File slot now allows filtering by type, and lists only types that are downloadable 
+ * New .a-editing and .a-normal classes replace .editing-now and provide a class for the case where the slot is not being edited. Much easier to customize slot styles based on whether the user is editing
+ * getPagesInfo never returns virtual pages. Helps with custom navigation
+ * Google Analytics is supported out of the box in Apostrophe via app.yml
+ * Cancel button works properly when editing media items
+ * Video selection fixes, various jQuery double binds eliminated
+ * Eliminated more usages of self:: to allow overriding of the related methods
+ * Applied gido's patch to provide a transition duration option for slideshow slots. Thanks gido
+ * Behaves properly if an embedded media service is deconfigured and a linked account still exists
+ * Admin generator theme no longer caching CSRF inappropriately, fixes issue for multiple admin users. Thanks Jeremy
+ * --verbose option to rebuild-search-index, it now runs quietly otherwise
+ * Small CSS changes to button colors and color selectors
+ * UI improvements and fixes to media editing
+ * i18n fixes
+ * Fixes to cache-friendly email obfuscation
+ * Removed obsolete columns from apostrophe:migrate
+ * Easier overrides in various places
+ * Many CSS and UI fixes
+ * Gave the user administration filter links better UI treatment
+ * css-colors-report task reports all colors used in apostrophePlugin CSS files, plus your project level CSS files
+ * Fixed a bug in the button slot where you ccouldn't set the FCK toolbar for the richtext
+ * Workaround for http://trac.symfony-project.org/ticket/8861
+ * Media type detection improvements
+ * Improvements to button.css, notably the .icon-right class
+ * Scoped the audio slot ui to be more specific to avoid css conflicts
+ * Media selection UI fixes
+ * Images can be selected successfully for a file slot (this downloads the original of the image)
+ * Clean off leading zeroes in a cross-browser fashion using a regexp. Fixes a bug with one-digit dates in the date widget
+ * Styles for our "do not edit, this is a staging site" banner are now included
+ * For the oldest formerly-pkcontextcms sites, create the media admin engine page. For everybody, make sure it stays published
+ * Moved jquery.jplayer into the /js/plugins folder, added it to the JS in BaseaTools, made sure to use_helper(a) in the partials 
+ * Added jquery.scrollTo for the Cropper. When you are building a slideshow and have numerous thumbnails, often the cropper opens below the fold. Now, the cropper will scroll into view when you engage it, and return you back to you to the top of media when you are finished
+ * Updated the look / feel of the slideshow controls when selecting
+ * aString::limitWords now has a 'characters' option, which can be used to limit by characters rather than words, but otherwise behave exactly like limitWords (notably, all whitespace is converted to single spaces). The benefit is that methods that layer on top of aString::limitWords() can be called with a character limit instead. Set 'characters' to true and the 'word_limit' parameter becomes a character limit
+</notes>
+    </release>
+    <release>
+      <version>
+        <release>1.5.0</release>
+        <api>1.5.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2011-01-18</date>
+      <notes> 
+        * Manual cropping in the media repository. You can now select images that would not have met the constraints for a particular slot previously, as long as you crop them
+        * Big improvements in performance: CSS and JavaScript are minified and compressed to reduce the number of requests and the amount of traffic, speeding page load and helping the server run more smoothly. A new JavaScript integration strategy improves overall performance as well
+        * Page permissions completely reworked: you can now set &#x201C;view&#x201D; permissions on a per-page, per-individual-or-group basis. Edit permissions can now be set on a per-group-or-individual basis. Inheritance of permissions from parent pages has been discarded in favor of explicit one-time &#x201C;cascade to child pages&#x201D; features
+        * Pages you cannot visit due to a lack of privileges are no longer shown in navigation
+        * &#x201C;Audio&#x201D; media type added, allowing you to directly host MP3 files with a nice MP3 player and an audio slot that embeds it
+        * Built-in support for the LESS CSS compiler make stylesheets much easier to maintain
+        * Media types are much more open. For instance there is now an &#x201C;Office&#x201D; type for MS Office documents, plus text files and a few other related things. You can override these types via app.yml
+        * We added a &#x201C;File&#x201D; slot and deprecated the old PDF slot. The &#x201C;File&#x201D; slot can be used for any downloadable file format you have chosen to allow on the site, such as a Word document
+        * Vimeo, Viddler and SlideShare now gets the same &#x201C;special treatment&#x201D; as YouTube when adding video (integrated search, support for pasting just the URL), and there is a simple way to add support for more such embedded services via plugins. We've also improved our support for "unknown" embed codes
+        * You can set up Vimeo, Viddler, SlideShare and YouTube accounts to be automatically synced to your media repository via a cron job and our new &#x201C;Linked Accounts&#x201D; feature. This too can be extended
+        * Videos can be replaced with new videos, even videos from another service, without editing each slot that uses them
+        * A new &#x201C;Smart Slideshow&#x201D; slot brings in images automatically via categories or tags
+        * Categories have been unified throughout the site; there is a single category admin page. This makes Apostrophe more consistent and extensible
+        * A single &#x201C;Upload Media&#x201D; form now accepts all permitted file types, no more separate UIs for images vs. PDFs etc. Uploaded filenames are automatically &#x201C;humanized&#x201D; to become a suggested title, saves a great deal of time if your media is already well-labeled
+        * iPhone and other cameras that save orientation hints in JPEGs are now fully compatible, Apostrophe auto-rotates these images
+        * Pages now have meta tag and description fields; Google doesn&#x2019;t care about tags, but our internal search feature can leverage them to produce more relevant results
+        * Eliminated confusing distinction between &#x201C;template-based&#x201D; and &#x201C;engine&#x201D; pages (engines still exist "under the hood" for developers). There is one page type menu and configuration has been simplified as well
+        * New import-site task accepts XML files and loads a full-fledged Apostrophe site, including conversion of HTML blocks with embedded
+        images into a series of rich text and image slots in an area
+        * Batch import of all filetypes supported by the upgraded media repository (Word, Excel, etc. in addition to images, PDFs&#x2026;)
+        * Button slots can now feature an optional rich text description for more flexibility
+        * Search has been enhanced. You can now search on specific fields (title, slug, tags, categories, body) and appropriate fields are given extra weight in ordinary search results. Example: title:&#x201D;monkey mittens&#x201D;
+        * The culture can be part of the page URL for better SEO of internationalized sites
+        * Apostrophe sites can be a subdirectory of an existing site (although we strongly recommend a holistic rethink of your site if you're considering this in most cases)
+        * Better pagination
+        * &#x201C;This Page&#x201D; button eliminated in favor of separate &#x201C;Page Settings&#x201D; and &#x201C;Add Page&#x201D; buttons. You can now set all of the properties of a new page at creation time. Managing pages is just plain pleasant
+        * Many other usability improvements
+        * Full names and email addresses are now part of the user management system, not just usernames
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.4.2</release>
+        <api>1.4.2</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2010-09-04</date>
+      <notes> 
+ * The most important fixes here are stability-related. This is a strongly recommended upgrade for all users of the 1.x series of Apostrophe or earlier
+ * Admin: fixed a bug with the cascade page settings form from not displaying when all child pages are unpublished
+ * Button slot: Fixed a few bugs with the button slot. If you set a title and a URL it will output a simple text link. It will also by default NOT output the image's full description, because that's the majority use case. If you want the image's full description along with the button, it can be enabled as an option
+ * Deployment: the apostrophe:deploy task now instructs rsync to checksum files rather than relying on modification times. This is critical when deployment happens from multiple development workstations. As a result we no longer need to clear the APC cache on every deployment, so that feature has been removed from the aSync module. rsync checksum is supposedly slow, but on modern systems performance is quite reasonable
+ * Deployment: new apostrophe:fix-remote-permissions task asks a remote production or staging server to chmod the Symfony-writable folders recursively to address the fact that umask() settings often prevent files created by Apache from being touched by command line tasks that need to do things like rebuilding the search index or syncing media content. Use this task to fix permissions "as Apache" without root access
+ * Documentation: README updated
+ * Documentation: package.xml.tmpl updates
+ * Engine page routing fixes
+ * JavaScript: removed an addJavascript call to jquery.hotkey because we do not use it and it was creating a 404 error
+ * Media: don't try to calculate dimensions if PDF preview is turned off. With netpbm turned off we can't do PDF preview and shouldn't try to fetch the dimensions, which are unknown
+ * Media: never return attributes for logged-out users in the media repository. We might have to revisit this if we decide to offer public filters of some sort that are attribute-based, but right now our attributes are designed for the image selection/management experience and should never be active after you log out. This was not a security hole, just a source of confusion
+ * Search: fixed bug with clear search button
+ * Search: new apostrophe:optimize-search-index task should be run nightly to reoptimize the Zend Search index
+ * Security: the app_aMedia_admin_credential and app_aMedia_upload_credential options were hardcoded to media_admin and media_upload in a bunch of places. All of these cases have been fixed to respect app.yml so you can change the media credentials if you wish
+ * Security: fixed security of aSync module, since it has its own password system it doesn't make sense to lock it with security.yml (also it is disabled by default)
+ * Stability: wrapped tree lock calls around page creation and deletion to address the fact that Doctrine doesn't seem to have concurrency locks for nested set operations. We had previously locked reorganize operations for similar reasons but did not realize that the fundamental insert and delete operations did not have locks either (transactions do not address the same issue)
+ * Stability: the repair-tree task has been overhauled. The task now uses PDO to avoid memory limitations of Doctrine, and is very fast now. There is now a method option which can be set to list or slug. The list option (well-tested) doesn't reorganize a messed-up page tree, but it does correct any errors in lft and rgt values such that it is now safe to manually reorganize it. The slug option infers the page tree from page slugs; this discards order of pages at the same level and doesn't work well if you heavily edit your slugs. A third approach is to specify the csv option, which should be set to a file containing a CSV dump with id, lft, rgt and level values (in that order, with no header) from a known-good database. Pages that did not exist in that good database become archived children of the homepage for easy cleanup in 'reorganize.' See the verbose help for the task for an example of how to create such a CSV file from a known-good backup
+ * Toolkit: don't allow whitespace to balloon in repeated calls to aHtml::simplify()
+ * Toolkit: added PEAR's Date module to 1.4 branch of apostrophe for use in the blog plugin
+ * UI: icon fixes
+ * UI: fixed an IE bug w/ pagination buttons
+</notes>
+    </release>
+    <release>
+      <version>
+        <release>1.4.1</release>
+        <api>1.4.1</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2010-08-06</date>
+      <notes>
+        * Admin: aUserAdmin and aGroupAdmin now use a filter subclass that removes most fields, preventing explosive memory use when interesting relations are added. You can override to change this
+        * Browser: cross-browser cleanup
+        * CSS: CSS cleanup
+        * CSS: Fixed bug where the media library was ignoring use_bundled_stylesheet
+        * CSS: fixed slideshow CSS scoping
+        * CSS: stylesheets should be loaded before javascript files, reversed order of the include calls
+        * Configuration: app_a_default_published added as a more intuitive alternative to app_a_default_on
+        * Development: aArray::isFlat checks whether an array is a flat array: numerically indexed by consecutive integers starting from zero, no ifs ands or buts
+        * Development: aDate::mysql() method takes a PHP timestamp, MySQL datetime or MySQL date (defaulting to now) and returns a MySQL datetime format string suitable for calling setCreatedAt() or similar. Takes advantage of aDate::normalize() &amp; centralizes that pesky date() format string for MySQL in one place
+        * Development: aText::limitWords(): changed ellipsis from three periods to the unicode character
+        * Development: getRealPage fixed: no longer returns the "global" page if there is no real page
+        * Development: updated aHtml::limitWords to accept the append_ellipsis option that aString::limitWord already accepts
+        * Email: single or double quotes in the label of an obfuscated mailto link no longer show up with slashes in front of them in the page
+        * Engines: Fixed an issue with the page property of engine action classes
+        * Engines: aDoctrineRoute now also supports passing engine-slug as a parameter.
+        * Engines: engine-slug parameter now pops the target engine page properly. Thanks to Avi Block
+        * FCK: FCK layout improvements
+        * FCK: turned off the StartupFocus parameter in the FCK config we bundle with Apostrophe, which either didn't work at all or created problems depending on context
+        * Feed Slot: fixed a bug with the title being a link in the feedItem template
+        * Feed Slot: now accepts an itemTemplate similar to the slideshowItemTemplate
+        * Feed Slot: titles as links now work as expected in the feed slot
+        * Feed Slot: updated the aFeed slot to accept options for passing attributes and styles through the feed in addition to just markup
+        * Feed slot: posts limit option correctly passed as a number
+        * I18N: removed all of the text transform styles from the plugin. Those we like are now in the sandbox where you can easily remove them for better I18N
+        * JavaScript: Fixed cross-browser issue with aMultipleSelect
+        * JavaScript: New jquery ui theme
+        * JavaScript: Update jQuery UI to match last stable 1.3.x jQuery release. Moving to 1.4.x will require addressing some incompatibilities
+        * JavaScript: jQuery cleanup
+        * JavaScript: you can now hit Return to save a new item in aMultiSelect
+        * Markup: Fixed accessibility and standard compliance bugs (a few compliance issues remain)
+        * Markup: editPdfSuccess markup corrected
+        * Markup: editVideoSuccess and _editImage partial markup corrected
+        * Media: Added aMediaItem::getImgSrcUrl method
+        * Media: Deprecated use of actual_slug to bring users back from media repository in favor of actual_url; fixed our own examples
+        * Media: added width and height attributes to the image tag output by getEmbedCode in PluginaMediaItem.class.php. This speeds up rendering for all browsers across the board
+        * Media: all media slots (when in areas, not as singleton slots) now display a placeholder div where appropriate
+        * Media: alphabetized media categories in the multiple select drop down
+        * Media: fixed error with slideshows in global and virtual pages, associated with fixed bug in aTools::getRealPage()
+        * Media: fixed undefined index error in slideshow slot when no width parameter is specified
+        * Media: gd backend now recognizes more cases where an image need not be modified, which preseves transparency and improves performance
+        * Media: ghostscript automatically killed after 5 seconds if it is not able to determine PDF dimensions in that time. Works around ghostscript bugs with occasional slightly dodgy PDFs
+        * Navigation: Tab and accordion navigation now outputs ancestor classes consistently
+        * Navigation: better support for the "unpublish an ancestor to create pages that are not visible in navigation elsewhere in the site" technique
+        * Navigation: fixed bug in accordion navigation that caused improper ordering classes to be placed on nav-items when archived pages also existed in navigation element
+        * Navigation: getAccordionInfo no longer returns archived ancestors when $livingOnly is true
+        * Navigation: getAccordionInfo works in all situations
+        * Navigation: getAncestorsInfo now has an optional $livingOnly flag to return only ancestors that are not archived
+        * Performance: new app_a_search_hard_limit option prevents out of memory errors when searching very large sites. If you have 1,000's of pages see the documentation for more information about how to set this
+        * Refactoring: $aPageTable-&gt;checkUserPrivilegesBody() is the core privilege checker method; extend this, calling the base version and adding your own checks, and you won't have to worry about caching or rewriting privilege names, both of which are taken care of by the checkUserPrivileges method first
+        * Refactoring: Fixed missing parent::configure() calls in the media subtype forms. Now you can modify the behavior of *all* media subtype forms by editing the configure() method of the aMediaItemForm class at project level
+        * Refactoring: aPageTable::checkPrivileges is now a wrapper around $aPageTable-&gt;checkUserPrivileges(), which is easier to extend without static method inheritance problems
+        * Refactoring: all form classes and many other classes, such as aTools, now extend a Basea* class so you can override them and extend the base to avoid duplicating code
+        * Refactoring: the privileges portion of the page settings form is broken out to a single allPrivileges partial so that you can easily override that to add or remove parts of it when templating out the page settings form
+        * Samples: removed twoColumnTemplate from app.yml sample
+        * Search: Zend Lucene can throw exceptions if it doesn't like search syntax. Catch the exceptions and report no results
+        * Search: category names now trigger search matches in the media repository
+        * Search: don't let workloads requested by consecutive failed invocations of rebuild-search-index build up a backlog of redundant indexing to be done
+        * Security: breadcrumb partial no longer outputs archived pages when logged out
+        * Security: checkUserPrivileges is now responsible for converting 'edit' to 'edit|manage' in one consistent place
+        * Security: cleaned up logic determining when "this page" button and its contents are rendered. Editors and managers can use "this page" properly
+        * Security: consistent presentation of permissions option in media type forms
+        * Security: custom secureSuccess message in sandbox project when you are logged in with insufficient permissions, behaves like a 404 by default
+        * Security: don't show the heading for the page permissions area if both privilege widgets are disabled for this user 
+        * Security: explicit permissions are not checked for virtual pages (this introduced DQL bugs granting everyone edit permissions to them, you should be using the 'edit' flag to a_area or a_slot to programmatically determine who has rights to a virtual page)
+        * Security: improved privilege cache 
+        * Signin: removed remember me button from the signin form partial since its default behavior in sfDoctrineGuardPlugin is not what users expect (i.e. it doesn't work)
+        * Slots: Added an aUI call after slot is saved to reactivate buttons etc.
+        * Slots: app_a_new_slots_top option now works properly. Thanks to martin79
+        * Slots: editing-now class now removed from slots properly after save
+        * Slots: slots can now be nested more deeply, often needed in the blog plugin
+        * Slugs: Add checks and fixes when renaming a page creates a slug conflict
+        * Slugs: Fixed bug that caused engines to not work properly with utf-8 slugs
+        * Slugs: leading slash required when editing slugs 
+        * Slugs: new require_leading_slash option to aValidatorSlug 
+        * Testing: minor tweaks to the functional testing methods
+        * Variants: The new app_a_allowed_slot_variants setting determines which slot variants are permitted by default. You can always override it with an explicit allowed_variants option in an a_slot or a_area call
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.4.0</release>
+        <api>1.4.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.apostrophenow.com/home/license">MIT license</license>
+      <date>2010-05-25</date>
+      <notes>
+        * Hooray, you can link directly to an engine page just by passing an engine-slug parameter as one of your route parameters in link_to and url_for! No more aRouteTools::pushTargetEnginePage() (although that is still occasionally useful and fully supported). 
+        * No more hardcoded routing.yml in apostrophePlugin to break people's backend apps. Instead we have a second event which registers when app_a_admin_routes_register is set (that defaults to true), and registers routes for the various admin modules only if they are actually enabled. Much more conservative.
+        * Added the ability to now specify a slideshowItemPartial.php using the slot options. This adds a boatload of flexibility for not overriding the plugin at the project level, but instead enhancing it. It also integrates well with Variants. I switched the compact slideshow to use this technique and it works great.
+        * a_get_option($options, 'height', 500) replaces isset($optionsheight) ? $optionsheight : 500. The former is much less bug-prone and friendlier in templates, which is important because the defaults for a presentation-related option are a presentation decision and therefore should be in the view layer (the template), but view code shouldn't be complicated to understand.
+        * Refactored permissions checks from aPage to aPageTable
+        * Improved handling of virtual pages in search results
+        * No more 404 errors if you click upload without selecting any images, you get a reasonable validation error message instead
+        * new apostrophe:import-files task pulls in JPEGs, GIFs, PNGs and PDFs in the specified folder, which defaults to web/uploads/media_import. Then it REMOVES those files from that folder. 
+        * Refactored SQL migration conveniences to aMigrate where they can be used by migration hooks in other plugins that listen to the apostrophe:migrate event 
+        * Added Fabien's workaround for plugin configuration initialize methods being invoked twice (this is a Symfony issue)
+        * The media repository now behaves reasonably when PDFs are uploaded to a server that can't render previews of PDFs. An icon is substituted, rather than a fake rendering of the PDF, and the format field is set properly. Much better. Hit this with Jake and John this morning. The preview icon is chosen based on the format and is not hardcoded to PDF. You can reliably check for a nonrenderable media item by checking whether $mediaItem-&gt;getWidth() is null. 
+        * If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports the image type, always use gd.
+        * edit = false for slot options is no longer ignored when logged in as an admin
+        * The various get*Info methods that return information about related pages now include the page template. This is handy when you want to link to an ancestor page in a special way if it is a landing page.
+        * New aImageConverter::supportsInput($extension) method allows you to check whether aImageConverter can import a particular image format on this system. Mainly used to check for pdf support.
+        * New default behavior of navigation components is appropriate for use on large sites with many pages. On small sites it may be slightly slower, in which case you can set app_a_many_pages to false to get the old "fetch the entire page tree and reuse it in each navigation component as needed" behavior back.
+        * Tabbed navigation now accepts urls from external sites as extra options
+        * Use aTools::isPotentialEditor to determine when to include history browser div.
+        * Pretty signficant changes to the history browser. The history browser now has its own close button instead of piggy-backing on the area cancel button. The area cancel button has now gone away completely because we use the nifty dropdown for Add Slot. And History has it's own set of controls.
+        * fixed bug that caused the icons to disappear from the addSlot dropdown
+        * changed the aAdmin assets file to look for our jQ UI that comes bundled with apostrophe rather than the Lightness UI bundled with jQuery reloaded
+        * getPeerInfo now works properly when the current page is the home page
+        * Allow 1000 character slugs to handle importing existing sites with deep structure. That's the practical limit with MySQL. Carefully specify the index length so MySQL actually pays attention to this. 
+        * Warning comments before various API methods in aPage explaining the need to get the page properly with retrievePageBySlugWithSlots() first. TODO: document this entire subject in the manual. 
+        * One can now specify whether the slot should go to the top or bottom of the area when adding a slot with newAreaVersion (TODO: document this method generally and this option particularly) 
+        * Removed some obsolete, noisy logging calls
+        * the admin generator form markup was outdated and did not reflect the form markup we use via the formFormatter so we updated it to be that way.
+        * updated layout to allow for main navigation in non-cms pages
+        * made normal and alt page settings button icons
+        * revised page settings icons, smaller and brighter
+        * changed delete and history buttons to be flagging buttons with white backgrounds, big visual clutter improvement
+        * cleaned up history icon, still should probably be redone
+        * adjusted styling on button flag-left and flag-right
+        * new page settings icons
+        * added icons for the reorganize tree to display which engines pages are using
+        * created a brand new awesome a-btn.mini button (its rad)
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.11</release>

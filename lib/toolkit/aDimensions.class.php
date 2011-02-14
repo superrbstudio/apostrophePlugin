@@ -6,18 +6,18 @@ class aDimensions
   {
     if (!isset($options['width']))
     {
-      throw new sfException("No width parameter in options");
+      throw new sfException("No width parameter in options (specify false for flexWidth)");
     }
-    $width = $options['width'];
     if (!isset($options['height']))
     {
       throw new sfException("No height parameter in options (specify false for flexHeight)");
     }
+    $width = $options['width'];
     $height = $options['height'];
-    if ($height === false)
-    {
-      $height = ceil(($width * $originalHeight) / $originalWidth);
-    }
+		if (($width === false) && ($height === false))
+		{
+			throw new sfException("Width and height can't both be false");
+		}
     if (!isset($options['resizeType']))
     {
       throw new sfException("No resizeType parameter in options");
@@ -38,6 +38,23 @@ class aDimensions
       $cropHeight = floor($scalingFactor * $cropHeight);
     }
     
+		$eWidth = $width;
+		$eHeight = $height;
+		if (isset($cropWidth))
+		{
+			$eWidth = $cropWidth;
+			$eHeight = $cropHeight;
+		}
+
+    if ($width === false)
+    {
+      $width = ceil(($eHeight * $originalWidth) / $originalHeight);
+    }
+    if ($height === false)
+    {
+      $height = ceil(($eWidth * $originalHeight) / $originalWidth);
+		}
+
     if (!(isset($options['forceScale']) && $options['forceScale']))
     {
       // Never exceed original size, but don't exceed requested size on the other axis

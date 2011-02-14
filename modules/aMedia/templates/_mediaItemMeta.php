@@ -7,12 +7,14 @@
 <?php // This was the quickest / easiest way to ensure $linkHref was defined when mediaItemMeta is returned with Ajax ?>
 
 <?php if (aMediaTools::isSelecting()): ?>
-	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
-    <?php $linkHref = "#select-image"; ?>
+  <?php // When we are selecting downloadables *in general*, we don't want cropping etc., just simple selection ?>
+  <?php // When we are selecting single images *specifically*, we do force the cropping UI. ?>
+	<?php if (aMediaTools::isMultiple() || (($mediaItem->getType() === 'image') && (aMediaTools::getType() !== '_downloadable'))): ?>
+    <?php $linkHref = "#select-media-item"; ?>
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->id) ?>
+    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
   <?php endif ?>
 <?php else: ?>
   <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>

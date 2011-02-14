@@ -28,9 +28,20 @@ class BaseaPageSettingsForm extends aPageForm
   protected $parent = null;
   
   // If you are making a new page pass a new page object and set $parent also.
-  // To edit an existing page, just set $page and leave $parent null
-  public function __construct($page, $parent)
+  // To edit an existing page, just set $page and leave $parent null.
+  // At least one must not be null for normal use, but both can be null for
+  // ai18nupdate
+  public function __construct($page = null, $parent = null)
   {
+    if (!$page)
+    {
+      $page = new aPage();
+      if (!$parent)
+      {
+        echo("Creating parent object, this does not make sense unless you are running ai18nupdate\n");
+        $parent = new aPage();
+      }
+    }
     if ($page->isNew())
     {
       $this->parent = $parent;
@@ -52,6 +63,8 @@ class BaseaPageSettingsForm extends aPageForm
   {
     parent::configure();    
    
+    $user = sfContext::getInstance()->getUser();
+    
     // $page->setArchived(!sfConfig::get('app_a_default_published', sfConfig::get('app_a_default_on', true)));
     
     // We must explicitly limit the fields because otherwise tables with foreign key relationships
@@ -67,7 +80,12 @@ class BaseaPageSettingsForm extends aPageForm
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
     
-    $this->useFields(array('slug', 'archived', 'edit_admin_lock'));
+    $fields = array('slug', 'archived');
+    if ($user->hasCredential('cms_admin'))
+    {
+      $fields[] = 'edit_admin_lock';
+    }
+    $this->useFields($fields);
 
     $object = $this->getObject();
     
@@ -85,6 +103,12 @@ class BaseaPageSettingsForm extends aPageForm
     // In 2.0 we'll probably clean these flags up a bit.
     
     $choices = array('public' => 'Public', 'login' => 'Login Required', 'admin' => 'Admins Only');
+    
+    if (!$user->hasCredential('cms_admin'))
+    {
+      // You can't stop yourself and your peers from viewing a page
+      unset($choices['admin']);
+    }
     
     $default = 'public';
     if ($object->view_admin_lock)
@@ -188,8 +212,6 @@ class BaseaPageSettingsForm extends aPageForm
       $privilegePage = $this->parent;
     }
     
-    $user = sfContext::getInstance()->getUser();
-    
     if ($user->hasCredential('cms_admin'))
     {
       $this->setWidget('edit_individuals', new sfWidgetFormInputHidden(array('default' => $this->getEditIndividualsJSON())));
@@ -281,7 +303,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->getGroupCandidateName($candidate), 'selected' => false, 'extra' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -374,7 +396,7 @@ class BaseaPageSettingsForm extends aPageForm
     foreach ($candidates as $candidate)
     {
       $id = $candidate['id'];
-      $jinfo = array('id' => $id, 'name' => $candidate['name'], 'selected' => false, 'applyToSubpages' => false);
+      $jinfo = array('id' => $id, 'name' => $this->getGroupCandidateName($candidate), 'selected' => false, 'applyToSubpages' => false);
       if (isset($infos[$id]))
       {
         $info = $infos[$id];
@@ -386,6 +408,12 @@ class BaseaPageSettingsForm extends aPageForm
       $jinfos[] = $jinfo;
     }
     return json_encode($jinfos);
+  }
+
+  // A useful override point if you prefer to show the description
+  protected function getGroupCandidateName($groupCandidate)
+  {
+    return $groupCandidate['name'];
   }
 
   public function validateViewIndividuals($validator, $value)
@@ -572,7 +600,6 @@ class BaseaPageSettingsForm extends aPageForm
     // This involves creating a slot so it has to happen last
     if ($this->getValue('real_meta_description') != '')
     {
-      error_log("Calling setMetaDescription");
 	    $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
 	  }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));

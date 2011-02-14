@@ -459,12 +459,6 @@ class BaseaActions extends sfActions
     
     $engine = $this->page->engine;
 
-    // This might make more sense in some kind of read-only form control.
-    // TODO: cache the first call that the form makes so this doesn't
-    // cause more db traffic.
-    $this->inherited = array();
-    $this->admin = array();
-    
     if ($request->hasParameter('settings'))
     {
       $settings = $request->getParameter('settings');

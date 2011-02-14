@@ -3,7 +3,8 @@ class aAudioSlotEditForm extends BaseForm
 {
   // Ensures unique IDs throughout the page
   protected $id;
-  public function __construct($id, $defaults = array(), $options = array(), $CSRFSecret = null)
+  // id is really required but forms must accept no args to be compatible with ai18nupdate
+  public function __construct($id = null, $defaults = array(), $options = array(), $CSRFSecret = null)
   {
     $this->id = $id;
     parent::__construct($defaults, $options, $CSRFSecret);

@@ -60,6 +60,14 @@ class BaseaMediaActions extends aEngineActions
     $tag = $request->getParameter('tag');
     $type = aMediaTools::getType();
     $type = $type ? $type : $request->getParameter('type');
+    // It is permissible to filter more narrowly if the overall type is a metatype (_downloadable)
+    if (substr($type, 0, 1) === '_')
+    {
+      if ($request->getParameter('type'))
+      {
+        $type = $request->getParameter('type');
+      }
+    }
 
 		$this->embedAllowed = aMediaTools::getEmbedAllowed();
 		$this->uploadAllowed = aMediaTools::getUploadAllowed();
@@ -208,6 +216,8 @@ class BaseaMediaActions extends aEngineActions
     }
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media_prefs'));
     $this->enabled_layouts = aMediaTools::getEnabledLayouts();
+
+    return $this->pageTemplate;
   }
 
   public function executeResume()
@@ -366,7 +376,6 @@ class BaseaMediaActions extends aEngineActions
   {
     $this->hasPermissionsForSelect();
     
-    error_log("Selecting is " . aMediaTools::isSelecting());
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
     $imageInfo = aMediaTools::getAttribute('imageInfo');
@@ -855,6 +864,8 @@ class BaseaMediaActions extends aEngineActions
     // Doing this here seemed like a good way to keep the templates cleaner
     $this->layout['showSuccess'] = true;
     $this->layout['gallery_constraints'] = $this->layout['show_constraints'];
+
+    return $this->pageTemplate;
   }
 
   public function executeMeta()
@@ -922,7 +933,6 @@ class BaseaMediaActions extends aEngineActions
   public function isAdmin()
   {
     $isAdmin = $this->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
-    error_log("is admin: $isAdmin");
     return $isAdmin;
   }
   

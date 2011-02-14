@@ -39,6 +39,13 @@ class BaseaMediaTools
     {
       aMediaTools::setAttribute($key, $val);
     }
+    $type = aMediaTools::getType();
+    if (substr($type, 0, 1) === '_')
+    {
+      // We need to let people filter more narrowly, but also
+      // be able to remember what the metatype was originally
+      aMediaTools::setAttribute('metatype', $type);
+    }
   }
   static public function clearSelecting()
   {
@@ -104,6 +111,11 @@ class BaseaMediaTools
   static public function getType()
   {
     return aMediaTools::getAttribute('type');
+  }
+
+  static public function getMetatype()
+  {
+    return aMediaTools::getAttribute('metatype');
   }
   
   static public function getBestTypeLabel()
@@ -205,9 +217,9 @@ class BaseaMediaTools
         "height" => false,
         "resizeType" => "s"),
     "selected_constraints" => array(
-        "width" => 100,
-        "height" => false,
-        "resizeType" => "c",),
+        "width" => false,
+        "height" => 75,
+        "resizeType" => "s"),
     "show_constraints" => array(
         "width" => 720,
         "height" => false,
@@ -267,7 +279,8 @@ class BaseaMediaTools
       'pdf' => array('label' => 'PDF', 'extensions' => array('pdf'), 'embeddable' => false, 'downloadable' => true),
       'audio' => array('label' => 'Audio', 'extensions' => array('mp3'), 'embeddable' => false, 'downloadable' => true),
       // You must have a video type
-      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo')),
+      // embedServices list is not actually consulted in 1.5, all embedServices are considered video for now
+      'video' => array('label' => 'Video', 'extensions' => array(), 'embeddable' => true, 'downloadable' => false, 'embedServices' => array('YouTube', 'Vimeo', 'Viddler')),
       
       // A long whitelist of file formats that are usually benign and useful.
       // No .exe, no .zip. You can add them via app.yml if you really want them.
@@ -276,10 +289,12 @@ class BaseaMediaTools
       
       'office' => array('label' => 'Office', 'extensions' => array('txt', 'rtf', 'csv', 'doc', 'docx', 'xls', 'xlsx', 'xlsb', 'ppt', 'pptx', 'ppsx'), 'embeddable' => false, 'downloadable' => true)),
     'embed_services' => array(
+      // media_type is not consulted yet in 1.5
       array('class' => 'aYoutube', 'media_type' => 'video'),
       array('class' => 'aVimeo', 'media_type' => 'video'),
       array('class' => 'aViddler', 'media_type' => 'video'),
       array('class' => 'aSlideShare', 'media_type' => 'video'),
+      array('class' => 'aSoundCloud', 'media_type' => 'video'),
 		));
 
   static protected $layouts = array(
@@ -519,28 +534,34 @@ class BaseaMediaTools
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     $aspectRatio = aMediaTools::getAspectRatio();
     
+		$imageAspectRatio = $mediaItem->getWidth() / $mediaItem->getHeight();
+		
     if ($aspectRatio)
-    {    
-      if ($aspectRatio > 1)
+    {     
+			// We have an aspect ratio constraint
+      if ($aspectRatio > $imageAspectRatio)
       {
         $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
         $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
+		    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+		    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
       }
       else
       {
         $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
         $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
+		    $imageInfo[$mediaItem->id]['cropLeft'] = floor(($mediaItem->getWidth() - $imageInfo[$mediaItem->id]['cropWidth']) / 2);
+		    $imageInfo[$mediaItem->id]['cropTop'] = 0;
       }
     }
     else
     {
+	    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+	    $imageInfo[$mediaItem->id]['cropTop'] = 0;
       $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
       $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
     }
-    
-    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
-    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
-        
+            
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
   

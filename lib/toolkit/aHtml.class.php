@@ -561,7 +561,9 @@ class aHtml
     // We get some weird escaping problems without the trims
     $user = trim($user);
     $domain = trim($domain);
-    $id = 'a-email-' . sprintf("%u", crc32($user . $domain));
+    // Cripes... crc has to include user, domain *and* label to make it unique.
+    // This is worth it to produce cacheable content though
+    $id = 'a-email-' . sprintf("%u", crc32($user . '@' . $domain . ':' . $label));
     $href = rawurlencode("mailto:$user@$domain");
     $label = rawurlencode(trim($label));
     // This is an acceptable way to stub in a js call for now, since it's the

@@ -98,17 +98,32 @@ window.aCrop = {
   },
   
   thumbnailClickHandler: function(e){
+		e.preventDefault();
 		$('.cropping-now').removeClass('cropping-now');
 		$(e.target).parents('.a-media-selection-list-item').addClass('cropping-now');
     var mediaId = aCrop.getMediaIdForLi($(e.currentTarget).parents('.a-media-selection-list-item'));
 		if (mediaId)
 		{
 	    $('#' + aCrop.el.previewList.replace('#','') + '-' + mediaId).addClass('current').siblings().removeClass('current');
-			$('.a-crop-workspace').fadeIn();
+			$('.a-crop-workspace').fadeIn(function(){
+				$.scrollTo('#a-crop-workspace', 800, { offset: { left: 0, top: -10 } });
+			});
     }
     aCrop.startCrop();
-		$('#a-save-crop').click(function() { aCrop.setCrop(apostrophe.selectOptions['setCropUrl']); return false; });
-		$('#a-cancel-crop').click(function() { aCrop.resetCrop(); return false; });
+		$('#a-save-crop').click(function(e) 
+		{ 
+			e.preventDefault();			
+			aCrop.setCrop(apostrophe.selectOptions['setCropUrl']); 
+			$.scrollTo('.a-media-library', 800, { offset: { left: 0, top: -10 } });			
+			return false; 			
+		});
+		$('#a-cancel-crop').click(function(e) 
+		{ 
+			e.preventDefault();			
+			aCrop.resetCrop(); 
+			$.scrollTo('.a-media-library', 800, { offset: { left: 0, top: -10 } });
+			return false; 
+		});
 		return false;
   },
   
@@ -128,13 +143,28 @@ window.aCrop = {
       imageInfo.cropTop = Math.floor((imageInfo.height - imageInfo.cropHeight) / 2);
     }
     
-		if ((imageInfo.cropLeft === 0) && (imageInfo.cropTop === 0) && (imageInfo.cropWidth === imageInfo.width) && (imageInfo.cropHeight = imageInfo.height))
+		if ((imageInfo.cropLeft === 0) && (imageInfo.cropTop === 0) && (imageInfo.cropWidth === imageInfo.width) && (imageInfo.cropHeight === imageInfo.height))
 		{
+			// We want a 10-pixel inset to make the cropper more obvious, but
+			// not if it kills the required aspect ratio or makes the image too small
+			// on either axis
+			var left = 10;
+			var top = 10;
+			if (aCrop.options.aspectRatio)
+			{
+				left = 10 * aCrop.options.aspectRatio;
+				top = 10 / aCrop.options.aspectRatio;
+			}
+			if ((imageInfo.width - left * 2 < aCrop.options.minimumSize[0]) || (imageInfo.height - top * 2 < aCrop.options.minimumSize[1]))
+			{
+				left = 0;
+				top = 0;
+			}
 			var coords = [ 
-				10,
-				10,
-				imageInfo.width - 10,
-				imageInfo.height - 10
+				left,
+				top,
+				imageInfo.width - left,
+				imageInfo.height - top
 			];
 		}
 		else

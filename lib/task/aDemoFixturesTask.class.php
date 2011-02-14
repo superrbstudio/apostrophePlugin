@@ -108,13 +108,20 @@ EOF;
     {
       echo("Content loaded.\n");
     }
+    system('./symfony apostrophe:rebuild-search-index', $result);
+    if ($result != 0)
+    {
+      throw new sfException('Problem executing apostrophe:rebuild-search-index task.');
+    }
+    
   }
   
   protected function unzip($dir, $file, $options)
   {
     // Does a nice job of leaving .svn and .cvs alone
     sfToolkit::clearDirectory($dir);
-    $zipOptions = '';
+    // Overwrite existing files. Without this it'll fail when used to regularly refresh a demo
+    $zipOptions = '-o ';
     if (!$options['verbose'])
     {
       $zipOptions .= '-q ';

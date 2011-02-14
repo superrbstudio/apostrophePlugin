@@ -31,8 +31,8 @@
 
 .a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: relative; }
 
-.a-area.editing-now,
-.a-slot.editing-now { z-index: 900; }
+.a-area.a-editing,
+.a-slot.a-editing { z-index: 900; }
 
 .logged-in .a-slot { min-height: 20px; }
 
@@ -64,14 +64,14 @@ list-style: none;
 .a-slot > .a-ui.a-controls { width: 100%; }
 
 .a-slot.a-new-slot > .a-ui.a-controls,
-.a-slot.editing-now > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
+.a-slot.a-editing > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
 
 
 /* Singlton Slot Controls
 ------------------------------------------------ */
 .a-area.singleton > .a-controls { position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important; } /* Singletons place the controls over the slot */
 
-.a-area.singleton.editing-now > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
+.a-area.singleton.a-editing > .a-ui.a-controls { z-index: 899; } /* Controls sit on top when editing a slot */
 
 .a-area.singleton .a-slot-controls { display: none; } /* There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load */
 
@@ -307,23 +307,32 @@ margin-bottom: 10px;
 .a-slot.aFeed .a-feed .a-feed-item .description { font-size: 11px; line-height: 1.4; }
 
 
+/* aFile Slot Styles
+------------------------------------- */
+.a-slot.aFile .a-file-slot { position: relative; overflow: hidden; width: 100%; }
+.a-slot.aFile .a-file-slot .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
+.a-slot.aFile .a-file-slot .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
+.a-slot.aFile .a-file-slot .a-file-meta li {list-style:none;}
+.a-slot.aFile .a-file-slot .a-file-title { width: 100%; font-size: 16px; }
+.a-slot.aFile .a-file-slot .a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
+.a-slot.aFile .a-file-slot .a-file-download { margin-left: -3px; }
+.a-slot.aFile .a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+
+
 /* aPDF Slot Styles
 ------------------------------------- */
-.a-file-slot { position: relative; overflow: hidden; width: 100%; }
+.a-slot.aPDF { margin:20px 0px; }
+.a-slot.aPDF .a-pdf-slot { position: relative; overflow: hidden; width: 100%; }
+.a-slot.aPDF .a-pdf-slot .a-pdf-meta { position:relative; margin:5px 0; }
+.a-slot.aPDF .a-pdf-title { width:100%; font-size: 16px; }
+.a-slot.aPDF .a-pdf-description { margin-top:0px; color:#666; width:100%; margin:5px 0; }
+.a-slot.aPDF .a-pdf-download { margin-left:-3px; }
+.a-slot.aPDF .a-pdf-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left:20px; }
 
-.a-file-slot .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
-
-.a-file-slot .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
-
-.a-file-slot .a-file-meta li {list-style:none;}
-
-.a-file-slot .a-file-title { width: 100%; font-size: 16px; }
-
-.a-file-slot .a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
-
-.a-file-slot .a-file-download { margin-left: -3px; }
-
-.a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+.a-slot.aPDF .a-pdf-slot.no-label { height: auto !important; height: 43px; }
+.a-slot.aPDF .a-pdf-slot.no-label .a-media-pdf-icon { position:absolute; height:43px; width:34px; margin-top:5px; top:0; left:0; z-index:10; }
+.a-slot.aPDF .a-pdf-slot.no-label .a-media-pdf-icon a { float:left; background: url(../images/a-pdf-icon-tiny.png) no-repeat top left; height:100%; width:100%; overflow:hidden; text-indent: -9999px; }
+.a-slot.aPDF .a-pdf-slot.no-label .a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
 
 
 /* aSlot Content Styles 
@@ -480,17 +489,17 @@ margin: 10px 0;
 }
 
 
-.a-ui .a-audio-player-interface.a-loading * { visibility: hidden; }
+.a-ui.a-audio-player-container .a-audio-player-interface.a-loading * { visibility: hidden; }
 
-.a-ui .a-audio-player-interface.a-loading .a-audio-loading { visibility: visible; display: block; padding:  0 0 0 20px; background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 0 50% no-repeat; line-height: 20px; height: 20px;}
-.a-ui .a-audio-player-interface .a-audio-loading { display: none; position: absolute; top: 50%; margin-top: -10px; left: 10px; color: #fff;}
+.a-ui.a-audio-player-container .a-audio-player-interface.a-loading .a-audio-loading { visibility: visible; display: block; padding:  0 0 0 20px; background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 0 50% no-repeat; line-height: 20px; height: 20px;}
+.a-ui.a-audio-player-container .a-audio-player-interface .a-audio-loading { display: none; position: absolute; top: 50%; margin-top: -10px; left: 10px; color: #fff;}
 
-.a-ui .a-audio-button
+.a-ui.a-audio-player-container .a-audio-controls .a-audio-button
 {
 float: left;
 width: 30px;
 height: 20px;
-background: #fff;
+background-color: #fff;
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
@@ -498,21 +507,21 @@ text-indent: -9999px;
 cursor: pointer;
 }
 
-.a-ui .a-audio-button:hover { background-color: #ddd; }
+.a-ui.a-audio-player-container .a-audio-button:hover { background-color: #ddd; }
 
-.a-ui .a-audio-play  { background: #fff url(../images/a-icon-alt-play.png) no-repeat 6px 0; }
+.a-ui.a-audio-player-container .a-audio-play  { background: #fff url(../images/a-icon-alt-play.png) no-repeat 6px 0; }
 
-.a-ui .a-audio-pause { background: #fff url(../images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
+.a-ui.a-audio-player-container .a-audio-pause { background: #fff url(../images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
 
-.a-ui .a-audio-controls { float: left; clear: none; }
+.a-ui.a-audio-player-container .a-audio-controls { float: left; clear: none; }
 
-.a-ui .a-audio-volume { float: right; background: #888; width: 72px; }
+.a-ui.a-audio-player-container .a-audio-volume { float: right; background: #888; width: 72px; }
 
-.a-ui .a-audio-playback { position: relative; z-index: 2; width: 100%; background: none; }
+.a-ui.a-audio-player-container .a-audio-playback { position: relative; z-index: 2; width: 100%; background: none; }
 
-.a-ui .a-audio-volume .ui-widget-header { background: url('/apostrophePlugin/images/a-audio-volume.png') 0 50% repeat-x;  }
+.a-ui.a-audio-player-container .a-audio-volume .ui-widget-header { background: url('/apostrophePlugin/images/a-audio-volume.png') 0 50% repeat-x;  }
 
-.a-ui .a-audio-loader
+.a-ui.a-audio-player-container .a-audio-loader
 {
 	height: 16px;
 	-moz-border-radius: 0px;
@@ -527,7 +536,7 @@ cursor: pointer;
 	z-index: 1;
 }
 
-.a-ui .a-audio-loader .ui-progressbar-value
+.a-ui.a-audio-player-container .a-audio-loader .ui-progressbar-value
 {
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;

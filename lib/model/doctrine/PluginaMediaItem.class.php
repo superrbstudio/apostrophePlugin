@@ -215,6 +215,12 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       if ($this->service_url)
       {
         $service = aMediaTools::getEmbedService($this->service_url);
+        if (!$service)
+        {
+          // Most likely explanation: this service was configured, now it's not.
+          // Don't crash
+          return '<div>Video Service Not Available</div>';
+        }
         return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode, $autoplay);
       }
       elseif ($this->embed)
@@ -328,14 +334,26 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     
     if ($aspectRatio = aMediaTools::getAspectRatio()) // this returns 0 if aspect-width and aspect-height were not set
     {
-      $selectedConstraints = array_merge(
-        $selectedConstraints, 
-        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
-      );
+			// Allow for either the width or the height to be flex
+			if (isset($selectedConstraints['height']) && ($selectedConstraints['height'] !== false))
+			{
+	      $selectedConstraints = array_merge(
+	        $selectedConstraints, 
+	        array('width' => floor($selectedConstraints['height'] * $aspectRatio))
+	      );
+			}
+			else
+			{
+	      $selectedConstraints = array_merge(
+	        $selectedConstraints, 
+	        array('height' => floor($selectedConstraints['width'] / $aspectRatio))
+	      );
+			}
     }
     
     
     $imageInfo = aMediaTools::getAttribute('imageInfo');
+
     if (isset($imageInfo[$this->id]['cropLeft']) &&
         isset($imageInfo[$this->id]['cropTop']) && isset($imageInfo[$this->id]['cropWidth']) && isset($imageInfo[$this->id]['cropHeight']))
     {
@@ -349,7 +367,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         )
       );
     }
-      
+    
     return $this->getScaledUrl($selectedConstraints);
   }
   

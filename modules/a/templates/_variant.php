@@ -4,6 +4,7 @@
   $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
+  $sf_user = isset($sf_user) ? $sf_data->getRaw('sf_user') : null;
 ?>
 
 <?php use_helper('a') ?>
@@ -16,6 +17,7 @@
   <li class="a-ui variant" style="<?php echo $slot->isNew() ? "display:none" : "" ?>" id="a-<?php echo "$pageid-$name-$permid-variant" ?>">
 		<a href="#" onclick="return false;" class="a-variant-options-toggle a-btn icon no-label a-settings" id="a-<?php echo $pageid ?>-<?php echo $name ?>-<?php echo $permid ?>-variant-options-toggle"><span class="icon"></span><?php echo __('Options', null, 'apostrophe') ?></a>
     <ul class="a-options a-variant-options dropshadow">
+			<li class="a-options-heading"><h4>Options</h4></li>
       <?php foreach ($variants as $variant => $settings): ?>
         <?php // These classes and ids are carefully set up so that _ajaxUpdateSlot can ?>
         <?php // target them later to change the active variant without rewriting the ?>

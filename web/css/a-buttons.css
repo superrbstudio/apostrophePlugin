@@ -1,7 +1,7 @@
 /* Apostrophe Buttons
 -------------------------------------*/
-.a-ui .a-btn, .a-btn,
-.a-ui .a-link, .a-link {
+.a-ui .a-btn, .a-ui.a-btn, .a-ui .a-ui.a-btn, .a-btn,
+.a-ui .a-link, .a-ui.a-link, .a-ui .a-ui.a-link, .a-link {
 position: relative;
 float: left;
 display: inline;
@@ -17,8 +17,18 @@ border: none;
 }
 
 .a-ui .a-btn.icon,
-.a-ui .a-link.icon { padding: 0 4px 0 20px; }
+.a-ui .a-link.icon,
+.a-ui.a-btn.icon,
+.a-ui.a-link.icon { padding: 0 4px 0 20px; }
 
+.a-ui .a-btn.icon.icon-right,
+.a-ui .a-link.icon.icon-right,
+.a-ui.a-btn.icon.icon-right,
+.a-ui.a-link.icon.icon-right { padding: 0 20px 0 4px; }
+
+.a-ui.a-btn.icon > .icon,
+.a-ui.a-link.icon > .icon,
+.a-ui.a-tag > .a-tag-count,
 .a-ui .a-btn.icon > .icon,
 .a-ui .a-link.icon > .icon,
 .a-ui .a-tag > .a-tag-count
@@ -34,6 +44,15 @@ margin-top: -9px;
 background-position: 50% 50%;
 background-repeat: no-repeat;
 overflow: hidden; text-indent: -9999px;
+}
+
+.a-ui.a-btn.icon.icon-right > .icon,
+.a-ui.a-link.icon.icon-right > .icon,
+.a-ui .a-btn.icon.icon-right > .icon,
+.a-ui .a-link.icon.icon-right > .icon
+{
+	left: auto;
+	right: 0;
 }
 
 .a-ui .a-tag > .a-tag-count { text-indent: 0; text-align: center;}
@@ -69,8 +88,10 @@ input.a-btn.a-submit.big { height: 26px; } /* inputs need 2px more for some reas
 
 .a-btn.nobg,
 .a-btn.nobg:hover,
+.a-btn.nobg:focus,
 .a-btn.no-bg,
-.a-btn.no-bg:hover {
+.a-btn.no-bg:hover,
+.a-btn.no-bg:focus {
 border: 0 !important;
 text-shadow: none !important;
 background: none !important;
@@ -90,8 +111,8 @@ height: 20px !important;
 .a-add > .icon { background-image: url(../images/a-icon-add.png); }
 .a-arrow-up > .icon { background-image: url(../images/a-icon-arrow-up.png); }
 .a-arrow-down > .icon { background-image: url(../images/a-icon-arrow-down.png); }
-.a-arrow-left > .icon { background-image: url(../images/a-icon-arrow-left-solid-simple.png); }
-.a-arrow-right > .icon { background-image: url(../images/a-icon-arrow-right-solid-simple.png); }
+.a-arrow-left > .icon { background-image: url(../images/a-icon-arrow-left-simple.png); }
+.a-arrow-right > .icon { background-image: url(../images/a-icon-arrow-right-simple.png); }
 .a-blog > .icon,
 .a-blog-btn > .icon,
 .a-blogpost > .icon,
@@ -107,8 +128,10 @@ height: 20px !important;
 .a-dropdown-arrow > .icon { background-image: url(../images/a-icon-dropdown-arrow.png); }
 .a-drag > .icon { background-image: url(../images/a-icon-drag-simple.png); }
 .a-edit > .icon, .a-publish > .icon { background-image: url(../images/a-icon-edit.png); }
+.a-email > .icon { background-image: url(../images/a-icon-email.png); }
 .a-feed > .icon { background-image: url(../images/a-icon-feed.png); }
 .a-rss-feed > .icon { background-image: url(../images/a-icon-rss-feed.png); }
+.a-filters > .icon { background-image: url(../images/a-icon-filters.png); }
 .a-file > .icon { background-image: url(../images/a-icon-file.png); }
 .a-google-maps > .icon { background-image: url(../images/a-icon-download.png); }
 .a-image > .icon { background-image: url(../images/a-icon-photo.png); }
@@ -143,8 +166,8 @@ height: 20px !important;
 .alt .a-add > .icon, .a-add.alt > .icon { background-image: url(../images/a-icon-alt-add.png); }
 .alt .a-arrow-up > .icon, .a-arrow-up.alt > .icon { background-image: url(../images/a-icon-alt-arrow-up.png); }
 .alt .a-arrow-down > .icon, .a-arrow-down.alt > .icon { background-image: url(../images/a-icon-alt-arrow-down.png); }
-.alt .a-arrow-left > .icon,  .a-arrow-left.alt > .icon { background-image: url(../images/a-icon-alt-arrow-left.png); }
-.alt .a-arrow-right > .icon, .a-arrow-right.alt > .icon { background-image: url(../images/a-icon-alt-arrow-right.png); }
+.alt .a-arrow-left > .icon,  .a-arrow-left.alt > .icon { background-image: url(../images/a-icon-alt-arrow-left-simple.png); }
+.alt .a-arrow-right > .icon, .a-arrow-right.alt > .icon { background-image: url(../images/a-icon-alt-arrow-right-simple.png); }
 .alt .a-arrow-left.thin > .icon, .a-arrow-left.thin.alt > .icon { background-image: url(../images/a-icon-alt-arrow-left-thin-simple.png); }
 .alt .a-arrow-right.thin > .icon, .a-arrow-right.thin.alt > .icon { background-image: url(../images/a-icon-alt-arrow-right-thin.png); }
 .alt .a-blog-btn .icon,
@@ -166,6 +189,7 @@ height: 20px !important;
 .alt .a-drag > .icon, .a-drag.alt > .icon { background-image: url(../images/a-icon-alt-drag-simple.png); }
 .alt .a-edit .icon,
 .a-edit.alt .icon { background-image: url(../images/a-icon-alt-edit.png); }
+.alt .a-email > .icon, .a-email.alt > .icon { background-image: url(../images/a-icon-alt-email.png); }
 .alt .a-feed > .icon, .a-feed.alt > .icon { background-image: url(../images/a-icon-alt-feed.png); }
 .alt .a-file > .icon, .a-file.alt > .icon { background-image: url(../images/a-icon-alt-file.png); }
 .alt .a-google-maps > .icon, .a-google-maps.alt > .icon { background-image: url(../images/a-icon-alt-download.png); }
@@ -278,24 +302,12 @@ height: 20px !important;
 /* Apostrophe Delete Button
 -------------------------------------*/
 
+.a-ui.a-btn.a-delete.no-label,
 .a-ui .a-btn.a-delete.no-label { background-color: #fff; color: #000; }
 
 
 /* Apostrophe Close Button
 -------------------------------------*/
-
-.a-btn.a-close,
-.a-btn.a-close-small
-{
-background: transparent no-repeat scroll 0 0;
-float: left;
-overflow: hidden;
-height: 20px;
-line-height: 20px;
-padding: 0;
-text-indent: -9999px;
-width: 20px;
-}
 
 .a-close > .icon { background-image: url(../images/a-icon-close-simple.png); }
 .a-selected > .icon,
@@ -331,11 +343,11 @@ width: 20px;
 .a-arrow-left.no-label,
 .a-arrow-right.no-label { text-indent: -9999px; padding: 0; width: 20px; height: 20px; background-position: 50% 50%; }
 
-.a-arrow-btn.a-arrow-left { background-image: url(../images/a-icon-arrow-left-solid-simple.png); }
-.a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-solid-simple.png); }
+.a-arrow-btn.a-arrow-left { background-image: url(../images/a-icon-arrow-left-simple.png); }
+.a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-simple.png); }
 
-.alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(../images/a-icon-arrow-left-solid-simple-alt.png); }
-.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-arrow-right-solid-simple-alt.png); }
+.alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(../images/a-icon-alt-arrow-left-simple.png); }
+.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-alt-arrow-right-simple.png); }
 
 .a-arrow-btn.a-arrow-left:hover,
 .a-arrow-btn.a-arrow-right:hover { opacity: 0.5; }
@@ -413,5 +425,5 @@ border: 1px inset rgba(0,0,0,0.20);
 .a-ui .a-popular.a-tag .a-link { padding: 1px 18px 1px 0; }
 .a-ui .a-link.icon > .icon { left: auto; right: 0; }
 
-.a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }
-.a-ui .a-tag > .a-tag-count { left: auto; right: 0; line-height: 18px; opacity: 0.65;}
+/*.a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }*/
+.a-ui .a-tag > .a-tag-count { left: 100%; line-height: 18px; opacity: 0.65; width: auto; padding: 0 4px;}

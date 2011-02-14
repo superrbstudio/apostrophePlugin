@@ -33,14 +33,16 @@
 		    <form action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" method="get">
 		  		<div class="a-form-row"> <?php // div is for page validation ?>
 		  			<label for="a-search-media-field" style="display:none;">Search</label><?php // label for accessibility ?>
-		  			<input type="text" name="search" value="<?php echo htmlspecialchars($sf_params->get('search', ESC_RAW)) ?>" class="a-search-field" id="a-search-media-field"/>
+		  			<?php // Second parameter as escaping method is hopelessly broken when escaping is turned off, ?>
+		  			<?php // we're stuck relying on the double escape guard in htmlspecialchars ?>
+		  			<input type="text" name="search" value="<?php echo htmlspecialchars($sf_params->get('search')) ?>" class="a-search-field" id="a-search-media-field"/>
 		  			<input type="image" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 		  		</div>
 		    </form>
 		  </div>
 		</div>				
 
-    <?php if (!aMediaTools::getType()): ?>
+    <?php if ((!aMediaTools::getType()) || (substr(aMediaTools::getType(), 0, 1) === '_')): ?>
 			<hr class="a-hr" />
 			<div class='a-subnav-section types'>
 		  	<h4><?php echo a_('Browse by') ?></h4>
@@ -48,6 +50,13 @@
 					<?php $type = isset($type) ? $type : '' ?>
 			    <?php $typesInfo = aMediaTools::getOption('types') ?>
 					<?php foreach ($typesInfo as $typeName => $typeInfo): ?>
+					  <?php // If a metatype such as _downloadable or _embeddable is in force show only types that support it ?>
+					  <?php $metatype = aMediaTools::getMetatype() ?>
+					  <?php if ($metatype): ?>
+					    <?php if (!a_get_option($typeInfo, substr($metatype, 1), false)): ?>
+					      <?php continue ?>
+					    <?php endif ?>
+					  <?php endif ?>
 	  				<div class="a-filter-option">
 							<?php $selected_type = ($typeName == $type) ? $selected : array() ?>
 	  					<?php echo a_button(a_($typeInfo['label']), url_for(aUrl::addParams($current, array('type' => ($typeName == $type) ? '' : $typeName))), array_merge(array('a-link'),$selected_type)) ?>

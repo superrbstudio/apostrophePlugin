@@ -177,7 +177,7 @@ function a_get_stylesheets()
         $lessc->importDir = dirname($path).'/';
         file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
       }
-      $newStylesheets['/uploads/asset-cache/' . $name] = $options;
+      $newStylesheets[sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $name] = $options;
     }
     else
     {
@@ -384,12 +384,12 @@ function _a_get_assets_body($type, $assets)
     // Use stylesheet_path and javascript_path so we can respect relative_root_dir
     if ($type === 'stylesheets')
     {
-      $options['href'] = stylesheet_path('/uploads/asset-cache/' . $groupFilename);
+      $options['href'] = stylesheet_path(sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $groupFilename);
       $html .= tag('link', $options);
     }
     else
     {
-      $options['src'] = javascript_path('/uploads/asset-cache/' . $groupFilename);
+      $options['src'] = javascript_path(sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $groupFilename);
       $html .= content_tag('script', '', $options); 
     }
   }

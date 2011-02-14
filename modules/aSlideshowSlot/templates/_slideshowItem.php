@@ -7,7 +7,7 @@
 ?>
 <?php use_helper('a') ?>
 <ul>
-  <?php $height = $options['height'] ? ('height:' . $options['height'] . 'px;') : '' ?>
+  <?php $height = ($options['height']) ? 'height:' . $options['height'] . 'px;' : '' ?>
   <li class="a-slideshow-image" style="<?php echo $height ?><?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
   <?php if ($options['title']): ?>
     <li class="a-slideshow-meta a-slideshow-title"><?php echo $item->title ?></li>

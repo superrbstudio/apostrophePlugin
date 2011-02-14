@@ -13,7 +13,7 @@ class aTagForm extends TagForm
     $this->useFields(array('name'));
   }
   
-  public function updateObject($values)
+  public function updateObject($values = null)
   {
     if (is_null($values))
     {

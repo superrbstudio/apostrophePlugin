@@ -12,7 +12,9 @@
 <?php $embeddable = $mediaItem->getEmbeddable() ?>
 <?php isset($autoplay) ? $autoplay : $autoplay = false ?>
 <?php if ($selecting): ?>
-	<?php if (aMediaTools::isMultiple() || ($mediaItem->getType() === 'image')): ?>
+  <?php // When we are selecting downloadables *in general*, we don't want cropping etc., just simple selection ?>
+  <?php // When we are selecting single images *specifically*, we do force the cropping UI. ?>
+	<?php if (aMediaTools::isMultiple() || (($mediaItem->getType() === 'image') && (aMediaTools::getType() !== '_downloadable'))): ?>
     <?php $linkHref = "#select-media-item"; ?>
     <?php $multipleStyleSelect = true ?>
   <?php else: ?>
@@ -91,7 +93,6 @@
 		<?php include_partial('aAudioSlot/'.$playerOptions['player'].'Player', array('item' => $mediaItem, 'uniqueID' => $mediaItem->getId(), 'options' => $playerOptions)) ?>			
 	<?php endif ?>
 	
-
 	<div class="a-media-item-information">
 		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
 	</div>

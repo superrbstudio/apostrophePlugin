@@ -28,6 +28,10 @@ abstract class PluginaPage extends BaseaPage
     $this->childrenCacheSlot = null;
     $this->ancestorsCache = false;
     $this->parentCache = false;
+    $this->ancestorsInfo = null;
+    $this->peerInfo = null;
+    $this->childrenInfo = null;
+    $this->tabsInfo = null;
     return parent::hydrate($data, $overwriteLocalChanges);
   }
 
@@ -224,6 +228,11 @@ abstract class PluginaPage extends BaseaPage
 	    return $text;			
 		}
   }
+
+	public function getRichTextForArea($areaname, $word_limit = false)
+	{
+		$this->getAreaBasicHtml($areaname, $word_limit);
+	}
 
   public function getNextPermidAndRank($name, $first = false)
   {
@@ -485,30 +494,75 @@ abstract class PluginaPage extends BaseaPage
   // no children there will not be a 'children' key (you may test isset($info['children'])).
   
   // To generate a URL for a page use: aTools::urlForPage($info['slug'])
-    
-  public function getAncestorsInfo($includeSelf = false, $livingOnly = false)
-  {
-    return aPageTable::getAncestorsInfo(array('info' => $this->getInfo(), 'includeSelf' => $includeSelf, 'livingOnly' => $livingOnly));
-  }
+  
+  protected $ancestorsInfo;
 
   // Careful, the cache must hold the entire path including the item itself, we lop off the last element
 	// before returning in those cases where it is not wanted. Note that $livingOnly does NOT change the 'level'
 	// field for each returned ancestor
-
-  protected $ancestorsInfo = array();
+  public function getAncestorsInfo($includeSelf = false, $livingOnly = false)
+  {
+    // We cache the results of one simple query that gets the whole lineage, and permute that a little
+    // for the includeSelf and livingOnly cases
+    if (!isset($this->ancestorsInfo))
+    {
+      $id = $this->id;
+      // Since our presence on an admin page implies we know about it, it's OK to include
+      // admin pages in the breadcrumb. It's not OK in other navigation
+      $this->ancestorsInfo = $this->getPagesInfo(false, "( p.lft <= " . $this->lft . " AND p.rgt >= " . $this->rgt . ' )', true);
+    }
+		$ancestorsInfo = $this->ancestorsInfo;
+		if (!$includeSelf)
+		{
+			$ancestorsInfo = $this->ancestorsInfo;
+			array_pop($ancestorsInfo);
+		}
+		if ($livingOnly)
+		{
+		  $newAncestorsInfo = array();
+		  foreach ($ancestorsInfo as $ancestor)
+		  {
+		    if (!$ancestor['archived'])
+		    {
+		      $newAncestorsInfo[] = $ancestor;
+		    }
+		  }
+		  $ancestorsInfo = $newAncestorsInfo;
+		}
+		return $ancestorsInfo;
+  }
 
   public function getParentInfo()
   {
-    return aPageTable::getParentInfo(array('info' => $this->getInfo()));
+    $info = $this->getAncestorsInfo();
+    if (count($info))
+    {
+      return $info[count($info) - 1];
+    }
+    return false;
   }
 
   protected $peerInfo;
   
-  // The $livingOnly flag is present for bc only and is ignored, we get what the current user can see
-  
   public function getPeerInfo($livingOnly = true)
   {
-    return aPageTable::getPeerInfo(array('info' => $this->getInfo(), 'livingOnly' => $livingOnly));
+    if (!isset($this->peersInfo))
+    {
+      $parentInfo = $this->getParentInfo();
+      if (!$parentInfo)
+      {
+        // It's the home page. Return a stub: the home page is its only peer
+        $this->peerInfo = array($this->getInfo());
+      }
+      else
+      {
+        $lft = $parentInfo['lft'];
+        $rgt = $parentInfo['rgt'];
+        $level = $parentInfo['level'] + 1;
+        $this->peerInfo = $this->getPagesInfo($livingOnly, '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))');        
+      }       
+    }   
+    return $this->peerInfo;
   }
 
   // Sometimes it is useful to have an info structure describing a page object
@@ -524,17 +578,29 @@ abstract class PluginaPage extends BaseaPage
   
   public function getChildrenInfo($livingOnly = true)
   {
-    return aPageTable::getChildrenInfo(array('info' => $this->getInfo(), 'livingOnly' => $livingOnly));
+    if (!isset($this->childrenInfo))
+    {
+      $lft = $this->lft;
+      $rgt = $this->rgt;
+      $level = $this->level + 1;
+      $this->childrenInfo = $this->getPagesInfo($livingOnly, '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))');
+    }
+    return $this->childrenInfo;
   }
 
-  // TODO: migrate getTreeInfo and getAccordionInfo more fully to the table class level, with options arrays.
-  // Then work on killing the old parameters to these methods in favor of an options array at this level too. 
-  // I would like to do this for 1.5 but we've addressed the most important use case at this point
-  // (users should only see links they have the privileges to visit), so it will have to wait for 1.6
-    
-  // If $depth is null we get all of the descendants
-  // The $livingOnly flag is present for bc only and is ignored, we get what the current user can see
+  protected $tabsInfo;
   
+  public function getTabsInfo($livingOnly = true)
+  {
+    if (!isset($this->tabsInfo))
+    {
+      $id = $this->id;
+      $this->tabsInfo = $this->getPagesInfo($livingOnly, '(level = 1)');
+    }
+    return $this->tabsInfo;
+  }
+  
+  // If $depth is null we get all of the descendants
   public function getTreeInfo($livingOnly = true, $depth = null)
   {
     // Recursively builds a page tree. If a page has children, the info array for that
@@ -608,8 +674,6 @@ abstract class PluginaPage extends BaseaPage
   // the current page's ancestors, the current page and its siblings, and the immediate
   // children of the current page are returned. For a full tree use getTreeInfo().
   
-  // The livingOnly flag is present for bc only and is ignored, we get what the current user can see
-  
   public function getAccordionInfo($livingOnly = true, $depth = null, $root = '/')
   {
     // As far as I can tell there is no super-elegant, single-query way to do this
@@ -620,18 +684,13 @@ abstract class PluginaPage extends BaseaPage
     // If you have enabled children of archived ancestors and you don't
     // want the ancestors to show up, you probably shouldn't be using
     // an accordion contro. in the first place
-
-		// We need all of the ancestors to build an accordion successfully, in particular
-		// since we often want a hidden parent to be the root. Give more thought to whether 
-		// we can do this just for the root
-    $ancestors = aPageTable::getAncestorsInfo(array('info' => $this->getInfo(), 'ignore_permissions' => true));
+    $ancestors = $this->getAncestorsInfo();
     // Dump ancestors we don't care about
     $found = false;
     for ($i = 0; ($i < count($ancestors)); $i++)
     {
       if ($ancestors[$i]['slug'] === $root)
       {
-				$rootLevel = $ancestors[$i]['level'];
         $ancestors = array_slice($ancestors, $i);
         $found = true;
         break;
@@ -639,27 +698,18 @@ abstract class PluginaPage extends BaseaPage
     }
     if (!$found)
     {
-			// Active page is not a descendant of the root. Just return the children of the root.
-			// This makes the accordion more useful when you are not yet under its root
-			// I don't have a handy way to do this without cache issues in the table class yet so...
-			// This is not a proper info structure but it will work for this job
-			$rootInfo = Doctrine::getTable('aPage')->createQuery('p')->where('slug = ?', array($root))->execute(array(), Doctrine::HYDRATE_ARRAY);
-			if (!count($rootInfo))
-			{
-				throw new sfException("Root page of accordion does not exist!");
-			}
-			$rootInfo = $rootInfo[0];
-			return aPageTable::getChildrenInfo(array('info' => $rootInfo));
+      throw new sfException("Root slug $root never found among ancestors in getAccordionInfo");
     }
     $result = array();
+    // Ancestor levels
     foreach ($ancestors as $ancestor)
     {
-      if (($ancestor['level'] > $rootLevel) && $livingOnly && ($ancestor['archived']))
+      if ($livingOnly && ($ancestor['archived']))
       {
         continue;
       }
       $lineage[] = $ancestor['id'];
-      if ($ancestor['level'] == $rootLevel)
+      if ($ancestor['level'] == 0)
       {
         $result[] = array($ancestor);
       }
@@ -667,8 +717,7 @@ abstract class PluginaPage extends BaseaPage
       {
         // TODO: this is inefficient, come up with a way to call getPeerInfo for an
         // alternate ID without fetching that entire page
-        $peers = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
-        $result[] = $peers;
+        $result[] = aPageTable::retrieveBySlug($ancestor['slug'])->getPeerInfo($livingOnly);
       }
     }
     // Current page peers level
@@ -779,7 +828,6 @@ abstract class PluginaPage extends BaseaPage
   
   // Low level access to all info for all descendants. You probably don't want this. For an interface that
   // gives you back a hierarchy see getTreeInfo. 
-  // The $livingOnly option is present for bc only and is ignored (we look at what the current user can see)
   protected function getDescendantsInfo($livingOnly = true, $depth = null)
   {
     $where = '( p.lft > ' . $this->lft . ' AND p.rgt < ' . $this->rgt . ' )';
@@ -791,15 +839,13 @@ abstract class PluginaPage extends BaseaPage
   }
   
   // This is the low level query method used to implement the above. You won't call this directly
-  // unless you're implementing a new type of query for related pages. 
-  // The $livingOnly option is present for bc only and is ignored (we look at what the current user can see)
+  // unless you're implementing a new type of query for related pages
   
   protected function getPagesInfo($livingOnly = true, $where, $admin = false)
   {
-    return aPageTable::getPagesInfo(array('culture' => $this->getCulture(), 'where' => $where, 'admin' => $admin));
+    return aPageTable::getPagesInfo(array('culture' => $this->getCulture(), 'livingOnly' => $livingOnly, 'where' => $where, 'admin' => $admin));
   }
-
-  // The $livingOnly option is present for bc only and is ignored (we look at what the current user can see)
+ 
   public function hasChildren($livingOnly = true)
   {
     // not as inefficient as it looks because of the caching feature

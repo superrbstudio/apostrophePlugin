@@ -10,6 +10,7 @@ class aEngineCategoriesForm extends aPageForm
     parent::setup();
 
     $this->useFields(array('categories_list'));
+    $this->getWidget('categories_list')->setOption('query', Doctrine::getTable('aCategory')->createQuery()->orderBy('aCategory.name asc'));
     if (sfContext::getInstance()->getUser()->hasCredential('admin'))
     {
       // If we make this a "hidden" field renderHiddenFields will output it, 
@@ -20,7 +21,7 @@ class aEngineCategoriesForm extends aPageForm
       $this->setValidator('categories_list_add',
         new sfValidatorPass(array('required' => false)));
     }
-    $this->widgetSchema->setLabel('categories_list', 'Content Categories');
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
     $this->widgetSchema->setHelp('categories_list','(Defaults to All Cateogories)');
     $this->getValidator('categories_list')->setOption('required', false);
     $this->widgetSchema->setNameFormat('enginesettings[%s]');
@@ -38,7 +39,6 @@ class aEngineCategoriesForm extends aPageForm
     }
     foreach ($addValues as $value)
     {
-      error_log("Adding value $value");
       $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
       if ($existing)
       {

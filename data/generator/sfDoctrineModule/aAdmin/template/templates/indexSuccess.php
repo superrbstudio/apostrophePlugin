@@ -8,7 +8,7 @@
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]   
   </ul>
 	<?php if ($this->configuration->hasFilterForm()): ?>
-		[?php echo a_js_button(a_('Filters'), array('icon','a-filters','lite','a-align-right'), 'a-admin-filters-open-button') ?]
+		[?php echo a_js_button(a_('Filters'), array('icon','a-filters','lite','a-align-right','mini','lite'), 'a-admin-filters-open-button') ?]
 	<?php endif ?>
 </div>
 [?php end_slot() ?]

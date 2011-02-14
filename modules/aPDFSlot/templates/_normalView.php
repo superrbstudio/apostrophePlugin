@@ -63,7 +63,6 @@
 
 			<?php else: ?>
 
-
 				<?php echo link_to(__('Download PDF', null, 'apostrophe'), "aMediaBackend/original?" .
 								http_build_query(
 								array(
