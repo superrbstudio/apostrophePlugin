@@ -426,7 +426,12 @@ class BaseaMediaActions extends aEngineActions
         return $this->redirect($after);
       } else
       {
-        $this->forward404();
+        // Our image UI lets you trash your single selection. Which makes sense.
+        // So implement a way of passing that back. It's up to the
+        // receiving action to actually respect it of course
+        $after = aUrl::addParams($after,
+            array("aMediaUnset" => 1));
+        return $this->redirect($after);
       }
     } else
     {
