@@ -109,7 +109,6 @@
 	<div class='a-footer-wrapper clearfix'>
 		<div class='a-footer clearfix'>
   	  <?php include_partial('a/footer') ?>
-
 		</div>
 	</div>
 	

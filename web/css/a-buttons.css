@@ -347,7 +347,7 @@ height: 20px !important;
 .a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-solid-simple.png); }
 
 .alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(../images/a-icon-arrow-left-solid-simple-alt.png); }
-.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-arrow-rightsv-solid-simple-alt.png); }
+.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-arrow-right-solid-simple-alt.png); }
 
 .a-arrow-btn.a-arrow-left:hover,
 .a-arrow-btn.a-arrow-right:hover { opacity: 0.5; }
