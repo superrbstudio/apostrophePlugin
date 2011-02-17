@@ -16,6 +16,11 @@
 	$editVideoSuccess = isset($editVideoSuccess) ? $sf_data->getRaw('editVideoSuccess') : null;
 ?>
 
+<?php // Oops: with embedded forms you are not allowed to unset widgets. Didn't bite us in the ?>
+<?php // one-file case. Lovely. Work around it by using flags instead ?>
+<?php $fileShown = false ?>
+<?php $embedShown = false ?>
+
 <?php if (!isset($form['file'])): ?>
   <?php $withPreview = false ?>
 <?php endif ?>
@@ -107,22 +112,22 @@
 
   <?php // * If there is an embed widget with an error put it on top ?>
   <?php // * If there is no value for the embed widget yet, put it on top ?>
-  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+  <?php // * Then mark it shown so it doesn't get displayed later in the form. ?>
 
-  <?php if (isset($form['embed']) && ($form['embed']->hasError() || (!$form['file']->getValue()))): ?>
+  <?php if ((!$embedShown) && isset($form['embed']) && ($form['embed']->hasError() || (!$form['file']->getValue()))): ?>
   	<div class="a-form-row embed a-ui">
       <?php echo $form['embed']->renderLabel() ?>
       <?php echo $form['embed']->renderError() ?>
       <?php echo $form['embed']->render() ?>
   	</div>
-  	<?php unset($form['embed']) ?>
+  	<?php $embedShown = true ?>
   <?php endif ?>
 
   <?php // * If there is a file widget with an error put it on top ?>
   <?php // * If there is an embedded media form with no thumbnail yet, put it on top ?>
-  <?php // * Then unset it so it doesn't get displayed later in the form. ?>
+  <?php // * Then mark it shown so it doesn't get displayed later in the form. ?>
 
-  <?php if (isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
+  <?php if ((!$fileShown) && isset($form['file']) && ($form['file']->hasError() || ($form instanceof BaseaMediaVideoForm && (!$form['file']->getValue())))): ?>
   	<div class="a-form-row replace a-ui">
       <?php echo $form['file']->renderLabel() ?>
       <?php echo $form['file']->renderError() ?>
@@ -132,7 +137,7 @@
         <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
       <?php endif ?>
   	</div>
-  	<?php unset($form['file']) ?>
+  	<?php $fileShown = true ?>
   <?php endif ?>
 <?php endif ?>
 
@@ -207,7 +212,7 @@
 
 <?php // Let them replace an existing embed code. ?>
 <?php // TODO: have john wrap the "replace file" button or similar around this so it's not always in your face ?>
-<?php if (isset($form['embed'])): ?>
+<?php if ((!$embedShown) && isset($form['embed'])): ?>
   <div class="a-form-row embed a-ui">
     <?php echo $form['embed']->renderLabel() ?>
     <?php echo $form['embed']->renderError() ?>
@@ -216,7 +221,7 @@
 <?php endif ?>
 
 <?php // Let them replace an existing file. ?>
-<?php if (isset($form['file'])): ?>
+<?php if ((!$fileShown) && isset($form['file'])): ?>
 	<div class="a-form-row replace a-ui">
 		<div class="a-options-container">
 			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $embeddable ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
