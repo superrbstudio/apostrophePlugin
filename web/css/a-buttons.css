@@ -343,11 +343,11 @@ height: 20px !important;
 .a-arrow-left.no-label,
 .a-arrow-right.no-label { text-indent: -9999px; padding: 0; width: 20px; height: 20px; background-position: 50% 50%; }
 
-.a-arrow-btn.a-arrow-left { background-image: url(../images/a-icon-arrow-left-simple.png); }
-.a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-simple.png); }
+.a-arrow-btn.a-arrow-left { background-image: url(../images/a-icon-arrow-left-solid-simple.png); }
+.a-arrow-btn.a-arrow-right { background-image: url(../images/a-icon-arrow-right-solid-simple.png); }
 
-.alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(../images/a-icon-alt-arrow-left-simple.png); }
-.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-alt-arrow-right-simple.png); }
+.alt .a-arrow-btn.a-arrow-left, .a-arrow-btn.a-arrow-left.alt { background-image: url(../images/a-icon-arrow-left-solid-simple-alt.png); }
+.alt .a-arrow-btn.a-arrow-right, .a-arrow-btn.a-arrow-right.alt { background-image: url(../images/a-icon-arrow-right-solid-simple-alt.png); }
 
 .a-arrow-btn.a-arrow-left:hover,
 .a-arrow-btn.a-arrow-right:hover { opacity: 0.5; }
@@ -371,12 +371,6 @@ text-indent: 0;
 
 /* Apostrophe Toggle Button
 -------------------------------------*/
-
-.a-btn.a-toggle-btn
-{
-	-moz-user-select: none;
-	user-select: none;
-}
 
 .a-btn.a-toggle-btn
 {

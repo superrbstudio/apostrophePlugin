@@ -42,5 +42,4 @@
 	  <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
 	</div>
 
-</div>
 <?php include_partial('a/searchAfter', array('q' => $sf_request->getParameter('q', ESC_RAW))) ?>

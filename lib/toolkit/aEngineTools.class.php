@@ -70,4 +70,66 @@ class aEngineTools
       $actions->pageTemplate = ucfirst($actions->originalTemplate);
     }
   }  
+  
+  protected static $engineCategoryCache = array();
+  
+  // Returns the names of all categories currently assigned to 
+  // public engine pages with the specified engine module name.
+  // Useful to find candidate engine pages to direct a link to
+  static public function getEngineCategories($engineName)
+  {
+    if (!isset(self::$engineCategoryCache[$engineName]))
+    {
+      $engines = Doctrine::getTable('aPage')->createQuery()
+        ->leftJoin('aPage.Categories Categories')
+        ->addWhere('engine = ?', $engineName)
+        // Don't match virtual pages
+        ->addWhere('slug LIKE "/%"')
+        ->addWhere('admin != ?', true)
+        ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+      $engineCache = array();
+      foreach($engines as $engine)
+      {
+        $engineCache[$engine['slug']] = array();
+        foreach($engine['Categories'] as $category)
+          $engineCache[$engine['slug']][] = $category['name'];
+      }
+      self::$engineCategoryCache[$engineName] = $engineCache;
+    }    
+    return self::$engineCategoryCache[$engineName];
+  }
+
+  // Determines the public engine page that is most relevant to the
+  // object, based on shared categories, and returns its slug
+  // for use as the engine-slug parameter to the route. Used by
+  // apostropheBlogPlugin and apostrophePeoplePlugin
+  
+  static public function getEngineSlug($object)
+  {
+    $categories = array();
+    foreach($object->Categories as $category)
+    {
+      $categories[] = $category;
+    }
+    // This method is usually a one-line wrapper around aEngineTools::getEngineCategories() that specifies
+    // the right engine name. The engine name and the model class name are often not the same
+    // (example: aPerson versus aPeople)
+    $engines = $object->getTable()->getEngineCategories();
+    $best = array('', -99);
+    foreach($engines as $engineSlug => $engineCategories)
+    {
+      $score = 0;
+      if(count($engines) == 0)
+      {
+        $score = 1;
+      }
+      $score = $score + count(array_intersect($categories, $engineCategories)) * 2 - count(array_diff($categories, $engineCategories));
+      if($score > $best[1])
+      {
+        $best = array($engineSlug, $score);
+      }
+    }
+    return $best[0];
+  }
 }

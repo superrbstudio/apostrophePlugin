@@ -4,6 +4,14 @@
  */
 class PluginaPageTable extends Doctrine_Table
 {
+  // Caches. Note that these are not compatible with functional tests, which don't
+  // provide a good way to clean up and pretend it's a new request at the PHP level
+  
+  static public $ancestorsInfo = array();
+  static public $peersInfo = array();
+  static public $pagesInfo = array();
+  static public $childrenInfo = array();
+  
 	// We always join with all of the current slots for the proper culture in this simplest page-getter method.
 	// Otherwise we wreck the slot cache for slots on the page, etc., can't see titles or see the wrong versions
 	// and cultures of slots. This is inefficient in some situations, but the
@@ -616,6 +624,7 @@ class PluginaPageTable extends Doctrine_Table
         // We don't have this privilege as an individual. How about via a group?
         
         // Get group memberships
+        
         $groupIds = aArray::getIds($user->getGroups());
 
         if (!count($groupIds))
@@ -744,17 +753,196 @@ class PluginaPageTable extends Doctrine_Table
     }
     return $info;
   }
+
+  // Accepts array('info' => [page info array], 'includeSelf' => false, all options accepted by getPagesInfo except 'where')
+   
+  static public function getAncestorsInfo($options)
+  {
+    $id = $options['info']['id'];
+    $includeSelf = isset($options['includeSelf']) ? $options['includeSelf'] : false;
+    // We cache the results of one simple query that gets the whole lineage, and permute that a little
+    // for the includeSelf case
+		$key = serialize($options);
+    if (!isset(aPageTable::$ancestorsInfo[$key]))
+    {
+      // Since our presence on an admin page implies we know about it, it's OK to include
+      // admin pages in the breadcrumb. It's not OK in other navigation
+      aPageTable::$ancestorsInfo[$key] = aPageTable::getPagesInfo(array_merge($options, array('where' => "( p.lft <= " . $options['info']['lft'] . " AND p.rgt >= " . $options['info']['rgt'] . ' )')));
+    }
+		$ancestorsInfo = aPageTable::$ancestorsInfo[$key];
+		if (!$includeSelf)
+		{
+			array_pop($ancestorsInfo);
+		}
+		return $ancestorsInfo;
+  }
   
+  // Accepts array('info' => [page info array], all options accepted by getPagesInfo except where)
+  
+  static public function getParentInfo($options)
+  {
+    $info = aPageTable::getAncestorsInfo($options);
+    if (count($info))
+    {
+      return $info[count($info) - 1];
+    }
+    return false;
+  }
+
+  // Accepts array('info' => [page info array], all options accepted by getPagesInfo except where)
+  
+  static public function getPeerInfo($options)
+  {
+    $id = $options['info']['id'];
+    if (!isset(aPageTable::$peersInfo[$id]))
+    {
+      // Even if the parent is archived we need to know our true peers
+      $parentInfo = aPageTable::getParentInfo(array_merge($options, array('ignore_permissions' => true)));
+      if (!$parentInfo)
+      {
+        // It's the home page. Return a stub: the home page is its only peer
+        aPageTable::$peersInfo[$id] = array(aPageTable::getInfo($options));
+      }
+      else
+      {
+        $lft = $parentInfo['lft'];
+        $rgt = $parentInfo['rgt'];
+        $level = $parentInfo['level'] + 1;
+        aPageTable::$peersInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))')));        
+      }       
+    }   
+    return aPageTable::$peersInfo[$id];
+  }
+  
+  // Unlike the others this accepts $options['id'] rather than $options['info'] and provides a way of
+  // obtaining an info array about any page. If you have a page object just call getInfo() on that object,
+  // that is typically more efficient
+  
+  static public function getInfo($options)
+  {
+    $id = (int) $options['id'];
+    if (!isset(aPageTable::$pagesInfo[$id]))
+    {
+      aPageTable::$pagesInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(id = ' . $id . ')')));
+    }
+    if (count(aPageTable::$pagesInfo[$id]))
+    {
+      return aPageTable::$pagesInfo[$id][0];
+    }
+    return null;
+  }
+  
+  // Accepts array('info' => [page info array], all options accepted by getPagesInfo except where)
+  
+  static public function getChildrenInfo($options)
+  {
+    $id = $options['info']['id'];
+    if (!isset(aPageTable::$childrenInfo[$id]))
+    {
+      $lft = $options['info']['lft'];
+      $rgt = $options['info']['rgt'];
+      $level = $options['info']['level'] + 1;
+      aPageTable::$childrenInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))')));
+    }
+    return aPageTable::$childrenInfo[$id];
+  }
+  
+  // Accepts array('info' => [page info array], 'where' => [where clause])
+  //
+  // Returns results the current user is permitted to see. You can override this if you specify the
+  // following options (must specify all or none):
+  // 'user_id', 'has_view_locked_permission', 'group_ids', 'has_cms_admin_permission'
+  //
+  // You can override the user's culture by specifying 'culture'
+    
   static public function getPagesInfo($options)
   {
+    $whereClauses = array();
+    $ignorePermissions = false;
+		if (isset($options['ignore_permissions']))
+		{
+			// getAncestorsInfo has to return everything in some contexts to work properly
+			$ignorePermissions = $options['ignore_permissions'];
+		}
     if (!isset($options['culture']))
     {
       $options['culture'] = aTools::getUserCulture();
     }
-    if (!isset($options['livingOnly']))
+    
+    // In the absence of a bc option for page visibility, we can make a better
+    // determination based on the user's access rights (1.5)
+    
+    $joins = '';
+    if (isset($options['user_id']))
     {
-      $options['livingOnly'] = true;
+      // If you pass this in you have to pass all of it in. But if you are just
+      // interested in the current user you needn't bother (see the else clause)
+      $user_id = $options['user_id'];
+      $group_ids = $options['group_ids'];
+      if (!count($group_ids))
+      {
+        // Should never be empty due to IN's limitations
+        $group_ids = array(0);
+      }
+      $hasViewLockedPermission = $options['has_view_locked_permission'];
+      $hasCmsAdmin = $options['has_cms_admin_permission'];
     }
+    else
+    {
+      // Get it automatically for the current user
+      $user = sfContext::getInstance()->getUser();
+      $user_id = 0;
+      $hasViewLockedPermission = false;
+      $group_ids = array(0);
+      $hasCmsAdmin = false;
+      if ($user->isAuthenticated())
+      {
+        $user_id = $user->getGuardUser()->id;
+        // In 1.5 this one is a little bit of a misnomer because of the new provision for locking
+        // to individuals or groups rather than "Editors & Guests". In the new use case it is
+        // merely a prerequisite
+        $credentials = sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked');
+        $hasViewLockedPermission = $user->hasCredential($credentials);
+        $group_ids = aArray::getIds($user->getGroups());
+        // Careful: empty IN clauses do not work
+        if (!count($group_ids))
+        {
+          $group_ids = array(0);
+        }
+        $hasCmsAdmin = $user->hasCredential('cms_admin');
+      }
+    }
+        
+    $joins .= 'LEFT JOIN a_access aa ON aa.page_id = p.id AND aa.user_id = ' . $user_id . ' ';
+    if (!count($group_ids))
+    {
+      // A group that can never be
+      $group_ids = array(0);
+    }
+    $joins .= 'LEFT JOIN a_group_access ga ON ga.page_id = p.id AND ga.group_id IN (' . implode(',', $group_ids) . ') ';
+    $viewLockedClause = '';
+    if ($hasViewLockedPermission)
+    {
+      $viewLockedClause = 'OR p.view_guest IS TRUE ';
+    }
+    // CMS admin can always view
+    if (!$hasCmsAdmin && (!$ignorePermissions))
+    {
+      // YOU CAN VIEW IF
+      // * view_admin_lock is NOT set, AND
+      // * You can edit
+      // OR
+      // p.archived is false AND p.published_at is in the past AND p.view_is_secure is false
+      // OR
+      // p.archived is false AND p.published_at is in the past AND p.view_is_secure is true AND (p.view_guest is true OR you have view_locked OR you have an explicit view privilege
+      // However note that if you have a group privilege you don't need to have hasViewLockedPermission (all groups are candidates)
+      $whereClauses[] = '(p.view_admin_lock IS FALSE AND (((aa.privilege = "edit") || (ga.privilege = "edit")) OR ' .
+        '((p.archived IS FALSE OR p.archived IS NULL) AND p.published_at < NOW() AND ' .
+        '((p.view_is_secure IS FALSE OR p.view_is_secure IS NULL) OR ' .
+          '(p.view_is_secure IS TRUE AND ' .
+            '(ga.privilege = "view_custom" OR ' . ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom")' : '(0 <> 0)') . '))))))';
+    }
+    
     if (!isset($options['admin']))
     {
       $options['admin'] = false;
@@ -764,7 +952,6 @@ class PluginaPageTable extends Doctrine_Table
       throw new sfException("You must specify a where clause when calling getPagesInfo");
     }
     $culture = $options['culture'];
-    $livingOnly = $options['livingOnly'];
     $admin = $options['admin'];
     $where = $options['where'];
     
@@ -779,19 +966,7 @@ class PluginaPageTable extends Doctrine_Table
       LEFT JOIN a_area a ON a.page_id = p.id AND a.name = 'title' AND a.culture = $escCulture
       LEFT JOIN a_area_version v ON v.area_id = a.id AND a.latest_version = v.version 
       LEFT JOIN a_area_version_slot avs ON avs.area_version_id = v.id
-      LEFT JOIN a_slot s ON s.id = avs.slot_id ";
-    $whereClauses = array();
-    if ($livingOnly)
-    {
-      // Watch out, p.archived IS NULL in some older dbs
-    
-      // = FALSE is not SQL92 correct. IS FALSE is. And so it works in SQLite. Learn something
-      // new every day. 
-      $whereClauses[] = '(p.archived IS FALSE OR p.archived IS NULL)';
-    
-      // Filter out as-yet-unpublished pages as well
-      $whereClauses[] = '(p.published_at <= NOW())';
-    }
+      LEFT JOIN a_slot s ON s.id = avs.slot_id $joins";
     // admin pages are almost never visible in navigation
     if (!$admin)
     {
@@ -805,10 +980,18 @@ class PluginaPageTable extends Doctrine_Table
     $query .= "WHERE " . implode(' AND ', $whereClauses);
     $query .= " ORDER BY p.lft";
     $resultSet = $pdo->query($query);
-    // Turn it into an actual array (what would happen if we didn't bother?)
+    // Turn it into an actual array rather than some iterable almost-array thing
     $results = array();
+    $seenId = array();
     foreach ($resultSet as $result)
     {
+      // Careful: with the new LEFT JOINs on access rights we have extra rows. 
+      // Get only one for each page
+      if (isset($seenId[$result['id']]))
+      {
+        continue;
+      }
+      $seenId[$result['id']] = true;
       // If there is no title yet, supply one to help the translator limp along
       if (!strlen($result['title']))
       {

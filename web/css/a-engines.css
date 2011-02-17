@@ -55,18 +55,6 @@ background: url(../images/a-icon-close.png) top right no-repeat;
 
 .a-ui.a-subnav-wrapper a.selected:hover { background-position: 100% 100%; }
 
-.a-ui .a-nav-subnav .a-nav-item
-{
-float: left;
-width: 100%;
-clear: both;
-position: relative;
-line-height: 20px;
-margin-bottom: 5px;
-}
-
-.a-ui .a-nav-subnav .a-nav-item.last { margin-bottom: 0; }
-.a-ui .a-nav-subnav .a-nav-item a { float: left; width: 155px; height: 100%; padding: 0 20px 0 5px; }
 
 /* Admin Sidebar ==================== */
 
@@ -153,22 +141,22 @@ width: 100%;
 }
 
 a.a-sidebar-toggle.post-editors-toggle { margin: 5px 0 0; }
-.a-admin-sidebar .section .post-editors-options.option.show-editors { display: block; margin: 0; }
-.a-admin-sidebar .section { font-size: 11px; margin: 0; clear: both; }
+.a-ui.a-admin-sidebar .section .post-editors-options.option.show-editors { display: block; margin: 0; }
+.a-ui.a-admin-sidebar .section { font-size: 11px; margin: 0; clear: both; }
 
-.a-admin-sidebar .section h4 { float: left; width: auto; clear: both; margin-bottom: 5px; }
-.a-admin-sidebar .section h4 span { color: #999; }
-.a-admin-sidebar .section.categories h4 { line-height: 20px; }
-.a-admin-sidebar .section.tags h4 { width: 100%; }
+.a-ui.a-admin-sidebar .section h4 { float: left; width: auto; clear: both; margin-bottom: 5px; }
+.a-ui.a-admin-sidebar .section h4 span { color: #999; }
+.a-ui.a-admin-sidebar .section.categories h4 { line-height: 20px; }
+.a-ui.a-admin-sidebar .section.tags h4 { width: 100%; }
 
-.a-admin-sidebar .section.published .post-save { margin-bottom: 10px; clear: both;}
-.a-admin-sidebar .section.published h4, .a-admin-sidebar .section.published h4 label { width: auto; clear: left; }
-.a-admin-sidebar .section.published .a-form-row,
-.a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right; margin: 0;}
+.a-ui.a-admin-sidebar .section.published .post-save { margin-bottom: 10px; clear: both;}
+.a-ui.a-admin-sidebar .section.published h4, .a-admin-sidebar .section.published h4 label { width: auto; clear: left; }
+.a-ui.a-admin-sidebar .section.published .a-form-row,
+.a-ui.a-admin-sidebar .section.template .a-form-row { width: auto; float: right; clear: right; margin: 0;}
 
-.a-admin-sidebar .section.status .status-list.option,
-.a-admin-sidebar .section.author .author_id.option,
-.a-admin-sidebar .section.author #a_blog_item_editors_list
+.a-ui.a-admin-sidebar .section.status .status-list.option,
+.a-ui.a-admin-sidebar .section.author .author_id.option,
+.a-ui.a-admin-sidebar .section.author #a_blog_item_editors_list
 {
 display: block;
 float: right;
@@ -189,7 +177,7 @@ clear: none;
 
 .a-admin-sidebar .section.event-date .a-form-row.all_day { float: right; width: auto; clear: right;}
 
-.a-admin-sidebar .section.event-date .a-form-row.all_day { line-height: 24px; }
+.a-admin-sidebar .section.event-date .a-form-row.all_day { line-height: 24px; margin: 0; }
 
 .a-admin-sidebar .section.event-date .a-form-row.all_day label,
 .a-admin-sidebar .section.event-date .a-form-row.all_day .a-form-field
@@ -257,7 +245,9 @@ width: 104px
 /* Media Engine Layout
 -------------------------------------*/
 .a-media .a-subnav-wrapper { margin-right: 20px; }
-.a-media .a-content { width: 720px; float: left; clear: none; }
+.a-media .a-content,
+.a-blog .a-content,
+.a-blog-admin .a-content { width: 720px; float: left; clear: none; }
 
 .a-media-library,
 .a-media-selection,
@@ -998,6 +988,8 @@ li.a-media-selection-preview-item .jcrop-holder { margin-bottom:28px; }
 
 .a-blog-item-status { color: #888; }
 
+.a-ui.a-controls.a-blog-browser-controls { float: right; clear: both; }
+
 .a-blog .a-controls.a-blog-post-controls { margin: 0 !important; position: absolute; left: -25px; top: 2px;}
 
 .a-blog ul.a-slideshow-controls
@@ -1017,11 +1009,8 @@ li.a-media-selection-preview-item .jcrop-holder { margin-bottom:28px; }
 
 .a-event-date-range .end_date { margin-top: 5px; }
 
-.a-blog-heading .a-help
-{
-	float: none;
-	padding-bottom: 10px;
-}
+.a-no-items h3 { margin-bottom: 10px; }
+.a-no-items .a-help { float: none; font-size: 14px; padding: 10px 0; }
 
 #disqus_thread
 {
@@ -1733,10 +1722,12 @@ border: 1px solid rgba(0,0,0,0.15);
 color: #444;
 }
 
-#a-blog-item-permalink-interface .a-controls,
-#a-blog-item-title-interface .a-controls
+.a-ui.a-controls.blog-title,
+.a-ui.a-controls.blog-slug
 {
 display: none;
+float: left;
+clear: none;
 }
 
 #a-blog-item-title-interface .a-controls
@@ -1913,21 +1904,18 @@ clear: none;
 	padding-right: 4px;
 }
 
-/* This fixes a bug where the area div covers the elements above it 
-	causing edit buttons to be not clickable */
+/* This fixes a bug where the area div covers the elements above it causing edit buttons to be not clickable */
 .a-blog.index .a-content .a-area { display: inline-block !important; }
 
 /* Initially invisible form for creating new blog posts inline */
-.a-blog-admin-new-ajax
-{
-	display: none;
-}
+.a-blog-admin-new-ajax { display: none; }
 .a-blog-admin-new-ajax .title input { width: 172px; }
 .a-blog-admin-new-ajax .a-form-row { margin: 0 0 5px 0 !important; }
 
 .a-ui h3.a-blog-filters { font-size: 16px; padding-bottom: 15px; }
 .a-ui h3.a-blog-filters .a-filter-link:hover { text-decoration: none; }
 .a-ui h3.a-blog-filters .a-filter-link img { vertical-align: middle; }
+.a-ui h3.a-blog-filters.browser { border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
 
 .a-search form.a-media-search-services { background: none; height: auto; position:relative; }
 .a-media-search-services { clear: both; }
