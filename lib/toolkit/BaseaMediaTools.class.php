@@ -361,7 +361,7 @@ class BaseaMediaTools
     if (isset(aMediaTools::$options[$name]))
     {
       $name = preg_replace("/[^\w]/", "", $name);
-      $key = "app_aMedia_$name";
+      $key = 'app_aMedia_'.$name;
       return sfConfig::get($key, aMediaTools::$options[$name]);
     }
     else

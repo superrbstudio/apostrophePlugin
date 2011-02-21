@@ -179,8 +179,7 @@ class BaseaTools
 
   static public function getSlotOptionsGroup($groupName)
   {
-    $optionGroups = sfConfig::get('app_a_slot_option_groups', 
-      array());
+    $optionGroups = sfConfig::get('app_a_slot_option_groups', array());
     if (isset($optionGroups[$groupName]))
     {
       return $optionGroups[$groupName];
@@ -360,7 +359,7 @@ class BaseaTools
   static public function getOptionI18n($option, $default = false, $culture = false)
   {
     $culture = aTools::cultureOrDefault($culture);
-    $values = sfConfig::get("app_a_$option", array());
+    $values = sfConfig::get('app_a_'.$option, array());
     if (!is_array($values))
     {
       // Convenience for single-language sites
