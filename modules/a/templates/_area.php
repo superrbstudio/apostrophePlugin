@@ -16,7 +16,7 @@
 <?php if ($editable): ?>
 <?php slot('a-history-controls') ?>
 	<li>
-		<?php $history_button_style = sfConfig::get('app_a_history_button_style', "no-label big") ?>
+		<?php $history_button_style = sfConfig::get('app_a_history_button_style', 'no-label big') ?>
 		<?php $history_button_id = "a-area-$pageid-$name-history-button" ?>
 		<?php echo a_js_button(a_('History'), array('icon', 'a-history-btn', ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style)), $history_button_id, a_('Area History')) ?>
 		<?php a_js_call('apostrophe.areaEnableHistoryButton(?)', array('buttonId' => $history_button_id, 'pageId' => $pageid, 'name' => $name, 'url' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))), 'moreUrl' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))))) ?>
@@ -37,7 +37,7 @@
 		<?php # Slot Controls ?>
 			<li>
 
-				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', "big") ?>
+				<?php $addslot_button_style = sfConfig::get('app_a_addslot_button_style', 'big') ?>
 				<?php $slotTypesInfo = aTools::getSlotTypesInfo($options) ?>
 
 				<?php if (count($slotTypesInfo) > 1): ?>
@@ -115,7 +115,7 @@
       <?php if ($infinite): ?>
 			<?php // Tom: Just a quick note about this -- Enabling the delete button for singleton slot works, it just clears out the value for that slot instead of deleting the slot. ?>
         <li>
-					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', "no-label"); ?>
+					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', 'no-label'); ?>
 					<?php $delete_button_id = "a-slot-$pageid-$name-$permid-delete-button" ?>
 					<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
 					<?php a_js_call('apostrophe.areaEnableDeleteSlotButton(?)', array('pageId' => $page->id, 'name' => $name, 'permid' => $permid, 'buttonId' => $delete_button_id, 'confirmPrompt' => a_('Are you sure you want to delete this slot?'), "url" => url_for("a/deleteSlot?" .http_build_query(array(
