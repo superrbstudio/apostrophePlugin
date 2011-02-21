@@ -5,7 +5,7 @@
   $results = isset($results) ? $sf_data->getRaw('results') : null;
 ?>
 <?php use_helper('a') ?>
-<?php slot('body_class') ?>a-search-results<?php end_slot() ?>
+<?php slot('body_class') ?>a-search-success<?php end_slot() ?>
 
 <?php include_partial('a/searchBefore', array('q' => $sf_request->getParameter('q', ESC_RAW))) ?>
 

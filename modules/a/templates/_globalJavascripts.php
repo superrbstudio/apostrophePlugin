@@ -2,7 +2,7 @@
 
 <?php use_helper('a') ?>
 
-<?php a_js_call('apostrophe.setDebug(?)', sfConfig::get('app_a_js_debug')) ?>
+<?php a_js_call('apostrophe.setDebug(?)', sfConfig::get('app_a_js_debug', false)) ?>
 
 <?php // Project level hook. Our default version is empty ?>
 <?php a_js_call('apostrophe.ready()') ?>
