@@ -517,10 +517,8 @@ class PluginaPageTable extends Doctrine_Table
           }
         }
         
-        $sufficientCredentials = sfConfig::get(
-            "app_a_$privilege" . "_sufficient_credentials", false);
-        $sufficientGroup = sfConfig::get(
-            "app_a_$privilege" . "_sufficient_group", false);
+        $sufficientCredentials = sfConfig::get('app_a_' . $privilege . '_sufficient_credentials', false);
+        $sufficientGroup = sfConfig::get('app_a_' . $privilege . '_sufficient_group', false);
             
         // Starting in 1.5 edit and manage share a candidate group
         if ($privilege === 'manage')
@@ -531,13 +529,10 @@ class PluginaPageTable extends Doctrine_Table
         {
           $privilegeForGroup = $privilege;
         }
-        $candidateGroup = sfConfig::get(
-            "app_a_$privilegeForGroup" . "_candidate_group", false);
+        $candidateGroup = sfConfig::get('app_a_'.$privilegeForGroup.'_candidate_group', false);
             
         // By default users must log in to do anything, except for viewing an unlocked page
-        $loginRequired = sfConfig::get(
-            "app_a_$privilege" . "_login_required", 
-            ($privilege === 'view' ? false : true));
+        $loginRequired = sfConfig::get('app_a_'.$privilege.'_login_required', ($privilege === 'view' ? false : true));
 
         // Rule 2: if no login is required for the site as a whole for this
         // privilege, anyone can do it...
@@ -659,13 +654,10 @@ class PluginaPageTable extends Doctrine_Table
   // not admins who have it regardless. Useful for populating permissions widgets
   public function getEditorCandidates()
   {
-    $sufficientCredentials = sfConfig::get(
-        "app_a_edit_sufficient_credentials", false);
-    $sufficientGroup = sfConfig::get(
-        "app_a_edit_sufficient_group", false);
-    
-    $candidateGroup = sfConfig::get("app_a_edit_candidate_group", false);
-    $sufficientGroup = sfConfig::get("app_a_edit_candidate_group", false);
+    $sufficientCredentials = sfConfig::get('app_a_edit_sufficient_credentials', false);
+    $sufficientGroup = sfConfig::get('app_a_edit_sufficient_group', false);
+    $candidateGroup = sfConfig::get('app_a_edit_candidate_group', false);
+    $sufficientGroup = sfConfig::get('app_a_edit_candidate_group', false);
     if (!$candidateGroup)
     {
       return Doctrine::getTable('sfGuardUser')->createQuery('u')->orderBy('u.username ASC')->fetchArray();
@@ -690,8 +682,7 @@ class PluginaPageTable extends Doctrine_Table
   
   public function getViewCandidates()
   {
-    $sufficientCredentials = sfConfig::get(
-        'app_a_view_locked_sufficient_credentials', 'view_locked');
+    $sufficientCredentials = sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked');
 
     $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
     if ($sufficientCredentials)
