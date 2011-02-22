@@ -212,6 +212,10 @@ class aZendSearch
 
   static public function deleteFromLuceneIndex(Doctrine_Record $object, $culture = null)
   {
+    if(!self::isEnabled()) {
+      return;
+    }
+        
     $index = $object->getTable()->getLuceneIndex();
    
     // remove an existing entry
@@ -247,6 +251,15 @@ class aZendSearch
     }
   }
 
+  static public function isEnabled()
+  {
+    if(!class_exists('Zend_Search_Lucene_Document')) {
+      return false;
+    }
+
+    return true;
+  }
+
   // You can use this directly, but also see below for a wrapper that 
   // saves in both doctrine and Zend, wrapping the whole thing
   // in a Doctrine transaction and rolling back on any Lucene exceptions.
@@ -261,6 +274,10 @@ class aZendSearch
 
   static public function updateLuceneIndex($options)
   {
+    if(!self::isEnabled()) {
+      return;
+    }
+    
     // NEW WAY: options as a single array
     if (is_array($options))
     {
@@ -462,5 +479,3 @@ class aZendSearch
     return $culture;
   }
 }
-
-?>
