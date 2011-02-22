@@ -1,0 +1,75 @@
+sfGuardGroup:
+  sfGuardGroup_admin:
+    name: admin
+    description: 'Administrator group'
+  # Invited guests. CAN view locked pages. People who make their own accounts
+  # with sfDoctrineApplyPlugin are initially in NO group, so they can't do that. This is good.
+  sfGuardGroup_guest:
+    name: guest
+    description: 'Guest group'
+  sfGuardGroup_editor:
+    name: editor
+    description: 'Editors can edit CMS pages, provided that they have been granted control over that particular part of the site by an administrator. Editors can also upload media, and manage media that they personally uploaded.'
+sfGuardGroupPermission:
+  sfGuardGroupPermission_admin_admin:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_admin
+  sfGuardGroupPermission_admin_cms_admin:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_cms_admin
+  sfGuardGroupPermission_admin_media_admin:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_media_admin
+  sfGuardGroupPermission_admin_media_upload:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_media_upload
+  sfGuardGroupPermission_admin_blog_admin:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_blog_admin
+  sfGuardGroupPermission_guest_guest:
+    Group: sfGuardGroup_guest
+    Permission: sfGuardPermission_guest
+  sfGuardGroupPermission_editor_media_upload:
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_media_upload
+  sfGuardGroupPermission_editor_blog_author:
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_blog_author
+  sfGuardGroupPermission_guest_view_locked:
+    Group: sfGuardGroup_guest
+    Permission: sfGuardPermission_view_locked
+  sfGuardGroupPermission_admin_view_locked:
+    Group: sfGuardGroup_admin
+    Permission: sfGuardPermission_view_locked
+  sfGuardGroupPermission_editor_view_locked:
+    Group: sfGuardGroup_editor
+    Permission: sfGuardPermission_view_locked
+sfGuardPermission:
+  sfGuardPermission_admin:
+    name: admin
+    description: 'Administrator permission'
+  sfGuardPermission_guest:
+    name: guest
+    description: 'Guest permission'
+  sfGuardPermission_editor:
+    name: editor
+    description: 'For groups that will be given edit permissions at some point in the site'
+  sfGuardPermission_cms_admin:
+    name: cms_admin
+    description: 'Executive control of the CMS'
+  sfGuardPermission_media_admin:
+    name: media_admin
+    description: 'Media admin'
+  sfGuardPermission_media_upload:
+    name: media_upload
+    description: 'Media upload'
+  sfGuardPermission_blog_admin:
+    name: blog_admin
+    description: "Can edit and delete anyone's blog posts, etc. (Also applies to events)"
+  sfGuardPermission_blog_author:
+    name: blog_author
+    description: 'Can post new blog posts, and also edit and delete their own. (Also applies to events)'
+  sfGuardPermission_view_locked:
+    name: view_locked
+    description: 'View locked pages'
+    

@@ -1,0 +1,57 @@
+generator:
+  class: aCategoryAdminGenerator
+  param:
+    model_class:           aCategory
+    theme:                 aAdmin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          a_category_admin
+    with_doctrine_route:   1
+    
+    config:
+      
+      list:
+        sort: [name, asc]
+        title: Categories Admin
+        display: [ _name, _users, _groups ]
+        object_actions: []
+        fields:
+          name:
+            label: Category
+          category_aMediaItem:
+            label: Media Items
+        actions:
+          new:
+            label: '<span class="icon"></span>New Category'
+            action: new
+            params:
+              class: a-btn big icon a-add
+      
+      form:
+        # When you use these you break the addition of new categorizable types in new plugins,
+        # including the blog plugin. See PluginaCategoryForm for the right approach to limiting
+        # this with useFields while still including the checkboxes for new types of categorizable stuff
+        
+        # fields:   [ name, groups_list, users_list ]
+        # display:  [ name, groups_list, users_list ]
+
+      
+      filter:
+        # When you use these you break the addition of new categorizable types in new plugins,
+        # including the blog plugin. See PluginaCategoryFormFilter for the right approach to limiting
+        # this with useFields while still including the filters for new types of categorizable stuff
+        
+        #fields:  [  groups_list, users_list ]
+        #display: [  groups_list, users_list ]
+        
+      fields:
+        users: { label: Active Users }
+      
+      edit:
+        title: Edit Category
+        
+      new:
+        title: New Category
+        

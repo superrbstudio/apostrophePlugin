@@ -1,0 +1,5 @@
+These fixtures are borrowed from the sandbox project, where they are most
+regularly maintained and updated. The blog and events engine pages have been
+removed since they would be difficult to remove through the UI if you are
+not using the blog plugin. Some other references to the blog remain in terms of
+permissions but this will be useful to you if you add it.

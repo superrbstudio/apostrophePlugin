@@ -1,0 +1,6 @@
+tom@punkave.com: I modified this to not try to resolve symbolic links aggressively
+as that makes little sense when the paths you have passed in are web paths - the
+webserver does not resolve symlinks before resolving relative paths, so it doesn't
+make sense to realpath() everything.
+
+We do not use Minify as a content server, we use it only as a very smart minifier.

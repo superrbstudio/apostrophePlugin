@@ -1,0 +1,23 @@
+# Two users by default: a superadmin (we suggest reserving this account for developer use and
+# removing it at production launch) and an admin (a member of the admin group). We suggest
+# giving the latter account to the client. The permissions dashboard is just plain dangerous, 
+# so we show only the users and groups dashboards to regular admins
+
+sfGuardUser:
+  sgu_superadmin:
+    username: superadmin
+    password: demo
+    first_name: Super
+    last_name: Admin
+    email_address: superadmin@apostrophe
+    is_super_admin: true
+  sgu_admin:
+    username: admin
+    password: demo
+    first_name: Normal
+    last_name: Admin
+    email_address: admin@apostrophe
+sfGuardUserGroup:
+  sgug_admin_admin:
+    User: sgu_admin
+    Group: sfGuardGroup_admin

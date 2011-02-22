@@ -1,0 +1,42 @@
+all:
+  a:
+    # The default routing rules built into a are deliberately
+    # conservative, situating CMS pages in the /cms folder. This recipe
+    # overrides that so that we can set more interesting routing rules in
+    # routing.yml.sample that place CMS pages at / and non-CMS actions at /cms.
+    routes_register: false
+    # Enable slots added by the media plugins
+    slot_types:
+      aImage: Image
+      aSlideshow: Slideshow
+      aVideo: Video
+    # Change to true if you'd like the home page to also appear as a tab
+    home_as_tab: false
+    # Uncomment and change if your media plugin runs on a separate site
+    # media_site: "http://www.mymediasite.com/"
+    # You should change this both here and below
+    media_apikey: 'dummy'
+    # Templates for pages, with their friendly names
+    templates:
+      home: Home Page
+      default: Default Page
+    # Use the provided stylesheet (recommended)
+    use_bundled_stylesheet: true
+  # Media plugin related options
+  aMedia:
+    apikeys:
+      # Must match the API key above
+      - 'dummy'
+    # Recommended
+    apipublic: false
+    admin_credential: media_admin
+    upload_credential: media_upload
+  # Model classes to be indexed by search engine
+  aToolkit:
+    indexes:
+      - 'aPage'
+  aimageconverter:
+    # if netpbm is not in PHP's PATH when system() is invoked, specify its location here
+    # (at the command line, type 'where giftopnm' to find out what folder netpbm is in;
+    # if you do not have it you must install the netpbm utilities on your system)
+    # path: /opt/local/bin # typical netpbm location for macports

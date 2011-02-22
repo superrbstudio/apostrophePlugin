@@ -1,0 +1,578 @@
+/* Admin Generator
+-------------------------------------*/
+
+.a-admin a img,
+.a-admin a:link img,
+.a-admin a:visited img { border: none; }
+
+.a-admin a:hover { color: #333; }
+
+.a-admin .a-content,
+.a-admin-content { float: left; display: inline; margin: 0; width: 720px; }
+
+.a-admin #a-admin-list-actions
+{
+	width:100%;
+	padding-bottom:20px;
+	margin-bottom:20px;
+	border-bottom:1px solid #ddd;
+}
+
+.a-admin .notice
+{
+color: #666;
+font-size: 18px;
+line-height: 18px;
+margin-bottom: 20px;
+}
+
+.a-admin fieldset h2
+{
+padding: 10px 0 0;
+margin: 0 0 10px 0;
+color: #333;
+background-color: transparent;
+font-size: 14px;
+text-transform: capitalize;
+border-top: 1px #ddd solid;
+}
+
+.a-admin .a-admin-text input { float: left; clear: both; }
+
+.a-admin .a-admin-batch-actions-choice select { float: left; margin-right: 10px; }
+
+.a-admin .save-ok { margin-bottom: 10px; border: 1px solid #73B65A; }
+
+.a-admin .save-ok h2
+{
+margin: 0 !important;
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #73B65A url(../images/ok.png) no-repeat 5px 2px;
+}
+
+.a-admin .a-form-row td
+{
+margin-bottom: 10px;
+float: left;
+clear: both;
+position: relative;
+}
+
+.a-admin-footer
+{
+width: 720px;
+float: right;
+line-height: 1.5;
+margin: 20px 0;
+}
+
+.a-admin label.required { color: #333 !important; font-weight: bold !important; }
+
+.a-admin .form-error { color: #f33; }
+
+.a-admin ul.a-admin-td-actions { list-style-type: none; display: block; float: left;}
+
+.a-admin ul.a-admin-td-actions li
+{
+list-style-type: none;
+display: block;
+float: left;
+width: auto;
+margin: 1px;
+}
+
+.a-admin ul.a-admin-actions
+{
+float:left;
+display:inline;
+width:100%;
+margin: 0 0 10px 0;
+list-style-type: none;
+padding-top: 20px;
+}
+
+.a-admin ul.a-admin-actions a { color: #333; }
+
+.a-admin ul.a-admin-actions li
+{
+list-style-type: none;
+display: inline;
+float: left;
+margin-right:1px !important;
+}
+
+.a-admin.sfGuardUser a.icon.a-add { background-image: url(../images/a-icon-users.png); }
+
+.a-admin ul.a-admin-actions li.a-admin-batch-actions-choice { float: left; }
+
+.a-admin ul.a-admin-actions input
+{
+padding: 2px;
+color: #333;
+font-size: 11px;
+font-family: Arial, sans-serif;
+border: 0px;
+border-right: 4px solid #888;
+background-color: #ffc;
+cursor: hand;
+cursor: pointer;
+width: auto;
+}
+
+.a-admin .a-admin-default-action
+{
+background-color: #fc6 !important;
+font-weight: bold !important;
+}
+
+.a-admin-form-container,
+#a-admin-form,
+#a-admin-batch-form,
+.a-admin-list,
+.a-admin-list table
+{
+float: left;
+clear: both;
+width: 100%;
+border-bottom: 0px;
+border-right: 0px;
+margin: 0;
+padding: 0;
+}
+
+.a-admin-form-container .a-admin-form-container { margin-top: 40px; margin-left: -120px; }
+
+#a-admin-list-batch-actions { width: 20px; }
+#a-admin-list-batch-actions * { display: block; }
+
+#a-admin-list-th-actions { width: 100px; }
+
+.a-admin-list th,
+.a-admin-list td
+{
+position: relative;
+padding: 8px 5px;
+border: none;
+margin: 0;
+vertical-align: middle;
+}
+
+.a-admin-list thead th
+{
+font-size: 14px;
+text-align: left;
+border-bottom: 1px solid #e2e2e2;
+line-height: 24px;
+vertical-align: middle;
+}
+
+.a-admin-list thead th * { float: left; }
+
+.a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded, 
+.a-admin-list thead th .a-btn.flag.no-label.a-sort-arrow.expanded { background-position: 0 -20px; }
+
+.a-admin-list tfoot th
+{
+border: 1px solid #e2e2e2;
+border-left: none;
+border-right: none;
+}
+
+.a-admin-filter li { list-style-type: none; }
+
+.a-admin-row td { border-left: 1px solid #e5e5e5; }
+
+.a-admin-row.odd td { background-color: #f7f7f7; }
+
+.a-admin .a-admin-row-1 td { border-top: 1px solid #e2e2e2; }
+
+.a-admin-row td.first { border-left: 0; }
+
+.a-admin .a-admin-edit-help { color: #aaa; }
+
+.a-admin select.a-admin-multiple, 
+.a-admin select.a-admin-multiple-selected { width: 12em; }
+
+.a-admin ul.a-admin-checklist li
+{
+list-style: none;
+list-style-position: outside !important;
+line-height: 1.5em;
+}
+
+.a-admin ul.a-admin-checklist li label { display: inline; float: none; }
+
+.admin ul.a-controls li
+{
+display: block;
+float: left;
+width: 100%;
+margin: 0;
+}
+
+.a-admin-actions input
+{
+border: 1px solid #ddd !important;
+padding: 3px;
+background: #fff !important;
+font-size: 12px !important;
+vertical-align: baseline !important;
+}
+
+.a-admin-actions input:hover { border-color: #666 !important; }
+
+.a-admin-list-results
+{
+float: left;
+font-size: 14px;
+color: #333;
+height: 20px;
+line-height: 20px;
+margin: 10px 0;
+width: 100px;
+}
+
+.a-admin-bar
+{
+position: relative;
+float: left;
+display: inline;
+clear: both;
+margin: 0 0 20px 0;
+width: 100%;
+}
+
+.a-admin-bar .a-admin-title
+{
+color: #666;
+font-size: 24px;
+line-height: 24px;
+float: left;
+top: 0;
+text-transform: capitalize;
+}
+
+.a-date-wrapper,
+.a-time-wrapper
+{
+	margin-bottom:4px;
+	float: left;
+	clear: both;
+}
+
+.a-date-wrapper input,
+.a-time-wrapper input
+{
+	float: left;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	padding:1px;
+	-moz-border-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-radius: 3px;
+	
+}
+
+.ui-timepicker-trigger,
+.ui-datepicker-trigger
+{
+position: relative;
+float: left;
+padding: 0 3px;
+cursor: pointer;
+}
+
+.ui-datepicker-trigger:hover
+{
+cursor: pointer;
+}
+
+.a-admin .a-admin-flashes
+{/* We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice */
+color: #EF9920;
+float: left;
+clear: both;
+width: 100%;
+margin: 0 0 20px 0;
+padding-bottom: 10px;
+border-bottom: 1px solid #ddd;
+font-size: 14px;
+line-height: 20px;
+text-indent: 24px;
+background: transparent url(../images/a-icon-error.png) no-repeat scroll left top;
+}
+
+.a-admin form .a-form-row .error_list li
+{
+padding-left: 24px;
+line-height: 20px;
+}
+
+.a-admin form .a-form-row .error_list
+{
+display: block;
+font-size: 11px;
+}
+
+.a-admin form .error_list li
+{
+height: 20px;
+line-height: 24px;
+padding-left: 20px;
+background: url(../images/a-icon-error.png) top left no-repeat;
+list-style: none;
+list-style-position: outside;
+}
+
+
+/* 28. Admin Generator - Filters
+-------------------------------------*/
+
+.a-admin #a-admin-filters-container
+{
+display: none;
+float: left;
+clear: both;
+
+width: 100%;
+margin-bottom: 24px;
+color: #333;
+border: 1px solid #e2e2e2;
+}
+
+.a-admin #a-admin-filters-container.a-active
+{
+display: block;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form
+{
+padding: 10px;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row
+{
+	padding:0;
+	margin:3px 0 2px 0;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+{
+	width:120px;
+	float:left;
+	display:inline;
+
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label label
+{
+float:left;
+display:inline;
+
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+{
+	display:inline;
+	margin:0 0 0 120px;
+	width: 580px;
+}
+
+.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+{
+	position: relative !important;
+	display: block;
+	float: left;
+}
+
+
+/* 29. a-user-admin and friends are still very vanilla, help them work in a vanilla way
+-----------------------------------------------------------------------------------------*/
+
+/* Label floats to the left of main filter field */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
+{
+	width:120px;
+	float: left;
+	display: block;
+}
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
+{
+	margin: 0px 0px 10px 120px;
+	width: 580px;
+	display: block;
+}
+
+/* "Is Empty" is inline */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label,
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
+{
+	display: inline;
+	width: auto;
+	float: none;
+	min-width: 0px;
+}
+
+/* "Is Empty" is inline; checkboxes need a min-width override that really works cross-browser */
+
+.a-admin .aUserAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aGroupAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"],
+.a-admin .aPermissionAdmin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field input[type="checkbox"]
+{
+	display: inline;
+	width: auto;
+	float: none;
+	margin-left: 10px;
+	min-width: 0px;
+}
+	
+/* The actual data entry fields are inline so they can be consecutive on a line etc. as in date range widgets */
+
+.a-admin .aUserAdmin .a-form-row input[type="text"], .aUserAdmin .a-form-row input[type="password"], .aUserAdmin .a-form-row select, .aUserAdmin .a-form-row textarea,
+.a-admin .aGroupAdmin .a-form-row input[type="text"], .aGroupAdmin .a-form-row input[type="password"], .aGroupAdmin .a-form-row select, .aGroupAdmin .a-form-row textarea,
+.a-admin .aPermissionAdmin .a-form-row input[type="text"], .aPermissionAdmin .a-form-row input[type="password"], .aPermissionAdmin .a-form-row select, .aPermissionAdmin .a-form-row textarea
+{
+	float: none;
+	display: inline;
+}
+
+/* br is a special case, it's not really an element that can be styled consistently: 
+	http://stackoverflow.com/questions/899252/can-you-target-br-with-css
+	So we transform it via jQuery (apostrophe.enableUserAdmin) into a div with a class that we can style */
+	
+.a-admin div.a-spacer
+{
+	display: block;
+	padding-bottom: 6px;
+}
+
+/* 33. Some Admin Generator Styles
+-------------------------------------*/
+
+.a-admin-generator .a-form-row input, 
+.a-admin-generator .a-form-row textarea
+{
+min-width: 160px;
+max-width: 358px;
+}
+
+.a-admin-generator .a-form-row select,
+.a-admin-generator .a-form-row input[type="checkbox"],
+.a-admin-generator .a-form-row input[type="radio"]
+{
+width: auto;
+}
+
+.a-admin-generator .a-form-row
+{
+/*min-width:590px;*/
+/*width: auto !important;*/
+/*width: 590px;*/
+}
+
+.a-admin-generator .a-form-row label
+{
+/*float: left;*/
+/*text-align: left;*/
+/*width: 120px;*/
+/*color: #666;/*/
+/*font-weight: normal !important;*/
+/*text-transform: capitalize;*/
+/*position: absolute !important;*/
+/*top: 0;*/
+/*left: 0;*/
+/*line-height: 20px;*/
+/*display: block;*/
+}
+
+.a-admin-generator .a-form-row .checkbox_list label
+{
+margin:-2px 0 0 5px;
+}
+
+.a-admin-generator .a-form-row .checkbox_list li
+{
+float: left;
+display: inline;
+width: 100%;
+position: relative;
+}
+
+.a-admin-generator .a-form-help
+{
+display: block;
+clear: both;
+margin: 10px 0 20px 120px;
+font-size: 11px;
+color: #888;
+}
+
+.a-admin-generator .form-errors
+{
+margin-bottom: 10px;
+border: 1px solid #f33;
+background-color: #ffc;
+}
+
+.a-admin-generator .form-errors h2
+{
+padding: 5px 20px 5px 25px;
+font-size: 11px;
+color: #fff;
+background: #f33 url(../images/error.png) no-repeat 5px 2px;
+}
+
+.a-admin-generator .form-errors dl
+{
+padding: 5px;
+}
+
+.a-admin-generator .form-errors dt
+{
+font-weight: bold;
+float: left;
+padding-right: 5px;
+}
+
+.a-admin-generator .form-errors dd
+{
+margin: 0;
+}
+
+.a-admin-generator fieldset
+{
+margin-bottom: 3px;
+background-color: #fff;
+border: none;
+}
+
+/* Tag and Category Admin */
+
+.a-admin-generator.aTagAdmin .a-subnav-wrapper.admin,
+.a-admin-generator.aCategoryAdmin .a-subnav-wrapper.admin
+{
+	display: none;
+}
+
+.a-admin-generator.aTagAdmin .a-content,
+.a-admin-generator.aTagAdmin .a-admin-content,
+.a-admin-generator.aCategoryAdmin .a-content,
+.a-admin-generator.aCategoryAdmin .a-admin-content
+{
+	width: 100%;
+}
+
+/* JQ Date Picker Fix */
+#ui-datepicker-div { z-index: 9999; }

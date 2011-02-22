@@ -1,0 +1,31 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           sfGuardGroup
+    theme:                 aAdmin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          a_group_admin
+    with_doctrine_route:     1
+    i18n_catalogue: apostrophe
+    config:
+      list:
+        title: Group list
+        display: [=name, description, created_at]
+
+      form:
+        class: aGroupAdminForm
+        # users_list is gone for now as it's not scalable,
+        # add users to a group by browsing to the user and
+        # adding them to the group. We could address this
+        # using aMultipleSelect typeahead in the future
+        display: [name, description, permissions_list]
+      filter:
+        class: aGroupAdminFilter
+      edit:
+        title: Editing Group "%%name%%"
+
+      new:
+        title: New Group

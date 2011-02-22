@@ -1,0 +1,6 @@
+default:
+  # Array-in-array means "OR" in security.yml, don't remove double brackets
+  is_secure: true
+  credentials: [[admin]]
+redirect:
+  is_secure: false

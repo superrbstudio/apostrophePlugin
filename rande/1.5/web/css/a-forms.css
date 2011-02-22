@@ -1,0 +1,141 @@
+/* Apostrophe Forms
+-------------------------------------*/
+.a-ui .a-form-row,
+.a-form-row
+{
+position: relative;
+float: left;
+display: inline;
+clear: both;
+width: 100%;
+margin: 10px 0px 10px 0;
+}
+
+.a-ui .a-form-row label,
+.a-form-row label
+{
+float:left;
+text-align: left;
+font-weight: normal;
+width: 120px;
+line-height: 20px;
+}
+
+.a-ui .a-form-row label.full,
+.a-form-row label.full
+{
+	width: 100%;
+}
+
+.a-form-row input[type="text"],
+.a-form-row input[type="password"],
+.a-form-row select,
+.a-form-row textarea
+{
+font-size: 12px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+border:1px solid #ddd;
+float:left;
+font-family:Arial,sans-serif;
+padding: 2px 3px;
+}
+
+.a-form-row.submit { margin-left: 120px; }
+
+.a-form-row .a-form-field,
+.a-form-row .a-form-error { float: left; }
+
+.a-ui .a-help,
+.a-ui .a-form-row.help,
+.a-ui .a-form-row .help,
+.a-ui .a-form-row .a-form-help,
+.a-help,
+.a-form-row.help,
+.a-form-row .help,
+.a-form-row .a-form-help { float: left; clear: both; font-size: 11px; color: #888; }
+
+.a-form-row.example p { font-size: 11px; color: #888; padding: 5px; }
+
+.a-form-row .error_list { width: 100%; float: left; margin: 0; font-size: 11px; color: #900; list-style: none; }
+.a-form-row .error_list li { float: left; width: 100%; clear: both; margin: 5px 0; }
+
+/* Make radio buttons in standard Symfony widgets usable 
+	(I styled them horizontally here, if you hate this give me a
+	more specific class in the slideshow slot and the page settings form plase). -Tom */
+
+.radio_list  { list-style: none; }
+.radio_list li,
+.radio_list input { float: left; }
+.radio_list li label { padding-left: 5px; padding-right: 15px; width: auto; }
+
+/* Apostrophe Multiple Select (aControls.js)
+-------------------------------------*/
+
+.a-ui.a-multiple-select-list,
+.a-multiple-select-list
+{
+	float: left;
+	clear: both;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+
+.a-multiple-select .add
+{
+	position: relative;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin: 5px 0;
+}
+
+.a-multiple-select .add .add-text,
+.a-multiple-select .add input[type="text"].add-text
+{ 
+float: left;
+width: 120px;
+border: 1px solid #ddd; 
+padding: 3px; 
+margin: -1px 0 0 0; 
+}
+
+.a-multiple-select .add .a-btn { margin-left: 2px; }
+
+.a-ui.a-multiple-select-list .a-multiple-select-item,
+.a-multiple-select-item
+{
+position: relative;	
+float: left;
+clear: both;
+line-height: 20px;
+}
+
+.a-multiple-select-item span { float: left; }
+
+.a-multiple-select-item .a-close-small { float: left; clear: none; }
+
+.categories .a-multiple-select-item { width: 100%; }
+
+/* Apostrophe Submit / Cancel 
+-------------------------------------*/
+
+.a-ui input.a-submit,
+.a-ui input.a-cancel,
+input.a-submit,
+input.a-cancel {
+float: left;
+position: relative;
+font-size: 12px;
+font-family: arial, sans-serif;
+line-height:  normal;
+padding: 0px 4px;
+width: auto;
+cursor: pointer;
+min-height: 20px;
+height: auto;
+}
+
+input.a-submit:hover { background-color: #888!important; cursor: pointer; }

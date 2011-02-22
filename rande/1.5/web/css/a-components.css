@@ -1,0 +1,900 @@
+/* Apostrophe Components
+-------------------------------------*/
+/* Options Menu System */
+/* Reorganize Tree */
+/* Pagination */
+/* Global Toolbar */
+/* Global Toolbar - Page Settings */
+/* Global Toolbar - Create Page */
+/* History Browser */
+/* Search */
+/* Search Results */
+/* Feedback Form */
+/* Login Form - Floating Form */
+/* Login button and language switcher */
+/* sfDoctrineActAsTaggable Inline Taggable Widget */
+/* Attribution */
+/* IE6 Warning */
+
+
+
+/* aOptions Menu */
+
+.a-ui .a-options,
+.a-options
+{ 
+padding: 35px 5px 5px;
+position: absolute;
+float: left;
+display: none;
+top: -6px;
+left: -6px;
+z-index: 1;
+list-style: none;
+min-width: 100px;
+width: auto;
+margin: 0;
+background-color: #fff; /* TODO: Debug for IE */
+/*background-color: rgba(255,255,255,0.95);*/
+background-color: #fff;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+-moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+border: 1px solid #ddd;
+overflow: hidden;
+}
+
+/* This forces any options menus that are using the clearfix to behave properly */
+.a-ui .a-options.clearfix { display: none; }
+
+.a-ui .a-options .a-options-heading { position: absolute; top: 0; right: 0; margin: 5px 10px 0 10px; }
+.a-ui .a-options .a-options-heading h4 { line-height: 20px; }
+/* aOptions Menu Item */
+
+.a-ui .a-options .a-options-item,
+.a-ui .a-options .a-options-item.last
+{ 
+width: 100%;
+float: left;
+clear: both;
+margin: 0 0 4px 0;
+list-style: none;
+}
+
+.a-ui .a-options .a-options-item > a { float: left; clear: both; color: #777; }
+.a-ui .a-options .a-options-item > a .icon { opacity: .65; }
+.a-ui .a-options .a-options-item > a:hover .icon { opacity: 1; }
+.a-ui .a-options .a-options-item > a:hover,
+.a-ui .a-options .a-options-item > span { color: #222 !important; }
+
+.a-ui .a-options .a-options-item > a.a-btn
+{ 
+color: #222 !important;
+float: none !important;
+display: block !important;
+display: block !important;
+-moz-border-radius: 2px !important;
+text-shadow: none;
+border: 0;
+}
+
+.a-ui .a-options .a-options-item > a.a-btn:hover
+{ 
+color: #000 !important;
+border-color: #ddd !important;
+text-shadow: none;
+background-color: rgba(255,255,255,0.5) !important;
+}
+
+.a-ui.a-options-container { position: relative; } 
+
+/* aOptions Multiple Select */
+
+.a-ui .a-options .a-multiple-select a {  color: #777 !important; }
+
+/* aOptions HR */
+
+.a-ui .a-options hr 
+{
+float: left;
+clear: both;
+width: 100%;
+height: 1px;
+border: 0;
+background-color: #efefef; /* TODO: Debug for IE */
+background-color: rgba(0,0,0,0.1);
+margin: 10px 0;
+}
+
+/* aOptions Open */
+
+.a-options-open {  z-index: 997; }
+.a-options-open .a-options, .a-options.open {  display: block !important; }
+.a-options-open > a.a-btn { color: #fff !important; background-color: #333; z-index: 997; }
+
+
+/* Apostrophe Reorganize Tree
+---------------------------------------------------- */
+
+.a-reorganize .a-content
+{
+	display: block;
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+.a-page-tree-container
+{
+	overflow: hidden;
+	position: relative;
+	margin: 20px 0;
+	padding: 20px;
+	border: 1px solid #ddd;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.a-page-tree-title
+{
+	margin-bottom: 20px;
+}
+
+.a-page-tree
+{
+	position: relative;
+	z-index: 1;
+}
+
+.a-page-tree-in-progress
+{
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255,255,255,0.75) url(../images/a-icon-loader.gif) center center no-repeat;
+	display: none;
+}
+
+.a-page-tree-container.working .a-page-tree-in-progress
+{
+	display: block;
+}
+
+
+/* Apostrophe Pagination
+-------------------------------------*/
+
+.a-pager-navigation
+{
+float: left;
+display: none;
+overflow: hidden;
+margin: 10px 0;
+font-size: 11px;
+width: 100%;
+}
+
+.a-pager-navigation.a-pager-processed { display: block; }
+
+.a-pager-navigation a,
+.a-pager-navigation span { float: left; }
+.a-pager-navigation .a-page-navigation-number { width: 22px; text-align: center; }
+.a-pager-navigation .a-page-navigation-number.a-btn { padding:0; margin: 0; }
+.a-pager-navigation a.a-page-navigation-number:hover { color: #000; text-decoration: none; }
+
+.a-pager-navigation span.a-page-navigation-number.a-btn { color: #999; border: 1px solid #ccc;}
+
+.a-pager-navigation .a-pager-navigation-image
+{
+background: url(../images/a-page-arrows.png) no-repeat;
+display: inline;
+float: left;
+width: 22px;
+height: 20px;
+text-indent: -9999px;
+}
+
+.a-pager-navigation a.a-pager-navigation-first
+{
+background: url(../images/a-page-arrows.png) no-repeat top left;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation a.a-pager-navigation-previous { background-position: -22px 0; width: 19px; margin-right: 5px; margin-left:1px; }
+.a-pager-navigation a.a-pager-navigation-next { background-position: -41px 0; width: 19px; margin-left: 5px; margin-right: 1px; }
+
+.a-pager-navigation a.a-pager-navigation-last
+{
+background-position: -60px 0;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled
+{
+background: url(../images/a-page-arrows.png) no-repeat 0px -20px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:10px 0px 0px 10px;
+-webkit-border-top-left-radius:10px;
+border-top-left-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+border-bottom-left-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled
+{
+background: url(../images/a-page-arrows.png) no-repeat -22px -40px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-right: 5px;
+margin-left:1px;
+
+}
+
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled
+{
+background: url(../images/a-page-arrows.png) no-repeat;
+background-position:-60px -80px;
+text-indent: -999px;
+overflow: hidden;
+width: 22px;
+-moz-border-radius:0px 10px 10px 0px;
+-webkit-border-top-right-radius:10px;
+border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+border-bottom-right-radius:10px;
+}
+
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled
+{
+background: url(../images/a-page-arrows.png) no-repeat -41px -60px;
+text-indent: -999px;
+overflow: hidden;
+width: 19px;
+margin-left: 5px;
+margin-right:1px;
+}
+
+.a-pager-navigation a.a-pager-navigation-first:hover { background-position: 0px -20px; }
+.a-pager-navigation a.a-pager-navigation-previous:hover { background-position: -22px -40px !important; }
+.a-pager-navigation a.a-pager-navigation-next:hover { background-position: -41px -60px; }
+.a-pager-navigation a.a-pager-navigation-last:hover { background-position: -60px -80px; }
+
+.a-pager-navigation a.a-pager-navigation-image.disabled { cursor: default; }
+
+.a-pager-navigation a.a-page-navigation-number:hover,
+.a-pager-navigation span.a-page-navigation-number.a-pager-navigation-disabled,
+.a-pager-navigation a.a-pager-navigation-first,
+.a-pager-navigation a.a-pager-navigation-previous,
+.a-pager-navigation a.a-pager-navigation-next,
+.a-pager-navigation a.a-pager-navigation-last,
+.a-pager-navigation span.a-pager-navigation-first.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-previous.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-next.a-pager-navigation-disabled,
+.a-pager-navigation span.a-pager-navigation-last.a-pager-navigation-disabled,
+.a-pager-navigation a.a-pager-navigation-first:hover,
+.a-pager-navigation a.a-pager-navigation-previous:hover,
+.a-pager-navigation a.a-pager-navigation-next:hover,
+.a-pager-navigation a.a-pager-navigation-last:hover
+{
+	background-color:#e2e2e2;
+}
+
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-image { opacity: 0.65; cursor: default; }
+
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-first:hover { background-position: 0px 0px; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-previous:hover { background-position: -22px -20px !important; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-next:hover { background-position: -41px -40px; }
+.a-pager-navigation.a-pager-arrows-disabled a.a-pager-navigation-last:hover { background-position: -60px -60px; }
+
+/* 11. Apostrophe Global Toolbar
+-------------------------------------*/
+
+.a-ui.a-global-toolbar
+{
+position: relative;
+display: inline;
+float: left;
+width: 100%;
+border-bottom: 1px solid #ddd;
+clear: both;
+z-index: 997;
+background:#fff;
+}
+
+.a-global-toolbar .a-options { padding: 35px 20px 20px 20px; }
+
+.a-ui.a-global-toolbar .the-apostrophe { float: left; margin: 1px 0 -1px 1px; height: 20px; width: 20px; text-indent: -9999px; background: url(../images/apostrophe_logo_20px.png) center center no-repeat; overflow: hidden; }
+
+.a-ui.a-global-toolbar .a-controls { margin: 0; }
+
+.a-ui.a-global-toolbar > .a-controls > li { margin: 1px 0; padding: 5px; border-right: 1px solid rgba(0,0,0,0.05); }
+
+.a-ui.a-global-toolbar .a-controls li.last { border: none !important; margin: 0; }
+
+.a-ui.a-global-toolbar .a-controls li.a-login { float: right; display: inline; margin: 0 5px 0 0; line-height: 20px; padding: 0; }
+
+.a-ui.a-global-toolbar .a-controls .a-login li { padding: 5px 0; border: none !important;}
+
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-user,
+.a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 0 0; }
+
+.a-ui.a-global-toolbar .a-controls li.the-apostrophe-container,
+.a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
+.a-ui.a-global-toolbar .a-controls li:last-child { border: none; }
+
+.a-ui.a-global-toolbar a.a-btn:hover span.icon { opacity: 1;}
+.a-ui.a-global-toolbar a.a-btn span.icon { opacity: 0.5;}
+
+.a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu a.a-btn span.icon { opacity: 1; }
+
+/*.a-logged-in-user a:hover { color: #000; }*/
+
+
+/* Edit/Create Page Form Shared Styles
+--------------------------------------*/
+
+.a-ui .a-options.a-page-form
+{
+	display: none;
+}
+
+.a-ui .a-options.a-page-form .a-form-row
+{
+clear: both;
+display: block;
+float: none;
+overflow: hidden;
+padding: 5px;
+margin: 5px 0;
+width: auto;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+border: 1px inset rgba(0,0,0,0);
+}
+
+.a-ui .a-options.a-page-form .a-form-row:hover
+{
+	background-color:#f6f6f6;
+	background-color: rgba(0,0,0,0.025);
+	border: 1px inset rgba(0,0,0,0.025);
+}
+
+.a-ui .a-options.a-page-form .a-form-row.focus
+{
+	background-color:#f0f0f0;
+	background-color: rgba(0,0,0,0.065);
+	border: 1px inset rgba(0,0,0,0.065);
+}
+
+.a-ui .a-options.a-page-form .a-form-row.a-page-title { margin: 0; float: left; clear: right;}
+
+.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field { width: 275px; font-size: 18px; }
+
+.a-ui .a-options.a-page-form .a-form-row input.a-page-title-field:focus
+{
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0,0,0,0.35);
+}
+
+.a-ui .a-page-options { float: left; margin: 10px 0; }
+
+/* 12. Page Settings Panel
+-------------------------------------*/
+
+.a-ui.a-page-form { position: absolute; z-index: 997;	}
+
+.a-ui.a-page-form { width: 440px; }
+
+.a-ui.a-page-form .a-options { display: block !important; min-width: 0; }
+
+.a-ui.a-page-form .a-options-section { clear: both; }
+
+.a-ui.a-page-form .a-options-section.title-permalink h3 { width: 42px; padding: 7px 0 7px 0; margin: 0 0 0 5px; float: left; clear: none; }
+
+.a-ui.a-page-form .a-page-settings-section { float: left; clear: both; width: 100%; }
+
+.a-ui.a-page-form .a-page-settings-section .content { margin: 0 16px; float: left; }
+
+.a-ui.a-page-form .a-form-help-text { float: left; clear: both; margin: 5px 0; color: #999; font-size: 11px; }
+
+.a-ui .a-page-settings-status .radio_list { float: left; width: 100%; }
+
+.a-ui.a-page-form h3 { margin: 0 5px; }
+
+.a-ui.a-page-form h4 { font-size: 14px; float: left; }
+
+.a-ui .a-form-row .a-inline-taggable-widget { float: left; margin: 5px 0 10px 0; }
+
+.a-ui .a-form-row.keywords .ac_input { width: 290px; margin-right: 2px; }
+
+.a-ui .a-form-row.meta-description .a-form-field textarea { width: 323px; }
+
+.a-ui .a-page-permissions-section { margin: 5px 0; clear:both; float: left; width: 100%; }
+
+.a-ui .a-page-permissions-section .radio_list input { margin-top: 4px; }
+
+.a-ui .a-page-permissions .a-apply-to-subpages-row label { width: auto; display: inline; float: none; padding-right: 5px; }
+
+.a-page-permissions-section .a-apply-to-subpages { padding-left: 10px;}
+
+.a-ui .a-page-permissions .a-edit-admin-lock { clear: both; padding-top: 10px; }
+
+.a-ui .a-page-permissions .a-edit-admin-lock input { margin-right: 5px; }
+
+.a-page-settings-section.page-submit { margin: 10px 0 5px 0; }
+.a-page-settings-section.page-submit a.a-btn.a-cancel { float: left !important; clear: none !important; margin-left: 2px; }
+.a-page-settings-section.page-submit a.a-btn.a-delete { float: right !important; clear: none; }
+
+.a-ui.a-page-form .a-accordion-toggle,
+.a-options-section.a-accordion h3
+{
+background: url(../images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+cursor: pointer;
+clear: both;
+text-indent: 16px;
+line-height: 20px;
+-webkit-user-select:none;
+-moz-user-select:none;
+margin-left: -12px;
+}
+
+.a-ui.a-page-form .a-accordion-toggle.hover,
+.a-ui.a-page-form .a-accordion-toggle:hover { background-position: -6px 0px; }
+
+.a-ui.a-page-form .open .a-accordion-toggle { background-position: -6px -20px; }
+
+.a-ui.a-page-form .open .a-accordion-toggle.hover,
+.a-ui.a-page-form .open .a-accordion-toggle:hover { background-position: -6px -60px; }
+
+.a-ui.a-page-form .a-page-slug { font-size: 11px; float: left; clear: both; margin: 5px 0 0 0; }
+.a-ui.a-page-form .a-page-slug h4 { float: left; margin: 0; font-size: 11px; color: #999; }
+.a-ui.a-page-form .a-page-slug label { text-transform: none; width: auto; margin-right: 5px; max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
+.a-ui.a-page-form .a-page-slug input { width: 160px; font-size: 11px; }
+
+.a-ui.a-page-form .a-form-row.status .cascade-checkbox { float: right; }
+
+.a-ui.a-page-form .a-more-options-btn { margin-top: 10px; }
+
+.a-page-permissions-widget { clear: both; }
+
+.a-ui.a-page-form .view-options-widget-container label { width: auto; margin-right: 10px; width: auto; }
+
+.a-ui.a-page-form .a-permissions-entries { width: 100%; clear: both; float: left; line-height: 20px;}
+
+.a-ui.a-page-form .a-permission-entry
+{
+	display: block;
+	float: none;
+	clear: both;
+	padding: 0 5px;
+	margin: 2px 0;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.a-ui.a-page-form .a-permission-entry ul { width: 100%; float: left; }
+
+.a-ui.a-page-form .a-permission-entry .a-who { width: 120px; margin: 0 10px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.a-ui.a-page-form .a-permission-entry .a-actions { float: right; }
+
+.a-ui.a-page-form .a-permission-entry.odd { background: #efefef; background: rgba(0,0,0,0.05); }
+
+.a-ui.a-page-form .a-permission-entry ul li { margin: 0 10px 0 0; }
+.a-ui.a-page-form .a-permission-entry ul li:last-child { margin-right: 0; }
+
+.a-ui.a-page-form .a-cascade-option { float: left; font-size: 11px; color: #999; line-height: 20px; margin: 0 10px 0 0; }
+
+/* Create Page Form
+--------------------------------------*/
+.a-page-settings.aActiveMenu
+.a-create-page.aActiveMenu
+{
+	z-index: 997;
+}
+
+.a-create-page-form
+{
+	padding: 30px 5px 2px 5px;
+	position: absolute;
+	float: left;
+	display: none;
+	top: -5px;
+	left: -5px;
+	background: #fff;
+	z-index: 1;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	list-style: none;
+}
+
+.show-options > .aActiveMenu
+{
+	z-index: 998;
+}
+
+.a-controls.a-area-controls.aActiveMenu { z-index: 999; }
+
+.a-ui .show-options .a-options
+{
+	display: block !important;
+}
+
+/* History Browser
+-------------------------------------*/
+
+.a-history-browser
+{ /*This positions history vertically inside the browser */
+position: absolute;
+top: 0px; /* This changes with history button offset*/
+left: 50%;
+margin-left: -480px;
+float: left;
+width: 960px;
+clear: both;
+z-index: 997;
+overflow: hidden;
+display: none;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background: #e2e2e2;
+background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(255,255,255)),
+    color-stop(0.5, rgb(247,247,247)),
+    color-stop(1, rgb(255,255,255))
+);
+background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,255,255) 0%,
+    rgb(247,247,247) 50%,
+    rgb(255,255,255) 100%
+);
+}
+
+.a-ui .a-history-browser-heading { float: left; margin: 4px; padding-left: 22px; background: url('/apostrophePlugin/images/a-icon-alt-history.png') 0 50% no-repeat; }
+.a-ui .a-history-browser-heading-container .a-btn.a-close { float: right; margin: 4px 2px; }
+
+.a-ui .a-history-browser-all:hover { background-color: #ddd; }
+
+/*This CAN make history a scrollable box, sets width to be width of site */
+.a-ui .a-history-browser-crop { width: 100%; margin: 0; border-top: 1px solid #ddd; float: left; clear: both; }
+
+.a-ui.a-history-browser table { width: 100%; table-layout: fixed; font-size: 11px; color: #333; }
+
+.a-ui.a-history-browser .date { width: 15%; }
+.a-ui.a-history-browser .editor { width: 15%; }
+.a-ui.a-history-browser .preview { width: 70%; }
+
+.a-ui.a-history-browser thead th,
+.a-ui.a-history-browser tfoot td { text-align: left; font-weight: bold; padding: 8px 6px; }
+
+.a-ui.a-history-browser tbody tr:first-child td { background: transparent url(../images/a-blog-td-bg.png) 0 0 repeat-x; }
+.a-ui.a-history-browser tbody tr:last-child td { background: transparent url(../images/a-blog-td-bg-2.png) 0 100% repeat-x; }
+
+.a-ui.a-history-browser tbody tr:nth-child(2n+0),
+.a-ui.a-history-browser tbody tr:nth-child(even) { background-color: #f0f0f0; }
+
+.a-ui.a-history-browser tbody tr:hover { background-color: #ddd; color: #000; }
+
+.a-ui.a-history-browser tbody td { overflow: hidden; white-space: nowrap; height: 30px; vertical-align: middle; padding: 0 6px; }
+
+.a-ui.a-history-browser tfoot,
+.a-ui.a-history-browser tfoot a { color: #888;}
+
+.a-ui .a-history-browser-revisions { float: left; padding: 0 8px 0 0; line-height: 20px; }
+
+.a-ui .a-history-browser-view-more { float: left; padding: 0 8px; line-height: 20px; display: none; border-left: 1px solid #ddd; }
+
+.a-ui .a-history-browser-view-more .spinner
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: -16px;
+	display: none;
+}
+
+.a-history-preview-notice
+{
+display: none;
+position: fixed;
+top: 55px;
+left: 20px;
+z-index: 999;
+background: #fff;
+color: #900;
+border-bottom: 1px solid #ddd;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+float: left;
+width: 250px;
+}
+
+.a-history-preview-notice h4,
+.a-history-preview-notice p,
+.a-history-preview-notice .a-history-options
+{
+float: left;
+clear: both;
+margin-left: 10px;
+margin-right: 10px;
+}
+
+.a-history-preview-notice h4,
+.a-history-preview-notice .a-history-options { margin: 10px; }
+
+.a-history-options .a-history-revert { margin-right: 2px !important; }
+
+#a-history-preview-notice-toggle { color: #ddd; position: absolute; top: 10px; right: 10px; font-size: 11px; }
+
+
+/* Apostrophe Search
+----------------------------------------------- */
+.a-search { clear: both; }
+.a-search form { position: relative; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
+.a-search form .a-form-row { margin: 0; }
+.a-search form input.a-search-field { float: left; background: none; border: none; padding: 3px 0 3px 6px; }
+.a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(../images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
+.a-search form input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
+
+.a-search.global form { width: 238px; }
+.a-search.global form input .a-search-field { width: 200px; }
+
+.a-search.media form { width: 180px; }
+.a-search.media form input .a-search-field { width: 151px; }
+
+
+/* Apostrophe Search Results
+--------------------------------------------- */
+.a-search-results-container,
+.a-search-results,
+.result-title,
+.result-url,
+.result-summary { }
+.result-title { }
+.result-url { }
+
+/* Apostrophe Login Form **** This floats in the upper right corner when we use a login button
+-------------------------------------*/
+
+#a-login-form-container
+{
+position: absolute;
+display: none;
+left: auto;
+top: 5px;
+right: 5px;
+padding: 0;
+z-index:999 !important;
+min-width: 0;
+overflow: visible;
+}
+
+#a-login-form-container label { white-space: nowrap; }
+
+.a-ui.a-signin-popup { float: left; position: relative; display: block; clear: both; margin: 0; }
+.a-ui.a-signin-popup form { }
+.a-ui.a-signin-popup label { display: block; width: 100% !important; float: none; font-size: 16px; width: auto; margin-bottom: 2px; }
+.a-ui.a-signin-popup .a-form-row input[type="text"],
+.a-ui.a-signin-popup .a-form-row input[type="password"] { width: 175px; padding: 4px; }
+.a-ui.a-signin-popup .a-form-row { float: left; width: auto; clear: both; display: inline; margin: 20px 20px -10px; }
+.a-ui.a-signin-popup .a-form-row.submit { margin: 30px 20px 20px; }
+.a-ui.a-signin-popup .a-form-row.submit .a-controls { width: 100%; }
+.a-ui.a-signin-popup .a-forgot-password { display: block; font-size: 11px; margin: -10px 20px 10px; float: left; color: #999; }
+
+#a-login-form
+{
+width: 220px;
+height: 400px;
+background: #f0f0f0 url(../images/a-apostrophe-login.png) no-repeat top left;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -110px;
+margin-top: -200px;
+font-size: 16px;
+text-transform: lowercase;
+}
+
+#a-login-form table
+{
+width: 100%;
+margin-bottom: 10px;
+}
+
+#a-login-form h1
+{
+color: #fff;
+margin: 15px 0 5px 0;
+}
+
+#a-login-form th,
+#a-login-form td
+{
+width: 100%;
+float: left;
+display: inline;
+clear: both;
+padding-left: 20px;
+}
+
+#a-login-form td input
+{
+width: 175px;
+border: 0px;
+font-size: 12px;
+padding: 3px 2px;
+margin: 2px 0 8px;
+font-family: arial;
+}
+
+#a-login-form .remember th,
+#a-login-form .remember td
+{
+width: 80px;
+clear: none;
+}
+#a-login-form .remember td
+{
+padding: 0;
+}
+
+#a-login-form .remember td input
+{
+width: auto;
+margin: 2px;
+}
+
+#a-login-form .a-controls
+{
+width: 178px;
+margin: 0 22px
+}
+
+#a-login-form .a-controls li
+{
+float: right;
+}
+
+#a-login-form .a-controls li.last
+{
+float: left;
+}
+
+#a-login-form .a-reset-password
+{
+font-size: 11px;
+color: #333;
+}
+
+#a-login-form .a-reset-password:hover { color: #fff; }
+
+
+/* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
+------------------------------------------- */
+
+.a-inline-taggable-widget-tag-container,
+.a-inline-taggable-widget
+{
+	overflow: hidden;
+	clear: both;
+}
+
+.a-inline-taggable-widget-tag-container.a-popular-tags .a-tag 
+{ 
+  float: left;
+  width: 50%;
+}
+
+.a-inline-taggable-widget-tag-container.a-popular-tags h4.a-tag-heading
+{
+	font-size: 12px;
+/*	color: #000;*/
+}
+
+.a-inline-taggable-widget-tag-container .a-tag a,
+.a-inline-taggable-widget-tag-container .a-tag span
+{
+	float: left;
+	font-size: 11px;
+	line-height: 1.2;
+	margin: 2px 0;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag span.a-tag-count
+{
+	float: right;
+	margin-left: 2px;
+	color: #999;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular span.a-tag-count
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1px 0;
+	width: 20px;
+	text-align: center;
+}
+
+
+.a-inline-taggable-widget-tag-container .a-tag.a-existing
+{
+	margin-right: 5px;
+	float: left;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular
+{
+	color: #666;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular a:hover
+{
+	color: #000;
+}
+
+.a-inline-taggable-widget-tag-container .a-tag.a-popular span
+{
+	opacity: 0.65;
+	margin-left: 5px;
+}
+
+.a-inline-taggable-widget-tag-container h4
+{
+	float: left;
+	clear: both;
+	background: none;
+	width: 100%;
+	text-indent: 0;
+}
+
+
+/* Apostrophe Attribution
+-------------------------------------*/
+
+.a-attribution { display: block; float: left; width: 720px; margin: 20px 0px 0px 0px; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
+.a-attribution a:hover { text-decoration:underline; }
+
+/* Apostrophe IE6 Warning for Admin
+-------------------------------------*/
+
+#ie6-warning { background: #f00; color: #fff; position: relative; z-index:999; overflow: auto; }
+#ie6-warning h2 { margin: 0; padding: 5px; font-size: 14px; }
+#ie6-warning h2 a { color: #fff; text-decoration: underline; }
+#ie6-warning h2 a:hover { color: #222; }
+.ie6 .a-controls, .ie6 .a-btn { display: none !important; } /* Added precaution -- Let's hide any controls from IE6 */
+
+
+/* Apostrophe Navigation
+-------------------------------------*/
+
+.a-archived-page a { text-decoration: line-through; opacity: 0.5; }

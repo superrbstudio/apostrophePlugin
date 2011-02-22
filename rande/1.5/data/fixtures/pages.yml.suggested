@@ -1,0 +1,252 @@
+aPage:
+  home:
+    slug: "/"
+    template: home
+    Areas:
+      home_en_title:
+        name: title
+        culture: en
+        latest_version: 1
+        AreaVersions:
+          home_en_title_version_1:
+            version: 1
+            AreaVersionSlots:
+              home_en_title_version_1_permid_1:
+                permid: 1
+                Slot:
+                  type: aText 
+                  value: "Home"
+      home_fr_title:
+        name: title
+        culture: fr
+        latest_version: 1
+        AreaVersions:
+          home_fr_title_version_1:
+            version: 1
+            AreaVersionSlots:
+              home_fr_title_version_1_permid_1:
+                permid: 1
+                Slot:
+                  type: aText 
+                  value: "Accueil"
+      home_en_body:
+        name: body 
+        culture: en
+        latest_version: 1
+        AreaVersions:
+          home_en_body_version_1:
+            version: 1
+            AreaVersionSlots:
+              home_en_body_version_1_permid_1:
+                permid: 1
+                Slot:
+                  type: aRichText 
+                  value: '<h3>Welcome to aSandbox, a sample site built using <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> <p>You can edit this text by clicking the Edit button. You can also add additional slots to this area, such as video and slideshow slots, via the Add Slot button.</p>'
+      home_fr_body:
+        name: body 
+        culture: fr
+        latest_version: 1
+        AreaVersions:
+          home_fr_body_version_1:
+            version: 1
+            AreaVersionSlots:
+              home_fr_body_version_1_permid_1:
+                permid: 1
+                Slot:
+                  type: aRichText 
+                  value: >
+                    <h3>Bienvenue dans le aSandbox, un exemple de site réalisé en utilisant 
+                    <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> 
+                    <p>Vous pouvez éditer ce texte en cliquant sur le bouton &laquo;&nbsp;Editer&nbsp;&raquo;. Vous pouvez 
+                    également ajouter des emplacements supplémentaires à cette zone, tel qu'un 
+                    emplacement vidéo ou un emplacement diaporama, en utilisant le bouton &laquo;&nbsp;Ajouter 
+                    un emplacement&nbsp;&raquo;.</p>
+    children:
+      about:
+        slug: "/about"
+        template: default
+        Areas:
+          about_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              about_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  about_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "About"
+          about_fr_title:
+            name: title
+            culture: fr
+            latest_version: 1
+            AreaVersions:
+              about_fr_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  about_fr_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "A propos"
+          about_en_body:
+            name: body 
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              about_en_body_version_1:
+                version: 1
+                AreaVersionSlots:
+                  about_en_body_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aRichText 
+                      value: '<h3>Learn more about <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> It is open source, robust, &amp; super easy to use!'
+          about_fr_body:
+            name: body 
+            culture: fr
+            latest_version: 1
+            AreaVersions:
+              about_fr_body_version_1:
+                version: 1
+                AreaVersionSlots:
+                  about_fr_body_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aRichText 
+                      value: >
+                        <h3>Découvrez <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>.</h3> 
+                        Une solution open source, robuste et extrêmement simple à utiliser!
+      
+      admin:
+        # By convention this page is the parent of all admin pages. Admin pages are
+        # hidden from all normal navigation
+        slug: "/admin"
+        template: default
+        admin: true
+        # The admin engine has an index action that redirects to the home page, for now
+        engine: aAdmin
+        Areas:
+          admin_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              admin_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  admin_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Admin"
+          admin_fr_title:
+            name: title
+            culture: fr
+            latest_version: 1
+            AreaVersions:
+              admin_fr_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  admin_fr_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Admin"
+        children:          
+          media:
+            slug: "/admin/media"
+            template: default
+            engine: aMedia
+            # The default media engine page is not visible to logged-out users. You can
+            # introduce other instances of it that are
+            admin: true
+            Areas:
+              media_en_title:
+                name: title
+                culture: en
+                latest_version: 1
+                AreaVersions:
+                  media_en_title_version_1:
+                    version: 1
+                    AreaVersionSlots:
+                      media_en_title_version_1_permid_1:
+                        permid: 1
+                        Slot:
+                          type: aText 
+                          value: "Media"
+              media_fr_title:
+                name: title
+                culture: fr
+                latest_version: 1
+                AreaVersions:
+                  media_fr_title_version_1:
+                    version: 1
+                    AreaVersionSlots:
+                      media_fr_title_version_1_permid_1:
+                        permid: 1
+                        Slot:
+                          type: aText 
+                          value: "Média"
+      contact:
+        slug: "/contact"
+        template: default
+        Areas:
+          contact_en_title:
+            name: title
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              contact_en_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_en_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Contact"
+          contact_fr_title:
+            name: title
+            culture: fr
+            latest_version: 1
+            AreaVersions:
+              contact_fr_title_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_fr_title_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aText 
+                      value: "Contact"
+          contact_en_body:
+            name: body 
+            culture: en
+            latest_version: 1
+            AreaVersions:
+              contact_en_body_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_en_body_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aRichText 
+                      value: '<h3>For more information or help with <a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, contact <a href="mailto:apostrophe@punkave.com">apostrophe@punkave.com</a></h3>'
+          contact_fr_body:
+            name: body 
+            culture: fr
+            latest_version: 1
+            AreaVersions:
+              contact_fr_body_version_1:
+                version: 1
+                AreaVersionSlots:
+                  contact_fr_body_version_1_permid_1:
+                    permid: 1
+                    Slot:
+                      type: aRichText 
+                      value: >
+                        <h3>Pour plus d'informations ou obtenir de l'aide au sujet 
+                        d'<a href="http://www.apostrophenow.com" target="_new">Apostrophe</a>, 
+                        contactez <a href="mailto:apostrophe@punkave.com">apostrophe@punkave.com</a></h3>
