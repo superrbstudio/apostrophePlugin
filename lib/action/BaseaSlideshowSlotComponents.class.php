@@ -46,6 +46,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['height'] = $this->getOption('height', false);
     $this->options['resizeType'] = $this->getOption('resizeType', 's');
     $this->options['flexHeight'] = $this->getOption('flexHeight');
+    $this->options['maxHeight'] = $this->getOption('maxHeight', false);
     $this->options['title'] = $this->getOption('title');
     $this->options['description'] = $this->getOption('description');
     $this->options['credit'] = $this->getOption('credit');

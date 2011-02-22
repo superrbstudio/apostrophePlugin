@@ -20,6 +20,18 @@
 	    array("width" => $options['width'],
 	      "height" => $options['flexHeight'] ? false : $options['height'],
 	      "resizeType" => $options['resizeType'])) ?>
+		<?php // Implement maximum height ?>
+		<?php if ($options['maxHeight']): ?>
+			<?php if ($dimensions['height'] > $options['maxHeight']): ?>
+			  <?php $dimensions = aDimensions::constrain(
+			    $item->width,
+			    $item->height,
+			    $item->format, 
+			    array("width" => false,
+			      "height" => $options['maxHeight'],
+			      "resizeType" => $options['resizeType'])) ?>
+			<?php endif ?>
+		<?php endif ?>
 	  <?php $embed = str_replace(
 	    array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
 	    array($dimensions['width'], 
