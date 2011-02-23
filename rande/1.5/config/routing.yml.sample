@@ -1,16 +1,18 @@
 # Special case for the home page
 
-homepage:
-  url:  /
-  param: { module: a, action: show, slug: / }
-
-# The non-CMS actions of your project, and the admin actions of the CMS
-a_action:
-  url:   /cms/:module/:action
-
-# Must be the LAST rule
+# Must be the FIRST rule
 a_page:
   url:   /:slug
+  class: aCmsRoute
+  options: {type: object, model: aPage}
   param: { module: a, action: show }
   requirements: { slug: .* }
 
+
+# default rules
+homepage:
+  url:   /
+  param: { module: a, action: show, slug: / }
+
+a_action:
+  url: /cms/:module/:action

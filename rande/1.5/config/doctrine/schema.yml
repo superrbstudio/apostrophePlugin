@@ -72,6 +72,18 @@ aPage:
       type: integer
     engine:
       type: string(255)
+
+    # a code is use to reference a page inside the code, ie code=term_and_condition
+    # we don't need to know the url to generate the url
+    code:
+      type: varchar(32) # use to reference the page
+
+    # the related action will be handled by a symfony action class but we need the page
+    # in the menu
+    skip_on_url_match:
+      type: boolean
+      default: false
+    
   indexes:
     slugindex:
       fields:

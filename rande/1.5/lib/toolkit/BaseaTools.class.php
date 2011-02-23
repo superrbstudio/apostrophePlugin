@@ -32,6 +32,24 @@ class BaseaTools
     aTools::$jsCalls = array();
     aNavigation::simulateNewRequest();
   }
+
+  /**
+   * retrieve a page with the provided slug (create the page if the related slug does not exist)
+   *
+   * inside a symfony template file, you can define a hybrid page and use it in an area
+   *
+   * <?php $page = aTools::getHybridPage('Poll/showPollCategory/'.$poll_category->id) ?>
+   *
+   * <?php a_area('body', array( 'slug' => $page->getSlug(), 'allowed_types' => array('aText') ); ?>
+   *
+   * @param string $slug the slug related to hybrid page
+   */
+  static public function getHybridPage($slug)
+  {
+    aTools::globalSetup(array('slug' => 'hybrid_'.$slug));
+
+    return aTools::getCurrentPage();
+  }
   
   static public function cultureOrDefault($culture = false)
   {
@@ -75,8 +93,11 @@ class BaseaTools
     // By using @a_page we can skip to a shorter URL form
     // and not get tripped up by the default routing rule which could
     // match first if we wrote a/show 
-    $routed_url = sfContext::getInstance()->getController()->genUrl('@a_page?slug=-PLACEHOLDER-', $absolute);
-    $routed_url = str_replace('-PLACEHOLDER-', $slug, $routed_url);
+    $routed_url = sfContext::getInstance()->getController()->genUrl('@a_page?slug='.$slug, $absolute);
+
+    // thomas : not require anymore
+    // $routed_url = str_replace('-PLACEHOLDER-', $slug, $routed_url);
+
     // We tend to get double slashes because slugs begin with slashes
     // and the routing engine wants to helpfully add one too. Fix that,
     // but don't break http://

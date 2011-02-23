@@ -1,0 +1,14 @@
+* aPage
+
+  add more useful fields :
+    - code
+    - skip_on_url_match
+    - title
+    - meta_description:
+    - meta_keyword
+    - stylesheet
+    - javascript
+
+* aCmsPage
+
+  Add a real cms page object to generate route

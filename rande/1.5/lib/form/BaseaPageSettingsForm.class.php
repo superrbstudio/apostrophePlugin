@@ -180,6 +180,13 @@ class BaseaPageSettingsForm extends aPageForm
       )));
     }
 
+    // This option allows to have an apostrophe url linked to a symfony action
+    $this->setWidget('skip_on_url_match', new sfWidgetFormChoice(array(
+      'expanded' => true,
+      'choices' => array(false => "No", true => "Yes"),
+      'default' => false
+    )));
+
   	// Tags
   	$options['default'] = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
 		if (sfConfig::get('app_a_all_tags', true))

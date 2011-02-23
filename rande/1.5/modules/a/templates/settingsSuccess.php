@@ -78,6 +78,13 @@
 					<?php endif ?> 
 				</div>
 			</div>
+
+   		<div class="a-form-row">
+			  <h4><label><?php echo __('Hybrid Page', null, 'apostrophe') ?></label></h4>
+		  	<div class="<?php echo $stem ?>-hybrid-page">
+					<?php echo $form['skip_on_url_match'] ?>
+				</div>
+			</div>
 	</div>
 	
 	
