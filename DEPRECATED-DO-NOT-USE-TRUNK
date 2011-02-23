@@ -1,0 +1,3 @@
+ACTIVE DEVELOPMENT OF APOSTROPHE NOW TAKES PLACE IN BRANCHES for each version (1.4, 1.5, etc). Currently we are making updates to the 1.5 stable branch. Future development of a 1.6 release, if we have one, would take place in a 1.6 branch and we would make an announcement about its stability at an appropriate time. 2.0 development will take place in git at a later date.
+
+DO NOT USE THE TRUNK. We are removing it in one month. This message is available temporarily as a courtesy to those who may already be using it.
