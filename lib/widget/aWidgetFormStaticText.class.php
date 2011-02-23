@@ -19,15 +19,21 @@
 class aWidgetFormStaticText extends sfWidgetFormInput
 {
   protected $label;
-  
+
   // The label is the only reason this widget exists, so don't bother using an option for it,
   // the constructor is more succinct
-  public function __construct($label)
+  public function __construct($label, $options = array(), $attributes = array())
   {
     $this->label = $label;
-    parent::__construct();
+    parent::__construct($options, $attributes);
   }
   
+	protected function configure($options = array(), $attributes = array())
+  {
+		$this->addOption('escaping', true);
+    parent::configure($options, $attributes);
+  }
+
   /**
    * @param  string $name        The element name
    * @param  string $value       The value displayed in this widget
@@ -43,6 +49,12 @@ class aWidgetFormStaticText extends sfWidgetFormInput
     unset($attributes['name']);
     // Always ignore the passed value, which will vary if there are multiple validation passes.
     // We just want to output the label we were created with.
-    return $this->renderContentTag('div', htmlspecialchars($this->label), $attributes);
+		if ($this->getOption('escaping')) {
+    	return $this->renderContentTag('div', htmlspecialchars($this->label), $attributes);
+		}
+		else
+		{
+    	return $this->renderContentTag('div', $this->label, $attributes);
+		}
   }
 }
