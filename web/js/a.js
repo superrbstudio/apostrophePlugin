@@ -1545,8 +1545,8 @@ function aConstructor()
 
 		if (options['new'])
 		{
-			var slugField = form.find('[name=settings[slug]]');
-			var titleField = form.find('[name=settings[realtitle]]');
+			var slugField = form.find('[name="settings[slug]"]');
+			var titleField = form.find('[name="settings[realtitle]"]');
 			var timeout = null;
 
 			function changed()
@@ -1579,7 +1579,7 @@ function aConstructor()
 			});
 		}
 
-		var joinedtemplate = form.find('[name=settings[joinedtemplate]]');
+		var joinedtemplate = form.find('[name="settings[joinedtemplate]"]');
 		joinedtemplate.change(function() {
 			updateEngineAndTemplate();
 		});
