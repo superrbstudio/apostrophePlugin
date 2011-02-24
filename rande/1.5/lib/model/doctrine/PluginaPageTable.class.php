@@ -857,6 +857,11 @@ class PluginaPageTable extends Doctrine_Table
     
   static public function getPagesInfo($options)
   {
+
+    if(isset($options['info']['hybrid']) && $options['info']['hybrid']) {
+      return array();
+    }
+
     $whereClauses = array();
     $ignorePermissions = false;
 		if (isset($options['ignore_permissions']))
@@ -979,7 +984,14 @@ class PluginaPageTable extends Doctrine_Table
     $whereClauses[] = $where;
     $query .= "WHERE " . implode(' AND ', $whereClauses);
     $query .= " ORDER BY p.lft";
-    $resultSet = $pdo->query($query);
+    try {
+      $resultSet = $pdo->query($query);
+    } catch(Exception $e)
+    {
+      var_dump(debug_backtrace());
+      var_dump($options, $whereClauses); die();
+    }
+
     // Turn it into an actual array rather than some iterable almost-array thing
     $results = array();
     $seenId = array();
@@ -1009,6 +1021,7 @@ class PluginaPageTable extends Doctrine_Table
       }
       $results[] = $result;
     }
+
     return $results;
   }
 }

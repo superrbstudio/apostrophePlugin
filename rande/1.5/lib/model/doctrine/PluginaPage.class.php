@@ -159,6 +159,7 @@ abstract class PluginaPage extends BaseaPage
   {
     if ($this->slotCache === false)
     {
+
       $this->slotCache = array();
       // We have $this->Areas courtesy of whatever query
       // fetched the page in the first place
@@ -522,7 +523,7 @@ abstract class PluginaPage extends BaseaPage
   
   public function getInfo()
   {
-    return array('id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_guest' => $this->view_guest, 'engine' => $this->engine, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
+    return array('hybrid' => $this->isHybridPage(), 'id' => $this->id, 'title' => $this->getTitle(), 'slug' => $this->slug, 'view_is_secure' => $this->view_is_secure, 'view_guest' => $this->view_guest, 'engine' => $this->engine, 'view_admin_lock' => $this->view_admin_lock, 'edit_admin_lock' => $this->edit_admin_lock, 'archived' => $this->archived, 'admin' => $this->admin, 'level' => $this->level, 'lft' => $this->lft, 'rgt' => $this->rgt);
   }
   
   protected $childrenInfo;
@@ -557,7 +558,12 @@ abstract class PluginaPage extends BaseaPage
     $level = 0;
     return $this->getTreeInfoBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $depth, $livingOnly);
   }
-  
+
+  protected function isHybridPage()
+  {
+    return substr($this->getSlug(), 0, 7) == 'hybrid_';
+  }
+
   protected function getTreeInfoBody($lft, $rgt, $infos, &$offset, $level, $depth, $livingOnly)
   {
     $count = count($infos);
@@ -801,7 +807,7 @@ abstract class PluginaPage extends BaseaPage
   
   protected function getPagesInfo($livingOnly = true, $where, $admin = false)
   {
-    return aPageTable::getPagesInfo(array('culture' => $this->getCulture(), 'where' => $where, 'admin' => $admin));
+    return aPageTable::getPagesInfo(array('info' => array('hybrid' => $this->isHybridPage()), 'culture' => $this->getCulture(), 'where' => $where, 'admin' => $admin));
   }
 
   // The $livingOnly option is present for bc only and is ignored (we look at what the current user can see)
