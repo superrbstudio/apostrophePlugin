@@ -196,7 +196,7 @@ class aFiles
       {
         // It's better to report $ancestor rather than $path because
         // creating that one parent should solve the problem
-        throw new Exception("Unable to create $ancestor the admin will probably need to do this manually the first time and set permissions so that the web server can write to that folder");
+        throw new Exception("Unable to create $path in $ancestor the admin will probably need to do this manually the first time and set permissions so that the web server can write to that folder");
       }
     }
     return $path;
