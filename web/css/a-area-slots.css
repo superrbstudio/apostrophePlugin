@@ -40,8 +40,10 @@
 /* Controls for Areas & Slots
 -------------------------------------*/
 
+.a-ui .a-controls,
 .a-ui.a-controls { margin: 0; padding: 0; list-style: none; clear: both; }
 
+.a-ui .a-controls li,
 .a-ui.a-controls li 
 { /* All controls buttons are wrapped in a list. */
 float: left;
