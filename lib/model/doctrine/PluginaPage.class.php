@@ -1613,7 +1613,7 @@ abstract class PluginaPage extends BaseaPage
       }
     }
   }  
-
+  
   // We may need this before we're done
   // protected function str_replace($old, $new, $content)
   // {

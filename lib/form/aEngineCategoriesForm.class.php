@@ -22,7 +22,7 @@ class aEngineCategoriesForm extends aPageForm
         new sfValidatorPass(array('required' => false)));
     }
     $this->widgetSchema->setLabel('categories_list', 'Categories');
-    $this->widgetSchema->setHelp('categories_list','(Defaults to All Cateogories)');
+    $this->widgetSchema->setHelp('categories_list','(Defaults to All Categories)');
     $this->getValidator('categories_list')->setOption('required', false);
     $this->widgetSchema->setNameFormat('enginesettings[%s]');
 		// We use the aPageSettings formatter here instead of aAdmin because it puts H4 tags around the labels for styling
