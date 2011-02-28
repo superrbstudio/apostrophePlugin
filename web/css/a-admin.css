@@ -204,14 +204,6 @@ line-height: 1.5em;
 
 .a-admin ul.a-admin-checklist li label { display: inline; float: none; }
 
-.admin ul.a-controls li
-{
-display: block;
-float: left;
-width: 100%;
-margin: 0;
-}
-
 .a-admin-actions input
 {
 border: 1px solid #ddd !important;
