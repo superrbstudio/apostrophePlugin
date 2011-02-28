@@ -82,6 +82,8 @@ function aUI(target)
 
 	$('.a-controls li:last-child').addClass('last'); // Add 'last' Class To Last Option
 	
+	$('a[rel="external"]').attr('target','_blank');
+	
 	// You can define this function in your site.js to execute code whenenever apostrophe calls aUI();
 	// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
 	if (typeof(aOverrides) =="function")
