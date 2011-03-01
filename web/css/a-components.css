@@ -349,6 +349,10 @@ background:#fff;
 
 /*.a-logged-in-user a:hover { color: #000; }*/
 
+/* Hide the logged in message when the screen gets too thin */
+@media all and (max-width: 1060px) {
+.a-ui.a-global-toolbar .a-login-user { display: none; }
+}
 
 /* Edit/Create Page Form Shared Styles
 --------------------------------------*/
