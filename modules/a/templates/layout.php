@@ -40,7 +40,7 @@
 </head>
 
 <?php // body_class allows you to set a class for the body element from a template ?>
-<body class="<?php if (has_slot('body_class')): ?><?php include_slot('body_class') ?><?php endif ?><?php if (($sf_user->isAuthenticated())): ?> logged-in<?php endif ?>">
+<body class="<?php if (has_slot('body_class')): ?><?php include_slot('body_class') ?><?php endif ?><?php echo ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?>">
 
 	<?php include_partial('a/doNotEdit') ?>
   <?php include_partial('a/globalTools') ?>
