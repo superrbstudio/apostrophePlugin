@@ -290,16 +290,37 @@ class PluginaPageTable extends Doctrine_Table
   
   static public function getMatchingEnginePage($url, &$remainder)
   {
+    // The URL should match a_page, which should allow us to break the slug out and learn the
+    // user's culture in a way that doesn't hardcode whether cultures are present and how etc.
+    
+    $routes = sfContext::getInstance()->getRouting()->getRoutes();
+    $culture = aTools::getUserCulture();
+    
+    if (isset($routes['a_page']))
+    {
+      $r = $routes['a_page'];
+      $parameters = $r->matchesUrl($url);
+      if ($parameters)
+      {
+        // Since we're not really visiting a_page the culture won't switch
+        // if we don't visit some normal page in French before the engine page.
+        // We resolve this by implementing the culture switch here
+        if (isset($parameters['sf_culture']))
+        {
+          $culture = $parameters['sf_culture'];
+          $user = sfContext::getInstance()->getUser();
+          if ($user)
+          {
+            $user->setCulture($culture);
+          }
+        }
+      }
+    }
+    
     // Engines won't work on sites where the CMS is not mounted at the root of the site
     // unless we examine the a_page route to determine a prefix. Generate the route properly
     // then lop off the controller name, if any
-    
-    if ($url === aPageTable::$engineCacheUrl)
-    {
-      $remainder = aPageTable::$engineCacheRemainder;
-      return aPageTable::$engineCachePage;
-    }
-    
+            
     // if (aPageTable::$engineCachePagePrefix)
     // {
     //   $prefix = aPageTable::$engineCachePagePrefix;
@@ -307,21 +328,36 @@ class PluginaPageTable extends Doctrine_Table
     // else
     {
       $prefix = '';
-      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => aTools::getUserCulture()), false);
+      $culturePrefix = '';
+      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => $culture), false);
       $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
       // The URL we're being asked to examine has already
       // lost its relative_root_url, so don't include $rr in
       // the prefix we attempt to remove
       
       // Tolerate and ignore a query string (which will be there if sf_culture is not prettified by the route)
-      $re = "/^(?:\/\w+\.php)?$rr(.*)\/dummy(?:\?.*)?$/";
+      $re = "/^(\/\w+\.php)?$rr(.*)\/dummy(?:\?.*)?$/";
       if (preg_match($re, $dummyUrl, $matches))
       {
-        $prefix = $matches[1];
+        $controllerPrefix = $matches[1];
+        $culturePrefix = $matches[2];
       }
       aPageTable::$engineCachePagePrefix = $prefix;
     }
     $url = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $url);
+    
+    
+    // Now remove the culture prefix too so we don't fail to find the page
+    $url = preg_replace('/^' . preg_quote($culturePrefix, '/') . '/', '', $url);
+
+    // Moved caching after the rewrites, otherwise it never works for
+    // interesting frontend controller names, URLs with cultures in them, etc.
+
+    if ($url === aPageTable::$engineCacheUrl)
+    {
+      $remainder = aPageTable::$engineCacheRemainder;
+      return aPageTable::$engineCachePage;
+    }
     
     $urls = array();
     // Remove any query string
