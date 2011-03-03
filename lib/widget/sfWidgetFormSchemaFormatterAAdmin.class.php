@@ -6,12 +6,11 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
 		$aRowClassName = "a-form-row",
     $rowFormat = "<div class=\"%a_row_class%\">\n  %label%\n  <div class=\"a-form-field\">%field%</div> %error% \n %help%%hidden_fields%\n</div>\n",
     $errorRowFormat = '%errors%',
-    $helpFormat = '<div class="a-form-help-text">%help%</div>',
+    $helpFormat = '<div class="a-help">%help%</div>',
     $decoratorFormat ="<div class=\"a-admin-form-container\">\n %content%\n</div>",
-		$errorListFormatInARow     = "<div class='a-form-error'>\n<ul class=\"a-error-list error_list\">\n%errors%  </ul>\n</div>\n",
+		$errorListFormatInARow     = "<div class='a-form-errors'>\n<ul class=\"a-error-list error_list\">\n%errors%</ul>\n</div>\n",
 		$errorRowFormatInARow      = "<li>%error%</li>\n",
 		$namedErrorRowFormatInARow = "<li>%name%: %error%</li>\n";
-
 
 	public function formatRow($label, $field, $errors = array(), $help = '', $hiddenFields = null)
   {
@@ -28,6 +27,5 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
 	public function getARowClassName()
 	{
     return $this->aRowClassName;
-	}
-	
+	}	
 }
