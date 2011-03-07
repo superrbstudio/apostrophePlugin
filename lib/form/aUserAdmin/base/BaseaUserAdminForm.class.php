@@ -44,6 +44,15 @@ class BaseaUserAdminForm extends sfGuardUserAdminForm
   // Override me to add more
   public function getUseFields()
   {
-    return array('first_name', 'last_name', 'email_address', 'username', 'password', 'password_again', 'is_active', 'groups_list', 'categories_list');
+    $fields = array('first_name', 'last_name', 'email_address', 'username', 'password', 'password_again', 'is_active', 'groups_list', 'categories_list');
+    if (!sfConfig::get('app_a_user_admin_password', true))
+    {
+      $fields = array_diff($fields, array('password', 'password_again'));
+    }
+    if (!sfConfig::get('app_a_user_admin_is_active', true))
+    {
+      $fields = array_diff($fields, array('is_active'));
+    }
+    return $fields;
   }
 }
