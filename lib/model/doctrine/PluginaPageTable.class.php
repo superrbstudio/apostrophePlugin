@@ -283,12 +283,29 @@ class PluginaPageTable extends Doctrine_Table
   // for every engine route in the application
   
   protected static $engineCacheUrl = false;
-  protected static $engineCachePage = false;
+  protected static $engineCachePageInfo = false;
   protected static $engineCacheRemainder = false;
   protected static $engineCacheFirstEnginePages = array();
   protected static $engineCachePagePrefix = false;
+  protected static $dummyUrlCache = array();
+  // DEPRECATED. Never returned a fully populated page anyway, and yet
+  // it wasted time and memory on object hydration. I doubt anyone used
+  // this directly but us, so I'm not wrapping an entirely new cache around it
   
   static public function getMatchingEnginePage($url, &$remainder)
+  {
+    $info = aPageTable::getMatchingEnginePageInfo($url, $remainder);
+    if ($info)
+    {
+      return Doctrine::getTable('aPageTable')->find($info['id']);
+    }
+    return null;
+  }
+  
+  // For performance reasons this returns a stripped down info array with
+  // just the slug, engine and id guaranteed to be present, NO title
+  
+  static public function getMatchingEnginePageInfo($url, &$remainder)
   {
     // The URL should match a_page, which should allow us to break the slug out and learn the
     // user's culture in a way that doesn't hardcode whether cultures are present and how etc.
@@ -321,29 +338,26 @@ class PluginaPageTable extends Doctrine_Table
     // unless we examine the a_page route to determine a prefix. Generate the route properly
     // then lop off the controller name, if any
             
-    // if (aPageTable::$engineCachePagePrefix)
-    // {
-    //   $prefix = aPageTable::$engineCachePagePrefix;
-    // }
-    // else
+    $prefix = '';
+    $culturePrefix = '';
+    if (!isset(aPageTable::$dummyUrlCache[$culture]))
     {
-      $prefix = '';
-      $culturePrefix = '';
-      $dummyUrl = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => $culture), false);
-      $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
-      // The URL we're being asked to examine has already
-      // lost its relative_root_url, so don't include $rr in
-      // the prefix we attempt to remove
-      
-      // Tolerate and ignore a query string (which will be there if sf_culture is not prettified by the route)
-      $re = "/^(\/\w+\.php)?$rr(.*)\/dummy(?:\?.*)?$/";
-      if (preg_match($re, $dummyUrl, $matches))
-      {
-        $controllerPrefix = $matches[1];
-        $culturePrefix = $matches[2];
-      }
-      aPageTable::$engineCachePagePrefix = $prefix;
+      aPageTable::$dummyUrlCache[$culture] = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => $culture), false);
     }
+    $dummyUrl = aPageTable::$dummyUrlCache[$culture];
+    $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
+    // The URL we're being asked to examine has already
+    // lost its relative_root_url, so don't include $rr in
+    // the prefix we attempt to remove
+    
+    // Tolerate and ignore a query string (which will be there if sf_culture is not prettified by the route)
+    $re = "/^(\/\w+\.php)?$rr(.*)\/dummy(?:\?.*)?$/";
+    if (preg_match($re, $dummyUrl, $matches))
+    {
+      $controllerPrefix = $matches[1];
+      $culturePrefix = $matches[2];
+    }
+    aPageTable::$engineCachePagePrefix = $prefix;
     $url = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $url);
     
     
@@ -356,7 +370,7 @@ class PluginaPageTable extends Doctrine_Table
     if ($url === aPageTable::$engineCacheUrl)
     {
       $remainder = aPageTable::$engineCacheRemainder;
-      return aPageTable::$engineCachePage;
+      return aPageTable::$engineCachePageInfo;
     }
     
     $urls = array();
@@ -378,22 +392,22 @@ class PluginaPageTable extends Doctrine_Table
       }
       $twig = $matches[1];
     }
-    $page = Doctrine_Query::create()->
+    $pageInfo = Doctrine_Query::create()->
       select('p.*, length(p.slug) as len')->
       from('aPage p')->
       whereIn('p.slug', $urls)->
       andWhere('p.engine IS NOT NULL')->
       orderBy('len desc')->
       limit(1)->
-      fetchOne();
-    aPageTable::$engineCachePage = $page;
+      fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+    aPageTable::$engineCachePageInfo = $pageInfo;
     aPageTable::$engineCacheUrl = $url;
     aPageTable::$engineCacheRemainder = false;
-    if ($page)
+    if ($pageInfo)
     {
-      $remainder = substr($url, strlen($page->slug));
+      $remainder = substr($url, strlen($pageInfo['slug']));
       aPageTable::$engineCacheRemainder = $remainder;
-      return $page;
+      return $pageInfo;
     }
     return false;
   }

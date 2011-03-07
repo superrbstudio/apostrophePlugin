@@ -19,7 +19,7 @@ class aRouteTools
   static public function removePageFromUrl(sfRoute $route, $url)
   {
     $remainder = false;
-    $page = aPageTable::getMatchingEnginePage($url, $remainder);
+    $page = aPageTable::getMatchingEnginePageInfo($url, $remainder);
     if (!$page)
     {
       return false;
@@ -27,7 +27,7 @@ class aRouteTools
     // Engine pages can't have subpages, so if the longest matching path for any engine page
     // has the wrong engine type for this route, this route definitely doesn't match
     $defaults = $route->getDefaults();
-    if ($page->engine !== $defaults['module'])
+    if ($page['engine'] !== $defaults['module'])
     {
       return false;
     }

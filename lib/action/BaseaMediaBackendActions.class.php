@@ -48,12 +48,16 @@ class BaseaMediaBackendActions extends sfActions
       $cropTop = ceil($cropTop + 0);
       $cropWidth = ceil($cropWidth + 0);
       $cropHeight = ceil($cropHeight + 0);
+
+      // Do this BEFORE we force resizeType to c for cropping. Otherwise Apache doesn't see that we already have
+      // the file and PHP is forced to output it every time. Should be a big performance win when 's' is used
+      // and cropping is present
+      $output = $this->getDirectory() . 
+        DIRECTORY_SEPARATOR . "$slug.$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";      
+
       // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
       // and only the cropOriginal method actually supports cropping parameters, so
       $resizeType = 'c';
-      
-      $output = $this->getDirectory() . 
-        DIRECTORY_SEPARATOR . "$slug.$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";      
     }
     else
     {
