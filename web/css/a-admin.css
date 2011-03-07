@@ -93,16 +93,10 @@ list-style-type: none;
 padding-top: 20px;
 }
 
-.a-admin ul.a-admin-actions a { color: #333; }
+.a-admin-actions a { color: #333; }
 
-.a-admin ul.a-admin-actions li
-{
-list-style-type: none;
-display: inline;
-float: left;
-margin-right:1px !important;
-}
-
+.a-admin-actions li { list-style-type: none; float: left; margin-right:1px !important; }
+.a-admin-actions select { float: left; }
 .a-admin.sfGuardUser a.icon.a-add { background-image: url(../images/a-icon-users.png); }
 
 .a-admin ul.a-admin-actions li.a-admin-batch-actions-choice { float: left; }
