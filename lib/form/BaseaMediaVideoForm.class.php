@@ -179,17 +179,28 @@ class BaseaMediaVideoForm extends aMediaItemForm
 
   public function validateEmbed($validator, $values)
   {
+    // (Re)classify the (potentially new or modified) embed code or URL
+    $this->classifyEmbed($values['embed']);
     if (!$this->classifyEmbedResult['ok'])
     {
       throw new sfValidatorErrorSchema($validator, array('embed' => new sfValidatorError($validator, $this->classifyEmbedResult['error'])));
     }
     $values['embed'] = $this->classifyEmbedResult['embed'];
+    // We need to update the video-related fields even if other fields, like title,
+    // don't validate yet so that we can display the correct preview
+    $this->videoUpdateObject($values);
     return $values;
   }
   
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
+    $this->videoUpdateObject($values);
+  }
+  
+  public function videoUpdateObject($values)
+  {
+    $object = $this->getObject();
     // TODO: scan types for services etc. don't assume.
     // But then we'd also have to prompt, if it's a nonnative embed
     $object->type = 'video';
@@ -206,10 +217,10 @@ class BaseaMediaVideoForm extends aMediaItemForm
       // Don't let a new nonnative embed code be overshadowed by
       // an old service URL
       $object->service_url = null;
+      $object->embed = $this->classifyEmbedResult['embed'];
     }
     $object->width = $this->classifyEmbedResult['width'];
     $object->height = $this->classifyEmbedResult['height'];
-    
     return $object;
   }
 }

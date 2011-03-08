@@ -130,16 +130,11 @@ class aYoutube extends aEmbedService
       $autoplay = 't';
     }
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
-    $url = "http://www.youtube.com/v/$id&fs=1&autoplay=$autoplay";
+    // wmode seems to have to be in the URL to do any good at least in Chrome
+    // http://stackoverflow.com/questions/4050999/youtube-iframe-wmode-issue
+    $url = "http://www.youtube.com/embed/$id?" . http_build_query(array('wmode' => $wmode));
 return <<<EOM
-<object alt="$title" width="$width" height="$height">
-	<param name="movie" value="$url"></param>
-	<param name="allowFullScreen" value="true"></param>
-	<param name="allowscriptaccess" value="always"></param>
-	<param name="wmode" value="$wmode"></param>
-	<param name="autoplay" value="$autoplay"></param>
-	<embed alt="$title" src="$url" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
-</object>
+<iframe title="$title" width="$width" height="$height" src="$url" frameborder="0" allowfullscreen wmode="$wmode"></iframe>
 EOM
 ;
   }
@@ -151,6 +146,10 @@ EOM
       return $matches[1];
     }
     elseif (preg_match("/youtube.com\/v\/([\w+\-\+]+)/", $url, $matches))
+    {
+      return $matches[1];
+    }
+    elseif (preg_match("/youtube.com\/embed\/([\w+\-\+]+)/", $url, $matches))
     {
       return $matches[1];
     }
