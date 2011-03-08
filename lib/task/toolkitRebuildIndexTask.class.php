@@ -104,11 +104,15 @@ EOF;
         {
           aZendSearch::purgeLuceneIndex($table);
           $tableSqlName = $table->getTableName();
-          $this->query("UPDATE $tableSqlName SET lucene_dirty = true");
+          // Use Doctrine update and count queries to get the performance while
+          // retaining compatibility with aggregate inheritance "tables" like
+          // dukeTubesArticle and dukeTubesEvent. With raw SQL we get confused
+          // because we run out of objects that Doctrine recognizes as being of the
+          // relevant type but we marked everything in the table as "dirty"
+          Doctrine_Query::create()->update($index)->set('lucene_dirty', true)->execute();
           while (true)
           {
-            $result = $this->query("SELECT COUNT(id) AS total FROM $tableSqlName WHERE lucene_dirty = true");
-            $count = $result[0]['total'];
+            $count = $table->createQuery('q')->where('q.lucene_dirty IS TRUE')->count();
             if ($count == 0)
             {
               break;
