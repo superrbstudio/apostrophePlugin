@@ -2124,14 +2124,14 @@ function aConstructor()
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
 	{
-		var up = $(slot).find('.a-arrow-up');
-		var down = $(slot).find('.a-arrow-down');
+		var up = $(slot).find('.a-arrow-up:first');
+		var down = $(slot).find('.a-arrow-down:first');
 
 		if (n > 0)
 		{
 			// TODO: this is not sensitive enough to nested areas
 			up.parent().removeClass('a-hidden');
-			up.unbind('click').click(function() {
+			up.unbind('click.apostrophe').bind('click.apostrophe', function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
 				apostrophe.swapNodes(slot, slots[n - 1]);
@@ -2147,7 +2147,7 @@ function aConstructor()
 		if (n < (slots.length - 1))
 		{
 			down.parent().removeClass('a-hidden');
-			down.unbind('click').click(function() {
+			down.unbind('click.apostrophe').bind('click.apostrophe', function() {
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
 				apostrophe.swapNodes(slot, slots[n + 1]);
