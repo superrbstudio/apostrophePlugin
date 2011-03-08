@@ -14,10 +14,14 @@
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $linkHref = url_for('@a_media_other?action=multipleAdd&id=' . $mediaItem->getId()); ?>
+  <?php endif ?>
+
+  <?php if(aMediaTools::getAttribute('mode') == 'widget'):?>
+    <?php $linkHref = url_for('@a_media_other?action=selected&'. http_build_query(array('id' =>$mediaItem->getId()))); ?>
   <?php endif ?>
 <?php else: ?>
-  <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
+  <?php $linkHref = url_for("@a_media_other?action=show&" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
 <?php endif ?>
 
 <ul>

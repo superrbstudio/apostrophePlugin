@@ -26,7 +26,7 @@
    <li class="a-controls-item choose-images">
      <?php aRouteTools::pushTargetEngineSlug('/admin/media', 'aMedia') ?>
      <?php echo link_to('<span class="icon"></span>' . a_get_option($options, 'chooseLabel', a_('Choose Images')),
-       'aMedia/select',
+       '@a_media_other?action=select',
        array(
          'query_string' => 
            http_build_query(

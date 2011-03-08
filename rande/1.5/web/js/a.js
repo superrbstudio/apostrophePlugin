@@ -1189,10 +1189,14 @@ function aConstructor()
 			$(this).removeClass('over');
 		});
 
+        alert('test');
+
 		// When you're in selecting mode, you can't click through to the showSuccess
 		// So we use the thumbnail AND the title for making your media selection.
 		$('.a-media-thumb-link, .a-media-item-title-link').unbind('click.aMedia').bind('click.aMedia', function(e) {
+
 			e.preventDefault();
+            alert('jere');
 			$.get(options['multipleAddUrl'], { id: $(this).data('id') }, function(data) {
 				$('#a-media-selection-list').html(data);
 				apostrophe.mediaUpdatePreview();

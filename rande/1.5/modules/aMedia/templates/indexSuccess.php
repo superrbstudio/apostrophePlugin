@@ -37,6 +37,8 @@
 			    <?php else: ?>
 			      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
 			    <?php endif ?>
+
+                    
 				</div>		
 			<?php endif ?>
 	<?php endif ?>

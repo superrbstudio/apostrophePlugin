@@ -11,7 +11,7 @@ class aMediaCMSSlotsTools
     if (aMediaTools::userHasUploadPrivilege())
     {
       aTools::addGlobalButtons(array(
-        new aGlobalButton('media', 'Media', 'aMedia/index', 'a-media', '/admin/media', 'aMedia')));
+        new aGlobalButton('media', 'Media', '@a_media_other?action=index', 'a-media', '/admin/media', 'aMedia')));
     }
   }
   static private function i18nDummy()

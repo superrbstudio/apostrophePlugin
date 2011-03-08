@@ -11,7 +11,7 @@ class BaseaMediaComponents extends sfComponents
     
     // ... But we do now use a simple form for the search form
     
-    $this->current = "aMedia/index";
+    $this->current = "@a_media_other?action=index";
     $params = array();
     $type = aMediaTools::getSearchParameter('type');
     if (strlen($type))
@@ -39,7 +39,7 @@ class BaseaMediaComponents extends sfComponents
     }
     $this->searchForm = new aMediaSearchForm();
     $this->searchForm->bind(array('search' => $request->getParameter('search')));
-    $this->current .= "?" . http_build_query($params);
+    $this->current .= "&" . http_build_query($params);
     $this->allTags = aMediaItemTable::getAllTagNameForUserWithCount();
     $tagsByPopularity = $this->allTags;
     arsort($tagsByPopularity);
@@ -75,36 +75,36 @@ class BaseaMediaComponents extends sfComponents
       "first" => true);
     $this->crumbs[] = array(
       "label" => "Media",
-      "link" => "aMedia/index");
+      "link" => "@a_media_other?action=index");
     if ($this->type)
     {
       $this->crumbs[] = array(
         "label" => $this->type,
-        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type)));
+        "link" => aUrl::addParams("@a_media_other?action=index", array("type" => $this->type)));
     }
     if ($this->categorySlug)
     {
       $this->crumbs[] = array(
         "label" => $this->category,
-        "link" => aUrl::addParams("aMedia/index", array('type' => $this->type, "category" => $this->categorySlug)));
+        "link" => aUrl::addParams("@a_media_other?action=index", array('type' => $this->type, "category" => $this->categorySlug)));
     }
     if ($this->tag)
     {
       $this->crumbs[] = array(
         "label" => htmlspecialchars($this->tag),
-        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag))); 
+        "link" => aUrl::addParams("@a_media_other?action=index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag)));
     }
     if ($this->search)
     {
       $this->crumbs[] = array(
         "label" => htmlspecialchars($this->search),
-        "link" => aUrl::addParams("aMedia/index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag, "search" => $this->search)));
+        "link" => aUrl::addParams("@a_media_other?action=index", array("type" => $this->type, 'category' => $this->categorySlug, "tag" => $this->tag, "search" => $this->search)));
     }
     if (isset($this->item))
     {
       $this->crumbs[] = array(
         "label" => $this->item->getTitle(),
-        "link" => aUrl::addParams("aMedia/show", array("slug" => $this->item->getSlug())));
+        "link" => aUrl::addParams("@a_media_other?action=show", array("slug" => $this->item->getSlug())));
     }
     $this->crumbs[count($this->crumbs) - 1]['last'] = true;
   }

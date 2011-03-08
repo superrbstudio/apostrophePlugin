@@ -14,7 +14,7 @@
 
 <?php slot('a-page-header') ?>
   <div class="a-ui a-admin-header">
-    <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
+    <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), '@a_media_other?action=resume') ?></h3>
   </div>
 <?php end_slot() ?>
 
@@ -31,12 +31,12 @@
   <?php endif ?>
 
 	<div class="a-media-items">				
-		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">		
+		<form method="POST" action="<?php echo url_for("@a_media_other?action=editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">
 
 			<?php if (!$singleItem): ?>
 				<ul class="a-ui a-controls top a-align-right">
 					<li><a href="#save" class="a-btn a-submit big a-media-multiple-submit-button"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
-					<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
+					<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "@a_media_other?action=resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 				</ul>
 			<?php endif ?>
 					
@@ -70,7 +70,7 @@
 		  <?php endif ?>
 		<?php endfor ?>
 		<ul class="a-ui a-controls bottom a-align-left">
-			<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
+			<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "@a_media_other?action=resume", array("class"=>"a-btn icon a-cancel big a-js-media-edit-multiple-cancel")) ?></li>
 			<li><a href="#save" class="a-btn a-submit big a-media-multiple-submit-button"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
 		</ul>
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>

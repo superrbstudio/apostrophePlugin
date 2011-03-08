@@ -11,7 +11,7 @@
 <?php slot('body_class') ?>a-media<?php end_slot() ?>
 
 <div class="a-ui a-admin-header">
-  <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), 'aMedia/resume') ?></h3>
+  <h3 class="a-admin-title"><?php echo link_to(a_('Media Library'), '@a_media_other?action=resume') ?></h3>
     
     
   <?php echo a_('View %account% on %service%', array('%account%' => $account->username, '%service%' => a_($account->service))) ?></h3>

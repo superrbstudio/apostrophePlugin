@@ -8,7 +8,7 @@
 <?php $domId = 'a-media-thumb-link-' . $mediaItem->getId() ?>
 <?php $galleryConstraints = aMediaTools::getOption('gallery_constraints'); ?>
 <?php (isset($layout['showSuccess'])) ? $embedConstraints = aMediaTools::getOption('show_constraints') : $embedConstraints = $galleryConstraints ?>
-<?php $showUrl = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))) ?>
+<?php $showUrl = url_for("@a_media_other?action=show&" . http_build_query(array("slug" => $mediaItem->getSlug()))) ?>
 <?php $embeddable = $mediaItem->getEmbeddable() ?>
 <?php isset($autoplay) ? $autoplay : $autoplay = false ?>
 <?php if ($selecting): ?>
@@ -17,12 +17,19 @@
 	<?php if (aMediaTools::isMultiple() || (($mediaItem->getType() === 'image') && (aMediaTools::getType() !== '_downloadable'))): ?>
     <?php $linkHref = "#select-media-item"; ?>
     <?php $multipleStyleSelect = true ?>
+
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $linkHref = url_for('@a_media_other?action=multipleAdd&id=' . $mediaItem->getId()); ?>
     <?php $multipleStyleSelect = false ?>
   <?php endif ?>
+
+  <?php if(aMediaTools::getAttribute('mode') == 'widget'):?>
+        <?php var_dump(url_for('@a_media_other?action=selected&'. http_build_query(array('id' =>$mediaItem->getId())))); ?>
+    <?php $linkHref = url_for('@a_media_other?action=selected&'. http_build_query(array('id' =>$mediaItem->getId()))); ?>
+  <?php endif ?>
+
 <?php else: ?>
   <?php $linkHref = $showUrl; ?>
 <?php endif ?>
@@ -94,7 +101,7 @@
 	<?php endif ?>
 	
 	<div class="a-media-item-information">
-		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout)) ?>
+		<?php include_partial('aMedia/mediaItemMeta', array('mediaItem' => $mediaItem, 'layout' => $layout, 'selecting' => $selecting)) ?>
 	</div>
 
 </div>

@@ -13,7 +13,7 @@
 				<?php echo a_js_button(a_('Drag'), array('icon', 'a-drag', 'lite', 'no-label', 'alt')) ?>
 			</li>
 			<li>
-				<?php echo a_button(a_('Edit'), aUrl::addParams(url_for("aMedia/edit"), array("slug" => $item->getSlug())), array('icon', 'a-edit', 'lite', 'no-label')) ?>
+				<?php echo a_button(a_('Edit'), aUrl::addParams(url_for("@a_media_other?action=edit"), array("slug" => $item->getSlug())), array('icon', 'a-edit', 'lite', 'no-label')) ?>
 			</li>
 			<li>
 				<?php echo a_js_button(a_('Crop'), array('icon', 'a-crop', 'lite', 'no-label')) ?>
@@ -32,10 +32,10 @@
 <?php $n++; endforeach ?>
 
 <?php a_js_call('apostrophe.mediaEnableSelect(?)', array(
-  'setCropUrl' => url_for('aMedia/crop'),
-  'removeUrl' => url_for('aMedia/multipleRemove'),
-  'updateMultiplePreviewUrl' => url_for('aMedia/updateMultiplePreview'),
-  'multipleAddUrl' => url_for('aMedia/multipleAdd'),
+  'setCropUrl' => url_for('@a_media_other?action=crop'),
+  'removeUrl' => url_for('@a_media_other?action=multipleRemove'),
+  'updateMultiplePreviewUrl' => url_for('@a_media_other?action=updateMultiplePreview'),
+  'multipleAddUrl' => url_for('@a_media_other?action=multipleAdd'),
   'ids' => aMediaTools::getSelection(),
   'aspectRatio' => aMediaTools::getAspectRatio(),
   'minimumSize' => array(aMediaTools::getAttribute('minimum-width'), aMediaTools::getAttribute('minimum-height')),

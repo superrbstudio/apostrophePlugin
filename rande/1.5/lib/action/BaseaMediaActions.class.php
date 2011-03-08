@@ -49,9 +49,17 @@ class BaseaMediaActions extends aEngineActions
         $options[$option] = $request->getParameter($option);
       }
     }
+
+    // this option allows to use the select feature inside a popup
+    $options['mode'] = $request->getParameter('mode', 'standard'); // BC with the current implementation
+    if($options['mode'] == 'widget')
+    {
+      $options['widget_id'] = $request['widget_id'];
+    }
+    
     aMediaTools::setSelecting($after, $multiple, $selection, $options);
 
-    return $this->redirect("aMedia/index");
+    return $this->redirect("@a_media_other?action=index");
   }
 
   public function executeIndex(sfWebRequest $request)
@@ -83,7 +91,7 @@ class BaseaMediaActions extends aEngineActions
       // use checkboxes with empty values, and that's not
       // technically wrong. We have the luxury of saying "reasonable
       // people who work here don't do that.")
-      return $this->redirect(aUrl::addParams("aMedia/index",
+      return $this->redirect(aUrl::addParams("@a_media_other?action=index",
           array("tag" => $tag, "search" => $search, "type" => $type)));
     }
     if (!empty($tag))
@@ -193,13 +201,13 @@ class BaseaMediaActions extends aEngineActions
     {
       $page--;
       $params['page'] = $page;
-      return $this->redirect('aMedia/index?' . http_build_query($params));
+      return $this->redirect('@a_media_other?action=index&' . http_build_query($params));
     }
     aMediaTools::setSearchParameters(
         array("tag" => $tag, "type" => $type,
           "search" => $search, "page" => $page, 'category' => $category));
 
-    $this->pagerUrl = "aMedia/index?" .
+    $this->pagerUrl = "@a_media_other?action=index&" .
       http_build_query($params);
     if (aMediaTools::isSelecting())
     {
@@ -249,7 +257,7 @@ class BaseaMediaActions extends aEngineActions
     // This allows us to pass additional parameters to resume, like '?add=1'
     $extra = $this->getRequest()->getGetParameters();
     $parameters = array_merge($extra, $parameters);
-    return $this->redirect(aUrl::addParams("aMedia/index",
+    return $this->redirect(aUrl::addParams("@a_media_other?action=index",
         $parameters));
   }
 
@@ -318,7 +326,7 @@ class BaseaMediaActions extends aEngineActions
     }
     if ((!aMediaTools::isMultiple()) && aMediaTools::getAttribute('type') !== 'image')
     {
-      return $this->redirect('aMedia/selected');
+      return $this->redirect('@a_media_other?action=selected');
     }
   }
 
@@ -375,6 +383,18 @@ class BaseaMediaActions extends aEngineActions
     $this->hasPermissionsForSelect();
     
     $this->forward404Unless(aMediaTools::isSelecting());
+
+    if($request['id'] > 0 && aMediaTools::getAttribute('mode') == 'widget')
+    {
+      $item = Doctrine::getTable("aMediaItem")->find($request['id']);
+      $this->forward404Unless($item);
+
+      $script = sprintf('<script>parent.aWidgetFormMediaSelector("%s", %d);</script>', aMediaTools::getAttribute('widget_id'), $item->getId());
+      aMediaTools::clearSelecting();
+
+      return $this->renderText($script);
+    }
+
     $selection = aMediaTools::getSelection();
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     // Get all the items in preparation for possible cropping
@@ -546,7 +566,7 @@ class BaseaMediaActions extends aEngineActions
               'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
             ));
         }
-        return $this->redirect("aMedia/resumeWithPage");
+        return $this->redirect("@a_media_other?action=resumeWithPage");
       }
     }
     if ($request->isXmlHttpRequest())
@@ -660,7 +680,7 @@ class BaseaMediaActions extends aEngineActions
           $object->saveFile($thumbnail->getTempName());
         }
 
-        return $this->redirect("aMedia/resumeWithPage");
+        return $this->redirect("@a_media_other?action=resumeWithPage");
       } while (false);
     }
   }
@@ -829,7 +849,7 @@ class BaseaMediaActions extends aEngineActions
         $object->save();
         $object->saveFile($file);
       }
-      return $this->redirect('aMedia/resume');
+      return $this->redirect('@a_media_other?action=resume');
     }
   }
 
@@ -849,7 +869,7 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('delete'));
     }
     $item->delete();
-    return $this->redirect("aMedia/resumeWithPage");
+    return $this->redirect("@a_media_other?action=resumeWithPage");
   }
 
   public function executeShow()
@@ -907,7 +927,7 @@ class BaseaMediaActions extends aEngineActions
           $this->pager = new aEmbedServicePager();
           $this->pager->setQuery($this->service, 'search', $q, $request->getParameter('page', 1), aMediaTools::getOption('video_search_per_page', 9));
           $this->pager->init();
-          $this->url = $this->getController()->genUrl('aMedia/searchServices?' . http_build_query(array('aMediaSearchServices' => $params)));
+          $this->url = $this->getController()->genUrl('@a_media_other?action=searchServices&' . http_build_query(array('aMediaSearchServices' => $params)));
         }
       }
     }
@@ -959,7 +979,7 @@ class BaseaMediaActions extends aEngineActions
         $this->form->save();
       }
     }
-    return $this->redirect('aMedia/link');
+    return $this->redirect('@a_media_other?action=link');
   }
   
   public function executeLinkRemoveAccount(sfRequest $request)
@@ -971,7 +991,7 @@ class BaseaMediaActions extends aEngineActions
     {
       $a->delete();
     }
-    return $this->redirect('aMedia/link');
+    return $this->redirect('@a_media_other?action=link');
   }
   
   public function executeLinkPreviewAccount(sfRequest $request)

@@ -26,7 +26,7 @@
   <?php endif ?>
 
 	<div class="a-media-items">
-	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))))) ?>		
+	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for(aUrl::addParams("@a_media_other?action=edit", array("slug" => $item->getSlug()))))) ?>
 	</div>
 	
 </div>

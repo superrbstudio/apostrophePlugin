@@ -32,7 +32,7 @@
 					<?php include_partial("aMedia/multipleList", array("items" => $items)) ?>
   			</ul>
 
-      <?php a_js_call('apostrophe.mediaEnableSelectionSort(?)', url_for('aMedia/multipleOrder')) ?>
+      <?php a_js_call('apostrophe.mediaEnableSelectionSort(?)', url_for('@a_media_other?action=multipleOrder')) ?>
    		<div id="a-crop-workspace" class="a-crop-workspace">
   		  <ul id="a-media-selection-preview">
   		  	<?php include_partial("aMedia/multiplePreview", array("items" => $items)) ?>
@@ -46,8 +46,8 @@
   </div>
 
 	<ul class="a-ui a-controls">
-		<li><?php echo a_button(a_('Save Selection'), url_for("aMedia/selected"), array('save','big','a-select-save'), 'a-save-media-selection') ?></li>
-		<li><?php echo a_button(a_('Cancel'), url_for("aMedia/selectCancel"), array('icon','a-cancel','big','a-select-cancel')) ?></li>
+		<li><?php echo a_button(a_('Save Selection'), url_for("@a_media_other?action=selected"), array('save','big','a-select-save'), 'a-save-media-selection') ?></li>
+		<li><?php echo a_button(a_('Cancel'), url_for("@a_media_other?action=selectCancel"), array('icon','a-cancel','big','a-select-cancel')) ?></li>
 	</ul>
 	
 </div>

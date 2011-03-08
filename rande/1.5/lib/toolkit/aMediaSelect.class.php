@@ -99,6 +99,6 @@ class aMediaSelect
       $currentIds = aArray::getIds($currentIds);
     }
     aMediaTools::setSelecting($after, $options['multiple'], $ids, $options);
-    return $actions->redirect("aMedia/index");
+    return $actions->redirect("@a_media_other?action=index");
   }
 }

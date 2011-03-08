@@ -6,6 +6,6 @@
   
 <?php $links = array() ?>
   <?php foreach ($categories as $category): ?>
-  <?php $links[] = link_to($category, "aMedia/index?" . http_build_query(array("category" => $category->slug))) ?>
+  <?php $links[] = link_to($category, "@a_media_other?action=index&" . http_build_query(array("category" => $category->slug))) ?>
 <?php endforeach ?>
 <?php echo implode(__(", ", null, 'apostrophe'), $links) ?>

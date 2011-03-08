@@ -11,7 +11,7 @@ class BaseaComponents extends aSlotComponents
 {
   public function executeSubnav(sfRequest $request)
   {
-
+  
   }
   
   public function executeSlot()

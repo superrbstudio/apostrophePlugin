@@ -26,7 +26,7 @@
       "permid" => $permid,
       "noajax" => 1)) ?>
 <li><?php echo link_to('<span class="icon"></span>'.$buttonLabel,
-  'aMedia/select',
+  '@a_media_other?action=select',
   array('query_string' =>
     http_build_query(
       array_merge(
