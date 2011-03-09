@@ -3,7 +3,10 @@
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $id = isset($id) ? $sf_data->getRaw('id') : null;
 ?>
+<div class="a-form-row a-hidden">
 <?php echo $form->renderHiddenFields() ?>
+</div>
+
 <?php echo $form['value']->render() ?>
 
 <script type="text/javascript" charset="utf-8">
@@ -16,3 +19,5 @@ window.apostrophe.registerOnSubmit("<?php echo $id ?>",
   }
 );
 </script>
+
+<?php a_js_call('apostrophe.slotEnhancements(?)', array('slot' => '#a-slot-'.$pageid.'-'.$name.'-'.$permid, 'editClass' => 'a-options')) ?>
