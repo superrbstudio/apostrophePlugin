@@ -19,10 +19,8 @@
     array(
       "slot" => $name, 
       "slug" => $slug, 
-      // TODO: remove this parameter entirely in 1.5, it is strictly for backwards compatibility
-      // with any existing overrides out there
-      "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
-      "actual_url" => aTools::getRealUrl(),
+      // actual_url will be added by JS, window.location is more reliable than
+      // guessing at the full context here when we might be in an AJAX update etc.
       "permid" => $permid,
       "noajax" => 1)) ?>
 <li><?php echo link_to('<span class="icon"></span>'.$buttonLabel,
@@ -36,5 +34,5 @@
         "type" => $type,
         "label" => $label,
         "after" => $after))),
-      'class' => $class)) ?></li>
+      'class' => $class . ' a-inject-actual-url')) ?></li>
 <?php aRouteTools::popTargetEnginePage('aMedia') ?>

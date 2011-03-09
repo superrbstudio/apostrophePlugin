@@ -42,10 +42,10 @@
                      "slot" => $name, 
                      "slug" => $slug, 
                      "permid" => $permid,
-                     "actual_slug" => aTools::getRealPage() ? aTools::getRealPage()->getSlug() : 'global',
-                     'actual_url' => aTools::getRealUrl(),
+                     // actual_url will be added by JS, window.location is more reliable than
+                     // guessing at the full context here when we might be in an AJAX update etc.
                      "noajax" => 1))))),
-         'class' => 'a-btn icon a-media')) ?>
+         'class' => 'a-btn icon a-media a-inject-actual-url')) ?>
      <?php aRouteTools::popTargetEnginePage('aMedia') ?>
    </li>
 

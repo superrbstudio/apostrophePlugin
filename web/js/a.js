@@ -1624,6 +1624,27 @@ function aConstructor()
 
 		// KEEPERS START HERE
 
+		// Media selection links and similar "go away, get something, come back" links need
+		// to know what page to come back to. JavaScript knows much better than PHP does because
+		// PHP can be confused by an AJAX update action etc. It's a little tricky because we
+		// have to reencode the URL properly. Find the 'after' parameter, which is a URL to
+		// return to in order to save the selection, and parse it in order to add the
+		// 'actual_url' parameter to it. Then rebuild the whole thing correctly
+		$(target).find('.a-inject-actual-url').each(function() {
+			var href = $(this).attr('href');
+			var parsed = apostrophe.parseUrl(href);
+			if (parsed.queryData.after !== undefined)
+			{
+				var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
+				afterParsed.queryData.actual_url = window.location.href;
+				afterParsed.query = $.param(afterParsed.queryData);
+				parsed.queryData.after = afterParsed.stem + afterParsed.query;
+				parsed.query = $.param(parsed.queryData);
+				href = parsed.stem + parsed.query;
+				$(this).attr('href', href);
+			}
+		});
+		
 		// Anchor elements that act as submit buttons. Unfortunately not suitable
 		// for use in AJAX forms because calling submit() on a form doesn't
 		// consistently trigger its submit handlers before triggering native submit.
@@ -1688,6 +1709,45 @@ function aConstructor()
 	  });
 	}
 
+	// Breaks the url into a stem (everything before the query, inclusive of the ?), a query
+	// (the encoded query string), and queryData (the query string parsed into an object)
+	this.parseUrl = function(url)
+	{
+		var info = {};
+		var q = url.indexOf('?');
+		if (q !== -1)
+		{
+			info.stem = url.substr(0, q + 1);
+			query = url.substr(q + 1);
+			info.query = query;
+			info.queryData = apostrophe.decodeQuery(query);
+		}
+		else
+		{
+			info.stem = url;
+			info.query = '';
+			info.queryData = {};
+		}
+		return info;
+	}
+	
+	// Adapted from http://stackoverflow.com/questions/901115/get-querystring-values-with-jquery/901144#901144
+	// This decodeQuery function is accordingly released under cc attribution-share alike
+	this.decodeQuery = function(query)
+	{
+		var urlParams = {};
+		(function () {
+		    var e,
+		        a = /\+/g,  // Regex for replacing addition symbol with a space
+		        r = /([^&=]+)=?([^&]*)/g,
+		        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+		        q = query;
+		    while (e = r.exec(q))
+		       urlParams[d(e[1])] = d(e[2]);
+		})();
+		return urlParams;
+	}
+	
 	this.audioPlayerSetup = function(aAudioContainer, file)
 	{
 		aAudioContainer = $(aAudioContainer);
