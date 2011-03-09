@@ -26,7 +26,6 @@
   <?php endif ?>
 
   <?php if(aMediaTools::getAttribute('mode') == 'widget'):?>
-        <?php var_dump(url_for('@a_media_other?action=selected&'. http_build_query(array('id' =>$mediaItem->getId())))); ?>
     <?php $linkHref = url_for('@a_media_other?action=selected&'. http_build_query(array('id' =>$mediaItem->getId()))); ?>
   <?php endif ?>
 
