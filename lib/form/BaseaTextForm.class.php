@@ -35,6 +35,7 @@ class BaseaTextForm extends BaseForm
 
     $this->setValidators(array('value' => new sfValidatorString(array('required' => false))));
     $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '[%s]');    
+    $this->widgetSchema->setFormFormatterName('aAdmin');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
