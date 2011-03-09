@@ -14,7 +14,6 @@ class aEngineTools
     // ask Fabien how we can do that.
     $uri = urldecode($actions->getRequest()->getUri());
     $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
-    error_log("In preExecute");
     if (preg_match("/^(?:https?:\/\/[^\/]+)?$rr(?:\/[^\/]+\.php)?(.*)$/", $uri, $matches))
     {
       $uri = $matches[1];

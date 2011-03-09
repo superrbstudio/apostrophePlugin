@@ -150,12 +150,9 @@ class aRouteTools
     // We could use the slug directly, but that would
     // break if the CMS were not mounted at the root on a particular site.
     // Take care to function properly in the presence of an absolute URL
-    error_log("PAGE URL: " . $pageUrl);
     if (preg_match("/^(?:https?:\/\/[^\/]+)?$rr(?:\/[^\/]+\.php)?(.*)$/", $pageUrl, $matches))
     {
-      error_log('Matching');
       $pageUrl = $matches[1];
-      error_log('Matched ' . $pageUrl);
     }
     return $pageUrl . $url;
   }
