@@ -62,6 +62,25 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect("@a_media_other?action=index");
   }
 
+  public function executeRedirectToMedia($request)
+  {
+
+    $item = Doctrine::getTable('aMediaItem')->find($request['id']);
+
+    $this->forward404if(!$item);
+
+    $url = $item->getImgSrcUrl($request['width'], $request['height'], 's');
+
+    $response = $this->context->getResponse();
+    $response->clearHttpHeaders();
+    $response->setStatusCode(302);
+    $response->setHttpHeader('Location', $url);
+
+    $response->setContent(sprintf('<html><head><meta http-equiv="refresh" content="%d;url=%s"/></head></html>', 1, htmlspecialchars($url, ENT_QUOTES, sfConfig::get('sf_charset'))));
+
+    return sfView::NONE;
+  }
+
   public function executeIndex(sfWebRequest $request)
   {
     $params = array();
