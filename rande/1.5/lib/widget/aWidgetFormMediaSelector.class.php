@@ -139,7 +139,7 @@ JS;
         var format = elm.attr('format');
         var id = elm.attr('item');
         
-        var src = '".url_for('@a_media_other?action=redirectToMedia')."&id=' + id + '&width=' + width + '&height=' + height + '&resizeType=' + resizeType + '&format=' + format;
+        var src = '".url_for('@a_media_other?action=redirectToMedia')."?id=' + id + '&width=' + width + '&height=' + height + '&resizeType=' + resizeType + '&format=' + format;
         elm.attr('src', src);
       });
     }
