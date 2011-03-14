@@ -186,6 +186,7 @@ class BaseaPageSettingsForm extends aPageForm
       'choices' => array(false => "No", true => "Yes"),
       'default' => false
     )));
+    $this->setValidator('skip_on_url_match', new sfValidatorChoice(array('choices' => array(0,1))));
 
   	// Tags
   	$options['default'] = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
