@@ -19,7 +19,8 @@ class aRoute extends sfRoute
    */
   public function matchesUrl($url, $context = array())
   {
-    $url = aRouteTools::removePageFromUrl($this, $url);
+    $url = aRouteTools::removePageFromUrl($this, $url, $context);
+
     return parent::matchesUrl($url, $context);
   }
 
@@ -42,9 +43,10 @@ class aRoute extends sfRoute
       aRouteTools::pushTargetEngineSlug($slug, $defaults['module']);
       unset($params['engine-slug']);
     }
-    
+
     // Note that you must pass false to parent::generate for the $absolute parameter
     $result = aRouteTools::addPageToUrl($this, parent::generate($params, $context, false), $absolute);
+
     if ($slug)
     {
       $engine = $defaults['module'];

@@ -50,11 +50,10 @@ class aCmsRoute extends sfDoctrineRoute
 
     if($this->page && $this->page->skip_on_url_match)
     {
-
       return false;
     }
 
-    return $this->page ? array('module' => 'a', 'action' => 'show') : false;
+    return $this->page ? array('module' => 'a', 'action' => 'show') : parent::matchesUrl($slug, $context);
   }
 
   public function getObject()

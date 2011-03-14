@@ -16,10 +16,11 @@ class aRouteTools
    *
    * @return string The remainder of the URL
    */
-  static public function removePageFromUrl(sfRoute $route, $url)
+  static public function removePageFromUrl(sfRoute $route, $url, $context)
   {
     $remainder = false;
-    $page = aPageTable::getMatchingEnginePage($url, $remainder);
+    $page = aPageTable::getMatchingEnginePage($url, $remainder, $context);
+
     if (!$page)
     {
       return false;
@@ -27,6 +28,7 @@ class aRouteTools
     // Engine pages can't have subpages, so if the longest matching path for any engine page
     // has the wrong engine type for this route, this route definitely doesn't match
     $defaults = $route->getDefaults();
+
     if ($page->engine !== $defaults['module'])
     {
       return false;
@@ -201,9 +203,10 @@ class aRouteTools
     {
       $url = substr($url, 1);
     }
+
     
     $pageUrl = aTools::urlForPage($slug, $absolute);
-    
+
     $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
     
     // Strip controller off so it doesn't duplicate the controller in the 

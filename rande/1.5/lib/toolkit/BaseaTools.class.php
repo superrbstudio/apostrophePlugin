@@ -81,6 +81,7 @@ class BaseaTools
     {
       $culture = $user->getCulture();
     }
+
     if (!$culture)
     {
       $culture = sfConfig::get('sf_default_culture', 'en');
@@ -92,7 +93,7 @@ class BaseaTools
     // sfSimpleCMS found a nice workaround for this
     // By using @a_page we can skip to a shorter URL form
     // and not get tripped up by the default routing rule which could
-    // match first if we wrote a/show 
+    // match first if we wrote a/show
     $routed_url = sfContext::getInstance()->getController()->genUrl('@a_page?slug='.$slug, $absolute);
 
     // thomas : not require anymore

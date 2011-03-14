@@ -11,17 +11,17 @@ class aMediaRouting
       // Since the media plugin is now an engine, we need our own
       // catch-all rule for administrative URLs in the media area.
       // Prepending it first means it matches last
-      $r->appendRoute('a_media_other', new aRoute('/:action', array(
+      $r->prependRoute('a_media_other', new aRoute('/:action', array(
         'module' => 'aMedia'
       )));
 
-      $r->appendRoute('a_media_image_show', new aRoute('/view/:slug', array(
+      $r->prependRoute('a_media_image_show', new aRoute('/view/:slug', array(
         'module' => 'aMedia',
         'action' => 'show'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$')));
 
       // Allow permalinks for PDF originals
-      $r->appendRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
+      $r->prependRoute('a_media_image_original', new sfRoute('/uploads/media_items/:slug.original.:format', array(
         'module' => 'aMediaBackend',
         'action' => 'original'
       ), array('slug' => '^' . aTools::getSlugRegexpFragment() . '$', 'format' => '^(\w+)$')));
@@ -36,7 +36,7 @@ class aMediaRouting
         'resizeType' => '^\w$',
         'format' => '^(jpg|png|gif)$'
       ));
-      $r->appendRoute('a_media_image', $route);
+      $r->prependRoute('a_media_image', $route);
 
       $route = new aRoute('/uploads/media_items/:slug.:cropLeft.:cropTop.:cropWidth.:cropHeight.:width.:height.:resizeType.:format', array(
         'module' => 'aMediaBackend',
@@ -52,7 +52,7 @@ class aMediaRouting
         'resizeType' => '^\w$',
         'format' => '^(jpg|png|gif)$'
       ));
-      $r->appendRoute('a_media_image_cropped', $route);
+      $r->prependRoute('a_media_image_cropped', $route);
       
       // What we want:
       // /media   <-- everything
@@ -65,17 +65,17 @@ class aMediaRouting
       //                                   dirty URL-unfriendly characters and
       //                                   are traditionally query strings.
       
-      $r->appendRoute('a_media_index', new aRoute('/index', array(
+      $r->prependRoute('a_media_index', new aRoute('/index', array(
         'module' => 'aMedia', 
         'action' => 'index'
       )));
       
-      $r->appendRoute('a_media_index_type', new aRoute('/:type', array(
+      $r->prependRoute('a_media_index_type', new aRoute('/:type', array(
         'module' => 'aMedia',
         'action' => 'index'
       ), array('type' => '(image|video)')));
       
-      $r->appendRoute('a_media_index_category', new aRoute('/category/:category', array(
+      $r->prependRoute('a_media_index_category', new aRoute('/category/:category', array(
         'module' => 'aMedia',
         'action' => 'index'
       ), array('category' => '.*')));
@@ -85,13 +85,13 @@ class aMediaRouting
         'action' => 'index'
       ), array('tag' => '.*')));
 
-      $r->appendRoute('a_media_select', new aRoute('/select', array(
+      $r->prependRoute('a_media_select', new aRoute('/select', array(
         'class' => 'aRoute',
         'module' => 'aMedia',
         'action' => 'select'
       )));
       
-      $r->appendRoute('a_media_info', new sfRoute('/info', array(
+      $r->prependRoute('a_media_info', new sfRoute('/info', array(
         'module' => 'aMediaBackend',
         'action' => 'info'
       )));
@@ -106,12 +106,12 @@ class aMediaRouting
         'action' => 'upload'
       )));
       
-      $r->appendRoute('a_media_edit_multiple', new aRoute('/editMultiple', array(
+      $r->prependRoute('a_media_edit_multiple', new aRoute('/editMultiple', array(
         'module' => 'aMedia',
         'action' => 'editMultiple'
       )));
 
-      $r->appendRoute('a_media_edit', new aRoute('/edit', array(
+      $r->prependRoute('a_media_edit', new aRoute('/edit', array(
         'module' => 'aMedia',
         'action' => 'edit'
       )));
@@ -121,7 +121,7 @@ class aMediaRouting
         'action' => 'newVideo'
       )));
       
-      $r->appendRoute('a_media_edit_video', new aRoute('/editVideo', array(
+      $r->prependRoute('a_media_edit_video', new aRoute('/editVideo', array(
         'module' => 'aMedia',
         'action' => 'editVideo'
       )));

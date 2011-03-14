@@ -25,7 +25,10 @@ class aEngineTools
     // This will quickly fetch a result that was already cached when we 
     // ran through the routing table (unless we hit the routing table cache,
     // in which case we're looking it up for the first time, also OK)
-    $page = aPageTable::getMatchingEnginePage($uri, $remainder);
+
+    $options = sfContext::getInstance()->getRouting()->getOptions();
+    $remainder = null;
+    $page = aPageTable::getMatchingEnginePage($uri, $remainder, $options['context']);
     if (!$page)
     {
       throw new sfException('Attempt to access engine action without a page');

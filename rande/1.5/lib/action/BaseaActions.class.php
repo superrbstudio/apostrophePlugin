@@ -22,7 +22,8 @@ class BaseaActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $slug = $this->getRequestParameter('slug');
-    
+
+
     // remove trailing slashes from $slug
     $pattern = '/\/$/';
     if (preg_match($pattern, $slug) && ($slug != '/'))
