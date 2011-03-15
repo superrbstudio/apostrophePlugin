@@ -69,7 +69,14 @@ class BaseaMediaTools
   }
   static public function getAfter()
   {
-    return aMediaTools::getAttribute("after");
+
+    $url = aMediaTools::getAttribute("after", '@a_media_index');
+
+    if(strlen($url) == 0) {
+        $url = '@a_media_index';
+    }
+
+    return $url;
   }
   static public function isSelected($item)
   {

@@ -12,3 +12,13 @@
 * aCmsPage
 
   Add a real cms page object to generate route
+
+      a_page:
+          url:      /:sf_culture/:slug
+          class:    aCmsRoute
+          options:  { model: aPage, type: object }
+          param:    { module: a, action: show }
+          requirements:
+            sf_method:  [post, get, head]
+            sf_culture: (fr|en)
+            slug: .*
