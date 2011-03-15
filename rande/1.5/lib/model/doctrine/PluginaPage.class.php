@@ -559,7 +559,7 @@ abstract class PluginaPage extends BaseaPage
     return $this->getTreeInfoBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $depth, $livingOnly);
   }
 
-  protected function isHybridPage()
+  public function isHybridPage()
   {
     return substr($this->getSlug(), 0, 7) == 'hybrid_';
   }
