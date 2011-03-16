@@ -14,6 +14,8 @@ class aCmsRoute extends sfDoctrineRoute
 
   static $cache_codes = null;
 
+  static $cache_slug = array();
+    
   protected $page;
 
 
@@ -46,7 +48,11 @@ class aCmsRoute extends sfDoctrineRoute
       $slug = '/'.$slug;
     }
 
-    $this->page = aPageTable::retrieveBySlugWithSlots($slug);
+    if(!isset(self::$cache_slug[$slug])) {
+        self::$cache_slug[$slug] = aPageTable::retrieveBySlugWithSlots($slug);
+    }
+
+    $this->page = self::$cache_slug[$slug];
 
     if($this->page && $this->page->skip_on_url_match)
     {
