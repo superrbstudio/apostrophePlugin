@@ -17,7 +17,7 @@
 <?php if (!isset($url)): ?>
   <p class="aFeedSelect"><?php echo __('Click Edit to select a feed URL.', null, 'apostrophe') ?></p>
 <?php elseif ($invalid): ?>
-  <p class="aFeedInvalid"><?php echo __('Invalid feed.', null, 'apostrophe') ?></p>
+  <?php include_partial('aFeedSlot/invalid') ?>
 <?php else: ?>
   <ul class="a-feed">
     <?php $n = 0 ?>

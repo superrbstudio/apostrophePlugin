@@ -57,7 +57,8 @@ class aFeed
         // We now always use the fopen adapter and specify a time limit, which is configurable.
         // Francois' comments about fopen being slow are probably dated, the stream wrappers are 
         // quite good in modern PHP and in any case Apostrophe uses them consistently elsewhere
-        $feed = sfFeedPeer::createFromWeb($url, array('adapter' => 'sfFopenAdapter', 'adapter_options' => array('timeout' => sfConfig::get('app_a_feed_timeout', 30))));    
+        $options = array('adapter' => 'sfFopenAdapter', 'adapter_options' => array('timeout' => sfConfig::get('app_a_feed_timeout', 30)));
+        $feed = sfFeedPeer::createFromWeb($url, $options);    
         $cache->set($key, serialize($feed), $interval);
       }
       catch (Exception $e)
