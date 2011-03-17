@@ -25,10 +25,19 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-    if(!empty($value))
+    $format = true;
+    $empty = empty($value);
+    if ($empty)
     {
-      // Allow both array and string syntax
-      if (is_array($value))
+      $format = false;
+    }
+    if (is_array($value))
+    {
+      if ((!strlen($value['hour'])) || (!strlen($value['minute'])))
+      {
+        $format = false;
+      }
+      else
       {
         $value = $value['hour'] . ':' . $value['minute'];
         if (isset($value['second']))
@@ -36,6 +45,9 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
           $value .= ':' . $value['second'];
         }
       }
+    }
+    if ($format)
+    {
       $value = date($this->getOption('format'), strtotime($value));
     }
 

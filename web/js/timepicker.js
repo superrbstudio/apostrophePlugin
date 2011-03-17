@@ -211,13 +211,15 @@ function timepicker2(selector, options_array)
 		function getTimeFromForm()
 		{
 			var inputs = timeinput.find('select');
+			
+			// "I haven't picked a time yet" is a real thing
 			if ($(inputs[0]).val() == '')
 			{
-				$(inputs[0]).val('0');
+				return '';
 			}
 			if ($(inputs[1]).val() == '')
 			{
-				$(inputs[1]).val('0');
+				return '';
 			}
 			
 			return prettyTime($(inputs[0]).val(), $(inputs[1]).val());
