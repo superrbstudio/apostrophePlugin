@@ -596,13 +596,13 @@ class aHtml
     $domain = trim($domain);
     // Cripes... crc has to include user, domain *and* label to make it unique.
     // This is worth it to produce cacheable content though
-    $id = 'a-email-' . sprintf("%u", crc32($user . '@' . $domain . ':' . $label));
+    $class = 'a-email-' . sprintf("%u", crc32($user . '@' . $domain . ':' . $label));
     $href = rawurlencode("mailto:$user@$domain");
     $label = rawurlencode(trim($label));
     // This is an acceptable way to stub in a js call for now, since it's the
     // way the helper has to do it too
-    aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($id, $href, $label));
-    return "<a href='#' id='$id'></a>";
+    aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($class, $href, $label));
+    return "<a href='#' class='$class'></a>";
   }
 
   // This is intentionally obscure for use in mailto: obfuscators.
