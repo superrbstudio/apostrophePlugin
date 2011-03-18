@@ -5,6 +5,8 @@
  */
 abstract class PluginaRawHTMLSlot extends BaseaRawHTMLSlot
 {
+	protected $editDefault = true;
+	
   public function getSearchText()
   {
     // Convert from HTML to plaintext before indexing by Lucene
