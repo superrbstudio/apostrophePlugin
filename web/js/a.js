@@ -186,9 +186,9 @@ function aConstructor()
 		};
 	}
 
-  this.unobfuscateEmail = function(class, email, label)
+  this.unobfuscateEmail = function(aClass, email, label)
   {
-    $('.' + class).attr('href', unescape(email)).html(unescape(label));
+    $('.' + aClass).attr('href', unescape(email)).html(unescape(label));
   }
 
 	// Turns a form into an AJAX form that updates the element
