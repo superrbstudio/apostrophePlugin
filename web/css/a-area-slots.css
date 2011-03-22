@@ -258,11 +258,12 @@ margin: 0;
 { 
 float: left;
 width: 95%;
-min-height: 120px;
+min-height: 200px;
 padding: 2px;
 border: 1px solid #333;
 background: #efefef;
 font: 11px/16px Monospace;
+overflow: auto !important;
 }
 
 /* aText Slot Styles 
