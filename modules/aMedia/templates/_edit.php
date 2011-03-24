@@ -51,7 +51,7 @@
 
 <?php if ($single): ?>	
   <?php // Editing one item, existing or otherwise ?>
-  <form method="POST" class="a-ui a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo $formAction ?>">
+  <form method="post" class="a-ui a-media-edit-form" id="a-media-edit-form-<?php echo $i ?>" enctype="multipart/form-data" action="<?php echo $formAction ?>">
 		<?php if ($editVideoSuccess): ?>
 			<div class="a-media-editor a-even last">
 				<div class="a-ui a-media-item a-media-edit-form even">

@@ -31,7 +31,7 @@
   <?php endif ?>
 
 	<div class="a-media-items">				
-		<form method="POST" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">		
+		<form method="post" action="<?php echo url_for("aMedia/editMultiple") ?>" enctype="multipart/form-data" id="a-media-edit-form-0" class="a-ui a-media-edit-form">		
 
 			<?php if (!$singleItem): ?>
 				<ul class="a-ui a-controls top a-align-right">

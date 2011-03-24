@@ -11,7 +11,7 @@
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 
-		<form id="a-media-add-linked-account" method="POST" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-media-services-form a-media-linked-accounts-form">
+		<form id="a-media-add-linked-account" method="post" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-media-services-form a-media-linked-accounts-form">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>		

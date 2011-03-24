@@ -23,7 +23,7 @@
 <?php // considerable overhead of loading many instances of FCK we won't use ?>
 
 <?php if ($editable && ($updating || $showEditor)): ?>
-  <form method="POST" action="#" class="a-slot-form a-edit-view a-ui clearfix" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
+  <form method="post" action="#" class="a-slot-form a-edit-view a-ui clearfix" name="a-slot-form-<?php echo $id ?>" id="a-slot-form-<?php echo $id ?>" style="display: <?php echo $showEditor ? "block" : "none" ?>">
 
   <?php include_component($editModule, 
     "editView", 

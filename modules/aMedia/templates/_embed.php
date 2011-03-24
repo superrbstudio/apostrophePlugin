@@ -7,7 +7,7 @@
 </p>
 
 <?php $form = new aMediaVideoForm() ?>
-<form id="a-media-video-add-by-embed-form" class="a-media-search-form" method="POST" action="<?php echo url_for("aMedia/editVideo") ?>">
+<form id="a-media-video-add-by-embed-form" class="a-media-search-form" method="post" action="<?php echo url_for("aMedia/editVideo") ?>">
 	<div class="a-form-row a-hidden">
   	<?php // If you tamper with this, the next form will be missing a default radio button choice ?>
     <?php echo $form['view_is_secure']->render() ?>

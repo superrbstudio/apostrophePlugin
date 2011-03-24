@@ -19,7 +19,7 @@
 <?php $manage = $create || $page->userHasPrivilege('manage') ?>
 <?php $stem = isset($stem) ? $sf_data->getRaw('stem') : ($page->isNew() ? 'a-create-page' : 'a-page-settings') ?>
 
-  <form method="POST" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
+  <form method="post" action="#" name="<?php echo $stem ?>-form" id="<?php echo $stem ?>-form" class="a-ui a-options a-page-form <?php echo $stem ?>-form dropshadow">
 	<div class="a-form-row a-hidden">
 		<?php echo $form->renderHiddenFields() ?>
 	</div>
