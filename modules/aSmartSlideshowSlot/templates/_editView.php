@@ -40,7 +40,7 @@
 </div>
 
 <script type="text/javascript" charset="utf-8" src="/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js"></script>
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 $(document).ready(function() {
     pkTagahead(<?php echo json_encode(url_for("taggableComplete/complete")) ?>);
     aMultipleSelect('#a-<?php echo $form->getName() ?>', { 'choose-one': 'Add Categories' });

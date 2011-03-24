@@ -93,7 +93,7 @@
 </div>
 
 	<?php if ($pdfPreview): ?>
-		<script type="text/javascript" charset="utf-8">
+		<script type="text/javascript">
 			$(document).ready(function() {
 	
 				var pdfImg = $("#a-slot-<?php echo $id ?> .a-pdf-slot a img");
@@ -107,7 +107,7 @@
 			});
 		</script>
 	<?php else: ?>
-			<script type="text/javascript" charset="utf-8">
+			<script type="text/javascript">
 				$(document).ready(function() {
 					
 					var pdfImg = $("#a-slot-<?php echo $id ?> .a-pdf-slot .a-media-pdf-icon");

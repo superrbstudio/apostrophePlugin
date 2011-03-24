@@ -16,7 +16,7 @@
 	<div class="a-form-error"><?php echo $form['value']->renderError() ?></div>
 </div>
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 	$(document).ready(function() {
 		$('textarea.aTextSlot.multi-line').simpleautogrow();
 	});

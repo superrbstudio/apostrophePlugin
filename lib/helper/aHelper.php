@@ -451,7 +451,7 @@ function a_get_js_calls()
   $html = '';
   if (count(aTools::$jsCalls))
   {
-    $html .= '<script type="text/javascript" charset="utf-8">' . "\n";
+    $html .= '<script type="text/javascript">' . "\n";
     $html .= '$(function() {' . "\n";
     foreach (aTools::$jsCalls as $call)
     {

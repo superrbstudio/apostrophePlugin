@@ -120,7 +120,7 @@
 	</div>
 </div>
    
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 
   <?php if (isset($search)): ?>
     $('#a-media-search-remove').show();

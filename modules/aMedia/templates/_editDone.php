@@ -3,7 +3,7 @@
   $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
 ?>
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 	apostrophe.mediaItemRefresh({'url':<?php echo json_encode(url_for("aMedia/show?slug=" . $mediaItem->getSlug())) ?>});
 </script>
 

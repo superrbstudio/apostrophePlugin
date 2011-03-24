@@ -51,7 +51,7 @@
 		<?php echo $form['description']->renderError() ?>
 	</div>
 
-	<script type="text/javascript" charset="utf-8">
+	<script type="text/javascript">
 	window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
 	  function(slotId)
 	  {

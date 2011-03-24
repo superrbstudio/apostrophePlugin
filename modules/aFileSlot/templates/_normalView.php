@@ -70,7 +70,7 @@
     </div>
 
     <?php // TODO John, this should be some kind of CSS sauce thing and not explicit on every slot ?>
-		<script type="text/javascript" charset="utf-8">
+		<script type="text/javascript">
 			$(document).ready(function() {
 				
 				var fileImg = $("#a-slot-<?php echo $id ?> .a-file-slot .a-media-file-icon");

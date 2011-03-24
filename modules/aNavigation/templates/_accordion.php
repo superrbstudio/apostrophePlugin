@@ -48,7 +48,7 @@
 </ul>
 
 <?php if ($draggable): ?>
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 	 //<![CDATA[
   $(document).ready(
     function() 
