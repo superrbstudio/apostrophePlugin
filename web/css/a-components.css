@@ -337,7 +337,7 @@ background:#fff;
 
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-user,
 .a-ui.a-global-toolbar .a-controls .a-login .a-login-language { margin: 0 10px 0 0; }
-
+.a-ui.a-global-toolbar .a-controls .a-login .a-language-form .a-form-row { margin: 0; }
 .a-ui.a-global-toolbar .a-controls li.the-apostrophe-container,
 .a-ui.a-global-toolbar .a-controls li#a-create-page-button-menu,
 .a-ui.a-global-toolbar .a-controls li:last-child { border: none; }

@@ -48,10 +48,11 @@
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
+        <?php $img = image_tag($options['defaultImage'], array('alt' => (($options['title']) ? $options['title'] : ''))) ?>
         <?php if ($options['link']): ?>
-          <?php echo link_to(image_tag($options['defaultImage']), $options['url']) ?>
+          <?php echo link_to($img, $options['url']) ?>
         <?php else: ?>
-          <?php echo image_tag($options['defaultImage']) ?>
+					<?php echo $img ?>
         <?php endif ?>
       </li>
     </ul>
