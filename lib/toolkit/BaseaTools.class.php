@@ -388,7 +388,6 @@ class BaseaTools
           'tags' => array('label' => 'Tags', 'action' => 'aTagAdmin/index', 'class' => 'a-tags'),
           'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
         ));
-
       if (is_array($extraAdminButtons))
       {
         foreach ($extraAdminButtons as $name => $data)
