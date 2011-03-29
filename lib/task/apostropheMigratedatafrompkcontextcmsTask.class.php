@@ -12,6 +12,7 @@ class apostropheMigratedatafrompkcontextcmsTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+      new sfCommandOption('skip-search', null, sfCommandOption::PARAMETER_NONE, 'Whether to skip the search index rebuild'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       // add your own options here
     ));
@@ -332,11 +333,14 @@ echo("after\n");
     // }
   
     echo("Rebuilding search index\n");
-		$cmd = "./symfony apostrophe:rebuild-search-index --env=" . $options['env'];
-    system($cmd, $result);
-    if ($result != 0)
+    if (!$options['skip-search'])
     {
-      die("Unable to rebuild search indexes\n");
+  		$cmd = "./symfony apostrophe:rebuild-search-index --verbose --env=" . $options['env'];
+      system($cmd, $result);
+      if ($result != 0)
+      {
+        die("Unable to rebuild search indexes\n");
+      }
     }
     echo("If you have folders in data/pk_writable other than tmp and the zend search indexes 
 you may want to move them to data/a_writable. Due to interactions with svn this is not
