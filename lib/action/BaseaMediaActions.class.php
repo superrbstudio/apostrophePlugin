@@ -1,8 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaActions extends aEngineActions
 {
 
+  /**
+   * DOCUMENT ME
+   */
   public function preExecute()
   {
     // Establish engine context
@@ -21,9 +28,12 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
-  // Supported for backwards compatibility. See also 
-  // aMediaSelect::select()
-
+  /**
+   * Supported for backwards compatibility. See also
+   * aMediaSelect::select()
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSelect(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -54,6 +64,11 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect("aMedia/index");
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeIndex(sfWebRequest $request)
   {
     $params = array();
@@ -69,8 +84,8 @@ class BaseaMediaActions extends aEngineActions
       }
     }
 
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();
 
     $category = $request->getParameter('category');
     $search = $request->getParameter('search');
@@ -220,16 +235,29 @@ class BaseaMediaActions extends aEngineActions
     return $this->pageTemplate;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeResume()
   {
     return $this->resumeBody(false);
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeResumeWithPage()
   {
     return $this->resumeBody(true);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $withPage
+   * @return mixed
+   */
   protected function resumeBody($withPage = false)
   {
     $parameters = aMediaTools::getSearchParameters();
@@ -255,7 +283,10 @@ class BaseaMediaActions extends aEngineActions
         $parameters));
   }
 
-  // Accept and store cropping information for a particular image which must already be part of the selection
+  /**
+   * Accept and store cropping information for a particular image which must already be part of the selection
+   * @param sfWebRequest $request
+   */
   public function executeCrop(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -283,6 +314,11 @@ class BaseaMediaActions extends aEngineActions
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeMultipleAdd(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -324,6 +360,10 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeMultipleRemove(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -340,12 +380,21 @@ class BaseaMediaActions extends aEngineActions
     aMediaTools::setSelection($selection);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeUpdateMultiplePreview(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
     
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeMultipleOrder(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -372,6 +421,11 @@ class BaseaMediaActions extends aEngineActions
     return $this->renderComponent("aMedia", "multipleList");
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSelected(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -442,6 +496,11 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSelectCancel(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -453,17 +512,22 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect($after);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeEdit(sfWebRequest $request)
   {
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();  
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
-  	if (sfConfig::get('app_a_all_tags', true))
-  	{
-  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    $this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
+    if (sfConfig::get('app_a_all_tags', true))
+    {
+      $this->allTags = PluginTagTable::getAllTagNameWithCount();
     }
     else
     {
@@ -548,8 +612,8 @@ class BaseaMediaActions extends aEngineActions
         {
             return $this->renderPartial('aMedia/mediaItemMeta', array(
               'mediaItem' => $object,
-							'popularTags' => $this->popularTags,
-							'allTags' => $this->allTags,
+              'popularTags' => $this->popularTags,
+              'allTags' => $this->allTags,
               'layout' => aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'))
             ));
         }
@@ -562,15 +626,20 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeEditVideo(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;
-		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
-  	if (sfConfig::get('app_a_all_tags', true))
-  	{
-  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    $this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
+    if (sfConfig::get('app_a_all_tags', true))
+    {
+      $this->allTags = PluginTagTable::getAllTagNameWithCount();
     }
     else
     {
@@ -672,14 +741,18 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeUpload(sfWebRequest $request)
-  {	
+  {  
     // Belongs at the beginning, not the end
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
 
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();
-		
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();
+    
     // This has been simplified. We no longer do real validation in the first pass,
     // we just make sure there is at least one file. Then the validation of the annotation
     // pass can take over to minimize duplicate code
@@ -751,11 +824,16 @@ class BaseaMediaActions extends aEngineActions
     $this->forward('aMedia', 'resume');
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeEditMultiple(sfWebRequest $request)
   {
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();  
 
     // I'd put these in the form class, but I can't seem to access them
     // there unless the whole form is valid. I need them as metadata
@@ -775,17 +853,17 @@ class BaseaMediaActions extends aEngineActions
         $active[] = $matches[1];
       }
     }
-		$this->totalItems = count($active);
+    $this->totalItems = count($active);
 
     $this->form = new aMediaEditMultipleForm($active);
     $this->form->bind(
       $request->getParameter('a_media_items'),
       $request->getFiles('a_media_items'));
 
-		$this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
-  	if (sfConfig::get('app_a_all_tags', true))
-  	{
-  	  $this->allTags = PluginTagTable::getAllTagNameWithCount();
+    $this->popularTags = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
+    if (sfConfig::get('app_a_all_tags', true))
+    {
+      $this->allTags = PluginTagTable::getAllTagNameWithCount();
     }
     else
     {
@@ -840,14 +918,21 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeEmbed()
   {
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();	
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();  
 
     // It's a really simple form
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeDelete()
   {
     $item = $this->getItem();
@@ -859,10 +944,14 @@ class BaseaMediaActions extends aEngineActions
     return $this->redirect("aMedia/resumeWithPage");
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeShow()
   {
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();  
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();  
     $this->mediaItem = $this->getItem();
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media'));
     // This sets the gallery image dimensions to the correct dimensions for showSuccess
@@ -873,6 +962,10 @@ class BaseaMediaActions extends aEngineActions
     return $this->pageTemplate;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeMeta()
   {
     $mediaItem = $this->getItem();
@@ -881,11 +974,20 @@ class BaseaMediaActions extends aEngineActions
     return $this->renderPartial('aMedia/mediaItemMeta', array('layout' => $layout, 'mediaItem' => $mediaItem));
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   private function getItem()
   {
     return aMediaTools::getItem($this);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeRefreshItem(sfWebRequest $request)
   {
     $item = $this->getItem();
@@ -893,14 +995,18 @@ class BaseaMediaActions extends aEngineActions
       array('mediaItem' => $item));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeSearchServices(sfRequest $request)
   {
     $this->hasPermissionsForSelect();
     
     $this->form = new aMediaSearchServicesForm();
 
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();
 
     $params = $request->getParameter('aMediaSearchServices');
     // Don't spew a validation error if it's just the initial visit to the page
@@ -922,11 +1028,18 @@ class BaseaMediaActions extends aEngineActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   */
   protected function setIframeLayout()
   {
     $this->setLayout(sfContext::getInstance()->getConfiguration()->getTemplateDir('aMedia', 'iframe.php') . '/iframe');
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeNewVideo(sfRequest $request)
   {
     $this->hasPermissionsForSelect();
@@ -934,25 +1047,38 @@ class BaseaMediaActions extends aEngineActions
     $this->videoSearchForm = new aMediaSearchServicesForm();
     $this->service = aMediaTools::getEmbedService($request->getParameter('service'));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function isAdmin()
   {
     $isAdmin = $this->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
     return $isAdmin;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeLink(sfRequest $request)
   {
     $this->hasPermissionsForSelect();
     
-		$this->embedAllowed = aMediaTools::getEmbedAllowed();
-		$this->uploadAllowed = aMediaTools::getUploadAllowed();
-	
+    $this->embedAllowed = aMediaTools::getEmbedAllowed();
+    $this->uploadAllowed = aMediaTools::getUploadAllowed();
+  
     $this->forward404Unless($this->isAdmin());
     $this->form = new aEmbedMediaAccountForm();
     $this->accounts = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeLinkAddAccount(sfRequest $request)
   {
     $this->forward404Unless($this->isAdmin());
@@ -970,7 +1096,12 @@ class BaseaMediaActions extends aEngineActions
     }
     return $this->redirect('aMedia/link');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeLinkRemoveAccount(sfRequest $request)
   {
     $this->forward404Unless($this->isAdmin());
@@ -982,7 +1113,12 @@ class BaseaMediaActions extends aEngineActions
     }
     return $this->redirect('aMedia/link');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeLinkPreviewAccount(sfRequest $request)
   {
     $this->forward404Unless($this->isAdmin());
@@ -1001,12 +1137,18 @@ class BaseaMediaActions extends aEngineActions
     // Grab their three newest videos
     $this->results = $this->service->browseUser($this->username, 1, 3);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   protected function hasPermissionsForSelect()
   {
     $this->forward404Unless(aTools::isPotentialEditor() || aMediaTools::userHasUploadPrivilege());
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeClearSelecting()
   {
     aMediaTools::clearSelecting();

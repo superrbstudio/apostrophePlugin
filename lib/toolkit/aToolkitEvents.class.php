@@ -1,8 +1,16 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aToolkitEvents
 {
-  // command.post_command
+
+  /**
+   * command.post_command
+   * @param sfEvent $event
+   */
   static public function listenToCommandPostCommandEvent(sfEvent $event)
   {
     $task = $event->getSubject();

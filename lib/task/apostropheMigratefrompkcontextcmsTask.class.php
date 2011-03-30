@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheMigratefrompkcontextcmsTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -26,6 +34,11 @@ The [apostrophe:migrate-from-pkcontextcms|INFO] task migrates pkContextCMS proje
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -282,7 +295,12 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     echo("On your dev box that would most likely be dev.\n");
     echo("YOU SHOULD TEST THOROUGHLY before you deploy or commit as many changes have been made.\n");
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $type
+   * @return mixed
+   */
   public function getFiles($type)
   {
     $pipe = "find . -d $type | grep -v \\\\.svn";
@@ -294,6 +312,12 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
     return $files; 
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $k1
+   * @param mixed $k2
+   * @return mixed
+   */
   static public function longestFirst($k1, $k2)
   {
     $l1 = strlen($k1);
@@ -313,7 +337,14 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
   }
   
   protected $renamed;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $from
+   * @param mixed $to
+   * @param mixed $canExist
+   * @return mixed
+   */
   public function rename($from, $to, $canExist = false)
   {
     if (is_dir($from) && isset($this->renamed[$from]))
@@ -353,7 +384,12 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @return mixed
+   */
   public function ensureDir($file)
   {
     while (true)
@@ -366,8 +402,13 @@ BACK UP YOUR PROJECT BEFORE YOU RUN THIS SCRIPT, INCLUDING YOUR DATABASE.
       system("mkdir -p " . escapeshellarg($file));
     }
   }
-  
-  // search is a regexp
+
+  /**
+   * search is a regexp
+   * @param mixed $glob
+   * @param mixed $search
+   * @param mixed $replace
+   */
   public function replaceInFiles($glob, $search, $replace)
   {
     $files = glob($glob);

@@ -1,15 +1,25 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaPdfForm extends aMediaItemForm
 {
-  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
-  // it's just here for our i18n-update task to sniff
+
+  /**
+   * Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+   * it's just here for our i18n-update task to sniff
+   */
   private function i18nDummy()
   {
     __('Public', null, 'apostrophe');
     __('Hidden', null, 'apostrophe');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     // This call was missing, preventing easy extension of all media item edit forms at the project level
@@ -48,17 +58,17 @@ class BaseaMediaPdfForm extends aMediaItemForm
           "max_length" => "Title must be <200 characters.",
           "required" => "You must provide a title.")));
 
-		$this->setWidget('view_is_secure', new sfWidgetFormChoice(
-			array(
-				'expanded' => true,
-			  'choices' => array(
-				0 => "Public",
-				1 => "Hidden"
-				),
-				'default' => 0
-				)));
-	
-  	$this->setValidator('view_is_secure', new sfValidatorBoolean());
+    $this->setWidget('view_is_secure', new sfWidgetFormChoice(
+      array(
+        'expanded' => true,
+        'choices' => array(
+        0 => "Public",
+        1 => "Hidden"
+        ),
+        'default' => 0
+        )));
+  
+    $this->setValidator('view_is_secure', new sfValidatorBoolean());
 
     $this->widgetSchema->setLabel("view_is_secure", "Permissions");
     $this->widgetSchema->setNameFormat('a_media_item[%s]');
@@ -66,7 +76,12 @@ class BaseaMediaPdfForm extends aMediaItemForm
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @return mixed
+   */
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);

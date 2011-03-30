@@ -1,9 +1,19 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaTools
 {
-  // These are used internally. See aMediaSelect for the methods you probably want
 
+  /**
+   * These are used internally. See aMediaSelect for the methods you probably want
+   * @param mixed $after
+   * @param mixed $multiple
+   * @param mixed $selection
+   * @param mixed $options
+   */
   static public function setSelecting($after, $multiple, $selection, 
     $options = array())
   {
@@ -47,30 +57,65 @@ class BaseaMediaTools
       aMediaTools::setAttribute('metatype', $type);
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
   static public function clearSelecting()
   {
     aMediaTools::removeAttributes();
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function isSelecting()
   {
     return aMediaTools::getAttribute("selecting");
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function isMultiple()
   {
     return aMediaTools::getAttribute("multiple");
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getSelection()
   {
     return aMediaTools::getAttribute("selection", array());
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $array
+   */
   static public function setSelection($array)
   {
     aMediaTools::setAttribute("selection", $array);
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getAfter()
   {
     return aMediaTools::getAttribute("after");
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $item
+   * @return mixed
+   */
   static public function isSelected($item)
   {
     if (is_object($item))
@@ -84,11 +129,21 @@ class BaseaMediaTools
     $selection = aMediaTools::getSelection();
     return (array_search($id, $selection) != false);
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $array
+   */
   static public function setSearchParameters($array)
   {
     aMediaTools::setAttribute("search-parameters", $array); 
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $default
+   * @return mixed
+   */
   static public function getSearchParameters($default = false)
   {
     if ($default === false)
@@ -98,6 +153,12 @@ class BaseaMediaTools
     return aMediaTools::getAttribute("search-parameters", $default);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $p
+   * @param mixed $default
+   * @return mixed
+   */
   static public function getSearchParameter($p, $default = false)
   {
     $parameters = aMediaTools::getSearchParameters();
@@ -108,16 +169,28 @@ class BaseaMediaTools
     return $default;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getType()
   {
     return aMediaTools::getAttribute('type');
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getMetatype()
   {
     return aMediaTools::getAttribute('metatype');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getBestTypeLabel()
   {
     $type = aMediaTools::getType();
@@ -140,6 +213,10 @@ class BaseaMediaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function userHasUploadPrivilege()
   {
     $user = sfContext::getInstance()->getUser();
@@ -158,6 +235,10 @@ class BaseaMediaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function userHasAdminPrivilege()
   {
     $user = sfContext::getInstance()->getUser();
@@ -176,23 +257,41 @@ class BaseaMediaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static protected function getUser()
   {
     return sfContext::getInstance()->getUser();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $attribute
+   * @param mixed $default
+   * @return mixed
+   */
   static public function getAttribute($attribute, $default = null)
   {
     $attribute = "aMedia-$attribute";
     return aMediaTools::getUser()->getAttribute($attribute, $default, 'apostrophe_media');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $attribute
+   * @param mixed $value
+   */
   static public function setAttribute($attribute, $value = null)
   {
     $attribute = "aMedia-$attribute";
     aMediaTools::getUser()->setAttribute($attribute, $value, 'apostrophe_media');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   static public function removeAttributes()
   {
     $user = aMediaTools::getUser();
@@ -295,7 +394,7 @@ class BaseaMediaTools
       array('class' => 'aViddler', 'media_type' => 'video'),
       array('class' => 'aSlideShare', 'media_type' => 'video'),
       array('class' => 'aSoundCloud', 'media_type' => 'video'),
-		));
+    ));
 
   static protected $layouts = array(
     'one-up' => array(
@@ -305,10 +404,10 @@ class BaseaMediaTools
           "width" => 340,
           "height" => false,
           "resizeType" => "s"),
-		    "show_constraints" => array(
-		        "width" => 720,
-		        "height" => false,
-		        "resizeType" => "s"),
+        "show_constraints" => array(
+            "width" => 720,
+            "height" => false,
+            "resizeType" => "s"),
         "columns" => 1,
         "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions'=> 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, 'downloadable' => 1)
       ),
@@ -319,10 +418,10 @@ class BaseaMediaTools
           "width" => 340,
           "height" => false,
           "resizeType" => "s"),
-		    "show_constraints" => array(
-		        "width" => 720,
-		        "height" => false,
-		        "resizeType" => "s"),
+        "show_constraints" => array(
+            "width" => 720,
+            "height" => false,
+            "resizeType" => "s"),
         "columns" => 2,
         "fields" => array("controls" => 1,"thumbnail" => 1,"title" => 1, "description" => 1, 'dimensions' => 1, "credit" => 1, "categories" => 1, "tags" => 1, 'view_is_secure' => 1, 'link' => 1, 'downloadable' => 1)
       ),
@@ -333,10 +432,10 @@ class BaseaMediaTools
           "width" => 340,
           "height" => false,
           "resizeType" => "s"),
-		    "show_constraints" => array(
-		        "width" => 720,
-		        "height" => false,
-		        "resizeType" => "s"),
+        "show_constraints" => array(
+            "width" => 720,
+            "height" => false,
+            "resizeType" => "s"),
         "columns" => 4,
         "fields" => array("controls" => 1,"thumbnail" => 1,'title' => 1)
       ),
@@ -347,15 +446,20 @@ class BaseaMediaTools
           "width" => 85,
           "height" => false,
           "resizeType" => "s"),
-		    "show_constraints" => array(
-		        "width" => 720,
-		        "height" => false,
-		        "resizeType" => "s"),
+        "show_constraints" => array(
+            "width" => 720,
+            "height" => false,
+            "resizeType" => "s"),
         "columns" => 8,
         "fields" => array("thumbnail" => 1)
       )
     );
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @return mixed
+   */
   static public function getOption($name)
   {
     if (isset(aMediaTools::$options[$name]))
@@ -370,24 +474,42 @@ class BaseaMediaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @return mixed
+   */
   static public function getLayout($name)
   {
     return aMediaTools::$layouts[$name];
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getEnabledLayouts()
   {
     return array_intersect_key(aMediaTools::$layouts, array_flip(aMediaTools::getOption('enabled_layouts')));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @return mixed
+   */
   static public function getTypeInfo($name)
   {
     $types = aMediaTools::getOption('types');
     return $types[$name];
   }
 
-  // Returns an array of type infos, just the one if you specify a type, all if you don't.
-  // Handy when filtering
+  /**
+   * Returns an array of type infos, just the one if you specify a type, all if you don't.
+   * Handy when filtering
+   * @param mixed $type
+   * @return mixed
+   */
   static public function getTypeInfos($type = null)
   {
     if (preg_match('/^_(\w+)$/', $type, $matches))
@@ -411,35 +533,46 @@ class BaseaMediaTools
     }
     return array($type => $types[$type]);
   }
-  
-	static public function getEmbedAllowed()
-	{
-	  foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
-	  {
-	    if ($typeInfo['embeddable'])
-	    {
-	      return true;
-	    }
-	  }
-		return false;
-	}
 
-	static public function getUploadAllowed()
-	{
-	  foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
-	  {
-	    if (count($typeInfo['extensions']))
-	    {
-				return true;
-	    }
-	  }
-		return false;
-	}
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  static public function getEmbedAllowed()
+  {
+    foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
+    {
+      if ($typeInfo['embeddable'])
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  // Implementation conveniences shared by the engine and backend media actions classes
-  
-  // All actions using this method will accept either a slug or an id,
-  // for convenience
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  static public function getUploadAllowed()
+  {
+    foreach (aMediaTools::getTypeInfos(aMediaTools::getType()) as $typeInfo)
+    {
+      if (count($typeInfo['extensions']))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Implementation conveniences shared by the engine and backend media actions classes
+   * All actions using this method will accept either a slug or an id,
+   * for convenience
+   * @param sfActions $actions
+   * @return mixed
+   */
   static public function getItem(sfActions $actions)
   {
     if ($actions->hasRequestParameter('slug'))
@@ -459,9 +592,12 @@ class BaseaMediaTools
     $actions->forward404Unless($item);
     return $item;
   }
-  
-  // refactored this into this static method from executeMultipleList() because it is now needed
-  // for executeUpdateMultiplePreview() for cropping slideshow items
+
+  /**
+   * refactored this into this static method from executeMultipleList() because it is now needed
+   * for executeUpdateMultiplePreview() for cropping slideshow items
+   * @return mixed
+   */
   static public function getSelectedItems()
   {
     $selection = aMediaTools::getSelection();
@@ -502,7 +638,11 @@ class BaseaMediaTools
     
     return $items;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getAspectRatio()
   {
     if (aMediaTools::getAttribute('aspect-width') && aMediaTools::getAttribute('aspect-width'))
@@ -511,7 +651,11 @@ class BaseaMediaTools
     }
     return 0;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getSelectedThumbnailHeight()
   {
     $selectedConstraints = aMediaTools::getOption('selected_constraints');
@@ -525,46 +669,52 @@ class BaseaMediaTools
     }
     return $selectedConstraints['height'];
   }
-  
+
   /**
+   * 
    * This mirrors the default size math in aCrop.setAspectMask() in aCrop.js
+   * @param mixed $mediaItem
    */
   static public function setDefaultCropDimensions($mediaItem)
   {
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     $aspectRatio = aMediaTools::getAspectRatio();
     
-		$imageAspectRatio = $mediaItem->getWidth() / $mediaItem->getHeight();
-		
+    $imageAspectRatio = $mediaItem->getWidth() / $mediaItem->getHeight();
+    
     if ($aspectRatio)
     {     
-			// We have an aspect ratio constraint
+      // We have an aspect ratio constraint
       if ($aspectRatio > $imageAspectRatio)
       {
         $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
         $imageInfo[$mediaItem->id]['cropHeight'] = floor($mediaItem->getWidth() / $aspectRatio);
-		    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
-		    $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
+        $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+        $imageInfo[$mediaItem->id]['cropTop'] = floor(($mediaItem->getHeight() - $imageInfo[$mediaItem->id]['cropHeight']) / 2);
       }
       else
       {
         $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
         $imageInfo[$mediaItem->id]['cropWidth'] = floor($mediaItem->getHeight() * $aspectRatio);
-		    $imageInfo[$mediaItem->id]['cropLeft'] = floor(($mediaItem->getWidth() - $imageInfo[$mediaItem->id]['cropWidth']) / 2);
-		    $imageInfo[$mediaItem->id]['cropTop'] = 0;
+        $imageInfo[$mediaItem->id]['cropLeft'] = floor(($mediaItem->getWidth() - $imageInfo[$mediaItem->id]['cropWidth']) / 2);
+        $imageInfo[$mediaItem->id]['cropTop'] = 0;
       }
     }
     else
     {
-	    $imageInfo[$mediaItem->id]['cropLeft'] = 0;
-	    $imageInfo[$mediaItem->id]['cropTop'] = 0;
+      $imageInfo[$mediaItem->id]['cropLeft'] = 0;
+      $imageInfo[$mediaItem->id]['cropTop'] = 0;
       $imageInfo[$mediaItem->id]['cropWidth'] = $mediaItem->getWidth();
       $imageInfo[$mediaItem->id]['cropHeight'] = $mediaItem->getHeight();
     }
             
     aMediaTools::setAttribute('imageInfo', $imageInfo);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getNiceTypeName()
   {
     $type = aMediaTools::getAttribute('type', 'media item');
@@ -578,19 +728,28 @@ class BaseaMediaTools
     }
     return $type;
   }
-  
-  // Safe for use with the sluggable behavior (aTools::slugify() has additional arguments, which get
-  // confused by the $item second parameter that we safely ignore here)
+
+  /**
+   * Safe for use with the sluggable behavior (aTools::slugify() has additional arguments, which get
+   * confused by the $item second parameter that we safely ignore here)
+   * @param mixed $path
+   * @param mixed $item
+   * @return mixed
+   */
   static public function slugify($path, $item)
   {
     return aTools::slugify($path);
   }
   
   static protected $embedServices = array();
-  
-  // Default is to return only services that are ready to be used.
-  // If you pass boolean false, you'll get services that are NOT ready to be used.
-  // If you pass null, you'll get all services
+
+  /**
+   * Default is to return only services that are ready to be used.
+   * If you pass boolean false, you'll get services that are NOT ready to be used.
+   * If you pass null, you'll get all services
+   * @param mixed $configured
+   * @return mixed
+   */
   static public function getEmbedServices($configured = true)
   {
     if (!isset(aMediaTools::$embedServices[$configured]))
@@ -625,7 +784,12 @@ class BaseaMediaTools
     }
     return aMediaTools::$embedServices[$configured];
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $nameUrlOrEmbed
+   * @return mixed
+   */
   static public function getEmbedService($nameUrlOrEmbed)
   {
     $services = aMediaTools::getEmbedServices();
@@ -652,7 +816,11 @@ class BaseaMediaTools
     }
     return null;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getEmbedServiceNames()
   {
     $results = array();
@@ -664,6 +832,11 @@ class BaseaMediaTools
     return $results;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $filename
+   * @return mixed
+   */
   static public function filenameToTitle($filename)
   {
     $title = preg_replace('/\.\w+$/', '', $filename);

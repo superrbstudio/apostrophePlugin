@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheAfterdeployTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     $this->addArguments(array(
@@ -38,6 +46,11 @@ Note that you must specify the environment.
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     $this->attemptTask('cc');
@@ -47,7 +60,13 @@ EOF;
       $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $task
+   * @param mixed $args
+   * @param mixed $options
+   */
   protected function attemptTask($task, $args = array(), $options = array())
   {
     array_unshift($args, $task);

@@ -2,11 +2,9 @@
 
 require_once dirname(__FILE__).'/../lib/BaseaUserAdminActions.class.php';
 require_once dirname(__FILE__).'/../lib/aUserAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/aUserAdminGeneratorHelper.class.php';
-
-/**
+require_once dirname(__FILE__).'/../lib/aUserAdminGeneratorHelper.class.php';/**
+ * 
  * aUserAdmin actions.
- *
  * @package    sfShibbolethPlugin
  * @subpackage aUserAdmin
  * @author     Fabien Potencier
@@ -14,6 +12,11 @@ require_once dirname(__FILE__).'/../lib/aUserAdminGeneratorHelper.class.php';
  */
 class aUserAdminActions extends BaseaUserAdminActions
 {
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function buildQuery()
   {
     $query = parent::buildQuery();

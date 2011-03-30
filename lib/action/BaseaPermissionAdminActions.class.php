@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aPermissionAdmin actions.
- *
  * @package    sfShibbolethPlugin
  * @subpackage aPermissionAdmin
  * @author     Fabien Potencier

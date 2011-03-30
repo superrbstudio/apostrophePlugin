@@ -1,37 +1,46 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aFeed
 {
-	/**
-	 * Takes the url/routing rule of a feed and adds it to the request attributes to be read by
-	 * include_feeds() (see feedHelper.php), which is called in the layout. Allows for dynamic
-	 * inclusion of rel tags for RSS. 
-	 * http://spindrop.us/2006/07/04/dynamic-linking-to-syndication-feeds-with-symfony/
-	 *
-	 * @author Dave Dash (just this method)
-	 *
-	 * Unrelated to aFeed slots.
-	 */
-	public static function addFeed($request, $feed)
-	{
-		$feeds = $request->getAttribute('helper/asset/auto/feed', array());
-		
-		$feeds[$feed] = $feed;
-		
-		$request->setAttribute('helper/asset/auto/feed', $feeds);
-	}
-	
-	// Rock the Symfony cache to avoid fetching the same external URL over and over
-  
-  // These defaults are safe and boring and way faster than bashing on other servers.
-  // But here's a tip. If you don't have APC enabled your site is probably running very, 
-  // very slowly, so fix that. And then do this for even better speed:
-  //
-  // a:
-  //   feed:
-  //     cache_class: sfAPCCache
-  //     cache_options: { }
 
+  /**
+   * 
+   * Takes the url/routing rule of a feed and adds it to the request attributes to be read by
+   * include_feeds() (see feedHelper.php), which is called in the layout. Allows for dynamic
+   * inclusion of rel tags for RSS.
+   * http:spindrop.us/2006/07/04/dynamic-linking-to-syndication-feeds-with-symfony/
+   * @author Dave Dash (just this method)
+   * Unrelated to aFeed slots.
+   * @param mixed $request
+   * @param mixed $feed
+   */
+  public static function addFeed($request, $feed)
+  {
+    $feeds = $request->getAttribute('helper/asset/auto/feed', array());
+    
+    $feeds[$feed] = $feed;
+    
+    $request->setAttribute('helper/asset/auto/feed', $feeds);
+  }
+
+  /**
+   * Rock the Symfony cache to avoid fetching the same external URL over and over
+   * These defaults are safe and boring and way faster than bashing on other servers.
+   * But here's a tip. If you don't have APC enabled your site is probably running very,
+   * very slowly, so fix that. And then do this for even better speed:
+   * 
+   * a:
+   * feed:
+   * cache_class: sfAPCCache
+   * cache_options: { }
+   * @param mixed $url
+   * @param mixed $interval
+   * @return mixed
+   */
   static public function fetchCachedFeed($url, $interval = 300)
   {
     $cacheClass = sfConfig::get('app_a_feed_cache_class', 'sfFileCache');

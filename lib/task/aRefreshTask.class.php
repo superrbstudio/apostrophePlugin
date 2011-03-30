@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aRefreshTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -52,6 +60,11 @@ with --env=envname and --application=applicationname.
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // We need a proper environment. This also gives us superadmin privileges

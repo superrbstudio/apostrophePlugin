@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheMigratedatafrompkcontextcmsTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -43,6 +51,11 @@ is no need to migrate the source code more than once!
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -76,7 +89,7 @@ EOF;
     {
       try
       {
-	echo("before\n");
+  echo("before\n");
         $conn->query("RENAME TABLE $old TO $new");
 echo("after\n");
       } catch (Exception $e)
@@ -308,7 +321,7 @@ echo("after\n");
     }
 
     echo("Running apostrophe:migrate\n");
-		$cmd = "./symfony apostrophe:migrate --env=" . $options['env'];
+    $cmd = "./symfony apostrophe:migrate --env=" . $options['env'];
     system($cmd, $result);
     if ($result != 0)
     {

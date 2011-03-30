@@ -1,16 +1,22 @@
 <?php
-
-// TODO: move the post-validation cleanup of the slug into the
-// validator so that we don't get a user-unfriendly error or
-// failure when /Slug Foo fails to be considered a duplicate
-// of /slug_foo the first time around
-
+/**
+ * TODO: move the post-validation cleanup of the slug into the
+ * validator so that we don't get a user-unfriendly error or
+ * failure when /Slug Foo fails to be considered a duplicate
+ * of /slug_foo the first time around
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaPageSettingsForm extends aPageForm
 {
-  // Use this to i18n select choices that SHOULD be i18ned and other things that the
-  // sniffer would otherwise miss. It never gets called, it's just here for our i18n-update 
-  // task to sniff. Don't worry about widget labels or validator error messages,
-  // the sniffer is smart about those
+
+  /**
+   * Use this to i18n select choices that SHOULD be i18ned and other things that the
+   * sniffer would otherwise miss. It never gets called, it's just here for our i18n-update
+   * task to sniff. Don't worry about widget labels or validator error messages,
+   * the sniffer is smart about those
+   */
   private function i18nDummy()
   {
     __('Choose a User to Add', null, 'apostrophe');
@@ -26,11 +32,15 @@ class BaseaPageSettingsForm extends aPageForm
   
   protected $new = false;
   protected $parent = null;
-  
-  // If you are making a new page pass a new page object and set $parent also.
-  // To edit an existing page, just set $page and leave $parent null.
-  // At least one must not be null for normal use, but both can be null for
-  // ai18nupdate
+
+  /**
+   * If you are making a new page pass a new page object and set $parent also.
+   * To edit an existing page, just set $page and leave $parent null.
+   * At least one must not be null for normal use, but both can be null for
+   * ai18nupdate
+   * @param mixed $page
+   * @param mixed $parent
+   */
   public function __construct($page = null, $parent = null)
   {
     if (!$page)
@@ -58,7 +68,10 @@ class BaseaPageSettingsForm extends aPageForm
       $this->getWidget('slug')->setDefault($slug);
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     parent::configure();    
@@ -180,31 +193,31 @@ class BaseaPageSettingsForm extends aPageForm
       )));
     }
 
-  	// Tags
-  	$options['default'] = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
-		if (sfConfig::get('app_a_all_tags', true))
-		{
-			$options['all-tags'] = PluginTagTable::getAllTagNameWithCount();
-		}
-		else
-		{
-			sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
-			$options['typeahead-url'] = url_for('taggableComplete/complete');
-		}
-		$options['popular-tags'] = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
-		$options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';
-		$options['tags-label'] = '';
-  	// class tag-input enabled for typeahead support
-  	$this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
-  	$this->setValidator('tags', new sfValidatorString(array('required' => false)));
+    // Tags
+    $options['default'] = implode(', ', $this->getObject()->getTags());  // added a space after the comma for readability
+    if (sfConfig::get('app_a_all_tags', true))
+    {
+      $options['all-tags'] = PluginTagTable::getAllTagNameWithCount();
+    }
+    else
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+      $options['typeahead-url'] = url_for('taggableComplete/complete');
+    }
+    $options['popular-tags'] = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
+    $options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';
+    $options['tags-label'] = '';
+    // class tag-input enabled for typeahead support
+    $this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
+    $this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
-  	// Meta Description
-  	// Call the widget real_meta_description to avoid conflicts with the automatic behavior
-  	// of Doctrine forms (which will call setMetaDescription before the page is saved, something
-  	// that newAreaVersion does not support)
-  	$metaDescription = $this->getObject()->getMetaDescription();
-  	$this->setWidget('real_meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
-  	$this->setValidator('real_meta_description', new sfValidatorString(array('required' => false)));
+    // Meta Description
+    // Call the widget real_meta_description to avoid conflicts with the automatic behavior
+    // of Doctrine forms (which will call setMetaDescription before the page is saved, something
+    // that newAreaVersion does not support)
+    $metaDescription = $this->getObject()->getMetaDescription();
+    $this->setWidget('real_meta_description', new sfWidgetFormTextArea(array('default' => html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8'))));
+    $this->setValidator('real_meta_description', new sfValidatorString(array('required' => false)));
 
     $privilegePage = $this->getObject();
     if ($privilegePage->isNew())
@@ -226,8 +239,8 @@ class BaseaPageSettingsForm extends aPageForm
     {
       $this->setValidator('slug', new aValidatorSlug(array('required' => true, 'allow_slashes' => true, 'require_leading_slash' => true), array('required' => 'The permalink cannot be empty.',
           'invalid' => 'The permalink must contain only slashes, letters, digits, dashes and underscores. There must be a leading slash. Also, you cannot change a permalink to conflict with an existing permalink.')));
-    	$this->setWidget('slug', new sfWidgetFormInputText());
-	  }
+      $this->setWidget('slug', new sfWidgetFormInputText());
+    }
 
     // Named 'realtitle' to avoid excessively magic Doctrine form behavior.
     // Specifically, updateObject() will automatically call setTitle() if there
@@ -237,8 +250,8 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setValidator('realtitle', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
 
     $title = $this->getObject()->getTitle();
-		$this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
-		
+    $this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
+    
     // The slug of the home page cannot change (chicken and egg problems)
     if ($this->getObject()->getSlug() === '/')
     {
@@ -259,13 +272,23 @@ class BaseaPageSettingsForm extends aPageForm
     // We changed the form formatter name, so we have to reset the translation catalogue too 
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getIndividualPermissions($forceParent = false)
   {
     $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
     return Doctrine::getTable('aPage')->getPrivilegesInfoForPageId($relativeId);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getEditIndividualsJSON($forceParent = false)
   {
     $candidates = Doctrine::getTable('aPage')->getEditorCandidates();
@@ -288,13 +311,23 @@ class BaseaPageSettingsForm extends aPageForm
     }
     return json_encode($jinfos);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getGroupPermissions($forceParent = false)
   {
     $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
     return Doctrine::getTable('aPage')->getGroupPrivilegesInfoForPageId($relativeId);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getEditGroupsJSON($forceParent = false)
   {
     $candidates = Doctrine::getTable('aPage')->getEditorCandidateGroups();
@@ -317,7 +350,13 @@ class BaseaPageSettingsForm extends aPageForm
     }
     return json_encode($jinfos);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateEditIndividuals($validator, $value)
   {
     $values = json_decode($value, true);
@@ -336,7 +375,13 @@ class BaseaPageSettingsForm extends aPageForm
     }
     return $value;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateEditGroups($validator, $value)
   {
     $values = json_decode($value, true);
@@ -356,7 +401,11 @@ class BaseaPageSettingsForm extends aPageForm
     return $value;
   }
 
- 
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getViewIndividualsJSON($forceParent = false)
   {
     $candidates = Doctrine::getTable('aPage')->getViewCandidates();
@@ -379,13 +428,22 @@ class BaseaPageSettingsForm extends aPageForm
     return json_encode($jinfos);
   }
 
-  // We don't have a full sfGuardUser object so we can't stringify, must duplicate this logic for now. This is
-  // not ideal from an I18N perspective
+  /**
+   * We don't have a full sfGuardUser object so we can't stringify, must duplicate this logic for now. This is
+   * not ideal from an I18N perspective
+   * @param mixed $candidate
+   * @return mixed
+   */
   protected function formatName($candidate)
   {
     return $candidate['first_name'] . ' ' . $candidate['last_name'] . ' (' . $candidate['username'] . ')';
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $forceParent
+   * @return mixed
+   */
   protected function getViewGroupsJSON($forceParent = false)
   {
     $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
@@ -410,12 +468,22 @@ class BaseaPageSettingsForm extends aPageForm
     return json_encode($jinfos);
   }
 
-  // A useful override point if you prefer to show the description
+  /**
+   * A useful override point if you prefer to show the description
+   * @param mixed $groupCandidate
+   * @return mixed
+   */
   protected function getGroupCandidateName($groupCandidate)
   {
     return $groupCandidate['name'];
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateViewIndividuals($validator, $value)
   {
     $values = json_decode($value, true);
@@ -435,6 +503,12 @@ class BaseaPageSettingsForm extends aPageForm
     return $value;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateViewGroups($validator, $value)
   {
     $values = json_decode($value, true);
@@ -457,7 +531,11 @@ class BaseaPageSettingsForm extends aPageForm
     }
     return $value;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   */
   public function updateObject($values = null)
   {
     if (is_null($values))
@@ -587,8 +665,12 @@ class BaseaPageSettingsForm extends aPageForm
     register_shutdown_function(array($this, 'invalidateRoutingCache'));
   }
 
-  // Privileges are saved after the object itself to avoid chicken and egg problems
-  // if the page is new
+  /**
+   * Privileges are saved after the object itself to avoid chicken and egg problems
+   * if the page is new
+   * @param mixed $con
+   * @return mixed
+   */
   public function save($con = null)
   {
     $object = parent::save($con);
@@ -600,12 +682,15 @@ class BaseaPageSettingsForm extends aPageForm
     // This involves creating a slot so it has to happen last
     if ($this->getValue('real_meta_description') != '')
     {
-	    $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
-	  }
+      $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
+    }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
     return $object;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function invalidateRoutingCache()
   {
     // Clear the routing cache on page settings changes. TODO:
@@ -622,7 +707,12 @@ class BaseaPageSettingsForm extends aPageForm
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $object
+   * @return mixed
+   */
   protected function saveIndividualEditPrivileges($object)
   {
     if (isset($this['edit_individuals']))
@@ -656,7 +746,12 @@ class BaseaPageSettingsForm extends aPageForm
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $object
+   * @return mixed
+   */
   protected function saveIndividualViewPrivileges($object)
   {
     if (isset($this['view_individuals']))
@@ -689,16 +784,31 @@ class BaseaPageSettingsForm extends aPageForm
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $pageId
+   * @param mixed $privilege
+   */
   protected function clearAccessForPrivilege($pageId, $privilege)
   {
     Doctrine_Query::create()->delete('aAccess')->where('page_id = ?', $pageId)->andWhere('privilege = ?', $privilege)->execute();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $pageId
+   * @param mixed $privilege
+   */
   protected function clearGroupAccessForPrivilege($pageId, $privilege)
   {
     Doctrine_Query::create()->delete('aGroupAccess')->where('page_id = ?', $pageId)->andWhere('privilege = ?', $privilege)->execute();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $object
+   * @return mixed
+   */
   protected function saveGroupEditPrivileges($object)
   {
     if (isset($this['edit_groups']))
@@ -738,7 +848,12 @@ class BaseaPageSettingsForm extends aPageForm
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $object
+   * @return mixed
+   */
   protected function saveGroupViewPrivileges($object)
   {
     if (isset($this['view_groups']))
@@ -776,7 +891,15 @@ class BaseaPageSettingsForm extends aPageForm
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $page
+   * @param mixed $userId
+   * @param mixed $privilege
+   * @param mixed $set
+   * @param mixed $applyToSubpages
+   */
   protected function setAccessForPrivilege($page, $userId, $privilege, $set, $applyToSubpages)
   {
     $ids = array();
@@ -811,7 +934,15 @@ class BaseaPageSettingsForm extends aPageForm
       Doctrine_Query::create()->delete('aAccess a')->andWhereIn('a.page_id', $ids)->andWhere('a.user_id = ?', $userId)->andWhere('a.privilege = ?', $privilege)->execute();
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $page
+   * @param mixed $groupId
+   * @param mixed $privilege
+   * @param mixed $set
+   * @param mixed $applyToSubpages
+   */
   protected function setGroupAccessForPrivilege($page, $groupId, $privilege, $set, $applyToSubpages)
   {
     $ids = array();

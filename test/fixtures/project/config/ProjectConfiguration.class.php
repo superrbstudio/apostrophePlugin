@@ -6,10 +6,16 @@ if (!isset($_SERVER['SYMFONY']))
 }
 
 require_once $_SERVER['SYMFONY'].'/autoload/sfCoreAutoload.class.php';
-sfCoreAutoload::register();
-
+sfCoreAutoload::register();/**
+ * @package    Apostrophe
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class ProjectConfiguration extends sfProjectConfiguration
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function setup()
   {
     $this->setPlugins(array('apostrophePlugin'));

@@ -1,11 +1,23 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    embedService
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aVimeo extends aEmbedService
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configured()
   {
     $settings = sfConfig::get('app_a_vimeo');
@@ -23,19 +35,34 @@ class aVimeo extends aEmbedService
     }
     return true;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configurationHelpUrl()
   {
     return 'http://trac.apostrophenow.org/wiki/EmbedVimeo';
   }
   
   protected $features = array('thumbnail', 'search', 'browseUser');
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $feature
+   * @return mixed
+   */
   public function supports($feature)
   {
     return in_array($feature, $this->features);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $method
+   * @param mixed $params
+   * @return mixed
+   */
   protected function advancedCall($method, $params)
   {
     try
@@ -60,20 +87,38 @@ class aVimeo extends aEmbedService
       return false;
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $q
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function search($q, $page = 1, $perPage = 50)
   {
     return $this->getFeed('vimeo.videos.search', array('query' => $q, 'page' => $page, 'per_page' => $perPage));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function browseUser($user, $page = 1, $perPage = 50)
   {
     return $this->getFeed('vimeo.videos.getUploaded', array('user_id' => $user, 'page' => $page, 'per_page' => $perPage));
   }
 
-  // Returns just enough information to verify you found the right user. This is not meant to be
-  // a fancy presentation that end users see, it's for admins adding a linked account. Please don't
-  // introduce English into the result here as we'd have to i18n it
+  /**
+   * Returns just enough information to verify you found the right user. This is not meant to be
+   * a fancy presentation that end users see, it's for admins adding a linked account. Please don't
+   * introduce English into the result here as we'd have to i18n it
+   * @param mixed $user
+   * @return mixed
+   */
   public function getUserInfo($user)
   {
     $result = $this->advancedCall('vimeo.people.getInfo', array('user_id' => $user));
@@ -88,7 +133,13 @@ class aVimeo extends aEmbedService
     $result = $result->person;
     return array('name' => $result->username . ' (' . $result->display_name . ')', 'description' => $result->bio);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $method
+   * @param mixed $params
+   * @return mixed
+   */
   public function getFeed($method, $params)
   {
     $params['full_response'] = 1;
@@ -108,7 +159,12 @@ class aVimeo extends aEmbedService
     $results['results'] = $output;
     return $results;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getInfo($id)
   {
     $result = $this->advancedCall('vimeo.videos.getInfo', array('video_id' => $id));
@@ -138,7 +194,17 @@ class aVimeo extends aEmbedService
     $info['credit'] = $result->owner->display_name;
     return $info;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $title
+   * @param mixed $wmode
+   * @param mixed $autoplay
+   * @return mixed
+   */
   public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
     // Ignore title: we can't make an iframe any more accessible, hopefully Vimeo is offering alt attributes of its own
@@ -148,7 +214,12 @@ class aVimeo extends aEmbedService
 EOM
 ;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   * @return mixed
+   */
   public function getIdFromUrl($url)
   {
     if (!preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
@@ -158,17 +229,32 @@ EOM
     }
     return $matches[1];
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getUrlFromId($id)
   {
     return 'http://vimeo.com/' . urlencode($id);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $embed
+   * @return mixed
+   */
   public function getIdFromEmbed($embed)
   {
     return $this->getIdFromUrl($embed);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $videoid
+   * @return mixed
+   */
   public function getThumbnail($videoid)
   {
     $feed = "http://vimeo.com/api/v2/video/$videoid.json";
@@ -181,7 +267,11 @@ EOM
     $entry = $entry[0];
     return $entry['thumbnail_large'];
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getName()
   {
     return 'Vimeo';

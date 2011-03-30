@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaNavigationComponents extends sfComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function navSetup()
   {
     if(is_object($this->root) && $this->root instanceof aPage)
@@ -30,6 +38,9 @@ class BaseaNavigationComponents extends sfComponents
     $this->class = isset($this->class)? $this->class : 'a-nav-item';
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeAccordion()
   {
     $this->navSetup();
@@ -42,6 +53,9 @@ class BaseaNavigationComponents extends sfComponents
     $this->nest = 0;
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeTabs()
   {
     $this->navSetup();
@@ -77,7 +91,10 @@ class BaseaNavigationComponents extends sfComponents
     }
 
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeBreadcrumb()
   {
     $this->navSetup();

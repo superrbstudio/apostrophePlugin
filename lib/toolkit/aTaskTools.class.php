@@ -1,29 +1,29 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aTaskTools
 {
+
   /**
+   * 
    * Signs in as a superuser (ataskuser) and creates a suitable context and db connection.
-   *
    * @param sfConfiguration $configuration  An sfConfiguration instance
    * @param string          $connectionName The connection name (defaults to doctrine)
-   *
-   *
+   * *
    * In addition to signing in as ataskuser (a superadmin with all privileges), this method also
    * creates a context and a database connection to prevent "default context not found" errors elsewhere.
-   *
-   * The signInAsTaskUser method is intended to be called at the beginning of the execute method 
-   * of your task. 
-   *
-   * This method sets up a context, opens a Doctrine database connection, and signs in as the 
-   * ataskuser superadmin user, ensuring that privileges are available on objects that check 
-   * privileges on a user by user basis. This method takes a task configuration object and 
-   * a database connection name, which defaults to doctrine. 
-   *
+   * The signInAsTaskUser method is intended to be called at the beginning of the execute method
+   * of your task.
+   * This method sets up a context, opens a Doctrine database connection, and signs in as the
+   * ataskuser superadmin user, ensuring that privileges are available on objects that check
+   * privileges on a user by user basis. This method takes a task configuration object and
+   * a database connection name, which defaults to doctrine.
    * Call the method like this:
    * aTaskTools::signinAsTaskUser($this->createConfiguration($options['application'], $options['env']), $options['connection']);
    */
-  
   static public function signinAsTaskUser($configuration, $connectionName = 'doctrine')
   {
     // Create the context
@@ -39,7 +39,11 @@ class aTaskTools
     // Sign in as the task user
     sfContext::getInstance()->getUser()->signin($user, false);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getTaskUser()
   {    
     $user = Doctrine::getTable('sfGuardUser')->findOneByUsername('ataskuser');
@@ -57,7 +61,10 @@ class aTaskTools
     }
     return $user;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   static public function setCliHost()
   {
     /**

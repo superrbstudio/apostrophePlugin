@@ -1,18 +1,19 @@
 <?php
-
-/*
+/**
+ * 
  * This file is part of Apostrophe
  * (c) 2009 P'unk Avenue LLC, www.punkave.com
- */
-
-/**
+ * 
  * @package    apostrophePlugin
  * @subpackage Tasks
  * @author     Tom Boutell <tom@punkave.com>
  */
-
 class aDemoFixturesTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     $this->addOptions(array(
@@ -42,6 +43,11 @@ You should only do this on a brand-new site. On an existing site it will overwri
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $args
+   * @param mixed $options
+   */
   protected function execute($args = array(), $options = array())
   {    
     $conn = 'doctrine';
@@ -115,7 +121,13 @@ EOF;
     }
     
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $dir
+   * @param mixed $file
+   * @param mixed $options
+   */
   protected function unzip($dir, $file, $options)
   {
     // Does a nice job of leaving .svn and .cvs alone

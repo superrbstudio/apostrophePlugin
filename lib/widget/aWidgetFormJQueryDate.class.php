@@ -1,18 +1,13 @@
 <?php
-
-/*
+/**
+ * 
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */
-
-/**
+ * 
  * aWidgetFormJQueryDate represents a date widget rendered by JQuery UI.
- *
  * This widget needs JQuery and JQuery UI to work.
- *
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -20,18 +15,16 @@
  */
 class aWidgetFormJQueryDate extends sfWidgetFormDate
 {
+
   /**
+   * 
    * Configures the current widget.
-   *
    * Available options:
-   *
-   *  * image:   The image path to represent the widget (false by default)
-   *  * config:  A JavaScript array that configures the JQuery date widget
-   *  * culture: The user culture
-   *
+   * * image:   The image path to represent the widget (false by default)
+   * config:  A JavaScript array that configures the JQuery date widget
+   * culture: The user culture
    * @param array $options     An array of options
    * @param array $attributes  An array of default HTML attributes
-   *
    * @see sfWidgetForm
    */
   protected function configure($options = array(), $attributes = array())
@@ -41,9 +34,9 @@ class aWidgetFormJQueryDate extends sfWidgetFormDate
     $this->addOption('image', false);
     $this->addOption('config', '{}');
     $this->addOption('culture', '');
-		$years = range(date('Y') - 150, date('Y') + 150);
-		$this->addOption('years', array_combine($years, $years));
-		
+    $years = range(date('Y') - 150, date('Y') + 150);
+    $this->addOption('years', array_combine($years, $years));
+    
     $classes = preg_split('/\s+/', $this->getAttribute('class'));
     $classes[] = 'a-date-field';
     $this->setAttribute('class', implode(' ', $classes));
@@ -54,13 +47,12 @@ class aWidgetFormJQueryDate extends sfWidgetFormDate
   }
 
   /**
+   * 
    * @param  string $name        The element name
    * @param  string $value       The date displayed in this widget
    * @param  array  $attributes  An array of HTML attributes to be merged with the default HTML attributes
    * @param  array  $errors      An array of errors for the field
-   *
    * @return string An HTML tag string
-   *
    * @see sfWidgetForm
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())

@@ -1,11 +1,18 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aEngineTools
 {
-  // Poor man's multiple inheritance. This allows us to subclass an existing
-  // actions class in order to create an engine version of it. See aEngineActions
-  // for the call to add to your own preExecute method
-  
+
+  /**
+   * Poor man's multiple inheritance. This allows us to subclass an existing
+   * actions class in order to create an engine version of it. See aEngineActions
+   * for the call to add to your own preExecute method
+   * @param mixed $actions
+   */
   static public function preExecute($actions)
   {
     $request = $actions->getRequest();
@@ -72,10 +79,14 @@ class aEngineTools
   }  
   
   protected static $engineCategoryCache = array();
-  
-  // Returns the names of all categories currently assigned to 
-  // public engine pages with the specified engine module name.
-  // Useful to find candidate engine pages to direct a link to
+
+  /**
+   * Returns the names of all categories currently assigned to
+   * public engine pages with the specified engine module name.
+   * Useful to find candidate engine pages to direct a link to
+   * @param mixed $engineName
+   * @return mixed
+   */
   static public function getEngineCategories($engineName)
   {
     if (!isset(self::$engineCategoryCache[$engineName]))
@@ -100,11 +111,14 @@ class aEngineTools
     return self::$engineCategoryCache[$engineName];
   }
 
-  // Determines the public engine page that is most relevant to the
-  // object, based on shared categories, and returns its slug
-  // for use as the engine-slug parameter to the route. Used by
-  // apostropheBlogPlugin and apostrophePeoplePlugin
-  
+  /**
+   * Determines the public engine page that is most relevant to the
+   * object, based on shared categories, and returns its slug
+   * for use as the engine-slug parameter to the route. Used by
+   * apostropheBlogPlugin and apostrophePeoplePlugin
+   * @param mixed $object
+   * @return mixed
+   */
   static public function getEngineSlug($object)
   {
     $categories = array();

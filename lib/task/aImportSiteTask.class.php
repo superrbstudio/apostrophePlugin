@@ -1,19 +1,19 @@
 <?php
-
-/*
- *
+/**
+ * 
  * This file is part of Apostrophe
  * (c) 2009 P'unk Avenue LLC, www.punkave.com
- */
-
-/**
+ * 
  * @package    apostrophePlugin
  * @subpackage Tasks
  * @author     Tom Boutell <tom@punkave.com>
  */
-
 class aImportSiteTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     $this->addOptions(array(
@@ -42,6 +42,11 @@ See the Wiki for documentation of the XML format required.
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $args
+   * @param mixed $options
+   */
   protected function execute($args = array(), $options = array())
   {
     $databaseManager = new sfDatabaseManager($this->configuration);

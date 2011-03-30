@@ -1,14 +1,18 @@
 <?php
-
 /**
+ * 
  * PluginaMediaItem form.
- *
  * @package    form
  * @subpackage aMediaItem
  * @version    SVN: $Id: sfDoctrineFormTemplate.php 6174 2007-11-27 06:22:40Z fabien $
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
 abstract class PluginaMediaItemForm extends BaseaMediaItemForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function setup()
   {
     parent::setup();
@@ -18,17 +22,17 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     unset($this['lucene_dirty']);
     $this->setWidget('tags', new sfWidgetFormInput(array("default" => implode(", ", $this->getObject()->getTags())), array("class" => "tag-input", "autocomplete" => "off")));
     $this->setValidator('tags', new sfValidatorPass());
-		$this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
+    $this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
     $this->setWidget('description', new aWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', 'height' => 182 ))); // FCK doesn't like to be smaller than 182px in Chrome 
-		$this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
+    $this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
 
     $user = sfContext::getInstance()->getUser();
     $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
-		$q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
-		$this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
-		$this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
-		$categories = $q->execute();
-		$this->widgetSchema->setLabel('categories_list', 'Categories');
+    $q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
+    $this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
+    $this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
+    $categories = $q->execute();
+    $this->widgetSchema->setLabel('categories_list', 'Categories');
 
     $this->setValidator('title', new sfValidatorString(array(
       'min_length' => 3,
@@ -40,12 +44,12 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       'required' => 'You must provide a title.')
     ));
 
-		$this->setWidget('view_is_secure', new sfWidgetFormSelectRadio(array(
-		  'choices' => array(0 => 'Public', 1 => 'Hidden'),
-		  'default' => 0
-		)));
-	
-		$this->setValidator('view_is_secure', new sfValidatorBoolean());
+    $this->setWidget('view_is_secure', new sfWidgetFormSelectRadio(array(
+      'choices' => array(0 => 'Public', 1 => 'Hidden'),
+      'default' => 0
+    )));
+  
+    $this->setValidator('view_is_secure', new sfValidatorBoolean());
 
     $this->widgetSchema->setLabel('view_is_secure', 'Permissions');
     
@@ -56,19 +60,24 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     if ($this->isAdmin())
     {
       // Only admins can add more categories
-  		$this->setWidget('categories_list_add', new sfWidgetFormInput());
-  		$this->setValidator('categories_list_add', new sfValidatorPass());
+      $this->setWidget('categories_list_add', new sfWidgetFormInput());
+      $this->setValidator('categories_list_add', new sfValidatorPass());
     }
     
-		// If I don't unset this saving the form will purge existing relationships to slots
-		unset($this['slots_list']);
-		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    // If I don't unset this saving the form will purge existing relationships to slots
+    unset($this['slots_list']);
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
-		$this->validatorSchema->setPostValidator(
+    $this->validatorSchema->setPostValidator(
       new sfValidatorCallback(array('callback' => array($this, 'postValidator')))
     );
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @return mixed
+   */
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
@@ -95,9 +104,13 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $object;
   }
 
-  // We don't include the form class in the token because we intentionally
-  // switch form classes in midstream. You can't learn the session ID from
-  // the cookie on your local box, so this is sufficient
+  /**
+   * We don't include the form class in the token because we intentionally
+   * switch form classes in midstream. You can't learn the session ID from
+   * the cookie on your local box, so this is sufficient
+   * @param mixed $secret
+   * @return mixed
+   */
   public function getCSRFToken($secret = null)
   {
     if (null === $secret)
@@ -107,6 +120,12 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return md5($secret.session_id());
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $values
+   * @return mixed
+   */
   public function postValidator($validator, $values)
   {
     if(isset($values['categories_list_add']) && is_array($values['categories_list_add']))
@@ -120,18 +139,30 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $values;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function isAdmin()
   {
     return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
   }
-  
-  // Returns categories set on this item that this user is not eligible to remove.
-  // Used for static display
+
+  /**
+   * Returns categories set on this item that this user is not eligible to remove.
+   * Used for static display
+   * @return mixed
+   */
   public function getAdminCategories()
   {
     return $this->object->getAdminCategories();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @return mixed
+   */
   public function updateCategoriesList(&$values)
   {
     $cvalues = isset($values['categories_list_add']) ? $values['categories_list_add'] : array();
@@ -174,6 +205,10 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     return $values['categories_list'];
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $con
+   */
   protected function doSave($con = null)
   {
     $this->updateCategoriesList($this->values);

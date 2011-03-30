@@ -1,10 +1,18 @@
 <?php
-
 /**
+ * 
  * A collection of static methods useful for making tests easier to write.
+ * @package    apostrophePlugin
+ * @subpackage    test
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
 class aTestTools
 {
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $length
+   */
   public static function randomString($length)
   {
     $string = '';
@@ -16,7 +24,13 @@ class aTestTools
   
   static protected $test;
   static protected $configuration;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $test
+   * @param mixed $configuration
+   * @return mixed
+   */
   static public function loadData($test = null, $configuration = null)
   {
     self::$test = $test;
@@ -132,6 +146,10 @@ class aTestTools
     return;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getDatabaseParams()
   {
     echo("appConfig\n");
@@ -159,13 +177,21 @@ class aTestTools
     $data['password'] = $password;
     return $data;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $params
+   * @return mixed
+   */
   static public function shellDBParams($params)
   {
     return '-u ' . escapeshellarg($params['username']) . ' -p' . escapeshellarg($params['password']) . ' -h ' . escapeshellarg($params['host']) . ' ' . escapeshellarg($params['dbname']);
   }
-  
-  // Yes, this is a hack
+
+  /**
+   * Yes, this is a hack
+   * @param mixed $m
+   */
   static public function info($m)
   {
     if (isset(self::$test))
@@ -178,8 +204,11 @@ class aTestTools
       echo("$m\n");
     }
   }
-  
-  // Bound to be useful somewhere else
+
+  /**
+   * Bound to be useful somewhere else
+   * @return mixed
+   */
   static public function getProcesses()
   {
     $processes = array();

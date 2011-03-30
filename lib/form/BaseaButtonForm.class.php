@@ -1,21 +1,35 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaButtonForm extends BaseForm
 {
   protected $id;
   protected $soptions;
-  // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+
+  /**
+   * PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+   * @param mixed $id
+   * @param mixed $soptions
+   */
   public function __construct($id = 1, $soptions = array())
   {
     $this->id = $id;
     $this->soptions = $soptions;
-		$soptions['class'] = 'aButtonSlot';
+    $soptions['class'] = 'aButtonSlot';
     $this->allowedTags = $this->consumeSlotOption('allowed-tags');
     $this->allowedAttributes = $this->consumeSlotOption('allowed-attributes');
     $this->allowedStyles = $this->consumeSlotOption('allowed-styles');
     parent::__construct();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   protected function consumeSlotOption($s)
   {
     if (isset($this->soptions[$s]))
@@ -29,11 +43,14 @@ class BaseaButtonForm extends BaseForm
       return null;
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $widgetOptions = array();
- 		$widgetOptions['tool'] = 'Sidebar';
+     $widgetOptions['tool'] = 'Sidebar';
 
     $tool = $this->consumeSlotOption('tool');
     if (!is_null($tool))
@@ -42,31 +59,36 @@ class BaseaButtonForm extends BaseForm
     }
     
     $this->setWidgets(array(
-			'description' => new aWidgetFormRichTextarea($widgetOptions, $this->soptions),
-		  'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
-		  'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))	
-		));
+      'description' => new aWidgetFormRichTextarea($widgetOptions, $this->soptions),
+      'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
+      'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))  
+    ));
 
     $this->setValidators(array(
-			'description' => new sfValidatorHtml(array('required' => false, 'allowed_tags' => $this->allowedTags, 'allowed_attributes' => $this->allowedAttributes, 'allowed_styles' => $this->allowedStyles)),
-			'url' => new sfValidatorAnd(array(
-				// www.foo.bar => http://www.foo.bar
-	    	new sfValidatorCallback(array('callback' => array($this, 'validateLazyUrl'))), 
-	    	// Must be a valid URL to go past this stage
-    		new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
-			)),
+      'description' => new sfValidatorHtml(array('required' => false, 'allowed_tags' => $this->allowedTags, 'allowed_attributes' => $this->allowedAttributes, 'allowed_styles' => $this->allowedStyles)),
+      'url' => new sfValidatorAnd(array(
+        // www.foo.bar => http://www.foo.bar
+        new sfValidatorCallback(array('callback' => array($this, 'validateLazyUrl'))), 
+        // Must be a valid URL to go past this stage
+        new sfValidatorCallback(array('callback' => array($this, 'validateUrl'))),
+      )),
       'title' => new sfValidatorString(array('required' => false)) 
-		));
+    ));
 
     // Ensures unique IDs throughout the page. Hyphen between slot and form to please our CSS
     $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '-%s');
     
     // You don't have to use our form formatter, but it makes things nice
     $this->widgetSchema->setFormFormatterName('aAdmin');
-		$this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+    $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
-  
-  // Add missing http://
+
+  /**
+   * Add missing http:
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateLazyUrl($validator, $value)
   {
     if (preg_match('/^[\w\+-]+\./', $value))
@@ -76,6 +98,12 @@ class BaseaButtonForm extends BaseForm
     return $value;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateUrl($validator, $value)
   {
     $url = $value;

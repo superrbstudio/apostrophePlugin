@@ -1,9 +1,16 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaBrowseForm extends BaseForm
 {
-  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
-  // it's just here for our i18n-update task to sniff
+
+  /**
+   * Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+   * it's just here for our i18n-update task to sniff
+   */
   private function i18nDummy()
   {
     __('All', null, 'apostrophe');
@@ -12,6 +19,9 @@ class BaseaMediaBrowseForm extends BaseForm
     __('PDF', null, 'apostrophe');
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $typeOptions = array(

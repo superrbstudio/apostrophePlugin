@@ -1,16 +1,12 @@
 <?php
-
-/*
+/**
+ * 
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */
-
-/**
+ * 
  * sfWidgetFormChoice represents a choice widget.
- *
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -18,24 +14,23 @@
  */
 class aWidgetFormChoice extends sfWidgetFormChoice
 {
+
   /**
+   * 
    * Constructor.
-   *
    * Available options:
-   *
-   *  * choices:          An array of possible choices (required)
-   *  * multiple:         true if the select tag must allow multiple selections
-   *  * expanded:         true to display an expanded widget
-   *                        if expanded is false, then the widget will be a select
-   *                        if expanded is true and multiple is false, then the widget will be a list of radio
-   *                        if expanded is true and multiple is true, then the widget will be a list of checkbox
-   *  * renderer_class:   The class to use instead of the default ones
-   *  * renderer_options: The options to pass to the renderer constructor
-   *  * renderer:         A renderer widget (overrides the expanded and renderer_options options)
-   *                      The choices option must be: new sfCallable($thisWidgetInstance, 'getChoices')
+   * * choices:          An array of possible choices (required)
+   * multiple:         true if the select tag must allow multiple selections
+   * expanded:         true to display an expanded widget
+   * if expanded is false, then the widget will be a select
+   * if expanded is true and multiple is false, then the widget will be a list of radio
+   * if expanded is true and multiple is true, then the widget will be a list of checkbox
+   * renderer_class:   The class to use instead of the default ones
+   * renderer_options: The options to pass to the renderer constructor
+   * renderer:         A renderer widget (overrides the expanded and renderer_options options)
+   * The choices option must be: new sfCallable($thisWidgetInstance, 'getChoices')
    * @param array $options     An array of options
    * @param array $attributes  An array of default HTML attributes
-   *
    * @see sfWidgetFormChoiceBase
    */
   protected function configure($options = array(), $attributes = array())
@@ -50,11 +45,10 @@ class aWidgetFormChoice extends sfWidgetFormChoice
   }
 
   /**
+   * 
    * Sets the format for HTML id attributes. This is made avaiable to the renderer,
    * as this widget does not render itself, but delegates to the renderer instead.
-   *
    * @param string $format  The format string (must contain a %s for the id placeholder)
-   *
    * @see sfWidgetForm
    */
   public function setIdFormat($format)
@@ -63,15 +57,13 @@ class aWidgetFormChoice extends sfWidgetFormChoice
   }
 
   /**
+   * 
    * Renders the widget.
-   *
    * @param  string $name        The element name
    * @param  string $value       The value selected in this widget
    * @param  array  $attributes  An array of HTML attributes to be merged with the default HTML attributes
    * @param  array  $errors      An array of errors for the field
-   *
    * @return string An HTML tag string
-   *
    * @see sfWidgetForm
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())
@@ -95,8 +87,8 @@ class aWidgetFormChoice extends sfWidgetFormChoice
   }
 
   /**
+   * 
    * Gets the stylesheet paths associated with the widget.
-   *
    * @return array An array of stylesheet paths
    */
   public function getStylesheets()
@@ -105,8 +97,8 @@ class aWidgetFormChoice extends sfWidgetFormChoice
   }
 
   /**
+   * 
    * Gets the JavaScript paths associated with the widget.
-   *
    * @return array An array of JavaScript paths
    */
   public function getJavaScripts()
@@ -114,6 +106,10 @@ class aWidgetFormChoice extends sfWidgetFormChoice
     return $this->getRenderer()->getJavaScripts();
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getRenderer()
   {
     if ($this->getOption('renderer'))
@@ -124,13 +120,13 @@ class aWidgetFormChoice extends sfWidgetFormChoice
     if (!$class = $this->getOption('renderer_class'))
     {
       $type = !$this->getOption('expanded') ? '' : ($this->getOption('multiple') ? 'checkbox' : 'radio');
-			if ($type == 'radio') {
-      	$class = sprintf('aWidgetForm%s', ucfirst($type));
-			}
-			else
-			{
-      	$class = sprintf('sfWidgetFormSelect%s', ucfirst($type));				
-			}
+      if ($type == 'radio') {
+        $class = sprintf('aWidgetForm%s', ucfirst($type));
+      }
+      else
+      {
+        $class = sprintf('sfWidgetFormSelect%s', ucfirst($type));        
+      }
 
     }
     return new $class(array_merge(array('choices' => new sfCallable(array($this, 'getChoices'))), $this->options['renderer_options']), $this->getAttributes());

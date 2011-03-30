@@ -1,9 +1,16 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    navigation
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aNavigationAccordion extends aNavigation
 {
   protected $cssClass = 'a-nav-item';
 
+  /**
+   * DOCUMENT ME
+   */
   public function buildNavigation()
   {
     $this->activeInfo = $this->active->getInfo();
@@ -23,6 +30,10 @@ class aNavigationAccordion extends aNavigation
     $this->traverse($this->nav);
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getNav()
   {
     return $this->nav;

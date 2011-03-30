@@ -1,19 +1,29 @@
 <?php
-
-// A wrapper for simple MySQL-based schema updates. See the apostrophe:migrate task for 
-// an example of usage
-
+/**
+ * A wrapper for simple MySQL-based schema updates. See the apostrophe:migrate task for
+ * an example of usage
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aMigrate
 {
   protected $conn;
   protected $commandsRun;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $conn
+   */
   public function __construct($conn)
   {
     $this->conn = $conn;
   }
-  
-  // Used to run a series of queries where you don't need parameters or results
+
+  /**
+   * Used to run a series of queries where you don't need parameters or results
+   * @param mixed $commands
+   */
   public function sql($commands)
   {
     foreach ($commands as $command)
@@ -23,10 +33,15 @@ class aMigrate
       $this->commandsRun++;
     }
   }
-  
-  // Runs a single query, with parameters. If :foo appears in the query it gets
-  // substituted correctly (via PDO) with $params['foo']. Extra stuff in
-  // $params is allowed, which is very helpful with toArray(). 
+
+  /**
+   * Runs a single query, with parameters. If :foo appears in the query it gets
+   * substituted correctly (via PDO) with $params['foo']. Extra stuff in
+   * $params is allowed, which is very helpful with toArray().
+   * @param mixed $s
+   * @param mixed $params
+   * @return mixed
+   */
   public function query($s, $params = array())
   {
     $pdo = $this->conn;
@@ -68,17 +83,30 @@ class aMigrate
     $this->commandsRun++;
     return $result;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function lastInsertId()
   {
     return $this->conn->lastInsertId();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getCommandsRun()
   {
     return $this->commandsRun;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $tableName
+   * @return mixed
+   */
   public function tableExists($tableName)
   {
     if (!preg_match('/^\w+$/', $tableName))
@@ -94,7 +122,13 @@ class aMigrate
     }
     return (isset($data[0]['Create Table']));    
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $tableName
+   * @param mixed $constraintName
+   * @return mixed
+   */
   public function constraintExists($tableName, $constraintName)
   {
     if (!preg_match('/^\w+$/', $tableName))
@@ -114,7 +148,13 @@ class aMigrate
     }    
     return (strpos($data[0]['Create Table'], 'CONSTRAINT `' . $constraintName . '`') !== false);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $tableName
+   * @param mixed $columnName
+   * @return mixed
+   */
   public function columnExists($tableName, $columnName)
   {
     if (!preg_match('/^\w+$/', $tableName))
@@ -134,17 +174,29 @@ class aMigrate
     }
     return (isset($data[0]['Field']));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getTables()
   {
     return array_map(array($this, 'takeFirst'), $this->query('SHOW TABLES'));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $val
+   * @return mixed
+   */
   public function takeFirst($val)
   {
     return $val[0];
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function upgradeCharsets()
   {
     $tables = $this->getTables();
@@ -158,9 +210,11 @@ class aMigrate
       }
     }
   }
-  
-  // Drop all integer foreign key constraints, turn both columns involved into BIGINTs, 
-  // and reestablish the constraints
+
+  /**
+   * Drop all integer foreign key constraints, turn both columns involved into BIGINTs,
+   * and reestablish the constraints
+   */
   public function upgradeIds()
   {
     $tables = $this->getTables();

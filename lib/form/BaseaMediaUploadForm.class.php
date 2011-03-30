@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaUploadForm extends BaseForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $this->setWidget("file", new aWidgetFormInputFilePersistent(

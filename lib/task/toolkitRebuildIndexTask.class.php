@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class toolkitRebuildIndex extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -32,6 +40,11 @@ You can optionally specify a table parameter (--table=aPage) to rebuild just tha
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // We've come a long way in reducing memory usage here, but it's still an expensive job
@@ -137,7 +150,12 @@ EOF;
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $index
+   * @param mixed $options
+   */
   protected function update($index, $options)
   {
     if ($options['verbose'])
@@ -160,14 +178,24 @@ EOF;
     // $task = new aupdateluceneTask($this->dispatcher, $this->formatter);
     // $task->run(array(), array('env' => $options['env']));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getPDO()
   {
     $connection = Doctrine_Manager::connection();
     $pdo = $connection->getDbh();
     return $pdo;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @param mixed $params
+   * @return mixed
+   */
   protected function query($s, $params = array())
   {
     $pdo = $this->getPDO();

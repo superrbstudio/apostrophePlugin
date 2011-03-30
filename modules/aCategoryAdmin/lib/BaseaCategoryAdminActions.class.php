@@ -1,11 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/aCategoryAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';
-
-/**
- * Base actions for the aPlugin aCategoryAdmin module.
+require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';/**
  * 
+ * Base actions for the aPlugin aCategoryAdmin module.
  * @package     aPlugin
  * @subpackage  aCategoryAdmin
  * @author      Your name here
@@ -13,7 +11,13 @@ require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';
  */
 abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
 {
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @param sfForm $form
+   * @return mixed
+   */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');

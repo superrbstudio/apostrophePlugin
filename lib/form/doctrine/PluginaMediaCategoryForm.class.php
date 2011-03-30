@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * PluginaMediaCategory form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage form
  * @author     ##AUTHOR_NAME##
@@ -10,6 +9,10 @@
  */
 abstract class PluginaMediaCategoryForm extends BaseaMediaCategoryForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function setup()
   {
     parent::setup();

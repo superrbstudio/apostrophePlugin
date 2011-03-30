@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaRichTextSlotComponents extends aSlotComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     $this->setup();
@@ -13,6 +21,10 @@ class BaseaRichTextSlotComponents extends aSlotComponents
       $this->form->setDefault('value', $this->slot->value);
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();

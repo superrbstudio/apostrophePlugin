@@ -1,11 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/aTagAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';
-
-/**
+require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';/**
+ * 
  * Base actions for the aPlugin aTagAdmin module.
- *
  * @package     aPlugin
  * @subpackage  aTagAdmin
  * @author      Your name here
@@ -14,7 +12,10 @@ require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';
 abstract class BaseaTagAdminActions extends autoaTagAdminActions
 {
   protected $models;
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function preExecute()
   {
     parent::preExecute();
@@ -22,6 +23,12 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     $this->dispatcher->connect('admin.build_query', array($this, 'addCounts'));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $event
+   * @param mixed $query
+   * @return mixed
+   */
   public function addCounts($event, $query)
   {
     Doctrine::getTable('Tag')->queryTagsWithCountsByModel($this->models, $query);
@@ -29,7 +36,11 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     return $query;
   }
 
-	protected function buildQuery()
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  protected function buildQuery()
   {
     $tableMethod = $this->configuration->getTableMethod();
     $query = Doctrine::getTable('Tag')->createQuery('r');
@@ -42,6 +53,11 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     return $query;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $query
+   * @return mixed
+   */
   protected function addSortQuery($query)
   {
     if (array(null, null) == ($sort = $this->getSort()))
@@ -70,12 +86,21 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
       $query->addOrderBy($sort[0] . ' ' . $sort[1]);
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $column
+   * @return mixed
+   */
   protected function isValidSortColumn($column)
   {
     return Doctrine_Core::getTable('Tag')->hasColumn($column) || in_array($column, $this->models);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeClean(sfWebRequest $request)
   {
     $deleted = PluginTagTable::purgeOrphans();
@@ -85,6 +110,11 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     $this->redirect('a_tag_admin');
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @param sfForm $form
+   */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     parent::processForm($request, $form);

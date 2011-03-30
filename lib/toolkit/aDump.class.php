@@ -1,15 +1,24 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aDump
 {
-  // Attempts to output the variable as valid PHP code. 
-  // Handy for metaprogramming. var_dump doesn't quite do this, 
-  // and serialize has its own format, etc.
 
-  // Does not work with objects. Does work with
-  // arrays (associative and flat), strings, numbers,
-  // null and false.
-
+  /**
+   * Attempts to output the variable as valid PHP code.
+   * Handy for metaprogramming. var_dump doesn't quite do this,
+   * and serialize has its own format, etc.
+   * Does not work with objects. Does work with
+   * arrays (associative and flat), strings, numbers,
+   * null and false.
+   * @param mixed $var
+   * @param mixed $depth
+   * @param mixed $preIndented
+   * @return mixed
+   */
   static public function dump($var, $depth = 0, $preIndented = false)
   {
     $result = "";

@@ -1,37 +1,44 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aRules
 {
-  // Simple path-matching rules. They work like this:
-  // * matches anything
-  // % matches anything except / (great for directory components)
-  
-  // Call select with an array of rules and a string to be matched. Each 
-  // rule is an associative array with a key named 'rule' that contains
-  // the actual pattern. select returns the entire associative array
-  // for the first matching rule, or false if no rules match.
 
-  // This is very handy in CMS configuration files. Example
-  // (for a CMS with rooted paths):
-//      ## Home page gets homePage
-//      #
-//      # - rule: "/"
-//      #   template: homePage
-//      #
-//      ## All second level pages get secondPage
-//      # - rule: "/%/%"
-//      #   template: secondPage
-//      #
-//      ## All descendants (not just direct children) of /faq/ get faqPage.
-//      ## For direct children only, use % instead of *
-//      # - rule: "/home/faq/*"
-//      #   template: faqPage
-//      #
-//      # Everything else gets simplePage
-//      # - rule: "*"
-//      #   template: simplePage
-//      #
-
+  /**
+   * Simple path-matching rules. They work like this:
+   * * matches anything
+   * % matches anything except / (great for directory components)
+   * Call select with an array of rules and a string to be matched. Each
+   * rule is an associative array with a key named 'rule' that contains
+   * the actual pattern. select returns the entire associative array
+   * for the first matching rule, or false if no rules match.
+   * This is very handy in CMS configuration files. Example
+   * (for a CMS with rooted paths):
+   * ## Home page gets homePage
+   * #
+   * # - rule: "/"
+   * #   template: homePage
+   * #
+   * ## All second level pages get secondPage
+   * # - rule: "/%/%"
+   * #   template: secondPage
+   * #
+   * ## All descendants (not just direct children) of /faq/ get faqPage.
+   * ## For direct children only, use % instead of *
+   * # - rule: "/home/faq/*"
+   * #   template: faqPage
+   * #
+   * # Everything else gets simplePage
+   * # - rule: "*"
+   * #   template: simplePage
+   * #
+   * @param mixed $rules
+   * @param mixed $s
+   * @return mixed
+   */
   static public function select($rules, $s)
   {
     foreach ($rules as $rule) 
@@ -50,6 +57,9 @@ class aRules
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   */
   static public function test()
   {
     $tests = 

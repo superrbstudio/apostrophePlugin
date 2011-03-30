@@ -1,73 +1,69 @@
 <?php
-
- /**
- * aWidgetFormRichTextarea represents a rich text editor.
- * The FCK editor is always used in this implementation. 
- *
- * Originally based on Dominic Scheirlinck's implementation. However now
- * it is pretty much a thin wrapper around code ported from the old 
- * Symfony 1.x FCK rich text editor class (which is gone in 1.4).
+/**
  * 
+ * aWidgetFormRichTextarea represents a rich text editor.
+ * The FCK editor is always used in this implementation.
+ * Originally based on Dominic Scheirlinck's implementation. However now
+ * it is pretty much a thin wrapper around code ported from the old
+ * Symfony 1.x FCK rich text editor class (which is gone in 1.4).
  * NOTE: THE ID IS IGNORED, FCK always sets the name and id attributes
  * of the hidden input field or fallback textarea to the same value. We
  * must use name for that value to produce results the forms framework
  * can understand.
- *
  * This is a misfeature of FCK, not something we can fix here without
  * breaking the association between the hidden field and the rich text
  * editor. ALWAYS USE setNameFormat() in your form class to give your
  * form fields names that will distinguish them from any other forms
  * in the same page, otherwise your rich text fields will behave in
  * unexpected ways. (Yes, this does mean IDs with brackets in them are in
- * use due to this limitation of FCK, however all modern browsers 
+ * use due to this limitation of FCK, however all modern browsers
  * allow that in practice.) This is rarely an issue unless you have
  * numerous forms in the same page and they have the same name format string
  * (or the default %s).
- *
  * @author     Tom Boutell <tom@punkave.com>
+ * @package    apostrophePlugin
+ * @subpackage    widget
  */
 class aWidgetFormRichTextarea extends sfWidgetFormTextarea 
 {
+
   /**
+   * 
    * @param array $options     An array of options
    * @param array $attributes  An array of default HTML attributes
-   *
    * @see sfWidgetForm
    */
   protected function configure($options = array(), $attributes = array())
   {
     $this->addOption('editor', 'fck');
     $this->addOption('css', false);
-		$this->addOption('tool','Default');
-		$this->addOption('height','225');
-		$this->addOption('width','100%');
+    $this->addOption('tool','Default');
+    $this->addOption('height','225');
+    $this->addOption('width','100%');
     
     parent::configure($options, $attributes);
   }
-  
+
   /**
+   * 
    * @param  string $name        The element name
    * @param  string $value       The value displayed in this widget
    * @param  array  $attributes  An array of HTML attributes to be merged with the default HTML attributes
    * @param  array  $errors      An array of errors for the field
-   *
    * @return string An HTML tag string
-   *
    * This is mostly borrowed from the Symfony 1.3 sf Rich Text Editor FCK class,
    * (don't want to say it out loud and make project:validate worry),
    * which is gone in Symfony 1.4 and not autoloadable in Symfony 1.3.
    * Note that we are now officially FCK-specific. That was pretty much
-   * true already (notice our fckextraconfig.js trick below). 
-   *
+   * true already (notice our fckextraconfig.js trick below).
    * NOTE: THE ID IS IGNORED, FCK always sets the name and id attributes
-   * of the hidden input field or fallback textarea to the same value. 
+   * of the hidden input field or fallback textarea to the same value.
    * This is a misfeature of FCK, not something we can fix here without
    * breaking the association between the hidden field and the rich text
    * editor. ALWAYS USE setNameFormat() in your form class to give your
    * form fields names that will distinguish them from any other forms
    * in the same page, otherwise your rich text fields will behave in
    * unexpected ways.
-   *
    * @see sfWidgetForm
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())

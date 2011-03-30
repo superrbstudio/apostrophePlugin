@@ -1,21 +1,25 @@
 <?php
-
-// A simple, safe, awesome wrapper for MySQL, used where Doctrine isn't
-// fast enough or doesn't allow you to write the SQL you really need (an issue
-// even with Doctrine_RawSql). Offers useful tools to check for existing columns 
-// and tables as well as a simple and clean way to make queries, insert rows,
-// delete rows, etc. without trying to mash objects into MySQL.
-
-// Borrowed from Tom's Plog project, which in turn borrowed the beginnings of
-// it from Apostrophe's aMigrate class.
-
-// -Tom
-
+/**
+ * A simple, safe, awesome wrapper for MySQL, used where Doctrine isn't
+ * fast enough or doesn't allow you to write the SQL you really need (an issue
+ * even with Doctrine_RawSql). Offers useful tools to check for existing columns
+ * and tables as well as a simple and clean way to make queries, insert rows,
+ * delete rows, etc. without trying to mash objects into MySQL.
+ * Borrowed from Tom's Plog project, which in turn borrowed the beginnings of
+ * it from Apostrophe's aMigrate class.
+ * -Tom
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aMysql
 {
   protected $conn;
   protected $commandsRun;
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
     // Raw PDO for performance
@@ -23,8 +27,11 @@ class aMysql
     $this->conn = $connection->getDbh();
   }
 
-  // Used to run a series of queries where you don't need parameters or results
-  // but would like to keep a count of those executed (usually migration stuff)
+  /**
+   * Used to run a series of queries where you don't need parameters or results
+   * but would like to keep a count of those executed (usually migration stuff)
+   * @param mixed $commands
+   */
   public function sql($commands)
   {
     foreach ($commands as $command)
@@ -33,18 +40,20 @@ class aMysql
       $this->commandsRun++;
     }
   }
-  
-  // Runs a single query, with parameters. If :foo appears in the query it gets
-  // substituted correctly (via PDO) with $params['foo']. Extra stuff in
-  // $params is allowed. The return value, as is standard with PDO, is an associative array 
-  // by column name as well as being a numerically indexed array in column order.
-  
-  // Note that not requiring a : in front of everything in the params array allows us to use a
-  // previous result as an argument.
-  
-  // If $params['foo'] is an array, then :foo is replaced by a correctly parenthesized and quoted
-  // array for use in a WHERE foo IN (a, b, c) clause. 
-  
+
+  /**
+   * Runs a single query, with parameters. If :foo appears in the query it gets
+   * substituted correctly (via PDO) with $params['foo']. Extra stuff in
+   * $params is allowed. The return value, as is standard with PDO, is an associative array
+   * by column name as well as being a numerically indexed array in column order.
+   * Note that not requiring a : in front of everything in the params array allows us to use a
+   * previous result as an argument.
+   * If $params['foo'] is an array, then :foo is replaced by a correctly parenthesized and quoted
+   * array for use in a WHERE foo IN (a, b, c) clause.
+   * @param mixed $s
+   * @param mixed $params
+   * @return mixed
+   */
   public function query($s, $params = array())
   {
     $pdo = $this->conn;
@@ -110,14 +119,23 @@ class aMysql
     return $result;
   }
 
-  // Why are you using this? Go read about the params argument to query() again
+  /**
+   * Why are you using this? Go read about the params argument to query() again
+   * @param mixed $item
+   * @return mixed
+   */
   public function quote($item)
   {
     return $this->conn->quote($item);
   }
 
-  // Returns just the first row of results. Add your own LIMIT clause to help MySQL
-  // deliver that efficiently. But also see find()
+  /**
+   * Returns just the first row of results. Add your own LIMIT clause to help MySQL
+   * deliver that efficiently. But also see find()
+   * @param mixed $query
+   * @param mixed $params
+   * @return mixed
+   */
   public function queryOne($query, $params = array())
   {
     $results = $this->query($query, $params);
@@ -128,8 +146,13 @@ class aMysql
     return null;
   }
 
-  // Handy for getting just the ids, just the names, etc. Returns an array 
-  // containing only the first column of each row 
+  /**
+   * Handy for getting just the ids, just the names, etc. Returns an array
+   * containing only the first column of each row
+   * @param mixed $query
+   * @param mixed $params
+   * @return mixed
+   */
   public function queryScalar($query, $params = array())
   {
     $results = $this->query($query, $params);
@@ -141,8 +164,13 @@ class aMysql
     return $nresults;
   }
 
-  // Returns *one* scalar, useful when fetching just one thing.
-  // Note: returns null if there are no results, or no columns in the results (is that possible?)
+  /**
+   * Returns *one* scalar, useful when fetching just one thing.
+   * Note: returns null if there are no results, or no columns in the results (is that possible?)
+   * @param mixed $query
+   * @param mixed $params
+   * @return mixed
+   */
   public function queryOneScalar($query, $params = array())
   {
     $results = $this->query($query, $params);
@@ -158,33 +186,50 @@ class aMysql
     return reset($result);
   }
 
-  // After an insert you'll need to know what the id of the new thing is.
-  // But also see insert()
+  /**
+   * After an insert you'll need to know what the id of the new thing is.
+   * But also see insert()
+   * @return mixed
+   */
   public function lastInsertId()
   {
     return $this->conn->lastInsertId();
   }
-  
-  // Trivial, but handy in array_map calls
+
+  /**
+   * Trivial, but handy in array_map calls
+   * @param mixed $s
+   * @return mixed
+   */
   public function colonPrefix($s)
   {
     return ':' . $s;
   }
-  
-  // Useful for simple inserts. The id of the last added row is returned
-  // (just ignore the return value if the table does not have an autoincrementing id column).
+
+  /**
+   * Useful for simple inserts. The id of the last added row is returned
+   * (just ignore the return value if the table does not have an autoincrementing id column).
+   * @param mixed $table
+   * @param mixed $params
+   * @return mixed
+   */
   public function insert($table, $params = array())
   {
     $columns = array_keys($params);
     $this->query('INSERT INTO ' . $table . ' (' . implode(',', $columns) . ') VALUES (' . implode(',', array_map(array($this, 'colonPrefix'), $columns)) . ')', $params);
     return $this->lastInsertId();
   }
-  
-  // Useful for simple inserts where you'd like the resulting row returned to you.
-  // Not for use with tables that don't have an autoincrementing integer id
-  // named 'id', so just use query or plain insert() as you see fit. Makes an extra query to get what
-  // was really inserted since otherwise you won't get back values for the defaulted fields. 
-  // This is just a timesaver, use it where apropos
+
+  /**
+   * Useful for simple inserts where you'd like the resulting row returned to you.
+   * Not for use with tables that don't have an autoincrementing integer id
+   * named 'id', so just use query or plain insert() as you see fit. Makes an extra query to get what
+   * was really inserted since otherwise you won't get back values for the defaulted fields.
+   * This is just a timesaver, use it where apropos
+   * @param mixed $table
+   * @param mixed $params
+   * @return mixed
+   */
   public function insertAndSelect($table, $params = array())
   {
     $columns = array_keys($params);
@@ -192,26 +237,47 @@ class aMysql
     $id = $this->lastInsertId();
     return $this->query('select * from ' . $table . ' where id = ?', array('id' => $id));
   }
-  
-  // Handy for simple deletes where there is an 'id' column
+
+  /**
+   * Handy for simple deletes where there is an 'id' column
+   * @param mixed $table
+   * @param mixed $id
+   */
   public function delete($table, $id)
   {
     $this->query('DELETE FROM ' . $table . ' WHERE id = :id', array('id' => $id));
   }
 
-  // Good for fetching a row when there is an 'id' column. 
+  /**
+   * Good for fetching a row when there is an 'id' column.
+   * @param mixed $table
+   * @param mixed $id
+   * @return mixed
+   */
   public function find($table, $id)
   {
     return $this->queryOne('SELECT * from ' . $table . ' WHERE id = :id', array('id' => $id));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $table
+   * @param mixed $id
+   * @return mixed
+   */
   public function exists($table, $id)
   {
     return !!$this->find($table, $id);
   }
-  
-  // Writing SET clauses can be a pain. This method saves you the trouble for records
-  // with id columns
+
+  /**
+   * Writing SET clauses can be a pain. This method saves you the trouble for records
+   * with id columns
+   * @param mixed $table
+   * @param mixed $id
+   * @param mixed $params
+   * @return mixed
+   */
   public function update($table, $id, $params = array())
   {
     $q = 'UPDATE ' . $table . ' ';
@@ -234,19 +300,30 @@ class aMysql
     return $this->query($q, $params);
   }
 
-  // Useful when you need the current MySQL date. $relative can be -30 minutes, +30 days, etc.
+  /**
+   * Useful when you need the current MySQL date. $relative can be -30 minutes, +30 days, etc.
+   * @param mixed $relative
+   * @return mixed
+   */
   public function now($relative = '+0 seconds')
   {
     return date('Y-m-d H:i:s', strtotime($relative, time()));
   }
-  
-  // Return the count of sql() calls 
+
+  /**
+   * Return the count of sql() calls
+   * @return mixed
+   */
   public function getCommandsRun()
   {
     return $this->commandsRun;
   }
-  
-  // Does this table already exist?
+
+  /**
+   * Does this table already exist?
+   * @param mixed $tableName
+   * @return mixed
+   */
   public function tableExists($tableName)
   {
     if (!preg_match('/^\w+$/', $tableName))
@@ -262,8 +339,13 @@ class aMysql
     }
     return (isset($data[0]['Create Table']));    
   }
-  
-  // Does this column already exist?
+
+  /**
+   * Does this column already exist?
+   * @param mixed $tableName
+   * @param mixed $columnName
+   * @return mixed
+   */
   public function columnExists($tableName, $columnName)
   {
     if (!preg_match('/^\w+$/', $tableName))
@@ -283,11 +365,17 @@ class aMysql
     }
     return (isset($data[0]['Field']));
   }
-  
-  // Return a value that will be unique for the column (assuming no race condition of course;
-  // you should still use UNIQUE INDEX) by modifying $value until it doesn't already exist.
-  // Trusts table and column (you would never let users enter metadata like that, right?)
-  
+
+  /**
+   * Return a value that will be unique for the column (assuming no race condition of course;
+   * you should still use UNIQUE INDEX) by modifying $value until it doesn't already exist.
+   * Trusts table and column (you would never let users enter metadata like that, right?)
+   * @param mixed $table
+   * @param mixed $column
+   * @param mixed $value
+   * @param mixed $exceptId
+   * @return mixed
+   */
   public function uniqueify($table, $column, $value, $exceptId = null)
   {
     $cvalue = $value;
@@ -301,9 +389,16 @@ class aMysql
     return $cvalue;
   }
 
-  // Just check for uniqueness. When you are updating an existing row it is
-  // convenient to pass the id of the existing row so keeping the value the same
-  // is not considered a conflict
+  /**
+   * Just check for uniqueness. When you are updating an existing row it is
+   * convenient to pass the id of the existing row so keeping the value the same
+   * is not considered a conflict
+   * @param mixed $table
+   * @param mixed $column
+   * @param mixed $value
+   * @param mixed $exceptId
+   * @return mixed
+   */
   public function unique($table, $column, $value, $exceptId = null)
   {
     $q = 'select * from ' . $table . ' where ' . $column . ' = :value ';
@@ -317,8 +412,12 @@ class aMysql
     }
     return true;
   }
-  
-  // Grab just the ids from an array of results
+
+  /**
+   * Grab just the ids from an array of results
+   * @param mixed $results
+   * @return mixed
+   */
   public function getIds($results)
   {
     $ids = array();

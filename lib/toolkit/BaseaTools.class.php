@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaTools
 {
   // ALL static variables must go here
@@ -18,8 +22,11 @@ class BaseaTools
   static protected $allowSlotEditing = true;
   static protected $realUrl = null;
   static public $jsCalls = array();
-  
-  // Must reset ALL static variables to their initial state
+
+  /**
+   * Must reset ALL static variables to their initial state
+   * @param sfEvent $event
+   */
   static public function listenToSimulateNewRequestEvent(sfEvent $event)
   {
     aTools::$global = false;
@@ -32,7 +39,12 @@ class BaseaTools
     aTools::$jsCalls = array();
     aNavigation::simulateNewRequest();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function cultureOrDefault($culture = false)
   {
     if ($culture)
@@ -41,6 +53,12 @@ class BaseaTools
     }
     return aTools::getUserCulture();
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @return mixed
+   */
   static public function getUserCulture($user = false)
   {
     if ($user == false)
@@ -69,6 +87,13 @@ class BaseaTools
     }
     return $culture;
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $slug
+   * @param mixed $absolute
+   * @return mixed
+   */
   static public function urlForPage($slug, $absolute = true)
   {
     // sfSimpleCMS found a nice workaround for this
@@ -90,19 +115,30 @@ class BaseaTools
     }
     return $routed_url;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $page
+   */
   static public function setCurrentPage($page)
   {
     aTools::$currentPage = $page;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getCurrentPage()
   {
     return aTools::$currentPage;
   }
 
-  // Similar to getCurrentPage, but returns null if the current page is an admin page,
-  // and therefore not suitable for normal navigation like the breadcrumb and subnav
+  /**
+   * Similar to getCurrentPage, but returns null if the current page is an admin page,
+   * and therefore not suitable for normal navigation like the breadcrumb and subnav
+   * @return mixed
+   */
   static public function getCurrentNonAdminPage()
   {
     $page = aTools::getCurrentPage();
@@ -110,10 +146,10 @@ class BaseaTools
   }
 
   /**
+   * 
    * We've fetched a page on our own using aPageTable::queryWithSlots and we want
    * to make Apostrophe aware of it so that areas on the current page that live on
    * that virtual page don't generate a superfluous second query
-   *
    * @param array, Doctrine_Collection, aPage $pages
    */
   static public function cacheVirtualPages($pages)
@@ -131,6 +167,10 @@ class BaseaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $options
+   */
   static public function globalSetup($options)
   {
     if (isset($options['global']) && $options['global'])
@@ -168,6 +208,9 @@ class BaseaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   */
   static public function globalShutdown()
   {
     if (aTools::$global)
@@ -177,6 +220,11 @@ class BaseaTools
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $groupName
+   * @return mixed
+   */
   static public function getSlotOptionsGroup($groupName)
   {
     $optionGroups = sfConfig::get('app_a_slot_option_groups', array());
@@ -187,8 +235,11 @@ class BaseaTools
     throw new sfException("Option group $groupName is not defined in app.yml");
   }
 
-  // Oops: we can't cache this list because it's different for various areas on the same page.
-  
+  /**
+   * Oops: we can't cache this list because it's different for various areas on the same page.
+   * @param mixed $options
+   * @return mixed
+   */
   static public function getSlotTypesInfo($options)
   {
     $instance = sfContext::getInstance();
@@ -227,13 +278,23 @@ class BaseaTools
     }
     return $info;
   }
-  
-  // Includes classes for buttons for adding each slot type
+
+  /**
+   * Includes classes for buttons for adding each slot type
+   * @param mixed $options
+   */
   static public function getSlotTypeOptionsAndClasses($options)
   {
     
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $array
+   * @param mixed $name
+   * @param mixed $default
+   * @return mixed
+   */
   static public function getOption($array, $name, $default)
   {
     if (isset($array[$name]))
@@ -242,6 +303,11 @@ class BaseaTools
     }
     return $default;
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getRealPage()
   {
     if (count(aTools::$pageStack))
@@ -265,7 +331,13 @@ class BaseaTools
       return false;
     }
   }
-  // Fetch options array saved in session
+
+  /**
+   * Fetch options array saved in session
+   * @param mixed $pageid
+   * @param mixed $name
+   * @return mixed
+   */
   static public function getAreaOptions($pageid, $name)
   {
     $lookingFor = "area-options-$pageid-$name";
@@ -278,11 +350,13 @@ class BaseaTools
     }
     return $options;
   }
-  
-  // Get template choices in the new format, then provide bc with the old format
-  // (one level with no engines specified), and also add entries for any engines
-  // listed in the old way that don't have templates specified in the new way
-  
+
+  /**
+   * Get template choices in the new format, then provide bc with the old format
+   * (one level with no engines specified), and also add entries for any engines
+   * listed in the old way that don't have templates specified in the new way
+   * @return mixed
+   */
   static public function getTemplates()
   {
     if (sfConfig::get('app_a_get_templates_method'))
@@ -321,9 +395,11 @@ class BaseaTools
     }
     return $templates;
   }
-  
-  // Flat name => label array for use in select elements
-  
+
+  /**
+   * Flat name => label array for use in select elements
+   * @return mixed
+   */
   static public function getTemplateChoices()
   {
     $templates = aTools::getTemplates();
@@ -337,9 +413,11 @@ class BaseaTools
     }
     return $choices;
   }
-  
-  // Used to provide bc with the old app_a_engines way of listing engine choices
-  
+
+  /**
+   * Used to provide bc with the old app_a_engines way of listing engine choices
+   * @return mixed
+   */
   static public function getEngines()
   {
     if (sfConfig::get('app_a_get_engines_method'))
@@ -351,11 +429,16 @@ class BaseaTools
     return sfConfig::get('app_a_engines', array(
       '' => 'Template-Based'));
   }
-  
-  // Fetch an internationalized option from app.yml. Example:
-  // all:
-  //   a:
-  
+
+  /**
+   * Fetch an internationalized option from app.yml. Example:
+   * all:
+   * a:
+   * @param mixed $option
+   * @param mixed $default
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function getOptionI18n($option, $default = false, $culture = false)
   {
     $culture = aTools::cultureOrDefault($culture);
@@ -371,7 +454,11 @@ class BaseaTools
     } 
     return $default; 
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfEvent $event
+   */
   static public function getGlobalButtonsInternal(sfEvent $event)
   {
     // If we needed a context object we could get it from $event->getSubject(),
@@ -398,8 +485,11 @@ class BaseaTools
       }
     }
   }
-  
-  // To be called only in response to a a.getGlobalButtons event 
+
+  /**
+   * To be called only in response to a a.getGlobalButtons event
+   * @param mixed $array
+   */
   static public function addGlobalButtons($array)
   {
     foreach ($array as $button)
@@ -407,12 +497,14 @@ class BaseaTools
       aTools::$globalButtons[$button->getName()] = $button;
     }
   }
-  
-  // Returns global buttons as a flat array, either in alpha order or, if app_a_global_button_order is
-  // specified, in that order. This is used to implement the default behavior. However see also
-  // aTools::getGlobalButtonsByName() which is much nicer if you want to aggressively customize
-  // the admin bar
-  
+
+  /**
+   * Returns global buttons as a flat array, either in alpha order or, if app_a_global_button_order is
+   * specified, in that order. This is used to implement the default behavior. However see also
+   * aTools::getGlobalButtonsByName() which is much nicer if you want to aggressively customize
+   * the admin bar
+   * @return mixed
+   */
   static public function getGlobalButtons()
   {
     $buttonsByName = aTools::getGlobalButtonsByName();
@@ -436,13 +528,15 @@ class BaseaTools
     
     return $orderedButtons;
   }
-  
-  // Returns global buttons as an associative array by button name.
-  // Ignores app_a_global_button_order. For use by those who prefer to
-  // override the _globalTools partial. Note that you will NOT get the
-  // same buttons for every user! An admin has more buttons than a
-  // mere editor and so on. Use isset()
 
+  /**
+   * Returns global buttons as an associative array by button name.
+   * Ignores app_a_global_button_order. For use by those who prefer to
+   * override the _globalTools partial. Note that you will NOT get the
+   * same buttons for every user! An admin has more buttons than a
+   * mere editor and so on. Use isset()
+   * @return mixed
+   */
   static public function getGlobalButtonsByName()
   {
     if (aTools::$globalButtons === false)
@@ -454,7 +548,11 @@ class BaseaTools
     }
     return aTools::$globalButtons;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function globalToolsPrivilege()
   {
     // if you can edit the page, there are tools for you in the apostrophe
@@ -466,31 +564,40 @@ class BaseaTools
     $user = sfContext::getInstance()->getUser();
     return $user->hasCredential('cms_admin');
   }
-  
-  // These methods allow slot editing to be turned off even for people with
-  // full and appropriate privileges.
-  
-  // Most of the time being able to edit a global slot on a non-CMS page is a
-  // good thing, especially if that's the only place the global slot appears.
-  // But sometimes, as in the case where you're editing other types of data,
-  // it's just a source of confusion to have those buttons displayed. 
-  
-  // (Suppressing editing of slots on normal CMS pages is of course a bad idea,
-  // because how else would you ever edit them?)
-  
+
+  /**
+   * These methods allow slot editing to be turned off even for people with
+   * full and appropriate privileges.
+   * Most of the time being able to edit a global slot on a non-CMS page is a
+   * good thing, especially if that's the only place the global slot appears.
+   * But sometimes, as in the case where you're editing other types of data,
+   * it's just a source of confusion to have those buttons displayed.
+   * (Suppressing editing of slots on normal CMS pages is of course a bad idea,
+   * because how else would you ever edit them?)
+   * @param mixed $value
+   */
   static public function setAllowSlotEditing($value)
   {
     aTools::$allowSlotEditing = $value;
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getAllowSlotEditing()
   {
     return aTools::$allowSlotEditing;
   }
-  
-  // Kick the user out to appropriate places if they don't have the proper 
-  // privileges to be here. a::executeShow and aEngineActions::preExecute
-  // both use this 
-  
+
+  /**
+   * Kick the user out to appropriate places if they don't have the proper
+   * privileges to be here. a::executeShow and aEngineActions::preExecute
+   * both use this
+   * @param sfAction $action
+   * @param mixed $page
+   * @return mixed
+   */
   static public function validatePageAccess(sfAction $action, $page)
   {
     $action->forward404Unless($page);
@@ -516,10 +623,13 @@ class BaseaTools
     }    
   }
 
-  // Establish the page title, set the layout, and add the javascripts that are
-  // necessary to manage pages. a::executeShow and aEngineActions::preExecute
-  // both use this. TODO: is this redundant now that aHelper does it?
-  
+  /**
+   * Establish the page title, set the layout, and add the javascripts that are
+   * necessary to manage pages. a::executeShow and aEngineActions::preExecute
+   * both use this. TODO: is this redundant now that aHelper does it?
+   * @param sfAction $action
+   * @param aPage $page
+   */
   static public function setPageEnvironment(sfAction $action, aPage $page)
   {
     // Title is pre-escaped as valid HTML
@@ -541,19 +651,28 @@ class BaseaTools
     // helper functions but also necessary JavaScript and CSS
     sfContext::getInstance()->getConfiguration()->loadHelpers('a');     
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $page
+   * @param mixed $info
+   * @return mixed
+   */
   static public function pageIsDescendantOfInfo($page, $info)
   {
     return ($page->lft > $info['lft']) && ($page->rgt < $info['rgt']);
   }
-  
-  // Same rules found in aPage::userHasPrivilege(), but without checking for
-  // a particular page, so we return true even for users who are just *potential* editors
-  // when granted privileges at an appropriate point in the page tree. This is useful for
-  // deciding whether the tabs control should show archived pages or not. (Showing those to
-  // a few editors who can't edit them is not a major problem, and checking the privs on
-  // each and every one is an unacceptable performance hit) 
-  
+
+  /**
+   * Same rules found in aPage::userHasPrivilege(), but without checking for
+   * a particular page, so we return true even for users who are just *potential* editors
+   * when granted privileges at an appropriate point in the page tree. This is useful for
+   * deciding whether the tabs control should show archived pages or not. (Showing those to
+   * a few editors who can't edit them is not a major problem, and checking the privs on
+   * each and every one is an unacceptable performance hit)
+   * @param mixed $user
+   * @return mixed
+   */
   static public function isPotentialEditor($user = false)
   {
     if ($user === false)
@@ -625,7 +744,13 @@ class BaseaTools
       return true;
     }      
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $type
+   * @param mixed $options
+   * @return mixed
+   */
   static public function getVariantsForSlotType($type, $options = array())
   {
     // 1. By default, all variants of the slot are allowed.
@@ -665,13 +790,13 @@ class BaseaTools
     $variants = $variants[$type];
     if (isset($allowedVariants))
     {
-			// Don't call array_flip since we seem to have decorated values coming in ):
-			// (TODO: find that and make it stop)
-			$allowed = array();
-			foreach ($allowedVariants as $name)
-			{
-				$allowed[$name] = true;
-			}
+      // Don't call array_flip since we seem to have decorated values coming in ):
+      // (TODO: find that and make it stop)
+      $allowed = array();
+      foreach ($allowedVariants as $name)
+      {
+        $allowed[$name] = true;
+      }
       $keep = array();
       foreach ($variants as $name => $value)
       {
@@ -684,7 +809,10 @@ class BaseaTools
     }
     return $variants;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   static protected function i18nDummy()
   {
     __('Reorganize', null, 'apostrophe');
@@ -702,7 +830,11 @@ class BaseaTools
     __('Users', null, 'apostrophe');
     __('Reorganize', null, 'apostrophe');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getRealUrl()
   {
     if (isset(aTools::$realUrl))
@@ -711,16 +843,24 @@ class BaseaTools
     }
     return sfContext::getInstance()->getRequest()->getUri();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   */
   static public function setRealUrl($url)
   {
     aTools::$realUrl = $url;
   }
-  
-  // Returns a regexp fragment that matches a valid slug in a UTF8-aware way.
-  // Does not reject slugs with consecutive dashes or slashes. DOES accept the %
-  // sign because URLs generated by url_for arrive with the UTF8 characters
-  // %-encoded. You should anchor it with ^ and $ if your goal is to match one slug as the whole string
+
+  /**
+   * Returns a regexp fragment that matches a valid slug in a UTF8-aware way.
+   * Does not reject slugs with consecutive dashes or slashes. DOES accept the %
+   * sign because URLs generated by url_for arrive with the UTF8 characters
+   * %-encoded. You should anchor it with ^ and $ if your goal is to match one slug as the whole string
+   * @param mixed $allowSlashes
+   * @return mixed
+   */
   static public function getSlugRegexpFragment($allowSlashes = false)
   {
     // Looks like the 'u' modifier is purely for allowing UTF8 in the pattern *itself*. So we
@@ -744,16 +884,21 @@ class BaseaTools
     $regexp = "[$alnum\-]+";
     return $regexp;
   }
-  
-  // UTF-8 where available. If your UTF-8 gets munged make sure your PHP has the
-  // mbstring extension. allowSlashes will allow / but will reduce duplicate / and
-  // remove any / at the end. Everything that isn't a letter or a number 
-  // (or a slash, when allowed) is converted to a -. Consecutive -'s are reduced and leading and
-  // trailing -'s are removed
-  
-  // $betweenWords must not contain characters that have special meaning in a regexp.
-  // Usually it is - (the default) or ' '
-  
+
+  /**
+   * UTF-8 where available. If your UTF-8 gets munged make sure your PHP has the
+   * mbstring extension. allowSlashes will allow / but will reduce duplicate / and
+   * remove any / at the end. Everything that isn't a letter or a number
+   * (or a slash, when allowed) is converted to a -. Consecutive -'s are reduced and leading and
+   * trailing -'s are removed
+   * $betweenWords must not contain characters that have special meaning in a regexp.
+   * Usually it is - (the default) or ' '
+   * @param mixed $path
+   * @param mixed $allowSlashes
+   * @param mixed $allowUnderscores
+   * @param mixed $betweenWords
+   * @return mixed
+   */
   static public function slugify($path, $allowSlashes = false, $allowUnderscores = true, $betweenWords = '-')
   {
     // This is the inverse of the method above
@@ -809,6 +954,10 @@ class BaseaTools
     'jquery-ui' => '/apostrophePlugin/css/ui-apostrophe/jquery-ui.css'
   );
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function addStylesheetsIfDesired()
   {
     if (!sfConfig::get('app_a_use_bundled_stylesheets', true))
@@ -846,12 +995,16 @@ class BaseaTools
     'json2' => '/apostrophePlugin/js/json2.js',
     'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
     'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.hoverIntent.js',
-		'jquery-scrollto' => '/apostrophePlugin/js/plugins/jquery.scrollTo-1.4.2-min.js', 
+    'jquery-scrollto' => '/apostrophePlugin/js/plugins/jquery.scrollTo-1.4.2-min.js', 
     'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.7.custom.min.js',
-		'jquery-jplayer' => '/apostrophePlugin/js/plugins/jquery.jplayer.js', 
+    'jquery-jplayer' => '/apostrophePlugin/js/plugins/jquery.jplayer.js', 
     'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
   );
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function addJavascriptsIfDesired()
   {
     if (!sfConfig::get('app_a_use_bundled_javascripts', true))
@@ -888,7 +1041,10 @@ class BaseaTools
   
   static protected $locks = array();
 
-  // Lock names must be \w+ 
+  /**
+   * Lock names must be \w+
+   * @param mixed $name
+   */
   static public function lock($name)
   {
     $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
@@ -912,7 +1068,10 @@ class BaseaTools
     flock($fp, LOCK_EX);
     aTools::$locks[] = $fp;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   static public function unlock()
   {
     if (count(aTools::$locks))

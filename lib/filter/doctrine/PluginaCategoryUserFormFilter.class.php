@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * PluginaCategoryUser form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage filter
  * @author     ##AUTHOR_NAME##

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aImporter
 {
   
@@ -15,6 +19,11 @@ class aImporter
   protected $pseudoSlotTypes = array('foreignHtml' => 'aRichText');
   protected $failedMedia = array();
 
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Connection $connection
+   * @param mixed $params
+   */
   public function __construct(Doctrine_Connection $connection, $params = array())
   {
     $this->connection = $connection;
@@ -22,6 +31,10 @@ class aImporter
     $this->initialize($params);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $params
+   */
   public function initialize($params)
   {
     $this->root = simplexml_load_file($params['xmlFile']);
@@ -29,6 +42,9 @@ class aImporter
     $this->imagesDir = $params['imagesDir'];
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function import()
   {
     $this->sql->query('DELETE FROM a_page where slug <> "global"');
@@ -58,6 +74,12 @@ class aImporter
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $root
+   * @param mixed $parentId
+   * @return mixed
+   */
   public function parsePage(SimpleXMLElement $root, $parentId = null)
   {
     $info = array();
@@ -83,6 +105,11 @@ class aImporter
     return $info;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $root
+   * @param mixed $pageId
+   */
   public function parseAreas($root, $pageId)
   {
     foreach ($root->Area as $area)
@@ -113,6 +140,11 @@ class aImporter
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $type
+   * @return mixed
+   */
   protected function getSlotType($type)
   {
     if (isset($this->pseudoSlotTypes[$type]))
@@ -121,6 +153,11 @@ class aImporter
     return $type;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotARichText(SimpleXMLElement $slot)
   {
     $info = array();
@@ -130,6 +167,11 @@ class aImporter
     return array($info);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotAText(SimpleXMLElement $slot)
   {
     $info = array();
@@ -139,6 +181,11 @@ class aImporter
     return array($info);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotAButton(SimpleXMLElement $slot)
   {
     $info = array();
@@ -157,6 +204,11 @@ class aImporter
     return array($info);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotAImage(SimpleXMLElement $slot)
   {
     $info = array();
@@ -171,6 +223,11 @@ class aImporter
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotASlideshow(SimpleXMLElement $slot)
   {
     $info = array();
@@ -185,6 +242,11 @@ class aImporter
     return array($info);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   public function getMediaItems(SimpleXMLElement $slot)
   {
     $ids = array();
@@ -200,6 +262,11 @@ class aImporter
     return $ids;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
   protected function parseSlotForeignHtml(SimpleXMLElement $slot)
   {
     $html = $slot->value->__toString();
@@ -235,6 +302,13 @@ class aImporter
     return $slotInfos;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $src
+   * @param mixed $returnType
+   * @param mixed $tag
+   * @return mixed
+   */
   protected function findOrAddMediaItem($src, $returnType = 'id', $tag = true)
   {
     $mediaId = null;

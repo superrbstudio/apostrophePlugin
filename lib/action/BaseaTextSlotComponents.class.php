@@ -1,17 +1,29 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaTextSlotComponents extends aSlotComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     $this->setup();
     // Careful, sometimes we get an existing form from a previous validation pass
     if (!isset($this->form))
     {
-	    $this->options['multiline'] = $this->getOption('multiline', true);	
+      $this->options['multiline'] = $this->getOption('multiline', true);  
       $this->form = new aTextForm($this->id, $this->slot->value, $this->options);
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();

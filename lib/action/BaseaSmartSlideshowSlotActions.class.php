@@ -1,7 +1,17 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaSmartSlideshowSlotActions extends aSlotActions
 {
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeEdit(sfRequest $request)
   {
     $this->logMessage("====== in aSmartSlideshowSlotActions::executeEdit", "info");

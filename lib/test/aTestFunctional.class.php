@@ -1,7 +1,18 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    test
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aTestFunctional extends sfTestFunctional
 {
+
+  /**
+   * DOCUMENT ME
+   * @param sfBrowserBase $browser
+   * @param lime_test $lime
+   * @param mixed $testers
+   */
   public function __construct(sfBrowserBase $browser, lime_test $lime = null, $testers = array())
   {
     parent::__construct($browser, $lime, $testers);
@@ -13,20 +24,33 @@ class aTestFunctional extends sfTestFunctional
     'login-url' => '/login',
     'default-prefix' => '/cms/'
   );
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $options
+   */
   public function setOptions($options = array())
   {
     $this->options = array_merge($this->options, $options);
   }
 
-  // This isn't full-scale routing, it just prepends the appropriate prefix to the
-  // URL. That's /cms/ if we're running with the default route as a mere plugin, 
-  // or /admin/ if we're running from the sandbox project
+  /**
+   * This isn't full-scale routing, it just prepends the appropriate prefix to the
+   * URL. That's /cms/ if we're running with the default route as a mere plugin,
+   * or /admin/ if we're running from the sandbox project
+   * @param mixed $route
+   * @return mixed
+   */
   public function route($route)
   {
     return $this->options['default-prefix'] . $route;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $path
+   * @return mixed
+   */
   public function loadData($path = null)
   {
     if (!$path)
@@ -39,6 +63,12 @@ class aTestFunctional extends sfTestFunctional
     return $this;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $username
+   * @param mixed $password
+   * @return mixed
+   */
   public function login($username = 'admin', $password = null)
   {
     if (!$password)
@@ -55,7 +85,13 @@ class aTestFunctional extends sfTestFunctional
       followRedirect()
     ;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $username
+   * @param mixed $password
+   * @return mixed
+   */
   public function loginFailed($username = 'user_1', $password = null)
   {
     if (!$password)
@@ -75,6 +111,12 @@ class aTestFunctional extends sfTestFunctional
     ; 
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $parentSlug
+   * @param mixed $pageTitle
+   * @return mixed
+   */
   public function createPage($parentSlug, $pageTitle)
   {
     // submit parent (a slug) and title to aContextCMS/create via POST

@@ -1,14 +1,29 @@
-<?php    
+<?php /**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aAudioSlotEditForm extends BaseForm
 {
   // Ensures unique IDs throughout the page
   protected $id;
-  // id is really required but forms must accept no args to be compatible with ai18nupdate
+
+  /**
+   * id is really required but forms must accept no args to be compatible with ai18nupdate
+   * @param mixed $id
+   * @param mixed $defaults
+   * @param mixed $options
+   * @param mixed $CSRFSecret
+   */
   public function __construct($id = null, $defaults = array(), $options = array(), $CSRFSecret = null)
   {
     $this->id = $id;
     parent::__construct($defaults, $options, $CSRFSecret);
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     // ADD YOUR FIELDS HERE

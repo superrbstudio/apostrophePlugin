@@ -1,13 +1,21 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaSmartSlideshowSlotComponents extends aSlotComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     $this->setup();
     
     $this->options['constraints'] = $this->getOption('constraints', array());
-		
+    
     // Careful, don't clobber a form object provided to us with validation errors
     // from an earlier pass
     if (!isset($this->form))
@@ -17,6 +25,9 @@ class BaseaSmartSlideshowSlotComponents extends aSlotComponents
     }
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();
@@ -27,10 +38,14 @@ class BaseaSmartSlideshowSlotComponents extends aSlotComponents
       shuffle($this->items);
     }
 
-		$this->options['constraints'] = $this->getOption('constraints', array());
+    $this->options['constraints'] = $this->getOption('constraints', array());
     
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getTaggedItems()
   {
     $value = $this->slot->getArrayValue();
@@ -70,13 +85,13 @@ class BaseaSmartSlideshowSlotComponents extends aSlotComponents
     $q->limit($value['count']);
     $q->orderBy('aMediaItem.created_at DESC');
     $this->items = $q->execute();
-		// shuffle likes real arrays better
-		$a = array();
-		foreach ($this->items as $item)
-		{
-			$a[] = $item;
-		}
-		$this->items = $a;
+    // shuffle likes real arrays better
+    $a = array();
+    foreach ($this->items as $item)
+    {
+      $a[] = $item;
+    }
+    $this->items = $a;
     $this->itemIds = aArray::getIds($this->items);
   }
 }

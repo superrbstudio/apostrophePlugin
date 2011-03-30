@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    filter
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaGroupAdminFilter extends sfGuardGroupFormFilter
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     // TODO: it would be nice to have blog_categories_list and other things without writing 

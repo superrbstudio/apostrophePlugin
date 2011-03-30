@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * a actions.
- *
  * @package    apostrophe
  * @subpackage a
  * @author     Your name here

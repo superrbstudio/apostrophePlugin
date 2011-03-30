@@ -1,89 +1,83 @@
 <?php
-
 /**
+ * 
  * Tools, utilities and snippets collected and composed...
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-
 class aString
 {
-	/**
-	* Limits the number of words in a string.
-	*
-	* @param string $string
-	*
-	* @param uint $word_limit
-	*   number of words to return
-	* 
-	* @param optional array
-	* 	if $options['append_ellipsis'] is set, append that string to the end 
-  *   of strings that have been truncated
-  *   if $options['characters'] is true, limit by characters rather than words
-	*   (a single API call for both is convenient when this is wrapped by other calls)
-	*
-	* Whitespace will be collapsed to single spaces. UTF8-aware where supported
-	*
-	* @return string
-	*   new string containing only words up to the word limit.
-	*/
-	public static function limitWords($string, $word_limit, $options = array())
-	{
-	  $regexp = '/\s+/';
-	  if (function_exists('mb_strtolower'))
+
+  /**
+   * 
+   * Limits the number of words in a string.
+   * @param string $string
+   * @param uint $word_limit
+   * number of words to return
+   * @param optional array
+   * if $options['append_ellipsis'] is set, append that string to the end
+   * of strings that have been truncated
+   * if $options['characters'] is true, limit by characters rather than words
+   * (a single API call for both is convenient when this is wrapped by other calls)
+   * Whitespace will be collapsed to single spaces. UTF8-aware where supported
+   * @return string
+   * new string containing only words up to the word limit.
+   */
+  public static function limitWords($string, $word_limit, $options = array())
+  {
+    $regexp = '/\s+/';
+    if (function_exists('mb_strtolower'))
     {
       $regexp .= 'u';
     }
-	  $words = preg_split($regexp, $string, $word_limit + 1);
+    $words = preg_split($regexp, $string, $word_limit + 1);
     $num_words = count($words);
-	  if (isset($options['characters']) && $options['characters'])
-	  {
-	    // Call limitCharacters, but only after ensuring the same space-folding behavior
-	    return aString::limitCharacters(implode(' ', $words), $word_limit, $options);
-	  }
+    if (isset($options['characters']) && $options['characters'])
+    {
+      // Call limitCharacters, but only after ensuring the same space-folding behavior
+      return aString::limitCharacters(implode(' ', $words), $word_limit, $options);
+    }
 
-		# TBB: if there are $word_limit words or less, this check is necessary
+    # TBB: if there are $word_limit words or less, this check is necessary
     # to prevent the last word from being lost.
-		if ($num_words > $word_limit)
-		{
+    if ($num_words > $word_limit)
+    {
       array_pop($words);
     }
-	  
-		$string = implode(' ', $words);
-		
-		$append_ellipsis = false;
-		if (isset($options['append_ellipsis']))
-		{
-			$append_ellipsis = $options['append_ellipsis'];
-		}
-		if ($append_ellipsis == true && $num_words > $word_limit)
-		{
-			$string .= '&hellip;';
-		}
-		
-		return $string;
-	}
+    
+    $string = implode(' ', $words);
+    
+    $append_ellipsis = false;
+    if (isset($options['append_ellipsis']))
+    {
+      $append_ellipsis = $options['append_ellipsis'];
+    }
+    if ($append_ellipsis == true && $num_words > $word_limit)
+    {
+      $string .= '&hellip;';
+    }
+    
+    return $string;
+  }
 
-	/**
-	* Limits the number of characters in a string.
-	*
-	* @param string $string
-	*
-	* @param uint $character_limit
-	*   maximum number of characters to return, inclusive of any added ellipsis
-	*   NOTE: this is characters, not bytes (think UTF8). Be generous with columns
-	* 
-	* @param optional array
-	* 	if $options['append_ellipsis'] is set, append that string to the end 
-  *   of strings that have been truncated
-	*
-	* @return string
-	*   new string containing only characters up to the limit
-  * 
-  * Suitable when a word count limit is not enough (because words are
-  * sometimes unreasonably long).
-  *
-  * Tries to preserve word boundaries, but not too hard, as very long words can
-  * create problems of their own.
-	*/
+  /**
+   * 
+   * Limits the number of characters in a string.
+   * @param string $string
+   * @param uint $character_limit
+   * maximum number of characters to return, inclusive of any added ellipsis
+   * NOTE: this is characters, not bytes (think UTF8). Be generous with columns
+   * @param optional array
+   * if $options['append_ellipsis'] is set, append that string to the end
+   * of strings that have been truncated
+   * @return string
+   * new string containing only characters up to the limit
+   * Suitable when a word count limit is not enough (because words are
+   * sometimes unreasonably long).
+   * Tries to preserve word boundaries, but not too hard, as very long words can
+   * create problems of their own.
+   */
   public static function limitCharacters($s, $length, $options = array())
   {
     $ellipsis = "";
@@ -112,20 +106,18 @@ class aString
     }
     return $s;
   }
-	
- 	/**
-  *
-	* Accepts an array of keywords and a text; returns the portion of the
-  * text beginning a few words prior to the first keyword encountered,
-  * and continuing to the end of the text. If none of the keywords are
-  * seen, returns the entire text.
-  *
-	* @param array $terms keywords
-  * @param string $text
-	*
-	* @return string
-  *
-	*/
+
+  /**
+   * 
+   * Accepts an array of keywords and a text; returns the portion of the
+   * text beginning a few words prior to the first keyword encountered,
+   * and continuing to the end of the text. If none of the keywords are
+   * seen, returns the entire text.
+   * @param array $terms keywords
+   * @param string $text
+   * @return string
+   * 
+   */
   public static function beginNear($keywords, $text)
   {
     foreach ($keywords as $keyword) {
@@ -151,38 +143,33 @@ class aString
     }
     return false;
   }
-  
- 	/**
-  *
-	* Accepts two text strings; returns a human-friendly representation of
-	* the difference between them. The strategy is to word-wrap the strings
-	* at a reasonably short boundary, split at line breaks, and then use
-	* array_diff (in both directions) to discover differences. This function
-	* returns an array like this:
-	*
-	* array(
-  *   "onlyin1" => 
-	*     array("first line unique to 1", "second line unique to 1..."), 
-	*   "onlyin2" => 
-	*     array("first line unique to 2", "second line unique to 2...")
-	* )
-	* It is suggested that, at a minimum, the first line of
-	* onlyin1 be displayed (with visual cues to indicate that it is gone in 2)
-	* and the first line of onlyin2 also be displayed (with visual cues to indicate
-	* that is new in 2). 
-	*
-	* TODO: detect situations in which content has been purely rearranged rather
-	* than edited, deleted or added, add preceding and trailing context, etc.
-	* These are all going to be a lot less efficient than this simple
-	* implementation though.
-  *
-	* @param string $text1
-  * @param string $text2
-	*
-	* @return array
-  *
-	*/
-  
+
+  /**
+   * 
+   * Accepts two text strings; returns a human-friendly representation of
+   * the difference between them. The strategy is to word-wrap the strings
+   * at a reasonably short boundary, split at line breaks, and then use
+   * array_diff (in both directions) to discover differences. This function
+   * returns an array like this:
+   * array(
+   * "onlyin1" =>
+   * array("first line unique to 1", "second line unique to 1..."),
+   * "onlyin2" =>
+   * array("first line unique to 2", "second line unique to 2...")
+   * )
+   * It is suggested that, at a minimum, the first line of
+   * onlyin1 be displayed (with visual cues to indicate that it is gone in 2)
+   * and the first line of onlyin2 also be displayed (with visual cues to indicate
+   * that is new in 2).
+   * TODO: detect situations in which content has been purely rearranged rather
+   * than edited, deleted or added, add preceding and trailing context, etc.
+   * These are all going to be a lot less efficient than this simple
+   * implementation though.
+   * @param string $text1
+   * @param string $text2
+   * @return array
+   * 
+   */
   public static function diff($text1, $text2)
   {
     $array1 = array_map('trim', explode("\n", wordwrap($text1, 70)));
@@ -223,7 +210,12 @@ class aString
     }
     return array("onlyin1" => array_values($onlyin1), "onlyin2" => array_values($onlyin2));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function strtolower($s)
   {
     if (function_exists('mb_strtolower'))
@@ -236,6 +228,11 @@ class aString
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function strlen($s)
   {
     if (function_exists('mb_strlen'))
@@ -248,6 +245,13 @@ class aString
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @param mixed $start
+   * @param mixed $length
+   * @return mixed
+   */
   static public function substr($s, $start, $length = null)
   {
     // Frustratingly you can't pass 'null' as a safe way of skipping the length
@@ -262,7 +266,12 @@ class aString
       return substr($s, $start, is_null($length) ? strlen($s) : $length);
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function firstLine($s)
   {
     $ln = strpos($s, "\n");
@@ -272,7 +281,12 @@ class aString
     }
     return substr($s, 0, $ln);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function toVcal($s)
   {
     // vcal is fairly picky. Avoid a lot of problems by

@@ -1,8 +1,7 @@
 <?php
-
 /**
- * aPager actions.
  * 
+ * aPager actions.
  * @package    apostrophePlugin
  * @subpackage aPager
  * @author     Your name here

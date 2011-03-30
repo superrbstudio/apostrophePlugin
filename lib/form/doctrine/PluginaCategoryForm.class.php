@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * PluginaCategory form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage form
  * @author     ##AUTHOR_NAME##
@@ -10,6 +9,11 @@
  */
 abstract class PluginaCategoryForm extends BaseaCategoryForm
 {
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getUseFields()
   {
     $useFields = array('name');
@@ -17,7 +21,10 @@ abstract class PluginaCategoryForm extends BaseaCategoryForm
     $useFields[] = 'users_list';
     return $useFields;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function setup()
   {
     parent::setup();    

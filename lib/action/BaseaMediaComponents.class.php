@@ -1,7 +1,16 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaComponents extends sfComponents
 {
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
   public function executeBrowser($request)
   {
     // We don't use a single integrated form for this anymore. What we wanted was
@@ -56,6 +65,11 @@ class BaseaMediaComponents extends sfComponents
       $n++;
     }
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
   public function executeBreadcrumb($request)
   {
     $this->type = aMediaTools::getSearchParameter('type');
@@ -109,21 +123,36 @@ class BaseaMediaComponents extends sfComponents
     $this->crumbs[count($this->crumbs) - 1]['last'] = true;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
   public function executeSelectMultiple($request)
   {
     $this->items = aMediaTools::getSelectedItems();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
   public function executeSelectSingle($request)
   {
     $this->items = aMediaTools::getSelectedItems();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
   public function executeMultipleList($request)
   {
     $this->items = aMediaTools::getSelectedItems();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeMultiplePreview()
   {
     $this->items = aMediaTools::getSelectedItems();

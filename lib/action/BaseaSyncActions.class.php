@@ -1,13 +1,22 @@
 <?php
-
-// Cloud-oriented web APIs. At the moment only the zipDemo action lives here. The
-// APC action was removed in favor of rsyncing more intelligently.
-
-// For security all of this is disabled unless configured in properties.ini.
-
+/**
+ * Cloud-oriented web APIs. At the moment only the zipDemo action lives here. The
+ * APC action was removed in favor of rsyncing more intelligently.
+ * For security all of this is disabled unless configured in properties.ini.
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaSyncActions extends sfActions
 {
   protected $sync;
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $param
+   * @param mixed $default
+   * @return mixed
+   */
   protected function get($param, $default = null)
   {
     if (!isset($this->sync))
@@ -38,7 +47,10 @@ class BaseaSyncActions extends sfActions
   // method to clear the APC cache)
     
   protected $api = false;
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function preExecute()
   {
     $syncPassword = $this->get('password');
@@ -53,7 +65,11 @@ class BaseaSyncActions extends sfActions
     // We want to give back script-friendly responses
     $this->setLayout(false);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeZipDemo(sfWebRequest $request)
   {
     if (!$this->get('zip_demo', false))
@@ -140,7 +156,12 @@ result in an error when it happens to be empty. Move along, nothing to see here.
     $this->zip($dataDemo, $data);
     unlink($dump);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @param mixed $dir
+   */
   static protected function zip($file, $dir)
   {
     if (file_exists($file))

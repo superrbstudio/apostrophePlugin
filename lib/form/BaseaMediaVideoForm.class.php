@@ -1,13 +1,20 @@
 <?php
-
-// Common base class of aMediaVideoEmbedForm (for embedded media we don't
-// have an aEmbedService for) and aMediaVideoYoutubeForm (for embedded media
-// we DO have an aEmbedService for)
-
+/**
+ * Common base class of aMediaVideoEmbedForm (for embedded media we don't
+ * have an aEmbedService for) and aMediaVideoYoutubeForm (for embedded media
+ * we DO have an aEmbedService for)
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaVideoForm extends aMediaItemForm
 {
   protected $classifyEmbedResult;
- 
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $item
+   */
   public function __construct($item = null)
   {
     parent::__construct($item);
@@ -30,15 +37,20 @@ class BaseaMediaVideoForm extends aMediaItemForm
       $this->setDefault('embed', $item->service_url);
     }
   }
-  
-  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
-  // it's just here for our i18n-update task to sniff
+
+  /**
+   * Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+   * it's just here for our i18n-update task to sniff
+   */
   private function i18nDummy()
   {
     __('Public', null, 'apostrophe');
     __('Hidden', null, 'apostrophe');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     // This call was missing, preventing easy extension of all media item edit forms at the project level
@@ -54,7 +66,7 @@ class BaseaMediaVideoForm extends aMediaItemForm
       new sfValidatorCallback(
         array('required' => true, 'callback' => array($this, 'validateEmbed')),
         array('required' => "Not a valid embed code", 'invalid' => "Not a valid embed code")));        
-	
+  
     $this->setWidget('file', new aWidgetFormInputFilePersistent());
 
     $item = $this->getObject();
@@ -83,12 +95,13 @@ class BaseaMediaVideoForm extends aMediaItemForm
   }
 
   /**
+   * 
    * preValidateEmbed
-   *
    * @param $value
    * @return array
    * @author Thomas Boutell
-   **/
+   * /
+   */
   public function classifyEmbed($value)
   {
     // If it is a URL or embed code recognized by one of the services we support, use that service
@@ -177,6 +190,12 @@ class BaseaMediaVideoForm extends aMediaItemForm
     return $this->classifyEmbedResult;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $validator
+   * @param mixed $values
+   * @return mixed
+   */
   public function validateEmbed($validator, $values)
   {
     // (Re)classify the (potentially new or modified) embed code or URL
@@ -191,13 +210,22 @@ class BaseaMediaVideoForm extends aMediaItemForm
     $this->videoUpdateObject($values);
     return $values;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   */
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
     $this->videoUpdateObject($values);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @return mixed
+   */
   public function videoUpdateObject($values)
   {
     $object = $this->getObject();

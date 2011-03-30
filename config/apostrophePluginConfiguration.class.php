@@ -1,13 +1,15 @@
 <?php
-
 /**
- * apostrophePlugin configuration.
  * 
+ * apostrophePlugin configuration.
  * @package     apostrophePlugin * @subpackage  config
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
 class apostrophePluginConfiguration extends sfPluginConfiguration
 {
+
   /**
+   * 
    * @see sfPluginConfiguration
    */
   public function initialize()
@@ -53,7 +55,13 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
 
     $this->dispatcher->connect('a.merge_category', array($this, 'listenToCategoryMerge'));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $event
+   * @param mixed $results
+   * @return mixed
+   */
   public function listenToGetCategorizables($event, $results)
   {
     // You must play nice and append to what is already there
@@ -61,8 +69,13 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     $results['aMediaItem'] = $info;
     return $results;
   }
-  
-  // Also includes the above info so we know what the result is referring to
+
+  /**
+   * Also includes the above info so we know what the result is referring to
+   * @param mixed $event
+   * @param mixed $results
+   * @return mixed
+   */
   public function listenToGetCountByCategory($event, $results)
   {
     // You must play nice and append to what is already there
@@ -73,6 +86,10 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     return $results;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $event
+   */
   public function listenToCategoryMerge($event)
   {
     $parameters = $event->getParameters();

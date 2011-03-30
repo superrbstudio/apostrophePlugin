@@ -1,7 +1,17 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaRawHTMLSlotActions extends aSlotActions
 {
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeEdit(sfRequest $request)
   {
     $this->editSetup();

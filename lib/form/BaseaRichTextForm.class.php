@@ -1,9 +1,19 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaRichTextForm extends BaseForm
 {
   protected $id;
   protected $soptions;
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $soptions
+   */
   public function __construct($id, $soptions = null)
   {
     $this->id = $id;
@@ -13,6 +23,12 @@ class BaseaRichTextForm extends BaseForm
     $this->allowedStyles = $this->consumeSlotOption('allowed-styles');
     parent::__construct();
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   protected function consumeSlotOption($s)
   {
     if (isset($this->soptions[$s]))
@@ -26,6 +42,10 @@ class BaseaRichTextForm extends BaseForm
       return null;
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $widgetOptions = array();

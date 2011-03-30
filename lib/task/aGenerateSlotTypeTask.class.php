@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aGenerateSlotTypeTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -57,6 +65,11 @@ fantastic plans with us in advance).
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     if (!($options['application'] || $options['plugin']))
@@ -276,7 +289,12 @@ config/ProjectConfiguration.class.php\n\n");
     echo("search indexing purposes. Simply return entity-escaped text.\n\n");
     echo("Have fun!\n");
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $path
+   * @param mixed $text
+   */
   public function ensureAndAppend($path, $text)
   {
     $this->ensureDirFor($path);
@@ -284,7 +302,11 @@ config/ProjectConfiguration.class.php\n\n");
     fwrite($out, $text);
     fclose($out);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $path
+   */
   public function ensureDirFor($path)
   {
     $dir = dirname($path);
@@ -299,13 +321,24 @@ config/ProjectConfiguration.class.php\n\n");
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $path
+   * @param mixed $text
+   */
   public function ensureAndCreate($path, $text)
   {
     $this->ensureDirFor($path);
     file_put_contents($path, $text);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @param mixed $str
+   * @return mixed
+   */
   public function fileContains($file, $str)
   {
     if (!file_exists($file))

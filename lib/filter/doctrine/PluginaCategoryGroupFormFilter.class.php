@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * PluginaCategoryGroup form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage filter
  * @author     ##AUTHOR_NAME##

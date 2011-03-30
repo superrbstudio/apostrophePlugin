@@ -1,11 +1,19 @@
 <?php
-
-// Methods of this class serve static, permanent URLs that are not part of the 
-// CMS address space. That would be the dynamic rendering of images that haven't
-// been cached yet, access to originals, and access to the REST API.
-
+/**
+ * Methods of this class serve static, permanent URLs that are not part of the
+ * CMS address space. That would be the dynamic rendering of images that haven't
+ * been cached yet, access to originals, and access to the REST API.
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaBackendActions extends sfActions
 {
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeOriginal(sfRequest $request)
   {
     $item = $this->getItem();
@@ -25,6 +33,10 @@ class BaseaMediaBackendActions extends sfActions
     exit(0);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeImage(sfRequest $request)
   {
     $item = $this->getItem();
@@ -116,6 +128,11 @@ class BaseaMediaBackendActions extends sfActions
   protected $validAPIKey = false;
   // TODO: beef this up to challenge/response
   protected $user = false;
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function validateAPIKey()
   {
     // Media API is no longer used internally and defaults to off in apostrophePlugin
@@ -157,20 +174,31 @@ class BaseaMediaBackendActions extends sfActions
       }
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   protected function unauthorized()
   {
     header("HTTP/1.1 401 Unauthorization Required");
     exit(0);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeTags(sfRequest $request)
   {
     $this->validateAPIKey();
     $tags = PluginTagTable::getAllTagName();  
     $this->jsonResponse('ok', $tags);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   */
   public function executeInfo(sfRequest $request)
   {
     $params = array();
@@ -178,7 +206,7 @@ class BaseaMediaBackendActions extends sfActions
     
     if ($request->hasParameter('ids'))
     {
-			$ids = $request->getParameter('ids');
+      $ids = $request->getParameter('ids');
       if (!preg_match("/^(\d+\,?)*$/", $ids))
       {
         // Malformed request
@@ -298,17 +326,30 @@ class BaseaMediaBackendActions extends sfActions
     $result->items = $nitems;
     $this->jsonResponse('ok', $result);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getDirectory()
   {
     return aMediaItemTable::getDirectory();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getItem()
   {
     return aMediaTools::getItem($this);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $status
+   * @param mixed $result
+   */
   static protected function jsonResponse($status, $result)
   {
     header("Content-type: text/plain");

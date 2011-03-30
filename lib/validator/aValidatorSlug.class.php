@@ -1,12 +1,11 @@
 <?php
-
 /**
- * aValidatorSlug validates a user-supplied slug in a UTF-8 aware fashion. 
+ * 
+ * aValidatorSlug validates a user-supplied slug in a UTF-8 aware fashion.
  * It allows slashes if the 'allow-slashes' option is set to true. Otherwise it allows
- * only letters and digits. It does not enforce a leading slash or look for 
+ * only letters and digits. It does not enforce a leading slash or look for
  * duplication, use other validators for those things if they apply to your
  * application
- *
  * @package    symfony
  * @subpackage validator
  * @author     Tom Boutell <tom@punkave.com>
@@ -14,12 +13,12 @@
  */
 class aValidatorSlug extends sfValidatorString
 {
+
   /**
+   * 
    * Configures the current validator.
-   *
    * @param array $options   An array of options
    * @param array $messages  An array of error messages
-   *
    * @see sfValidatorBase
    */
   protected function configure($options = array(), $messages = array())
@@ -37,7 +36,10 @@ class aValidatorSlug extends sfValidatorString
   }
 
   /**
+   * 
    * @see sfValidatorBase
+   * @param mixed $value
+   * @return mixed
    */
   protected function doClean($value)
   {
@@ -61,8 +63,12 @@ class aValidatorSlug extends sfValidatorString
     }
     return $clean;
   }
-  
-  // aHtml::simplify uses false to skip things, not null
+
+  /**
+   * aHtml::simplify uses false to skip things, not null
+   * @param mixed $s
+   * @return mixed
+   */
   protected function getOptionOrFalse($s)
   {
     $option = $this->getOption($s);

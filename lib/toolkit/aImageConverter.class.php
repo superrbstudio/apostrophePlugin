@@ -1,19 +1,28 @@
 <?php
-
-/*
- *
+/**
+ * 
  * Efficient image conversions using netpbm or (if netpbm is not available) gd.
  * For more information see the README file.
- *
- */ 
-
+ * 
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aImageConverter 
 {
-  // Produces images suitable for intentional cropping by CSS.
-  // Either the width or the height will match the request; the other
-  // will EXCEED the request. Looks nicer than letterboxing in cases
-  // where keeping the entire picture is not essential.
 
+  /**
+   * Produces images suitable for intentional cropping by CSS.
+   * Either the width or the height will match the request; the other
+   * will EXCEED the request. Looks nicer than letterboxing in cases
+   * where keeping the entire picture is not essential.
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $quality
+   * @return mixed
+   */
   static public function scaleToNarrowerAxis($fileIn, $fileOut, $width, $height, $quality = 75)
   {
     $width = ceil($width);
@@ -33,6 +42,15 @@ class aImageConverter
     return self::scaleToFit($fileIn, $fileOut, $width, $height, $quality);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $quality
+   * @return mixed
+   */
   static public function scaleToFit($fileIn, $fileOut, $width, $height, $quality = 75)
   {
     if ($width === false) {
@@ -46,6 +64,14 @@ class aImageConverter
     return $result;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $factor
+   * @param mixed $quality
+   * @return mixed
+   */
   static public function scaleByFactor($fileIn, $fileOut, $factor, 
     $quality = 75)
   {
@@ -54,13 +80,23 @@ class aImageConverter
     return self::scaleBody($fileIn, $fileOut, $scaleParameters, array(), $quality);
   }
 
-  // $width and $height are the dimensions of the final rendered image. $quality is the JPEG quality setting (where needed).
-  // The $crop parameters, when not null (all four must be null or not null), are used to crop the original before scaling/distorting 
-  // to the specified width and height and are always in the original image's coordinates.
-  
-  // If cropping coordinates are not specified, the largest possible portion of the center of the original image is scaled to fit into the 
-  // destination image without distortion
-  
+  /**
+   * $width and $height are the dimensions of the final rendered image. $quality is the JPEG quality setting (where needed).
+   * The $crop parameters, when not null (all four must be null or not null), are used to crop the original before scaling/distorting
+   * to the specified width and height and are always in the original image's coordinates.
+   * If cropping coordinates are not specified, the largest possible portion of the center of the original image is scaled to fit into the
+   * destination image without distortion
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $quality
+   * @param mixed $cropLeft
+   * @param mixed $cropTop
+   * @param mixed $cropWidth
+   * @param mixed $cropHeight
+   * @return mixed
+   */
   static public function cropOriginal($fileIn, $fileOut, $width, $height, $quality = 75, $cropLeft = null, $cropTop = null, $cropWidth = null,  $cropHeight = null)
   {
     // Allow skipping of parameters
@@ -112,13 +148,28 @@ class aImageConverter
     return self::scaleBody($fileIn, $fileOut, $scale, $crop, $quality);
   }
 
-  // Change the format without cropping or scaling
+  /**
+   * Change the format without cropping or scaling
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $quality
+   * @return mixed
+   */
   static public function convertFormat($fileIn, $fileOut, $quality = 75)
   {
     $quality = ceil($quality);
     return self::scaleBody($fileIn, $fileOut, false, false, $quality);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $scaleParameters
+   * @param mixed $cropParameters
+   * @param mixed $quality
+   * @return mixed
+   */
   static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75) 
   {    
     if (sfConfig::get('app_aimageconverter_netpbm', true))
@@ -149,17 +200,21 @@ class aImageConverter
       return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
     }
   }
-  
-  // Get the JPEG EXIF rotation. Always returns 1 (no rotation) for other formats.
-  // Other values:
-  // case 2: // horizontal flip
-  // case 3: // 180 rotate left
-  // case 4: // vertical flip
-  // case 5: // vertical flip + 90 rotate right
-  // case 6: // 90 rotate right
-  // case 7: // horizontal flip + 90 rotate right
-  // case 8:    // 90 rotate left
 
+  /**
+   * Get the JPEG EXIF rotation. Always returns 1 (no rotation) for other formats.
+   * Other values:
+   * case 2:  horizontal flip
+   * case 3:  180 rotate left
+   * case 4:  vertical flip
+   * case 5:  vertical flip + 90 rotate right
+   * case 6:  90 rotate right
+   * case 7:  horizontal flip + 90 rotate right
+   * case 8:     90 rotate left
+   * @param mixed $file
+   * @param mixed $getimagesize
+   * @return mixed
+   */
   static public function getRotation($file, $getimagesize = null)
   {
     if (is_null($getimagesize))
@@ -196,7 +251,16 @@ class aImageConverter
     }
     return $ort;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $scaleParameters
+   * @param mixed $cropParameters
+   * @param mixed $quality
+   * @return mixed
+   */
   static private function scaleNetpbm($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
   {
     $outputFilters = array(
@@ -344,7 +408,16 @@ class aImageConverter
     }
     return true;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $fileIn
+   * @param mixed $fileOut
+   * @param mixed $scaleParameters
+   * @param mixed $cropParameters
+   * @param mixed $quality
+   * @return mixed
+   */
   static private function scaleGd($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
   {
     
@@ -593,8 +666,11 @@ class aImageConverter
     $out = null;
     return true;
   }
-  
-  // Flips the image in place
+
+  /**
+   * Flips the image in place
+   * @param mixed $in
+   */
   static protected function horizontalFlip($in)
   {
     $tmp = self::imageCreateTrueColor(1, $height);
@@ -606,8 +682,11 @@ class aImageConverter
     }
     imagedestroy($tmp);
   }
-  
-  // Flips the image in place
+
+  /**
+   * Flips the image in place
+   * @param mixed $in
+   */
   static protected function verticalFlip($in)
   {
     $tmp = self::imageCreateTrueColor($width, 1);
@@ -619,10 +698,15 @@ class aImageConverter
     }
     imagedestroy($tmp);
   }
-  
-  // Make sure the new image is capable of being saved with intact alpha channel;
-  // don't composite alpha channel in gd. If a designer uploads an alpha channel image
-  // they must have a reason for doing so
+
+  /**
+   * Make sure the new image is capable of being saved with intact alpha channel;
+   * don't composite alpha channel in gd. If a designer uploads an alpha channel image
+   * they must have a reason for doing so
+   * @param mixed $width
+   * @param mixed $height
+   * @return mixed
+   */
   static public function createTrueColorAlpha($width, $height)
   {
     $im = imagecreatetruecolor($width, $height);
@@ -630,22 +714,21 @@ class aImageConverter
     imagesavealpha($im, true);
     return $im;
   }
-  
-  // Retrieves what you really want to know about an image file, PDFs included,
-  // before making calls such as the above based on good information.
-  
-  // Returns as follows:
-  
-  // array('format' => 'file extension: gif, jpg, png or pdf', 'width' => width in pixels, 'height' => height in pixels);
 
-  // $format is the recommended file extension based on the actual file type, not the user's (possibly totally false or absent)
-  // claimed file extension.
-  
-  // If the file does not have a valid header identifying it as one of these types, false is returned.
-  
-  // If the 'format-only' option is true, only the format field is returned. This is much faster if the
-  // file is a PDF.
-  
+  /**
+   * Retrieves what you really want to know about an image file, PDFs included,
+   * before making calls such as the above based on good information.
+   * Returns as follows:
+   * array('format' => 'file extension: gif, jpg, png or pdf', 'width' => width in pixels, 'height' => height in pixels);
+   * $format is the recommended file extension based on the actual file type, not the user's (possibly totally false or absent)
+   * claimed file extension.
+   * If the file does not have a valid header identifying it as one of these types, false is returned.
+   * If the 'format-only' option is true, only the format field is returned. This is much faster if the
+   * file is a PDF.
+   * @param mixed $file
+   * @param mixed $options
+   * @return mixed
+   */
   static public function getInfo($file, $options = array())
   {
     $formatOnly = (isset($options['format-only']) && $options['format-only']);
@@ -750,10 +833,12 @@ class aImageConverter
     }
   }
 
-  // Odds and ends missing from gd
-  
-  // As commonly found on the Internets
-
+  /**
+   * Odds and ends missing from gd
+   * As commonly found on the Internets
+   * @param mixed $filename
+   * @return mixed
+   */
   static private function imagecreatefromany($filename) 
   {
     foreach (array('png', 'jpeg', 'gif', 'bmp', 'ico') as $type) 
@@ -767,15 +852,16 @@ class aImageConverter
     }
     return false;
   }
-  
-  // Can this box handle pdf, png, jpeg (also acdepts jpg), gif, bmp, ico...
 
-  // Mainly used to check for PDF support.
-  
-  // NOTE: this call is a performance hit, especially with netpbm and ghostscript available.
-  // So we cache the result for 5 minutes. Keep that in mind if you make configuration changes, install
-  // ghostscript, etc. and don't see an immediate difference.
-
+  /**
+   * Can this box handle pdf, png, jpeg (also acdepts jpg), gif, bmp, ico...
+   * Mainly used to check for PDF support.
+   * NOTE: this call is a performance hit, especially with netpbm and ghostscript available.
+   * So we cache the result for 5 minutes. Keep that in mind if you make configuration changes, install
+   * ghostscript, etc. and don't see an immediate difference.
+   * @param mixed $extension
+   * @return mixed
+   */
   static public function supportsInput($extension)
   {
     $hint = aImageConverter::getHint("input:$extension");
@@ -800,6 +886,11 @@ class aImageConverter
     return $result;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $extension
+   * @return mixed
+   */
   static public function supportsInputNetpbm($extension)
   {
     $types = array('gif' => 'gif', 'png' => 'png', 'jpg' => 'jpeg', 'jpeg' => 'jpeg', 'bmp' => 'bmp', 'ico' => 'ico');
@@ -843,7 +934,12 @@ class aImageConverter
     }
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $extension
+   * @return mixed
+   */
   static public function supportsInputGd($extension)
   {
     $types = array('gif' => 'gif', 'png' => 'png', 'jpg' => 'jpeg', 'jpeg' => 'jpeg', 'bmp' => 'bmp', 'ico' => 'ico');
@@ -854,14 +950,24 @@ class aImageConverter
     $f = 'imagecreatefrom' . $types[$extension];
     return is_callable($f);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $hint
+   * @return mixed
+   */
   static public function getHint($hint)
   {
     $cache = aImageConverter::getHintCache();
     $key = 'apostrophe:imageconverter:' . $hint;
     return $cache->get($key, null);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $hint
+   * @param mixed $value
+   */
   static public function setHint($hint, $value)
   {
     $cache = aImageConverter::getHintCache();
@@ -870,6 +976,11 @@ class aImageConverter
     $key = 'apostrophe:imageconverter:' . $hint;
     $cache->set($key, $value, 300);
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function getHintCache()
   {
     $cacheClass = sfConfig::get('app_a_hint_cache_class', 'sfFileCache');

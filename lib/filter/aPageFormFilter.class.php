@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aPage filter form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage filter
  * @author     ##AUTHOR_NAME##
@@ -10,6 +9,10 @@
  */
 class aPageFormFilter extends BaseaPageFormFilter
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
   }

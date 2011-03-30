@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    navigation
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aNavigationTabs extends aNavigation
-{  
+{
+
+  /**
+   * DOCUMENT ME
+   */
   public function buildNavigation()
   {      
     $this->rootInfo = $this->root->getTreeInfo($this->livingOnly, $this->options['depth']);
@@ -25,7 +33,11 @@ class aNavigationTabs extends aNavigation
     $this->nav = $this->rootInfo;
     $this->traverse($this->nav);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getNav()
   {
     return $this->nav;

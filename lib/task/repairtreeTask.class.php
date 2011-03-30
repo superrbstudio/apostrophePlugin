@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class repairtreeTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -49,6 +57,11 @@ Call it with:
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -75,7 +88,10 @@ EOF;
       $this->repairByList();
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   protected function repairBySlug()
   {
     // TODO review this, make sure the new PDO version works
@@ -108,6 +124,10 @@ EOF;
     $this->query('UPDATE a_page SET lft = :lft, rgt = :rgt, level = :level WHERE id = :id', $root);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $csv
+   */
   protected function repairByCsv($csv)
   {
     $csvFile = fopen($csv, "r");
@@ -148,7 +168,10 @@ EOF;
     }
     $this->query('UPDATE a_page SET lft = :lft, rgt = :rgt, level = :level WHERE id = :id', $root);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   protected function repairByList()
   {
     // TODO review this, make sure the new PDO version works
@@ -159,6 +182,12 @@ EOF;
     $this->repairSubtree(0, 1);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $i
+   * @param mixed $lft
+   * @return mixed
+   */
   protected function repairSubtree($i, $lft)
   {
     echo("Looking at $i of " . count($this->pages) . "\n");
@@ -181,7 +210,13 @@ EOF;
     $this->query('UPDATE a_page SET lft = :lft, rgt = :rgt, level = :level WHERE id = :id', $this->pages[$i]);
     return array($j, $rgt);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $pages
+   * @param mixed $parent
+   * @return mixed
+   */
   function buildSubtree($pages, $parent)
   {
     $tree = array();
@@ -220,8 +255,14 @@ EOF;
       $tree[$page['slug']] = $this->buildSubtree($pages, $page);
     }
     return $tree;
-  }  
-  
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $pagesBySlug
+   * @param mixed $tree
+   * @param mixed $rgt
+   */
   protected function rebuildAdjacencyList($pagesBySlug, $tree, &$rgt)
   {
     foreach ($tree as $slug => $subtree)
@@ -237,7 +278,12 @@ EOF;
       $this->query('UPDATE a_page SET lft = :lft, rgt = :rgt, level = :level WHERE id = :id', $page);
     }
   }
-    
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $slug
+   * @return mixed
+   */
   protected function getSlugLevel($slug)
   {
     if ($slug === '/')
@@ -250,14 +296,24 @@ EOF;
     }
     return substr_count($slug, '/') - 1;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getPDO()
   {
     $connection = Doctrine_Manager::connection();
     $pdo = $connection->getDbh();
     return $pdo;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @param mixed $params
+   * @return mixed
+   */
   protected function query($s, $params = array())
   {
     $pdo = $this->getPDO();

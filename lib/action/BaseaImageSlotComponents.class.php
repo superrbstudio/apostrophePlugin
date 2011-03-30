@@ -1,13 +1,25 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaImageSlotComponents extends aSlotComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     // Just a stub, we don't really utilize this for this slot type,
     // we have an external editor instead
     $this->setup();
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();

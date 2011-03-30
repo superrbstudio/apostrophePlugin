@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheDeployTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -58,7 +66,12 @@ EOF;
 
   // properties.ini 
   protected $properties;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     $this->properties = parse_ini_file("config/properties.ini", true);
@@ -117,7 +130,7 @@ EOF;
     // can tell our code is new
     
     $cmd = "./symfony project:deploy --rsync-options=\"-azvCcI --no-t --force --delete --progress --exclude-from=config/rsync_exclude.txt\" --go $eserver";
-  	system($cmd, $result);
+    system($cmd, $result);
     if ($result != 0)
     {
       throw new sfException('Problem executing project:deploy task.');

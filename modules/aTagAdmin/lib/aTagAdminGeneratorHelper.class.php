@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aTagAdmin module helper.
- *
  * @package    a
  * @subpackage aTagAdmin
  * @author     Your name here

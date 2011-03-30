@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class csscolorsreportTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -32,6 +40,11 @@ Call it with:
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     chdir(sfConfig::get('sf_root_dir'));
@@ -89,7 +102,12 @@ EOM
     file_put_contents(sfConfig::get('sf_web_dir') . '/css-colors-report.html', ob_get_clean());
     echo("Done\n");
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $color
+   * @param mixed $matching
+   */
   function addColor($color, $matching)
   {
     if (strlen($color) < 7)

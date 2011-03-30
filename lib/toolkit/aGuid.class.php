@@ -1,12 +1,20 @@
 <?php
-
-// GUIDs (Globally Unique IDentifiers) are randomly generated hexadecimal IDs 
-// with enough uniqueness for any situation. 16 hexadecimal digits are good 
-// enough for Microsoft and safe to be stored as text etc. They come in
-// handy all over the place: temporary filenames, verification codes, etc.
-
+/**
+ * GUIDs (Globally Unique IDentifiers) are randomly generated hexadecimal IDs
+ * with enough uniqueness for any situation. 16 hexadecimal digits are good
+ * enough for Microsoft and safe to be stored as text etc. They come in
+ * handy all over the place: temporary filenames, verification codes, etc.
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aGuid
 {
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function generate()
   {
     $guid = "";

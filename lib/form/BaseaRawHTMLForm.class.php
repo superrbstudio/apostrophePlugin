@@ -1,13 +1,26 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaRawHTMLForm extends BaseForm
 {
   protected $id;
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   */
   public function __construct($id)
   {
     $this->id = $id;
     parent::__construct();
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $this->setWidgets(array('value' => new sfWidgetFormTextarea(array(), array('class' => 'aRawHTMLSlotTextarea'))));

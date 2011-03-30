@@ -1,18 +1,17 @@
 <?php
-
-// Copyright 2009, P'unk Ave LLC. Released under the MIT license.
-
 /**
+ * Copyright 2009, P'unk Ave LLC. Released under the MIT license.
+ * 
  * aValidatorFilePersistent validates an uploaded file, or
  * revalidates the existing file of the same browser-side name
- * uploaded on a previous submission by the same user in the case where 
- * no new file has been specified. 
- *
+ * uploaded on a previous submission by the same user in the case where
+ * no new file has been specified.
  * The file should come from the aWidgetFormInputFilePersistent widget.
- *
  * Should behave like the parent class in all other respects.
- *
  * @see sfValidatorFile
+ * @package    apostrophePlugin
+ * @subpackage    validator
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
 class aValidatorFilePersistent extends sfValidatorFile
 {
@@ -21,7 +20,12 @@ class aValidatorFilePersistent extends sfValidatorFile
   // magic numbers, and those that do exist can be misleading because
   // Word can contain Excel and vice versa
   protected $originalName;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $options
+   * @param mixed $messages
+   */
   protected function configure($options = array(), $messages = array())
   {
     $guessersSet = isset($options['mime_type_guessers']);
@@ -41,39 +45,35 @@ class aValidatorFilePersistent extends sfValidatorFile
   }
 
   /**
+   * 
    * The input value must be an array potentially containing two
    * keys, newfile and persistid. newfile must contain an array of
    * the following subkeys, if it is present:
-   *
-   *  * tmp_name: The absolute temporary path to the newly uploaded file
-   *  * name:     The browser-submitted file name (optional, but necessary to distinguish amongst Microsoft Office formats)
-   *  * type:     The browser-submitted file content type (required although our guessers never trust it)
-   *  * error:    The error code (optional)
-   *  * size:     The file size in bytes (optional)
-   * 
+   * * tmp_name: The absolute temporary path to the newly uploaded file
+   * name:     The browser-submitted file name (optional, but necessary to distinguish amongst Microsoft Office formats)
+   * type:     The browser-submitted file content type (required although our guessers never trust it)
+   * error:    The error code (optional)
+   * size:     The file size in bytes (optional)
    * The persistid key allows lookup of a previously uploaded file
-   * when no new file has been submitted. 
-   *
+   * when no new file has been submitted.
    * A RARE BUT USEFUL CASE: if you need to prefill this cache before
-   * invoking the form for the first time, you can instantiate this 
+   * invoking the form for the first time, you can instantiate this
    * validator yourself:
-   * 
    * $vfp = new aValidatorFilePersistent();
    * $guid = aGuid::generate();
    * $vfp->clean(
-   *   array(
-   *     'newfile' => 
-   *       array('tmp_name' => $myexistingfile), 
-   *     'persistid' => $guid));
-   *
+   * array(
+   * 'newfile' =>
+   * array('tmp_name' => $myexistingfile),
+   * 'persistid' => $guid));
    * Then set array('persistid' => $guid) as the default value
    * for the file widget. This logic is most easily encapsulated in
    * the configure() method of your form class.
-   *
    * @see sfValidatorFile
    * @see sfValidatorBase
+   * @param mixed $value
+   * @return mixed
    */
-
   public function clean($value)
   {
     $user = sfContext::getInstance()->getUser();
@@ -195,11 +195,19 @@ class aValidatorFilePersistent extends sfValidatorFile
     return $result;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static protected function getPersistentDir()
   {
     return aFiles::getWritableDataFolder(array("persistent_uploads"));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $dir
+   */
   static public function removeOldFiles($dir)
   {
     // Age off any stale uploads in the cache
@@ -217,6 +225,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @return mixed
+   */
   static public function previewAvailable($value)
   {
     if (isset($value['persistid']))
@@ -232,6 +245,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @return mixed
+   */
   static public function alreadyPersisting($value)
   {
     if (isset($value['persistid']))
@@ -247,7 +265,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     return false;
   }
 
-  
+  /**
+   * DOCUMENT ME
+   * @param mixed $persistid
+   * @return mixed
+   */
   static public function getFileInfo($persistid)
   {
     if (!self::validPersistId($persistid))
@@ -267,23 +289,32 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $persistid
+   * @param mixed $data
+   */
   static public function putFileInfo($persistid, $data)
   {
     $persistentDir = self::getPersistentDir();
     file_put_contents("$persistentDir/$persistid.data", serialize($data));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $persistid
+   * @return mixed
+   */
   static public function validPersistId($persistid)
   {
     return preg_match("/^[a-fA-F0-9]+$/", $persistid);
   }
-  
+
   /**
+   * 
    * Guess the file mime type with aImageConverter's getInfo method, which uses imagesize and
    * magic numbers to be more robust than relying on a lot of badly configured external tools
-   *
    * @param  string $file  The absolute path of a file
-   *
    * @return string The mime type of the file (null if not guessable)
    */
   protected function guessFromImageconverter($file)
@@ -300,12 +331,12 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
     return null;
   }
+
   /**
+   * 
    * Guess the file mime type of MP3 audio files based on the ID3 tag at the beginning, more robust
    * than the file command's buggy support for MP3s that seems to dislike VBR files
-   *
    * @param  string $file  The absolute path of a file
-   *
    * @return string The mime type of the file (null if not guessable)
    */
   protected function guessFromID3($file)
@@ -320,6 +351,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     return 'audio/mpeg';
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @return mixed
+   */
   protected function guessRTF($file)
   {
     $in = fopen($file, 'rb');
@@ -331,7 +367,12 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
     return 'text/rtf';
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @return mixed
+   */
   protected function guessMicrosoft($file)
   {
     // We look at the original name to get the rest.
@@ -373,7 +414,13 @@ class aValidatorFilePersistent extends sfValidatorFile
     }
     return null;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   * @param mixed $fallback
+   * @return mixed
+   */
   protected function getMimeType($file, $fallback)
   {
     // The microsoft guesser needs access to the original filename.

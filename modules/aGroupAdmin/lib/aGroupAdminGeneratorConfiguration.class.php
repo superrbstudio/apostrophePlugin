@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aUserAdmin module configuration.
- *
  * @package    sfShibbolethPlugin
  * @subpackage aUserAdmin
  * @author     Alex Gilbert

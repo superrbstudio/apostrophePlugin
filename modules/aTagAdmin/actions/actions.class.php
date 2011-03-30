@@ -1,10 +1,8 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BaseaTagAdminActions.class.php';
-
-/**
+require_once dirname(__FILE__).'/../lib/BaseaTagAdminActions.class.php';/**
+ * 
  * aTagAdmin actions.
- *
  * @package    apostrophePlugin
  * @subpackage aTagAdmin
  * @author     Your name here

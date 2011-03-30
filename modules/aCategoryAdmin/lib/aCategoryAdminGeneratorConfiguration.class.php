@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aCategoryAdmin module configuration.
- *
  * @package    aBlog
  * @subpackage aCategoryAdmin
  * @author     Your name here
@@ -11,6 +10,10 @@
 class aCategoryAdminGeneratorConfiguration extends BaseaCategoryAdminGeneratorConfiguration
 {
   public $fields;
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
     $event = new sfEvent(null, 'a.get_categorizables');
@@ -19,6 +22,10 @@ class aCategoryAdminGeneratorConfiguration extends BaseaCategoryAdminGeneratorCo
     parent::__construct();
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getFieldsDefault()
   {
     $fields = parent::getFieldsDefault();
@@ -29,6 +36,10 @@ class aCategoryAdminGeneratorConfiguration extends BaseaCategoryAdminGeneratorCo
     return $fields;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getListDisplay()
   {
     $fields = parent::getListDisplay();
@@ -39,6 +50,10 @@ class aCategoryAdminGeneratorConfiguration extends BaseaCategoryAdminGeneratorCo
     return $fields;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getFieldsList()
   {
     $fields = parent::getFieldsList();

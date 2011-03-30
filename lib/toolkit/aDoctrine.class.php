@@ -1,25 +1,31 @@
 <?php
-
-// Conveniences for cross-database-compatible Doctrine programming 
-
+/**
+ * Conveniences for cross-database-compatible Doctrine programming
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aDoctrine
 {
-  // Used to order the results of a query according to a specific list of IDs. 
-  // If we used FIELD we would be limited to MySQL. So we use CASE instead (SQL92 standard).
-  
-  // Note that you are still responsible for adding a whereIn clause, if you
-  // want to limit the results to this list of ids. If you don't, any extra objects
-  // will be returned at the end.
-  
-  // YOU NEED TO HAVE AN EXPLICIT SELECT CLAUSE, if you don't the select clause added by this
-  // method will override the default 'select everything' behavior and you will
-  // get back nothing! I get burned by this myself.
-  
-  // Example: 
-  //
-  // $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
-  // $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
-  
+
+  /**
+   * Used to order the results of a query according to a specific list of IDs.
+   * If we used FIELD we would be limited to MySQL. So we use CASE instead (SQL92 standard).
+   * Note that you are still responsible for adding a whereIn clause, if you
+   * want to limit the results to this list of ids. If you don't, any extra objects
+   * will be returned at the end.
+   * YOU NEED TO HAVE AN EXPLICIT SELECT CLAUSE, if you don't the select clause added by this
+   * method will override the default 'select everything' behavior and you will
+   * get back nothing! I get burned by this myself.
+   * Example:
+   * 
+   * $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
+   * $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
+   * @param mixed $query
+   * @param mixed $ids
+   * @param mixed $modelName
+   * @return mixed
+   */
   static public function orderByList($query, $ids, $modelName = null)
   {
     // If there are no IDs, then we don't alter the query at all. Otherwise we wind up

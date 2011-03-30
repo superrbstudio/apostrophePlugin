@@ -1,6 +1,15 @@
 <?php
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaFeedSlotComponents extends aSlotComponents
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     // Must be at the start of both view components
@@ -13,6 +22,10 @@ class BaseaFeedSlotComponents extends aSlotComponents
       $this->form = new aFeedForm($this->id, $this->slot->getArrayValue());
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();
@@ -34,10 +47,10 @@ class BaseaFeedSlotComponents extends aSlotComponents
       $this->options['posts'] = $this->getOption('posts', 5);
       $this->options['links'] = $this->getOption('links', true);
       $this->options['markup'] = $this->getOption('markup', '<strong><em><p><br><ul><li><a>');
-			$this->options['attributes'] = $this->getOption('attributes', false);
-			$this->options['styles'] = $this->getOption('styles',false);
+      $this->options['attributes'] = $this->getOption('attributes', false);
+      $this->options['styles'] = $this->getOption('styles',false);
       $this->options['dateFormat'] = $this->getOption('dateFormat', false);
-			$this->options['itemTemplate'] = $this->getOption('itemTemplate','aFeedItem');
+      $this->options['itemTemplate'] = $this->getOption('itemTemplate','aFeedItem');
     }
   }
 }

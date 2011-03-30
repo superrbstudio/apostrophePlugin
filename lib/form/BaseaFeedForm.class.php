@@ -1,15 +1,28 @@
-<?php    
+<?php /**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaFeedForm extends BaseForm
 {
   // Ensures unique IDs throughout the page
   protected $id;
-  // PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+
+  /**
+   * PARAMETERS ARE REQUIRED, no-parameters version is strictly to satisfy i18n-update
+   * @param mixed $id
+   * @param mixed $defaults
+   */
   public function __construct($id = 1, $defaults = array())
   {
     $this->id = $id;
     parent::__construct();
     $this->setDefaults($defaults);
   }
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $this->setWidgets(array('url' => new sfWidgetFormInputText(array('label' => 'RSS Feed URL'))));
@@ -32,8 +45,13 @@ class BaseaFeedForm extends BaseForm
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
-  
-  // Convert Twitter handles to RSS feed URLs. Leave anything else alone
+
+  /**
+   * Convert Twitter handles to RSS feed URLs. Leave anything else alone
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateTwitterHandle($validator, $value)
   {
     if (preg_match('/^@(\w+)$/', $value, $matches))
@@ -47,9 +65,14 @@ class BaseaFeedForm extends BaseForm
     }
     return $value;
   }
-  
-  // If it smells like HTML and contains a suitable link tag, extract the first feed URL,
-  // which is probably what they meant. Otherwise leave it alone
+
+  /**
+   * If it smells like HTML and contains a suitable link tag, extract the first feed URL,
+   * which is probably what they meant. Otherwise leave it alone
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateFeed($validator, $value)
   {
     $content = @file_get_contents($value);
@@ -67,7 +90,13 @@ class BaseaFeedForm extends BaseForm
     }
     return $value;
   }
-  // Add missing http://
+
+  /**
+   * Add missing http:
+   * @param mixed $validator
+   * @param mixed $value
+   * @return mixed
+   */
   public function validateLazyUrl($validator, $value)
   {
     if (preg_match('/^[\w\+-]+\./', $value))

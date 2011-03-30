@@ -1,17 +1,29 @@
 <?php
-
-// Base class for Apostrophe CMS slot action classes
-
+/**
+ * Base class for Apostrophe CMS slot action classes
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaSlotActions extends sfActions
 {
   protected $validationData = array();
   protected $newSlot = false;
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function editSetup()
   {
     return $this->setup(true);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $editing
+   * @return mixed
+   */
   protected function setup($editing = false)
   {
     $this->reopen = false;
@@ -93,6 +105,10 @@ class BaseaSlotActions extends sfActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function editSave()
   {
     $this->slot->save();
@@ -114,6 +130,10 @@ class BaseaSlotActions extends sfActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function redirectToPage()
   {
     // Used for non-AJAX edits of global slots so that we can
@@ -133,6 +153,10 @@ class BaseaSlotActions extends sfActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function editRetry()
   {
     if (isset($this->form))
@@ -143,6 +167,11 @@ class BaseaSlotActions extends sfActions
     return $result;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $editorOpen
+   * @return mixed
+   */
   protected function editAjax($editorOpen)
   {
     // Symfony 1.2+ can return partials rather than templates...
@@ -166,6 +195,11 @@ class BaseaSlotActions extends sfActions
         "validationData" => $this->validationData));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeEdit(sfRequest $request)
   {
     // When writing your own custom slot classes, you override this
@@ -178,7 +212,12 @@ class BaseaSlotActions extends sfActions
     $this->slot->value = $this->getRequestParameter('value-' . $this->id);
     return $this->editSave();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfRequest $request
+   * @return mixed
+   */
   public function executeAjaxEditView(sfRequest $request)
   {
     // Refresh the view 
@@ -186,7 +225,13 @@ class BaseaSlotActions extends sfActions
     aTools::setRealUrl($request->getParameter('realUrl'));
     return $this->editAjax(true);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $option
+   * @param mixed $default
+   * @return mixed
+   */
   protected function getOption($option, $default = false)
   {
     if (isset($this->options[$option]))
@@ -198,7 +243,12 @@ class BaseaSlotActions extends sfActions
       return $default;
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $key
+   * @param mixed $val
+   */
   protected function setValidationData($key, $val)
   {
     $this->validationData[$key] = $val;

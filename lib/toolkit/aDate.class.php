@@ -1,16 +1,22 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aDate
 {
-  // All date formatters here accept both Unix timestamps and MySQL date or datetime values.
-  // These methods output only the date, not the time (except for aDate::time()). Use these methods
-  // for consistency within and across our applications.
-  
-  // By default we now use the I18N format_date helper. But we can override this when we
-  // want our favorite English date treatment for an English-only site
-  
-  // Most compact: Sep 3 (2-digit year follows but only if not current year)
-  
+
+  /**
+   * All date formatters here accept both Unix timestamps and MySQL date or datetime values.
+   * These methods output only the date, not the time (except for aDate::time()). Use these methods
+   * for consistency within and across our applications.
+   * By default we now use the I18N format_date helper. But we can override this when we
+   * want our favorite English date treatment for an English-only site
+   * Most compact: Sep 3 (2-digit year follows but only if not current year)
+   * @param mixed $date
+   * @return mixed
+   */
   static public function pretty($date)
   {
     $date = self::normalize($date);
@@ -33,9 +39,12 @@ class aDate
     }
     return $result;
   }
-  
-  // Saturday, 14 January 2009
-  
+
+  /**
+   * Saturday, 14 January 2009
+   * @param mixed $date
+   * @return mixed
+   */
   static public function long($date)
   {
     $date = self::normalize($date);
@@ -48,8 +57,11 @@ class aDate
     return date('l, j F Y', $date);
   }
 
-  // Sat, 14 Jan 2009
-
+  /**
+   * Sat, 14 Jan 2009
+   * @param mixed $date
+   * @return mixed
+   */
   static public function medium($date)
   {
     $date = self::normalize($date);
@@ -62,8 +74,11 @@ class aDate
     return date('D, M j Y', $date);
   }
 
-  // 9/4/09 4PM
-
+  /**
+   * 9/4/09 4PM
+   * @param mixed $date
+   * @return mixed
+   */
   static public function short($date)
   {
     $date = self::normalize($date);
@@ -75,7 +90,13 @@ class aDate
     }
     return date('n/j/y', $date);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $date
+   * @param mixed $format
+   * @return mixed
+   */
   static public function date($date, $format)
   {
     if (!in_array($format, array('pretty', 'short', 'medium', 'long')))
@@ -84,16 +105,21 @@ class aDate
     }
     return self::$format($date);
   }
-  
-  // IN: date as timestamp OR the following formats:
-  // YYYY-MM-DD 
-  // YYYY-MM-DD hh:mm:ss
-  // hh:mm:ss
-  // hh:mm:ss by itself is interpreted relative to the current day
-  // unless timeOnly is true, in which case you get back only the offset in seconds
-  // from midnight.
-  //
-  // OUT: timestamp
+
+  /**
+   * IN: date as timestamp OR the following formats:
+   * YYYY-MM-DD
+   * YYYY-MM-DD hh:mm:ss
+   * hh:mm:ss
+   * hh:mm:ss by itself is interpreted relative to the current day
+   * unless timeOnly is true, in which case you get back only the offset in seconds
+   * from midnight.
+   * 
+   * OUT: timestamp
+   * @param mixed $date
+   * @param mixed $timeOnly
+   * @return mixed
+   */
   static public function normalize($date, $timeOnly = false)
   {  
     if (preg_match("/^(\d\d\d\d)-(\d\d)-(\d\d)( (\d\d):(\d\d):(\d\d))?$/", $date, $matches))
@@ -126,14 +152,17 @@ class aDate
     }
     return $date;
   }
-  
-  // By default just calls the I18N format_time. The rest of this description
-  // applies only if you set app_a_pretty_english_dates:
-  
-  // The only variation on our time format is turning on the display
-  // of :00 when the time is a round hour, such as 8PM. Set compact
-  // to false to bring back :00. Otherwise we remove it
-  
+
+  /**
+   * By default just calls the I18N format_time. The rest of this description
+   * applies only if you set app_a_pretty_english_dates:
+   * The only variation on our time format is turning on the display
+   * of :00 when the time is a round hour, such as 8PM. Set compact
+   * to false to bring back :00. Otherwise we remove it
+   * @param mixed $date
+   * @param mixed $compact
+   * @return mixed
+   */
   static public function time($date, $compact = true)
   {
     $date = self::normalize($date);
@@ -155,25 +184,30 @@ class aDate
     return $s;
   }
 
-
-	// 4:15 PM, Thursday
-
-	static public function dayAndTime($date)
-	{
-		$date = self::normalize($date);
-		if (!sfConfig::get('app_a_pretty_english_dates', false))
+  /**
+   * 4:15 PM, Thursday
+   * @param mixed $date
+   * @return mixed
+   */
+  static public function dayAndTime($date)
+  {
+    $date = self::normalize($date);
+    if (!sfConfig::get('app_a_pretty_english_dates', false))
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
       // Short date format is the closest I18N format to our proprietary version
       return format_date($date, 'd');
     }
-		$time = self::time($date);
-		$day = date('l', $date);
-		return $time.', '.$day;
-	}
+    $time = self::time($date);
+    $day = date('l', $date);
+    return $time.', '.$day;
+  }
 
-  // January 14, 2009
-  
+  /**
+   * January 14, 2009
+   * @param mixed $date
+   * @return mixed
+   */
   static public function dayMonthYear($date)
   {
     $date = self::normalize($date);
@@ -185,14 +219,18 @@ class aDate
     }
     return date('M j, Y', $date);
   }
-  
-  // Subtracts $date2 from $date1 and returns the difference in whole days.
-  // For instance, if $date2 is 2009-09-30 and $date1 is 2009-10-01, the
-  // result will be 1.
-  
-  // Arguments should be Unix timestamps or Doctrine YYYY-MM-DD datestamps
-  // representing midnight on two days. Valid results are not guaranteed if 
-  // the timestamp does not represent midnight at the start of the day
+
+  /**
+   * Subtracts $date2 from $date1 and returns the difference in whole days.
+   * For instance, if $date2 is 2009-09-30 and $date1 is 2009-10-01, the
+   * result will be 1.
+   * Arguments should be Unix timestamps or Doctrine YYYY-MM-DD datestamps
+   * representing midnight on two days. Valid results are not guaranteed if
+   * the timestamp does not represent midnight at the start of the day
+   * @param mixed $date1
+   * @param mixed $date2
+   * @return mixed
+   */
   static public function differenceDays($date1, $date2)
   {
     $date1 = self::normalize($date1);
@@ -201,7 +239,12 @@ class aDate
     // leap seconds and/or daylight savings time
     return floor(($date1 - $date2) / 86400 + 0.5);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $when
+   * @return mixed
+   */
   static public function mysql($when = null)
   {
     if (is_null($when))

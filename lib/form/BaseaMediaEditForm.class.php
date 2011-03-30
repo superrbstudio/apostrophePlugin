@@ -1,16 +1,26 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaEditForm extends aMediaItemForm
 {
-  // Use this to i18n select choices that SHOULD be i18ned. It never gets called,
-  // it's just here for our i18n-update task to sniff
+
+  /**
+   * Use this to i18n select choices that SHOULD be i18ned. It never gets called,
+   * it's just here for our i18n-update task to sniff
+   */
   private function i18nDummy()
   {
     __('Public', null, 'apostrophe');
     __('Hidden', null, 'apostrophe');
     __('Replace File', null, 'apostrophe');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     // This call was missing, preventing easy extension of all media item edit forms at the project level
@@ -110,7 +120,12 @@ class BaseaMediaEditForm extends aMediaItemForm
     // $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @return mixed
+   */
   public function updateObject($values = null)
   {
     if (!isset($values))

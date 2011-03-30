@@ -1,22 +1,42 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    embedService
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aYoutube extends aEmbedService
 {
   protected $features = array('search', 'thumbnail', 'browseUser');
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $feature
+   * @return mixed
+   */
   public function supports($feature)
   {
     return in_array($feature, $this->features);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $q
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function search($q, $page = 1, $perPage = 50)
   {
     return $this->getFeed('http://gdata.youtube.com/feeds/api/videos', array('q' => $q), $page, $perPage);
   }
-  
-  // Returns just enough information to verify you found the right user. This is not meant to be
-  // a fancy presentation that end users see, it's for admins adding a linked account. Please don't
-  // introduce English into the result here as we'd have to i18n it
+
+  /**
+   * Returns just enough information to verify you found the right user. This is not meant to be
+   * a fancy presentation that end users see, it's for admins adding a linked account. Please don't
+   * introduce English into the result here as we'd have to i18n it
+   * @param mixed $user
+   * @return mixed
+   */
   public function getUserInfo($user)
   {
     $xml = @simplexml_load_file('http://gdata.youtube.com/feeds/api/users/' . urlencode($user));
@@ -39,12 +59,24 @@ class aYoutube extends aEmbedService
     $info['description'] = (string) $yt['aboutMe'];
     return $info;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function browseUser($user, $page = 1, $perPage = 50)
   {
     return $this->getFeed('http://gdata.youtube.com/feeds/api/users/' . urlencode($user) . '/uploads', array(), $page, $perPage);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getInfo($id)
   {
     $xml = @simplexml_load_file("http://gdata.youtube.com/feeds/api/videos/$id?v=2");
@@ -77,7 +109,15 @@ class aYoutube extends aEmbedService
     $result = array('title' => (string) $xml->title, 'description' => (string) $media->group->description, 'tags' => $tags, 'id' => $id, 'url' => $this->getUrlFromId($id), 'credit' => (string) $media->group->credit);
     return $result;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $feed
+   * @param mixed $params
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function getFeed($feed, $params, $page, $perPage)
   {
     $params['start-index'] = ($page - 1) * $perPage + 1;
@@ -123,6 +163,16 @@ class aYoutube extends aEmbedService
     return $results;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $title
+   * @param mixed $wmode
+   * @param mixed $autoplay
+   * @return mixed
+   */
   public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
     if ($autoplay)
@@ -138,7 +188,12 @@ return <<<EOM
 EOM
 ;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   * @return mixed
+   */
   public function getIdFromUrl($url)
   {
     if (preg_match("/youtube.com.*\?.*v=([\w\-\+]+)/", $url, $matches))
@@ -156,17 +211,31 @@ EOM
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   * @return mixed
+   */
   public function getIdFromEmbed($url)
   {
     return $this->getIdFromUrl($url);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getUrlFromId($id)
   {
     return 'http://www.youtube.com/watch?v=' . urlencode($id);
   }
-  
-  // Returns biggest thumbnail available
+
+  /**
+   * Returns biggest thumbnail available
+   * @param mixed $videoid
+   * @return mixed
+   */
   public function getThumbnail($videoid)
   {
     $thumbnail = false;
@@ -214,7 +283,11 @@ EOM
     }
     return $thumbnail;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getName()
   {
     return 'YouTube';

@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aTagAdmin module configuration.
- *
  * @package    aBlog
  * @subpackage aTagAdmin
  * @author     Your name here
@@ -10,9 +9,12 @@
  */
 class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguration
 {
-  // Convince the admin generator that the tag columns are "real" and can therefore
-  // be sorted upon. Thanks to Dan
 
+  /**
+   * Convince the admin generator that the tag columns are "real" and can therefore
+   * be sorted upon. Thanks to Dan
+   * @return mixed
+   */
   public function getFieldsDefault()
   {
     $models = $this->getTaggableModels();
@@ -27,6 +29,10 @@ class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguratio
     return $fields;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getTaggableModels()
   {
     $fields = array();
@@ -42,11 +48,19 @@ class aTagAdminGeneratorConfiguration extends BaseaTagAdminGeneratorConfiguratio
     return $fields;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getFormClass()
   {
     return 'aTagForm';
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function hasFilterForm()
   {
     return false;

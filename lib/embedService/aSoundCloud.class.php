@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    embedService
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aSoundCloud extends aEmbedService
 {
   protected $features = null;
@@ -7,7 +11,9 @@ class aSoundCloud extends aEmbedService
   protected $consumerKey = null;
   protected $showTypes = null;
 
-  // Constructor for aSlideShare (obtains API key and shared secret)
+  /**
+   * Constructor for aSlideShare (obtains API key and shared secret)
+   */
   public function __construct()
   {
     $settings = sfConfig::get('app_a_soundcloud');
@@ -21,6 +27,10 @@ class aSoundCloud extends aEmbedService
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configured()
   {
     if (isset($this->consumerKey))
@@ -30,17 +40,33 @@ class aSoundCloud extends aEmbedService
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configurationHelpUrl()
   {
     return 'http://trac.apostrophenow.org/wiki/EmbedSoundCloud';
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $feature
+   * @return mixed
+   */
   public function supports($feature)
   {
     return in_array($feature, $this->features);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $q
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function search($q, $page=1, $perPage=50)
   {
     /* SoundCloud returns a maximum of 50 items per set. If $perPage > 50,
@@ -51,7 +77,14 @@ class aSoundCloud extends aEmbedService
     
     return $this->searchApi($call, $params, $perPage);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function browseUser($user, $page=1, $perPage=50)
   {
     $user_id = $this->getIdFromName($user);
@@ -61,7 +94,17 @@ class aSoundCloud extends aEmbedService
     
     return $this->searchApi($call, $params, $perPage, true);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $title
+   * @param mixed $wmode
+   * @param mixed $autoplay
+   * @return mixed
+   */
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
 return <<<EOT
@@ -72,7 +115,12 @@ return <<<EOT
 </object>
 EOT;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getInfo($id)
   {
     $data = $this->getTrackInfo($id);
@@ -89,7 +137,12 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @return mixed
+   */
   public function getUserInfo($user)
   {
     $user_id = $this->getIdFromName($user);
@@ -105,7 +158,12 @@ EOT;
     
     return array('name' => $user, 'description' => $data->user->description);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   * @return mixed
+   */
   public function getIdFromUrl($url)
   {
     // Apostrophe calls both this and the getIdFromEmbed method,
@@ -138,7 +196,12 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getUrlFromId($id)
   {
     $trackInfo = $this->getTrackInfo($id);
@@ -150,7 +213,12 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $embed
+   * @return mixed
+   */
   public function getIdFromEmbed($embed)
   {
     if (preg_match('/http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F(\d+)/', $embed, $matches))
@@ -160,7 +228,12 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getThumbnail($id)
   {
     $trackInfo = $this->getTrackInfo($id);
@@ -172,13 +245,22 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getName()
   {
     return 'SoundCloud';
   }
 
-  // This is the only function that actually talks to the SoundCloud API
+  /**
+   * This is the only function that actually talks to the SoundCloud API
+   * @param mixed $call
+   * @param mixed $params
+   * @return mixed
+   */
   private function getData($call, $params=array())
   {
     try
@@ -200,7 +282,15 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $call
+   * @param mixed $params
+   * @param mixed $limit
+   * @param mixed $browseUser
+   * @return mixed
+   */
   private function searchApi($call, $params, $limit, $browseUser=false)
   {
     $soundTracks = array();
@@ -230,17 +320,23 @@ EOT;
     
     return array('total' => count($soundTracks), 'results' => $tracks);
   }
-  
-  /*
-   * Returns the appropriate ID for a given user or track name
+
+  /**
    * 
+   * Returns the appropriate ID for a given user or track name
    * Input can be either 'username' or 'username/trackname'
+   * @param mixed $name
+   * @return mixed
    */
   private function getIdFromName($name) {
     return $this->getIdFromUrl("http://soundcloud.com/$name");
   }
-  
-  // Will retrieve sound track from given ID or URL (intelligently decides which to use)
+
+  /**
+   * Will retrieve sound track from given ID or URL (intelligently decides which to use)
+   * @param mixed $id
+   * @return mixed
+   */
   private function getTrackInfo($id)
   {
     // Check if we have the media cached before hitting the API

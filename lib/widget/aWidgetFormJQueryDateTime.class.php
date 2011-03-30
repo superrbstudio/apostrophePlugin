@@ -1,13 +1,20 @@
 <?php
-
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    widget
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
 {
   
   protected $dateWidget;
   protected $timeWidget;
 
-    
+  /**
+   * DOCUMENT ME
+   * @param mixed $options
+   * @param mixed $attributes
+   */
   protected function configure($options = array(), $attributes = array())
   {    
     $this->addOption('date', array());
@@ -15,10 +22,18 @@ class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
     $this->addOption('with_time', true);
     $this->addOption('format', '%date% %time%');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @param mixed $value
+   * @param mixed $attributes
+   * @param mixed $errors
+   * @return mixed
+   */
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-		$date = $this->getDateWidget($attributes)->render($name, $value);
+    $date = $this->getDateWidget($attributes)->render($name, $value);
 
     if(!$this->getOption('with_time', true))
     {
@@ -32,21 +47,20 @@ class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
   }
 
   /**
+   * 
    * Returns the date widget.
-   *
    * @param  array $attributes  An array of attributes
-   *
    * @return sfWidgetForm A Widget representing the date
    */
   protected function getDateWidget($attributes = array())
   {
     return new aWidgetFormJQueryDate($this->getOptionsFor('date'), $this->getAttributesFor('date', $attributes));
   }
+
   /**
+   * 
    * Returns the time widget.
-   *
    * @param  array $attributes  An array of attributes
-   *
    * @return sfWidgetForm A Widget representing the time
    */
   protected function getTimeWidget($attributes = array())
@@ -55,11 +69,10 @@ class aWidgetFormJQueryDateTime extends sfWidgetFormDateTime
   }
 
   /**
+   * 
    * Returns an array of HTML attributes for the given type.
-   *
    * @param  string $type        The type (date or time)
    * @param  array  $attributes  An array of attributes
-   *
    * @return array  An array of HTML attributes
    */
   protected function getAttributesFor($type, $attributes)

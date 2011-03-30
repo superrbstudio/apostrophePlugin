@@ -1,24 +1,26 @@
 <?php
-
 /**
+ * 
  * HTML related utilities. HTML markup to RSS markup conversion,
- * simplification of HTML to a short list of legal tags and no 
+ * simplification of HTML to a short list of legal tags and no
  * dangerous attributes, mailto: obfuscation, word count limit
  * that preserves valid HTML markup, and basic text-to-HTML
  * conversion that preserves line breaks and creates links.
- *
  * doc-to-HTML conversion has been removed as it's out of scope for
  * apostrophePlugin which should contain lightweight stuff only.
  * We should consider putting that out as a separate plugin.
- *
  * @author Tom Boutell <tom@punkave.com>
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
  */
-
 class aHtmlNotHtmlException extends Exception
 {
   
-}
-
+}/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aHtml
 {
   static private $badPunctuation = array('“', '”', '®', '‘', '’');
@@ -36,8 +38,12 @@ class aHtml
       '&gt;' => '&gt;'
     );
 
-  // Right now this just converts obscure HTML entities to 
-  // simpler stuff that all feed readers will digest.
+  /**
+   * Right now this just converts obscure HTML entities to
+   * simpler stuff that all feed readers will digest.
+   * @param mixed $doc
+   * @return mixed
+   */
   public static function htmlToRss($doc)
   {
     // Eval stuff like this is not the quickest. There 
@@ -48,7 +54,12 @@ class aHtml
       "aHtml::entityToRss('$1')",
       $doc);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $entity
+   * @return mixed
+   */
   public static function entityToRss($entity)
   {
     if (isset(self::$rssEntityMap[$entity]))
@@ -126,6 +137,16 @@ class aHtml
   // if you were allowing script elements, but why would you do such a foolish thing?
   static private $defaultHtmlStrictBr = true;
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @param mixed $allowedTags
+   * @param mixed $complete
+   * @param mixed $allowedAttributes
+   * @param mixed $allowedStyles
+   * @param mixed $htmlStrictBr
+   * @return mixed
+   */
   static public function simplify($value, $allowedTags = false, $complete = false, $allowedAttributes = false, $allowedStyles = false, $htmlStrictBr = false)
   {
     if ($allowedTags === false)
@@ -242,16 +263,29 @@ class aHtml
     }
 
     $result = self::documentToFragment($result);
-		return $result;
+    return $result;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function documentToFragment($s)
   {
     // Added trim call because otherwise size begins to balloon indefinitely
     return trim(preg_replace(array('/^<!DOCTYPE.+?>/', '/<head>.*?<\/head>/i'), '', 
       str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $s)));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $errno
+   * @param mixed $errstr
+   * @param mixed $errfile
+   * @param mixed $errline
+   * @return mixed
+   */
   static public function warningsHandler($errno, $errstr, $errfile, $errline) 
   {
     // Most warnings should be ignored as DOMDocument cleans up the HTML in exactly
@@ -264,7 +298,13 @@ class aHtml
     }
     return;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $node
+   * @param mixed $allowedAttributes
+   * @param mixed $allowedStyles
+   */
   static private function stripAttributesNode($node, $allowedAttributes, $allowedStyles)
   {
     if ($node->hasChildNodes())
@@ -340,10 +380,10 @@ class aHtml
             $state = 'property';
             $p = '';
             $v = '';
-						if (end($realTokens) !== ';')
-						{
-							$realTokens[] = ';';
-						}
+            if (end($realTokens) !== ';')
+            {
+              $realTokens[] = ';';
+            }
             foreach ($realTokens as $token)
             {
               if ($state === 'property')
@@ -452,107 +492,124 @@ class aHtml
     "input" => true
   );
 
-	public static function limitWords($string, $word_limit, $options = array())
-	{
-	  # TBB: tag-aware, doesn't split in the middle of tags 
-	  # (we will probably use fancier tags with attributes later,
-	  # so this is important). Tags must be valid XHTML unless
-	  # all allowed tags 
-	  $words = preg_split("/(\<.*?\>|\s+)/", $string, -1, 
-	    PREG_SPLIT_DELIM_CAPTURE);
-	  $wordCount = 0;
-	  # Balance tags that need balancing. We don't have strict XHTML
-	  # coming from OpenOffice (oh, if only) so we'll have to keep a
-	  # list of the tags that are containers.
-	  $open = array();
-	  $result = "";
-	  $count = 0;
-		$num_words = count($words);
-		
-		$shortEnough = true;
-		
-	  foreach ($words as $word) {
-	    if ($count > $word_limit) {
-				$shortEnough = false;
-	      break;
-	    } elseif (preg_match("/\<.*?\/\>/", $word)) {
-	      # XHTML non-container tag, we don't have to guess
-	      $result .= $word;
-	      continue;
-	    } elseif (preg_match("/\<(\w+)/s", $word, $matches)) {
-	      $tag = $matches[1];
-	      $result .= $word;
-	      if (isset(aHtml::$nonContainerTags[$tag])) {
-	        continue;
-	      }
-	      $open[] = $tag;
-	    } elseif (preg_match("/\<\/(\w+)/s", $word, $matches)) {
-	      $tag = $matches[1];
-	      if (!count($open)) {
-	        # Groan, extra close tag, ignore
-	        continue;
-	      }
-	      $last = array_pop($open);    
-	      if ($last !== $tag) {
-	        # They closed the wrong tag. Again, ignore for now, but 
-	        # we might want to work on a better solution
-	        continue;
-	      }
-	      $result .= $word;
-	    } elseif (preg_match("/^\s+$/s", $word)) {
-	      $result .= $word;
-	    } else {
-	      if (strlen($word)) {
-	        $count++;
-	        $result .= $word;
-	      }
-	    }
-	  }
-	
-		if ($shortEnough)
-		{
-			// Leave it totally untouched if it is short enough.
-			// Now you can use !== to see if it changed anything.
-			return $string;
-		}
-
-		$append_ellipsis = false;
-		if (isset($options['append_ellipsis']))
-		{
-			$append_ellipsis = $options['append_ellipsis'];
-		}
-		if ($append_ellipsis == true && $num_words > $word_limit)
-		{
-			$result .= '&hellip;';
-		}
-
-	  for ($i = count($open) - 1; ($i >= 0); $i--) {
-	    $result .= "</" . $open[$i] . ">";
-	  }
-	  return $result;
-	}
-
-  // This is a quick and dirty implementation based on calling limitWords
-  // with an optimistic guess and then backing off a few times if necessary
-  // until we get under the byte limit. Note that limitBytes is designed
-  // to fit things in buffers, not save screen space, so it does have to
-  // make sure the result is not too big
+  /**
+   * DOCUMENT ME
+   * @param mixed $string
+   * @param mixed $word_limit
+   * @param mixed $options
+   * @return mixed
+   */
+  public static function limitWords($string, $word_limit, $options = array())
+  {
+    # TBB: tag-aware, doesn't split in the middle of tags 
+    # (we will probably use fancier tags with attributes later,
+    # so this is important). Tags must be valid XHTML unless
+    # all allowed tags 
+    $words = preg_split("/(\<.*?\>|\s+)/", $string, -1, 
+      PREG_SPLIT_DELIM_CAPTURE);
+    $wordCount = 0;
+    # Balance tags that need balancing. We don't have strict XHTML
+    # coming from OpenOffice (oh, if only) so we'll have to keep a
+    # list of the tags that are containers.
+    $open = array();
+    $result = "";
+    $count = 0;
+    $num_words = count($words);
+    
+    $shortEnough = true;
+    
+    foreach ($words as $word) {
+      if ($count > $word_limit) {
+        $shortEnough = false;
+        break;
+      } elseif (preg_match("/\<.*?\/\>/", $word)) {
+        # XHTML non-container tag, we don't have to guess
+        $result .= $word;
+        continue;
+      } elseif (preg_match("/\<(\w+)/s", $word, $matches)) {
+        $tag = $matches[1];
+        $result .= $word;
+        if (isset(aHtml::$nonContainerTags[$tag])) {
+          continue;
+        }
+        $open[] = $tag;
+      } elseif (preg_match("/\<\/(\w+)/s", $word, $matches)) {
+        $tag = $matches[1];
+        if (!count($open)) {
+          # Groan, extra close tag, ignore
+          continue;
+        }
+        $last = array_pop($open);    
+        if ($last !== $tag) {
+          # They closed the wrong tag. Again, ignore for now, but 
+          # we might want to work on a better solution
+          continue;
+        }
+        $result .= $word;
+      } elseif (preg_match("/^\s+$/s", $word)) {
+        $result .= $word;
+      } else {
+        if (strlen($word)) {
+          $count++;
+          $result .= $word;
+        }
+      }
+    }
   
-	public static function limitBytes($string, $byte_limit, $options = array())
-	{
-	  $word_limit = (int) ($byte_limit / 8);
-	  while (true)
-	  {
-	    $s = aHtml::limitWords($string, $word_limit, $options);
-	    if (strlen($s) <= $byte_limit)
-	    {
-	      break;
-	    }
-	    $word_limit = (int) ($word_limit * 0.75);
-	  }
-	  return $s;
-	}
+    if ($shortEnough)
+    {
+      // Leave it totally untouched if it is short enough.
+      // Now you can use !== to see if it changed anything.
+      return $string;
+    }
 
+    $append_ellipsis = false;
+    if (isset($options['append_ellipsis']))
+    {
+      $append_ellipsis = $options['append_ellipsis'];
+    }
+    if ($append_ellipsis == true && $num_words > $word_limit)
+    {
+      $result .= '&hellip;';
+    }
+
+    for ($i = count($open) - 1; ($i >= 0); $i--) {
+      $result .= "</" . $open[$i] . ">";
+    }
+    return $result;
+  }
+
+  /**
+   * This is a quick and dirty implementation based on calling limitWords
+   * with an optimistic guess and then backing off a few times if necessary
+   * until we get under the byte limit. Note that limitBytes is designed
+   * to fit things in buffers, not save screen space, so it does have to
+   * make sure the result is not too big
+   * @param mixed $string
+   * @param mixed $byte_limit
+   * @param mixed $options
+   * @return mixed
+   */
+  public static function limitBytes($string, $byte_limit, $options = array())
+  {
+    $word_limit = (int) ($byte_limit / 8);
+    while (true)
+    {
+      $s = aHtml::limitWords($string, $word_limit, $options);
+      if (strlen($s) <= $byte_limit)
+      {
+        break;
+      }
+      $word_limit = (int) ($word_limit * 0.75);
+    }
+    return $s;
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $html
+   * @return mixed
+   */
   public static function toText($html)
   {
     # Nothing fancy, we use the text for indexing only anyway.
@@ -564,6 +621,11 @@ class aHtml
     return $txt;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $html
+   * @return mixed
+   */
   public static function obfuscateMailto($html)
   {
     # Obfuscates any mailto: links found in $html. Good if you already
@@ -587,7 +649,12 @@ class aHtml
       array('aHtml', 'obfuscateMailtoInstance'),
       $html);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $args
+   * @return mixed
+   */
   public static function obfuscateMailtoInstance($args)
   {
     list($user, $domain, $label) = array_slice($args, 1);
@@ -605,8 +672,12 @@ class aHtml
     return "<a href='#' class='$class'></a>";
   }
 
-  // This is intentionally obscure for use in mailto: obfuscators.
-  // For an efficient way to pass data to javascript, use json_encode
+  /**
+   * This is intentionally obscure for use in mailto: obfuscators.
+   * For an efficient way to pass data to javascript, use json_encode
+   * @param mixed $str
+   * @return mixed
+   */
   static public function jsEscape($str)
   {
 
@@ -620,29 +691,33 @@ class aHtml
   }
 
   /**
+   * 
    * Just the basics: escape entities, turn URLs into links, and turn newlines into line breaks.
    * Also turn email addresses into links (we don't obfuscate them here as that makes them
-   * harder to manipulate some more, but check out aHtml::obfuscateMailto). 
-   *
+   * harder to manipulate some more, but check out aHtml::obfuscateMailto).
    * This function is now a wrapper around TextHelper, except for the entity escape which is
-   * not included in simple_format_text for some reason 
-   *
+   * not included in simple_format_text for some reason
    * @param string $text The text you want converted to basic HTML.
    * @return string Text with br tags and anchor tags.
    */
   static public function textToHtml($text)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
-   	return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
+     return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
   }
 
-  // For any given HTML, returns only the img tags. If 
-  // format is set to array, the result is returned as an array
-  // in which each element is an associative array with, at a
-  // minimum, a src attribute and also width, height, alt and title
-  // attributes if they were present in the tag. If format
-  // is set to html, an array of the original <img> tags
-  // is returned without further processing.
+  /**
+   * For any given HTML, returns only the img tags. If
+   * format is set to array, the result is returned as an array
+   * in which each element is an associative array with, at a
+   * minimum, a src attribute and also width, height, alt and title
+   * attributes if they were present in the tag. If format
+   * is set to html, an array of the original <img> tags
+   * is returned without further processing.
+   * @param mixed $html
+   * @param mixed $format
+   * @return mixed
+   */
   static public function getImages($html, $format = 'array')
   {
     $allowed = array_flip(array("src", "width", "height", "title", "alt"));
@@ -690,7 +765,12 @@ class aHtml
 
     return $images;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $html
+   * @return mixed
+   */
   static public function toPlaintext($html)
   {
     // Nonbreaking spaces don't work properly

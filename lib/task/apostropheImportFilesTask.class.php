@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheImportFilesTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
     // // add your own arguments here
@@ -48,6 +56,11 @@ report of how many files were converted.
 EOF;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -61,8 +74,13 @@ EOF;
     $import = new aMediaImporter(array('dir' => $options['dir'], 'feedback' => array($this, 'importFeedback')));
     $import->go();
   }
-  
-  // Must be public to be part of a callable
+
+  /**
+   * Must be public to be part of a callable
+   * @param mixed $category
+   * @param mixed $message
+   * @param mixed $file
+   */
   public function importFeedback($category, $message, $file = null)
   {
     if (($category === 'total') || ($category === 'info') || ($category === 'completed'))

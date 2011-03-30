@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaMediaUploadMultipleForm extends BaseForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++)
@@ -17,7 +25,14 @@ class BaseaMediaUploadMultipleForm extends BaseForm
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     
   }
-  // Thanks yet again to http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
+
+  /**
+   * Thanks yet again to http:thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
+   * @param mixed $validator
+   * @param mixed $values
+   * @param mixed $args
+   * @return mixed
+   */
   public function atLeastOne($validator, $values, $args)
   {
     for ($i = 0; ($i < aMediaTools::getOption('batch_max')); $i++)
@@ -29,10 +44,14 @@ class BaseaMediaUploadMultipleForm extends BaseForm
     }
     throw new sfValidatorError($validator, 'at_least_one');
   }
-  
-  // We don't include the form class in the token because we intentionally
-  // switch form classes in midstream. You can't learn the session ID from
-  // the cookie on your local box, so this is sufficient
+
+  /**
+   * We don't include the form class in the token because we intentionally
+   * switch form classes in midstream. You can't learn the session ID from
+   * the cookie on your local box, so this is sufficient
+   * @param mixed $secret
+   * @return mixed
+   */
   public function getCSRFToken($secret = null)
   {
     if (null === $secret)

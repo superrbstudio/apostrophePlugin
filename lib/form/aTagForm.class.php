@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    form
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aTagForm extends TagForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function setup()
   {
     parent::setup();
@@ -12,7 +20,11 @@ class aTagForm extends TagForm
 
     $this->useFields(array('name'));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   */
   public function updateObject($values = null)
   {
     if (is_null($values))

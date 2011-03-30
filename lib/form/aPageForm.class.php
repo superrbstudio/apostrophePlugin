@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aPage form.
- *
  * @package    ##PROJECT_NAME##
  * @subpackage form
  * @author     ##AUTHOR_NAME##
@@ -10,6 +9,10 @@
  */
 class aPageForm extends BaseaPageForm
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function configure()
   {
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');

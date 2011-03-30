@@ -1,10 +1,18 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaButtonSlotComponents extends aSlotComponents
 {
-	protected function getButtonMedia()
-	{
-		// We are going to return the media in both Normal and Edit View
+
+  /**
+   * DOCUMENT ME
+   */
+  protected function getButtonMedia()
+  {
+    // We are going to return the media in both Normal and Edit View
 
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
@@ -25,10 +33,13 @@ class BaseaButtonSlotComponents extends aSlotComponents
           "resizeType" => $this->options['resizeType']));
       $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
-	}
-	
-	protected function setupOptions()
-	{
+  }
+
+  /**
+   * DOCUMENT ME
+   */
+  protected function setupOptions()
+  {
     $this->options['constraints'] = $this->getOption('constraints', array());
     $this->options['width'] = $this->getOption('width', 440);
     $this->options['height'] = $this->getOption('height', false);
@@ -36,18 +47,21 @@ class BaseaButtonSlotComponents extends aSlotComponents
     $this->options['flexHeight'] = $this->getOption('flexHeight', true);
     $this->options['title'] = $this->getOption('title', false);
     $this->options['description'] = $this->getOption('description', true);
-		$this->options['link'] = $this->getOption('link', false);
-		$this->options['url'] = $this->getOption('link', false);
-		$this->options['rollover'] = $this->getOption('rollover', true);
-		$this->options['defaultImage'] = $this->getOption('defaultImage', false);
-		$this->options['itemTemplate'] = $this->getOption('itemTemplate', 'default');		
-		$this->options['image'] = $this->getOption('image', true);
-	}
-	
+    $this->options['link'] = $this->getOption('link', false);
+    $this->options['url'] = $this->getOption('link', false);
+    $this->options['rollover'] = $this->getOption('rollover', true);
+    $this->options['defaultImage'] = $this->getOption('defaultImage', false);
+    $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'default');    
+    $this->options['image'] = $this->getOption('image', true);
+  }
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     $this->setup();
-		$this->setupOptions();
+    $this->setupOptions();
     $this->options['width'] = 160;
     $this->options['height'] = 160;
 
@@ -71,14 +85,17 @@ class BaseaButtonSlotComponents extends aSlotComponents
       }
     }
 
-		$this->getButtonMedia();
+    $this->getButtonMedia();
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     // Mostly identical to aImage, but we have the URL to contend with too
     $this->setup();
-		$this->setupOptions();
+    $this->setupOptions();
 
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
@@ -89,28 +106,28 @@ class BaseaButtonSlotComponents extends aSlotComponents
     }
 
     if ($this->options['title'])
- 		{
-			if (isset($data['title']))
-    	{
-      	$this->options['title'] = $data['title'];
-    	}
-			else
-			{
-				$this->options['title'] = false;
-			}
-		}
+     {
+      if (isset($data['title']))
+      {
+        $this->options['title'] = $data['title'];
+      }
+      else
+      {
+        $this->options['title'] = false;
+      }
+    }
 
     if ($this->options['description'])
     {
-			if (isset($data['description'])) {
-      	$this->options['description'] = $data['description'];
-			}
-			else
-			{
-      	$this->options['description'] = false;				
-			}
+      if (isset($data['description'])) {
+        $this->options['description'] = $data['description'];
+      }
+      else
+      {
+        $this->options['description'] = false;        
+      }
     }
 
-		$this->getButtonMedia();				
+    $this->getButtonMedia();        
   }
 }

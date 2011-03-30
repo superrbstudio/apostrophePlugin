@@ -1,25 +1,46 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aSql
 {
   protected $pdo;
 
-  public function  __construct($pdo)
+  /**
+   * DOCUMENT ME
+   * @param mixed $pdo
+   */
+  public function __construct($pdo)
   {
     $this->pdo = $pdo;
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   protected function getPDO()
   {
     return $this->pdo;
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function deleteNonAdminPages()
   {
     $sql = 'DELETE FROM a_page where admin IS FALSE AND slug <> :g';
     $this->query($sql, array('g' => 'global'));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @param mixed $params
+   * @return mixed
+   */
   public function query($s, $params = array())
   {
     $pdo = $this->getPDO();
@@ -59,8 +80,8 @@ class aSql
     return $result;
   }
 
-
   /**
+   * 
    * Inserts a page from info array and updates the array with new fields
    * @param Array $info
    * @param string $title
@@ -116,8 +137,8 @@ class aSql
     return $info;    
   }
 
-
   /**
+   * 
    * Inserts an area with its slots
    * @param int $aPageId
    * @param string $name
@@ -165,6 +186,10 @@ class aSql
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $a
+   */
   public function fastSaveMediaItem($a)
   {
     $data = $a->toArray();
@@ -172,6 +197,12 @@ class aSql
     $a->id = $this->lastInsertId();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $taggable_model
+   * @param mixed $taggable_id
+   * @param mixed $tags
+   */
   public function fastSaveTags($taggable_model, $taggable_id , $tags)
   {
     // It would be faster to do fewer queries by caching what we know so far about tags
@@ -191,11 +222,20 @@ class aSql
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $aPageId
+   * @param mixed $name
+   */
   public function fastClearArea($aPageId, $name)
   {
     $this->query('DELETE FROM a_area WHERE name = :name AND page_id = :id', array('name' => $name, 'id' => $aPageId));
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function lastInsertId()
   {
     return $this->getPDO()->lastInsertId();

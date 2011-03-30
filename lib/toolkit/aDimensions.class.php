@@ -1,7 +1,20 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aDimensions
 {
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $originalWidth
+   * @param mixed $originalHeight
+   * @param mixed $originalFormat
+   * @param mixed $options
+   * @return mixed
+   */
   public static function constrain($originalWidth, $originalHeight, $originalFormat, $options)
   {
     if (!isset($options['width']))
@@ -14,10 +27,10 @@ class aDimensions
     }
     $width = $options['width'];
     $height = $options['height'];
-		if (($width === false) && ($height === false))
-		{
-			throw new sfException("Width and height can't both be false");
-		}
+    if (($width === false) && ($height === false))
+    {
+      throw new sfException("Width and height can't both be false");
+    }
     if (!isset($options['resizeType']))
     {
       throw new sfException("No resizeType parameter in options");
@@ -38,13 +51,13 @@ class aDimensions
       $cropHeight = floor($scalingFactor * $cropHeight);
     }
     
-		$eWidth = $width;
-		$eHeight = $height;
-		if (isset($cropWidth))
-		{
-			$eWidth = $cropWidth;
-			$eHeight = $cropHeight;
-		}
+    $eWidth = $width;
+    $eHeight = $height;
+    if (isset($cropWidth))
+    {
+      $eWidth = $cropWidth;
+      $eHeight = $cropHeight;
+    }
 
     if ($width === false)
     {
@@ -53,7 +66,7 @@ class aDimensions
     if ($height === false)
     {
       $height = ceil(($eWidth * $originalHeight) / $originalWidth);
-		}
+    }
 
     if (!(isset($options['forceScale']) && $options['forceScale']))
     {

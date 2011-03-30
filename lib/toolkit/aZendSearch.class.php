@@ -1,18 +1,35 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aZendSearch
 {
-  // Returns just the IDs. See addSearchQuery for a better method to use if you're
-  // pulling the actual objects from Doctrine. See searchLuceneWithScores if you
-  // need the actual scores so that you can merge results from searches of
-  // multiple tables
-  
+
+  /**
+   * Returns just the IDs. See addSearchQuery for a better method to use if you're
+   * pulling the actual objects from Doctrine. See searchLuceneWithScores if you
+   * need the actual scores so that you can merge results from searches of
+   * multiple tables
+   * @param Doctrine_Table $table
+   * @param mixed $luceneQuery
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function searchLucene(Doctrine_Table $table, $luceneQuery, $culture = null)
   {
     $raw = self::searchLuceneWithScores($table, $luceneQuery, $culture);
     return array_keys($raw);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @param mixed $luceneQueryString
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function searchLuceneWithScores(Doctrine_Table $table, $luceneQueryString, $culture = null)
   {
     $results = self::searchLuceneWithValues($table, $luceneQueryString, $culture);
@@ -23,7 +40,15 @@ class aZendSearch
     }
     return $nresults;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @param mixed $luceneQueryString
+   * @param mixed $culture
+   * @param mixed $andLuceneQuery
+   * @return mixed
+   */
   static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null, $andLuceneQuery = null)
    {
      // Ugh: UTF8 Lucene is case sensitive work around this
@@ -84,7 +109,15 @@ class aZendSearch
      }
      return $ids;
    }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @param Doctrine_Query $q
+   * @param mixed $luceneQuery
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function addSearchQuery(Doctrine_Table $table, Doctrine_Query $q = null, $luceneQuery, $culture = null)
   {
     $name = $table->getOption('name');
@@ -117,21 +150,28 @@ class aZendSearch
     return $q;
   }
 
-  // $scores becomes (assignment by reference) an associative array in which
-  // the keys are your object IDs and the values are scores from Lucene. This is
-  // useful in rare situations where you need to merge results from multiple
-  // Lucene searches and preserve their relative scores. It's also useful if you
-  // just want to display the scores.
-  //
-  // THIS ARRAY WILL CONTAIN EVERYTHING RETURNED BY LUCENE, which may include
-  // object IDs that are excluded by other parameters of your Doctrine search. Refer
-  // to your Doctrine results to determine which objects are relevant. Use 
-  // $resultsWithScores to look up the scores of those objects.
-  //
-  // If you specify null for $q, a doctrine query will be created for you.
-  // If you specify null for $culture, no culture will be specified in the
-  // Lucene query.
-  
+  /**
+   * $scores becomes (assignment by reference) an associative array in which
+   * the keys are your object IDs and the values are scores from Lucene. This is
+   * useful in rare situations where you need to merge results from multiple
+   * Lucene searches and preserve their relative scores. It's also useful if you
+   * just want to display the scores.
+   * 
+   * THIS ARRAY WILL CONTAIN EVERYTHING RETURNED BY LUCENE, which may include
+   * object IDs that are excluded by other parameters of your Doctrine search. Refer
+   * to your Doctrine results to determine which objects are relevant. Use
+   * $resultsWithScores to look up the scores of those objects.
+   * 
+   * If you specify null for $q, a doctrine query will be created for you.
+   * If you specify null for $culture, no culture will be specified in the
+   * Lucene query.
+   * @param Doctrine_Table $table
+   * @param Doctrine_Query $q
+   * @param mixed $luceneQuery
+   * @param mixed $culture
+   * @param mixed $scores
+   * @return mixed
+   */
   static public function addSearchQueryWithScores(Doctrine_Table $table, Doctrine_Query $q = null, $luceneQuery, $culture, &$scores)
   {
     $name = $table->getOption('name');
@@ -167,6 +207,10 @@ class aZendSearch
     return $q;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   */
   static public function purgeLuceneIndex(Doctrine_Table $table)
   {
     $file = $table->getLuceneIndexFile();
@@ -178,6 +222,11 @@ class aZendSearch
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @return mixed
+   */
   static public function rebuildLuceneIndex(Doctrine_Table $table)
   {
     self::purgeLuceneIndex($table);
@@ -193,7 +242,12 @@ class aZendSearch
 
     return $table->optimizeLuceneIndex();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @return mixed
+   */
   static public function optimizeLuceneIndex(Doctrine_Table $table)
   {
     $index = $table->getLuceneIndex();
@@ -201,15 +255,17 @@ class aZendSearch
     return $index->optimize();
   }
 
-  // If you're storing different search text for different cultures, but
-  // at delete time you want to trash ALL the cultures for this object,
-  // that's fine: just don't pass a culture to delete. That's appropriate
-  // if, for instance, you are deleting a page from a CMS entirely, all
-  // localizations included.
-
-  // If you do pass a culture this method will remove the object from the
-  // potential search results for that particular culture.
-
+  /**
+   * If you're storing different search text for different cultures, but
+   * at delete time you want to trash ALL the cultures for this object,
+   * that's fine: just don't pass a culture to delete. That's appropriate
+   * if, for instance, you are deleting a page from a CMS entirely, all
+   * localizations included.
+   * If you do pass a culture this method will remove the object from the
+   * potential search results for that particular culture.
+   * @param Doctrine_Record $object
+   * @param mixed $culture
+   */
   static public function deleteFromLuceneIndex(Doctrine_Record $object, $culture = null)
   {
     $index = $object->getTable()->getLuceneIndex();
@@ -247,18 +303,18 @@ class aZendSearch
     }
   }
 
-  // You can use this directly, but also see below for a wrapper that 
-  // saves in both doctrine and Zend, wrapping the whole thing
-  // in a Doctrine transaction and rolling back on any Lucene exceptions.
-
-  // The arguments are a bit messy for historical reasons (TODO: fix this in 2.0 with a nice options array).
-  // Note that Lucene is not your database.
-  
-  // For things that must be searchable, use $fields. For things that must be stored for display as part of the
-  // presentation of the search result, use $storedFields. Note that a searchable field is not stored for retrieval.
-  // IF YOU WISH TO HAVE IT BOTH WAYS, you must store the field under a DIFFERENT NAME than that used to
-  // index it, otherwise the storage overrides the indexing. Drove me nuts trying to figure this one out
-
+  /**
+   * You can use this directly, but also see below for a wrapper that
+   * saves in both doctrine and Zend, wrapping the whole thing
+   * in a Doctrine transaction and rolling back on any Lucene exceptions.
+   * The arguments are a bit messy for historical reasons (TODO: fix this in 2.0 with a nice options array).
+   * Note that Lucene is not your database.
+   * For things that must be searchable, use $fields. For things that must be stored for display as part of the
+   * presentation of the search result, use $storedFields. Note that a searchable field is not stored for retrieval.
+   * IF YOU WISH TO HAVE IT BOTH WAYS, you must store the field under a DIFFERENT NAME than that used to
+   * index it, otherwise the storage overrides the indexing. Drove me nuts trying to figure this one out
+   * @param mixed $options
+   */
   static public function updateLuceneIndex($options)
   {
     // NEW WAY: options as a single array
@@ -301,7 +357,7 @@ class aZendSearch
       $field = Zend_Search_Lucene_Field::UnStored($key, $value, 'UTF-8');
       if (isset($boostsByField[$key]))
       {
-      	$field->boost = $boostsByField[$key];
+        $field->boost = $boostsByField[$key];
       }
       $doc->addField($field);
     }
@@ -321,7 +377,7 @@ class aZendSearch
       $field = Zend_Search_Lucene_Field::Keyword($key, $value, 'UTF-8');
       if (isset($boostsByField[$key]))
       {
-      	$field->boost = $boostsByField[$key];
+        $field->boost = $boostsByField[$key];
       }
       $doc->addField($field);
     }
@@ -336,18 +392,22 @@ class aZendSearch
     $index->addDocument($doc);
     $index->commit();
   }
-  
-  // This does a clean job of saving the object in both doctrine and zend
-  // without a lot of duplicated code, reducing the potential for
-  // bugs. However if you use it your class must implement 
-  // doctrineSave($conn), which is usually just a trivial wrapper around
-  // a call to parent::save($conn). 
 
-  // "What if I need to save additional related objects to some other
-  // table as part of the save() operation for this object, and I want
-  // that to be part of the transaction?" Do those things in 
-  // your doctrineSave() method.
-
+  /**
+   * This does a clean job of saving the object in both doctrine and zend
+   * without a lot of duplicated code, reducing the potential for
+   * bugs. However if you use it your class must implement
+   * doctrineSave($conn), which is usually just a trivial wrapper around
+   * a call to parent::save($conn).
+   * "What if I need to save additional related objects to some other
+   * table as part of the save() operation for this object, and I want
+   * that to be part of the transaction?" Do those things in
+   * your doctrineSave() method.
+   * @param mixed $object
+   * @param mixed $culture
+   * @param Doctrine_Connection $conn
+   * @return mixed
+   */
   static public function saveInDoctrineAndLucene($object, $culture = null, Doctrine_Connection $conn = null)
   {
     $conn = $conn ? $conn : $object->getTable()->getConnection();
@@ -366,14 +426,19 @@ class aZendSearch
     }
   }
 
-  // This does a clean job of deleting the object from both doctrine and 
-  // zend without a lot of duplicated code, reducing the potential for
-  // bugs. However if you use it your class must implement 
-  // doctrineDelete($conn), which is a trivial wrapper around
-  // a call to parent::delete($conn) (unless you need to delete
-  // additional related objects from some other table perhaps, in
-  // which case you should do that work in doctrineDelete too).
-
+  /**
+   * This does a clean job of deleting the object from both doctrine and
+   * zend without a lot of duplicated code, reducing the potential for
+   * bugs. However if you use it your class must implement
+   * doctrineDelete($conn), which is a trivial wrapper around
+   * a call to parent::delete($conn) (unless you need to delete
+   * additional related objects from some other table perhaps, in
+   * which case you should do that work in doctrineDelete too).
+   * @param mixed $object
+   * @param mixed $culture
+   * @param Doctrine_Connection $conn
+   * @return mixed
+   */
   static public function deleteFromDoctrineAndLucene($object, $culture = null, Doctrine_Connection $conn = null)
   {
     $conn = $conn ? $conn : $object->getTable()->getConnection();
@@ -395,6 +460,11 @@ class aZendSearch
   // Implementation details
 
   static protected $zendLoaded = false;
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   static public function registerZend()
   {
     if (self::$zendLoaded)
@@ -429,6 +499,11 @@ class aZendSearch
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @return mixed
+   */
   static public function getLuceneIndex(Doctrine_Table $table)
   {
     self::registerZend();
@@ -445,7 +520,12 @@ class aZendSearch
       return Zend_Search_Lucene::create($index);
     }
   }
-   
+
+  /**
+   * DOCUMENT ME
+   * @param Doctrine_Table $table
+   * @return mixed
+   */
   static public function getLuceneIndexFile(Doctrine_Table $table)
   {
     return aFiles::getWritableDataFolder(array('zend_indexes')) .
@@ -453,6 +533,11 @@ class aZendSearch
       $table->getOption('name').'.'.sfConfig::get('sf_environment').'.index';
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $culture
+   * @return mixed
+   */
   static public function normalizeCulture($culture)
   {
     if (!strlen($culture))

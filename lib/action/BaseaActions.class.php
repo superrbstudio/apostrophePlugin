@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * a actions.
- *
  * @package    apostrophe
  * @subpackage a
  * @author     Your name here
@@ -10,15 +9,22 @@
  */
 class BaseaActions extends sfActions
 {
- /**
-  * Executes index action
-  *
-  * @param sfWebRequest $request A request object
-  */
+
+  /**
+   * 
+   * Executes index action
+   * @param sfWebRequest $request A request object
+   */
   public function executeIndex(sfWebRequest $request)
   {
     $this->forward('default', 'module');
   }
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeShow(sfWebRequest $request)
   {
     $slug = $this->getRequestParameter('slug');
@@ -26,15 +32,15 @@ class BaseaActions extends sfActions
     // remove trailing slashes from $slug
     $pattern = '/\/$/';
     if (preg_match($pattern, $slug) && ($slug != '/'))
-   	{
-    	sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
-    	
-	    $new_slug = preg_replace($pattern, '', $slug);
-	    $slug = addcslashes($slug, '/');
-		  $new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
-		
-	    $this->redirect($new_uri);
-	  }
+     {
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
+      
+      $new_slug = preg_replace($pattern, '', $slug);
+      $slug = addcslashes($slug, '/');
+      $new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
+    
+      $this->redirect($new_uri);
+    }
     
     if (substr($slug, 0, 1) !== '/')
     {
@@ -56,34 +62,54 @@ class BaseaActions extends sfActions
     $this->page = $page;
     $this->setTemplate($page->template);
 
-  	$tagstring = implode(',', $page->getTags());
-  	if (strlen($tagstring))
-  	{
-    	$this->getResponse()->addMeta('keywords', htmlspecialchars($tagstring));
+    $tagstring = implode(',', $page->getTags());
+    if (strlen($tagstring))
+    {
+      $this->getResponse()->addMeta('keywords', htmlspecialchars($tagstring));
     }
     if (strlen($page->getMetaDescription()))
     {
-  	  $this->getResponse()->addMeta('description', $page->getMetaDescription());
-  	}
+      $this->getResponse()->addMeta('description', $page->getMetaDescription());
+    }
 
     return 'Template';
   }
 
-	public function executeError404(sfWebRequest $request)
-	{
-		// Apostrophe Bundled 404 
-	}
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
+  public function executeError404(sfWebRequest $request)
+  {
+    // Apostrophe Bundled 404 
+  }
 
-	public function executeSecure(sfWebRequest $request)
-	{
-		// Apostrophe Bundled Secure
-	}
-  
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
+  public function executeSecure(sfWebRequest $request)
+  {
+    // Apostrophe Bundled Secure
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $parameter
+   * @param mixed $privilege
+   * @return mixed
+   */
   protected function retrievePageForEditingByIdParameter($parameter = 'id', $privilege = 'edit')
   {
     return $this->retrievePageForEditingById($this->getRequestParameter($parameter), $privilege);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $privilege
+   * @return mixed
+   */
   protected function retrievePageForEditingById($id, $privilege = 'edit')
   {
     $page = aPageTable::retrieveByIdWithSlots($id);
@@ -91,11 +117,23 @@ class BaseaActions extends sfActions
     return $page;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $parameter
+   * @param mixed $privilege
+   * @return mixed
+   */
   protected function retrievePageForEditingBySlugParameter($parameter = 'slug', $privilege = 'edit')
   {
     return $this->retrievePageForEditingBySlug($this->getRequestParameter($parameter), $privilege);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $slug
+   * @param mixed $privilege
+   * @return mixed
+   */
   protected function retrievePageForEditingBySlug($slug, $privilege = 'edit')
   {
     $page = aPageTable::retrieveBySlugWithSlots($slug);
@@ -103,32 +141,62 @@ class BaseaActions extends sfActions
     return $page;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $page
+   * @param mixed $privilege
+   */
   protected function validAndEditable($page, $privilege = 'edit')
   {
     $this->flunkUnless($page);
     $this->flunkUnless($page->userHasPrivilege($privilege));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSort(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-navcolumn');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSortTree(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-navcolumn');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSortTabs(sfWebRequest $request)
   {
     return $this->sortBodyWrapper('a-tab-nav-item', '/');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSortNav(sfWebRequest $request)
   {
     return $this->sortNavWrapper('a-tab-nav-item');
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $parameter
+   * @return mixed
+   */
   protected function sortNavWrapper($parameter)
   {
     $request = $this->getRequest();
@@ -142,6 +210,12 @@ class BaseaActions extends sfActions
     return sfView::NONE;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $parameter
+   * @param mixed $slug
+   * @return mixed
+   */
   protected function sortBodyWrapper($parameter, $slug = false)
   {
     $request = $this->getRequest();
@@ -176,6 +250,11 @@ class BaseaActions extends sfActions
     return sfView::NONE;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $parent
+   * @param mixed $order
+   */
   protected function sortBody($parent, $order)
   {
     // Lock the tree against race conditions
@@ -212,6 +291,11 @@ class BaseaActions extends sfActions
     $this->unlockTree();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeRename(sfWebRequest $request)
   {
     $page = $this->retrievePageForEditingByIdParameter();
@@ -231,6 +315,11 @@ class BaseaActions extends sfActions
     return $this->redirect($page->getUrl());
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeShowArchived(sfWebRequest $request)
   {
     $page = $this->retrievePageForEditingByIdParameter();
@@ -246,6 +335,9 @@ class BaseaActions extends sfActions
     return $this->redirect($page->getUrl());
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeHistory()
   {
     // Careful: if we don't build the query our way,
@@ -258,7 +350,11 @@ class BaseaActions extends sfActions
     $this->version = $page->getAreaCurrentVersion($this->name);
     $this->all = $all;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeAddSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
@@ -273,6 +369,10 @@ class BaseaActions extends sfActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeMoveSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
@@ -309,6 +409,10 @@ class BaseaActions extends sfActions
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeDeleteSlot(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
@@ -323,8 +427,11 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
   }
 
-  // TODO: refactor. This should probably move into aSlotActions and share more code with executeEdit
-  
+  /**
+   * TODO: refactor. This should probably move into aSlotActions and share more code with executeEdit
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSetVariant(sfWebRequest $request)
   {
     $page = $this->retrievePageForAreaEditing();
@@ -364,6 +471,10 @@ class BaseaActions extends sfActions
         'slot' => $slot));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeRevert(sfWebRequest $request)
   {
     $version = false;
@@ -394,11 +505,14 @@ class BaseaActions extends sfActions
     $this->cancel = ($subaction == 'cancel');
     $this->revert = ($subaction == 'revert');
   }
-  
-  // Rights to edit an area are determined at rendering time and then cached in the session.
-  // This allows an edit option to be passed to a_slot and a_area which is crucial for the
-  // proper functioning of virtual pages that edit areas related to concepts external to the
-  // CMS, such as user biographies
+
+  /**
+   * Rights to edit an area are determined at rendering time and then cached in the session.
+   * This allows an edit option to be passed to a_slot and a_area which is crucial for the
+   * proper functioning of virtual pages that edit areas related to concepts external to the
+   * CMS, such as user biographies
+   * @return mixed
+   */
   protected function retrievePageForAreaEditing()
   {
     $id = $this->getRequestParameter('id');
@@ -412,22 +526,27 @@ class BaseaActions extends sfActions
     return $page;
   }
 
-  // A REST API to aTools::slugify(), used when suggesting page slugs for new pages.
-  
-  // "Can't you just reimplement it in JavaScript?" No.
-  // some of the major browsers (*cough* IE) can't manipulate Unicode in regular expressions.
-  // Also two implementations mean our code will drift apart and introduce bugs
-  
-  // Returns a suitable slug for a new page component (i.e. based on a title).
-  // The browser appends this to the slug of the parent page to create its suggestion
-
+  /**
+   * A REST API to aTools::slugify(), used when suggesting page slugs for new pages.
+   * "Can't you just reimplement it in JavaScript?" No.
+   * some of the major browsers (*cough* IE) can't manipulate Unicode in regular expressions.
+   * Also two implementations mean our code will drift apart and introduce bugs
+   * Returns a suitable slug for a new page component (i.e. based on a title).
+   * The browser appends this to the slug of the parent page to create its suggestion
+   * @param sfWebRequest $request
+   */
   public function executeSlugify(sfWebRequest $request)
   {
     $slug = $request->getParameter('slug');
     $this->slug = aTools::slugify($slug, false);
     $this->setLayout(false);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSettings(sfWebRequest $request)
   {
     $this->lockTree();
@@ -452,9 +571,9 @@ class BaseaActions extends sfActions
     }
     
     // get the form and page tags
-		$this->stem = $this->page->isNew() ? 'a-create-page' : 'a-page-settings';
+    $this->stem = $this->page->isNew() ? 'a-create-page' : 'a-page-settings';
     $this->form = new aPageSettingsForm($this->page, $this->parent);
-	
+  
     $mainFormValid = false;
     
     $engine = $this->page->engine;
@@ -566,7 +685,11 @@ class BaseaActions extends sfActions
     }
     $this->unlockTree();  
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeEngineSettings(sfWebRequest $request)
   {
     $id = $request->getParameter('id');
@@ -604,7 +727,11 @@ class BaseaActions extends sfActions
       }
     }    
   }
-    
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function executeDelete()
   {
     $this->lockTree();
@@ -625,7 +752,12 @@ class BaseaActions extends sfActions
     
     return $this->redirect($parent->getUrl());
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeSearch(sfWebRequest $request)
   {
     $now = date('YmdHis');
@@ -738,7 +870,13 @@ class BaseaActions extends sfActions
     $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
     $this->results = $this->pager->getResults();
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $values
+   * @param mixed $q
+   * @return mixed
+   */
   protected function searchAddResults(&$values, $q)
   {
     // $values is the set of results so far, passed by reference so you can append more.
@@ -773,7 +911,13 @@ class BaseaActions extends sfActions
     // IF YOU CHANGE THE $values ARRAY you must return true, otherwise it will not be sorted by score.
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $i1
+   * @param mixed $i2
+   * @return mixed
+   */
   static public function compareScores($i1, $i2)
   {
     // You can't just use - when comparing non-integers. Oops.
@@ -790,7 +934,11 @@ class BaseaActions extends sfActions
       return 0;
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeReorganize(sfWebRequest $request)
   {
     
@@ -806,6 +954,11 @@ class BaseaActions extends sfActions
     $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize' . aTools::getOptionI18n('title_suffix'));
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $request
+   * @return mixed
+   */
   public function executeTreeMove($request)
   {
     $this->lockTree();
@@ -868,7 +1021,12 @@ class BaseaActions extends sfActions
     echo("ok");
     return sfView::NONE;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $parents
+   * @return mixed
+   */
   protected function getParentClasses($parents)
   {
     $result = '';
@@ -887,7 +1045,14 @@ class BaseaActions extends sfActions
     }
     return $result;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $lastPage
+   * @param mixed $parents
+   * @param mixed $minusLevels
+   * @return mixed
+   */
   protected function generateAfterPageInfo($lastPage, $parents, $minusLevels)
   {
     $pageInfo = array();
@@ -897,7 +1062,12 @@ class BaseaActions extends sfActions
     $pageInfo['class'] = 'pagetree-after ' . $this->getParentClasses($parents);
     return $pageInfo;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $condition
+   * @return mixed
+   */
   protected function flunkUnless($condition)
   {
     if ($condition)
@@ -908,16 +1078,22 @@ class BaseaActions extends sfActions
     $this->unlockTree();
     $this->forward('a', 'cleanSignin');
   }
-  
-  // Do NOT use these as the default signin actions. They are special-purpose
-  // ajax/iframe breakers for use in forcing the user back to the login page
-  // when they try to do an ajax action after timing out.
-  
+
+  /**
+   * Do NOT use these as the default signin actions. They are special-purpose
+   * ajax/iframe breakers for use in forcing the user back to the login page
+   * when they try to do an ajax action after timing out.
+   * @param sfWebRequest $request
+   */
   public function executeCleanSignin(sfWebRequest $request)
   {
     // Template is a frame/ajax breaker, redirects to phase 2
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
   public function executeCleanSigninPhase2(sfWebRequest $request)
   {
     $this->getRequest()->isXmlHttpRequest();
@@ -941,7 +1117,12 @@ class BaseaActions extends sfActions
     header("Location: $url");
     exit(0);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
   public function executeLanguage(sfWebRequest $request)
   {
     $this->form = new aLanguageForm(null, array('languages' => sfConfig::get('app_a_i18n_languages')));
@@ -963,14 +1144,18 @@ class BaseaActions extends sfActions
   
   protected $lockfp;
 
-  // These have been refactored
+  /**
+   * These have been refactored
+   */
   protected function lockTree()
   {
     aTools::lock('tree');
   }
-  
-  // It's OK to call this if there is no lock.
-  // Eases its use in calls like flunkUnless
+
+  /**
+   * It's OK to call this if there is no lock.
+   * Eases its use in calls like flunkUnless
+   */
   protected function unlockTree()
   {
     aTools::unlock();

@@ -1,9 +1,8 @@
 <?php
-
 /**
+ * 
  * sfValidatorHtml validates an HTML string. It also converts the input value to a string.
  * It utilizes aHtml::simplify
- *
  * @package    symfony
  * @subpackage validator
  * @author     Alex Gilbert <alex@punkave.com>
@@ -12,12 +11,12 @@
  */
 class sfValidatorHtml extends sfValidatorString
 {
+
   /**
+   * 
    * Configures the current validator.
-   *
    * @param array $options   An array of options
    * @param array $messages  An array of error messages
-   *
    * @see sfValidatorBase
    */
   protected function configure($options = array(), $messages = array())
@@ -38,7 +37,10 @@ class sfValidatorHtml extends sfValidatorString
   }
 
   /**
+   * 
    * @see sfValidatorBase
+   * @param mixed $value
+   * @return mixed
    */
   protected function doClean($value)
   {
@@ -57,8 +59,12 @@ class sfValidatorHtml extends sfValidatorString
     
     return $clean;
   }
-  
-  // aHtml::simplify uses false to skip things, not null
+
+  /**
+   * aHtml::simplify uses false to skip things, not null
+   * @param mixed $s
+   * @return mixed
+   */
   protected function getOptionOrFalse($s)
   {
     $option = $this->getOption($s);

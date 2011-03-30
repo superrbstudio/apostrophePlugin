@@ -1,37 +1,29 @@
 <?php
-
-/*
+/**
+ * 
  * This was borrowed from sfFormExtrasPlugin to avoid introducing a new plugin dependency
  * in a minor revision. -Tom
- *
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */
-
-/**
+ * 
  * sfFormLanguage is a form to change the symfony user culture.
- *
  * Usage:
- *
  * class mainActions extends sfActions
  * {
- *   public function executeChangeLanguage($request)
- *   {
- *     $this->form = new sfFormLanguage($this->getUser(), array('languages' => array('en', 'fr')));
- *     if ($this->form->process($request))
- *     {
- *       // culture has changed
- *       return $this->redirect('@homepage');
- *     }
- *
- *     // the form is not valid (can't happen... but you never know)
- *     return $this->redirect('@homepage');
- *   }
+ * public function executeChangeLanguage($request)
+ * {
+ * $this->form = new sfFormLanguage($this->getUser(), array('languages' => array('en', 'fr')));
+ * if ($this->form->process($request))
+ * {
+ * culture has changed
+ * return $this->redirect('@homepage');
  * }
- *
+ * the form is not valid (can't happen... but you never know)
+ * return $this->redirect('@homepage');
+ * }
+ * }
  * @package    symfony
  * @subpackage form
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -43,12 +35,11 @@ class BaseaLanguageForm extends BaseForm
     $user = null;
 
   /**
+   * 
    * Constructor.
-   *
    * @param sfUser A sfUser instance
    * @param array  An array of options
    * @param string A CSRF secret (false to disable CSRF protection, null to use the global CSRF secret)
-   *
    * @see sfForm
    */
   public function __construct(sfUser $user = null, $options = array(), $CSRFSecret = null)
@@ -72,6 +63,7 @@ class BaseaLanguageForm extends BaseForm
   }
 
   /**
+   * 
    * Changes the current user culture.
    */
   public function save()
@@ -80,10 +72,9 @@ class BaseaLanguageForm extends BaseForm
   }
 
   /**
+   * 
    * Processes the current request.
-   *
    * @param  sfRequest A sfRequest instance
-   *
    * @return Boolean   true if the form is valid, false otherwise
    */
   public function process(sfRequest $request)
@@ -105,6 +96,7 @@ class BaseaLanguageForm extends BaseForm
   }
 
   /**
+   * 
    * @see sfForm
    */
   public function configure()

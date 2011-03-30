@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aMediaImporter
 {
   // dir option must be the path to the folder to be imported. Note that the contents
@@ -13,7 +17,11 @@ class aMediaImporter
   
   public $feedback;
   public $dir;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $options
+   */
   public function __construct($options = array())
   {
     if (!isset($options['feedback']))
@@ -27,7 +35,10 @@ class aMediaImporter
     }
     $this->dir = $options['dir'];
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function go()
   {
     $dir_iterator = new RecursiveDirectoryIterator($this->dir);
@@ -121,7 +132,13 @@ class aMediaImporter
     }
     $this->giveFeedback("total", $count);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $category
+   * @param mixed $message
+   * @param mixed $file
+   */
   public function giveFeedback($category, $message, $file = null)
   {
     // Yes it IS silly that 'callable' arrays don't work as variable functions grr

@@ -1,47 +1,63 @@
 <?php
-
-/*
- * Associative array access to CSV data. 
- *
+/**
+ * 
+ * Associative array access to CSV data.
  * Usage:
- *
- *
+ * *
  * try {
- *   $reader = new aCsvReader("filename.csv");
+ * $reader = new aCsvReader("filename.csv");
  * } catch (Exception $e) {
- *   die("Not a happy CSV file!\n");
+ * die("Not a happy CSV file!\n");
  * }
- *
  * # Get array of heading names found
  * $headings = $reader->getHeadings();
- *
  * # Loop through rows, doing something with a field by heading name
  * while ($row = $reader->getRow()) {
- *   echo("Name of User: " . $row['name'] . "\n");
+ * echo("Name of User: " . $row['name'] . "\n");
  * }
- *
+ * 
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-
-
 class aCsvFileOpenException extends Exception
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
     parent::__construct("Unable to open csv file");
   }
-}
-
+}/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aCsvNoHeadingsException extends Exception
 {
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
     parent::__construct("No headings in CSV file (empty file?)");
   }
-}
-
+}/**
+ * @package    apostrophePlugin
+ * @subpackage    toolkit
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aCsvReader 
 {
   private $in;
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $file
+   */
   public function __construct($file) 
   {
     $this->in = fopen($file, "r");
@@ -54,10 +70,20 @@ class aCsvReader
     }
     $this->headings = $headings;
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getHeadings()
   {
     return $this->headings;
   }
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getRow() { 
     $data = fgetcsv($this->in);
     if ($data === false) {

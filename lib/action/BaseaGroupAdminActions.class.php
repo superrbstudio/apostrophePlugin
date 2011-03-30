@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aGroupAdmin actions.
- *
  * @package    sfShibbolethPlugin
  * @subpackage aGroupAdmin
  * @author     Fabien Potencier

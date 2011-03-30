@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    embedService
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class aSlideShare extends aEmbedService
 {
   protected $features = null;
@@ -8,7 +12,9 @@ class aSlideShare extends aEmbedService
   protected $sharedSecret = null;
   protected $showTypes = null;
 
-  // Constructor for aSlideShare (obtains API key and shared secret)
+  /**
+   * Constructor for aSlideShare (obtains API key and shared secret)
+   */
   public function __construct()
   {
     $settings = sfConfig::get('app_a_slideshare');
@@ -38,6 +44,10 @@ class aSlideShare extends aEmbedService
     }
   }
 
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configured()
   {
     if (isset($this->apiKey) && isset($this->sharedSecret))
@@ -47,17 +57,33 @@ class aSlideShare extends aEmbedService
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function configurationHelpUrl()
   {
     return 'http://trac.apostrophenow.org/wiki/EmbedSlideShare';
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $feature
+   * @return mixed
+   */
   public function supports($feature)
   {
     return in_array($feature, $this->features);
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $q
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function search($q, $page=1, $perPage=50)
   {
     $call = 'search_slideshows';
@@ -65,7 +91,14 @@ class aSlideShare extends aEmbedService
     
     return $this->searchApi($call, $params);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @param mixed $page
+   * @param mixed $perPage
+   * @return mixed
+   */
   public function browseUser($user, $page=1, $perPage=50)
   {
     $call = 'get_slideshows_by_user';
@@ -74,13 +107,23 @@ class aSlideShare extends aEmbedService
     
     return $this->searchApi($call, $params, true);
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $user
+   * @return mixed
+   */
   public function getUserInfo($user)
   {
     // SlideShare has no API call to retrieve user information (only their groups, slideshows, and contacts)
     return array('name' => $user, 'description' => '');
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getInfo($id)
   {
     $data = $this->getSlideInfo($id);
@@ -98,6 +141,16 @@ class aSlideShare extends aEmbedService
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @param mixed $width
+   * @param mixed $height
+   * @param mixed $title
+   * @param mixed $wmode
+   * @param mixed $autoplay
+   * @return mixed
+   */
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
     $slideInfo = $this->getSlideInfo($id);
@@ -120,6 +173,11 @@ EOT;
     return false;
 }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $url
+   * @return mixed
+   */
   public function getIdFromUrl($url)
   {    
     // Apostrophe calls both this and the getIdFromEmbed method,
@@ -153,6 +211,11 @@ EOT;
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getUrlFromId($id)
   {
     $slideInfo = $this->getSlideInfo($id);
@@ -165,6 +228,11 @@ EOT;
     return false;
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $embed
+   * @return mixed
+   */
   public function getIdFromEmbed($embed)
   {
     if (preg_match('/__sse(\d+)/', $embed, $matches))
@@ -174,7 +242,12 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $id
+   * @return mixed
+   */
   public function getThumbnail($id)
   {
     $slideInfo = $this->getSlideInfo($id);
@@ -186,13 +259,22 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
   public function getName()
   {
     return 'SlideShare';
   }
-  
-  // This is the only function that actually talks to the SlideShare API
+
+  /**
+   * This is the only function that actually talks to the SlideShare API
+   * @param mixed $call
+   * @param mixed $params
+   * @return mixed
+   */
   private function getData($call, $params=array())
   {
     $timeStamp = time();
@@ -219,7 +301,14 @@ EOT;
     
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $call
+   * @param mixed $params
+   * @param mixed $browseUser
+   * @return mixed
+   */
   private function searchApi($call, $params, $browseUser=false)
   {
     $slideshowInfo = array();
@@ -251,8 +340,12 @@ EOT;
       return array('total' => (int) $data->Meta->TotalResults, 'results' => $slideshowInfo);
     }
   }
-  
-  // Will retrieve slideshow from given ID or URL (intelligently decides which to use)
+
+  /**
+   * Will retrieve slideshow from given ID or URL (intelligently decides which to use)
+   * @param mixed $id
+   * @return mixed
+   */
   private function getSlideInfo($id)
   {
     // Check if we have the media cached before hitting the API

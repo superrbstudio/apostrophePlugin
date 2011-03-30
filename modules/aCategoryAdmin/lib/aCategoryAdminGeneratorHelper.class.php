@@ -1,8 +1,7 @@
 <?php
-
 /**
+ * 
  * aCategoryAdmin module helper.
- *
  * @package    a
  * @subpackage aCategoryAdmin
  * @author     Your name here
@@ -11,6 +10,10 @@
 class aCategoryAdminGeneratorHelper extends BaseaCategoryAdminGeneratorHelper
 {
   public $counts;
+
+  /**
+   * DOCUMENT ME
+   */
   public function __construct()
   {
     $event = new sfEvent(null, 'a.get_count_by_category');
@@ -18,6 +21,12 @@ class aCategoryAdminGeneratorHelper extends BaseaCategoryAdminGeneratorHelper
     $this->counts = $event->getReturnValue();
   }
 
+  /**
+   * DOCUMENT ME
+   * @param mixed $class
+   * @param mixed $category_id
+   * @return mixed
+   */
   public function getCount($class, $category_id)
   {
     return isset($this->counts[$class]['counts'][$category_id]['count'])? $this->counts[$class]['counts'][$category_id]['count'] : 0;

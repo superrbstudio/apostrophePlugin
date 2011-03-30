@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * @package    apostrophePlugin
+ * @subpackage    task
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class apostropheMigrateTask extends sfBaseTask
 {
+
+  /**
+   * DOCUMENT ME
+   */
   protected function configure()
   {
 
@@ -28,7 +36,12 @@ EOF;
   }
 
   protected $migrate;
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $arguments
+   * @param mixed $options
+   */
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -213,14 +226,14 @@ but why take chances with your data?
     // Upgrade all charsets to UTF-8 otherwise we can't store a lot of what comes back from embed services
     $this->migrate->upgradeCharsets();
     
-		
+    
     // We can add these constraints now that we have IDs of the right size
     if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
     {
       $this->migrate->sql(array(
-				// IDs of a_media_item_to_category might still be too small because we forgot the constraints at first
-				'ALTER TABLE a_media_item_to_category MODIFY COLUMN category_id BIGINT',					
-				'ALTER TABLE a_media_item_to_category MODIFY COLUMN media_item_id BIGINT',
+        // IDs of a_media_item_to_category might still be too small because we forgot the constraints at first
+        'ALTER TABLE a_media_item_to_category MODIFY COLUMN category_id BIGINT',          
+        'ALTER TABLE a_media_item_to_category MODIFY COLUMN media_item_id BIGINT',
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE"));
     }
@@ -230,16 +243,16 @@ but why take chances with your data?
     {
       $this->migrate->sql(array(
         'ALTER TABLE sf_guard_user ADD COLUMN first_name varchar(255) DEFAULT NULL',
-  		  'ALTER TABLE sf_guard_user ADD COLUMN last_name varchar(255) DEFAULT NULL',
-  		  'ALTER TABLE sf_guard_user ADD COLUMN email_address varchar(255) DEFAULT \'\''
-  		));
-  		// Email addresses are mandatory and can't be null. We can't start guessing whether
-  		// you have them in some other table or not. So the best we can do is stub in 
-  		// the username for uniqueness for now
-  		$this->migrate->sql(array(
-  		  'UPDATE sf_guard_user SET email_address = concat(username, \'@notavalidaddress\')',
-  		  'ALTER TABLE sf_guard_user ADD UNIQUE KEY `email_address` (`email_address`);'
-  		));
+        'ALTER TABLE sf_guard_user ADD COLUMN last_name varchar(255) DEFAULT NULL',
+        'ALTER TABLE sf_guard_user ADD COLUMN email_address varchar(255) DEFAULT \'\''
+      ));
+      // Email addresses are mandatory and can't be null. We can't start guessing whether
+      // you have them in some other table or not. So the best we can do is stub in 
+      // the username for uniqueness for now
+      $this->migrate->sql(array(
+        'UPDATE sf_guard_user SET email_address = concat(username, \'@notavalidaddress\')',
+        'ALTER TABLE sf_guard_user ADD UNIQUE KEY `email_address` (`email_address`);'
+      ));
     }
     if (!$this->migrate->tableExists('sf_guard_forgot_password'))
     {

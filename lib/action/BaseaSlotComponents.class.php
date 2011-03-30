@@ -1,10 +1,17 @@
 <?php
-
-// Base class for Apostrophe CMS slot component classes
-
+/**
+ * Base class for Apostrophe CMS slot component classes
+ * @package    apostrophePlugin
+ * @subpackage    action
+ * @author     P'unk Avenue <apostrophe@punkave.com>
+ */
 class BaseaSlotComponents extends sfComponents
 {
   static protected $originalOptionsCache = array();
+
+  /**
+   * DOCUMENT ME
+   */
   protected function setup()
   {
     if (!isset($this->options))
@@ -119,12 +126,22 @@ class BaseaSlotComponents extends sfComponents
       $this->form = $this->validationData['form'];
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeSlot()
   {
     // Sadly components have no preExecute method
     $this->setup();
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @param mixed $default
+   * @return mixed
+   */
   protected function getOption($name, $default = false)
   {
     if (isset($this->options[$name]))
@@ -136,6 +153,13 @@ class BaseaSlotComponents extends sfComponents
       return $default;
     }
   }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $name
+   * @param mixed $default
+   * @return mixed
+   */
   protected function getValidationData($name, $default = false)
   {
     if (isset($this->validationData[$name]))
@@ -147,12 +171,18 @@ class BaseaSlotComponents extends sfComponents
       return $default;
     }
   }
-  
+
+  /**
+   * DOCUMENT ME
+   */
   public function executeEditView()
   {
     $this->setup();
   }
 
+  /**
+   * DOCUMENT ME
+   */
   public function executeNormalView()
   {
     $this->setup();

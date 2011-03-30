@@ -1,26 +1,27 @@
 <?php
-
-// Copyright 2009 P'unk Ave, LLC. Released under the MIT license.
-
 /**
+ * Copyright 2009 P'unk Ave, LLC. Released under the MIT license.
+ * 
  * aWidgetFormInputFilePersistent represents an upload HTML input tag
- * that doesn't lose its contents when the form is redisplayed due to 
+ * that doesn't lose its contents when the form is redisplayed due to
  * a validation error in an unrelated field. Instead, the previously
  * submitted and successfully validated file is kept in a cache
  * managed on behalf of each user, and automatically reused if the
  * user doesn't choose to upload a new file but rather simply corrects
  * other fields and resubmits.
+ * @package    apostrophePlugin
+ * @subpackage    widget
+ * @author     P'unk Avenue <apostrophe@punkave.com>
  */
 class aWidgetFormInputFilePersistent extends sfWidgetForm
 {
-  
+
   /**
+   * 
    * @param array $options     An array of options
    * @param array $attributes  An array of default HTML attributes
-   *
    * @see sfWidgetFormInput
-   *
-   *
+   * *
    * In reality builds an array of two controls using the [] form field
    * name syntax
    */
@@ -39,19 +40,17 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
   }
 
   /**
+   * 
    * @param  string $name        The element name
    * @param  string $value       The value displayed in this widget
-   *                             (i.e. the browser-side filename submitted
-   *                             on a previous partially successful
-   *                             validation of this form)
+   * (i.e. the browser-side filename submitted
+   * on a previous partially successful
+   * validation of this form)
    * @param  array  $attributes  An array of HTML attributes to be merged with the default HTML attributes
    * @param  array  $errors      An array of errors for the field
-   *
    * @return string An HTML tag string
-   *
    * @see sfWidgetForm
    */
-
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
     list($exists, $persistid, $extension) = $this->getExistsPersistidAndExtension($value);
@@ -93,13 +92,24 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
           'name' => $name . '[persistid]',
           'value' => $persistid));
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @return mixed
+   */
   public function getFormat($value)
   {
     list($exists, $persistid, $extension) = $this->getExistsPersistidAndExtension($value);
     return $extension;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @param mixed $imagePreview
+   * @return mixed
+   */
   public function getPreviewUrl($value, $imagePreview = array())
   {
     list($exists, $persistid, $extension) = $this->getExistsPersistidAndExtension($value);
@@ -181,7 +191,12 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
     }
     return false;
   }
-  
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $value
+   * @return mixed
+   */
   protected function getExistsPersistidAndExtension($value)
   {
     // TODO: should cache this
