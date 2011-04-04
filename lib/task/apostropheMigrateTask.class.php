@@ -114,7 +114,32 @@ but why take chances with your data?
         'CREATE TABLE a_group_access (id BIGINT AUTO_INCREMENT, page_id INT, privilege VARCHAR(100), group_id INT, INDEX pageindex_idx (page_id), INDEX group_id_idx (group_id), PRIMARY KEY(id)) ENGINE = INNODB;',
         'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_page_id_a_page_id FOREIGN KEY (page_id) REFERENCES a_page(id) ON DELETE CASCADE;',
         'ALTER TABLE a_group_access ADD CONSTRAINT a_group_access_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE;',
-        'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;'));
+        'INSERT INTO sf_guard_permission (name, description) VALUES ("editor", "For groups that will be granted editing privileges at some point in the site") ON DUPLICATE KEY UPDATE id = id;',
+        ));
+    }
+    $viewLocked = sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked');
+    // If they haven't customized it make sure it exists. Some pkContextCMS sites might not have it
+    if ($viewLocked === 'view_locked')
+    {
+      $permission = Doctrine::getTable('sfGuardPermission')->findOneByName($viewLocked);
+      if (!$permission)
+      {
+        $permission = new sfGuardPermission();
+        $permission->setName('view_locked');
+        $permission->save();
+        $groups = array('editor', 'admin');
+        foreach ($groups as $group)
+        {
+          $g = Doctrine::getTable('sfGuardGroup')->findOneByName($group);
+          if ($g)
+          {
+            $pg = new sfGuardGroupPermission();
+            $pg->setGroupId($g->id);
+            $pg->setPermissionId($permission->id);
+            $pg->save();
+          }
+        }
+      }
     }
     if ((!$this->migrate->tableExists('a_category')) || (!$this->migrate->tableExists('a_category_group')))
     {
