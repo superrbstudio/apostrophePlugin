@@ -42,7 +42,11 @@ class aRouteTools
     return $remainder;
   }
   
-  protected static $targetEnginePages = array();
+  /**
+   * Actually page slugs, not page objects
+   */
+   
+  protected static $targetEnginePageSlugs = array();
 
   /**
    *
@@ -83,19 +87,19 @@ class aRouteTools
   {
     if (!(is_object($page) && ($page instanceof aPage)))
     {
+      $slug = $page;
       if(is_null($engine))
       {
         $page = aPageTable::retrieveBySlug($page);
         $engine = $page->engine;
       }
-      $slug = $page;
     }
     else
     {
       $slug = $page->slug;
       $engine = $page->engine;
     }
-    self::$targetEnginePages[$engine][] = $slug;
+    self::$targetEnginePageSlugs[$engine][] = $slug;
   }
 
   /**
@@ -105,7 +109,7 @@ class aRouteTools
    */
   static public function pushTargetEngineSlug($slug, $engine)
   {
-    self::$targetEnginePages[$engine][] = $slug;
+    self::$targetEnginePageSlugs[$engine][] = $slug;
   }
 
   /**
@@ -129,7 +133,7 @@ class aRouteTools
    */
   static public function popTargetEngine($engine)
   {
-    array_pop(self::$targetEnginePages[$engine]);
+    array_pop(self::$targetEnginePageSlugs[$engine]);
   }
   
   /**
@@ -148,9 +152,9 @@ class aRouteTools
     $defaults = $route->getDefaults();
     $currentPage = aTools::getCurrentPage();
     $engine = $defaults['module'];
-    if (isset(self::$targetEnginePages[$engine]) && count(self::$targetEnginePages[$engine]))
+    if (isset(self::$targetEnginePageSlugs[$engine]) && count(self::$targetEnginePageSlugs[$engine]))
     {
-      return end(self::$targetEnginePages[$engine]);
+      return end(self::$targetEnginePageSlugs[$engine]);
     }
     elseif (($currentPage) && ($currentPage->engine === $defaults['module']))
     {
