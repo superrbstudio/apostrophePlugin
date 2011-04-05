@@ -247,9 +247,10 @@ echo("after\n");
       echo("Warning: couldn't create a_media_item_to_category table\n");
     }
     
-    
     $count = 0;
-    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
+    // Avoid a wildcard select here because we could be missing columns that plugins
+    // are going to add at this stage of play. Get the columns we need only
+    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->select('s.id, s.type, s.value')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
     $total = count($mediaSlots);
     foreach ($mediaSlots as $mediaSlot)
     {

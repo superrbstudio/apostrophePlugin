@@ -14,7 +14,7 @@ class apostropheMigrateTask extends sfBaseTask
   {
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('force', false, sfCommandOption::PARAMETER_NONE, 'No prompts'),
@@ -44,6 +44,8 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
+    // We need a basic context so we can notify events
+    $context = sfContext::createInstance($this->configuration);
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
@@ -312,6 +314,9 @@ but why take chances with your data?
     $this->migrate->sql(array(
       'UPDATE tag SET name = replace(name, "/", "-")'
     ));
+  
+    // A chance to make plugin- and project-specific additions to the schema before Doctrine queries fail to see them
+    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this->migrate, "a.migrateSchemaAdditions"));
     
     $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
     if (!$mediaEnginePage)
