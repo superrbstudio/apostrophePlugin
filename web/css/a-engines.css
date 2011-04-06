@@ -640,7 +640,7 @@ padding: 0;
 
 .a-media-select-overlay .label { display: block; line-height: 36px; position: absolute; top: 50%; margin-top: -18px; left: 0; width: 100%; text-align: center; }
 
-.a-media-select-overlay .label-wrapper { padding: 10px; position: relative; overflow: hidden; overflow: visible; background-color: rgba(0,0,0,.5);border: 1px solid rgba(255,255,255,0.75); -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; }
+.a-media-select-overlay .label-wrapper { padding: 10px; position: relative; overflow: hidden; overflow: visible; background-color: rgba(0,0,0,.5);border: 1px solid rgba(255,255,255,0.75); -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; color: #fff; }
 
 .a-media-select-overlay .label .icon { background: url(/apostrophePlugin/images/a-media-play-video.png) 100% 0 no-repeat; overflow: hidden; padding-left: 4px; line-height: 1px; padding:9.5px 0; font-size: 0;	vertical-align: middle;	position: relative; top: -1px; left: 2px; }
 
@@ -648,6 +648,8 @@ padding: 0;
 
 .a-media-select-overlay a:hover,
 .a-media-select-overlay a:focus { text-decoration: none;}
+
+.a-media-select-overlay a:hover .label { color: #fff; }
 
 .a-media-select-overlay:hover { background: rgba(255,255,255,0.05); }
 
