@@ -1,9 +1,9 @@
 /* Areas and Slots */
 /* Controls for Areas & Slots */
 /* Singlton Slot Controls */
-/* aOptions for Areas & Slots :: aOptions is in a-components.css 
+/* aOptions for Areas & Slots :: aOptions is in a-components.css
 /* aOptions for Slot Variants :: aOptions is in a-components.css
-/* aOptions for Slot Edit Forms :: aOptions is in a-components.css 
+/* aOptions for Slot Edit Forms :: aOptions is in a-components.css
 /* aSlideshow Slot Styles */
 /* aButton Slot Styles  */
 /* aImage Slot Styles  */
@@ -14,7 +14,7 @@
 /* aPDF Slot No Label */
 /* aPDF Slot Compact */
 /* aPDF Slot Compact with Preview */
-/* aSlot Content Styles 
+/* aSlot Content Styles
 /* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
 /* Misc
 
@@ -22,7 +22,7 @@
 /* Areas and Slots
 -------------------------------------*/
 
-/* Area Information:  
+/* Area Information:
 /* .a-area wraps .a-slots */
 /* .a-slots wraps all slots, .a-slot */
 /* .a-slot wraps .a-slot-content */
@@ -44,7 +44,7 @@
 .a-ui.a-controls { margin: 0; padding: 0; list-style: none; clear: both; }
 
 .a-ui .a-controls li,
-.a-ui.a-controls li 
+.a-ui.a-controls li
 { /* All controls buttons are wrapped in a list. */
 float: left;
 clear: none;
@@ -85,11 +85,11 @@ list-style: none;
 .a-area.singleton.aEventSingle > .a-controls { position: relative; margin-bottom: 0; } /* Some Singleton Slots don't want Area Controls to sit on top of their content */
 
 
-/* aOptions for Areas & Slots :: aOptions is in a-components.css 
+/* aOptions for Areas & Slots :: aOptions is in a-components.css
 -------------------------------------------------------------------- */
 .a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
 .a-ui .a-options.a-area-options .a-options-item,
-.a-ui .a-options.a-area-options .a-options-item.last { 
+.a-ui .a-options.a-area-options .a-options-item.last {
 width: 100%;
 float: left;
 clear: both;
@@ -101,17 +101,17 @@ list-style: none;
 /* aOptions for Slot Variants :: aOptions is in a-components.css
 -------------------------------------------------------------------- */
 ul.a-controls .a-controls-item.variant.a-options-open .a-variant-options
-{ 
+{
 width: auto;
 display: block;
 }
 
 ul.a-controls .a-variant-options.loading
-{ 
+{
 background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
-/* aOptions for Slot Edit Forms :: aOptions is in a-components.css 
+/* aOptions for Slot Edit Forms :: aOptions is in a-components.css
 -------------------------------------------------------------------- */
 .a-ui.a-options.a-slot-form { width: 100%; top: -27px; left:-5px; padding:30px 5px 5px; overflow: visible;}
 
@@ -124,7 +124,7 @@ background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-re
 .a-ui.a-options.a-slot-form .a-form-field { float: left; }
 
 .a-ui.a-options.a-slot-form .a-slot-form-title
-{ 
+{
 position: relative;
 float: left;
 padding:0 10px;
@@ -179,7 +179,7 @@ display: none;
 .a-slot-form .a-form-help.simple { position: relative; display: block; font-size: 11px; color: #888; margin: 0; }
 
 .a-ui.a-options.a-slot-form .a-form-help .a-help-arrow
-{ 
+{
 position: absolute;
 top: 0;
 left: -15px;
@@ -209,22 +209,23 @@ z-index: 799;
 /* Cross Fade Slideshows must have the items stacked up */
 .a-slideshow.transition-crossfade .a-slideshow-item { position: absolute; top: 0; left: 0; }
 
-.a-slideshow-item { overflow: hidden; display: none; }
+.a-slideshow-item { overflow: hidden; display: none; margin: 0; }
 .a-slideshow-item .a-slideshow-title {  }
-.a-slideshow-item .a-slideshow-image { 
+.a-slideshow-item .a-slideshow-image {
 	line-height: 0 !important; /* RB: fixes the bit of whitespace after img */
 	background-repeat: no-repeat; /* If there is a background image attached here, we don't want it to repeat */
-} 
+	margin: 0;
+}
 
 .a-slideshow-item .a-slideshow-image img { display: block; }
 
-/* aButton Slot Styles 
+/* aButton Slot Styles
 ------------------------------------- */
-.a-slot.aButton .a-button, 
+.a-slot.aButton .a-button,
 .a-slot.aButton .a-button .a-button-image,
 .a-slot.aButton .a-button .a-button-image .a-button-link,
 .a-slot.aButton .a-button .a-button-title
-{ 
+{
 float: left;
 clear: both;
 display: inline;
@@ -236,17 +237,17 @@ margin: 0;
 .a-slot.aButton .a-button { background: none; } /* Fixes IE6 Bug */
 
 
-/* aImage Slot Styles 
+/* aImage Slot Styles
 ------------------------------------- */
 .a-slot.aImage .a-media-image,
 .a-slot.aImage .a-image-embed { float: left; clear: both; line-height: 0; }
 
 
-/* aVideo Slot Styles 
+/* aVideo Slot Styles
 ------------------------------------- */
 
 
-/* aRawHTML Slot Styles 
+/* aRawHTML Slot Styles
 ------------------------------------- */
 .a-slot.aRawHTML .a-form-field
 {
@@ -255,7 +256,7 @@ margin: 0;
 }
 
 .a-slot.aRawHTML textarea
-{ 
+{
 float: left;
 width: 95%;
 min-height: 200px;
@@ -266,7 +267,7 @@ font: 11px/16px Monospace;
 overflow: auto !important;
 }
 
-/* aText Slot Styles 
+/* aText Slot Styles
 ------------------------------------- */
 .a-slot.aText .a-form-field
 {
@@ -291,11 +292,11 @@ overflow: auto !important;
 }
 
 
-/* aFeed Slot Styles 
+/* aFeed Slot Styles
 ------------------------------------- */
 .a-slot.aFeed .a-feed,
 .a-slot.aFeed .a-feed .a-feed-item
-{ 
+{
 float: left;
 display: inline;
 position: relative;
@@ -338,7 +339,7 @@ margin-bottom: 10px;
 .a-slot.aPDF .a-pdf-slot.no-label .a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
 
 
-/* aSlot Content Styles 
+/* aSlot Content Styles
 --------------------------------------- */
 .aRichText .a-slot-content strong,
 .aRichText .a-slot-content b { font-weight: bold; }
@@ -377,7 +378,7 @@ margin-bottom: 10px;
 .aBlog .a-options.a-slot-form,
 .aEvent .a-options.a-slot-form { min-width: 285px; }
 
-.a-blog-edit-wrapper .a-form-row.by-type input { float: left; padding-top: 5px; }	
+.a-blog-edit-wrapper .a-form-row.by-type input { float: left; padding-top: 5px; }
 
 .a-blog-edit-wrapper .a-form-row.by-type input[type="radio"] { margin: 5px 0 0 0; }
 
@@ -451,7 +452,7 @@ width:100%;
 .a-media-placeholder { } /* Height and Width are defined in the template and applied inline in _normalView.php */
 
 .a-media-placeholder span
-{ 
+{
 display: block;
 width: 100%;
 height: 100%;
