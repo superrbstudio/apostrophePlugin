@@ -219,32 +219,22 @@ class BaseaActions extends sfActions
   protected function sortBodyWrapper($parameter, $slug = false)
   {
     $request = $this->getRequest();
-    $this->logMessage("ZZ sortBodyWrapper");
     if ($slug !== false)
     {
       $page = aPageTable::retrieveBySlugWithSlots($slug);
-      $this->logMessage("ZZ got slug by slots");
       $this->validAndEditable($page, 'edit');
-      $this->logMessage("ZZ is valid and editable");
     } 
     else
     {
       $page = $this->retrievePageForEditingByIdParameter('page');
-      $this->logMessage("ZZ got page for editing by id");      
     }
-    $this->logMessage("ZZ Page is " . $page->id, "info");
     $this->flunkUnless($page);
     if (!$page->getNode()->hasChildren())
     {
       $page = $page->getNode()->getParent();
-      $this->logMessage("ZZ bumping up to parent");
       $this->flunkUnless($page);
     }
     $order = $this->getRequestParameter($parameter);
-    ob_start();
-    var_dump($_REQUEST);
-    $this->logMessage("ZZ request is " . ob_get_clean());
-    $this->logMessage("ZZ is_array order: " . is_array($order));
     $this->flunkUnless(is_array($order));
     $this->sortBody($page, $order);
     return sfView::NONE;
@@ -260,7 +250,6 @@ class BaseaActions extends sfActions
     // Lock the tree against race conditions
     $this->lockTree();
     
-    $this->logMessage("ZZ PARENT IS " . $parent->slug);
     // ACHTUNG: I've made attempts to rewrite this more efficiently. They resulted in
     // corrupted nested sets. Corrupted nested sets equal corrupted site page hierarchies
     // equal VERY BAD. I suggest leaving this rarely invoked function the way it is.
@@ -270,7 +259,6 @@ class BaseaActions extends sfActions
       $child = Doctrine::getTable('aPage')->find($id);
       if (!$child)
       {
-        $this->logMessage("ZZ skipping non-page");
         continue;
       }
       // Compare IDs, not the objects. #375 points out that comparing the objects with !=
@@ -279,15 +267,12 @@ class BaseaActions extends sfActions
       // comparing the page ids is guaranteed to do the right thing.
       if ($child->getNode()->getParent()->id != $parent->id)
       {
-        $this->logMessage("ZZ skipping non-child");
         continue;
       }
-      $this->logMessage("ZZ MOVING $id");
       $child->getNode()->moveAsLastChildOf($parent);
     }
     // Now: did that work consistently?
     $children = $parent->getNode()->getChildren();
-    $this->logMessage("ZZ resulting order is " . implode(",", aArray::getIds($children)));
     $this->unlockTree();
   }
 
@@ -966,6 +951,7 @@ class BaseaActions extends sfActions
     {
       $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
       $refPage = $this->retrievePageForEditingByIdParameter('refId', 'manage');
+      
       $type = $request->getParameter('type');
       if ($refPage->slug === '/')
       {
@@ -975,7 +961,6 @@ class BaseaActions extends sfActions
           throw new sfException('root must not have peers');
         }
       }
-      $this->logMessage("TREEMOVE page slug: " . $page->slug . " ref page slug: " . $refPage->slug . " type: " . $type, "info");
     
       // Refuse to move a page relative to one of its own descendants.
       // Doctrine's NestedSet implementation produces an
@@ -989,7 +974,6 @@ class BaseaActions extends sfActions
       {
         if ($info['id'] === $page->id)
         {
-          $this->logMessage("TREEMOVE balked because page is an ancestor of ref page", "info");
           throw new sfException('page is ancestor of ref page');
         }
       }
@@ -1005,6 +989,10 @@ class BaseaActions extends sfActions
       }
       elseif ($type === 'inside')
       {
+        if (strlen($refPage->engine))
+        {
+          throw new sfException('Attempt to make a page a child of an engine page');
+        }
         $page->getNode()->moveAsLastChildOf($refPage);
         $page->forceSlugFromParent();
       }
@@ -1074,7 +1062,6 @@ class BaseaActions extends sfActions
     {
       return;
     }
-    $this->logMessage("ZZ flunked", "info");
     $this->unlockTree();
     $this->forward('a', 'cleanSignin');
   }
