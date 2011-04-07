@@ -668,7 +668,13 @@ function aConstructor()
 		var newSlot = $('#a-area-' + pageId + '-' + slotName).find('.a-new-slot');
 		if (newSlot.length)
 		{
-			newSlot.effect("highlight", {}, 1000);
+			// There's a bug with highlight and rgba backgrounds
+			// http://bugs.jqueryui.com/ticket/5215
+			var tmpBG = newSlot.css('background'); // store the background
+			newSlot.css({ 'background':'none' }); // remove the background for the highlight effect
+			newSlot.effect("highlight", {}, 1000, function(){
+				newSlot.css({ 'background':tmpBG }); // restore that background
+			});
 			$('#a-add-slot-' + pageId + '-' + slotName).parent().trigger('toggleClosed');
 		};
 	}
