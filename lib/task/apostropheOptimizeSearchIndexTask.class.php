@@ -22,6 +22,7 @@ class apostropheOptimizeSearchIndexTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('table', null, sfCommandOption::PARAMETER_OPTIONAL, 'The table name', null),
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Verbose output', null),
       // add your own options here
     ));
 
@@ -63,9 +64,15 @@ EOF;
     foreach ($indexes as $index)
     {
       $table = Doctrine::getTable($index);
-      echo("Optimizing $index\n");
+      if ($options['verbose'])
+      {
+        echo("Optimizing $index\n");
+      }
       aZendSearch::optimizeLuceneIndex($table);
     }
-    echo("Success!\n");
+    if ($options['verbose'])
+    {
+      echo("Success!\n");
+    }
   }
 }
