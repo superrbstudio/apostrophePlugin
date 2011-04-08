@@ -7,7 +7,7 @@
   $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
   $separator = isset($separator) ? $sf_data->getRaw('separator') : null;
 ?>
-<ul id="a-breadcrumb-<?php echo ($name)? $name:'component' ?>" class="a-nav a-nav-breadcrumb breadcrumb">
+<ul id="a-breadcrumb-<?php echo ($name)? $name:'component' ?>" class="a-nav a-nav-breadcrumb breadcrumb clearfix">
 	<?php foreach($nav as $pos => $item): ?>
 		<?php if (!$item['archived'] || $draggable): ?>
 			<li class="<?php echo $class;

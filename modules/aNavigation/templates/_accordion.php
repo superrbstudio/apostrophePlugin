@@ -10,7 +10,7 @@
   $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
   $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
 ?>
-<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
 
   <?php foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;
