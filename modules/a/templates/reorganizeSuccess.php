@@ -13,7 +13,7 @@
 
 <div id="a-page-tree-container" class="a-page-tree-container">
 	<h2 class="a-page-tree-title"><?php echo __('Drag and drop pages to reorganize the site.', null, 'apostrophe') ?></h2>
-	<div id="a-page-tree" class="a-page-tree"></div>
+	<div id="a-page-tree" class="a-ui a-page-tree"></div>
 	<div class="a-page-tree-in-progress"></div>
 </div>
 
