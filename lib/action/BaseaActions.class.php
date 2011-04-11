@@ -1007,7 +1007,39 @@ class BaseaActions extends sfActions
     }
     $this->unlockTree();
     echo("ok");
-    return sfView::NONE;
+    exit(0);
+  }
+  
+  /**
+   * Delete the page with the id specified by 'id' and return an AJAX response
+   * compatible with the reorganize feature's jstree implementation
+   * @param mixed $request
+   * @return mixed
+   */
+  public function executeTreeDelete($request)
+  {
+    $this->lockTree();
+    try
+    {
+      $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
+      if ($page->level < 1)
+      {
+        // Refuse to delete root, non-tree pages, etc.
+        throw new Exception('Attempt to delete root or non-tree page');
+      }
+      // tom@punkave.com: we must delete via the nested set
+      // node or we'll corrupt the tree. Nasty detail, that.
+      // Note that this implicitly calls $page->delete()
+      // (but the reverse was not true and led to problems).
+      $page->getNode()->delete(); 
+    } catch (Exception $e)
+    {
+      $this->unlockTree();
+      $this->forward404();
+    }
+    $this->unlockTree();
+    echo("ok");
+    exit(0);
   }
 
   /**

@@ -1,10 +1,11 @@
 .tree-punk li.open { background-image:url("minus.gif"); background-position:2px 5px; }
 .tree-punk li.closed, #jstree-dragged.tree-punk li li.open { background-image:url("plus.gif"); background-position:2px 5px; }
-.tree-punk li a, .tree-punk li.alive a, .tree-punk li span { background-image:url("/apostrophePlugin/images/a-icon-page.png"); }
-.tree-punk li.archived a, .tree-punk li.archived span { background-image:url("/apostrophePlugin/images/a-icon-page-archived.png"); }
-.tree-punk li.archived a, .tree-punk li.engine-aBlog a { background-image:url("/apostrophePlugin/images/a-icon-page-blog.png"); }
-.tree-punk li.archived a, .tree-punk li.engine-aEvent a { background-image:url("/apostrophePlugin/images/a-icon-page-events.png"); }
-.tree-punk li.archived a, .tree-punk li.engine-aMedia a { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }
+.tree-punk li a { background-image: none; padding-left: 5px; }
+.tree-punk li .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page.png"); }
+.tree-punk li.archived .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-archived.png"); }
+.tree-punk li.engine-aBlog .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-blog.png"); }
+.tree-punk li.engine-aEvent .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-events.png"); }
+.tree-punk li.engine-aMedia .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }
 .tree-punk .rtl li.closed, #jstree-dragged.tree-punk .rtl li li.open { background-image:url("plus_rtl.gif"); }
 .tree-punk li a:hover { background-color:#999; border-color:#999; color:#fff; }
 .tree-punk li a.clicked, .tree-punk li a.clicked:hover, .tree-punk li span.clicked { background-color:#333; border-color:#333; color:#fff; }

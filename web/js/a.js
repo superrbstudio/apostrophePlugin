@@ -330,14 +330,39 @@ function aConstructor()
 			ui: {
 				theme_path: "/apostrophePlugin/js/jsTree/source/themes/",
 	      theme_name: "punk",
-				context: false
+				context: false,
+			// 	[ 
+			//           // {
+			//           //     id      : "create",
+			//           //     label   : "Create", 
+			//           //     icon    : "create.png",
+			//           //     visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); }, 
+			//           //     action  : function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); } 
+			//           // },
+			//           // "separator",
+			//           // { 
+			//           //     id      : "rename",
+			//           //     label   : "Rename", 
+			//           //     icon    : "rename.png",
+			//           //     visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
+			//           //     action  : function (NODE, TREE_OBJ) { TREE_OBJ.rename(); } 
+			//           // },
+			//           { 
+			//               id      : "delete",
+			//               label   : "Delete",
+			//               // icon    : "remove.png",
+			//               visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+			// 			// Also see ondelete below
+			//               action  : function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+			//           }
+			// 	]
 			},
 	    rules: {
 	      // Turn off most operations as we're only here to reorg the tree.
 	      // Allowing renames and deletes here is an interesting thought but
 	      // there's back end stuff that must exist for that.
 	      renameable: false,
-	      deletable: false,
+	      deletable: 'all',
 	      creatable: false,
 	      draggable: 'all',
 	      dragrules: 'all'
@@ -371,9 +396,56 @@ function aConstructor()
 	          },
 	          async: false
 	        });
+	      },
+	      // delete completed 
+	      ondelete: function(node, treeObj, rb)
+	      {
+	        // To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
+	        // tree page
+
+					aPageTree.parent().addClass('working');
+
+	        var nid = node.id;
+
+	        jQuery.ajax({
+	          url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
+	          error: function(result) {
+							// 404 errors etc
+	            window.location.reload();
+	          },
+	          success: function(result) {
+							// Look for a specific "all is well" response
+	            if (result !== 'ok')
+	            {
+	              window.location.reload();
+	            }
+							aPageTree.parent().removeClass('working');
+	          },
+	          async: false
+	        });
 	      }
 	    }
 	  });
+		treeRef = $.tree_reference(aPageTree.attr('id'));
+		aPageTree.find('.a-delete').click(function() {
+			var li = $(this).closest('li');
+			if (li.find('li').length)
+			{
+				if (!confirm(options['confirmDeleteWithChildren']))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (!confirm(options['confirmDeleteWithoutChildren']))
+				{
+					return false;
+				}
+			}
+			treeRef.remove(li);
+			return false;
+		});
 	}
 
 	// aSlideshowSlot

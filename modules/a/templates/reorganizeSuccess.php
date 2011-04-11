@@ -17,4 +17,4 @@
 	<div class="a-page-tree-in-progress"></div>
 </div>
 
-<?php a_js_call('apostrophe.jsTree(?)', array('treeData' => $treeData, 'moveURL' => url_for("a/treeMove"))) ?>
+<?php a_js_call('apostrophe.jsTree(?)', array('treeData' => $treeData, 'moveURL' => url_for("a/treeMove"), 'deleteURL' => url_for("a/treeDelete"), 'confirmDeleteWithChildren' => a_('Are you sure you want to delete this page and all of its children? This operation cannot be done.'), 'confirmDeleteWithoutChildren' => a_('Are you sure you want to delete this page? This operation cannot be undone.'))) ?>
