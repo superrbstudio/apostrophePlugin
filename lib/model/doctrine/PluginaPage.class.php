@@ -1682,20 +1682,20 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * DOCUMENT ME
+   * Fetch an array of information about categories related to this page. If the page is restricted by
+   * category then only those categories are candidates for inclusion, otherwise any category might be
+   * included in the results. The results are further filtered by whether any objects (or any objects
+   * of the specified model class, if not null) are actually associated with those categories. An
+   * a.get_count_by_category event is posted to determine the overall item counts by model class
+   * for each category in an extensible way. The result is an associative array by model class,
+   * the values of which are associative arrays with a single "counts" key, the value of
+   * which is an associative array by category id of category information including name and
+   * count keys
    * @param mixed $class
-   * @return mixed
+   * @return array
    */
   public function getCategoriesInfo($class = null)
   {
-    // Returns information about the categories this page is related to, or all pages if it is not
-    // locked down to any particular categories. Limits results to one class of categorizable type if
-    // desired. In that case you receive only the results for that class rather than an array of
-    // results for multiple classes
-    
-    // It's simplest to get the info about all categories and types, and then cut down 
-    // (TODO: we could have the event require the getters to filter this in advance,
-    // but I'm not sure it's worth the pain and potential for error)
 
     $event = new sfEvent(null, 'a.get_count_by_category');
     sfContext::getInstance()->getEventDispatcher()->filter($event, array());

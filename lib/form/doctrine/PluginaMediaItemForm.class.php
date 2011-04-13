@@ -26,9 +26,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $this->setWidget('description', new aWidgetFormRichTextarea(array('editor' => 'fck', 'tool' => 'Media', 'height' => 182 ))); // FCK doesn't like to be smaller than 182px in Chrome 
     $this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
 
-    $user = sfContext::getInstance()->getUser();
-    $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
-    $q = Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
+    $q = $this->getCategoriesQuery();
     $this->setWidget('categories_list', new sfWidgetFormDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true)));
     $this->setValidator('categories_list', new sfValidatorDoctrineChoice(array('query' => $q, 'model' => 'aCategory', 'multiple' => true, 'required' => false)));
     $categories = $q->execute();
@@ -71,6 +69,18 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $this->validatorSchema->setPostValidator(
       new sfValidatorCallback(array('callback' => array($this, 'postValidator')))
     );
+  }
+  
+  /**
+   * Returns a Doctrine query that fetches categories this user is actually allowed
+   * to assign content to, in alphabetical order. A useful override point 
+   * @return array
+   */
+  protected function getCategoriesQuery()
+  {
+    $user = sfContext::getInstance()->getUser();
+    $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
+    return Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
   }
 
   /**
