@@ -330,7 +330,7 @@ function aConstructor()
 			ui: {
 				theme_path: "/apostrophePlugin/js/jsTree/source/themes/",
 	      theme_name: "punk",
-				context: false,
+				context: false
 			// 	[ 
 			//           // {
 			//           //     id      : "create",
