@@ -31,13 +31,12 @@ class aRouteTools
     {
       return false;
     }
-    // Allows aRoute URLs to be written like ordinary URLs rather than
-    // specifying an empty URL, which seems prone to lead to incompatibilities
-    
-    // Remainder comes back as false, not '', for an exact match
-    if (!strlen($remainder))
+    if (substr($remainder, 0, 1) !== '/')
     {
-      $remainder = '/';
+      // For an engine installed at the homepage, or an exact match for
+      // the URL of any engine, the remainder starts out as an empty string.
+      // But all routes must begin by matching /. 
+      $remainder = '/' . $remainder;
     }
     return $remainder;
   }
@@ -219,6 +218,9 @@ class aRouteTools
     {
       $pageUrl = $matches[1];
     }
-    return $pageUrl . $url;
+    // Fix double / at beginning when engine is at root of site (think "just a blog")
+    $finalUrl =  $pageUrl . $url;
+    $finalUrl = preg_replace('|^//|', '/', $finalUrl);
+    return $finalUrl;
   }
 }
