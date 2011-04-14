@@ -14,7 +14,7 @@
 
 <?php if ($sf_user->isAuthenticated() || sfConfig::get('app_a_persistent_global_toolbar', true)): ?> 
 	
-  <div class="a-ui a-global-toolbar">
+  <div class="a-ui a-global-toolbar clearfix">
   	<ul class="a-ui a-controls">
 
       <?php include_partial('a/apostrophe') ?>

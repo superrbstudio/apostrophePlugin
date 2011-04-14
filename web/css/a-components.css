@@ -312,9 +312,6 @@ margin-right:1px;
 .a-ui.a-global-toolbar
 {
 position: relative;
-display: inline;
-float: left;
-width: 100%;
 border-bottom: 1px solid #ddd;
 clear: both;
 z-index: 997;
