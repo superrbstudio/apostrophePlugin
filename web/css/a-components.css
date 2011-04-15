@@ -708,7 +708,7 @@ overflow: visible;
 .a-ui.a-signin-popup .a-form-row { float: left; width: auto; clear: both; display: inline; margin: 20px 20px -10px; }
 .a-ui.a-signin-popup .a-form-row.submit { margin: 30px 20px 20px; }
 .a-ui.a-signin-popup .a-form-row.submit .a-controls { width: 100%; }
-.a-ui.a-signin-popup .a-forgot-password { display: block; font-size: 11px; margin: -10px 20px 10px; float: left; color: #999; }
+.a-ui.a-signin-popup .a-forgot-password, .a-ui.a-signin-popup .a-register { display: block; font-size: 11px; margin: -10px 20px 10px; float: left; color: #999; }
 
 #a-login-form
 {
