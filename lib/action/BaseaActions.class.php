@@ -32,7 +32,7 @@ class BaseaActions extends sfActions
     // remove trailing slashes from $slug
     $pattern = '/\/$/';
     if (preg_match($pattern, $slug) && ($slug != '/'))
-     {
+    {
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
       
       $new_slug = preg_replace($pattern, '', $slug);

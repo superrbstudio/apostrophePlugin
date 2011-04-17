@@ -11,6 +11,17 @@ abstract class PluginaSlot extends BaseaSlot
   protected $editDefault = false;
 
   /**
+   *
+   * "Dear Doctrine: I know I did array hydration and then created an object and called
+   * hydrate() on it and now you're confused, but trust me, I've got the properties
+   * that matter. Cheers"
+   */
+  public function setClean()
+  {
+    $this->_state = Doctrine_Record::STATE_CLEAN;
+  }
+  
+  /**
    * By default, the editor for a slot is accessed by double-clicking
    * on an outlined normal view of the slot. That's not appropriate
    * for some custom slot types. Say so by overriding this function

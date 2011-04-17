@@ -154,19 +154,36 @@ class BaseaTools
    */
   static public function cacheVirtualPages($pages)
   {
-    if(get_class($pages) == 'Doctrine_Collection' || is_array($pages))
+    if ((is_object($pages) && (get_class($pages) == 'Doctrine_Collection')) || is_array($pages))
     {
       foreach($pages as $page)
       {
-        aTools::$globalCache[$page['slug']] = $page;
+        aTools::cacheVirtualPage($page);
       }
     }
     else
     {
-      aTools::$globalCache[$pages['slug']] = $pages;
+      aTools::cacheVirtualPage($pages);
     }
   }
 
+  static public function cacheVirtualPage($pageInfo)
+  {
+    if (!is_object($pageInfo))
+    {
+      // Fast hydration
+      $page = new aPage();
+      $page->hydrate($pageInfo);
+      // Cheap hydration of the slots happens here
+      $page->populateSlotCache($pageInfo['Areas']);
+    }
+    else
+    {
+      $page = $pageInfo;
+    }
+    aTools::$globalCache[$page['slug']] = $page;
+  }
+  
   /**
    * DOCUMENT ME
    * @param mixed $options
@@ -205,6 +222,35 @@ class BaseaTools
       }
       aTools::setCurrentPage($global);
       aTools::$global = true;
+    }
+  }
+  
+  /**
+   * Access to pages cached with cacheVirtualPages and cacheVirtualPage and
+   * implicitly cached by earlier slot insertions for a virtual page
+   * @param string $slug
+   * @return boolean
+   */
+  static public function isPageCached($slug)
+  {
+    return isset(aTools::$globalCache[$slug]);
+  }
+  
+  /**
+   * Access to pages cached with cacheVirtualPages and cacheVirtualPage and
+   * implicitly cached by earlier slot insertions for a virtual page
+   * @param string $slug
+   * @return aPage
+   */
+  static public function getCachedPage($slug)
+  {
+    if (aTools::isPageCached($slug))
+    {
+      return aTools::$globalCache[$slug];
+    }
+    else
+    {
+      return null;
     }
   }
 

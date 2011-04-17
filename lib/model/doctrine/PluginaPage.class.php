@@ -71,23 +71,14 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * The new API:
-   * 
-   * getArea(name)   returns slots for an area name (not an aArea object, which is low level implementation stuff)
-   * newAreaVersion(name, action, params)    makes a change to an area, see function for details
-   * getAllSlots()    returns all current slots on page, see function for details
-   * Simple public access to the current slots,
-   * organized by culture, area name and permid, ordered by rank in
-   * the area (assuming of course that you fetched this page
-   * properly with retrieveBySlug or another public function in
-   * aPageTable). Note that in most cases only slots for one culture
-   * are returned, you will never see more than one culture unless
-   * you expressly requested that in your query call. The result
-   * looks like this:
-   * $allSlots['en']['body'][1] = aSlot subclass object
-   * Note that some permids may not be present in a particular version,
-   * you should be using a foreach loop, not assuming they start from 1
-   * @return mixed
+   * Returns all current slots as an array of arrays of arrays indexed by culture, then by area name, then by permid
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
+   *
+   * @return array
    */
   public function getAllSlots()
   {
@@ -95,17 +86,33 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * WARNING: You need to retrieve the slots properly before you can use this
-   * reliably. That means using aPageTable::retrieveBySlugWithSlots() or
-   * aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
-   * the page in the first place.
-   * Otherwise Doctrine will pull every slot by default, including old slots
-   * in the history and slots in other languages, and they will not be in
-   * the right order, especially if your client is in your office for a dmeo.
-   * So heed this warning. Thanks.
-   * @param mixed $name
-   * @param mixed $permid
-   * @return mixed
+   * Returns the area names currently in use on the page for the current culture 
+   * (note that this method doesn't know whether your template actually pulls them in or not).
+   * Useful when paired with getSlotsByAreaName()
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
+   *
+   * @return array
+   */
+  public function getAreaNames()
+  {
+    return array_keys($this->slotCache[$this->culture]);
+  }
+
+  /**
+   * Checks whether a slot with the specified name and permid exists in the
+   * page at present
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
+   * @param string $name
+   * @param string $permid
+   * @return boolean
    */
   public function hasSlot($name, $permid = 1)
   {
@@ -118,10 +125,15 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $name
-   * @param mixed $permid
-   * @return mixed
+   * Returns the slot object with the specified name and permid if it exists in the page at present
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
+   * @param string $name
+   * @param string $permid
+   * @return object (or false)
    */
   public function getSlot($name, $permid = 1)
   {
@@ -133,28 +145,34 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * Slightly misnamed, this method should really be called getAreaSlots but is
-   * named this way for historical reasons
-   * WARNING: You need to retrieve the slots properly before you can use this
-   * reliably. That means using aPageTable::retrieveBySlugWithSlots() or
-   * aPageTable::retrieveByIdWithSlots() or aPageTable::queryWithSlots() to retrieve
-   * the page in the first place.
-   * Otherwise Doctrine will pull every slot by default, including old slots
-   * in the history and slots in other languages, and they will not be in
-   * the right order, especially if your client is in your office for a dmeo.
-   * So heed this warning. Thanks.
-   * $new can be a slot class name, an already-created slot object, or false.
-   * If it is false no new slot is added to the list to be returned.
-   * If it is a class name the slot is constructed for you.
+   * A bad, old name for getSlotsByAreaName(). Supported for bc 
+   */
+   
+  public function getArea($name, $new = false, $newFirst = false)
+  {
+    return $this->getSlotsByAreaName($name, $new, $newFirst);
+  }
+
+
+  /**
+   * $name is the area name. $new can be a slot class name, an already-created new
+   * slot object, or false. If it is false no new slot is added to the list to be 
+   * returned. If it is a class name the slot is constructed for you.
    * 
    * If $newFirst is true the new slot will be at the top of the area,
    * otherwise the bottom.
-   * @param mixed $name
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
+   * 
+   * @param string $name
    * @param mixed $new
-   * @param mixed $newFirst
+   * @param boolean $newFirst
    * @return mixed
    */
-  public function getArea($name, $new = false, $newFirst = false)
+  public function getSlotsByAreaName($name, $new = false, $newFirst = false)
   {
     $this->populateSlotCache();
     $results = array();
@@ -190,25 +208,66 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * DOCUMENT ME
+   * @param $areaInfos array
+   * Iterates through areas, area versions and area version slots to locate the actual
+   * current list of slots for each area name and arrange them in a convenient associative
+   * array by culture, area name and permid. Used to implement getArea() and other methods
+   * efficiently. Can also accept an array of areaInfo arrays obtained via array hydration,
+   * in which case we take care of hydrating the slot objects here and skip hydrating
+   * the intervening objects
+   *
+   * YOU MUST fetch the page with an appropriate query method such as retrieveBySlug(),
+   * retrieveById, queryWithSlot or queryWithSlots, otherwise you will NOT get the 
+   * right slots in the right order in the right culture for the right version. Especially
+   * if your client is in the office for a demo
    */
-  protected function populateSlotCache()
+  public function populateSlotCache($areaInfos = null)
   {
+    // If we cheated on the hydration process then we'll be passed an
+    // array of areaInfos explicitly and we must hydrate the slots. Otherwise
+    // we have a perfectly normal Doctrine object on our hands
+    if (is_null($areaInfos))
+    {
+      $areaInfos = $this->Areas;
+    }
     if ($this->slotCache === false)
     {
       $this->slotCache = array();
       // We have $this->Areas courtesy of whatever query
       // fetched the page in the first place
-      foreach ($this->Areas as $area)
+      foreach ($areaInfos as $areaInfo)
       {
-        $areaVersion = $area->AreaVersions[0];
-        foreach ($areaVersion->AreaVersionSlots as $areaVersionSlot)
+        $areaVersionInfo = $areaInfo['AreaVersions'][0];
+        foreach ($areaVersionInfo['AreaVersionSlots'] as $areaVersionSlotInfo)
         {
-          $slot = $areaVersionSlot->Slot;
-          // Tolerate missing slots, can't crash just because the db surprises you
-          if ($slot)
+          if (isset($areaVersionSlotInfo['Slot']))
           {
-            $this->slotCache[$this->culture][$area->name][$areaVersionSlot->permid] = $slot;
+            $slotInfo = $areaVersionSlotInfo['Slot'];
+            if (is_object($slotInfo))
+            {
+              // Make sure there actually is a slot already for this version, don't let a surprise in the db crash us
+              if ($slotInfo->isNew())
+              {
+                continue;
+              }
+              $slot = $slotInfo;
+            }
+            else
+            {
+              $slotClass = $slotInfo['type'] . 'Slot';
+              $slot = new $slotClass();
+              $mediaItemInfos = $slotInfo['MediaItems'];
+              unset($slotInfo['MediaItems']);
+              $slot->hydrate($slotInfo);
+              $slot->setClean();
+              foreach ($mediaItemInfos as $mediaItemInfo)
+              {
+                $mediaItem = new aMediaItem();
+                $mediaItem->hydrate($mediaItemInfo);
+                $slot->MediaItems[] = $mediaItem;
+              }
+            }
+            $this->slotCache[$this->culture][$areaInfo['name']][$areaVersionSlotInfo['permid']] = $slot;
           }
           // foreach ($slot->MediaItems as $mediaItem)
           // {
@@ -227,7 +286,7 @@ abstract class PluginaPage extends BaseaPage
    */
   public function getAreaText($areaname, $word_limit = false)
   {
-    $slots = $this->getArea($areaname);
+    $slots = $this->getSlotsByAreaName($areaname);
     $text = '';
     foreach ($slots as $slot)
     {
@@ -254,7 +313,7 @@ abstract class PluginaPage extends BaseaPage
    */
   public function getAreaBasicHtml($areaname, $word_limit = false)
   {
-    $slots = $this->getArea($areaname);
+    $slots = $this->getSlotsByAreaName($areaname);
     $text = '';
     foreach ($slots as $slot)
     {
@@ -1078,11 +1137,11 @@ abstract class PluginaPage extends BaseaPage
       // New: support for specifying whether the new slot is at top or bottom of the area
       $top = (!isset($params['top'])) || $params['top'];
       $diff = (isset($params['slot']))? "<strong>" . aString::limitCharacters($params['slot']->getSearchText(), 20) . "</strong>" : '';
-      $newSlots = $this->getArea($name, $params['slot'], $top);
+      $newSlots = $this->getSlotsByAreaName($name, $params['slot'], $top);
     }
     else
     {
-      $newSlots = $this->getArea($name);
+      $newSlots = $this->getSlotsByAreaName($name);
     }
     $area = aAreaTable::retrieveOrCreateByPageIdAndName(
       $this->id,

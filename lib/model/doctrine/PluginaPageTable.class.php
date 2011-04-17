@@ -74,14 +74,31 @@ class PluginaPageTable extends Doctrine_Table
       $culture = aTools::getUserCulture();
     }
     $query = aPageTable::queryWithSlots(false, $culture);
-    $page = $query->
-      andWhere('p.slug = ?', $slug)->
-      fetchOne();
-    // In case Doctrine is clever and returns the same page object
+    $pageInfo = null;
+    if (sfConfig::get('app_a_fasthydrate', false))
+    {
+      $pageInfo = $query->
+        andWhere('p.slug = ?', $slug)->
+        fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+      if ($pageInfo)
+      {
+        $page = new aPage();
+        $page->hydrate($pageInfo);
+      }
+    }
+    else
+    {
+      $page = $query->
+        andWhere('p.slug = ?', $slug)->
+        fetchOne();
+    }
     if ($page)
     {
+      // In case Doctrine is clever and returns the same page object
       $page->clearSlotCache();
       $page->setCulture($culture);
+      // Cheap hydration of the slots happens here
+      $page->populateSlotCache($pageInfo['Areas']);
     }
     return $page;
   }
