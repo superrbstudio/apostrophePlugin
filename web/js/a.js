@@ -3,6 +3,8 @@ function aConstructor()
 	var debug = false;
   this.onSubmitHandlers = new Object();
 
+	// This is the old, painful way, see aEditorFck for the
+	// new, graceful way
   this.registerOnSubmit = function (slotId, callback)
   {
     if (!this.onSubmitHandlers[slotId])
@@ -15,15 +17,18 @@ function aConstructor()
 
   this.callOnSubmit = function (slotId)
   {
-    handlers = this.onSubmitHandlers[slotId];
-    if (!handlers)
+		// Call any old-school submit handlers
+    var handlers = this.onSubmitHandlers[slotId];
+    if (handlers)
     {
-      return;
-    }
-    for (i = 0; (i < handlers.length); i++)
-    {
-      handlers[i](slotId);
-    }
+			 var i;
+		   for (i = 0; (i < handlers.length); i++)
+		   {
+		     handlers[i](slotId);
+		   }
+		}
+		// The new, sensible way
+		$('.a-needs-update').trigger('a.update');
   }
 
 	this.setMessages = function(messages)
