@@ -9,8 +9,7 @@
       	<?php echo $form['language']->render() ?>
 			</div>
     </form>
-		<script type="text/javascript">
-      $('#a-language-switch select').change(function() { this.form.submit() });
-    </script>
   </li>
 <?php endif ?>
+
+<?php a_js_call('$("#a-language-switch select").change(function() { this.form.submit() });') ?>

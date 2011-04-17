@@ -1684,6 +1684,37 @@ function aConstructor()
 		updateEngineAndTemplate();
 	}
 
+	this.accordionEnhancements = function(options)
+	{
+
+		var nurl = options['url'];
+		var name = options['name'];
+		var nest = options['nest'];
+		
+		var nav = $("#a-nav-" + name + "-" + nest);
+		
+    nav.sortable(
+    { 
+      delay: 100,
+      update: function(e, ui) 
+      { 
+        var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
+        var options = {"url":nurl,"type":"post"};
+        options['data'] = serial;
+        $.ajax(options);
+				
+				// Fixes Margin
+				nav.children().removeClass('first second next-last last');
+				nav.children(':first').addClass('first');
+				nav.children(':last').addClass('last');
+				nav.children(':first').next("li").addClass('second');
+				nav.children(':last').prev("li").addClass('next-last');
+      },
+      items: 'li:not(.extra)'
+    });
+		
+	}
+	
 	// A very small set of things that allow us to write CSS and HTML as if they were
 	// better than they are. This is called on every page load and AJAX refresh, so resist
 	// the temptation to get too crazy here.

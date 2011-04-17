@@ -44,38 +44,8 @@
     </li>
   <?php endforeach ?>
   
-
 </ul>
 
 <?php if ($draggable): ?>
-<script type="text/javascript">
-	 //<![CDATA[
-  $(document).ready(
-    function() 
-    {
-			var nav = $("#a-nav-<?php echo $name ?>-<?php echo $nest ?>");
-			
-      nav.sortable(
-      { 
-        delay: 100,
-        update: function(e, ui) 
-        { 
-          var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
-          var options = {"url":<?php echo json_encode(url_for('a/sortNav').'?page=' . $item['id']); ?>,"type":"post"};
-          options['data'] = serial;
-          $.ajax(options);
-					
-					// Fixes Margin
-					nav.children().removeClass('first second next-last last');
-					nav.children(':first').addClass('first');
-					nav.children(':last').addClass('last');
-					nav.children(':first').next("li").addClass('second');
-					nav.children(':last').prev("li").addClass('next-last');
-        },
-        items: 'li:not(.extra)'
-      });
-
-    });
-  //]]>
-  </script>
+	<?php a_js_call('apostrophe.accordionEnhancements(?)', array('name' => $name, 'nest' => $nest, 'url' => url_for('a/sortNav').'?page='.$item['id'])) ?>
 <?php endif ?>
