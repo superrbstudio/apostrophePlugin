@@ -112,7 +112,7 @@
 			  <?php include_slot('a-history-controls') ?>
 			<?php endif ?>
 
-      <?php if ($infinite): ?>
+      <?php if ($infinite || $options['delete']): ?>
 			<?php // Tom: Just a quick note about this -- Enabling the delete button for singleton slot works, it just clears out the value for that slot instead of deleting the slot. ?>
         <li>
 					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', 'no-label'); ?>
