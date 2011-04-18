@@ -47,7 +47,6 @@ class aEditorFck extends aEditor
     // since that is no longer available in 1.4
   
     $options = $attributes;
-    $id = $options['id'];
 
     // sf_web_dir already contains the relative root, don't append it twice
     $php_file = '/'.sfConfig::get('sf_rich_text_fck_js_dir').DIRECTORY_SEPARATOR.'fckeditor.php';
