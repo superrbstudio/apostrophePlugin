@@ -9,7 +9,7 @@
 
 <?php include_partial('a/searchBefore', array('q' => $sf_request->getParameter('q', ESC_RAW))) ?>
 
-	<h2><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q', ESC_RAW))), 'apostrophe') ?></h2>
+	<h2 class="a-search-results-heading"><?php echo __('Search: "%phrase%"', array('%phrase%' =>  htmlspecialchars($sf_request->getParameter('q', ESC_RAW))), 'apostrophe') ?></h2>
 	
 	<h4 class="a-search-results-count">
 		<?php if (!$pager->getNbResults()): ?>
