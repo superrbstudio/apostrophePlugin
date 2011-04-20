@@ -1,7 +1,7 @@
 <?php
 
 /**
- * feedHelper
+ * FeedHelper
  * http://spindrop.us/2006/07/04/dynamic-linking-to-syndication-feeds-with-symfony/
  *
  * @author Dave Dash 
