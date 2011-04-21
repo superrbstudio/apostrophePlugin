@@ -136,6 +136,7 @@ width: auto;
 cursor: pointer;
 min-height: 20px;
 height: auto;
+margin: 0;
 }
 
 input.a-submit:hover { background-color: #888!important; cursor: pointer; }
