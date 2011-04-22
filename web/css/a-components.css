@@ -660,9 +660,9 @@ margin-right: 10px;
 ----------------------------------------------- */
 .a-search { clear: both; }
 .a-search form { position: relative; height: 20px; background: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
-.a-search form .a-form-row { margin: 0; }
-.a-search form input.a-search-field { float: left; background: none; border: none; padding: 3px 0 3px 6px; }
-.a-search form input.a-search-submit { float: right; padding: 0; width: 29px; height: 20px; border: none !important; background: url(../images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
+.a-search form .a-form-row { margin: 0; position: relative; }
+.a-search form input.a-search-field { position: relative; float: left; background: none; border: none; height: 20px; padding: 0; text-indent: 5px; }
+.a-search form input.a-search-submit { display: block; position: absolute; top: 0; right: 0; padding: 0; width: 29px; height: 20px; border: none !important; background: url(../images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
 .a-search form input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
 
 .a-search.global form { width: 238px; }

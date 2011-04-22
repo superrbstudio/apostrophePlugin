@@ -4,6 +4,8 @@
 
 input.checkbox, input.radio { width: auto; border: none !important; }
 
+.a-search form input.a-search-field { line-height: 20px; }
+
 ul.a-slideshow { background: none !important; }
 
 /* RGBA is awesome. Except for IE. Solid Colors */
