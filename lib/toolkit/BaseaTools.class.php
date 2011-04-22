@@ -592,6 +592,25 @@ class BaseaTools
       // so the recipients just call back to addGlobalButtons
       sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
     }
+    $labelOverrides = sfConfig::get('app_a_global_button_labels', null);
+    if (is_array($labelOverrides))
+    {
+      foreach ($labelOverrides as $key => $label)
+      {
+        if (isset(aTools::$globalButtons[$key]))
+        {
+          if (is_array($label))
+          {
+            // i18n
+            aTools::$globalButtons[$key]->setLabel($label[aTools::getUserCulture()]);
+          }
+          else
+          {
+            aTools::$globalButtons[$key]->setLabel($label);
+          }
+        }
+      }
+    }
     return aTools::$globalButtons;
   }
 

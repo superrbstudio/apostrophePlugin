@@ -61,4 +61,9 @@ class aGlobalButton
   {
     return $this->targetEngine;
   }
+  
+  public function setLabel($l)
+  {
+    $this->label = $l;
+  }
 }
