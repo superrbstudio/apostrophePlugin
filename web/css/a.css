@@ -5736,3 +5736,17 @@ border-color: rgb(255,150,0);
 { /* Text Color */
 color: rgb(255,150,0);
 }
+
+/* Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com */
+
+.clearfix:before,
+.clearfix:after
+{
+  content: "\0020";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }

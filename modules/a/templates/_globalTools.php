@@ -15,7 +15,7 @@ These are mostly links to independent modules.
 
 <?php use_helper('I18N') ?>
 
-<div id="a-global-toolbar">
+<div id="a-global-toolbar" class="a-global-toolbar clearfix">
   <?php // All logged in users, including guests with no admin abilities, need access to the ?>
   <?php // logout button. But if you have no legitimate admin roles, you shouldn't see the ?>
   <?php // apostrophe or the global buttons ?>
