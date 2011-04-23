@@ -882,8 +882,13 @@ color: #333;
 /* Apostrophe Attribution
 -------------------------------------*/
 
-.a-attribution { display: block; float: left; width: 720px; margin: 20px 0px 0px 0px; padding: 0 0 0 20px; color:#666; font-size:11px; background: url(../images/apostrophe.png) no-repeat top left; }
+.a-attribution { display: block; float: left; width: 720px; margin: 20px 0px 0px 0px; padding: 0 0 0 20px; color:#666; font-size:11px; }
 .a-attribution a:hover { text-decoration:underline; }
+
+.a-attribution.apostrophe { background: url(../images/apostrophe.png) no-repeat top left; }
+.a-attribution.servergrove { padding: 0; }
+.a-attribution.servergrove a,
+.a-attribution.servergrove p { float: left; clear: none; margin: 0 5px 0 0; }
 
 /* Apostrophe IE6 Warning for Admin
 -------------------------------------*/
