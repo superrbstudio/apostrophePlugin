@@ -1,4 +1,4 @@
-<div class="a-form-help simple">
+<div class="a-help simple">
 	<p>
 		<?php if (isset($options['directions'])): ?>
 	  	<?php echo $options['directions'] ?>
