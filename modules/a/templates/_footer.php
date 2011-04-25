@@ -18,7 +18,7 @@
 
 <?php if (sfConfig::get('app_a_servergroveCredit', false)): ?>
 	<div class="a-attribution servergrove">
-  	<?php echo link_to(image_tag('/images/sg80x20_g.png'), 'http://www.servergrove.com/', array('title' => 'We recommend ServerGrove Symfony hosting')) ?>
-		<p class="a-help">ServerGrove hosts the Apostrophe Demo!</p>
+  	<?php echo link_to(image_tag('/images/sg80x20_g.png'), 'https://secure.servergrove.com/clients/aff.php?aff=037', array('title' => 'Hosted by ServerGrove')) ?>
+		<p class="a-help">Hosted by ServerGrove</p>
 	</div>
 <?php endif ?>

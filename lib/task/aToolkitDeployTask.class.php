@@ -81,6 +81,39 @@ EOF;
       throw new sfException("You must be in a symfony project directory");
     }
     
+    // If we're using svn, make sure we're using it responsibly.
+    // Don't break for people who don't do svn
+    if (file_exists('.svn'))
+    {
+      $xml = new SimpleXMLElement(`svn status --xml`);
+      $warn = 0;
+      if ($xml->xpath("//wc-status[@item='modified']"))
+      {
+        echo("WARNING: YOU HAVE MODIFIED FILES NOT COMMITTED TO SVN\n");
+        $warn++;
+      }
+      if ($xml->xpath("//wc-status[@item='missing']"))
+      {
+        echo("WARNING: YOU HAVE MISSING FILES ACCORDING TO SVN\n");
+        $warn++;
+      }
+      if ($xml->xpath("//wc-status[@item='unversioned']"))
+      {
+        echo("WARNING: YOU HAVE NEW FILES NOT ADDED TO SVN\n");
+        $warn++;
+      }
+      if ($warn)
+      {
+        if (!$this->askConfirmation(
+    "You really should quit now and address your svn issues.\n" .
+    "Are you sure you want to deploy anyway? [y/N]",
+          'QUESTION_LARGE',
+          false))
+        {
+          die("Operation CANCELLED. No changes made.\n");
+        }
+      }
+    }
     
     $server = $arguments['server'];
     $env = $arguments['env'];
