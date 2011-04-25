@@ -85,6 +85,11 @@ EOF;
     // Don't break for people who don't do svn
     if (file_exists('.svn'))
     {
+      echo("\n\n\nDID YOU RUN SVN UPDATE? DO YOU HAVE YOUR COWORKERS' CONTRIBUTIONS?\n\n\n");
+      // We could force this, but it could make apostrophe:deploy too annoying to use,
+      // similar to what happened with pkcommit
+      // passthru("svn update");
+      
       $xml = new SimpleXMLElement(`svn status --xml`);
       $warn = 0;
       if ($xml->xpath("//wc-status[@item='modified']"))
