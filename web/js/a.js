@@ -464,11 +464,15 @@ function aConstructor()
 	  var positionFlag = options['position'];
    	var position = (options['startingPosition']) ? options['startingPosition'] : 0;
    	var duration = (options['duration']) ? options['duration'] : 300;
-		var slideshow = $('#a-slideshow-' + id);
-		var slideshowControls = slideshow.next('.a-slideshow-controls');
-		var slideshowItems = slideshow.find('.a-slideshow-item');
+		var slideshowSelector = (options['slideshowSelector']) ? options['slideshowSelector'] : '#a-slideshow-' + id;
+		var slideshow = $(slideshowSelector);
+		var slideshowControlsSelector = (options['controls']) ? options['controls'] : '.a-slideshow-controls';
+		var slideshowControls = slideshow.next(slideshowControlsSelector);
+		var slideshowItemsSelector = (options['slideshowItemsSelector']) ? options['slideshowItemsSelector'] : '.a-slideshow-item';
+		var slideshowItems = slideshow.find(slideshowItemsSelector);
 		var itemCount = slideshowItems.length;
-		var positionHead = slideshowControls.find('.a-slideshow-position-head');
+		var positionSelector = (options['positionSelector']) ? options['positionSelector'] : '.a-slideshow-position-head';		
+		var positionHead = slideshowControls.find(positionSelector);
 		var intervalTimeout = null;
 		var currentItem;
 		var newItem;
@@ -502,6 +506,7 @@ function aConstructor()
 
 			function init()
 			{
+				( debug ) ? apostrophe.log(slideshowItems) : '';
 				// Initialize the slideshow
 				// Hiding all of the items, showing the first one, setting the position, and starting the timer
 				slideshowItems.hide();
@@ -593,6 +598,8 @@ function aConstructor()
   			intervalEnabled = false;
 				next();
 			});
+
+			( debug ) ? apostrophe.log('slideshowControls -- ' + slideshowControlsSelector + ' -- ' + slideshowControls.length ) : '';
 
   		slideshowControls.find('.a-arrow-left').click(function(event){
   			event.preventDefault();
