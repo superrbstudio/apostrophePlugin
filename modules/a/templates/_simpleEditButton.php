@@ -27,7 +27,7 @@
   <?php // content_tag, Symfony's lower-level helper for outputting any tag and its content programmatically ?>
   <?php echo content_tag('a', '<span class="icon"></span>'.(isset($label) ? a_($label) : a_("Edit")), 
   			array(
-  			  'href' => '#',
+  			  'href' => '#edit-slot-'.$pageid.'-'.$name.'-'.$permid,
   				'id' => "a-slot-edit-$pageid-$name-$permid",
   				'class' => isset($class) ? $class : 'a-btn icon a-edit', 
   				'title' => isset($title) ? $title : a_('Edit'), 
