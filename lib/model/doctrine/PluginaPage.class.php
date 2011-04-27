@@ -717,10 +717,6 @@ abstract class PluginaPage extends BaseaPage
     $offset = 0;
     $level = 0;
 
-		if ($this->slug === '/')
-		{
-			error_log(json_encode($infos));
-		}
     $result = $this->getTreeInfoBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $depth, $livingOnly);
 		return $result;
   }
