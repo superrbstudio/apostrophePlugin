@@ -761,8 +761,8 @@ abstract class PluginaPage extends BaseaPage
 			// When we're only interested in "living" pages, we have to ignore both archived pages and
 			// their descendants. This is tricky because getDescendantsInfo() is not tree-aware but does not
 			// return archived parents of published children. So we have to manually ignore any grandkids that
-			// show up where kids should be
-      if ($livingOnly && ((isset($info['archived']) && $info['archived']) || ($info['level'] > $level)))
+			// show up where kids should be. Note that $level is relative to the root requested not the site root
+      if ($livingOnly && ((isset($info['archived']) && $info['archived']) || ($info['level'] > ($this->level + $level))))
       {
         continue;
       }
