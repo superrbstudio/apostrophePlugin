@@ -1,4 +1,4 @@
-<?php if (sfConfig::get('app_a_googleAnalytics')): ?>
+<?php if (sfConfig::get('app_a_googleAnalytics') && (sfConfig::get('sf_environment') != 'dev')) : ?>
   <?php $analytics = sfConfig::get('app_a_googleAnalytics') ?>
   <script type="text/javascript">
 
