@@ -716,7 +716,13 @@ abstract class PluginaPage extends BaseaPage
     $infos = $this->getDescendantsInfo(false, $depth);
     $offset = 0;
     $level = 0;
-    return $this->getTreeInfoBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $depth, $livingOnly);
+
+		if ($this->slug === '/')
+		{
+			error_log(json_encode($infos));
+		}
+    $result = $this->getTreeInfoBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $depth, $livingOnly);
+		return $result;
   }
 
   /**
@@ -752,7 +758,11 @@ abstract class PluginaPage extends BaseaPage
       {
         $info['children'] = $children;
       }
-      if ($livingOnly && isset($info['archived']) && $info['archived'])
+			// When we're only interested in "living" pages, we have to ignore both archived pages and
+			// their descendants. This is tricky because getDescendantsInfo() is not tree-aware but does not
+			// return archived parents of published children. So we have to manually ignore any grandkids that
+			// show up where kids should be
+      if ($livingOnly && ((isset($info['archived']) && $info['archived']) || ($info['level'] > $level)))
       {
         continue;
       }
