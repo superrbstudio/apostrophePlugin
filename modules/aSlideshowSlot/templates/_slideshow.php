@@ -11,7 +11,7 @@
 <?php use_helper('a') ?>
 
 <?php if (count($items)): ?>
-	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? 'style="height:'.$options['height'].'px; width:'.$options['width'].'px;"':'' ?>>
+	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? ' style="height:'.$options['height'].'px; width:'.$options['width'].'px;"':'' ?>>
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
 	  <?php $dimensions = aDimensions::constrain(
 	    $item->width, 
