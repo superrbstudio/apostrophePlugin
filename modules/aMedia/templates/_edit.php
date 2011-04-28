@@ -225,7 +225,7 @@
 	<div class="a-form-row replace a-ui">
 		<div class="a-options-container">
 			<a href="#replace-image" onclick="return false;" id="a-media-replace-image-<?php echo $i ?>" class="a-btn icon a-replace alt lite"><span class="icon"></span><?php echo $embeddable ? a_('Replace Thumbnail') : a_('Replace File') ?></a>
-			<div class="a-options dropshadow">
+			<div class="a-ui a-options dropshadow">
       	<?php echo $form['file']->renderLabel() ?>
 				<div class="a-form-field">
       		<?php echo $form['file']->render() ?>

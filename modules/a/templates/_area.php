@@ -42,7 +42,7 @@
 
 				<?php if (count($slotTypesInfo) > 1): ?>
 					<?php echo a_js_button(a_get_option($options, 'areaLabel', a_('Add Content')), array('a-add', 'a-add-slot', 'icon', 'big'), 'a-add-slot-'.$pageid.'-'.$name) ?>
-					<ul class="a-options a-area-options dropshadow">
+					<ul class="a-ui a-options a-area-options dropshadow">
 		      	<?php include_partial('a/addSlot', array('id' => $page->id, 'name' => $name, 'options' => $options, 'slotTypesInfo' => $slotTypesInfo, )) ?>
 					</ul>
 					<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>

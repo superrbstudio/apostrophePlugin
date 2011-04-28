@@ -23,6 +23,6 @@
 <script type="text/javascript">
 	$(document).ready (function() {
 		$('textarea.aRawHTMLSlotTextarea').simpleautogrow();
-		$('#a-<?php echo $form->getName() ?>').addClass('a-options dropshadow');		
+		$('#a-<?php echo $form->getName() ?>').addClass('a-ui a-options dropshadow');		
 	});
 </script>
