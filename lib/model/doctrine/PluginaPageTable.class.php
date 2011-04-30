@@ -85,6 +85,10 @@ class PluginaPageTable extends Doctrine_Table
         $page = new aPage();
         $page->hydrate($pageInfo);
       }
+      else
+      {
+        $page = null;
+      }
     }
     else
     {
