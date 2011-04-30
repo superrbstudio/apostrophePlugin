@@ -32,14 +32,11 @@ class aEditorFck extends aEditor
   
     // TBB: a sitewide additional config settings file is used, if it
     // exists and a different one has not been explicitly specified
-    if (isset($attributes['editor']) && (strtolower($attributes['editor']) === 'fck'))
+    if (!isset($attributes['config']))
     {
-      if (!isset($attributes['config']))
+      if (file_exists(sfConfig::get('sf_web_dir') . '/js/fckextraconfig.js'))
       {
-        if (file_exists(sfConfig::get('sf_web_dir') . '/js/fckextraconfig.js'))
-        {
-          $attributes['config'] = '/js/fckextraconfig.js'; 
-        }
+        $attributes['config'] = '/js/fckextraconfig.js'; 
       }
     }
   
