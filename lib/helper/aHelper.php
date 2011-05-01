@@ -275,6 +275,10 @@ function _a_get_assets_body($type, $assets)
       unset($options['raw_name']);
     }
 
+    if (is_null($options))
+    {
+      $options = array();
+    }
     if ($type === 'stylesheets')
     {
       $options = array_merge(array('rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'screen', 'href' => $file), $options);

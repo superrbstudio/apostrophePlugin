@@ -1048,7 +1048,13 @@ class BaseaTools
         {
           $winner = $good;
         }
-        $response->addStylesheet($winner, '', array('data-asset-group' => sfConfig::get('app_a_asset_group')));
+        $options = array();
+        $group = sfConfig::get('app_a_asset_group');
+        if (!is_null($group))
+        {
+          $options['data-asset-group'] = $group;
+        }
+        $response->addStylesheet($winner, '', $options);
       }
     }
   }
@@ -1096,7 +1102,12 @@ class BaseaTools
         {
           $winner = $good;
         }
-        $response->addJavascript($winner, '', array('data-asset-group' => sfConfig::get('app_a_asset_group')));        
+        $group = sfConfig::get('app_a_asset_group');
+        if (!is_null($group))
+        {
+          $options['data-asset-group'] = $group;
+        }
+        $response->addJavascript($winner, '', $options);
       }
       else
       {
