@@ -1042,12 +1042,13 @@ class BaseaTools
       {
         if ($good === true)
         {
-          $response->addStylesheet($default);
+          $winner = $default;
         }
         else
         {
-          $response->addStylesheet($good);
+          $winner = $good;
         }
+        $response->addStylesheet($winner, '', array('data-asset-group' => sfConfig::get('app_a_asset_group')));
       }
     }
   }
@@ -1089,13 +1090,13 @@ class BaseaTools
       {
         if ($good === true)
         {
-          $response->addJavascript($default);
+          $winner = $default;
         }
         else
         {
-          // Override with a new path
-          $response->addJavascript($good);
+          $winner = $good;
         }
+        $response->addJavascript($winner, '', array('data-asset-group' => sfConfig::get('app_a_asset_group')));        
       }
       else
       {
