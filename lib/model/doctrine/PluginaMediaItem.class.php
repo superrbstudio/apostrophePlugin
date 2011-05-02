@@ -240,9 +240,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    * @param mixed $absolute
    * @param mixed $wmode
    * @param mixed $autoplay
+   * @param array $options
    * @return mixed
    */
-  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque', $autoplay = false)
+  public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque', $autoplay = false, $options = array())
   {
     if ($height === false)
     {
@@ -298,7 +299,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     elseif (($this->getType() == 'image') || ($this->getType() == 'pdf'))
     {
       // Use named routing rule to ensure the desired result (and for speed)
-      return "<img alt=\"$title\" width=\"$width\" height=\"$height\" src='" . htmlspecialchars($this->getImgSrcUrl($width, $height, $resizeType, $format, $absolute)) . "' />";
+      return "<img alt=\"$title\" width=\"$width\" height=\"$height\" src='" . htmlspecialchars($this->getImgSrcUrl($width, $height, $resizeType, $format, $absolute, $options)) . "' />";
     }
     else
     {
@@ -314,9 +315,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    * @param mixed $resizeType
    * @param mixed $format
    * @param mixed $absolute
+   * @param array $options
    * @return mixed
    */
-  public function getImgSrcUrl($width, $height, $resizeType, $format = 'jpg', $absolute = false)
+  public function getImgSrcUrl($width, $height, $resizeType, $format = 'jpg', $absolute = false, $options = array())
   {
     if ($height === false)
     {
@@ -326,6 +328,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
 
     $controller = sfContext::getInstance()->getController();
     $slug = $this->getSlug();
+		if (isset($options['ignore_manual_cropping']) && $options['ignore_manual_cropping'])
+		{
+			$slug = preg_replace('/\..*$/', '', $slug);
+		}
     // Use named routing rule to ensure the desired result (and for speed)
     return $controller->genUrl("@a_media_image?" . 
       http_build_query(
