@@ -316,6 +316,7 @@ border-bottom: 1px solid #ddd;
 clear: both;
 z-index: 997;
 background:#fff;
+min-width: 960px;
 }
 
 .a-global-toolbar .a-options { padding: 35px 20px 20px 20px; }
