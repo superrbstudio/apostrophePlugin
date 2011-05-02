@@ -1,0 +1,111 @@
+@import 'a-helpers';
+
+// We can move these colors to someplace more accessible for theming
+@a-button-color: rgb(245,135,0);
+@a-button-background: fadeout(@a-button-color, 20%);
+
+// Apostrophe Interface Colors
+// -------------------------------------
+
+.a-ui
+{
+	&.a-global-toolbar
+	{
+		// Apostrophe Mark - Color
+		.the-apostrophe
+		{
+			background: @a-button-color;
+			background: @a-button-background;
+		}
+	}
+	// Apostrophe Button - Color
+	.a-btn,
+	.a-submit,
+	.a-cancel,
+	.a-btn:visited,
+	.a-submit:visited,
+	.a-cancel:visited
+	{
+		color: #fff;
+		text-decoration: none;
+		text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+		background: @a-button-color;
+		background: @a-button-background;
+		background-image: -moz-linear-gradient(center bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(255,255,255,0)), color-stop(1, rgba(255,255,255,0.4)));
+		border:1px solid rgba(20,20,20,0.2);
+		@a-border-radius(2px);
+		// Apostrophe Button - Hover & Focus
+		&:hover,
+		&:focus
+		{
+			color: #fff;
+			text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+			text-decoration: none;
+			background-color: #999;
+		}
+		// Apostrophe Button - Active
+		&:active
+		{
+			color: #eee;
+			text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+			background-color: #111;
+			text-decoration: none;
+		}
+		// Apostrophe Button - Alternative Color
+		&.alt
+		{
+			color: #555;
+			text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+			background-color: #f0f0f0;
+			border:1px solid #ccc;
+			// Apostrophe Button - Alternative Hover & Focus
+			&:hover,
+			&:focus
+			{
+				color: #000;
+				background-color: #E0E0E0;
+				// text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+			}
+		}
+		&.lite
+		{
+			color: #00f;
+			background: none;
+			border: 1px solid transparent;
+			&.a-active
+			{
+				color: #111;
+				background-color: #ccc;
+			}
+		}
+	}
+	.a-link
+	{
+		color: @a-button-color;
+		&:hover,
+		&:focus
+		{
+			color: #000;
+		}
+	}
+	.a-cancel:hover,
+	.a-cancel:focus
+	{
+		background-color: #666;
+	}
+}
+
+.a-media-footer-button:hover
+{
+	background-color: @a-button-background;
+}
+
+// Apostrophe Admin Link Color
+.a-attribution a,
+.a-admin-content a,
+.a-global-toolbar .a-logged-in-user span,
+#a-personal-settings-heading span
+{
+	color: @a-button-color;
+}

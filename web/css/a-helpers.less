@@ -1,5 +1,6 @@
 // Mixins
 // -------------------------------------------
+
 @a-transition (@time:0.15s; @ease:ease)
 {
 	-webkit-transition: all @time @ease;
@@ -17,35 +18,35 @@
 
 @a-box-shadow(@shadow:rgba(0,0,0,0.10) 0px 0px 10px)
 {
--moz-box-shadow:@shadow;
--webkit-box-shadow:@shadow;
--opera-box-shadow:@shadow;
--khtml-box-shadow:@shadow;
-box-shadow:@shadow;
+	-moz-box-shadow:@shadow;
+	-webkit-box-shadow:@shadow;
+	-opera-box-shadow:@shadow;
+	-khtml-box-shadow:@shadow;
+	box-shadow:@shadow;
 }
 
 @a-box-bevel(@backgroundColor: #f00; @corner_tl:25px; @corner_br:25px; @corner_tr:25px; @corner_bl:25px;)
 {
-background:
--moz-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
--moz-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
--moz-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
--moz-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
-background:
--o-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
--o-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
--o-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
--o-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
-background:
--webkit-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
--webkit-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
--webkit-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
--webkit-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
-background-position: bottom left, bottom right, top right, top left;
--moz-background-size: 51% 51%;
--webkit-background-size: 51% 51%;
-background-size: 51% 51%;
-background-repeat: no-repeat;				
+	background:
+	-moz-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
+	-moz-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
+	-moz-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
+	-moz-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
+	background:
+	-o-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
+	-o-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
+	-o-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
+	-o-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
+	background:
+	-webkit-linear-gradient(45deg,  transparent @corner_tl, @backgroundColor @corner),
+	-webkit-linear-gradient(135deg, transparent @corner_br, @backgroundColor @corner),
+	-webkit-linear-gradient(225deg, transparent @corner_tr, @backgroundColor @corner),
+	-webkit-linear-gradient(315deg, transparent @corner_bl, @backgroundColor @corner);
+	background-position: bottom left, bottom right, top right, top left;
+	-moz-background-size: 51% 51%;
+	-webkit-background-size: 51% 51%;
+	background-size: 51% 51%;
+	background-repeat: no-repeat;				
 }
 
 @a-gradient(@color:@color)
