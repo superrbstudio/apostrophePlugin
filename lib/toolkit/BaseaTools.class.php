@@ -1103,6 +1103,7 @@ class BaseaTools
           $winner = $good;
         }
         $group = sfConfig::get('app_a_asset_group');
+        $options = array();
         if (!is_null($group))
         {
           $options['data-asset-group'] = $group;
