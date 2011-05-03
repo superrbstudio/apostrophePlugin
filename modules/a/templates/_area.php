@@ -117,7 +117,7 @@
         <li>
 					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', 'no-label'); ?>
 					<?php $delete_button_id = "a-slot-$pageid-$name-$permid-delete-button" ?>
-					<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
+					<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', 'alt', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
 					<?php a_js_call('apostrophe.areaEnableDeleteSlotButton(?)', array('pageId' => $page->id, 'name' => $name, 'permid' => $permid, 'buttonId' => $delete_button_id, 'confirmPrompt' => a_('Are you sure you want to delete this slot?'), "url" => url_for("a/deleteSlot?" .http_build_query(array(
             "id" => $page->id,
             "name" => $name,

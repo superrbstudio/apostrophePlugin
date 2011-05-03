@@ -19,7 +19,7 @@
 				<?php echo a_js_button(a_('Crop'), array('icon', 'a-crop', 'lite', 'no-label')) ?>
 			</li>
 			<li>
-				<?php echo a_js_button(a_('Delete'), array('icon','a-delete', 'lite', 'no-label')) ?>
+				<?php echo a_js_button(a_('Delete'), array('icon','a-delete', 'alt', 'lite', 'no-label')) ?>
 			</li>
 		</ul>
 

@@ -1,0 +1,554 @@
+// Apostrophe Buttons
+// -------------------------------------
+
+@a-button-size: 18px;
+@a-button-size-mini: @a-button-size * 0.889;
+@a-button-size-big: @a-button-size * 1.25;
+@a-button-type-size: @a-button-size * 0.667;
+@a-button-type-size-big: @a-button-type-size * 1.5;
+@a-button-type-size-mini: @a-button-type-size * 0.8334;
+
+.a-ui
+{
+	// Buttons and Links
+	.a-btn, &.a-btn,
+	.a-link, &.a-link
+	{ // <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
+		position: relative;
+		display: inline-block;
+		float: left;
+		text-decoration: none;
+		font-family: arial,sans-serif;
+		font-size: @a-button-type-size;
+		cursor: pointer;
+		padding: 0 4px;
+		white-space: nowrap;
+		height: @a-button-size;
+		line-height: @a-button-size;
+		border: none;
+		// Buttons with Icons
+		&.icon
+		{
+			padding: 0 4px 0 20px;
+			&:hover,
+			&:focus
+			{
+				> .icon
+				{
+					background-color: none;
+				}
+			}
+			&.alt
+			{
+				> .icon
+				{
+					background-position-x: -20px;
+				}
+			}
+			// The Button's Icon
+			> .icon
+			{ // <a class="a-btn ... icon"><span class="icon"></span>example</a>
+				display: block;
+				height: 20px;
+				width: 20px;
+				position: absolute;
+				top: 50%;
+				left: 0;
+				margin-top: -10px;
+				// background-position: 50% 50%; // Fix Me
+				background-repeat: no-repeat;
+				background-image: url('/apostrophePlugin/images/a-icon-sprite.png');
+				overflow: hidden;
+				text-indent: -9999px;
+			}
+			// Buttons where the icon is on the right side
+			&.icon-right
+			{ // <a class="a-btn ... icon icon-right"><span class="icon"></span>example</a>
+				padding: 0 20px 0 4px;
+				> .icon
+				{
+					left: auto;
+					right: 0;
+				}
+			}
+		}
+		// Buttons without a Text Label
+		&.no-label,
+		&.no-label:hover
+		{
+			// background-position: center center; // Fix Me
+			background-repeat: no-repeat;
+			text-indent: -9999px;
+			padding: 0;
+			width: @a-button-size;
+			// Buttons without a Text Label > .icon should on the button
+			&.icon > .icon
+			{
+				left: 50%;
+				margin-left: -10px;
+			}
+		}
+		// Lite Bbutton Style
+		&.lite {
+			text-shadow: none;
+			background: none;
+			line-height: @a-button-size;
+			border: 1px solid transparent;
+			&:hover
+			{
+				color: #000 !important;
+				background-color: rgba(0,0,0,0.125) !important;
+				border: 1px inset rgba(0,0,0,0.125) !important;
+			}
+			&.big
+			{
+				line-height: @a-button-size-big;
+			}
+			&.mini
+			{
+				line-height: @a-button-size-mini;
+			}
+		}
+		// Small Button Style
+		&.mini
+		{
+			font-size: @a-button-type-size-mini;
+			height: @a-button-size-mini;
+			line-height: @a-button-size-mini;
+			// Small Buttons without a Text Label
+			&.no-label
+			{
+				width: @a-button-size-mini;
+			}
+			&.lite
+			{
+				line-height: @a-button-size-mini;
+			}
+		}
+		&.big
+		{
+			font-size: @a-button-type-size-big;
+			height: @a-button-size-big;
+			line-height: @a-button-size-big;
+			// background-position: center left; // Fix Me
+			> .icon
+			{
+				
+				// background-position: center left; // Fix Me
+			}
+			&.no-label
+			{
+				// background-position: 50% 50%; // Fix Me
+				width: 24px;
+				> .icon
+				{
+					// background-position: 50% 50%; // Fix Me
+				}
+			}
+		}
+		&.no-bg,
+		&.no-bg:hover,
+		&.no-bg:focus 
+		{
+			border: 0 !important;
+			text-shadow: none !important;
+			background: none !important;
+			-moz-box-shadow: 0 0 0 transparent !important;
+			-webkit-box-shadow: 0 0 0 transparent !important;
+			-opera-box-shadow: 0 0 0 transparent !important;
+			-khtml-box-shadow: 0 0 0 transparent !important;
+			box-shadow: 0 0 0 transparent !important;
+			line-height: 20px !important;
+			height: 20px !important;
+		}
+	}
+	// Tags behave like buttons too
+	&.a-tag,
+	.a-tag
+	{
+		> .a-tag-count
+		{
+			text-indent: 0;
+			text-align: center;
+		}
+	}
+
+	// Button Exceptions
+	input.a-btn.a-submit.big
+	{
+		height: 26px;
+	}
+
+	.a-busy > .icon 
+	{ 
+		background: url(/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat; 
+		padding-left: 24px;
+		left: 2px;
+	}
+
+} // .a-ui
+
+// 7. Apostrophe Button Icons
+// -------------------------------------
+
+.a-add > .icon { background-position: 0 0; }
+.a-arrow-down > .icon { background-position: 0 -20px; }
+.a-arrow-up > .icon { background-position: 0 -40px; }
+.a-arrow-left > .icon { background-position: 0 -60px; }
+.a-arrow-right > .icon { background-position: 0 -80px; }
+.a-arrow-left.chunky > .icon { background-position: 0 -100px; }
+.a-arrow-right.chunky > .icon { background-position: 0 -120px; }
+.a-arrow-left.thin > .icon { background-position: 0 -140px; }
+.a-arrow-right.thin > .icon { background-position: 0 -160px; }
+.a-return > .icon { background-position: 0 -180px; }
+.a-dropdown-arrow.right > .icon { background-position: 0 -200px; }
+.a-dropdown-arrow.left > .icon { background-position: 0 -220px; }
+.a-dropdown-arrow.down > .icon { background-position: 0 -240px; }
+.a-dropdown-arrow.up > .icon { background-position: 0 -260px; }
+.a-audio > .icon { background-position: 0 -280px; }
+.a-blogmulti > .icon { background-position: 0 -300px; }
+.a-blog > .icon,
+.a-blog-btn > .icon,
+.a-blogpost > .icon,
+.a-blogsingle > .icon { background-position: 0 -320px; }
+.a-button > .icon { background-position: 0 -340px; }
+.a-checked > .icon { background-position: 0 -360px; }
+.a-unchecked > .icon { background-position: 0 -380px; }
+.a-download > .icon { background-position: 0 -400px; }
+.a-drag > .icon { background-position: 0 -420px; }
+.a-edit > .icon, .a-publish > .icon { background-position: 0 -440px; }
+.a-email > .icon { background-position: 0 -460px; }
+.a-events.day-1 > .icon 	{ background-position: 0 -480px; }
+.a-events.day-2 > .icon 	{ background-position: 0 -500px; }
+.a-events.day-3 > .icon 	{ background-position: 0 -520px; }
+.a-events.day-4 > .icon 	{ background-position: 0 -540px; }
+.a-events.day-5 > .icon 	{ background-position: 0 -560px; }
+.a-events.day-6 > .icon 	{ background-position: 0 -580px; }
+.a-events.day-7 > .icon 	{ background-position: 0 -600px; }
+.a-events.day-8 > .icon 	{ background-position: 0 -620px; }
+.a-events.day-9 > .icon 	{ background-position: 0 -640px; }
+.a-events.day-10 > .icon	{ background-position: 0 -660px; }
+.a-events.day-11 > .icon	{ background-position: 0 -680px; }
+.a-events.day-12 > .icon	{ background-position: 0 -700px; }
+.a-events.day-13 > .icon	{ background-position: 0 -720px; }
+.a-events.day-14 > .icon	{ background-position: 0 -740px; }
+.a-events.day-15 > .icon	{ background-position: 0 -760px; }
+.a-events.day-16 > .icon	{ background-position: 0 -780px; }
+.a-events.day-17 > .icon	{ background-position: 0 -800px; }
+.a-events.day-18 > .icon	{ background-position: 0 -820px; }
+.a-events.day-19 > .icon	{ background-position: 0 -840px; }
+.a-events.day-20 > .icon	{ background-position: 0 -860px; }
+.a-events.day-21 > .icon	{ background-position: 0 -880px; }
+.a-events.day-22 > .icon	{ background-position: 0 -900px; }
+.a-events.day-23 > .icon	{ background-position: 0 -920px; }
+.a-events.day-24 > .icon	{ background-position: 0 -940px; }
+.a-events.day-25 > .icon	{ background-position: 0 -960px; }
+.a-events.day-26 > .icon	{ background-position: 0 -980px; }
+.a-events.day-27 > .icon	{ background-position: 0 -1000px; }
+.a-events.day-28 > .icon	{ background-position: 0 -1020px; }
+.a-events.day-29 > .icon	{ background-position: 0 -1040px; }
+.a-events.day-30 > .icon	{ background-position: 0 -1060px; }
+.a-events.day-31 > .icon,
+.a-event, .a-eventsingle 	{ background-position: 0 -1080px; }
+.a-feed > .icon, 
+.a-rss-feed > .icon, .a-rss { background-position: 0 -1100px; 
+	&.color
+	{
+		> .icon { background-position: 0 -1760px; } //TODO Make these real
+	} 
+}
+.a-file > .icon 					{ background-position: 0 -1120px; }
+.a-history-btn > .icon,
+.a-history-revert > .icon { background-position: 0 -1140px; }
+.a-slideshow > .icon,
+.a-media > .icon,
+.a-image > .icon { background-position: 0 -1160px; }
+.a-smartslideshow > .icon { background-position: 0 -1180px; }
+.a-page-settings > .icon { background-position: 0 -1200px; }
+.a-page-small > .icon { background-position: 0 -1220px; }
+// .a-??? > .icon { background-position: 0 -1240px; } // audio pause button
+.a-pdf > .icon { background-position: 0 -1260px; }
+// .a-??? > .icon { background-position: 0 -1280px; } // audio play button
+.a-rawhtml > .icon { background-position: 0 -1300px; }
+.a-replace > .icon { background-position: 0 -1320px; }
+.a-search > .icon { background-position: 0 -1340px; }
+.a-settings > .icon { background-position: 0 -1360px; }
+.a-reorganize > .icon { background-position: 0 -1380px; }
+.a-templates > .icon { background-position: 0 -1400px; }
+.a-richtext > .icon, .a-text > .icon { background-position: 0 -1420px; }
+.a-delete > .icon { background-position: 0 -1440px; }
+.a-categories > .icon,
+.a-tags > .icon { background-position: 0 -1460px; }
+.a-users > .icon { background-position: 0 -1480px; }
+.a-video > .icon { background-position: 0 -1500px; }
+.a-time > .icon { background-position: 0 -1520px; }
+.a-crop > .icon { background-position: 0 -1540px; }
+.a-calendar > .icon { background-position: 0 -1560px; }
+.a-filters > .icon { background-position: 0 -1580px; }
+.a-help > .icon { background-position: 0 -1600px; }
+.a-media-fourup > .icon { background-position: 0 -1620px; } //TODO Make these real
+.a-media-full > .icon { background-position: 0 -1640px; } //TODO Make these real
+.a-media-twoup > .icon { background-position: 0 -1660px; } //TODO Make these real
+.a-page-blog > .icon { background-position: 0 -1680px; } //TODO Make these real
+.a-page-events  > .icon { background-position: 0 -1700px; } //TODO Make these real
+.a-page-media  > .icon { background-position: 0 -1720px; } //TODO Make these real
+.a-page-normal > .icon { background-position: 0 -1740px; } //TODO Make these real
+//.a-rss.color...  { background-position: 0 -1760px; } // Color RSS Defined Above
+.a-cancel > .icon { background-position: 0 -1780px; }
+.a-google-maps > .icon { background-position: 0 -0px; } // TODO Make Google Maps Icon
+
+
+// Apostrophe Sort Arrow Button
+// -------------------------------------
+
+&.a-sort-arrow > .icon {
+background-position: 0 0;
+}
+.a-ui .a-btn.a-sort-arrow.sorting .icon:hover {
+background-position: 0 -20px;
+}
+.a-btn.a-sort-arrow.sorting .icon,.a-btn.a-sort-arrow .icon:hover {
+background-position: 0 -20px;
+}
+.a-btn.a-sort-arrow.asc .icon {
+background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);
+}
+.a-btn.a-sort-arrow.desc .icon {
+background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);
+}
+.a-btn.a-sort-arrow.asc.sorting .icon:hover {
+background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-desc.png);
+}
+.a-btn.a-sort-arrow.desc.sorting .icon:hover {
+background-image: url(/apostrophePlugin/images/a-icon-sort-arrow-asc.png);
+}
+
+// Apostrophe History Button
+// -------------------------------------
+
+.a-btn.a-history-btn,.a-btn.a-history-revert {
+color: #111 !important;
+background-color: #fff !important;
+}
+.a-history-btn > .icon,.a-history-revert > .icon {
+background-position: 50% 50%;
+background-repeat: none;
+}
+.a-btn.a-history-btn.big > .icon {
+left: 50%;
+margin-left: -9px;
+}
+#a-history-heading-button > .icon {
+left: 0;
+margin-left: 0;
+}
+
+// Apostrophe Cancel Button
+// -------------------------------------
+
+.a-cancel {
+color: #fff !important;
+padding: 0 4px 0 20px;
+background-color: #999 !important;
+padding-left: 20px !important;
+}
+.a-btn.a-cancel:hover {
+background-color: #333 !important;
+text-decoration: none !important;
+}
+.a-cancel.no-label {
+padding: 0 !important;
+}
+
+// Apostrophe Delete Button
+// -------------------------------------
+
+.a-ui.a-btn.a-delete.no-label,
+.a-ui .a-btn.a-delete.no-label {
+background-color: #fff;
+color: #000;
+}
+
+// Apostrophe Close Button
+// -------------------------------------
+
+.a-close > .icon {
+background-image: url(/apostrophePlugin/images/a-icon-close-simple.png);
+}
+.a-selected > .icon,
+.a-close-small > .icon {
+background-image: url(/apostrophePlugin/images/a-icon-close-small-simple.png);
+}
+
+.a-close:hover > .icon,
+.a-selected:hover > .icon,
+.a-close-small:hover > .icon,
+.a-close:focus > .icon,
+.a-selected:focus > .icon,
+.a-close-small:focus > .icon {
+opacity: 0.5;
+}
+
+// Apostrophe Drag Button
+// -------------------------------------
+
+.a-btn.a-drag {
+cursor: move;
+}
+
+.a-btn.a-drag > .icon {
+background-image: url(/apostrophePlugin/images/a-icon-drag-simple.png);
+}
+
+.alt .a-btn.a-drag > .icon,
+.a-btn.a-drag.alt > .icon {
+background-image: url(/apostrophePlugin/images/a-icon-alt-drag-simple.png);
+}
+
+// Apostrophe Arrows
+// -------------------------------------
+
+.a-arrow-btn {
+float: left;
+cursor: pointer;
+}
+
+.a-arrow-btn,
+.a-arrow-up,
+.a-arrow-down
+.a-arrow-left.no-label,
+.a-arrow-right.no-label {
+text-indent: -9999px;
+padding: 0;
+width: 20px;
+height: 20px;
+background-position: 50% 50%;
+}
+
+.a-arrow-btn.a-arrow-left {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple.png);
+}
+.a-arrow-btn.a-arrow-right {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple.png);
+}
+
+.alt .a-arrow-btn.a-arrow-left,.a-arrow-btn.a-arrow-left.alt {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple-alt.png);
+}
+.alt .a-arrow-btn.a-arrow-right,.a-arrow-btn.a-arrow-right.alt {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple-alt.png);
+}
+
+.a-arrow-btn.a-arrow-left:hover,
+.a-arrow-btn.a-arrow-right:hover {
+opacity: 0.5;
+}
+
+.a-arrow-btn.a-arrow-left.thin {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.a-arrow-btn.a-arrow-right.thin {
+background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
+width: auto;
+padding: 0 4px 0 20px;
+text-indent: 0;
+}
+
+.a-btn.a-arrow-left.thin:hover,
+.a-btn.a-arrow-right.thin:hover {
+background-position: 0 center !important;
+}
+
+// Apostrophe Toggle Button
+// -------------------------------------
+
+.a-btn.a-toggle-btn {
+-moz-user-select: none;
+user-select: none;
+}
+
+.a-btn.a-toggle-btn.option-1 .option-1,
+.a-btn.a-toggle-btn.option-2 .option-2 {
+display: block;
+}
+
+.a-btn.a-toggle-btn.option-1 .option-2,
+.a-btn.a-toggle-btn.option-2 .option-1 {
+display: none;
+}
+
+.a-ui .a-btn.a-toggle-btn.icon > .icon {
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+height: 10px;
+width: 10px;
+margin: -6px 4px 0;
+border: 1px inset rgba(0,0,0,0.20);
+}
+
+.a-ui .a-btn.a-toggle-btn.icon.option-1 > .icon {
+background-color: #31AB64;
+background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
+background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
+}
+.a-ui .a-btn.a-toggle-btn.icon.option-2 > .icon {
+background-color: #F66;
+background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
+background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
+}
+
+// a-sidebar-button is the wide button for Blog / Events at the top of the sidebar
+.a-ui .a-btn.a-sidebar-button {
+width: 99%;
+padding: 0 !important;
+text-align: center;
+}
+.a-ui .a-btn.a-sidebar-button .label {
+width: 100%;
+text-align: center;
+display: block;
+position: absolute;
+}
+.a-ui.a-sidebar-button-wrapper {
+margin: 0 0 10px 0;
+}
+
+.a-ui .a-link,.a-link {
+padding: 1px 0;
+white-space: normal;
+height: auto;
+line-height: 16px;
+}
+
+.a-ui .a-link.icon {
+padding: 1px 20px 1px 0;
+}
+.a-ui .a-tag .a-link.icon,
+.a-ui .a-popular.a-tag .a-link {
+padding: 1px 18px 1px 0;
+}
+.a-ui .a-link.icon > .icon {
+left: auto;
+right: 0;
+}
+
+.a-ui .a-link.a-tag {
+padding: 1px 18px 1px 0;
+}
+
+.a-ui .a-tag > .a-tag-count {
+left: 100%;
+line-height: 18px;
+opacity: 0.65;
+width: auto;
+padding: 0 4px;
+}
+
+
+
+
