@@ -35,7 +35,7 @@
 	background: rgba(255,255,255,0.95);
 	@a-border-radius(5px);
 	@a-box-shadow;
-	border: 1px solid #ddd;
+	// border: 1px solid rgba(0,0,0,0.075);
 	overflow: hidden;
 	&.clearfix
 	{
@@ -121,7 +121,7 @@
 	}
 	> a.a-btn
 	{
-		color: #fff !important;
+		color: #fff;
 		background-color: #333;
 		z-index: 997;
 	}
@@ -322,7 +322,17 @@
 	min-width: 960px;
 	.a-options
 	{
+		left: 0;
 		padding: 35px 20px 20px 20px;
+		> li
+		{
+			width: 100%;
+			margin: 0;
+			&:first-child
+			{
+			padding-top: 5px;	
+			}
+		}
 	}
 	.the-apostrophe
 	{
