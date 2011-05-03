@@ -149,24 +149,39 @@ class BaseaTools
    * 
    * We've fetched a page on our own using aPageTable::queryWithSlots and we want
    * to make Apostrophe aware of it so that areas on the current page that live on
-   * that virtual page don't generate a superfluous second query
+   * that virtual page don't generate a superfluous second query. Can accept an array,
+   * a collection or a single page object. Hydrates pages if needed (app_a_fasthydrate).
+   * Returns an array of page objects for convenience in mapping them back to 
+   * other objects they are associated with (necessary to leverage app_a_fasthydrate
+   * in code like our blog plugin that associates a page with an object).
+   *
    * @param array, Doctrine_Collection, aPage $pages
    */
   static public function cacheVirtualPages($pages)
   {
-    if ((is_object($pages) && (get_class($pages) == 'Doctrine_Collection')) || is_array($pages))
+    $results = array();
+    if ((is_object($pages) && ($pages instanceOf Doctrine_Collection)) || is_array($pages))
     {
       foreach($pages as $page)
       {
-        aTools::cacheVirtualPage($page);
+        $results[] = aTools::cacheVirtualPage($page);
       }
     }
     else
     {
-      aTools::cacheVirtualPage($pages);
+      $results[] = aTools::cacheVirtualPage($pages);
     }
+    return $results;
   }
 
+  /**
+   * 
+   * Caches a page for the current request so that other invocations of a_slot, a_area,
+   * etc. can efficiently access it without another query. Also hydrates the page if the
+   * data passed in is from an array-hydrated query (part of app_a_fasthydrate). Returns the
+   * page object, particularly useful if you need to map it back to an object it is 
+   * associated with as part of fast hydration
+   */
   static public function cacheVirtualPage($pageInfo)
   {
     if (!is_object($pageInfo))
@@ -182,6 +197,7 @@ class BaseaTools
       $page = $pageInfo;
     }
     aTools::$globalCache[$page['slug']] = $page;
+    return $page;
   }
   
   /**

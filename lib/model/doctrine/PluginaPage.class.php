@@ -196,7 +196,7 @@ abstract class PluginaPage extends BaseaPage
     if (isset($this->slotCache[$this->culture][$name]))
     {
       foreach ($this->slotCache[$this->culture][$name] as $permid => $slot)
-      {
+      {  
         $results[$permid] = $slot;
       }
     }
