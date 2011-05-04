@@ -16,7 +16,7 @@
   border-radius: @radius;
 }
 
-@a-box-shadow(@shadow:rgba(0,0,0,0.10) 0px 0px 10px)
+@a-box-shadow(@shadow:rgba(0,0,0,0.15) 0px 0px 10px)
 {
 	-moz-box-shadow:@shadow;
 	-webkit-box-shadow:@shadow;
@@ -54,4 +54,16 @@
 	background-image: -moz-linear-gradient(center bottom, @color 0%, lighten(@color, 20%) 70%);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, @color), color-stop(.7, lighten(@color, 10%)));
 	background-image: -o-linear-gradient(center bottom, @color 0%, lighten(@color, 20%) 70%);
+}
+
+@a-text-shadow(@params:0 -1px 0px rgba(0,0,0,0.20);)
+{
+	text-shadow: @params;
+}
+
+@a-no-user-select
+{
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }

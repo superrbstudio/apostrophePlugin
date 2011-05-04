@@ -27,7 +27,7 @@
 	{
 		color: #fff;
 		text-decoration: none;
-		text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+		@a-text-shadow;
 		background: @a-button-color;
 		background: @a-button-background;
 		background-image: -moz-linear-gradient(center bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
@@ -39,7 +39,7 @@
 		&:focus
 		{
 			color: #fff;
-			text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+			// @a-text-shadow;
 			text-decoration: none;
 			background-color: #999;
 		}
@@ -47,7 +47,7 @@
 		&:active
 		{
 			color: #eee;
-			text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
+			// @a-text-shadow;
 			background-color: #111;
 			text-decoration: none;
 		}
@@ -55,7 +55,7 @@
 		&.alt
 		{
 			color: #555;
-			text-shadow: 0 1px 0px rgba(255,255,255,255.20);
+			@a-text-shadow(0 1px 0px rgba(255,255,255,255.20));
 			background-color: #f0f0f0;
 			border:1px solid #ccc;
 			// Apostrophe Button - Alternative Hover & Focus
