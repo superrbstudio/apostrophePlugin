@@ -101,7 +101,7 @@
     	<ul class="a-ui a-tag-sidebar-list popular">
       	<?php $n=1; foreach ($popularTags as $tag => $count): ?>
 	  			<li <?php echo ($n == count($popularTags) ? 'class="last"':'') ?>>
-						<?php echo a_button('<span class="a-tag-count icon">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag','icon','no-icon')) ?>		
+						<?php echo a_button('<span class="a-tag-count icon">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag','icon','no-icon','icon-right')) ?>		
 					</li>
 	      <?php $n++; endforeach ?>
     	</ul>
@@ -110,7 +110,7 @@
 	    <ul class="a-ui a-tag-sidebar-list all-tags">
 	      <?php $n=1; foreach ($allTags as $tag => $count): ?>
 	  			<li <?php echo ($n == count($allTags) ? 'class="last"':'') ?>>
-						<?php echo a_button('<span class="a-tag-count icon">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag','icon','no-icon')) ?>		
+						<?php echo a_button('<span class="a-tag-count icon">'.$count.'</span>'.$tag, url_for(aUrl::addParams($current, array("tag" => $tag))), array('a-link','a-tag','icon','no-icon','icon-right')) ?>		
 					</li>
 	      <?php $n++; endforeach ?>
 	    </ul>
