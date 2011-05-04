@@ -1,3 +1,5 @@
+@import 'a-helpers';
+
 // Apostrophe Buttons
 // -------------------------------------
 
@@ -92,7 +94,7 @@
 			}
 		}
 
-		// Lite Bbutton Style
+		// Lite Button Style
 		&.lite {
 			text-shadow: none;
 			background: none;
@@ -207,6 +209,66 @@
 			}
 		}
 		
+		// Wide button for Blog / Events sidebar -- "New Post"
+		&.a-sidebar-button 
+		{
+			width: 99%;
+			padding: 0 !important;
+			text-align: center;
+			clear: both;
+			margin: 0 0 10px;
+			.label 
+			{
+				width: 100%;
+				text-align: center;
+				display: block;
+				position: absolute;
+			}
+		}
+
+		&.a-toggle-btn 
+		{
+			-moz-user-select: none;
+			user-select: none;
+
+			&.option-1 .option-1,
+			&.option-2 .option-2 
+			{
+				display: block;
+			}
+
+			&.option-1 .option-2,
+			&.option-2 .option-1 
+			{
+				display: none;
+			}
+
+			&.icon 
+			{
+				> .icon 
+				{
+					@a-border-radius(6px);
+					height: 10px;
+					width: 10px;
+					margin: -6px 4px 0;
+					border: 1px inset rgba(0,0,0,0.20);
+					background-image: none;
+				}
+				&.option-1 > .icon 
+				{
+					background: #31AB64;
+					background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
+					background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
+				}		
+				&.option-2 > .icon 
+				{
+					background: #F66;
+					background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
+					background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
+				}		
+			}	
+		}
+
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
 
 	// Tags behave like buttons too
@@ -235,19 +297,48 @@
 
 } // [ .a-ui ]
 
-// 7. Apostrophe Button Icons
+// Apostrophe Arrows --	Note: The arrow buttons are scoped within .a-ui
+// 											because they are used often, when logged-out.
+// ----------------------------------------------------------------------
+
+.a-arrow-btn 
+{
+	float: left;
+	cursor: pointer;
+	text-indent: -9999px;
+	padding: 0;
+	width: 20px;
+	height: 20px;
+	outline: none;
+	overflow: hidden;
+	background-image: url('/apostrophePlugin/images/a-icon-sprite.png');
+	&:hover 
+	{
+		opacity: 0.5;
+	}
+}
+
+// Apostrophe Button Icons
 // -------------------------------------
 
 @a-button-icons(@bgleft: 0;)
 {
 	&.a-add > .icon { background-position: @bgleft 0px; }
+	&.a-arrow-btn.a-arrow-down,
 	&.a-arrow-down > .icon { background-position: @bgleft -20px; }
+	&.a-arrow-btn.a-arrow-up,
 	&.a-arrow-up > .icon { background-position: @bgleft -40px; }
+	&.a-arrow-btn.a-arrow-left,
 	&.a-arrow-left > .icon { background-position: @bgleft -60px; }
+	&.a-arrow-btn.a-arrow-right,
 	&.a-arrow-right > .icon { background-position: @bgleft -80px; }
+	&.a-arrow-btn.a-arrow-left.chunky,
 	&.a-arrow-left.chunky > .icon { background-position: @bgleft -100px; }
+	&.a-arrow-btn.a-arrow-right.chunky,
 	&.a-arrow-right.chunky > .icon { background-position: @bgleft -120px; }
+	&.a-arrow-btn.a-arrow-left.thin,
 	&.a-arrow-left.thin > .icon { background-position: @bgleft -140px; }
+	&.a-arrow-btn.a-arrow-right.thin,
 	&.a-arrow-right.thin > .icon { background-position: @bgleft -160px; }
 	&.a-return > .icon { background-position: @bgleft -180px; }
 	&.a-dropdown-arrow.right > .icon { background-position: @bgleft -200px; }
@@ -356,149 +447,3 @@
 
 // Black Icons
 .alt { @a-button-icons(-20px); }
-
-// Apostrophe Arrows
-// -------------------------------------
-
-.a-arrow-btn 
-{
-	float: left;
-	cursor: pointer;
-}
-
-.a-arrow-btn,
-.a-arrow-up,
-.a-arrow-down
-.a-arrow-left.no-label,
-.a-arrow-right.no-label {
-text-indent: -9999px;
-padding: 0;
-width: 20px;
-height: 20px;
-background-position: 50% 50%;
-}
-
-.a-arrow-btn.a-arrow-left {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple.png);
-}
-.a-arrow-btn.a-arrow-right {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple.png);
-}
-
-.alt .a-arrow-btn.a-arrow-left,.a-arrow-btn.a-arrow-left.alt {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-left-solid-simple-alt.png);
-}
-.alt .a-arrow-btn.a-arrow-right,.a-arrow-btn.a-arrow-right.alt {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-right-solid-simple-alt.png);
-}
-
-.a-arrow-btn.a-arrow-left:hover,
-.a-arrow-btn.a-arrow-right:hover {
-opacity: 0.5;
-}
-
-.a-arrow-btn.a-arrow-left.thin {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-left-thin-simple.png);
-width: auto;
-padding: 0 4px 0 20px;
-text-indent: 0;
-}
-
-.a-arrow-btn.a-arrow-right.thin {
-background-image: url(/apostrophePlugin/images/a-icon-arrow-right-thin.png);
-width: auto;
-padding: 0 4px 0 20px;
-text-indent: 0;
-}
-
-.a-btn.a-arrow-left.thin:hover,
-.a-btn.a-arrow-right.thin:hover {
-background-position: 0 center !important;
-}
-
-// Apostrophe Toggle Button
-// -------------------------------------
-
-.a-btn.a-toggle-btn {
--moz-user-select: none;
-user-select: none;
-}
-
-.a-btn.a-toggle-btn.option-1 .option-1,
-.a-btn.a-toggle-btn.option-2 .option-2 {
-display: block;
-}
-
-.a-btn.a-toggle-btn.option-1 .option-2,
-.a-btn.a-toggle-btn.option-2 .option-1 {
-display: none;
-}
-
-.a-ui .a-btn.a-toggle-btn.icon > .icon {
--moz-border-radius: 6px;
--webkit-border-radius: 6px;
-border-radius: 6px;
-height: 10px;
-width: 10px;
-margin: -6px 4px 0;
-border: 1px inset rgba(0,0,0,0.20);
-background-image: none;
-}
-
-.a-ui .a-btn.a-toggle-btn.icon.option-1 > .icon {
-background-color: #31AB64;
-background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
-background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
-}
-.a-ui .a-btn.a-toggle-btn.icon.option-2 > .icon {
-background-color: #F66;
-background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
-background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
-}
-
-// a-sidebar-button is the wide button for Blog / Events at the top of the sidebar
-.a-ui .a-btn.a-sidebar-button {
-width: 99%;
-padding: 0 !important;
-text-align: center;
-}
-.a-ui .a-btn.a-sidebar-button .label {
-width: 100%;
-text-align: center;
-display: block;
-position: absolute;
-}
-.a-ui.a-sidebar-button-wrapper {
-margin: 0 0 10px 0;
-}
-
-.a-ui .a-link,.a-link {
-padding: 1px 0;
-white-space: normal;
-height: auto;
-line-height: 16px;
-}
-
-.a-ui .a-link.icon {
-padding: 1px 20px 1px 0;
-}
-.a-ui .a-tag .a-link.icon,
-.a-ui .a-popular.a-tag .a-link {
-padding: 1px 18px 1px 0;
-}
-.a-ui .a-link.icon > .icon {
-left: auto;
-right: 0;
-}
-
-.a-ui .a-link.a-tag {
-padding: 1px 18px 1px 0;
-}
-
-.a-ui .a-tag > .a-tag-count {
-left: 100%;
-line-height: 18px;
-opacity: 0.65;
-width: auto;
-padding: 0 4px;
-}
