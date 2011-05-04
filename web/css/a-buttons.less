@@ -75,6 +75,16 @@
 					right: 0;
 				}
 			}
+			&.no-icon
+			{
+				> .icon
+				{
+					background: none;
+					text-indent: 0;
+					text-align: center;
+					line-height: @a-button-size+2px;
+				}
+			}
 		}
 
 		// Buttons without a Text Label
@@ -98,21 +108,12 @@
 		&.lite {
 			text-shadow: none;
 			background: none;
-			line-height: @a-button-size;
 			border: 1px solid transparent;
 			&:hover
 			{
 				color: #000 !important;
 				background-color: rgba(0,0,0,0.125) !important;
 				border: 1px inset rgba(0,0,0,0.125) !important;
-			}
-			&.big
-			{
-				line-height: @a-button-size-big;
-			}
-			&.mini
-			{
-				line-height: @a-button-size-mini;
 			}
 		}
 
@@ -127,9 +128,12 @@
 			{
 				width: @a-button-size-mini;
 			}
-			&.lite
+			&.no-icon
 			{
-				line-height: @a-button-size-mini;
+				> .icon
+				{
+					line-height: @a-button-size-mini;
+				}
 			}
 		}
 
@@ -154,6 +158,13 @@
 					// background-position: 50% 50%; // Fix Me
 				}
 			}
+			&.no-icon
+			{
+				> .icon
+				{
+					line-height: @a-button-size-big;
+				}
+			}			
 		}
 		
 		// Buttons without a background
@@ -435,9 +446,9 @@
 	&.a-page-media  > .icon { background-position: @bgleft -1720px; } //TODO Make these real
 	&.a-page-normal > .icon { background-position: @bgleft -1740px; } //TODO Make these real
 	//&.a-rss.color...  { background-position: @bgleft -1760px; } // Color RSS Defined Above
-	&.a-cancel > .icon,
 	&.a-close > .icon { background-position: @bgleft -1780px; }
 	&.a-selected > .icon,
+	&.a-cancel > .icon,
 	&.a-close-small > .icon { background-position: @bgleft -1800px  }
 	&.a-google-maps > .icon { background-position: @bgleft -0px; } // TODO Make Google Maps Icon
 }
