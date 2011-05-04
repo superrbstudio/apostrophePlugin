@@ -421,3 +421,17 @@ border: 1px inset rgba(0,0,0,0.20);
 
 /*.a-ui .a-link.a-tag { padding: 1px 18px 1px 0; }*/
 .a-ui .a-tag > .a-tag-count { left: 100%; line-height: 18px; opacity: 0.65; width: auto; padding: 0 4px;}
+
+.a-ui .a-btn.icon.no-icon > .icon, 
+.a-ui.a-btn.icon.no-icon > .icon, 
+.a-ui .a-link.icon.no-icon > .icon, 
+.a-ui.a-link.icon.no-icon > .icon 
+{
+  background:none;
+  text-indent:0;
+  text-align:center;
+  line-height:20px;
+}
+
+.a-ui .a-btn.mini.no-icon > .icon, .a-ui.a-btn.mini.no-icon > .icon, .a-ui .a-link.mini.no-icon > .icon, .a-ui.a-link.mini.no-icon > .icon { line-height: 16px; }
+.a-ui .a-btn.big.no-icon > .icon, .a-ui.a-btn.big.no-icon > .icon, .a-ui .a-link.big.no-icon > .icon, .a-ui.a-link.big.no-icon > .icon { line-height: 22px; }
