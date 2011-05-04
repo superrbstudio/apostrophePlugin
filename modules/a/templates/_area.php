@@ -18,7 +18,7 @@
 	<li>
 		<?php $history_button_style = sfConfig::get('app_a_history_button_style', 'no-label big') ?>
 		<?php $history_button_id = "a-area-$pageid-$name-history-button" ?>
-		<?php echo a_js_button(a_('History'), array('icon', 'a-history-btn', ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style)), $history_button_id, a_('Area History')) ?>
+		<?php echo a_js_button(a_('History'), array('icon', 'a-history-btn', 'alt', ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style)), $history_button_id, a_('Area History')) ?>
 		<?php a_js_call('apostrophe.areaEnableHistoryButton(?)', array('buttonId' => $history_button_id, 'pageId' => $pageid, 'name' => $name, 'url' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))), 'moreUrl' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))))) ?>
 	</li>
 <?php end_slot() ?>

@@ -2040,7 +2040,7 @@ function aConstructor()
 						liMarkup += '<li class="a-cascade-option apply-to-subpages"><div class="cascade-checkbox"><input type="checkbox" value="1" /> ' + options['applyToSubpagesLabel'] + '</div></li>';
 					}
 					// PLEASE NOTE code is targeting a-close-small, if you change that class you have to change the selector elsewhere
-					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
+					liMarkup += '<li class="a-actions"><a href="#" class="a-close-small a-btn icon no-label no-bg alt">' + options['removeLabel'] + '<span class="icon"></span></a></li></ul></li>';
 					li = $(liMarkup);
 					li.find('.a-who').text(who);
 					if (options['extra'])

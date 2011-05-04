@@ -127,6 +127,15 @@
 	}
 }
 
+.a-options-align-right
+{
+	.a-options
+	{
+		left: auto;
+		right: -6px;
+	}
+}
+
 
 
 /* Apostrophe Reorganize Tree
@@ -323,7 +332,10 @@
 	.a-options
 	{
 		left: 0;
-		padding: 35px 20px 20px 20px;
+		&.a-page-form
+		{
+			padding: 35px 20px 20px 20px;
+		}
 		> li
 		{
 			width: 100%;
@@ -445,7 +457,7 @@
 		}
 		input
 		{
-			.a-page-title-field
+			&.a-page-title-field
 			{
 				width: 275px;
 				font-size: 18px;
