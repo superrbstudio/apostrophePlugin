@@ -195,6 +195,18 @@
 			cursor: move;
 		}
 		
+		&.a-sort-arrow
+		{
+			&.not-sorting
+			{
+				opacity: 0.5;
+				&:hover
+				{
+					opacity: 1;
+				}
+			}
+		}
+		
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
 
 	// Tags behave like buttons too
@@ -490,7 +502,3 @@ opacity: 0.65;
 width: auto;
 padding: 0 4px;
 }
-
-
-
-// TODO: Fix sort arrows hover states in blog plugin
