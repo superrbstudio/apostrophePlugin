@@ -828,9 +828,13 @@ color: #333;
 	font-size: 11px;
 	line-height: 1.2;
 	margin: 2px 0;
+	text-indent: 0 !important;
+	top: 50% !important;
+	line-height: 18px !important;
+	text-align: center !important;
 }
 
-.a-inline-taggable-widget-tag-container .a-tag span.a-tag-count
+.a-inline-taggable-widget-tag-container .a-tag span.a-tag-count.icon
 {
 	float: right;
 	margin-left: 2px;
