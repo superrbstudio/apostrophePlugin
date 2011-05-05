@@ -51,7 +51,9 @@
 				<?php endif ?>
 
 			</li>	
-			<?php include_slot('a-history-controls') ?>
+			<?php if ($options['history']): ?>
+				<?php include_slot('a-history-controls') ?>				
+			<?php endif ?>
 		</ul>
     <?php endif ?>
 
@@ -108,7 +110,7 @@
       <?php // Include slot-type-specific controls if the slot has any ?>
      	<?php include_slot("a-slot-controls-$pageid-$name-$permid") ?>
 
-			<?php if (!$infinite): ?>
+			<?php if (!$infinite && $options['history']): ?>
 			  <?php include_slot('a-history-controls') ?>
 			<?php endif ?>
 
