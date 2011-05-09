@@ -80,8 +80,18 @@ class aMediaRouting
         'module' => 'aMedia',
         'action' => 'index'
       ), array('category' => '.*')));
+
+      // Support for existing pretty-URL tag links so they don't 404. We don't recommend
+      // this for the generation of new links because it doesn't handle various
+      // punctuation well with a wide variety of webserver configurations
+      $r->prependRoute('a_media_index_deprecated_tag', new aRoute('/tag/:tag', array(
+        'module' => 'aMedia',
+        'action' => 'index'
+      ), array('tag' => '.*')));
       
-      $r->prependRoute('a_media_index_tag', new aRoute('/tag/:tag', array(
+      // We removed :tag because we allow tags with dots and such and pretty URLs
+      // work great until your rewrite rules decide they are supposed to be static files
+      $r->prependRoute('a_media_index_tag', new aRoute('/tag', array(
         'module' => 'aMedia',
         'action' => 'index'
       ), array('tag' => '.*')));
