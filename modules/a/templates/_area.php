@@ -98,7 +98,7 @@
 	  <?php a_js_call('$(?).data(?, ?)', "#a-slot-$pageid-$name-$permid", 'a-permid', $permid) ?>
 
 		<ul class="a-ui a-controls a-slot-controls clearfix">		
-      <?php if ($infinite): ?>
+      <?php if ($infinite && $options['arrows']): ?>
 				<li class="a-move up">
 				  <a href="#move-up" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Up') ?></a>
 				</li>
@@ -157,7 +157,9 @@
 
 	<?php if ($infinite): ?><?php // Normal Areas ?>
 		<?php a_js_call('apostrophe.areaHighliteNewSlot(?)', array('pageId' => $pageid, 'slotName' => $name)) ?>
-		<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
+		<?php if ($options['arrows']): ?>
+			<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>	
+		<?php endif ?>
 		<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>	
 	<?php endif ?>
 
