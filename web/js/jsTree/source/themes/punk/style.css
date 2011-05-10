@@ -1,9 +1,13 @@
 .tree-punk .a-tree-delete-btn ,
 .tree-punk .a-tree-delete-btn:hover
 {
-float: right;
-height: 15px;
-width: 15px;
+position: absolute;
+top: 50%;
+right: 0;
+margin-top: -8px;
+display: block;
+height: 16px;
+width: 16px;
 margin-left: 4px;
 text-indent: -999em;
 overflow: hidden;
@@ -30,8 +34,8 @@ cursor: pointer;
 
 .tree-punk li.open { background-image:url("minus.gif"); background-position:2px 5px; }
 .tree-punk li.closed, #jstree-dragged.tree-punk li li.open { background-image:url("plus.gif"); background-position:2px 5px; }
-.tree-punk li a { background: #fff; float: left; padding: 1px; }
-.tree-punk li span { padding:1px 1px 1px 20px; }
+.tree-punk li a { background: #fff; float: left; padding: 1px; position: relative; }
+.tree-punk li span { padding:1px 19px 1px 20px; }
 .tree-default li a, .tree-default li span { background-position: 0 0; }
 .tree-punk li .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page.png"); }
 .tree-punk li.archived .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page.png"); opacity:.5; }
@@ -39,7 +43,7 @@ cursor: pointer;
 .tree-punk li.engine-aEvent .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-events.png"); }
 /*.tree-punk li.engine-aMedia .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }*/
 .tree-punk .rtl li.closed, #jstree-dragged.tree-punk .rtl li li.open { background-image:url("plus_rtl.gif"); }
-.tree-punk li a:hover { background-color:#ddd; border-color:#ddd; color:#fff; padding: 0 !important; }
+.tree-punk li a:hover { background-color:#ddd; border: 0 !important; color:#fff; padding: 1px !important; }
 .tree-punk li a.clicked, 
 .tree-punk li a.clicked:hover, 
 .tree-punk li span.clicked { background-color:#ddd; border-color:#ddd; color:#fff; }
