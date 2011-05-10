@@ -878,7 +878,7 @@ function aConstructor()
  		var editBtn = $('#a-slot-edit-' + fullId);
  		var editSlot = $('#a-slot-' + fullId);
 		editSlot.data('a-edit-url', editUrl);
- 		editBtn.click(function(event) {
+ 		editBtn.live('click.apostrophe', function(event) {
 			apostrophe.slotShowEditView(pageid, name, permid, realUrl);
  		  return false;
  		});
