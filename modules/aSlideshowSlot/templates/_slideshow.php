@@ -32,13 +32,8 @@
 			      "resizeType" => $options['resizeType'])) ?>
 			<?php endif ?>
 		<?php endif ?>
-	  <?php $embed = str_replace(
-	    array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-	    array($dimensions['width'], 
-	      $dimensions['height'], 
-	      $dimensions['resizeType'],
-	      $dimensions['format']),
-	    $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false)) ?>
+		
+	  <?php $embed = $item->getEmbedCode($dimensions['width'], $dimensions['height'], $dimensions['resizeType'], $dimensions['format']) ?>
 	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>">
 			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('items' => $items, 'item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
 		</li>

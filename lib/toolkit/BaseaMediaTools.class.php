@@ -227,7 +227,8 @@ class BaseaMediaTools
     $uploadCredential = aMediaTools::getOption('upload_credential');
     if ($uploadCredential)
     {
-      return $user->hasCredential($uploadCredential);
+      $has = $user->hasCredential($uploadCredential);
+      return $has;
     }
     else
     {
