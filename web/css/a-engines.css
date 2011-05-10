@@ -291,6 +291,10 @@ width: 104px
 
 .a-media-item .a-media-item-description { float: left; width: 100%; margin: 0 0 10px 0; }
 
+.a-media-item .a-media-item-description strong { font-weight: bold; }
+
+.a-media-item .a-media-item-description em { font-style: italic; }
+
 .a-media-item .a-media-item-controls { width: auto; float: right; margin-left: 10px; }
 
 .a-media-item .a-media-item-meta { float: left; width: 100%; margin: 0 0 3px 0; font-size: 11px; color: #333; }

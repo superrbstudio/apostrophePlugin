@@ -20,7 +20,7 @@
   <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
 <?php endif ?>
 
-<ul>
+<ul class="a-ui">
 	<?php if(isset($layout['fields']['title'])): ?>
 		<li class="a-media-item-title <?php if (!$mediaItem->getWidth()): ?>no-thumbnail<?php endif ?>">
 			<h3>
