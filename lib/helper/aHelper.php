@@ -172,9 +172,18 @@ function a_get_stylesheets()
       {
         if (!isset($lessc))
         {
-          $lessc = new lessc();
+          // We do it like factories.yml does it, defaulting to the built in lessc.
+          // this is a nice injection point because it's common to subclass lessc
+          // The regular lessc class constructor doesn't take useful constructor parameters
+          // as far as we're concerned, it doesn't even use its second argument '$opts'.
+          // But you can write subclasses that take a useful options array as their
+          // first argument
+          $factory = sfConfig::get('app_a_lessc', array('class' => 'lessc', 'param' => null));
+          $class = $factory['class'];
+          $param = $factory['param'];
+          $lessc = new $class($param);
         }
-        $lessc->importDir = dirname($path).'/';
+        $lessc->importDir = dirname($path) . '/';
         file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
       }
       $newStylesheets[sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $name] = $options;
