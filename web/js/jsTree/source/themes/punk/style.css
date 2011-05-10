@@ -1,15 +1,48 @@
+.tree-punk .a-tree-delete-btn ,
+.tree-punk .a-tree-delete-btn:hover
+{
+float: right;
+height: 15px;
+width: 15px;
+margin-left: 4px;
+text-indent: -999em;
+overflow: hidden;
+background: url('/apostrophePlugin/images/a-icon-alt-trash.png') 50% 51% no-repeat;
+padding: 0 !important;
+border: 0;
+cursor: pointer;
+}
+.tree-punk .a-tree-delete-btn:hover
+{
+	opacity: 0.65;
+}
+
+.tree-punk li a:hover, 
+.tree-punk li a.hover
+{
+	border: 1px solid #ddd !important;
+	color: #000 !important;
+}
+.tree-punk li a.clicked, .tree-punk li a.clicked:hover, .tree-punk li span.clicked
+{
+	padding: 0px !important;
+}
+
 .tree-punk li.open { background-image:url("minus.gif"); background-position:2px 5px; }
 .tree-punk li.closed, #jstree-dragged.tree-punk li li.open { background-image:url("plus.gif"); background-position:2px 5px; }
-.tree-punk li a { background-image: none; float: left; padding:1px 4px 1px 5px; }
-.tree-punk li span { padding:1px 4px 1px 20px; }
+.tree-punk li a { background: #fff; float: left; padding: 1px; }
+.tree-punk li span { padding:1px 1px 1px 20px; }
+.tree-default li a, .tree-default li span { background-position: 0 0; }
 .tree-punk li .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page.png"); }
 .tree-punk li.archived .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page.png"); opacity:.5; }
 .tree-punk li.engine-aBlog .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-blog.png"); }
 .tree-punk li.engine-aEvent .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-events.png"); }
-.tree-punk li.engine-aMedia .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }
+/*.tree-punk li.engine-aMedia .a-tree-title { background-image:url("/apostrophePlugin/images/a-icon-page-media.png"); }*/
 .tree-punk .rtl li.closed, #jstree-dragged.tree-punk .rtl li li.open { background-image:url("plus_rtl.gif"); }
-.tree-punk li a:hover { background-color:#999; border-color:#999; color:#fff; }
-.tree-punk li a.clicked, .tree-punk li a.clicked:hover, .tree-punk li span.clicked { background-color:#999; border-color:#999; color:#fff; padding:0px 3px 0px 4px;  }
+.tree-punk li a:hover { background-color:#ddd; border-color:#ddd; color:#fff; padding: 0 !important; }
+.tree-punk li a.clicked, 
+.tree-punk li a.clicked:hover, 
+.tree-punk li span.clicked { background-color:#ddd; border-color:#ddd; color:#fff; }
 /* RIGHT TO LEFT SUPPORT */
 .tree-punk .rtl li.open { background:url("minus_rtl.gif") right 6px no-repeat;   }
 .tree-punk .rtl li.closed { background:url("plus_rtl.gif") right 4px no-repeat; }
@@ -29,3 +62,4 @@
 
 /* IE6 
 * html .tree-punk ul li.leaf { _background-image: expression(/DIV/.test(this.parentNode.parentNode.tagName) ? "none" : "inherit"); }*/
+

@@ -432,7 +432,7 @@ function aConstructor()
 	    }
 	  });
 		treeRef = $.tree_reference(aPageTree.attr('id'));
-		aPageTree.find('.a-delete').click(function() {
+		aPageTree.find('.a-tree-delete-btn').click(function() {
 			var li = $(this).closest('li');
 			if (li.find('li').length)
 			{
