@@ -245,26 +245,28 @@ function aConstructor()
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
 	{
+		apostrophe.log('apostrophe.radioToggleButton');
 		// Set the button toggle labels
 		var opt1Label = (options['opt1Label'])? options['opt1Label'] : 'on';
 		var opt2Label = (options['opt2Label'])? options['opt2Label'] : 'off';
 		var field = $(options['field']);
 		var radios = field.find('input[type="radio"]');
-		radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton --' + field + '-- No radio inputs found');
+
+		radios.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- selector: ' + options['field'] + ' -- No radio inputs found');
 
 		if (field.length)
 		{
 			options['debug'] ? apostrophe.log('apostrophe.radioToggleButton --' + field + '-- debugging') : field.find('.radio_list').hide();
 
-			var toggleButton = $('<a/>');
-			toggleButton.addClass('a-btn icon lite a-toggle-btn');
-			toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>');
-
 			if (!field.find('.a-toggle-btn').length)
 			{
+
+				var toggleButton = $('<a/>');
+				toggleButton.addClass('a-btn icon lite a-toggle-btn');
+				toggleButton.html('<span class="icon"></span><span class="option-1">' + opt1Label + '</span><span class="option-2">' + opt2Label + '</span>');
+
 				field.prepend(toggleButton);
 				var btn = field.find('.a-toggle-btn');
-
 				updateToggle(btn);
 
 				btn.click(function(){

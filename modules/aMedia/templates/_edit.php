@@ -288,7 +288,7 @@
 	<?php a_js_call('apostrophe.mediaAjaxSubmitListener(?)', array('form' => '#a-media-edit-form-'.$i, 'descId' => $form['description']->renderId(), 'url' => $formAction, 'update' => '#a-media-item-'.$item->getId().' .a-media-item-information')) ?>
 <?php endif ?>
 
-<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '.a-form-row.permissions .a-form-field', 'opt1Label' => 'public', 'opt2Label' => 'hidden')) ?>
+<?php a_js_call('apostrophe.radioToggleButton(?)', array('field' => '#a-media-editor-'.$i.' .a-form-row.permissions > .a-form-field', 'opt1Label' => 'public', 'opt2Label' => 'hidden')) ?>
 
 <?php // include pkTagahead for the taggable widget ?>
 <?php use_javascript('/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js') ?>
