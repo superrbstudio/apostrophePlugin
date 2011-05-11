@@ -31,6 +31,7 @@ cursor: pointer;
 {
 	padding: 0px !important;
 }
+#jstree-dragged { z-index: 9999; }
 
 .tree-punk li.open { background-image:url("minus.gif"); background-position:2px 5px; }
 .tree-punk li.closed, #jstree-dragged.tree-punk li li.open { background-image:url("plus.gif"); background-position:2px 5px; }
