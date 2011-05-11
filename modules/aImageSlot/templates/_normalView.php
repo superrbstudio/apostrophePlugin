@@ -1,20 +1,15 @@
 <?php
   // Compatible with sf_escaping_strategy: true
-  $constraints = isset($constraints) ? $sf_data->getRaw('constraints') : null;
-  $defaultImage = isset($defaultImage) ? $sf_data->getRaw('defaultImage') : null;
-  $description = isset($description) ? $sf_data->getRaw('description') : null;
   $dimensions = isset($dimensions) ? $sf_data->getRaw('dimensions') : null;
   $editable = isset($editable) ? $sf_data->getRaw('editable') : null;
   $item = isset($item) ? $sf_data->getRaw('item') : null;
   $itemId = isset($itemId) ? $sf_data->getRaw('itemId') : null;
-  $link = isset($link) ? $sf_data->getRaw('link') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
   $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slot = isset($slot) ? $sf_data->getRaw('slot') : null;
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
-  $title = isset($title) ? $sf_data->getRaw('title') : null;
   $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
 ?>
 <?php use_helper('a') ?>
@@ -34,21 +29,21 @@
   <?php // amount to only one row. TODO: find a less breakage-prone solution to that problem. ?>
 
 	<?php slot("a-slot-controls-$pageid-$name-$permid") ?>
-		  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => a_get_option($options, 'chooseLabel', a_('Choose Image')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Image')), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $constraints, 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
+		  <?php include_partial('aImageSlot/choose', array('action' => 'aImageSlot/edit', 'buttonLabel' => a_get_option($options, 'chooseLabel', a_('Choose Image')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Image')), 'class' => 'a-btn icon a-media', 'type' => 'image', 'constraints' => $options['constraints'], 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid)) ?>
 			<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
 	<?php end_slot() ?>
 
 <?php endif ?>
 
 <?php // one set of code with or without a real item so I don't goof ?>
-<?php if ((!$item) && ($defaultImage)): ?>
+<?php if ((!$item) && ($options['defaultImage'])): ?>
   <?php $item = new stdclass() ?>
   <?php $item->title = '' ?>
   <?php $item->description = '' ?>
-  <?php $embed = "<img src='$defaultImage' />" ?>
+  <?php $embed = '<img src="'.$options['defaultImage'].'" width="'.$options['width'].'" height="'.$options['height'].'" />' ?>
 <?php endif ?>
 
-<?php if ((!$item) && (!$defaultImage)): ?>
+<?php if ((!$item) && (!$options['defaultImage'])): ?>
 	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Add an Image"), 'options' => $options)) ?>
 <?php endif ?>
 
@@ -64,15 +59,15 @@
           $dimensions['format']),
         $embed) ?>
     <?php endif ?>
-    <?php if ($link): ?>
-      <?php $embed = "<a href=\"$link\">$embed</a>" ?>
+    <?php if ($options['link']): ?>
+      <?php $embed = "<a href='".$options['link']."'>$embed</a>" ?>
     <?php endif ?>
     <?php echo $embed ?>
     </li>
-    <?php if ($title): ?>
+    <?php if ($options['title']): ?>
       <li class="a-media-meta a-image-title"><?php echo $item->title ?></li>
     <?php endif ?>
-    <?php if ($description): ?>
+    <?php if ($options['description']): ?>
       <li class="a-media-meta a-image-description"><?php echo $item->description ?></li>
     <?php endif ?>
   </ul>

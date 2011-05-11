@@ -23,15 +23,16 @@ class BaseaImageSlotComponents extends aSlotComponents
   public function executeNormalView()
   {
     $this->setup();
-    $this->constraints = $this->getOption('constraints', array());
-    $this->width = $this->getOption('width', 440);
-    $this->height = $this->getOption('height', 330);
-    $this->resizeType = $this->getOption('resizeType', 's');
-    $this->link = $this->getOption('link', false);
-    $this->flexHeight = $this->getOption('flexHeight');
-    $this->defaultImage = $this->getOption('defaultImage');
-    $this->title = $this->getOption('title');
-    $this->description = $this->getOption('description');
+		$this->setupOptions();
+    // $this->constraints = $this->getOption('constraints', array());
+    // $this->width = $this->getOption('width', 440);
+    // $this->height = $this->getOption('height', 330);
+    // $this->resizeType = $this->getOption('resizeType', 's');
+    // $this->link = $this->getOption('link', false);
+    // $this->flexHeight = $this->getOption('flexHeight');
+    // $this->defaultImage = $this->getOption('defaultImage');
+    // $this->title = $this->getOption('title');
+    // $this->description = $this->getOption('description');
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
     {
@@ -46,10 +47,37 @@ class BaseaImageSlotComponents extends aSlotComponents
         $this->item->width, 
         $this->item->height,
         $this->item->format, 
-        array("width" => $this->width,
-          "height" => $this->flexHeight ? false : $this->height,
-          "resizeType" => $this->resizeType));
+        array("width" => $this->options['width'],
+          "height" => $this->options['flexHeight'] ? false : $this->options['height'],
+          "resizeType" => $this->options['resizeType']));
       $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
     }
   }
+
+  /**
+   * DOCUMENT ME
+   */
+  protected function setupOptions()
+  {
+    $this->options['width'] = $this->getOption('width', 440);
+    $this->options['height'] = $this->getOption('height', false);
+    $this->options['resizeType'] = $this->getOption('resizeType', 's');
+    $this->options['flexHeight'] = $this->getOption('flexHeight');
+    $this->options['maxHeight'] = $this->getOption('maxHeight', false);
+    $this->options['title'] = $this->getOption('title');
+    $this->options['description'] = $this->getOption('description');
+    $this->options['credit'] = $this->getOption('credit');
+    $this->options['link'] = $this->getOption('link');
+    $this->options['defaultImage'] = $this->getOption('defaultImage');
+    
+    // We automatically set up the aspect ratio if the resizeType is set to 'c'
+    $constraints = $this->getOption('constraints', array());
+    if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
+    {
+      $constraints['aspect-width'] = $constraints['minimum-width'];
+      $constraints['aspect-height'] = $constraints['minimum-height'];
+    }
+    $this->options['constraints'] = $constraints;
+  }
+
 }
