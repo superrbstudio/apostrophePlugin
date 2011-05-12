@@ -209,6 +209,9 @@ function aConstructor()
 		// Named bind prevents redundancy
 		form.unbind('submit.aFormUpdates');
 		form.bind('submit.aFormUpdates', function() {
+			// Give special snowflakes like FCKEditor etc. a chance to update their
+			// related "normal" form elements
+			$('.a-needs-update').trigger('a.update');
 			var updating = $('#' + options['update']);
 			apostrophe.updating(updating);
 			var action = form.attr('action');

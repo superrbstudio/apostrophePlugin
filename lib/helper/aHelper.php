@@ -160,32 +160,7 @@ function a_get_stylesheets()
       $name = md5($file) . '.less.css';
       $compiled = "$dir/" . md5($file) . '.less.css';
       
-      // When minify is turned on we already have a policy that you are responsible for
-      // hitting it with a 'symfony cc' to clear the asset cache if you make changes; so the
-      // only thing we check for is whether the compiled CSS file exists
-      
-      // When minify is not turned on (usually in dev) we should do everything we can to be as 
-      // tolerant as hitting refresh on a page with plain .css files in it would be, so we need to
-      // check the modification time of the .less file against the compiled file
-      
-      if ((!file_exists($compiled)) || ((!sfConfig::get('app_a_minify')) && (filemtime($compiled) < filemtime($path))))
-      {
-        if (!isset($lessc))
-        {
-          // We do it like factories.yml does it, defaulting to the built in lessc.
-          // this is a nice injection point because it's common to subclass lessc
-          // The regular lessc class constructor doesn't take useful constructor parameters
-          // as far as we're concerned, it doesn't even use its second argument '$opts'.
-          // But you can write subclasses that take a useful options array as their
-          // first argument
-          $factory = sfConfig::get('app_a_lessc', array('class' => 'lessc', 'param' => null));
-          $class = $factory['class'];
-          $param = $factory['param'];
-          $lessc = new $class($param);
-        }
-        $lessc->importDir = dirname($path) . '/';
-        file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
-      }
+      aAssets::compileLessIfNeeded($path, $compiled);
       $newStylesheets[sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $name] = $options;
     }
     else
