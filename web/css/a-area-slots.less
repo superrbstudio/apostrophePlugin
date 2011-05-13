@@ -1,21 +1,21 @@
 @import 'a-helpers';
 
-//  Areas and Slots 
-//  Controls for Areas & Slots 
-//  Singlton Slot Controls 
+//  Areas and Slots
+//  Controls for Areas & Slots
+//  Singlton Slot Controls
 //  aOptions for Areas & Slots :: aOptions is in a-components.css
 //  aOptions for Slot Variants :: aOptions is in a-components.css
 //  aOptions for Slot Edit Forms :: aOptions is in a-components.css
-//  aSlideshow Slot Styles 
-//  aButton Slot Styles  
-//  aImage Slot Styles  
-//  aVideo Slot Styles  
-//  aRawHTML Slot Styles  
-//  aFeed Slot Styles  
-//  aPDF Slot Styles 
-//  aPDF Slot No Label 
-//  aPDF Slot Compact 
-//  aPDF Slot Compact with Preview 
+//  aSlideshow Slot Styles
+//  aButton Slot Styles
+//  aImage Slot Styles
+//  aVideo Slot Styles
+//  aRawHTML Slot Styles
+//  aFeed Slot Styles
+//  aPDF Slot Styles
+//  aPDF Slot No Label
+//  aPDF Slot Compact
+//  aPDF Slot Compact with Preview
 //  aSlot Content Styles
 //  Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
 //  Misc
@@ -93,9 +93,9 @@
 		// Singletons place the controls over the slot
 		> .a-ui.a-controls
 		{
-			position: absolute; top: 0; left: 0; z-index: 799; margin: 0; 
+			position: absolute; top: 0; left: 0; z-index: 799; margin: 0;
 		}
-		
+
 		// Singletons in edit mode
 		&.editing
 		{
@@ -104,18 +104,18 @@
 				z-index: 899;
 			}
 		}
-		
+
 		// Some Singleton Slots don't want Area Controls to sit on top of their content
 		&.aRichText > .a-controls,
 		&.aText > .a-controls,
 		&.aBlog > .a-controls,
 		&.aBlogSingle > .a-controls,
 		&.aEvent > .a-controls,
-		&.aEventSingle > .a-controls 
-		{ 
-			position: relative; margin-bottom: 0; 
-		} 
-		
+		&.aEventSingle > .a-controls
+		{
+			position: relative; margin-bottom: 0;
+		}
+
 		// There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load
 		.a-slot-controls
 		{
@@ -124,254 +124,202 @@
 	}
 }
 
-.a-slot > .a-ui.a-controls { width: 100%; }
-.a-slot.a-new-slot > .a-ui.a-controls,
-.a-slot.a-editing > .a-ui.a-controls { position: relative; z-index: 899; } /* Controls sit on top when editing a slot */
 
-
-/* aOptions for Areas & Slots :: aOptions is in a-components.css
--------------------------------------------------------------------- */
-.a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
-.a-ui .a-options.a-area-options .a-options-item,
-.a-ui .a-options.a-area-options .a-options-item.last {
-width: 100%;
-float: left;
-clear: both;
-margin: 0 0 4px 0;
-list-style: none;
-}
-
-
-/* aOptions for Slot Variants :: aOptions is in a-components.css
--------------------------------------------------------------------- */
-ul.a-controls .a-controls-item.variant.a-options-open .a-variant-options
+.a-slot
 {
-width: auto;
-display: block;
-}
-
-ul.a-controls .a-variant-options.loading
-{
-background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
-}
-
-.a-ui
-{
-	.a-options
+	 > .a-ui.a-controls
 	{
-		.a-slot-form
+		width: 100%;
+	}
+
+	// New Slot
+	&.a-new-slot
+	{ // Controls sit on top when adding a new slot
+		> .a-ui.a-controls
 		{
-			width: 100%; top: -27px; left:-5px; padding:30px 5px 5px; overflow: visible;
-			
-			.a-form-row
-			{
-				line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
-				
-				label
-				{
-					width: 80px; float: left; margin: 0 10px 0 0; color: #666;
-				}
-				
-			}
-
-			.a-form-field
-			{
-				float: left;
-			}
-
-			.a-slot-form-title
-			{
-				position: relative;
-				float: left;
-				padding:0 10px;
-				margin-bottom: 10px;
-				width: auto;
-				clear:both;
-				line-height: 27px;
-			}
-
+			position: relative; z-index: 899;
 		}
 	}
+
+	// Editing Slot
+	&.a-editing
+	{ // Controls sit on top when editing a slot
+		> .a-ui.a-controls
+		{
+			position: relative; z-index: 899;
+		}
+	}
+
+	// aSlideshow Slot
+	// ----------------------------------------
+
+	&.aSlideshow
+	{
+
+		.a-slideshow-controls
+		{
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			height: auto;
+			border: none;
+			list-style: none;
+			z-index: 799;
+		}
+
+		.a-slideshow
+		{
+			&.transition-crossfade
+			{
+				overflow: hidden;
+				.a-slideshow-item
+				{
+					// Cross Fade Slideshows must have the items stacked up
+					position: absolute; top: 0; left: 0;
+				}
+			}
+			.a-slideshow-item
+			{
+				overflow: hidden; display: none; margin: 0;
+				.a-slideshow-title
+				{
+
+				}
+				.a-slideshow-image
+				{
+					display: block;
+					line-height: 0;
+					background-repeat: no-repeat;
+					margin: 0;
+					img
+					{
+						display: block;
+					}
+				}
+			} // [ .a-slideshow-item ]
+		} // [ .a-slideshow ]
+	} // [ .aSlideshow ]
+
+
+	// aButton Slot
+	// ----------------------------------------
+
+	&.aButton
+	{
+		.a-button
+		{
+			clear: both;
+			margin: 0;
+			.a-button-image,
+			.a-button-link,
+			.a-button-title
+			{
+				clear: both;
+				margin: 0;
+			}
+			.a-button-link:hover img
+			{
+				opacity: 0.65;
+			}
+		}
+
+		.a-button 
+		{ // Fixes IE6 Class Name Bug 
+			background: none; 
+		} 
+		
+	} // [ .aButton ]
+	
+	
+	// aImage Slot Styles
+	// -------------------------------------
+
+	&.aImage
+	{
+		.a-media-image,
+		.a-image-embed 
+		{ 
+			clear: both;
+			display: block;
+		}
+	} 
+
+
+	// aRawHTML Slot Styles
+	// -------------------------------------
+	&.aRawHTML 
+	{
+		.a-form-field
+		{
+			overflow: hidden;
+			width: 100%;
+		}
+
+		textarea
+		{
+			display:block;
+			clear: both;
+			width: 100%;
+			margin: 0 0 0 -1px;
+			min-height: 200px;
+			padding: 2px;
+			border: 1px solid #333;
+			background: #efefef;
+			font: 11px/1.5 Monospace;
+			overflow: auto !important;
+		}
+		
+	} // [ .aRawHTML ]
+	
+	
+	// aText Slot Styles
+	// -------------------------------------
+	&.aText 
+	{
+		.a-form-field
+		{
+			overflow: hidden;
+			width: 100%;
+		}
+		.single-line
+		{
+			float: left;
+			width: 95%;
+		}
+		.multi-line
+		{
+			float: left;
+			width: 95%;
+			min-height: 120px;
+			font-size: 12px/16px;
+		}
+	} // [ .aText ]
+
+
+	// aFeed Slot Styles
+	// -------------------------------------
+	&.aFeed
+	{
+		.a-feed,
+		.a-feed-item
+		{
+			clear: both;
+			margin-bottom: 10px;
+			@clearfix;
+		}
+		.a-feed
+		{
+			.a-feed-item
+			{
+				.title { font-size: 14px; }
+				.date { margin: 5px 0; color: #999; }
+				.date,
+				.description { font-size: 11px; line-height: 1.4; }
+			}
+		}
+	}
+
 }
-
-
-
-.a-slot-form .a-form-help.collapsed
-{
-display: inline;
-position: absolute;
-white-space: nowrap;
-right:-10px;
-width: auto;
-margin-top: 3px;
-margin-left: 5px !important;
-height:20px;
-width:20px;
-color:#888;
-font-weight: bold !important;
-background-image: url(../images/a-icon-help.png);
-}
-
-.a-slot-form .a-form-help.collapsed .a-form-help-text
-{
-position: absolute;
-top: 0;
-left: 100%;
-white-space: nowrap;
-width: auto;
-margin-left: 20px;
-padding: 0 6px 0 0;
-background: rgba(0,0,0,1);
-color: #e1e1e1;
-font-weight: normal;
-line-height: 21px;
--moz-border-radius: 0 4px 4px 0px;
--webkit-border-radius: 0 4px 4px 0px;
-border-radius: 0 4px 4px 0px;
--moz-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
--webkit-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
--opera-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
--khtml-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-box-shadow: rgba(255,255,255,0.25) 0px 0px 2px;
-display: none;
-}
-
-.a-slot-form .a-form-help.collapsed:hover div {	display: inline; }
-
-.a-slot-form .a-form-help.simple { position: relative; display: block; font-size: 11px; color: #888; margin: 0; }
-
-.a-ui.a-options.a-slot-form .a-form-help .a-help-arrow
-{
-position: absolute;
-top: 0;
-left: -15px;
-float: left;
-height: 21px;
-width: 15px;
-margin: 0 5px 0 0;
-background: url(../images/a-help-arrow.png) 0 0 no-repeat;
-}
-
-
-
-/* aSlideshow Slot Styles
----------------------------------------- */
-ul.a-slideshow-controls
-{
-position: absolute;
-top: 5px;
-right: 5px;
-height: auto;
-border: none;
-list-style: none;
-z-index: 799;
-}
-
-.a-slideshow.transition-crossfade { overflow: hidden; }
-/* Cross Fade Slideshows must have the items stacked up */
-.a-slideshow.transition-crossfade .a-slideshow-item { position: absolute; top: 0; left: 0; }
-
-.a-slideshow-item { overflow: hidden; display: none; margin: 0; }
-.a-slideshow-item .a-slideshow-title {  }
-.a-slideshow-item .a-slideshow-image {
-	line-height: 0 !important; /* RB: fixes the bit of whitespace after img */
-	background-repeat: no-repeat; /* If there is a background image attached here, we don't want it to repeat */
-	margin: 0;
-}
-
-.a-slideshow-item .a-slideshow-image img { display: block; }
-
-/* aButton Slot Styles
-------------------------------------- */
-.a-slot.aButton .a-button,
-.a-slot.aButton .a-button .a-button-image,
-.a-slot.aButton .a-button .a-button-image .a-button-link,
-.a-slot.aButton .a-button .a-button-title
-{
-float: left;
-clear: both;
-display: inline;
-position: relative;
-width: 100%;
-margin: 0;
-}
-
-.a-slot.aButton .a-button { background: none; } /* Fixes IE6 Bug */
-
-
-/* aImage Slot Styles
-------------------------------------- */
-.a-slot.aImage .a-media-image,
-.a-slot.aImage .a-image-embed { float: left; clear: both; line-height: 0; }
-
-
-/* aVideo Slot Styles
-------------------------------------- */
-
-
-/* aRawHTML Slot Styles
-------------------------------------- */
-.a-slot.aRawHTML .a-form-field
-{
-	overflow: hidden;
-	width: 100%;
-}
-
-.a-slot.aRawHTML textarea
-{
-float: left;
-width: 95%;
-min-height: 200px;
-padding: 2px;
-border: 1px solid #333;
-background: #efefef;
-font: 11px/16px Monospace;
-overflow: auto !important;
-}
-
-/* aText Slot Styles
-------------------------------------- */
-.a-slot.aText .a-form-field
-{
-	overflow: hidden;
-	width: 100%;
-}
-
-/* A single-line text slot is an input */
-.a-slot.aText .single-line
-{
-	float: left;
-	width: 95%;
-}
-
-/* A multi-line text slot is a textarea */
-.a-slot.aText .multi-line
-{
-	float: left;
-	width: 95%;
-	min-height: 120px;
-	font-size: 12px/16px;
-}
-
-
-/* aFeed Slot Styles
-------------------------------------- */
-.a-slot.aFeed .a-feed,
-.a-slot.aFeed .a-feed .a-feed-item
-{
-float: left;
-display: inline;
-position: relative;
-clear: both;
-width: 100%;
-margin-bottom: 10px;
-}
-
-.a-slot.aFeed .a-feed .a-feed-item .title { font-size: 14px; }
-.a-slot.aFeed .a-feed .a-feed-item .date { margin: 5px 0; color: #999; }
-.a-slot.aFeed .a-feed .a-feed-item .date,
-.a-slot.aFeed .a-feed .a-feed-item .description { font-size: 11px; line-height: 1.4; }
-
 
 /* aFile Slot Styles
 ------------------------------------- */
@@ -506,6 +454,75 @@ height:1px;
 margin:10px 0;
 width:100%;
 }
+
+
+
+
+/* aOptions for Areas & Slots :: aOptions is in a-components.css
+-------------------------------------------------------------------- */
+.a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
+.a-ui .a-options.a-area-options .a-options-item,
+.a-ui .a-options.a-area-options .a-options-item.last {
+width: 100%;
+float: left;
+clear: both;
+margin: 0 0 4px 0;
+list-style: none;
+}
+
+
+/* aOptions for Slot Variants :: aOptions is in a-components.css
+-------------------------------------------------------------------- */
+ul.a-controls .a-controls-item.variant.a-options-open .a-variant-options
+{
+width: auto;
+display: block;
+}
+
+ul.a-controls .a-variant-options.loading
+{
+background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+}
+
+.a-ui
+{
+	.a-options
+	{
+		.a-slot-form
+		{
+			width: 100%; top: -27px; left:-5px; padding:30px 5px 5px; overflow: visible;
+
+			.a-form-row
+			{
+				line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
+
+				label
+				{
+					width: 80px; float: left; margin: 0 10px 0 0; color: #666;
+				}
+
+			}
+
+			.a-form-field
+			{
+				float: left;
+			}
+
+			.a-slot-form-title
+			{
+				position: relative;
+				float: left;
+				padding:0 10px;
+				margin-bottom: 10px;
+				width: auto;
+				clear:both;
+				line-height: 27px;
+			}
+
+		}
+	}
+}
+
 
 
 /* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton

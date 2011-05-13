@@ -92,8 +92,7 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 .a-help { float: left; clear: both; font-size: 11px; color: #888; }
 
 // Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com
-
-.clearfix
+@clearfix 
 {
 	zoom: 1;
 	&:after,
@@ -108,4 +107,9 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 	{
 		clear: both;
 	}
+}
+
+.clearfix
+{
+	@clearfix;
 }
