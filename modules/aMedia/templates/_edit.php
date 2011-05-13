@@ -204,7 +204,7 @@
 		<?php echo $form['view_is_secure']->render() ?>
 	</div>
 	<?php echo $form['view_is_secure']->renderError() ?>
-  <div class="a-form-help a-hidden">
+  <div class="a-help">
 		<!-- John, we'll want to do jake's new question mark floating help here instead. -->
 		<?php echo __('Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.', null, 'apostrophe') ?>
   </div>

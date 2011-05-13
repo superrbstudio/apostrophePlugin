@@ -1,7 +1,9 @@
-/* Apostrophe Utility Classes
--------------------------------------*/
+@import 'a-helpers';
 
-/* General Dropshadow class used on modal boxes */
+// Apostrophe Utility Classes
+// -------------------------------------
+
+// General Dropshadow class used on modal boxes
 .dropshadow
 {
 -moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
@@ -11,35 +13,35 @@
 box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* General overlay class to create a translucent box overtop of a containing element */
+// General overlay class to create a translucent box overtop of a containing element
 .a-overlay { position:absolute; top:0; left:0; display:none; background: rgba(255,255,255,0.5); height:100%; width:100%; z-index:999; overflow: hidden; }
 
-/* Complete page overlay class to create a translucent box overtop of the entier page */
+// Complete page overlay class to create a translucent box overtop of the entier page
 .a-page-overlay { display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; background: rgba(255,255,255,0.65); z-index: 996; }
 
-/* Put a spinner anywhere */
-/* <span class="a-spinner"></span> */
+// Put a spinner anywhere
+// <span class="a-spinner"></span>
 .a-spinner { background: url(../images/a-icon-loader-2.gif) center center no-repeat; float: left; display: block; height: 20px; width: 20px; border: 0; margin: 0; padding: 0; text-indent: -9999px; overflow: hidden; }
 
-/* Hide any element */
-/* <div class="a-hidden"></div> */
+// Hide any element
+// <div class="a-hidden"></div>
 .a-hidden { display: none !important; }
 
-/* Default Value in form fields */
-/* <input type="text" value="default" class="a-default-value"/> */
+// Default Value in form fields
+// <input type="text" value="default" class="a-default-value"/>
 .a-default-value { color: #888; }
 
-/* Make any element a block inside its column */
+// Make any element a block inside its column
 .a-block { width: 100%; float: left; clear: both; display: inline; position: relative; }
 
-/* Disabled - Fade and force default cursor */
+// Disabled - Fade and force default cursor
 .a-disabled, .a-disabled * { cursor: default !important; opacity: 0.65; }
 
-/* Alignment */
+// Alignment
 .a-align-right { float: right !important; }
 .a-align-left { float: left !important; }
 
-/* Accordion works with apostrophe.accordion() */
+// Accordion works with apostrophe.accordion()
 .a-accordion
 {
 	.a-accordion-content
@@ -85,17 +87,25 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 	}
 }
 
+// Help Text
 
-/* Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com */
+.a-help { float: left; clear: both; font-size: 11px; color: #888; }
 
-.clearfix:before,
-.clearfix:after
+// Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com
+
+.clearfix
 {
-  content: "\0020";
-	display: block;
-	height: 0;
-	visibility: hidden;
+	zoom: 1;
+	&:after,
+	&:before
+	{
+	  content: "\0020";
+		display: block;
+		height: 0;
+		visibility: hidden;		
+	}
+	&:after
+	{
+		clear: both;
+	}
 }
-
-.clearfix:after { clear: both; }
-.clearfix { zoom: 1; }

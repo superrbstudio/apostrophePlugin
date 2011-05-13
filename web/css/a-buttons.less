@@ -283,6 +283,12 @@
 			}	
 		}
 
+		// Large Submit Button (Needs 2 extra px)
+		&.a-submit.big
+		{
+			height: @a-button-size-big+2;
+		}
+
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
 
 	// Tags behave like buttons too
@@ -295,12 +301,6 @@
 			text-indent: 0;
 			text-align: center;
 		}
-	}
-
-	// Button Exceptions
-	input.a-btn.a-submit.big
-	{
-		height: @a-button-size-big+2;
 	}
 
 } // [ .a-ui ]

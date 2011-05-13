@@ -48,7 +48,7 @@
 
 					<hr />
 
-	    		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
+	    		<p class="a-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
 
       		<div class="a-page-permissions-section clearfix">
       			<h4><label><?php echo a_('Groups') ?></label></h4>
@@ -87,7 +87,7 @@
      	  <div id="a-page-permissions-edit-extended">
 
   				<hr />
-  	   		<p class="a-form-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
+  	   		<p class="a-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
 
        		<div class="a-page-permissions-section clearfix">
        			<h4><label><?php echo a_('Groups') ?></label></h4>

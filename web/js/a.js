@@ -1784,7 +1784,7 @@ function aConstructor()
 			// Fortunately, anchors have names too. There is NO
 			// default name - and in particular 'submit' breaks
 			// form.submit, so don't use it
-			if (name.length)
+			if (name && name.length)
 			{
 				var hidden = $('<input type="hidden"></input>');
 				hidden.attr('name', name);
