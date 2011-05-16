@@ -105,7 +105,9 @@ class aZendSearch
 
      foreach ($hits as $hit)
      {
-       $ids[$hit->primarykey] = $hit;
+       // New way: don't touch anything but $hit->id directly and you won't force a persistent
+       // use of memory for the lazy loaded columns http://zendframework.com/issues/browse/ZF-8267
+       $ids[$index->getDocument($hit->id)->getFieldValue('primarykey')] = $hit;
      }
      return $ids;
    }

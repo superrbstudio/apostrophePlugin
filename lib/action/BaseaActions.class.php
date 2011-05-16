@@ -782,21 +782,58 @@ class BaseaActions extends sfActions
     
     $nvalues = array();
 
+    $index = Doctrine::getTable('aPage')->getLuceneIndex();
+    
     foreach ($values as $value)
     {
-      // 1.5: the names under which we store columns in Zend Lucene have changed to
-      // avoid conflict with also indexing them
-      $info = unserialize($value->info_stored);
-      
-      if ($value->published_at > $now)
+      $document = $index->getDocument($value->id);
+//      $published_at = $value->published_at;
+      // New way: don't touch anything but $hit->id directly and you won't force a persistent
+      // use of memory for the lazy loaded columns http://zendframework.com/issues/browse/ZF-8267
+      $published_at = $document->getFieldValue('published_at');
+      if ($published_at > $now)
       {
         continue;
       }
+
+      // 1.5: the names under which we store columns in Zend Lucene have changed to
+      // avoid conflict with also indexing them
+      $info = unserialize($document->getFieldValue('info_stored'));
       
       if (!aPageTable::checkPrivilege('view', $info))
       {
         continue;
       }
+      
+      $slug = $document->getFieldValue('slug_stored');
+      if ((substr($slug, 0, 1) !== '@') && (strpos($slug, '/') === false))
+      {
+        // A virtual page slug which is not a route is not interested in being part of search results
+        continue;
+      }
+      $nvalues[] = $value;
+    }
+
+    $values = $nvalues;
+
+    if ($this->searchAddResults($values, $q))
+    {
+      usort($values, "aActions::compareScores");
+    }
+    $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
+    $this->pager->setResultArray($values);
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
+    $this->pagerUrl = "a/search?" .http_build_query(array("q" => $q));
+    // setTitle takes care of escaping things
+    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
+    $results = $this->pager->getResults();
+  
+    // Now that we have paginated and obtained the short list of results we really
+    // care about it's OK to use the lazy load features of Lucene for the last mile
+    $nresults = array();
+    foreach ($results as $value)
+    {
       $nvalue = $value;
       $nvalue->slug = $nvalue->slug_stored;
       $nvalue->title = $nvalue->title_stored;
@@ -838,22 +875,9 @@ class BaseaActions extends sfActions
         }
       }
       $nvalue->class = 'aPage';
-      $nvalues[] = $nvalue;
+      $nresults[] = $nvalue;
     }
-    $values = $nvalues;
-
-    if ($this->searchAddResults($values, $q))
-    {
-      usort($values, "aActions::compareScores");
-    }
-    $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
-    $this->pager->setResultArray($values);
-    $this->pager->setPage($request->getParameter('page', 1));
-    $this->pager->init();
-    $this->pagerUrl = "a/search?" .http_build_query(array("q" => $q));
-    // setTitle takes care of escaping things
-    $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
-    $this->results = $this->pager->getResults();
+    $this->results = $nresults;
   }
 
   /**
