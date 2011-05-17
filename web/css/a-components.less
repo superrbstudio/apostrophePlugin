@@ -839,10 +839,13 @@ margin-left: -12px;
 	{
 		position: relative; height: 20px; background: #fff;
 		@a-border-radius(10px);
-		.a-form-row { margin: 0; position: relative; }
-		input.a-search-field { position: relative; float: left; background: none; border: none; height: 20px; padding: 0; text-indent: 5px; }
-		input.a-search-submit { display: block; position: absolute; top: 0; right: 0; padding: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
-		input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
+		.a-form-row 
+		{ 
+			margin: 0; position: relative; 
+			input.a-search-field { position: relative; float: left; background: none; border: none; height: 20px; padding: 0; text-indent: 5px; }
+			input.a-search-submit { display: block; position: absolute; top: 0; right: 0; padding: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: auto; }
+			input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
+		}
 	}
 	&.global form { width: 238px; }
 	&.global form input .a-search-field { width: 200px; }
