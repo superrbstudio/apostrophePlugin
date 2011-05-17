@@ -94,15 +94,23 @@ class aSql
     {
       throw new sfException("fastSavePage doesn't know how to handle an existing page");
     }
-    // This page needs to be the last child of its parent
-    if(is_null($parentId))
+    if (substr($info['slug'], 0, 1) !== '/')
     {
-      list($lft, $rgt, $level) = array(0,1,-1);
+      // Virtual pages must not be in the page tree!
+      list($lft, $rgt, $level) = array(null, null, null);
     }
     else
     {
-      $result = $this->query('SELECT lft, rgt, level FROM a_page WHERE id = :id', array('id' => $parentId));
-      list($lft, $rgt, $level) = array($result[0]['lft'], $result[0]['rgt'], $result[0]['level']);
+      // This page needs to be the last child of its parent
+      if(is_null($parentId))
+      {
+        list($lft, $rgt, $level) = array(0,1,-1);
+      }
+      else
+      {
+        $result = $this->query('SELECT lft, rgt, level FROM a_page WHERE id = :id', array('id' => $parentId));
+        list($lft, $rgt, $level) = array($result[0]['lft'], $result[0]['rgt'], $result[0]['level']);
+      }
     }
     $this->query('UPDATE a_page SET rgt = rgt + 2 WHERE lft <= :lft AND rgt >= :rgt', array('lft' => $lft, 'rgt' => $rgt));
     $info['lft'] = $rgt;
@@ -112,10 +120,13 @@ class aSql
     {
       $info['view_is_secure'] = false;
     }
-    if (!isset($info['archived']))
+    if ((!isset($info['archived'])) || (!$info['archived']))
     {
       $info['archived'] = false;
-      $info['published_at'] = 'NOW()';
+      if (!isset($info['published_at']))
+      {
+        $info['published_at'] = aDate::mysql();
+      }
     }
     if (!isset($info['engine']))
     {

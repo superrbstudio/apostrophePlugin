@@ -80,15 +80,19 @@ class aImporter
    * @param mixed $parentId
    * @return mixed
    */
-  public function parsePage(SimpleXMLElement $root, $parentId = null)
+  public function parsePage(SimpleXMLElement $root, $parentId = null, $infoOverrides = array())
   {
     $info = array();
     $info['slug'] = $root['slug']->__toString();
+    if (isset($root['engine']))
+    {
+      $info['engine'] = $root['engine']->__toString();
+    }
     $info['template'] = isset($root['template']) ? $root['template']->__toString() : 'default';
     $title = $root['title']->__toString();  
 
+    $info = array_merge($info, $infoOverrides);
     $this->sql->insertPage($info, $title, $parentId);
-
     if (isset($root['file-id']))
     {
       $this->pageFiles[$root['file-id']->__toString()] = $info;
