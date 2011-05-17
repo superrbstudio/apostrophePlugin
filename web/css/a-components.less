@@ -1,21 +1,21 @@
 @import 'a-helpers';
 
-/* Apostrophe Components
--------------------------------------*/
-/* Options Menu System */
-/* Reorganize Tree */
-/* Pagination */
-/* Global Toolbar */
-/* History Browser */
-/* Search */
-/* Search Results */
-/* Login Form - Floating Form */
-/* Login button and language switcher */
-/* sfDoctrineActAsTaggable Inline Taggable Widget */
-/* Attribution */
-/* IE6 Warning */
+// Apostrophe Components
+// -------------------------------------
+// Options Menu System 
+// Reorganize Tree 
+// Pagination 
+// Global Toolbar 
+// History Browser 
+// Search 
+// Search Results 
+// Login Form - Floating Form 
+// Login button and language switcher 
+// sfDoctrineActAsTaggable Inline Taggable Widget 
+// Attribution 
+// IE6 Warning 
 
-/* aOptions Menu */
+// aOptions Menu 
 
 .a-ui.a-options
 {
@@ -98,16 +98,16 @@
 	width: 100%;
 	height: 1px;
 	border: 0;
-	background-color: #efefef; /* TODO: Debug for IE */
+	background-color: #efefef; // TODO: Debug for IE 
 	background-color: rgba(0,0,0,0.1);
 	margin: 10px 0;
 	}
 }
 
-/* aOptions Menu Item */
+// aOptions Menu Item 
 .a-ui.a-options-container { position: relative; }
 
-/* aOptions Open */
+// aOptions Open 
 
 .a-options-open
 {
@@ -136,8 +136,8 @@
 
 
 
-/* Apostrophe Reorganize Tree
----------------------------------------------------- */
+// Apostrophe Reorganize Tree
+// ---------------------------------------------------- 
 
 .a-reorganize .a-content
 {
@@ -188,8 +188,8 @@
 }
 
 
-/* Apostrophe Pagination
--------------------------------------*/
+// Apostrophe Pagination
+// -------------------------------------
 
 .a-pager-navigation
 {
@@ -316,8 +316,8 @@
 	}
 }
 
-/* 11. Apostrophe Global Toolbar
--------------------------------------*/
+// 11. Apostrophe Global Toolbar
+// -------------------------------------
 
 .a-ui.a-global-toolbar
 {
@@ -413,13 +413,13 @@
 	a.a-btn.no-bg span.icon { opacity: 0.5;}
 }
 
-/* Hide the logged in message when the screen gets too thin */
+// Hide the logged in message when the screen gets too thin 
 @media all and (max-width: 1060px) {
 .a-ui.a-global-toolbar .a-login-user { display: none; }
 }
 
-/* Edit/Create Page Form Shared Styles
---------------------------------------*/
+// Edit/Create Page Form Shared Styles
+// --------------------------------------
 
 .a-ui.a-options.a-page-form
 {
@@ -469,8 +469,8 @@
 	}
 }
 
-/* 12. Page Settings Panel
--------------------------------------*/
+// 12. Page Settings Panel
+// -------------------------------------
 
 .a-ui.a-page-form
 {
@@ -657,8 +657,8 @@ margin-left: -12px;
 .a-page-permissions-widget { clear: both; }
 
 
-/* Create Page Form
---------------------------------------*/
+// Create Page Form
+// --------------------------------------
 .a-page-settings.aActiveMenu
 .a-create-page.aActiveMenu
 {
@@ -691,13 +691,13 @@ margin-left: -12px;
 	display: block !important;
 }
 
-/* History Browser
--------------------------------------*/
+// History Browser
+// -------------------------------------
 
 .a-ui.a-history-browser
 {
 	position: absolute;
-	top: 0px; /* This changes with history button offset*/
+	top: 0px; // This changes with history button offset
 	left: 50%;
 	margin-left: -480px;
 	float: left;
@@ -830,8 +830,8 @@ margin-left: -12px;
 #a-history-preview-notice-toggle { color: #ddd; position: absolute; top: 10px; right: 10px; font-size: 11px; }
 
 
-/* Apostrophe Search
------------------------------------------------ */
+// Apostrophe Search
+// ----------------------------------------------- 
 .a-search
 {
 	clear: both;
@@ -843,7 +843,7 @@ margin-left: -12px;
 		{ 
 			margin: 0; position: relative; 
 			input.a-search-field { position: relative; float: left; background: none; border: none; height: 20px; padding: 0; text-indent: 5px; }
-			input.a-search-submit { display: block; position: absolute; top: 0; right: 0; padding: 0; margin: 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: none; }
+			input.a-search-submit { display: block; position: absolute; top: 50%; right: 0; padding: 0; margin: -10px 0 0 0; width: 29px; height: 20px; border: none !important; background: url(/apostrophePlugin/images/a-search-submit.png) no-repeat 0 -20px; min-width: 0; max-width: none; }
 			input.a-search-submit:hover { background-position: 0 0px; cursor: pointer; opacity: 0.7;}
 		}
 	}
@@ -853,8 +853,8 @@ margin-left: -12px;
 	&.media form input .a-search-field { width: 151px; }
 }
 
-/* Apostrophe Search Results
---------------------------------------------- */
+// Apostrophe Search Results
+// --------------------------------------------- 
 .a-search-results-container,
 .a-search-results,
 .result-title,
@@ -863,8 +863,8 @@ margin-left: -12px;
 .result-title { }
 .result-url { }
 
-/* Apostrophe Login Form **** This floats in the upper right corner when we use a login button
--------------------------------------*/
+// Apostrophe Login Form **** This floats in the upper right corner when we use a login button
+// -------------------------------------
 
 #a-login-form-container
 {
@@ -981,8 +981,8 @@ margin-left: -12px;
 }
 
 
-/* Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
-------------------------------------------- */
+// Apostrophe / sfDoctrineActAsTaggable Inline Taggable Widget
+// ------------------------------------------- 
 
 .a-inline-taggable-widget
 {
@@ -1058,8 +1058,8 @@ margin-left: -12px;
 	}
 }
 
-/* Apostrophe Attribution
--------------------------------------*/
+// Apostrophe Attribution
+// -------------------------------------
 
 .a-attribution
 {
@@ -1084,8 +1084,8 @@ margin-left: -12px;
 }
 
 
-/* Apostrophe IE6 Warning for Admin
--------------------------------------*/
+// Apostrophe IE6 Warning for Admin
+// -------------------------------------
 
 #ie6-warning
 {
@@ -1101,7 +1101,7 @@ margin-left: -12px;
 	}
 }
 
-//* Added precaution -- Let's hide any controls from IE6 */
+/// Added precaution -- Let's hide any controls from IE6 
 .ie6
 {
 	.a-ui,
@@ -1112,8 +1112,8 @@ margin-left: -12px;
 	}
 }
 
-/* Apostrophe Navigation
--------------------------------------*/
+// Apostrophe Navigation
+// -------------------------------------
 
 .a-archived-page
 {
