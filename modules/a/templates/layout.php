@@ -9,6 +9,7 @@
 <head>
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<?php include_title() ?>
 	<?php // 1.3 and up don't do this automatically (no common filter) ?>
 	<?php // a_include_stylesheets has a built in caching combiner/minimizer when enabled ?>
