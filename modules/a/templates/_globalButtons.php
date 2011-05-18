@@ -6,7 +6,7 @@
 <?php // feel free to override and move this to the end, etc. ?>
 <?php if ($pageSettings): ?> 	
 	<li>
-		<a href="/#page-settings" onclick="return false;" class="a-btn icon alt no-bg a-page-settings" id="a-page-settings-button"><span class="icon"></span>Page Settings</a>
+		<a href="/#page-settings" onclick="return false;" class="a-btn icon alt no-bg a-page-settings" id="a-page-settings-button"><span class="icon"></span><?php echo a_('Page Settings') ?></a>
 		<div id="a-page-settings" class="a-page-settings-menu dropshadow"></div>
 	</li>				
 <?php endif ?>
