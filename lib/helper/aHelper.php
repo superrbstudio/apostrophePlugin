@@ -141,7 +141,7 @@ function a_get_stylesheets()
   $newStylesheets = array();
   $response = sfContext::getInstance()->getResponse();
   foreach ($response->getStylesheets() as $file => $options)
-  {
+  {	
     if (preg_match('/\.less$/', $file))
     {
       $absolute = false;
@@ -153,9 +153,14 @@ function a_get_stylesheets()
       if (!isset($options['raw_name']))
       {
         $file = stylesheet_path($file, $absolute);
+			  $request = sfContext::getInstance()->getRequest();
+			  $sf_relative_url_root = $request->getRelativeUrlRoot();
+				if (strlen($sf_relative_url_root))
+				{
+					$file = preg_replace('/^' . preg_quote($sf_relative_url_root, '/') . '/', '', $file);
+				}
       }
       $path = sfConfig::get('sf_web_dir') . $file;
-      
       $dir = aFiles::getUploadFolder(array('asset-cache'));
       $name = md5($file) . '.less.css';
       $compiled = "$dir/" . md5($file) . '.less.css';
