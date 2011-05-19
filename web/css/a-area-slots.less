@@ -52,6 +52,7 @@
 		padding: 0;
 		list-style: none;
 		clear: both;
+		@a-user-select(none);
 		li
 		{
 			float: left;
@@ -155,7 +156,7 @@
 
 	&.aSlideshow
 	{
-
+		@a-user-select(text);
 		.a-slideshow-controls
 		{
 			position: absolute;
