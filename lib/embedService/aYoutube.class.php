@@ -92,19 +92,24 @@ class aYoutube extends aEmbedService
     {
       return false;
     }
-    foreach ($xml->category as $category)
-    {
-      // Don't bring in non-human-friendly metadata
-      if (strpos($category['scheme'], 'keywords') !== false)
-      {
-        // Don't bring in triple tag technicalese
-        if (strpos($category['term'], ':') === false)
-        {
-          $tags[] = (string) $category['term'];
-        }
-      }
-    }
-    $tags = implode(', ', $tags);
+
+		if (sfConfig::get('app_aMedia_consume_youtube_tags', true))
+		{
+	    foreach ($xml->category as $category)
+	    {
+	      // Don't bring in non-human-friendly metadata
+	      if (strpos($category['scheme'], 'keywords') !== false)
+	      {
+	        // Don't bring in triple tag technicalese
+	        if (strpos($category['term'], ':') === false)
+	        {
+	          $tags[] = (string) $category['term'];
+	        }
+	      }
+	    }
+		}
+
+   	$tags = implode(', ', $tags);
     // Why is it $media->group->description? Who knows? That's what var_dump says
     $result = array('title' => (string) $xml->title, 'description' => (string) $media->group->description, 'tags' => $tags, 'id' => $id, 'url' => $this->getUrlFromId($id), 'credit' => (string) $media->group->credit);
     return $result;
@@ -122,7 +127,7 @@ class aYoutube extends aEmbedService
   {
     $params['start-index'] = ($page - 1) * $perPage + 1;
     $params['max-results'] = $perPage;
-    // YouTube will bounce our request for the last page of results if we 
+    // YouTube will bounce our request for the last page of results if we
     // ask for nine results and there is only one left (eg page 112 of results
     // for 'cats', which has the YouTube hard limit of 1000 results)
     if ($params['start-index'] + $params['max-results'] > 1000)
@@ -138,8 +143,8 @@ class aYoutube extends aEmbedService
     $namespaces = $document->getNameSpaces(true);
     $openSearch = $document->children($namespaces['openSearch']);
     $entries = $document->entry;
-    // "Why no more than 1,000 results?" Because if you actually try to get at, say, page 500 of the 
-    // many thousands of results for "cats," YouTube gives a "sorry, YouTube does not serve more than 1,000 
+    // "Why no more than 1,000 results?" Because if you actually try to get at, say, page 500 of the
+    // many thousands of results for "cats," YouTube gives a "sorry, YouTube does not serve more than 1,000
     // results for any query" error on the site, and appears to be similarly cutting things short
     // at the API level. There is no point in claiming more pages than you can actually browse.
     $results = array('total' => min((int) $openSearch->totalResults, 1000));
@@ -253,17 +258,17 @@ EOM
     }
     if (!isset($media->group->player))
     {
-      // Probably a geographical restriction 
+      // Probably a geographical restriction
       return false;
     }
     // get a more canonical video player URL
     $attrs = $media->group->player->attributes();
-    $canonicalUrl = $attrs['url']; 
+    $canonicalUrl = $attrs['url'];
     // get biggest video thumbnail
     foreach ($media->group->thumbnail as $thumbnail)
     {
       $attrs = $thumbnail->attributes();
-      if ((!isset($widest)) || (($attrs['width']  + 0) > 
+      if ((!isset($widest)) || (($attrs['width']  + 0) >
         ($widest['width'] + 0)))
       {
         $widest = $attrs;
@@ -276,7 +281,7 @@ EOM
     // resolution when embedding anyway)
     if (isset($widest))
     {
-      $thumbnail = $widest['url']; 
+      $thumbnail = $widest['url'];
       // Turn them into actual numbers instead of weird XML wrapper things
       $width = $widest['width'] + 0;
       $height = $widest['height'] + 0;
