@@ -1730,7 +1730,50 @@ function aConstructor()
       items: 'li:not(.extra)'
     });
 		
-	}
+	};
+	
+	this.allTagsToggle = function(options)
+	{
+		var allTags = options['selector'] ? $(options['selector']) : $('.a-tag-sidebar-title.all-tags');
+
+		allTags.hover(function(){
+			allTags.addClass('over');
+		},function(){
+			allTags.removeClass('over');
+		});
+
+		allTags.click(function(){
+			allTags.toggleClass('open');
+			allTags.next().toggle();
+		});
+	};
+	
+	this.searchCancel = function(options)
+	{
+
+    var search = options['search'];		
+		$('#a-media-search-remove').show();
+    $('#a-media-search-submit').hide();
+
+    $('#a-media-search').bind("keyup blur", function(e)
+    {
+      if ($(this).val() === search)
+      {
+        $('#a-media-search-remove').show();
+        $('#a-media-search-submit').hide();
+      }
+      else
+      {
+        $('#a-media-search-remove').hide();
+        $('#a-media-search-submit').show();
+      }
+    });
+
+    $('#a-media-search').bind('aInputSelfLabelClear', function(e) {
+      $('#a-media-search-remove').show();
+      $('#a-media-search-submit').hide();
+    });
+	};
 	
 	// A very small set of things that allow us to write CSS and HTML as if they were
 	// better than they are. This is called on every page load and AJAX refresh, so resist
