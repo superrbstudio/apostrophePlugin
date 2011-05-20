@@ -86,15 +86,14 @@ class aZendSearch
 
      $hits = $index->find($query);
 
-     // Never look at more than 1000 results, no matter what. This is necessary
-     // to avoid out of memory errors on large sites. Note that if 1,000 locked
-     // pages precede the first unlocked page and you are logged out, you could
-     // theoretically not get your result. In practice unlocked pages tend to be
-     // prominent and come up early. A deeper fix for this would be problematic
-     // since Zend won't let you unset the document for a query hit, permanently
-     // attaching lots of memory to a hit once you peek at it to determine things
-     // like the user's eligibility to see it based on other information in
-     // Doctrine tables
+     // Never look at more than n results, no matter what. This is necessary
+     // to avoid out of memory errors on large sites. We suggest setting this
+     // to 1000. Note that if 1,000 locked pages precede the first unlocked page 
+     // and you are logged out, you could theoretically not get your result. In 
+     // practice unlocked pages tend to be prominent and come up early. Thanks to
+     // recent improvements that avoid holding on to the memory for most of the
+     // information about a search result indefinitely you can set this higher
+     // than previously
 
      if (sfConfig::get('app_a_search_hard_limit', false))
      {
