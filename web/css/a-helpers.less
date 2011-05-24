@@ -1,6 +1,8 @@
 // Mixins
 // -------------------------------------------
 
+@a-asset-path: "../../";
+
 @a-transition (@time:0.15s; @ease:ease)
 {
 	-webkit-transition: all @time @ease;
@@ -125,13 +127,4 @@
 {
 	background: @rgb;
 	background: @rgba;
-}
-
-@a-user-select(@val = none)
-{
-	-webkit-user-select: @val;
-	-khtml-user-select: @val;
-	-moz-user-select: @val;
-	-o-user-select: @val;
-	user-select: @val;
 }

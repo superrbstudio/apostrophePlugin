@@ -60,7 +60,7 @@
 				left: 0;
 				margin-top: -10px;
 				background-repeat: no-repeat;
-				background-image: url('/apostrophePlugin/images/a-icon-sprite.png');
+				background-image: url({@a-asset-path}/apostrophePlugin//images/a-icon-sprite.png);
 				overflow: hidden;
 				text-indent: -9999px;
 			}
@@ -221,7 +221,7 @@
 		// Animated Busy Button
 		&.a-busy > .icon
 		{
-			background: url(/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
+			background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
 		}
 		
 		// Wide button for Blog / Events sidebar -- "New Post"
@@ -319,8 +319,8 @@
 	height: 20px;
 	outline: none;
 	overflow: hidden;
-	background-image: url('/apostrophePlugin/images/a-icon-sprite.png');
-	&:hover 
+	background-image: url({@a-asset-path}/apostrophePlugin/images/a-icon-sprite.png);
+	&:hover
 	{
 		opacity: 0.5;
 	}
