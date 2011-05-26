@@ -21,17 +21,20 @@ class aFeed
 		$request->setAttribute('helper/asset/auto/feed', $feeds);
 	}
 	
-	// Rock the Symfony cache to avoid fetching the same external URL over and over
-  
-  // These defaults are safe and boring and way faster than bashing on other servers.
-  // But here's a tip. If you don't have APC enabled your site is probably running very, 
-  // very slowly, so fix that. And then do this for even better speed:
-  //
-  // a:
-  //   feed:
-  //     cache_class: sfAPCCache
-  //     cache_options: { }
-
+  /**
+   * Rock the Symfony cache to avoid fetching the same external URL over and over
+   * These defaults are safe and boring and way faster than bashing on other servers.
+   * But here's a tip. If you don't have APC enabled your site is probably running very,
+   * very slowly, so fix that. And then do this for even better speed:
+   * 
+   * a:
+   * feed:
+   * cache_class: sfAPCCache
+   * cache_options: { }
+   * @param mixed $url
+   * @param mixed $interval
+   * @return mixed
+   */
   static public function fetchCachedFeed($url, $interval = 300)
   {
     $cacheClass = sfConfig::get('app_a_feed_cache_class', 'sfFileCache');
@@ -54,7 +57,11 @@ class aFeed
     {
       try
       {
-        $feed = sfFeedPeer::createFromWeb($url);    
+        // We now always use the fopen adapter and specify a time limit, which is configurable.
+        // Francois' comments about fopen being slow are probably dated, the stream wrappers are 
+        // quite good in modern PHP and in any case Apostrophe uses them consistently elsewhere
+        $options = array('adapter' => 'sfFopenAdapter', 'adapter_options' => array('timeout' => sfConfig::get('app_a_feed_timeout', 30)));
+        $feed = sfFeedPeer::createFromWeb($url, $options);    
         $cache->set($key, serialize($feed), $interval);
       }
       catch (Exception $e)
