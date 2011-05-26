@@ -38,19 +38,23 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
    }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * getARowClassName builds the unique class for a form row that provides an easy way to have complete control over how different fields can be styled with CSS.
+	 * @param string $field
+   * @return string
    */
   public function getARowClassName($field = null)
   {
-	 	$id = '';
-		if ($field) {
+	 	$className = '';
+		if ($field) 
+		{
 			$doc = new DOMDocument();
 			$doc ->loadXML($field);
 			foreach($doc->childNodes as $node);
-			$id = aTools::slugify($node->getAttribute('id')).' a-'.aTools::slugify($node->nodeName.'-'.$node->getAttribute('type'));
+			$name = $node->nodeName; // input, select, textarea 
+			$type = ($node->getAttribute('type')) ? $node->getAttribute('type') : ''; // text, password, checkbox
+			$id = ($node->getAttribute('id')) ? $node->getAttribute('id') : ''; // form_class_id
+			$className = ' '.aTools::slugify('a-'.$name.'-'.$type).' '.aTools::slugify($id);
 		}
-
-    return $this->aRowClassName . ' ' . $id;
+    return $this->aRowClassName . $className;
   }
 }
