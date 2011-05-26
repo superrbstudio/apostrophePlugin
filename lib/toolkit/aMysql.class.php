@@ -18,13 +18,21 @@ class aMysql
   protected $commandsRun;
 
   /**
-   * DOCUMENT ME
+   * Constructs a new aMysql object, connected to the specified PDO handle if
+   * any, otherwise to the default PDO connection of Doctrine (although we're not
+   * using Doctrine at all here)
    */
-  public function __construct()
+  public function __construct($dbh = null)
   {
-    // Raw PDO for performance
-    $connection = Doctrine_Manager::connection();
-    $this->conn = $connection->getDbh();
+    if (!$dbh)
+    {
+      $connection = Doctrine_Manager::connection();
+      $this->conn = $connection->getDbh();
+    }
+    else
+    {
+      $this->conn = $dbh;
+    }
   }
 
   /**
