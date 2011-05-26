@@ -48,7 +48,7 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
 		if ($field) 
 		{
 			$doc = new DOMDocument();
-			$doc ->loadXML($field);
+			$doc->loadXML($field);
 			foreach($doc->childNodes as $node);
 			$name = $node->nodeName; // input, select, textarea 
 			$type = ($node->getAttribute('type')) ? $node->getAttribute('type') : ''; // text, password, checkbox
