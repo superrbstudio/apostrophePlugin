@@ -37,6 +37,13 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
     ));
    }
 
+   public function generateLabelName($name)
+   {
+     $this->lastWidgetName = $name;
+     return parent::generateLabelName($name);
+   }
+   
+
   /**
    * getARowClassName builds the unique class for a form row that provides an easy way to have complete control over how different fields can be styled with CSS.
 	 * @param string $field
@@ -44,17 +51,14 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
    */
   public function getARowClassName($field = null)
   {
-	 	$className = '';
-		if ($field) 
-		{
-			$doc = new DOMDocument();
-			$doc->loadXML($field);
-			foreach($doc->childNodes as $node);
-			$name = $node->nodeName; // input, select, textarea 
-			$type = ($node->getAttribute('type')) ? $node->getAttribute('type') : ''; // text, password, checkbox
-			$id = ($node->getAttribute('id')) ? $node->getAttribute('id') : ''; // form_class_id
-			$className = ' '.aTools::slugify('a-'.$name.'-'.$type).' '.aTools::slugify($id);
-		}
-    return $this->aRowClassName . $className;
+    $cssClass = '';
+    if($this->lastWidgetName)
+    {
+      $widgetSchema = $this->getWidgetSchema();
+      $widget = $widgetSchema[$this->lastWidgetName];
+      $cssClass = ' ' .$widgetSchema->generateId($this->widgetSchema->generateName($this->lastWidgetName));
+    }
+    
+    return $this->aRowClassName . $cssClass;
   }
 }
