@@ -7,6 +7,8 @@
  
 class BaseaAssets
 {
+	static $lessc = null;
+	
   /**
    * Compiles the less source file $path to the CSS file $compiled unless it already exists.
    * If the minifier is not turned on, or the checkIfModified option is passed, also check 
@@ -14,14 +16,16 @@ class BaseaAssets
    */
   static public function compileLessIfNeeded($path, $compiled, $options = array())
   {
+	  $always = sfConfig::get('app_a_less_compile_always', false);
+	
     $checkIfModified = isset($options['checkIfModified']) && $options['checkIfModified'];
     if (!sfConfig::get('app_a_minify'))
     {
       $checkIfModified = true;
     }
-    if ((!file_exists($compiled)) || ($checkIfModified && (filemtime($compiled) < filemtime($path))))
+    if ($always || ((!file_exists($compiled)) || ($checkIfModified && (filemtime($compiled) < filemtime($path)))))
     {
-      if (!isset($lessc))
+      if (!isset(aAssets::$lessc))
       {
         // We do it like factories.yml does it, defaulting to the built in lessc.
         // this is a nice injection point because it's common to subclass lessc
@@ -32,10 +36,10 @@ class BaseaAssets
         $factory = sfConfig::get('app_a_lessc', array('class' => 'lessc', 'param' => null));
         $class = $factory['class'];
         $param = $factory['param'];
-        $lessc = new $class($param);
+        aAssets::$lessc = new $class($param);
       }
-      $lessc->importDir = dirname($path) . '/';
-      file_put_contents($compiled, $lessc->parse(file_get_contents($path)));
+      aAssets::$lessc->importDir = dirname($path) . '/';
+      file_put_contents($compiled, aAssets::$lessc->parse(file_get_contents($path)));
     }
   }
 
