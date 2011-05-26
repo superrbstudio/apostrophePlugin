@@ -29,12 +29,12 @@ function aConstructor()
 		}
 		// The new, sensible way
 		$('.a-needs-update').trigger('a.update');
-  }
+  };
 
 	this.setMessages = function(messages)
 	{
 		this.messages = messages;
-	}
+	};
 
 	// Utility: A DOM ready that can be used to hook into Apostrophe related events
 	this.ready = function(options)
@@ -53,7 +53,7 @@ function aConstructor()
 		{
 			aOverrides();
 		}
-	}
+	};
 
 	// Utility: Swap two DOM elements without cloning them -- http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
 	this.swapNodes = function(a, b) {
@@ -61,15 +61,15 @@ function aConstructor()
     b.parentNode.insertBefore(a, b);
     t.parentNode.insertBefore(b, t);
     t.parentNode.removeChild(t);
-	}
+	};
 
 	// Utility: console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
 	this.log = function(output)
 	{
 		if (window.console && console.log && debug === true) {
 			console.log(output);
-		};
-	}
+		}
+	};
 	
 	// apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
 	this.setDebug = function(flag)
@@ -92,7 +92,7 @@ function aConstructor()
 	this.setObjectId = function(domId, objectId)
 	{
 		$('#' + domId).data('id', objectId);
-	}
+	};
 
 	// Utility: Use to select contents of an input on focus
 	// The mouseup event is a workaround for a Chrome bug that deselects the text after focus
@@ -103,7 +103,7 @@ function aConstructor()
 		}).mouseup(function(e){
 			e.preventDefault();
 		});
-	}
+	};
 
 	// Utility: Self Labeling Input Element
 	// Example: <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#input_id', 'title' => 'Input Label', 'select' => true, 'focus' => false, 'persisentLabel' => false )) ?>
@@ -123,7 +123,7 @@ function aConstructor()
 		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){
 			apostrophe.toSpan(selector);
 		});
-	}
+	};
 
 	// Utility: Replaces selected node with <span>
 	this.toSpan = function(selector)
@@ -136,7 +136,7 @@ function aConstructor()
 			if ($(this).attr('class') != '') { clss = "class='"+$(this).attr('class')+"'"; };
 			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");
 		});
-	}
+	};
 
 	// Utility: an updated version of the jq_link_to_remote helper
 	// Allows you to create the same functionality without outputting javascript in the markup.
@@ -163,7 +163,7 @@ function aConstructor()
 						if (restore)
 						{
 							update.data('aBeforeUpdate', update.children().clone(true));						
-						};
+						}
 						update.html(data);
 					},
 					complete:function(){
@@ -184,17 +184,17 @@ function aConstructor()
 		else
 		{
 		apostrophe.log('apostrophe.linkToRemote -- No Link Found');
-		};
+		}
 		if (!update.length)
 		{
 		apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
-		};
-	}
+		}
+	};
 
   this.unobfuscateEmail = function(aClass, email, label)
   {
     $('.' + aClass).attr('href', unescape(email)).html(unescape(label));
-  }
+  };
 
 	// Turns a form into an AJAX form that updates the element
 	// with the DOM ID specified by options['update']. You must
@@ -221,7 +221,7 @@ function aConstructor()
 			});
 			return false;
 		});
-	}
+	};
 
 	// Pass a selector (or jQuery object) and an 'updating' tab will appear above it
 	// (or on its best alternative, if it has an ancestor with the a-ajax-attach-updating class).
@@ -242,8 +242,8 @@ function aConstructor()
 			{
 				submit.addClass('icon').prepend('<span class="icon"></span>');
 			}
-		};
-	}
+		}
+	};
 
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
@@ -275,13 +275,13 @@ function aConstructor()
 				btn.click(function(){
 					toggle(btn);
 				});
-			};
+			}
 
 		}
 		else
 		{
 			field.length ? '' : apostrophe.log('apostrophe.radioToggleButton -- No field found');
-		};
+		}
 
 		function toggle(button)
 		{
@@ -294,9 +294,9 @@ function aConstructor()
 			{
 				$(radios[1]).attr('checked',null);
 				$(radios[0]).attr('checked','checked');
-			};
+			}
 			updateToggle(button);
-		};
+		}
 
 		function updateToggle(button)
 		{
@@ -307,10 +307,9 @@ function aConstructor()
 			else
 			{
 				button.addClass('option-2').removeClass('option-1');
-			};
+			}
 		}
-
-	}
+	};
 
 	// Utility: IE6 Users get a special message when they log into apostrophe
 	this.IE6 = function(options)
@@ -322,7 +321,7 @@ function aConstructor()
 		{
 			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');
 		}
-	}
+	};
 
 	// This sets up the Reorganization Tool
 	this.jsTree = function(options)
@@ -456,7 +455,7 @@ function aConstructor()
 			treeRef.remove(li);
 			return false;
 		});
-	}
+	};
 
 	// aSlideshowSlot
 	this.slideshowSlot = function(options)
@@ -643,18 +642,18 @@ function aConstructor()
 				var image = button.find('.a-button-image img');
 				image.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
 				link.hover(function(){ image.fadeTo(0,.65); },function(){ image.fadeTo(0,1); });
-			};
+			}
 		}
 		else
 		{
 			apostrophe.log('apostrophe.buttonSlot -- no button found');
-		};
-	}
+		}
+	};
 
 	this.afterAddingSlot = function(name)
 	{
 		$('#a-add-slot-form-' + name).hide();
-	}
+	};
 
 	this.areaEnableDeleteSlotButton = function(options) {
 		$('#' + options['buttonId']).click(function() {
@@ -667,7 +666,7 @@ function aConstructor()
 			}
 			return false;
 		});
-	}
+	};
 
 	this.areaEnableAddSlotChoice = function(options) {
 		var debug = options['debug'];
@@ -685,7 +684,7 @@ function aConstructor()
 			});
 			return false;
 		});
-	}
+	};
 
 	this.areaEnableHistoryButton = function(options) {
 		var pageId = options['pageId'];
@@ -710,7 +709,7 @@ function aConstructor()
 			});
 			return false;
 		});
-	}
+	};
 
 	this.areaUpdateMoveButtons = function(updateAction, id, name)
 	{
@@ -748,7 +747,7 @@ function aConstructor()
 			return;
 		}
 		// apostrophe.log('apostrophe.areaUpdateMoveButtons -- ' + area.attr('id'));
-	}
+	};
 
 	this.areaHighliteNewSlot = function(options)
 	{
@@ -765,8 +764,8 @@ function aConstructor()
 				newSlot.css({ 'background':tmpBG }); // restore that background
 			});
 			$('#a-add-slot-' + pageId + '-' + slotName).parent().trigger('toggleClosed');
-		};
-	}
+		}
+	};
 
 	this.areaSingletonSlot = function(options)
 	{
@@ -778,7 +777,7 @@ function aConstructor()
 		$('#a-area-' + pageId + '-' + slotName + '.singleton .a-slot-controls').prependTo($('#a-area-' + pageId + '-' + slotName)).addClass('a-area-controls a-slot-controls-moved').removeClass('a-slot-controls');
 		// Singleton Slots can't have big history buttons!
 		$('ul.a-slot-controls-moved a.a-btn.a-history-btn').removeClass('big');
-	}
+	};
 
 	this.slotEnableVariantButton = function(options)
 	{
@@ -802,7 +801,7 @@ function aConstructor()
 			});
 			return false;
 		});
-	}
+	};
 
 	this.slotShowVariantsMenu = function(slot)
 	{
@@ -816,25 +815,25 @@ function aConstructor()
     {
       outerWrapper.find('.a-controls li.variant').show();
     }
-	}
+	};
 
 	this.slotHideVariantsMenu = function(menu)
 	{
 	  var menu = $(menu);
 		menu.removeClass('loading').fadeOut('slow').parent().removeClass('open');
-	}
+	};
 
 	this.slotApplyVariantClass = function(slot, variant)
 	{
 		var outerWrapper = $(slot);
 	  outerWrapper.addClass(variant);
-	}
+	};
 
 	this.slotRemoveVariantClass = function(slot, variant)
 	{
 		var outerWrapper = $(slot);
 	  outerWrapper.removeClass(variant);
-	}
+	};
 
 	this.slotEnhancements = function(options)
 	{
@@ -851,8 +850,8 @@ function aConstructor()
 		{
 			apostrophe.log('apostrophe.slotEnhancements -- No slot found.');
 			apostrophe.log('apostrophe.slotEnhancements -- Selector: '+ options['slot']);
-		};
-	}
+		}
+	};
 
 	this.slotShowEditView = function(pageid, name, permid, realUrl)
 	{
@@ -870,12 +869,12 @@ function aConstructor()
 	    // Reuse edit view
       slotShowEditViewPreloaded(pageid, name, permid);
 	  }
-	}
+	};
 
 	this.slotNotNew = function(pageid, name, permid)
 	{
 		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
-	}
+	};
 
 	this.slotEnableEditButton = function(pageid, name, permid, editUrl, realUrl)
 	{
@@ -887,7 +886,7 @@ function aConstructor()
 			apostrophe.slotShowEditView(pageid, name, permid, realUrl);
  		  return false;
  		});
-  }
+  };
 
 	this.slotEnableForm = function(options)
 	{
@@ -907,7 +906,7 @@ function aConstructor()
 	    );
 	    return false;
   	});
-	}
+	};
 
 	this.slotEnableFormButtons = function(options)
 	{
@@ -934,7 +933,7 @@ function aConstructor()
 			var editBtn = $(options['edit']);
 			editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
 	  }
-	}
+	};
 
 	this.mediaCategories = function(options)
 	{
@@ -943,7 +942,7 @@ function aConstructor()
 		$('#a-media-edit-categories-button, #a-media-no-categories-messagem, #a-category-sidebar-list').hide();
 		$('#a_media_category_description').parents('div.a-form-row').addClass('hide-description').parent().attr('id','a-media-category-form');
 		$('.a-remote-submit').aRemoteSubmit('#a-media-edit-categories');
-	}
+	};
 
 	// We send people away to the media repo to pick things and then they
 	// decide to wander off and not pick things. We need to be realistic about
@@ -977,7 +976,7 @@ function aConstructor()
 			$.ajax({ url: mediaClearSelectingUrl, async: false });
 			return;
 		});
-	}
+	};
 
 	this.mediaEnableRemoveButton = function(i)
 	{
@@ -995,7 +994,7 @@ function aConstructor()
 			}
 			return false;
 		});
-	}
+	};
 
 	// Listens to the file input for a media form and returns visual feedback if a new file is selected
 	this.mediaReplaceFileListener = function(options)
@@ -1031,8 +1030,8 @@ function aConstructor()
 		else
 		{
 			apostrophe.log('apostrophe.mediaReplaceFileListener -- no input found');
-		};
-	}
+		}
+	};
 
 	// Upon submission, if the media form has an empty file field and it is in a context to do so, it submits with AJAX -- Otherwise, it will submit normally
 	this.mediaAjaxSubmitListener = function(options)
@@ -1051,7 +1050,7 @@ function aConstructor()
 		  form.submit(function(event) {
 				if (fck.length) {
 					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());
-				};
+				}
 				// If the file field is empty and the embed code hasn't been changed,
 				// we can submit the edit form asynchronously
 				apostrophe.log(embedChanged);
@@ -1067,8 +1066,8 @@ function aConstructor()
 		else
 		{
 			apostrophe.log('apostrophe.mediaAjaxSubmitListener -- No form found');
-		};
-	}
+		}
+	};
 
 	this.mediaFourUpLayoutEnhancements = function(options)
 	{
@@ -1148,7 +1147,7 @@ function aConstructor()
 			};
 			item.removeClass('over dropshadow expand').css('margin-top','').data('hold_create', null);
 		}
-	}
+	};
 
 	this.mediaEnableLinkAccount = function(previewUrl)
 	{
@@ -1178,7 +1177,7 @@ function aConstructor()
 				});
 	    return false;
 	  });
- 	}
+ 	};
 
 	this.mediaEmbeddableToggle = function(options)
 	{
@@ -1202,7 +1201,7 @@ function aConstructor()
 		{
 			apostrophe.log('apostrophe.mediaEmbeddableToggle -- no items found');
 		};
-	}
+	};
 
 	this.mediaAttachEmbed = function(options)
 	{
@@ -1210,7 +1209,7 @@ function aConstructor()
 		var embed = options['embed'];
 		var mediaItem = $('#a-media-item-' + id);
 		mediaItem.data('embed_code', embed);
-	}
+	};
 
 	this.mediaItemsIndicateSelected = function(cropOptions)
 	{
@@ -1240,7 +1239,7 @@ function aConstructor()
 		}
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
-	}
+	};
 
 	this.mediaUpdatePreview = function()
 	{
@@ -1261,13 +1260,13 @@ function aConstructor()
 			items.css('height',listHeight);
 			apostrophe.log(listHeight);
 	  });
-	}
+	};
 
 	this.mediaDeselectItem = function(id)
 	{
 		$('#a-media-item-'+id).removeClass('a-media-selected');
 		$('#a-media-item-'+id).children('.a-media-selected-overlay').remove();
-	}
+	};
 
 	this.mediaEnableSelect = function(options)
 	{
@@ -1307,14 +1306,14 @@ function aConstructor()
 			$(this).addClass('a-media-selected');
 			return false;
 		});
-	}
+	};
 
 	this.mediaItemRefresh = function(options)
 	{
 		var id = options['id'];
 		var url = options['url'];
 		window.location = url;
-	}
+	};
 
 	this.mediaEnableMultiplePreview = function()
 	{
@@ -1322,7 +1321,7 @@ function aConstructor()
     $('#a-media-selection-preview li:first').addClass('current');
     // set up cropping again; do hard reset to reinstantiate Jcrop
     aCrop.resetCrop(true);
-	}
+	};
 
 	this.mediaEnableSelectionSort = function(multipleOrderUrl)
 	{
@@ -1333,7 +1332,7 @@ function aConstructor()
         $.post(multipleOrderUrl, serial);
       }
     });
-	}
+	};
 
 	this.mediaEnableUploadMultiple = function()
 	{
@@ -1365,7 +1364,7 @@ function aConstructor()
 	    });
 	  }
 	  aMediaUploadInitialize();
-	}
+	};
 
 	this.menuToggle = function(options)
 	{
@@ -1393,9 +1392,9 @@ function aConstructor()
 
 			if (typeof(menu) == "object") {
 				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus'], options['debug']);
-			};
-		};
-	}
+			}
+		}
+	};
 
 	this.pager = function(selector, pagerOptions)
 	{
@@ -1554,7 +1553,7 @@ function aConstructor()
 			toggleClasses();
 			animatePageNumbers();
 		});
-	}
+	};
 
 		/* Example Mark-up
 		<script type="text/javascript">
@@ -1603,8 +1602,8 @@ function aConstructor()
 					t.removeClass('hover');
 				});
 			}).addClass('a-accordion-toggle');
-		};
-	}
+		}
+	};
 
 	this.enablePageSettings = function(options)
 	{
@@ -1699,7 +1698,7 @@ function aConstructor()
 		  }
 		}
 		updateEngineAndTemplate();
-	}
+	};
 
 	this.accordionEnhancements = function(options)
 	{
@@ -1876,7 +1875,7 @@ function aConstructor()
 				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');
 			};
 	  });
-	}
+	};
 
 	// Breaks the url into a stem (everything before the query, inclusive of the ?), a query
 	// (the encoded query string), and queryData (the query string parsed into an object)
@@ -1898,7 +1897,7 @@ function aConstructor()
 			info.queryData = {};
 		}
 		return info;
-	}
+	};
 	
 	// Adapted from http://stackoverflow.com/questions/901115/get-querystring-values-with-jquery/901144#901144
 	// This decodeQuery function is accordingly released under cc attribution-share alike
@@ -1915,7 +1914,7 @@ function aConstructor()
 		       urlParams[d(e[1])] = d(e[2]);
 		})();
 		return urlParams;
-	}
+	};
 	
 	this.audioPlayerSetup = function(aAudioContainer, file)
 	{
@@ -2001,7 +2000,7 @@ function aConstructor()
 		{
 			throw "Cannot find DOM Element for Audio Player.";
 		}
-	}
+	};
 
 	// Just the toggles to display different parts of the page settings dialog
 	this.enablePermissionsToggles = function()
@@ -2032,7 +2031,7 @@ function aConstructor()
 			}
 		});
 		$('#a_settings_settings_edit_admin_lock').change();
-	}
+	};
 
 	// One permissions widget. Invoked several times - there are several in the page settings dialog
 	this.enablePermissions = function(options)
@@ -2155,7 +2154,7 @@ function aConstructor()
 			}
 			$('#' + options['hiddenField']).val(JSON.stringify(flat));
 		}
-	}
+	};
 
 	this.enableMediaEditMultiple = function()
 	{
@@ -2174,7 +2173,7 @@ function aConstructor()
 			}
 			return false;
 	  });
-  }
+  };
 
 	this.aAdminEnableFilters = function()
 	{
@@ -2182,7 +2181,7 @@ function aConstructor()
 			$('#a-admin-filters-container').slideToggle();
 			return false;
 		});
-	}
+	};
 
 	this.historyOpen = function(options)
 	{
@@ -2292,7 +2291,7 @@ function aConstructor()
 		},function(){
 			$(this).css('cursor','default');
 		});
-	}
+	};
 
 	this.enableCloseHistoryButtons = function(options)
 	{
@@ -2300,7 +2299,7 @@ function aConstructor()
 		closeHistoryBtns.click(function(){
 			_closeHistory();
 		});
-	}
+	};
 
 	this.enablePageSettingsButtons = function(options)
 	{
@@ -2341,14 +2340,14 @@ function aConstructor()
 				$('#a-create-page').html('');
 			}
 		});
-	}
+	};
 
 	this.enableUserAdmin = function(options)
 	{
 		// Right now this is also called for groups and permissions admin, account for that if you add anything nutty. -Tom
 		$('.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field br').replaceWith('<div class="a-spacer"></div>');
 		aMultipleSelectAll({ 'choose-one': options['choose-one-label']});
-	}
+	};
 
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
@@ -2478,7 +2477,7 @@ function aConstructor()
 			{
 				menu.trigger('toggleClosed');
 			}
-		};
+		}
 
 		// Open Menu, Create Listener
 		menu.unbind('toggleOpen').bind('toggleOpen', function(){
