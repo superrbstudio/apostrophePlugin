@@ -12,7 +12,7 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
     $errorRowFormat = '%errors%',
     $helpFormat = '<div class="a-help">%help%</div>',
     $decoratorFormat ="<div class=\"a-admin-form-container\">\n %content%\n</div>",
-    $errorListFormatInARow     = "<div class='a-form-errors'>\n<ul class=\"a-error-list error_list\">\n%errors%</ul>\n</div>\n",
+    $errorListFormatInARow     = "<div class='a-form-errors'>\n<ul class=\"a-ui a-error-list error_list\">\n%errors%</ul>\n</div>\n",
     $errorRowFormatInARow      = "<li>%error%</li>\n",
     $namedErrorRowFormatInARow = "<li>%name%: %error%</li>\n";
 
