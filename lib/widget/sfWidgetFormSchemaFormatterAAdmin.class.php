@@ -48,7 +48,7 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
 			$doc = new DOMDocument();
 			$doc ->loadXML($field);
 			foreach($doc->childNodes as $node);
-			$id = aTools::slugify($node->getAttribute('id'));
+			$id = aTools::slugify($node->getAttribute('id')).' a-'.aTools::slugify($node->nodeName.'-'.$node->getAttribute('type'));
 		}
 
     return $this->aRowClassName . ' ' . $id;
