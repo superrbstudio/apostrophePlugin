@@ -485,41 +485,42 @@ ul.a-controls .a-variant-options.loading
 background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
 
-.a-ui
+.a-ui.a-options
 {
-	.a-options
+	&.a-slot-form
 	{
-		.a-slot-form
+		position: relative;
+		width: 100%; 
+		top: -27px; 
+		left:-5px; 
+		padding:30px 5px 5px; 
+		overflow: visible;
+
+		.a-form-row
 		{
-			width: 100%; top: -27px; left:-5px; padding:30px 5px 5px; overflow: visible;
+			line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
 
-			.a-form-row
+			label
 			{
-				line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
-
-				label
-				{
-					width: 80px; float: left; margin: 0 10px 0 0; color: #666;
-				}
-
+				width: 80px; float: left; margin: 0 10px 0 0; color: #666;
 			}
 
-			.a-form-field
-			{
-				float: left;
-			}
+		}
 
-			.a-slot-form-title
-			{
-				position: relative;
-				float: left;
-				padding:0 10px;
-				margin-bottom: 10px;
-				width: auto;
-				clear:both;
-				line-height: 27px;
-			}
+		.a-form-field
+		{
+			float: left;
+		}
 
+		.a-slot-form-title
+		{
+			position: relative;
+			float: left;
+			padding:0 10px;
+			margin-bottom: 10px;
+			width: auto;
+			clear:both;
+			line-height: 27px;
 		}
 	}
 }
