@@ -4,7 +4,7 @@
  * @subpackage    widget
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter 
+class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
 {
   protected
     $aRowClassName = "a-form-row",
@@ -28,7 +28,7 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
   public function formatRow($label, $field, $errors = array(), $help = '', $hiddenFields = null)
   {
     return strtr($this->getRowFormat(), array(
-      '%a_row_class%'   => (count($errors)) ? $this->getARowClassName().' has-errors': $this->getARowClassName(), 
+      '%a_row_class%'   => (count($errors)) ? $this->getARowClassName($field).' has-errors': $this->getARowClassName($field),
       '%label%'         => $label,
       '%field%'         => $field,
       '%error%'         => $this->formatErrorsForRow($errors),
@@ -41,8 +41,16 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
    * DOCUMENT ME
    * @return mixed
    */
-  public function getARowClassName()
+  public function getARowClassName($field = null)
   {
-    return $this->aRowClassName;
-  }  
+	 	$id = '';
+		if ($field) {
+			$doc = new DOMDocument();
+			$doc ->loadXML($field);
+			foreach($doc->childNodes as $node);
+			$id = aTools::slugify($node->getAttribute('id'));
+		}
+
+    return $this->aRowClassName . ' ' . $id;
+  }
 }
