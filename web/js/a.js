@@ -1,35 +1,35 @@
 function aConstructor()
 {
 	var debug = false;
-  this.onSubmitHandlers = new Object();
+	this.onSubmitHandlers = {};
 
 	// This is the old, painful way, see aEditorFck for the
 	// new, graceful way
-  this.registerOnSubmit = function (slotId, callback)
-  {
-    if (!this.onSubmitHandlers[slotId])
-    {
-      this.onSubmitHandlers[slotId] = [ callback ];
-      return;
-    }
-    this.onSubmitHandlers[slotId].push(callback);
-  };
+	this.registerOnSubmit = function (slotId, callback)
+	{
+		if (!this.onSubmitHandlers[slotId])
+		{
+			this.onSubmitHandlers[slotId] = [ callback ];
+			return;
+		}
+		this.onSubmitHandlers[slotId].push(callback);
+	};
 
-  this.callOnSubmit = function (slotId)
-  {
+	this.callOnSubmit = function (slotId)
+	{
 		// Call any old-school submit handlers
-    var handlers = this.onSubmitHandlers[slotId];
-    if (handlers)
-    {
+		var handlers = this.onSubmitHandlers[slotId];
+		if (handlers)
+		{
 			 var i;
-		   for (i = 0; (i < handlers.length); i++)
-		   {
-		     handlers[i](slotId);
-		   }
+			 for (i = 0; (i < handlers.length); i++)
+			 {
+				 handlers[i](slotId);
+			 }
 		}
 		// The new, sensible way
 		$('.a-needs-update').trigger('a.update');
-  };
+	};
 
 	this.setMessages = function(messages)
 	{
@@ -42,14 +42,14 @@ function aConstructor()
 		// apostrophe.log('apostrophe.ready');
 		// You can define this function in your site.js
 		// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
-		if (typeof(apostropheReady) =="function")
+		if (typeof(apostropheReady) === "function")
 		{
 			apostropheReady();
 		}
 
 		// This is deprecated, it's the old function name,
 		// preserved here for backwards compatibility
-		if (typeof(aOverrides) =="function")
+		if (typeof(aOverrides) === "function")
 		{
 			aOverrides();
 		}
@@ -57,10 +57,10 @@ function aConstructor()
 
 	// Utility: Swap two DOM elements without cloning them -- http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
 	this.swapNodes = function(a, b) {
-    var t = a.parentNode.insertBefore(document.createTextNode(''), a);
-    b.parentNode.insertBefore(a, b);
-    t.parentNode.insertBefore(b, t);
-    t.parentNode.removeChild(t);
+		var t = a.parentNode.insertBefore(document.createTextNode(''), a);
+		b.parentNode.insertBefore(a, b);
+		t.parentNode.insertBefore(b, t);
+		t.parentNode.removeChild(t);
 	};
 
 	// Utility: console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
@@ -119,9 +119,9 @@ function aConstructor()
 	// Useful for turning an <a> into a <span>
 	this.clickOnce = function(selector)
 	{
-		var selector = $(selector);
-		selector.unbind('click.aClickOnce').bind('click.aClickOnce', function(){
-			apostrophe.toSpan(selector);
+		el = $(selector);
+		el.unbind('click.aClickOnce').bind('click.aClickOnce', function(){
+			apostrophe.toSpan(el);
 		});
 	};
 
@@ -132,8 +132,14 @@ function aConstructor()
 		// same span label
 		$(selector).each(function() {
 			var id = ""; var clss = "";
-			if ($(this).attr('id') != '') { id = "id='"+$(this).attr('id')+"'"; };
-			if ($(this).attr('class') != '') { clss = "class='"+$(this).attr('class')+"'"; };
+			if ($(this).attr('id') !== '') 
+			{ 
+				id = "id='"+$(this).attr('id')+"'"; 
+			}
+			if ($(this).attr('class') !== '') 
+			{ 
+				clss = "class='"+$(this).attr('class')+"'"; 
+			}
 			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");
 		});
 	};
@@ -145,7 +151,7 @@ function aConstructor()
 	{
 		var link = $(options['link']);
 		var update = $(options['update']);
-		var method = (options['method'])? options['method']:'GET';
+		var method = (options['method'])? options['method']:'get';
 		var remote_url = options['url'];
 		var eventType = (options['event'])? options['event']:'click';
 		var restore = (options['restore']) ? options['restore'] : false;
@@ -173,7 +179,7 @@ function aConstructor()
 								event.preventDefault();
 								update.html(update.data('aBeforeUpdate'));
 							});
-						};
+						}
 						update.removeClass('a-remote-data-loading');						
 					},
 					url:remote_url
@@ -191,10 +197,10 @@ function aConstructor()
 		}
 	};
 
-  this.unobfuscateEmail = function(aClass, email, label)
-  {
-    $('.' + aClass).attr('href', unescape(email)).html(unescape(label));
-  };
+	this.unobfuscateEmail = function(aClass, email, label)
+	{
+		$('.' + aClass).attr('href', unescape(email)).html(unescape(label));
+	};
 
 	// Turns a form into an AJAX form that updates the element
 	// with the DOM ID specified by options['update']. You must
@@ -331,110 +337,110 @@ function aConstructor()
 		var aPageTree = $('#a-page-tree');
 
 		aPageTree.tree({
-	    data: {
-	      type: 'json',
-	      // Supports multiple roots so we have to specify a list
-	      json: [ treeData ]
-	    },
+			data: {
+				type: 'json',
+				// Supports multiple roots so we have to specify a list
+				json: [ treeData ]
+			},
 			ui: {
 				theme_path: "/apostrophePlugin/js/jsTree/source/themes/",
-	      theme_name: "punk",
+				theme_name: "punk",
 				context: false
 			// 	[ 
-			//           // {
-			//           //     id      : "create",
-			//           //     label   : "Create", 
-			//           //     icon    : "create.png",
-			//           //     visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); }, 
-			//           //     action  : function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); } 
-			//           // },
-			//           // "separator",
-			//           // { 
-			//           //     id      : "rename",
-			//           //     label   : "Rename", 
-			//           //     icon    : "rename.png",
-			//           //     visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
-			//           //     action  : function (NODE, TREE_OBJ) { TREE_OBJ.rename(); } 
-			//           // },
-			//           { 
-			//               id      : "delete",
-			//               label   : "Delete",
-			//               // icon    : "remove.png",
-			//               visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+			//					 // {
+			//					 //		 id			: "create",
+			//					 //		 label	 : "Create", 
+			//					 //		 icon		: "create.png",
+			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); }, 
+			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); } 
+			//					 // },
+			//					 // "separator",
+			//					 // { 
+			//					 //		 id			: "rename",
+			//					 //		 label	 : "Rename", 
+			//					 //		 icon		: "rename.png",
+			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
+			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(); } 
+			//					 // },
+			//					 { 
+			//							 id			: "delete",
+			//							 label	 : "Delete",
+			//							 // icon		: "remove.png",
+			//							 visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
 			// 			// Also see ondelete below
-			//               action  : function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
-			//           }
+			//							 action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+			//					 }
 			// 	]
 			},
-	    rules: {
-	      // Turn off most operations as we're only here to reorg the tree.
-	      // Allowing renames and deletes here is an interesting thought but
-	      // there's back end stuff that must exist for that.
-	      renameable: false,
-	      deletable: 'all',
-	      creatable: false,
-	      draggable: 'all',
-	      dragrules: 'all'
-	    },
-	    callback: {
-	      // move completed (TYPE is BELOW|ABOVE|INSIDE)
-	      onmove: function(node, refNode, type, treeObj, rb)
-	      {
-	        // To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
-	        // tree page (TODO: find out if there's some way to flunk an individual drag operation). This shouldn't happen anyway
-	        // but don't get into an inconsistent state if it does!
+			rules: {
+				// Turn off most operations as we're only here to reorg the tree.
+				// Allowing renames and deletes here is an interesting thought but
+				// there's back end stuff that must exist for that.
+				renameable: false,
+				deletable: 'all',
+				creatable: false,
+				draggable: 'all',
+				dragrules: 'all'
+			},
+			callback: {
+				// move completed (TYPE is BELOW|ABOVE|INSIDE)
+				onmove: function(node, refNode, type, treeObj, rb)
+				{
+					// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
+					// tree page (TODO: find out if there's some way to flunk an individual drag operation). This shouldn't happen anyway
+					// but don't get into an inconsistent state if it does!
 
 					aPageTree.parent().addClass('working');
 
-	        var nid = node.id;
-	        var rid = refNode.id;
+					var nid = node.id;
+					var rid = refNode.id;
 
-	        jQuery.ajax({
-	          url: options['moveURL'] + "?" + "id=" + nid.substr("tree-".length) + "&refId=" + rid.substr("tree-".length) + "&type=" + type,
-	          error: function(result) {
+					jQuery.ajax({
+						url: options['moveURL'] + "?" + "id=" + nid.substr("tree-".length) + "&refId=" + rid.substr("tree-".length) + "&type=" + type,
+						error: function(result) {
 							// 404 errors etc
-	            window.location.reload();
-	          },
-	          success: function(result) {
+							window.location.reload();
+						},
+						success: function(result) {
 							// Look for a specific "all is well" response
-	            if (result !== 'ok')
-	            {
-	              window.location.reload();
-	            }
+							if (result !== 'ok')
+							{
+								window.location.reload();
+							}
 							aPageTree.parent().removeClass('working');
-	          },
-	          async: false
-	        });
-	      },
-	      // delete completed 
-	      ondelete: function(node, treeObj, rb)
-	      {
-	        // To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
-	        // tree page
+						},
+						async: false
+					});
+				},
+				// delete completed 
+				ondelete: function(node, treeObj, rb)
+				{
+					// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
+					// tree page
 
 					aPageTree.parent().addClass('working');
 
-	        var nid = node.id;
+					var nid = node.id;
 
-	        jQuery.ajax({
-	          url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
-	          error: function(result) {
+					jQuery.ajax({
+						url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
+						error: function(result) {
 							// 404 errors etc
-	            window.location.reload();
-	          },
-	          success: function(result) {
+							window.location.reload();
+						},
+						success: function(result) {
 							// Look for a specific "all is well" response
-	            if (result !== 'ok')
-	            {
-	              window.location.reload();
-	            }
+							if (result !== 'ok')
+							{
+								window.location.reload();
+							}
 							aPageTree.parent().removeClass('working');
-	          },
-	          async: false
-	        });
-	      }
-	    }
-	  });
+						},
+						async: false
+					});
+				}
+			}
+		});
 		treeRef = $.tree_reference(aPageTree.attr('id'));
 		aPageTree.find('.a-tree-delete-btn').click(function() {
 			var li = $(this).closest('li');
@@ -462,12 +468,12 @@ function aConstructor()
 	{
 		var debug = options['debug'];
 		var transition = options['transition'];
-	  var id = options['id'];
-	  var intervalEnabled = !!options['interval'];
-	  var intervalSetting = options['interval'];
-	  var positionFlag = options['position'];
-   	var position = (options['startingPosition']) ? options['startingPosition'] : 0;
-   	var duration = (options['duration']) ? options['duration'] : 300;
+		var id = options['id'];
+		var intervalEnabled = !!options['interval'];
+		var intervalSetting = options['interval'];
+		var positionFlag = options['position'];
+	 	var position = (options['startingPosition']) ? options['startingPosition'] : 0;
+	 	var duration = (options['duration']) ? options['duration'] : 300;
 		var slideshowSelector = (options['slideshowSelector']) ? options['slideshowSelector'] : '#a-slideshow-' + id;
 		var slideshow = $(slideshowSelector);
 		var slideshowControlsSelector = (options['controls']) ? options['controls'] : '.a-slideshow-controls';
@@ -487,26 +493,26 @@ function aConstructor()
 		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging') : '';
 		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Item Count : ' + itemCount ) : '';
 
-    if (itemCount === 1)
-    {
+		if (itemCount === 1)
+		{
 			slideshow.addClass('single-image');
 			$(slideshowItems[0]).show();
 			( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Single Image') : '';
-    }
-    else
-    {
-      // Clear any interval timer left running by a previous slot variant
-      if (window.aSlideshowIntervalTimeouts !== undefined)
-      {
-        if (window.aSlideshowIntervalTimeouts['a-' + id])
-        {
-          clearTimeout(window.aSlideshowIntervalTimeouts['a-' + id]);
-        }
-      }
-      else
-      {
-        window.aSlideshowIntervalTimeouts = {};
-      }
+		}
+		else
+		{
+			// Clear any interval timer left running by a previous slot variant
+			if (window.aSlideshowIntervalTimeouts !== undefined)
+			{
+				if (window.aSlideshowIntervalTimeouts['a-' + id])
+				{
+					clearTimeout(window.aSlideshowIntervalTimeouts['a-' + id]);
+				}
+			}
+			else
+			{
+				window.aSlideshowIntervalTimeouts = {};
+			}
 
 			function init()
 			{
@@ -515,25 +521,25 @@ function aConstructor()
 				// Hiding all of the items, showing the first one, setting the position, and starting the timer
 				slideshowItems.hide();
 				$(slideshowItems[position]).show();
-	  		setPosition(position);
-	  	  interval();
+				setPosition(position);
+				interval();
 			}
 
-  	  function previous()
-  	  {
+			function previous()
+			{
 				currentItem = position;
 				(position == 0) ? position = itemCount - 1 : position--;
 				showItem(position, currentItem);
 				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Previous : ' + currentItem + ' / ' + position) : '';
-  	  };
+			};
 
-  	  function next()
-  	  {
+			function next()
+			{
 				currentItem = position;
 				(position == itemCount-1) ? position = 0 : position++;
 				showItem(position, currentItem);
 				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Next : ' + currentItem + ' / ' + position) : '';
-  	  };
+			};
 
 			function showItem(position, currentItem)
 			{
@@ -557,7 +563,7 @@ function aConstructor()
 					};
 					newItem.fadeIn(duration,function(){
 						slideshow.data('showItem', 0);
-					  setPosition(position);
+						setPosition(position);
 						interval();
 					});
 				};
@@ -568,62 +574,62 @@ function aConstructor()
 				slideshow.data('position', p);
 				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- positionFlag : ' + positionFlag ) : '';
 				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + (p + 1) ) : '';
-	  		if (positionFlag && positionHead.length)
+				if (positionFlag && positionHead.length)
 				{
 					positionHead.text(parseInt(p) + 1);
 					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + p + 1 ) : '';
 				};
 			};
 
-  	  function interval()
-  	  {
-  	    if (intervalTimeout)
-  	    {
-  	      clearTimeout(intervalTimeout);
-  	    };
-  	    if (intervalEnabled)
-  	    {
-  	  	  intervalTimeout = setTimeout(next, intervalSetting * 1000);
-  	  	  window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
+			function interval()
+			{
+				if (intervalTimeout)
+				{
+					clearTimeout(intervalTimeout);
+				};
+				if (intervalEnabled)
+				{
+					intervalTimeout = setTimeout(next, intervalSetting * 1000);
+					window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
 					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting ) : '';
-  	  	}
-  	  };
+				}
+			};
 
 			// 1. Initialize the slideshow
 			init();
 
 			// 2. Bind events
-  		slideshow.bind('showItem', function(e,p){ showItem(p); });
+			slideshow.bind('showItem', function(e,p){ showItem(p); });
 			slideshow.bind('previousItem', function(){ previous(); });
 			slideshow.bind('nextItem', function(){ next(); });
 
-  	  slideshow.find('.a-slideshow-image').click(function(event) {
+			slideshow.find('.a-slideshow-image').click(function(event) {
 				event.preventDefault();
-  			intervalEnabled = false;
+				intervalEnabled = false;
 				next();
 			});
 
 			( debug ) ? apostrophe.log('slideshowControls -- ' + slideshowControlsSelector + ' -- ' + slideshowControls.length ) : '';
 
-  		slideshowControls.find('.a-arrow-left').click(function(event){
-  			event.preventDefault();
-  			intervalEnabled = false;
-  			previous();
-  		});
+			slideshowControls.find('.a-arrow-left').click(function(event){
+				event.preventDefault();
+				intervalEnabled = false;
+				previous();
+			});
 
-  		slideshowControls.find('.a-arrow-right').click(function(event){
-  			event.preventDefault();
-  			intervalEnabled = false;
-  			next();
-  		});
+			slideshowControls.find('.a-arrow-right').click(function(event){
+				event.preventDefault();
+				intervalEnabled = false;
+				next();
+			});
 
-  		slideshowControls.find('.a-arrow-left, .a-arrow-right').hover(function(){
-  			$(this).addClass('over');
-  		},function(){
-  			$(this).removeClass('over');
-  		});
+			slideshowControls.find('.a-arrow-left, .a-arrow-right').hover(function(){
+				$(this).addClass('over');
+			},function(){
+				$(this).removeClass('over');
+			});
 
-	  }
+		}
 	};
 
 	// aButtonSlot
@@ -697,7 +703,7 @@ function aConstructor()
 			_browseHistory($(this).closest('div.a-area'));
 			$(".a-history-browser .a-history-items").data("area", "a-area-" + pageId + "-" + name);
 			$(".a-history-browser .a-history-browser-view-more").click(function() {
-		    $.post(moreUrl, {}, function(data) {
+				$.post(moreUrl, {}, function(data) {
 					$('.a-history-browser .a-history-items').html(data);
 					$(".a-history-browser .a-history-browser-view-more .spinner").hide();
 				});
@@ -735,7 +741,7 @@ function aConstructor()
 			// a rank, but think about how messy that might get
 
 			// Hide the new slot's controls because it can't be moved until it is saved
-		  newSlots.find('.a-slot-controls .a-move').addClass('a-hidden');
+			newSlots.find('.a-slot-controls .a-move').addClass('a-hidden');
 
 			// Hide the next slot's UP arrow because the slot cannot switch places with the unsaved new slot
 			newSlots.next('.a-slot').find('.a-move.up').addClass('a-hidden');
@@ -788,8 +794,8 @@ function aConstructor()
 		button.bind('click.slotEnableVariantButton', function() {
 			// Change the visibility of the variant buttons to their active and inactive states as appropriate
 			var variants = $('#a-' + options['slotFullId'] + '-variant');
-  		variants.find('ul.a-variant-options').addClass('loading');
-  		variants.find('li.active').hide();
+			variants.find('ul.a-variant-options').addClass('loading');
+			variants.find('li.active').hide();
 			variants.find('ul.a-variant-options li.inactive').show();
 			var variantStem = '#a-' + options['slotFullId'] + '-variant-' + options['variant'];
 			$(variantStem + '-active').show();
@@ -807,32 +813,32 @@ function aConstructor()
 	{
 		var outerWrapper = $(slot);
 		var singletonArea = outerWrapper.closest('.singleton');
-    if (singletonArea.length)
-    {
-      singletonArea.find('.a-controls li.variant').show();
-    }
-    else
-    {
-      outerWrapper.find('.a-controls li.variant').show();
-    }
+		if (singletonArea.length)
+		{
+			singletonArea.find('.a-controls li.variant').show();
+		}
+		else
+		{
+			outerWrapper.find('.a-controls li.variant').show();
+		}
 	};
 
 	this.slotHideVariantsMenu = function(menu)
 	{
-	  var menu = $(menu);
+		var menu = $(menu);
 		menu.removeClass('loading').fadeOut('slow').parent().removeClass('open');
 	};
 
 	this.slotApplyVariantClass = function(slot, variant)
 	{
 		var outerWrapper = $(slot);
-	  outerWrapper.addClass(variant);
+		outerWrapper.addClass(variant);
 	};
 
 	this.slotRemoveVariantClass = function(slot, variant)
 	{
 		var outerWrapper = $(slot);
-	  outerWrapper.removeClass(variant);
+		outerWrapper.removeClass(variant);
 	};
 
 	this.slotEnhancements = function(options)
@@ -857,18 +863,18 @@ function aConstructor()
 	{
 		var fullId = pageid + '-' + name + '-' + permid;
  		var editSlot = $('#a-slot-' + fullId);
-	  if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
-	  {
- 		  $.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid, realUrl: realUrl }, function(data) {
-	      editSlot.children('.a-slot-content').html(data);
-	      slotShowEditViewPreloaded(pageid, name, permid);
-	    });
-	  }
-	  else
-	  {
-	    // Reuse edit view
-      slotShowEditViewPreloaded(pageid, name, permid);
-	  }
+		if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
+		{
+ 			$.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid, realUrl: realUrl }, function(data) {
+				editSlot.children('.a-slot-content').html(data);
+				slotShowEditViewPreloaded(pageid, name, permid);
+			});
+		}
+		else
+		{
+			// Reuse edit view
+			slotShowEditViewPreloaded(pageid, name, permid);
+		}
 	};
 
 	this.slotNotNew = function(pageid, name, permid)
@@ -884,55 +890,55 @@ function aConstructor()
 		editSlot.data('a-edit-url', editUrl);
  		editBtn.live('click.apostrophe', function(event) {
 			apostrophe.slotShowEditView(pageid, name, permid, realUrl);
- 		  return false;
+ 			return false;
  		});
-  };
+	};
 
 	this.slotEnableForm = function(options)
 	{
 		$(options['slot-form']).submit(function() {
 			apostrophe.updating(options['slot-form']);
-	    $.post(
-	      // These fields are the context, not something the user gets to edit. So rather than
-	      // creating a gratuitous collection of hidden form widgets that are never edited, let's
-	      // attach the necessary context fields to the URL just like Doctrine forms do.
-	      // We force a query string for compatibility with our simple admin routing rule
-	      options['url'],
-	      $(options['slot-form']).serialize(),
-	      function(data) {
-	        $(options['slot-content']).html(data);
-	      },
-	      'html'
-	    );
-	    return false;
-  	});
+			$.post(
+				// These fields are the context, not something the user gets to edit. So rather than
+				// creating a gratuitous collection of hidden form widgets that are never edited, let's
+				// attach the necessary context fields to the URL just like Doctrine forms do.
+				// We force a query string for compatibility with our simple admin routing rule
+				options['url'],
+				$(options['slot-form']).serialize(),
+				function(data) {
+					$(options['slot-content']).html(data);
+				},
+				'html'
+			);
+			return false;
+		});
 	};
 
 	this.slotEnableFormButtons = function(options)
 	{
-    var view = $(options['view']);
+		var view = $(options['view']);
 
 		$(options['cancel']).click(function(e){
 			e.preventDefault();
-  		$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-  		$(view).children('.a-controls li.variant').fadeIn();
-  		$(view).children('.a-slot-content').children('.a-slot-form').hide();
-  		$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
+			$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
+			$(view).children('.a-controls li.variant').fadeIn();
+			$(view).children('.a-slot-content').children('.a-slot-form').hide();
+			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
-  	});
+		});
 
-  	$(options['save']).click(function(){
-  		$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
+		$(options['save']).click(function(){
+			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
  			window.apostrophe.callOnSubmit(options['slot-full-id']);
  			return true;
-  	});
+		});
 
 		if (options['showEditor'])
 		{
 			var editBtn = $(options['edit']);
 			editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
-	  }
+		}
 	};
 
 	this.mediaCategories = function(options)
@@ -1039,7 +1045,7 @@ function aConstructor()
 		var form = $(options['form']);
 		var url = options['url'];
 		var update = $(options['update']);
-    var file = form.find('input[type="file"]');
+		var file = form.find('input[type="file"]');
 		var descId = options['descId'];
 		var fck = $('#'+descId);
 		var embedChanged = false;
@@ -1047,21 +1053,21 @@ function aConstructor()
 			form.find('.a-form-row.embed textarea').change(function() {
 				embedChanged = true;
 			});
-		  form.submit(function(event) {
+			form.submit(function(event) {
 				if (fck.length) {
 					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());
 				}
 				// If the file field is empty and the embed code hasn't been changed,
 				// we can submit the edit form asynchronously
 				apostrophe.log(embedChanged);
-		    if((file.val() == '') && (!embedChanged))
-		    {
-		      event.preventDefault();
-		      $.post(url, form.serialize(), function(data) {
+				if((file.val() == '') && (!embedChanged))
+				{
+					event.preventDefault();
+					$.post(url, form.serialize(), function(data) {
 							update.html(data);
 					});
-		    }
-		  });
+				}
+			});
 		}
 		else
 		{
@@ -1079,16 +1085,16 @@ function aConstructor()
 		}
 
 		items.mouseover(function(){
-			var item  = $(this);
+			var item	= $(this);
 			item.addClass('over');
 		})
 		.mouseout(function(){
-			var item  = $(this);
+			var item	= $(this);
 			item.find('img').removeClass('dropshadow');
 			item.removeClass('over');
 		}).
 		mouseleave(function(){
-			var item  = $(this);
+			var item	= $(this);
 			if (!item.data('hold_delete'))
 			{
 				destroyItemSlug(item);
@@ -1107,7 +1113,7 @@ function aConstructor()
 		});
 
 		items.each(function(){
-			var item  = $(this);
+			var item	= $(this);
 			if (item.hasClass('a-type-video'))
 			{
 				// We don't want to play videos in this view
@@ -1154,12 +1160,12 @@ function aConstructor()
 		var form = $('#a-media-add-linked-account');
 		var ready = false;
 		form.submit(function()
-	  {
+		{
 			if (ready)
 			{
 				return true;
 			}
-	    $('#a-media-account-preview-wrapper').load(
+			$('#a-media-account-preview-wrapper').load(
 				previewUrl,
 				$('#a-media-add-linked-account').serialize(),
 				function() {
@@ -1175,8 +1181,8 @@ function aConstructor()
 					});
 					$('#a-media-account-preview-wrapper').show();
 				});
-	    return false;
-	  });
+			return false;
+		});
  	};
 
 	this.mediaEmbeddableToggle = function(options)
@@ -1213,19 +1219,19 @@ function aConstructor()
 
 	this.mediaItemsIndicateSelected = function(cropOptions)
 	{
-	  var ids = cropOptions.ids;
-	  aCrop.init(cropOptions);
+		var ids = cropOptions.ids;
+		aCrop.init(cropOptions);
 		$('.a-media-selected-overlay').remove();
 		$('.a-media-selected').removeClass('a-media-selected');
 
-	  var i;
-	  for (i = 0; (i < ids.length); i++)
-	  {
-	    id = ids[i];
-	    var selector = '#a-media-item-' + id;
-	    if (!$(selector).hasClass('a-media-selected'))
-	    {
-	      $(selector).addClass('a-media-selected');
+		var i;
+		for (i = 0; (i < ids.length); i++)
+		{
+			id = ids[i];
+			var selector = '#a-media-item-' + id;
+			if (!$(selector).hasClass('a-media-selected'))
+			{
+				$(selector).addClass('a-media-selected');
 			}
 		}
 
@@ -1235,7 +1241,7 @@ function aConstructor()
 
 		$('.a-media-selection-help').hide();
 		if (!ids.length) {
-      $('.a-media-selection-help').show();
+			$('.a-media-selection-help').show();
 		}
 
 	 	$('.a-media-selected-overlay').fadeTo(0, 0.66);
@@ -1243,11 +1249,11 @@ function aConstructor()
 
 	this.mediaUpdatePreview = function()
 	{
-	  $('#a-media-selection-preview').load(apostrophe.selectOptions.updateMultiplePreviewUrl, function(){
-  	  // the preview images are by default set to display:none
-	    $('#a-media-selection-preview li:first').addClass('current');
-	    // set up cropping again; do hard reset to reinstantiate Jcrop
-	    aCrop.resetCrop(true);
+		$('#a-media-selection-preview').load(apostrophe.selectOptions.updateMultiplePreviewUrl, function(){
+			// the preview images are by default set to display:none
+			$('#a-media-selection-preview li:first').addClass('current');
+			// set up cropping again; do hard reset to reinstantiate Jcrop
+			aCrop.resetCrop(true);
 			// Selection may have changed
 			apostrophe.mediaItemsIndicateSelected(apostrophe.selectOptions);
 			// Normalize heights of thumbnails for visual consistency
@@ -1259,7 +1265,7 @@ function aConstructor()
 			});
 			items.css('height',listHeight);
 			apostrophe.log(listHeight);
-	  });
+		});
 	};
 
 	this.mediaDeselectItem = function(id)
@@ -1275,7 +1281,7 @@ function aConstructor()
 		// clicks on one of the buttons hovering on this
 
 		// I had to bind to all of these to guarantee a click would come through
-	  $('.a-media-selection-list-item .a-delete').unbind('click.aMedia').bind('click.aMedia', function(e) {
+		$('.a-media-selection-list-item .a-delete').unbind('click.aMedia').bind('click.aMedia', function(e) {
 			var p = $(this).parents('.a-media-selection-list-item');
 			var id = p.data('id');
 			$.get(options['removeUrl'], { id: id }, function(data) {
@@ -1317,53 +1323,53 @@ function aConstructor()
 
 	this.mediaEnableMultiplePreview = function()
 	{
-	  // the preview images are by default set to display:none
-    $('#a-media-selection-preview li:first').addClass('current');
-    // set up cropping again; do hard reset to reinstantiate Jcrop
-    aCrop.resetCrop(true);
+		// the preview images are by default set to display:none
+		$('#a-media-selection-preview li:first').addClass('current');
+		// set up cropping again; do hard reset to reinstantiate Jcrop
+		aCrop.resetCrop(true);
 	};
 
 	this.mediaEnableSelectionSort = function(multipleOrderUrl)
 	{
 		$('#a-media-selection-list').sortable({
-      update: function(e, ui)
-      {
-        var serial = jQuery('#a-media-selection-list').sortable('serialize', {});
-        $.post(multipleOrderUrl, serial);
-      }
-    });
+			update: function(e, ui)
+			{
+				var serial = jQuery('#a-media-selection-list').sortable('serialize', {});
+				$.post(multipleOrderUrl, serial);
+			}
+		});
 	};
 
 	this.mediaEnableUploadMultiple = function()
 	{
 		function aMediaUploadSetRemoveHandler(element)
-	  {
-	    $(element).find('.a-close').click(function() {
-	        // Move the entire row to the inactive form
-	        var element = $($(this).parent().parent().parent()).remove();
-	        $('#a-media-upload-form-inactive').append(element);
-	        $('#a-media-add-photo').show();
-	        return false;
-	      });
-	  }
-	  // Move the first inactive element back to the active form
-	  $('#a-media-add-photo').click(function() {
-	      var elements = $('#a-media-upload-form-inactive .a-form-row');
-	        $('#a-media-upload-form-subforms').append(elements);
-	        $('#a-media-add-photo').hide();
-	      return false;
-	    });
-	  // Move all the initially inactive elements to the inactive form
-	  function aMediaUploadInitialize()
-	  {
-	    $('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
-	    aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
-	    $('#a-media-upload-form .a-cancel').click(function() {
-	      $('#a-media-add').hide();
-	      return false;
-	    });
-	  }
-	  aMediaUploadInitialize();
+		{
+			$(element).find('.a-close').click(function() {
+					// Move the entire row to the inactive form
+					var element = $($(this).parent().parent().parent()).remove();
+					$('#a-media-upload-form-inactive').append(element);
+					$('#a-media-add-photo').show();
+					return false;
+				});
+		}
+		// Move the first inactive element back to the active form
+		$('#a-media-add-photo').click(function() {
+				var elements = $('#a-media-upload-form-inactive .a-form-row');
+					$('#a-media-upload-form-subforms').append(elements);
+					$('#a-media-add-photo').hide();
+				return false;
+			});
+		// Move all the initially inactive elements to the inactive form
+		function aMediaUploadInitialize()
+		{
+			$('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
+			aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
+			$('#a-media-upload-form .a-cancel').click(function() {
+				$('#a-media-add').hide();
+				return false;
+			});
+		}
+		aMediaUploadInitialize();
 	};
 
 	this.menuToggle = function(options)
@@ -1682,20 +1688,20 @@ function aConstructor()
 		{
 			var url = options['engineUrl'];
 
-	    var engineSettings = form.find('.a-engine-page-settings');
+			var engineSettings = form.find('.a-engine-page-settings');
 			var val = joinedtemplate.val().split(':')[0];
-		  if (val === 'a')
-		  {
-		    engineSettings.html('');
-		  }
-		  else
-		  {
+			if (val === 'a')
+			{
+				engineSettings.html('');
+			}
+			else
+			{
 				// null comes through as a string "null". false comes through as a string "false". 0 comes
 				// through as a string "0", but PHP accepts that, fortunately
-		    $.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
+				$.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
 					engineSettings.html(data);
-		    });
-		  }
+				});
+			}
 		}
 		updateEngineAndTemplate();
 	};
@@ -1709,15 +1715,15 @@ function aConstructor()
 		
 		var nav = $("#a-nav-" + name + "-" + nest);
 		
-    nav.sortable(
-    { 
-      delay: 100,
-      update: function(e, ui) 
-      { 
-        var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
-        var options = {"url":nurl,"type":"post"};
-        options['data'] = serial;
-        $.ajax(options);
+		nav.sortable(
+		{ 
+			delay: 100,
+			update: function(e, ui) 
+			{ 
+				var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
+				var options = {"url":nurl,"type":"post"};
+				options['data'] = serial;
+				$.ajax(options);
 				
 				// Fixes Margin
 				nav.children().removeClass('first second next-last last');
@@ -1725,9 +1731,9 @@ function aConstructor()
 				nav.children(':last').addClass('last');
 				nav.children(':first').next("li").addClass('second');
 				nav.children(':last').prev("li").addClass('next-last');
-      },
-      items: 'li:not(.extra)'
-    });
+			},
+			items: 'li:not(.extra)'
+		});
 		
 	};
 	
@@ -1750,28 +1756,28 @@ function aConstructor()
 	this.searchCancel = function(options)
 	{
 
-    var search = options['search'];		
+		var search = options['search'];		
 		$('#a-media-search-remove').show();
-    $('#a-media-search-submit').hide();
+		$('#a-media-search-submit').hide();
 
-    $('#a-media-search').bind("keyup blur", function(e)
-    {
-      if ($(this).val() === search)
-      {
-        $('#a-media-search-remove').show();
-        $('#a-media-search-submit').hide();
-      }
-      else
-      {
-        $('#a-media-search-remove').hide();
-        $('#a-media-search-submit').show();
-      }
-    });
+		$('#a-media-search').bind("keyup blur", function(e)
+		{
+			if ($(this).val() === search)
+			{
+				$('#a-media-search-remove').show();
+				$('#a-media-search-submit').hide();
+			}
+			else
+			{
+				$('#a-media-search-remove').hide();
+				$('#a-media-search-submit').show();
+			}
+		});
 
-    $('#a-media-search').bind('aInputSelfLabelClear', function(e) {
-      $('#a-media-search-remove').show();
-      $('#a-media-search-submit').hide();
-    });
+		$('#a-media-search').bind('aInputSelfLabelClear', function(e) {
+			$('#a-media-search-remove').show();
+			$('#a-media-search-submit').hide();
+		});
 	};
 	
 	// A very small set of things that allow us to write CSS and HTML as if they were
@@ -1874,7 +1880,7 @@ function aConstructor()
 				// Button Exterminator
 				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');
 			};
-	  });
+		});
 	};
 
 	// Breaks the url into a stem (everything before the query, inclusive of the ?), a query
@@ -1905,13 +1911,13 @@ function aConstructor()
 	{
 		var urlParams = {};
 		(function () {
-		    var e,
-		        a = /\+/g,  // Regex for replacing addition symbol with a space
-		        r = /([^&=]+)=?([^&]*)/g,
-		        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-		        q = query;
-		    while (e = r.exec(q))
-		       urlParams[d(e[1])] = d(e[2]);
+				var e,
+						a = /\+/g,	// Regex for replacing addition symbol with a space
+						r = /([^&=]+)=?([^&]*)/g,
+						d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+						q = query;
+				while (e = r.exec(q))
+					 urlParams[d(e[1])] = d(e[2]);
 		})();
 		return urlParams;
 	};
@@ -2159,21 +2165,21 @@ function aConstructor()
 	this.enableMediaEditMultiple = function()
 	{
 		$('.a-media-multiple-submit-button').click(function() {
-	    $('#a-media-edit-form-0').submit();
-	    return false;
-	  });
-	  $('#a-media-edit-form-0').submit(function() {
-	    return true;
-	  });
-	  $('#a-media-edit-form-0 .a-media-editor .a-delete').click(function() {
+			$('#a-media-edit-form-0').submit();
+			return false;
+		});
+		$('#a-media-edit-form-0').submit(function() {
+			return true;
+		});
+		$('#a-media-edit-form-0 .a-media-editor .a-delete').click(function() {
 			$(this).parents('.a-media-editor').remove();
 			if ($('#a-media-edit-form-0 .a-media-editor').length === 0)
 			{
 				window.location.href = $('#a-media-edit-form-0 .a-controls .a-cancel:first').attr('href');
 			}
 			return false;
-	  });
-  };
+		});
+	};
 
 	this.aAdminEnableFilters = function()
 	{
@@ -2191,33 +2197,33 @@ function aConstructor()
 		var all = options['all'];
 		var revert = options['revert'];
 		var revisionsLabel = options['revisionsLabel'];
-	  for (i = 0; (i < versionsInfo.length); i++)
+		for (i = 0; (i < versionsInfo.length); i++)
 		{
 			version = versionsInfo[i].version;
-	  	$("#a-history-item-" + version).data('params',
-	  		{ 'preview':
-	  			{
-	  	      id: id,
-	  	      name: name,
-	  	      subaction: 'preview',
-	  	      version: version
-	  	    },
-	  			'revert':
-	  			{
-	  	      id: id,
-	  	      name: name,
-	  	      subaction: 'revert',
-	  	      version: version
-	  			},
-	  			'cancel':
-	  			{
-	  	      id: id,
-	  	      name: name,
-	  	      subaction: 'cancel',
-	  	      version: version
-	  			}
-	  		});
-	  }
+			$("#a-history-item-" + version).data('params',
+				{ 'preview':
+					{
+						id: id,
+						name: name,
+						subaction: 'preview',
+						version: version
+					},
+					'revert':
+					{
+						id: id,
+						name: name,
+						subaction: 'revert',
+						version: version
+					},
+					'cancel':
+					{
+						id: id,
+						name: name,
+						subaction: 'cancel',
+						version: version
+					}
+				});
+		}
 		if ((versionsInfo.length == 10) && (!all))
 		{
 			$('#a-history-browser-view-more').show();
@@ -2237,7 +2243,7 @@ function aConstructor()
 
 			$('.a-history-browser').hide();
 
-		  var params = $(this).data('params');
+			var params = $(this).data('params');
 
 			var targetArea = "#"+$(this).parent().data('area');								// this finds the associated area that the history browser is displaying
 			var historyBtn = $(targetArea+ ' .a-area-controls a.a-history');	// this grabs the history button
@@ -2246,42 +2252,42 @@ function aConstructor()
 
 			$(historyBtn).siblings('.a-history-options').show();
 
-		  $.post( //User clicks to PREVIEW revision
-		    revert,
-		    params.preview,
-		    function(result)
-		    {
+			$.post( //User clicks to PREVIEW revision
+				revert,
+				params.preview,
+				function(result)
+				{
 					$('#a-slots-' + id + '-' + name).html(result);
 					$(targetArea).addClass('previewing-history');
 					historyBtn.addClass('a-disabled');
 					$('.a-page-overlay').hide();
-		    }
-		  );
+				}
+			);
 
 			// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
 			revertBtn.click(function(){
-			  $.post( // User clicks Save As Current Revision Button
-			    revert,
-			    params.revert,
-			    function(result)
-			    {
+				$.post( // User clicks Save As Current Revision Button
+					revert,
+					params.revert,
+					function(result)
+					{
 						$('#a-slots-' + id + '-' + name).html(result);
 						historyBtn.removeClass('a-disabled');
 						_closeHistory();
-			  	}
+					}
 				);
 			});
 
 			cancelBtn.click(function(){
-			  $.post( // User clicks CANCEL
-			    revert,
-			    params.cancel,
-			    function(result)
-			    {
-			     	$('#a-slots-' + id + '-' + name).html(result);
+				$.post( // User clicks CANCEL
+					revert,
+					params.cancel,
+					function(result)
+					{
+					 	$('#a-slots-' + id + '-' + name).html(result);
 					 	historyBtn.removeClass('a-disabled');
 						_closeHistory();
-			  	}
+					}
 				);
 			});
 		});
@@ -2370,7 +2376,7 @@ function aConstructor()
 		}
 		else
 		{
-		  up.parent().addClass('a-hidden');
+			up.parent().addClass('a-hidden');
 		}
 		if (n < (slots.length - 1))
 		{
@@ -2430,7 +2436,7 @@ function aConstructor()
 		$('a.a-history-btn').parents('.a-area').removeClass('browsing-history');
 		$('a.a-history-btn').parents('.a-area').removeClass('previewing-history');
 		$('.a-history-browser, .a-history-preview-notice').hide();
-	  $('body').removeClass('history-preview');
+		$('body').removeClass('history-preview');
 		$('.a-page-overlay').hide();
 	}
 
