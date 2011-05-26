@@ -24,12 +24,12 @@
 // Areas and Slots
 // -------------------------------------
 
-/* Area Information:
-/* .a-area wraps .a-slots */
-/* .a-slots wraps all slots, .a-slot */
-/* .a-slot wraps .a-slot-content */
-/* .a-slot-content wraps .a-slot-content-container AND .a-slot-form */
-/* BOTH .a-slot-content-container AND .a-slot-form are not output when logged out */
+// Area Information:
+// .a-area wraps .a-slots 
+// .a-slots wraps all slots, .a-slot 
+// .a-slot wraps .a-slot-content 
+// .a-slot-content wraps .a-slot-content-container AND .a-slot-form 
+// BOTH .a-slot-content-container AND .a-slot-form are not output when logged out 
 
 .a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: relative; }
 
@@ -322,8 +322,8 @@
 
 }
 
-/* aFile Slot Styles
-------------------------------------- */
+// aFile Slot Styles
+// ------------------------------------- 
 .a-slot.aFile .a-file-slot { position: relative; overflow: hidden; width: 100%; }
 .a-slot.aFile .a-file-slot .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
 .a-slot.aFile .a-file-slot .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
@@ -334,8 +334,8 @@
 .a-slot.aFile .a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
 
 
-/* aPDF Slot Styles
-------------------------------------- */
+// aPDF Slot Styles
+// ------------------------------------- 
 .a-slot.aPDF { margin:20px 0px; }
 .a-slot.aPDF .a-pdf-slot { position: relative; overflow: hidden; width: 100%; }
 .a-slot.aPDF .a-pdf-slot .a-pdf-meta { position:relative; margin:5px 0; }
@@ -350,8 +350,8 @@
 .a-slot.aPDF .a-pdf-slot.no-label .a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
 
 
-/* aSlot Content Styles
---------------------------------------- */
+// aSlot Content Styles
+// --------------------------------------- 
 .aRichText .a-slot-content strong,
 .aRichText .a-slot-content b { font-weight: bold; }
 
@@ -384,8 +384,8 @@
 .aButton a img { border: 0; }
 
 
-/* Blog / Event Slot Styles
-------------------------------------- */
+// Blog / Event Slot Styles
+// ------------------------------------- 
 .aBlog .a-options.a-slot-form,
 .aEvent .a-options.a-slot-form { min-width: 285px; }
 
@@ -420,9 +420,9 @@
 .aBlog .a-slot-form.editState-title .a-form-row.by-type.meta div, .aEvent .a-slot-form.editState-title .a-form-row.by-type.meta div {display: none !important;}
 .aBlog .a-slot-form.editState-tags .a-form-row.by-type.title div, .aEvent .a-slot-form.editState-tags .a-form-row.by-type.title div  {display: none !important;}
 
-/*.a-blog-edit-wrapper .a-inline-taggable-widget { margin-top: 3px;clear: none;}*/
-/*.a-blog-edit-wrapper .a-inline-taggable-widget input { margin-right: 2px; }*/
-/*.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }*/
+//.a-blog-edit-wrapper .a-inline-taggable-widget { margin-top: 3px;clear: none;}
+//.a-blog-edit-wrapper .a-inline-taggable-widget input { margin-right: 2px; }
+//.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
 
 .a-blog-edit-wrapper h4 { float: left; }
 
@@ -433,7 +433,7 @@
 
 .a-blog-edit-wrapper .a-form-row.categories{ margin-bottom: 8px !important; }
 
-/* Our PE controls are not happy inline, pair them with labels and float left */
+// Our PE controls are not happy inline, pair them with labels and float left 
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories .a-multiple-select,
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
@@ -459,8 +459,8 @@ width:100%;
 
 
 
-/* aOptions for Areas & Slots :: aOptions is in a-components.css
--------------------------------------------------------------------- */
+// aOptions for Areas & Slots :: aOptions is in a-components.css
+// -------------------------------------------------------------------- 
 .a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
 .a-ui .a-options.a-area-options .a-options-item,
 .a-ui .a-options.a-area-options .a-options-item.last {
@@ -472,8 +472,8 @@ list-style: none;
 }
 
 
-/* aOptions for Slot Variants :: aOptions is in a-components.css
--------------------------------------------------------------------- */
+// aOptions for Slot Variants :: aOptions is in a-components.css
+// -------------------------------------------------------------------- 
 ul.a-controls .a-controls-item.variant.a-options-open .a-variant-options
 {
 width: auto;
@@ -484,6 +484,9 @@ ul.a-controls .a-variant-options.loading
 {
 background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
 }
+
+// aOptions Styles for Slot Edit View :: aOptions is in a-components.css
+// --------------------------------------------------------------------
 
 .a-ui.a-options
 {
@@ -527,10 +530,10 @@ background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-re
 
 
 
-/* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
-------------------------------------- */
+// Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
+// ------------------------------------- 
 
-.a-media-placeholder { } /* Height and Width are defined in the template and applied inline in _normalView.php */
+.a-media-placeholder { } // Height and Width are defined in the template and applied inline in _normalView.php 
 
 .a-media-placeholder span
 {
@@ -543,8 +546,8 @@ margin: -1px 0 0 -1px;
 background: rgba(0,0,0,0.025);
 }
 
-/* Misc
-------------------------------------- */
+// Misc
+// ------------------------------------- 
 
 ul.a-controls.a-media-edit-links { width: 100%; }
 
@@ -553,8 +556,8 @@ ul.a-controls.a-media-edit-links { width: 100%; }
 
 
 
-/* Audio Slot
--------------------------------------*/
+// Audio Slot
+// -------------------------------------
 
 .a-ui.a-audio-player-container { position: relative; overflow: hidden; clear:both; }
 
