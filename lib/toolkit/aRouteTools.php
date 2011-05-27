@@ -19,7 +19,14 @@ class aRouteTools
   static public function removePageFromUrl(sfRoute $route, $url)
   {
     $remainder = false;
-    $page = aPageTable::getMatchingEnginePageInfo($url, $remainder);
+    try
+    {
+      $page = aPageTable::getMatchingEnginePageInfo($url, $remainder);
+    } catch (Exception $e)
+    {
+      error_log("WARNING: database error in aRouteTools::removePageFromUrl, catching exception to allow things like apostrophe:migrate to work. Exception error message is: " . $e);
+      $page = null;
+    }
     if (!$page)
     {
       return false;
