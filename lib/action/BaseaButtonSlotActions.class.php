@@ -56,6 +56,10 @@ class BaseaButtonSlotActions extends aSlotActions
         $value[$matches[1]] = $v;
       }
     }
+		
+		// Trim whitespace off the front & end of the URL to avoid failing validation on a perfectly acceptable URL
+		$value['url'] = trim($value['url']); 
+
     $this->form = new aButtonForm($this->id, $this->options);
     $this->form->bind($value);
     if ($this->form->isValid())
