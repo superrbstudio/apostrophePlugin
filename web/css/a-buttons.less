@@ -398,8 +398,13 @@
 	&.a-events.day-30 > .icon	{ background-position: @bgleft -1060px; }
 	&.a-events.day-31 > .icon,
 	&.a-event, &.a-eventsingle 	{ background-position: @bgleft -1080px; }
-	&.a-feed > .icon,
-	&.a-rss-feed > .icon, &.a-rss { background-position: @bgleft -1100px;
+	&.a-feed,
+	&.a-rss-feed, 
+	&.a-rss { 
+		> .icon
+		{
+			background-position: @bgleft -1100px;			
+		}
 		&.color
 		{
 			> .icon { background-position: @bgleft -1760px; } //TODO Make these real
