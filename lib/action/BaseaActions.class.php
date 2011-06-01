@@ -818,6 +818,51 @@ class BaseaActions extends sfActions
 
     if ($this->searchAddResults($values, $q))
     {
+      foreach ($values as $value)
+      {
+        if (get_class($value) === 'stdClass')
+        {
+          // bc with existing implementations of searchAddResults
+          if (!isset($value->slug_stored))
+          {
+            if (isset($value->slug))
+            {
+              $value->slug_stored = $value->slug;
+            }
+            else
+            {
+              $value->slug_stored = null;
+            }
+          }
+          if (!isset($value->title_stored))
+          {
+            $value->title_stored = $value->title;
+          }
+          if (!isset($value->summary_stored))
+          {
+            $value->summary_stored = $value->summary;
+          }
+          if (!isset($value->engine_stored))
+          {
+            if (isset($value->engine))
+            {
+              $value->engine_stored = $value->engine;
+            }
+            else
+            {
+              $value->engine_stored = null;
+            }
+          }
+        }
+      }
+      // $value = new stdClass();
+      // $value->url = $url;
+      // $value->title = $title;
+      // $value->score = $scores[$id];
+      // $value->summary = $summary;
+      // $value->class = 'Article';
+      // $values[] = $value;
+      
       usort($values, "aActions::compareScores");
     }
     $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
@@ -849,29 +894,32 @@ class BaseaActions extends sfActions
         }
       }
       
-      if (substr($nvalue->slug, 0, 1) === '@')
+      if (!isset($nvalue->url))
       {
-        // Virtual page slug is a named Symfony route, it wants search results to go there
-        $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
-      }
-      else
-      {
-        $slash = strpos($nvalue->slug, '/');
-        if ($slash === false)
+        if (substr($nvalue->slug, 0, 1) === '@')
         {
-          // A virtual page (such as global) that isn't the least bit interested in
-          // being part of search results
-          continue;
-        }
-        if ($slash > 0)
-        {
-          // A virtual page slug which is a valid Symfony route, such as foo/bar?id=55
+          // Virtual page slug is a named Symfony route, it wants search results to go there
           $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
         }
         else
         {
-          // A normal CMS page
-          $nvalue->url = aTools::urlForPage($nvalue->slug);
+          $slash = strpos($nvalue->slug, '/');
+          if ($slash === false)
+          {
+            // A virtual page (such as global) that isn't the least bit interested in
+            // being part of search results
+            continue;
+          }
+          if ($slash > 0)
+          {
+            // A virtual page slug which is a valid Symfony route, such as foo/bar?id=55
+            $nvalue->url = $this->getController()->genUrl($nvalue->slug, true);
+          }
+          else
+          {
+            // A normal CMS page
+            $nvalue->url = aTools::urlForPage($nvalue->slug);
+          }
         }
       }
       $nvalue->class = 'aPage';
@@ -893,7 +941,7 @@ class BaseaActions extends sfActions
     //
     // Override me! Add more items to the $values array here (note that it was passed by reference).
     
-    // $value = new stdclass();
+    // $value = new stdClass();
     // $value->url = $url;
     // $value->title = $article->getTitle();
     // $value->score = $articleScores[$article->getId()];
@@ -904,7 +952,7 @@ class BaseaActions extends sfActions
     
     // Example: 
     //
-    // $value = new stdclass();
+    // $value = new stdClass();
     // $value->url = $url;
     // $value->title = $title;
     // $value->score = $scores[$id];
