@@ -14,7 +14,19 @@ class BaseaButtonSlotComponents extends aSlotComponents
   {
     // We are going to return the media in both Normal and Edit View
 
-    // Behave well if it's not set yet!
+    // Backwards compatibility with pkContextCMS  button slots that the data migration task missed
+    if (!count($this->slot->MediaItems))
+    {
+      $value = $this->slot->getArrayValue();
+      if (isset($value['image']))
+      {
+        $mediaItem = Doctrine::getTable('aMediaItem')->find($value['image']->id);
+        if ($mediaItem)
+        {
+          $this->slot->MediaItems[] = $mediaItem;
+        }
+      }
+    }
     if (!count($this->slot->MediaItems))
     {
       $this->item = false;
