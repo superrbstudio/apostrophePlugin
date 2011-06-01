@@ -396,8 +396,15 @@
 	&.a-events.day-28 > .icon	{ background-position: @bgleft -1020px; }
 	&.a-events.day-29 > .icon	{ background-position: @bgleft -1040px; }
 	&.a-events.day-30 > .icon	{ background-position: @bgleft -1060px; }
-	&.a-events.day-31 > .icon,
-	&.a-event, &.a-eventsingle 	{ background-position: @bgleft -1080px; }
+	&.a-events.day-31,
+	&.a-event, 
+	&.a-eventsingle 
+	{
+		> .icon
+		{
+			background-position: @bgleft -1080px;
+		}  
+	}
 	&.a-feed,
 	&.a-rss-feed, 
 	&.a-rss { 
@@ -440,18 +447,20 @@
 	&.a-calendar > .icon { background-position: @bgleft -1560px; }
 	&.a-filters > .icon { background-position: @bgleft -1580px; }
 	&.a-help > .icon { background-position: @bgleft -1600px; }
-	&.a-media-fourup > .icon { background-position: @bgleft -1620px; } //TODO Make these real
-	&.a-media-full > .icon { background-position: @bgleft -1640px; } //TODO Make these real
-	&.a-media-twoup > .icon { background-position: @bgleft -1660px; } //TODO Make these real
-	&.a-page-blog > .icon { background-position: @bgleft -1680px; } //TODO Make these real
-	&.a-page-events  > .icon { background-position: @bgleft -1700px; } //TODO Make these real
-	&.a-page-media  > .icon { background-position: @bgleft -1720px; } //TODO Make these real
-	&.a-page-normal > .icon { background-position: @bgleft -1740px; } //TODO Make these real
+	&.a-media-fourup > .icon { background-position: @bgleft -1620px; } //TODO Implement sprite
+	&.a-media-full > .icon { background-position: @bgleft -1640px; } //TODO Implement sprite
+	&.a-media-twoup > .icon { background-position: @bgleft -1660px; } //TODO Implement sprite
+	&.a-page-blog > .icon { background-position: @bgleft -1680px; } //TODO Implement sprite
+	&.a-page-events  > .icon { background-position: @bgleft -1700px; } //TODO Implement sprite
+	&.a-page-media  > .icon { background-position: @bgleft -1720px; } //TODO Implement sprite
+	&.a-page-normal > .icon { background-position: @bgleft -1740px; } //TODO Implement sprite
 	//&.a-rss.color...  { background-position: @bgleft -1760px; } // Color RSS Defined Above
 	&.a-close > .icon { background-position: @bgleft -1780px; }
 	&.a-selected > .icon,
 	&.a-cancel > .icon,
 	&.a-close-small > .icon { background-position: @bgleft -1800px  }
+	&.a-insetarea > .icon { background-position: @bgleft -1820px  }	
+	&.a-insetimage > .icon { background-position: @bgleft -1840px  }
 	&.a-google-maps > .icon { background-position: @bgleft -0px; } // TODO Make Google Maps Icon
 }
 
