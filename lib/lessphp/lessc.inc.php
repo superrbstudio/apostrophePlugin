@@ -1825,7 +1825,8 @@ class lessc {
 	
 	// parse and compile buffer
 	function parse($str = null) {
-		$this->prepareParser($str ? $str : $this->buffer);
+		// Don't mistake an empty file for null (a deliberate choice to use $this->buffer) tom@punkave.com
+		$this->prepareParser(is_null($str) ? $this->buffer : $str);
 		while (false !== $this->parseChunk());
 
 		if ($this->count != strlen($this->buffer)) $this->throwParseError();
