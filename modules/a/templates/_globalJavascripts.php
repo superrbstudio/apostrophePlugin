@@ -2,10 +2,6 @@
 
 <?php use_helper('a') ?>
 
-<?php if (sfConfig::get('app_a_js_debug', false)): ?>
-	<?php a_js_call('apostrophe.setDebug(true)') ?>
-<?php endif ?>
-
 <?php // Project level hook. Our default version is empty ?>
 <?php a_js_call('apostrophe.ready()') ?>
 
@@ -23,4 +19,10 @@
 <?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'))) ?>
 <?php a_js_call('apostrophe.smartCSS()') ?>
 <?php // End of body - time to emit all of the queued JS as one script block ?>
+
+<?php if (sfConfig::get('app_a_js_debug', false)): ?>
+<script type="text/javascript" charset="utf-8">
+	apostrophe.setDebug(true)
+</script>
+<?php endif ?>
 <?php a_include_js_calls() ?>

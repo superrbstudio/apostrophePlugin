@@ -112,6 +112,7 @@ function aConstructor()
 	// options['persisentLabel'] = true -- Keeps the label visible until the person starts typing
 	this.selfLabel = function(options)
 	{
+		apostrophe.log('apostrophe.selfLabel -- Options:' + options);
 		aInputSelfLabel(options['selector'], options['title'], options['select'], options['focus'], options['persistentLabel']);
 	};
 
