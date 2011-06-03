@@ -15,7 +15,7 @@ class aCmsRoute extends sfDoctrineRoute
   static $cache_codes = null;
 
   static $cache_slug = array();
-    
+
   protected $page;
 
 
@@ -48,13 +48,16 @@ class aCmsRoute extends sfDoctrineRoute
       $slug = '/'.$slug;
     }
 
+
     if(!isset(self::$cache_slug[$slug])) {
-        self::$cache_slug[$slug] = aPageTable::retrieveBySlugWithSlots($slug);
+        self::$cache_slug[$slug] = Doctrine::getTable('aPage')
+            ->createQuery('p')
+            ->andWhere('p.slug = ?', $slug)
+            ->select('skip_on_url_match')
+            ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
     }
 
-    $this->page = self::$cache_slug[$slug];
-
-    if($this->page && $this->page->skip_on_url_match)
+    if(self::$cache_slug[$slug] && self::$cache_slug[$slug]['skip_on_url_match'])
     {
       return false;
     }
@@ -70,7 +73,7 @@ class aCmsRoute extends sfDoctrineRoute
   public function getPage()
   {
 
-    return $this->page;
+    throw new RuntimeException('You can\'t retrieve the page from a aCmsRoute instance');
   }
 
   public static function loadCodeInformation()
