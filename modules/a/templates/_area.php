@@ -26,7 +26,7 @@
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area a-normal <?php echo isset($options['area-class']) ? $options['area-class'] : "a-area-$name" ?><?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area a-normal <?php echo "a-area-$name" ?> <?php echo isset($options['area-class']) ? $options['area-class'] : null ?> <?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>
