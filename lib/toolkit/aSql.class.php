@@ -12,8 +12,12 @@ class aSql
    * DOCUMENT ME
    * @param mixed $pdo
    */
-  public function __construct($pdo)
+  public function __construct($pdo = null)
   {
+    if (is_null($pdo))
+    {
+      $pdo = Doctrine_Manager::connection()->getDbh();
+    }
     $this->pdo = $pdo;
   }
 
