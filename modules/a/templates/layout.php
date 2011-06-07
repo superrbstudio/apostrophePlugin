@@ -42,8 +42,8 @@
 
 <?php $a_bodyclass = '' ?>
 <?php $a_bodyclass .= ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?> 
-<?php $a_bodyclass .= ($page->archived) ? ' a-page-unpublished' : '' ?> 
-<?php $a_bodyclass .= ($page->view_is_secure) ? ' a-page-secure' : '' ?> 
+<?php $a_bodyclass .= ($page && $page->archived) ? ' a-page-unpublished' : '' ?> 
+<?php $a_bodyclass .= ($page && $page->view_is_secure) ? ' a-page-secure' : '' ?> 
 <?php $a_bodyclass .= (sfConfig::get('app_a_js_debug', false)) ? ' js-debug':'' ?>
 
 <?php // a-body-class allows you to set a class for the body element from a template ?>
