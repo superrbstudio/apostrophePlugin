@@ -43,6 +43,9 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 .a-align-right { float: right !important; }
 .a-align-left { float: left !important; }
 
+/* Z-Index Clobber */
+.a-super-z-index { z-index: 9999; }
+
 /* Accordion works with apostrophe.accordion() */
 .a-accordion .a-accordion-content { display: none; }
 .a-accordion.open .a-accordion-content { display: block; }
