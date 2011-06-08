@@ -1827,28 +1827,30 @@ function aConstructor()
 		var actAsSubmit = $(target).find('.a-act-as-submit');
 		var actAsSubmitForm = actAsSubmit.closest('form');
 		var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
-		actAsSubmitFormInputs.unbind('keyup.aActAsSubmit').bind('keyup.aActAsSubmit', function(){
-			if (window.event && window.event.keyCode == 13)
-			{
-				$(this).closest('form').submit();
-			}
-		});
 		
-		actAsSubmit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function() {
+		actAsSubmit.each(function(){
+			apostrophe.log('apostrophe.actAsSubmit -- Generate Hidden Submit Button');
 			var submit = $(this);
 			var form = submit.closest('form');
 			var name = submit.attr('name');
+			var hidden = $('<input type="submit"/>');
+			hidden.attr('value', submit.text());
+			hidden.addClass('a-hidden-submit');
 			// Submit buttons have names used to distinguish them.
 			// Fortunately, anchors have names too. There is NO
 			// default name - and in particular 'submit' breaks
 			// form.submit, so don't use it
 			if (name && name.length)
 			{
-				var hidden = $('<input type="hidden"></input>');
 				hidden.attr('name', name);
-				hidden.attr('value', 1);
-				form.append(hidden);
 			}
+			submit.after(hidden);		
+		});
+		
+		actAsSubmit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function() {
+			apostrophe.log('apostrophe.actAsSubmit -- Anchor Clicked Submit');
+			var submit = $(this);
+			var form = submit.closest('form');
 			form.submit();
 			return false;
 		});
