@@ -83,3 +83,15 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
+
+/* This input class is for actAsSubmit. It hide the submit button that allows for pressing ENTER on inputs to submit the form. */
+input.a-hidden-submit
+{
+	position: absolute !important;
+	border: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  line-height: 0 !important;
+  padding:0 !important;
+  margin: 0 !important;
+}
