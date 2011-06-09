@@ -223,19 +223,52 @@ function aConstructor()
 			apostrophe.updating(updating);
 			var action = form.attr('action');
 			$.post(action, form.serialize(), function(data) {
-				updating.trigger('aUpdated');
+				updating.trigger('a.updated');
 				updating.html(data);
 			});
 			return false;
 		});
 	};
 
-	// Pass a selector (or jQuery object) and an 'updating' tab will appear above it
-	// (or on its best alternative, if it has an ancestor with the a-ajax-attach-updating class).
-	// Then call .trigger('aUpdated') on your element when you're ready for the notice to change
-	// to "updated" and disappear shortly thereafter on its own. Slick, no?
-	//
-	// You can bind additional handlers to the aUpdating and aUpdated events if you wish.
+	// Turns a link into an AJAX form that updates the element
+	// with the DOM ID specified by options['update']. You must
+	// specify a 'selector' option as well to identify the link.
+	// This replaces jq_remote_link for some cases. For fancy cases
+	// you should write a separate method here
+
+	this.linkUpdates = function(options)
+	{
+		var link = $(options['selector']);
+		var confirmMessage = link.attr('data-confirm');
+		// Named bind prevents redundancy
+		link.unbind('click.aLinkUpdates');
+		link.bind('click.aLinkUpdates', function(event) {
+			event.preventDefault();
+			if (confirmMessage.length)
+			{
+				if (!confirm(confirmMessage))
+				{
+					return false;
+				}
+			}
+			// Give special snowflakes like FCKEditor etc. a chance to update their
+			// related "normal" form elements
+			$('.a-needs-update').trigger('a.update');
+			var updating = $('#' + options['update']);
+			apostrophe.updating(updating);
+			var action = link.attr('href');
+			$.get(action, {}, function(data) {
+				updating.trigger('a.updated');
+				updating.html(data);
+			});
+		});
+	};
+
+	// Pass a selector (or jQuery object) and it will display a progress animation by toggling
+	// the a-busy class on any elements inside the selected element that have the .a-show-busy
+	// class (in practice this has to be an anchor tag, not an input type="submit" button). 
+	// Usually you wind up replacing it via AJAX, so you don't need a way to stop animating.
+	// However, you can manually toggle the class off again if you need to stop animating
 
 	this.updating = function(selector)
 	{
