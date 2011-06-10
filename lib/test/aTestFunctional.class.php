@@ -103,10 +103,12 @@ class aTestFunctional extends sfTestFunctional
       get($this->options['login-url'])->
       setField('signin[username]', $username)->
       setField('signin[password]', $password)->
-      click('sign in', array('_with_csrf' => true))->
+      click($this->options['login-button-text'], array('_with_csrf' => true))->
       with('response')->begin()->
         isStatusCode(200)->
-        contains('The username and/or password is invalid')->
+      end()->
+      with('form')->begin()->
+        hasErrors()->
       end()
     ; 
   }
