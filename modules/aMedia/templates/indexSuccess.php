@@ -15,6 +15,8 @@
 
 <?php $body_class = 'a-media a-media-index'?>
 <?php $body_class .= ($selecting) ? ' a-media-selecting':'' ?>
+<?php $body_class .= ' '.$layout['name'] ?>
+
 <?php slot('body_class', $body_class) ?>
 
 <?php slot('a-page-header') ?>
