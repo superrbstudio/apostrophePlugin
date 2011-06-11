@@ -1866,18 +1866,21 @@ function aConstructor()
 			var submit = $(this);
 			var form = submit.closest('form');
 			var name = submit.attr('name');
-			var hidden = $('<input type="submit"/>');
-			hidden.attr('value', submit.text());
-			hidden.addClass('a-hidden-submit');
-			// Submit buttons have names used to distinguish them.
-			// Fortunately, anchors have names too. There is NO
-			// default name - and in particular 'submit' breaks
-			// form.submit, so don't use it
-			if (name && name.length)
+			if (!submit.prev('input[type="submit"]').length) 
 			{
-				hidden.attr('name', name);
+				var hidden = $('<input type="submit"/>');
+				hidden.attr('value', submit.text());
+				hidden.addClass('a-hidden-submit');
+				// Submit buttons have names used to distinguish them.
+				// Fortunately, anchors have names too. There is NO
+				// default name - and in particular 'submit' breaks
+				// form.submit, so don't use it
+				if (name && name.length)
+				{
+					hidden.attr('name', name);
+				}
+				submit.after(hidden);						
 			}
-			submit.after(hidden);		
 		});
 		
 		actAsSubmit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function() {
