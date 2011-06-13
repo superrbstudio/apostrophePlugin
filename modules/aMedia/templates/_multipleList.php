@@ -23,7 +23,7 @@
 			</li>
 		</ul>
 
-	  <div class="a-thumbnail-container" style="background: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;">
+	  <div class="a-thumbnail-container" style="background-image: url('<?php echo url_for($item->getCropThumbnailUrl()) ?>'); overflow: hidden;">
 			<img src="<?php echo url_for($item->getCropThumbnailUrl()) ?>" class="a-thumbnail" style="visibility:hidden;" />	
 		</div>
 
