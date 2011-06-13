@@ -27,7 +27,7 @@
   <?php include_partial('aMedia/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl, 'max_per_page' => $max_per_page, 'enabled_layouts' => $enabled_layouts, 'layout' => $layout)) ?>
 <?php end_slot() ?>
 
-<div class="a-media-library">
+<div class="a-media-library clearfix">
 
   <?php include_partial('aMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
   
@@ -50,14 +50,14 @@
 	<?php endif ?>
 	
 	<?php if ($limitSizes && $pager->count()): ?>
-		<div class="a-media-selection-contraints">
+		<div class="a-media-selection-contraints clearfix">
 			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>		
 		</div>
 	<?php endif ?>
 
-	<div class="a-media-items <?php echo $layout['name'] ?>">
+	<div class="a-media-items clearfix <?php echo $layout['name'] ?>">
 	 <?php for ($n = 0; ($n < count($results)); $n += $layout['columns']): ?>
-	   <div class="a-media-row">
+	   <div class="a-media-row clearfix">
 	   	<?php for ($i = $n; ($i < min(count($results), $n + $layout['columns'])); $i++): ?>
         <?php include_partial('aMedia/mediaItem', array('mediaItem' => $results[$i], 'layout' => $layout, 'i' => $i, 'selecting' => $selecting, 'autoplay' => true)) ?>
 	   	<?php endfor ?>
@@ -69,7 +69,7 @@
 		<?php include_partial('aMedia/noMediaItemsArea') ?>
 	<?php endif ?>
 
-	<div class="a-media-footer">
+	<div class="a-media-footer clearfix">
 		<div class="a-media-library-controls a-ui bottom">
 			<?php include_slot('a-media-library-controls') ?>
 		</div>
