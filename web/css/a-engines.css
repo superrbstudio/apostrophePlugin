@@ -268,7 +268,7 @@ width: 104px
 .a-media-row { position: relative; float: left; width: 100%; padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid #efefef; }
 .a-media-row:last-child { border-bottom: none; }
 
-.a-media-items { display: inline; float: left; width: 100%; }
+.a-media-items { clear: both; float: left; width: 100%; }
 
 /* Media Engine Items
 -------------------------------------*/
