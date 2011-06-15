@@ -34,8 +34,22 @@
   </div>
 <?php endif ?>
 
-<?php if (aTools::isPotentialEditor()): ?>
+<?php // Bring in various editing utilities both for potential editors ?>
+<?php // (people whose credentials suggest they might be an editor for ?>
+<?php // some kind of content that might conceivably be inline here) ?>
+<?php // and for actual editors (people who have privileges on this ?>
+<?php // specific page, one way or another). Checking for the latter allows ?>
+<?php // fancy overrides of privileges at the project level without ?>
+<?php // overrides of isPotentialEditor ?>
+
+<?php // All real editors need the history browser, while real managers need ?>
+<?php // access to the overlay and page settings features ?>
+
+<?php if (aTools::isPotentialEditor() || $pageEdit): ?>
 	<?php include_partial('a/historyBrowser') ?>
+<?php endif ?>
+
+<?php if (aTools::isPotentialEditor() || $pageSettings): ?>
 	<div class="a-page-overlay"></div>
 	<?php if ($page): ?>
 		<?php a_js_call('apostrophe.enablePageSettingsButtons(?)', array('aPageSettingsURL' => url_for('a/settings') . '?' . http_build_query(array('id' => $page->id)), 'aPageSettingsCreateURL' => url_for('a/settings') . '?' . http_build_query(array('new' => 1, 'parent' => $page->slug)))) ?>

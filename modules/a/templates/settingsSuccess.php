@@ -28,36 +28,41 @@
 
 	<div class="a-options-section title-permalink open clearfix">
 
-		<h3><?php echo __('Title', array(), 'apostrophe') ?></h3>
+    <?php if (isset($form['realtitle'])): ?>
+  		<h3><?php echo __('Title', array(), 'apostrophe') ?></h3>
 
-		<div class="a-form-row a-page-title">
-		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
-		 				// There is another way but I think it might still try to initialize the field 
-						// in an unwanted fashion even if it allows them to be saved right ?>
-			<div class="a-form-field">
-				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
-			  <div class="a-page-slug<?php echo ($create)? ' a-hidden':'' ?>">
-					<h4><label>http://<?php echo $_SERVER['HTTP_HOST'] ?><?php echo ($page->getSlug() == '/') ? '/':'' ?></label></h4>
-					<?php if (isset($form['slug'])): ?>
-						<div class="a-form-field">
-			    		<?php echo $form['slug']->render() ?>
-						</div>
-			    	<?php echo $form['slug']->renderError() ?>
-					<?php endif ?>
-			  </div>
-			</div>
-			<?php echo $form['realtitle']->renderError() ?>
-
-		</div>
+  		<div class="a-form-row a-page-title">
+  		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
+  		 				// There is another way but I think it might still try to initialize the field 
+  						// in an unwanted fashion even if it allows them to be saved right ?>
+  			<div class="a-form-field">
+  				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
+        	<?php if (isset($form['slug'])): ?>
+    			  <div class="a-page-slug<?php echo ($create)? ' a-hidden':'' ?>">
+    					<h4><label>http://<?php echo $_SERVER['HTTP_HOST'] ?><?php echo ($page->getSlug() == '/') ? '/':'' ?></label></h4>
+    					<?php if (isset($form['slug'])): ?>
+    						<div class="a-form-field">
+    			    		<?php echo $form['slug']->render() ?>
+    						</div>
+    			    	<?php echo $form['slug']->renderError() ?>
+    					<?php endif ?>
+    			  </div>
+  			  <?php endif ?>
+  			</div>
+  			<?php echo $form['realtitle']->renderError() ?>
+  		</div>
+  	<?php endif ?>
 
 		<hr />
 
-			<div class="a-form-row a-edit-page-template">
-				<h4><label><?php echo a_('Page Type') ?></label></h4>
-				<div class="a-form-field">
-				  <?php echo $form['joinedtemplate']->render() ?>
-				</div>
-			</div>
+      <?php if (isset($form['joinedtemplate'])): ?>
+  			<div class="a-form-row a-edit-page-template">
+  				<h4><label><?php echo a_('Page Type') ?></label></h4>
+  				<div class="a-form-field">
+  				  <?php echo $form['joinedtemplate']->render() ?>
+  				</div>
+  			</div>
+  		<?php endif ?>
 
 		   <?php // This outer div is an AJAX target, it has to be here all the time ?>
 		   <?php // in case the user selects an engine ?>
@@ -123,7 +128,7 @@
 		<ul class="a-ui a-controls">		
 		  <li><?php echo a_submit_button(htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')), array('big'), $stem.'-submit', $stem.'-submit') ?></li>
 			<li><?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon', 'a-options-button', 'big')) ?></li>
-			<?php if ((!$page->isNew()) && $page->userHasPrivilege('manage')): ?>
+			<?php if ((!$page->isNew()) && $page->userHasPrivilege('delete')): ?>
 				<?php $childMessage = ''; ?>
 				<?php if($page->hasChildren()): ?><?php $childMessage = __("This page has children that will also be deleted. ", null, 'apostrophe'); ?><?php endif; ?>
 	      <li class="a-align-right"><?php echo link_to('<span class="icon"></span>'.__("Delete This Page", null, 'apostrophe'), "a/delete?id=" . $page->getId(), array("confirm" => $childMessage . __('Are you sure? This operation can not be undone. Consider unpublishing the page instead.', null, 'apostrophe'), 'class' => 'a-btn icon a-delete alt lite', 'title' => __('Delete This Page', null, 'apostrophe'))) ?></li>

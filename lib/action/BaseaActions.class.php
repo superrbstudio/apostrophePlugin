@@ -540,7 +540,11 @@ class BaseaActions extends sfActions
     if ($new)
     {
       $this->page = new aPage();
+      
       $this->parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
+      $event = new sfEvent($this->parent, 'a.filterNewPage', array());
+      $this->dispatcher->filter($event, $this->page);
+      $this->page = $event->getReturnValue();
     }
     else
     {
@@ -558,7 +562,10 @@ class BaseaActions extends sfActions
     // get the form and page tags
     $this->stem = $this->page->isNew() ? 'a-create-page' : 'a-page-settings';
     $this->form = new aPageSettingsForm($this->page, $this->parent);
-  
+    
+    $event = new sfEvent($this->page, 'a.filterPageSettingsForm', array('parent' => $this->parent));
+    $this->dispatcher->filter($event, $this->form);
+    $this->form = $event->getReturnValue();
     $mainFormValid = false;
     
     $engine = $this->page->engine;
@@ -566,10 +573,13 @@ class BaseaActions extends sfActions
     if ($request->hasParameter('settings'))
     {
       $settings = $request->getParameter('settings');
-      list($engine, $template) = preg_split('/:/', $settings['joinedtemplate']);
-      if ($engine === 'a')
+      if (isset($settings['joinedtemplate']))
       {
-        $engine = '';
+        list($engine, $template) = preg_split('/:/', $settings['joinedtemplate']);
+        if ($engine === 'a')
+        {
+          $engine = '';
+        }
       }
       $this->form->bind($settings);
       if ($this->form->isValid())
@@ -720,7 +730,7 @@ class BaseaActions extends sfActions
   public function executeDelete()
   {
     $this->lockTree();
-    $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
+    $page = $this->retrievePageForEditingByIdParameter('id', 'delete');
     $parent = $page->getParent();
     if (!$parent)
     {

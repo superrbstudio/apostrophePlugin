@@ -1714,30 +1714,33 @@ function aConstructor()
 		}
 
 		var joinedtemplate = form.find('[name="settings[joinedtemplate]"]');
-		joinedtemplate.change(function() {
-			updateEngineAndTemplate();
-		});
-
-		function updateEngineAndTemplate()
+		if (joinedtemplate.length)
 		{
-			var url = options['engineUrl'];
+			joinedtemplate.change(function() {
+				updateEngineAndTemplate();
+			});
 
-			var engineSettings = form.find('.a-engine-page-settings');
-			var val = joinedtemplate.val().split(':')[0];
-			if (val === 'a')
+			function updateEngineAndTemplate()
 			{
-				engineSettings.html('');
+				var url = options['engineUrl'];
+
+				var engineSettings = form.find('.a-engine-page-settings');
+				var val = joinedtemplate.val().split(':')[0];
+				if (val === 'a')
+				{
+					engineSettings.html('');
+				}
+				else
+				{
+					// null comes through as a string "null". false comes through as a string "false". 0 comes
+					// through as a string "0", but PHP accepts that, fortunately
+					$.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
+						engineSettings.html(data);
+					});
+				}
 			}
-			else
-			{
-				// null comes through as a string "null". false comes through as a string "false". 0 comes
-				// through as a string "0", but PHP accepts that, fortunately
-				$.get(url, { id: options['pageId'] ? options['pageId'] : 0, engine: val }, function(data) {
-					engineSettings.html(data);
-				});
-			}
+			updateEngineAndTemplate();
 		}
-		updateEngineAndTemplate();
 	};
 
 	this.accordionEnhancements = function(options)

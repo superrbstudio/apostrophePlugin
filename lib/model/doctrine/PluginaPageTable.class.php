@@ -627,6 +627,13 @@ class PluginaPageTable extends Doctrine_Table
     {
       $privilege = 'edit';
     }
+    // By default those who can manage (add and delete subpages) can also delete
+    // the page itself, but at the project level overrides can alter this if they
+    // override checkUserPrivilege to veto deleting in various situations
+    elseif ($privilege === 'delete')
+    {
+      $privilege = 'manage';
+    }
     else
     {
       // Individual pages can be conveniently locked for 

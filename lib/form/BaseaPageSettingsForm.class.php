@@ -542,7 +542,39 @@ class BaseaPageSettingsForm extends aPageForm
     {
       $values = $this->getValues();
     }
+
     $oldSlug = $this->getObject()->slug;
+
+    if ((!isset($values['slug'])) && (isset($values['realtitle'])) && ($oldSlug !== '/'))
+    {
+      // If they can manually edit the title but not the slug, we need to autogenerate and
+      // autoupdate the slug so they have reasonable options to avoid collisions
+      $oldSlug = $this->getObject()->slug;
+      if (!strlen($oldSlug))
+      {
+        // New page, provide a starter slug to replace
+        $oldSlug = $this->parent->slug . '/';
+      }
+      $newSlug = preg_replace('|/[^/]*$|', '/' . aTools::slugify($values['realtitle'], false, false), $oldSlug);
+      $suffix = '';
+      $n = 0;
+      while (true)
+      {
+        $values['slug'] = $newSlug . $suffix;
+        if ($values['slug'] === $oldSlug)
+        {
+          break;
+        }
+        $existing = Doctrine::getTable('aPage')->findOneBySlug($values['slug']);
+        if (!$existing)
+        {
+          break;
+        }
+        $suffix = '-' . $n;
+        $n++;
+      }
+      $this->getObject()->slug = $values['slug'];
+    }
     
     // Slashes break routes in most server configs. Do NOT force case of tags.
     
@@ -563,18 +595,21 @@ class BaseaPageSettingsForm extends aPageForm
       $q->execute();
     }
 
-    $template = $values['joinedtemplate'];
-    // $templates = aTools::getTemplates();
-    list($engine, $etemplate) = preg_split('/:/', $template);
-    if ($engine === 'a')
+    if (isset($values['joinedtemplate']))
     {
-      $object->engine = null;
+      $template = $values['joinedtemplate'];
+      // $templates = aTools::getTemplates();
+      list($engine, $etemplate) = preg_split('/:/', $template);
+      if ($engine === 'a')
+      {
+        $object->engine = null;
+      }
+      else
+      {
+        $object->engine = $engine;
+      }
+      $object->template = $etemplate;
     }
-    else
-    {
-      $object->engine = $engine;
-    }
-    $object->template = $etemplate;
     
     // On manual change of slug, set up a redirect from the old slug,
     // and notify child pages so they can update their slugs if they are
