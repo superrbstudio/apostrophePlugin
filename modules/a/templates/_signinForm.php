@@ -11,13 +11,13 @@
   		<?php echo $form->renderHiddenFields() ?>
 		</div>
 
-		<div class="a-form-row clearfix">
+		<div class="a-form-row username clearfix">
     	<?php echo $form['username']->renderLabel() ?>
     	<?php echo $form['username']->render() ?>
     	<?php echo $form['username']->renderError() ?>
 		</div>
 		
-		<div class="a-form-row clearfix">		
+		<div class="a-form-row password clearfix">		
     	<?php echo $form['password']->renderLabel() ?>
     	<?php echo $form['password']->render() ?>
     	<?php echo $form['password']->renderError() ?>
