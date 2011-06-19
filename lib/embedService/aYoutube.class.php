@@ -180,14 +180,10 @@ class aYoutube extends aEmbedService
    */
   public function embed($id, $width, $height, $title = '', $wmode = 'opaque', $autoplay = false)
   {
-    if ($autoplay)
-    {
-      $autoplay = 't';
-    }
     $title = htmlentities($title, ENT_COMPAT, 'UTF-8');
     // wmode seems to have to be in the URL to do any good at least in Chrome
     // http://stackoverflow.com/questions/4050999/youtube-iframe-wmode-issue
-    $url = "http://www.youtube.com/embed/$id?" . http_build_query(array('wmode' => $wmode));
+    $url = "http://www.youtube.com/embed/$id?" . http_build_query(array('wmode' => $wmode, 'autoplay' => $autoplay));
 return <<<EOM
 <iframe title="$title" width="$width" height="$height" src="$url" frameborder="0" allowfullscreen wmode="$wmode"></iframe>
 EOM
