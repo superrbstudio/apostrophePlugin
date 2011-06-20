@@ -68,4 +68,32 @@ class aDoctrineRoute extends sfDoctrineRoute
     }
     return $result;
   } 
+  
+  
+  /**
+   * Check to see if the buffer is '.:sf_format' and if so we can correctly
+   * parse out the separator token ('.') even if it directly follows another
+   * separator. Thanks to stereoscott.
+   *
+   * This method must return false if the buffer has not been parsed.
+   *
+   * @param string   $buffer           The current route buffer
+   * @param array    $tokens           An array of current tokens
+   * @param Boolean  $afterASeparator  Whether the buffer is just after a separator
+   * @param string   $currentSeparator The last matched separator
+   *
+   * @return Boolean true if a token has been generated, false otherwise
+   */
+  protected function tokenizeBufferBefore(&$buffer, &$tokens, &$afterASeparator, &$currentSeparator)
+  {
+    if ($buffer === '.:sf_format') {
+      $tokens[] = array('separator', $currentSeparator, '.', null);
+      $currentSeparator = '.';
+      $buffer = substr($buffer, 1);
+      $afterASeparator = true;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
