@@ -132,6 +132,11 @@ class aSql
         $info['published_at'] = aDate::mysql();
       }
     }
+    else
+    {
+      // Can't be null
+      $info['published_at'] = aDate::mysql();
+    }
     if (!isset($info['engine']))
     {
       $info['engine'] = null;
