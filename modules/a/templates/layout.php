@@ -114,12 +114,16 @@
 			
 	</div>
 
-	<div class='a-footer-wrapper clearfix'>
-		<div class='a-footer clearfix'>
-  	  <?php include_partial('a/footer') ?>
+	<?php if (has_slot('a-footer')): ?>
+	  <?php include_slot('a-footer') ?>
+	<?php else: ?>
+		<div class='a-footer-wrapper clearfix'>
+			<div class='a-footer clearfix'>
+	  	  <?php include_partial('a/footer') ?>
+			</div>
 		</div>
-	</div>
-	
+	<?php endif ?>	
+
 	<?php include_partial('a/googleAnalytics') ?>
 	
   <?php // Invokes apostrophe.smartCSS, your project level JS hook and a_include_js_calls ?>

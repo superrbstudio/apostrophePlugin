@@ -2,14 +2,10 @@
 
 <?php $page = aTools::getCurrentNonAdminPage() ?>
 	
-<?php if (has_slot('a-footer')): ?>
-  <?php include_slot('a-footer') ?>
-<?php else: ?>
-  <?php a_slot('footer', 'aRichText', array(
-		'global' => true,
-		'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,
-	)) ?>
-<?php endif ?>
+<?php a_slot('footer', 'aRichText', array(
+	'global' => true,
+	'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,
+)) ?>
 
 <?php // Feel free to shut these off in app.yml or override the footer partial in your app ?>
 <?php if (sfConfig::get('app_a_credit', true)): ?>
