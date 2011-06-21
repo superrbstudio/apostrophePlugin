@@ -8,7 +8,7 @@
   <?php // You can easily turn off the 'Log In' link via app.yml ?>
   <?php if (sfConfig::get('app_a_login_link', true)): ?>
     <li class="a-login-login last">
-      <?php echo a_js_button(a_('Login'), array(), 'a-login-button') ?>
+      <?php echo a_button(a_('Login'), url_for('@sf_guard_signin'), array('a-login-button'), 'a-login-button') ?>
 			<div id="a-login-form-container" class="a-ui a-options a-login-form-container dropshadow">
 				<?php include_component('a','signinForm') ?>
 			</div>
