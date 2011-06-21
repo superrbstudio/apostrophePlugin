@@ -19,9 +19,6 @@ class aDoctrineRoute extends sfDoctrineRoute
    */
   public function matchesUrl($url, $context = array())
   {
-    $url = aRouteTools::removePageFromUrl($this, $url);
-    return parent::matchesUrl($url, $context);
-    
    $url = aRouteTools::removePageFromUrl($this, $url);
    // No engine page found
    if ($url === false)
