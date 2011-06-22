@@ -2,10 +2,11 @@
 
 /**
  * Cache all actions for 5 minutes provided that:
- * 1. The user is not logged in
- * 2. The request is not a POST request
- * 3. The response does not contain _csrf_token
- * 4. The programmer has not explicitly set aCacheInvalid as a flash or regular user attribute
+ * 1. app_a_page_cache_enabled is set to true (defaults false)
+ * 2. The user is not logged in
+ * 3. The request is not a POST request
+ * 4. The response does not contain _csrf_token
+ * 5. The programmer has not explicitly set aCacheInvalid as a flash or regular user attribute
  * This has the right semantics to work with most Apostrophe sites 
  */
 class aCacheFilter extends sfFilter
@@ -17,6 +18,11 @@ class aCacheFilter extends sfFilter
    */
   public function execute($filterChain)
   {
+    if (!sfConfig::get('app_a_page_cache_enabled', false))
+    {
+      $filterChain->execute();
+      return;
+    }
     $sfUser = $this->context->getUser();
     $uri = $this->context->getRequest()->getUri();
     // Check for the aCacheInvalid override both before and after content gets generated
@@ -25,9 +31,8 @@ class aCacheFilter extends sfFilter
       $filterChain->execute();
       return;
     }
-    
-    $cacheClass = sfConfig::get('app_a_page_cache_class', 'sfFileCache');
-    $cache = new $cacheClass(sfConfig::get('app_a_page_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_page_cache')))));
+
+    $cache = aCacheFilter::getCache();
     $content = $cache->get($uri, null);
     if (!is_null($content))
     {
@@ -57,5 +62,12 @@ class aCacheFilter extends sfFilter
       }
       $cache->set($uri, $this->context->getResponse()->getContent(), sfConfig::get('app_a_page_cache_lifetime', 300));
     }
+  }
+  
+  static public function getCache()
+  {
+    $cacheClass = sfConfig::get('app_a_page_cache_class', 'sfFileCache');
+    $cache = new $cacheClass(sfConfig::get('app_a_page_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_page_cache')))));
+    return $cache;
   }
 }

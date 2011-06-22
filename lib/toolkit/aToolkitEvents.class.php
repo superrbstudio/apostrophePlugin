@@ -6,13 +6,18 @@
  */
 class aToolkitEvents
 {
-
+  static protected $once = false;
   /**
    * command.post_command
    * @param sfEvent $event
    */
   static public function listenToCommandPostCommandEvent(sfEvent $event)
   {
+    if (aToolkitEvents::$once)
+    {
+      return;
+    }
+    aToolkitEvents::$once = true;
     $task = $event->getSubject();
     if ($task->getFullName() === 'project:permissions')
     {
@@ -32,6 +37,17 @@ class aToolkitEvents
         echo("Unlinked CSS/JS cache file $file\n");
         unlink($file);
       }
+    }
+    // Clear the page cache on symfony cc
+    if (sfConfig::get('app_a_page_cache_enabled', false))
+    {
+      echo("Clearing Apostrophe page cache\n");
+      $cache = aCacheFilter::getCache();
+      $cache->clean();
+    }
+    else
+    {
+      echo("Apostrophe page cache not enabled for this environment, not clearing\n");
     }
   }
 }

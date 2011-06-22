@@ -108,5 +108,9 @@ class BaseaLanguageForm extends BaseForm
     $this->setWidgets(array(
       'language' => new sfWidgetFormI18nChoiceLanguage(array('languages' => $this->options['languages'])),
     ));
+    
+    // CSRF for this form defeats caching for logged out users and
+    // is not necessary
+    $this->disableCSRFProtection();
   }
 }
