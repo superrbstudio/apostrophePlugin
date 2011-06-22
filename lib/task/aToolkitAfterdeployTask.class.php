@@ -32,7 +32,7 @@ apostrophe:deploy.
 
 It currently invokes:
 
-./symfony cc
+./symfony cc --env=envname
 ./symfony doctrine:migrate --env=envname
 ./symfony apostrophe:migrate --env=envname
 
@@ -53,7 +53,7 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
-    $this->attemptTask('cc');
+    $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     if (!$options['skip-migrate'])
     {
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));

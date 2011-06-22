@@ -47,7 +47,9 @@ class aToolkitEvents
     }
     else
     {
-      echo("Apostrophe page cache not enabled for this environment, not clearing\n");
+      // Cache not enabled for this environment. Too many tasks
+      // invoke symfony cc with no environment, so let's not print
+      // anything needlessly worrying here
     }
   }
 }
