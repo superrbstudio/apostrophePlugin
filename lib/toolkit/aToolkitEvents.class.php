@@ -37,19 +37,19 @@ class aToolkitEvents
         echo("Unlinked CSS/JS cache file $file\n");
         unlink($file);
       }
-    }
-    // Clear the page cache on symfony cc
-    if (sfConfig::get('app_a_page_cache_enabled', false))
-    {
-      echo("Clearing Apostrophe page cache\n");
-      $cache = aCacheFilter::getCache();
-      $cache->clean();
-    }
-    else
-    {
-      // Cache not enabled for this environment. Too many tasks
-      // invoke symfony cc with no environment, so let's not print
-      // anything needlessly worrying here
+      // Clear the page cache on symfony cc
+      if (sfConfig::get('app_a_page_cache_enabled', false))
+      {
+        echo("Clearing Apostrophe page cache\n");
+        $cache = aCacheFilter::getCache();
+        $cache->clean();
+      }
+      else
+      {
+        // Cache not enabled for this environment. Too many tasks
+        // invoke symfony cc with no environment, so let's not print
+        // anything needlessly worrying here
+      }
     }
   }
 }
