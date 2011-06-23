@@ -312,7 +312,7 @@ function aConstructor()
 				var btn = field.find('.a-toggle-btn');
 				updateToggle(btn);
 
-				btn.click(function(){
+				btn.bind('click.apostrophe', function(){
 					toggle(btn);
 				});
 			}
@@ -476,7 +476,7 @@ function aConstructor()
 			}
 		});
 		treeRef = $.tree_reference(aPageTree.attr('id'));
-		aPageTree.find('.a-tree-delete-btn').click(function() {
+		aPageTree.find('.a-tree-delete-btn').bind('click.apostrophe', function() {
 			var li = $(this).closest('li');
 			if (li.find('li').length)
 			{
@@ -637,7 +637,7 @@ function aConstructor()
 			slideshow.bind('previousItem', function(){ previous(); });
 			slideshow.bind('nextItem', function(){ next(); });
 
-			slideshow.find('.a-slideshow-image').click(function(event) {
+			slideshow.find('.a-slideshow-image').bind('click.apostrophe', function(event) {
 				event.preventDefault();
 				intervalEnabled = false;
 				next();
@@ -645,13 +645,13 @@ function aConstructor()
 
 			( debug ) ? apostrophe.log('slideshowControls -- ' + slideshowControlsSelector + ' -- ' + slideshowControls.length ) : '';
 
-			slideshowControls.find('.a-arrow-left').click(function(event){
+			slideshowControls.find('.a-arrow-left').bind('click.apostrophe', function(event){
 				event.preventDefault();
 				intervalEnabled = false;
 				previous();
 			});
 
-			slideshowControls.find('.a-arrow-right').click(function(event){
+			slideshowControls.find('.a-arrow-right').bind('click.apostrophe', function(event){
 				event.preventDefault();
 				intervalEnabled = false;
 				next();
@@ -696,7 +696,7 @@ function aConstructor()
 	};
 
 	this.areaEnableDeleteSlotButton = function(options) {
-		$('#' + options['buttonId']).click(function() {
+		$('#' + options['buttonId']).bind('click.apostrophe', function() {
 			if (confirm(options['confirmPrompt']))
 			{
 				$(this).closest(".a-slot").fadeOut();
@@ -713,7 +713,7 @@ function aConstructor()
 		var button = $("#" + options['buttonId']);
 		(debug) ? apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug') : '';
 		(debug) ? apostrophe.log(button) : '';
-		$(button).click(function() {
+		$(button).bind('click.apostrophe', function() {
 			var name = options['name'];
 			var pageId = options['pageId'];
 			$.post(options['url'], {}, function(data) {
@@ -732,11 +732,11 @@ function aConstructor()
 		var url = options['url'];
 		var moreUrl = options['moreUrl'];
 		var buttonId = options['buttonId'];
-		$('#' + buttonId).click(function() {
+		$('#' + buttonId).bind('click.apostrophe', function() {
 			_closeHistory();
 			_browseHistory($(this).closest('div.a-area'));
 			$(".a-history-browser .a-history-items").data("area", "a-area-" + pageId + "-" + name);
-			$(".a-history-browser .a-history-browser-view-more").click(function() {
+			$(".a-history-browser .a-history-browser-view-more").bind('click.apostrophe', function() {
 				$.post(moreUrl, {}, function(data) {
 					$('.a-history-browser .a-history-items').html(data);
 					$(".a-history-browser .a-history-browser-view-more .spinner").hide();
@@ -952,7 +952,7 @@ function aConstructor()
 	{
 		var view = $(options['view']);
 
-		$(options['cancel']).click(function(e){
+		$(options['cancel']).bind('click.apostrophe', function(e){
 			e.preventDefault();
 			$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
 			$(view).children('.a-controls li.variant').fadeIn();
@@ -961,7 +961,7 @@ function aConstructor()
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
 		});
 
-		$(options['save']).click(function(){
+		$(options['save']).bind('click.apostrophe', function(){
 			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
  			window.apostrophe.callOnSubmit(options['slot-full-id']);
@@ -992,7 +992,7 @@ function aConstructor()
 
 	this.mediaClearSelectingOnNavAway = function(mediaClearSelectingUrl)
 	{
-		$('a').click(function() {
+		$('a').bind('click.apostrophe', function() {
 			var href = $(this).attr('href');
 			if (href === undefined)
 			{
@@ -1021,7 +1021,7 @@ function aConstructor()
 	this.mediaEnableRemoveButton = function(i)
 	{
 		var editor = $('#a-media-item-' + i);
-		editor.find('.a-media-delete-image-btn').click(function()
+		editor.find('.a-media-delete-image-btn').bind('click.apostrophe', function()
 		{
 			editor.remove();
 			if ($('.a-media-item').length == 0)
@@ -1153,7 +1153,7 @@ function aConstructor()
 				// We don't want to play videos in this view
 				// We want the click to pass through to showSuccess
 				// So we unbind the mediaEmbeddableToggle();
-				item.unbind('embedToggle').find('.a-media-thumb-link').unbind('click').click(function(){
+				item.unbind('embedToggle').find('.a-media-thumb-link').unbind('click.apostrophe').bind('click.apostrophe', function(){
 					return true;
 				});
 			};
@@ -1203,12 +1203,12 @@ function aConstructor()
 				previewUrl,
 				$('#a-media-add-linked-account').serialize(),
 				function() {
-					$('#a-account-preview-ok').click(function(event) {
+					$('#a-account-preview-ok').bind('click.apostrophe', function(event) {
 						event.preventDefault();
 						ready = true;
 						form.submit();
 					});
-					$('#a-account-preview-cancel').click(function(event) {
+					$('#a-account-preview-cancel').bind('click.apostrophe', function(event) {
 						event.preventDefault();
 						$('#a-media-account-preview-wrapper').hide();
 						return false;
@@ -1378,7 +1378,7 @@ function aConstructor()
 	{
 		function aMediaUploadSetRemoveHandler(element)
 		{
-			$(element).find('.a-close').click(function() {
+			$(element).find('.a-close').bind('click.apostrophe', function() {
 					// Move the entire row to the inactive form
 					var element = $($(this).parent().parent().parent()).remove();
 					$('#a-media-upload-form-inactive').append(element);
@@ -1387,7 +1387,7 @@ function aConstructor()
 				});
 		}
 		// Move the first inactive element back to the active form
-		$('#a-media-add-photo').click(function() {
+		$('#a-media-add-photo').bind('click.apostrophe', function() {
 				var elements = $('#a-media-upload-form-inactive .a-form-row');
 					$('#a-media-upload-form-subforms').append(elements);
 					$('#a-media-add-photo').hide();
@@ -1398,7 +1398,7 @@ function aConstructor()
 		{
 			$('#a-media-upload-form-inactive').append($('#a-media-upload-form-subforms .a-form-row.initially-inactive').remove());
 			aMediaUploadSetRemoveHandler($('#a-media-upload-form-subforms'));
-			$('#a-media-upload-form .a-cancel').click(function() {
+			$('#a-media-upload-form .a-cancel').bind('click.apostrophe', function() {
 				$('#a-media-add').hide();
 				return false;
 			});
@@ -1537,9 +1537,7 @@ function aConstructor()
 				links_container.animate({marginLeft: width}, 250, 'swing');
 			}
 
-			next.click(function(e) {
-				e.preventDefault();
-
+			next.bind('click.apostrophe', function(e) {
 				min = min + nb_links;
 				max = max + nb_links;
 
@@ -1550,9 +1548,7 @@ function aConstructor()
 				return false;
 			});
 
-			last.click(function(e) {
-				e.preventDefault();
-
+			last.bind('click.apostrophe', function(e) {
 				min = nb_pages;
 				max = nb_pages + nb_links - 1;
 
@@ -1563,9 +1559,7 @@ function aConstructor()
 				return false;
 			});
 
-			prev.click(function(e) {
-				e.preventDefault();
-
+			prev.bind('click.apostrophe', function(e) {
 				min = min - nb_links;
 				max = max - nb_links;
 
@@ -1576,7 +1570,7 @@ function aConstructor()
 				return false;
 			});
 
-			first.click(function(e) {
+			first.bind('click.apostrophe', function(e) {
 				e.preventDefault();
 
 				min = 1;
@@ -1632,7 +1626,7 @@ function aConstructor()
 
 			toggle.each(function() {
 				var t = $(this);
-				t.click(function(event){
+				t.bind('click.apostrophe', function(event){
 					event.preventDefault();
 					t.closest('.a-accordion').toggleClass('open');
 				})
@@ -1650,7 +1644,7 @@ function aConstructor()
 		apostrophe.log('apostrophe.enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
 		// Why is this necessary?
-		$('#' + options['id'] + '-submit').click(function() {
+		$('#' + options['id'] + '-submit').bind('click.apostrophe', function() {
 			form.submit();
 		});
 		// The form will not actually submit until ajaxDirty is false. This allows us
@@ -1707,7 +1701,7 @@ function aConstructor()
 			titleField.keyup(setChangedTimeout);
 
 			// More Options... Button
-			$(form).find('.a-more-options-btn').click(function(e){
+			$(form).find('.a-more-options-btn').bind('click.apostrophe', function(e){
 				e.preventDefault();
 				$(this).hide().next().removeClass('a-hidden');
 			});
@@ -1784,7 +1778,7 @@ function aConstructor()
 			allTags.removeClass('over');
 		});
 
-		allTags.click(function(){
+		allTags.bind('click.apostrophe', function(){
 			allTags.toggleClass('open');
 			allTags.next().toggle();
 		});
@@ -2019,14 +2013,14 @@ function aConstructor()
 			btnPause.hide();
 			loadingBar.progressbar();
 
-			btnPlay.click(function() {
+			btnPlay.bind('click.apostrophe', function() {
 				aAudioPlayer.jPlayer("play");
 				btnPlay.hide();
 				btnPause.show();
 				return false;
 			});
 
-			btnPause.click(function() {
+			btnPause.bind('click.apostrophe', function() {
 				aAudioPlayer.jPlayer("pause");
 				btnPause.hide();
 				btnPlay.show();
@@ -2168,7 +2162,7 @@ function aConstructor()
 				rebuild();
 				return false;
 			});
-			list.find('.a-close-small').click(function() {
+			list.find('.a-close-small').bind('click.apostrophe', function() {
 				var id = $(this).parents('.a-permission-entry').data('id');
 				var user = data[id];
 				if (user['selected'] === 'remove')
@@ -2214,14 +2208,14 @@ function aConstructor()
 
 	this.enableMediaEditMultiple = function()
 	{
-		$('.a-media-multiple-submit-button').click(function() {
+		$('.a-media-multiple-submit-button').bind('click.apostrophe', function() {
 			$('#a-media-edit-form-0').submit();
 			return false;
 		});
 		$('#a-media-edit-form-0').submit(function() {
 			return true;
 		});
-		$('#a-media-edit-form-0 .a-media-editor .a-delete').click(function() {
+		$('#a-media-edit-form-0 .a-media-editor .a-delete').bind('click.apostrophe', function() {
 			$(this).parents('.a-media-editor').remove();
 			if ($('#a-media-edit-form-0 .a-media-editor').length === 0)
 			{
@@ -2233,7 +2227,7 @@ function aConstructor()
 
 	this.aAdminEnableFilters = function()
 	{
-		$('#a-admin-filters-open-button').click(function() {
+		$('#a-admin-filters-open-button').bind('click.apostrophe', function() {
 			$('#a-admin-filters-container').slideToggle();
 			return false;
 		});
@@ -2289,7 +2283,7 @@ function aConstructor()
 			$(this).children('img').fadeIn('fast');
 		});
 
-		$('.a-history-item').click(function() {
+		$('.a-history-item').bind('click.apostrophe', function() {
 
 			$('.a-history-browser').hide();
 
@@ -2315,7 +2309,7 @@ function aConstructor()
 			);
 
 			// Assign behaviors to the revert and cancel buttons when THIS history item is clicked
-			revertBtn.click(function(){
+			revertBtn.bind('click.apostrophe', function(){
 				$.post( // User clicks Save As Current Revision Button
 					revert,
 					params.revert,
@@ -2328,7 +2322,7 @@ function aConstructor()
 				);
 			});
 
-			cancelBtn.click(function(){
+			cancelBtn.bind('click.apostrophe', function(){
 				$.post( // User clicks CANCEL
 					revert,
 					params.cancel,
@@ -2352,7 +2346,7 @@ function aConstructor()
 	this.enableCloseHistoryButtons = function(options)
 	{
 		var closeHistoryBtns = $(options['close_history_buttons']);
-		closeHistoryBtns.click(function(){
+		closeHistoryBtns.bind('click.apostrophe', function(){
 			_closeHistory();
 		});
 	};
@@ -2472,11 +2466,11 @@ function aConstructor()
 		// Positioning the History Browser
 		$('.a-history-browser').css('top',(areaControlsTop-5)+"px"); //21 = height of buttons plus one margin
 		$('.a-history-browser').fadeIn();
-		$('.a-page-overlay').click(function(){
+		$('.a-page-overlay').bind('click.apostrophe', function(){
 			_closeHistory();
 			$(this).unbind('click');
 		});
-		$('#a-history-preview-notice-toggle').click(function(){
+		$('#a-history-preview-notice-toggle').bind('click.apostrophe', function(){
 			$('.a-history-preview-notice').children(':not(".a-history-options")').slideUp();
 		});
 	}
