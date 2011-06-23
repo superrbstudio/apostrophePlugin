@@ -1859,11 +1859,13 @@ function aConstructor()
 		var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
 		
 		actAsSubmit.each(function(){
-			apostrophe.log('apostrophe.actAsSubmit -- Generate Hidden Submit Button');
 			var submit = $(this);
-			var form = submit.closest('form');
+			apostrophe.log('apostrophe.actAsSubmit -- Form Action: ' + submit.closest('form').attr('action'));
+
 			var name = submit.attr('name');
-			if (!submit.prev('input[type="submit"]').length) 
+			var form = submit.closest('form');
+
+			if (!form.find('input[type="submit"]').length) 
 			{
 				var hidden = $('<input type="submit"/>');
 				hidden.attr('value', submit.text());
@@ -1878,14 +1880,14 @@ function aConstructor()
 				}
 				submit.after(hidden);						
 			}
-		});
-		
-		actAsSubmit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function() {
-			apostrophe.log('apostrophe.actAsSubmit -- Anchor Clicked Submit');
-			var submit = $(this);
-			var form = submit.closest('form');
-			form.submit();
-			return false;
+
+			submit.unbind('click.apostrophe').bind('click.apostrophe', function(event) {
+				apostrophe.log('apostrophe.actAsSubmit -- Anchor Clicked Submit');
+				var form = submit.closest('form');
+				form.submit();
+				return false;
+			});
+			
 		});
 
 		// The contents of this function can be migrated to better homes
