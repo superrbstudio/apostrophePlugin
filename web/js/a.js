@@ -922,7 +922,7 @@ function aConstructor()
  		var editBtn = $('#a-slot-edit-' + fullId);
  		var editSlot = $('#a-slot-' + fullId);
 		editSlot.data('a-edit-url', editUrl);
- 		editBtn.live('click.apostrophe', function(event) {
+ 		editBtn.die('click.apostrophe').live('click.apostrophe', function(event) {
 			apostrophe.slotShowEditView(pageid, name, permid, realUrl);
  			return false;
  		});
