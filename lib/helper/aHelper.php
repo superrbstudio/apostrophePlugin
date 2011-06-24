@@ -634,6 +634,6 @@ function a_remove_filter_button($label, $url, $parameter)
     $remove[$p] = '';
   }
   $url = aUrl::addParams($url, $remove);
-  return a_button($label, url_for($url), array('a-link','icon','icon-right','a-close-small','alt'));
+  return link_to($label, url_for($url), array('class' => 'a-remove-filter-button', 'title' => 'Remove Filter: ' . $label));
 }
 
