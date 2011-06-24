@@ -634,6 +634,6 @@ function a_remove_filter_button($label, $url, $parameter)
     $remove[$p] = '';
   }
   $url = aUrl::addParams($url, $remove);
-  return link_to($label . image_tag('/apostrophePlugin/images/a-icon-close-small-simple.png'), url_for($url), array('class' => 'a-filter-link', 'title' => a_('Remove Filter')));
+  return a_button($label, url_for($url), array('a-link','icon','icon-right','a-close-small','alt'));
 }
 
