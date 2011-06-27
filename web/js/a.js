@@ -1881,7 +1881,7 @@ function aConstructor()
 				submit.after(hidden);						
 			}
 
-			submit.unbind('click.apostrophe').bind('click.apostrophe', function(event) {
+			submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
 				apostrophe.log('apostrophe.actAsSubmit -- Anchor Clicked Submit');
 				var form = submit.closest('form');
 				form.submit();
