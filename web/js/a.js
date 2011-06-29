@@ -70,7 +70,7 @@ function aConstructor()
 			console.log(output);
 		}
 	};
-	
+
 	// apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
 	this.setDebug = function(flag)
 	{
@@ -133,13 +133,13 @@ function aConstructor()
 		// same span label
 		$(selector).each(function() {
 			var id = ""; var clss = "";
-			if ($(this).attr('id') !== '') 
-			{ 
-				id = "id='"+$(this).attr('id')+"'"; 
+			if ($(this).attr('id') !== '')
+			{
+				id = "id='"+$(this).attr('id')+"'";
 			}
-			if ($(this).attr('class') !== '') 
-			{ 
-				clss = "class='"+$(this).attr('class')+"'"; 
+			if ($(this).attr('class') !== '')
+			{
+				clss = "class='"+$(this).attr('class')+"'";
 			}
 			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");
 		});
@@ -169,7 +169,7 @@ function aConstructor()
 					{
 						if (restore)
 						{
-							update.data('aBeforeUpdate', update.children().clone(true));						
+							update.data('aBeforeUpdate', update.children().clone(true));
 						}
 						update.html(data);
 					},
@@ -181,7 +181,7 @@ function aConstructor()
 								update.html(update.data('aBeforeUpdate'));
 							});
 						}
-						update.removeClass('a-remote-data-loading');						
+						update.removeClass('a-remote-data-loading');
 					},
 					url:remote_url
 				});
@@ -266,7 +266,7 @@ function aConstructor()
 
 	// Pass a selector (or jQuery object) and it will display a progress animation by toggling
 	// the a-busy class on any elements inside the selected element that have the .a-show-busy
-	// class (in practice this has to be an anchor tag, not an input type="submit" button). 
+	// class (in practice this has to be an anchor tag, not an input type="submit" button).
 	// Usually you wind up replacing it via AJAX, so you don't need a way to stop animating.
 	// However, you can manually toggle the class off again if you need to stop animating
 
@@ -380,29 +380,29 @@ function aConstructor()
 				theme_path: "/apostrophePlugin/js/jsTree/source/themes/",
 				theme_name: "punk",
 				context: false
-			// 	[ 
+			// 	[
 			//					 // {
 			//					 //		 id			: "create",
-			//					 //		 label	 : "Create", 
+			//					 //		 label	 : "Create",
 			//					 //		 icon		: "create.png",
-			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); }, 
-			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); } 
+			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); },
+			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); }
 			//					 // },
 			//					 // "separator",
-			//					 // { 
+			//					 // {
 			//					 //		 id			: "rename",
-			//					 //		 label	 : "Rename", 
+			//					 //		 label	 : "Rename",
 			//					 //		 icon		: "rename.png",
-			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
-			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(); } 
+			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); },
+			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(); }
 			//					 // },
-			//					 { 
+			//					 {
 			//							 id			: "delete",
 			//							 label	 : "Delete",
 			//							 // icon		: "remove.png",
-			//							 visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+			//							 visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; },
 			// 			// Also see ondelete below
-			//							 action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+			//							 action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); }
 			//					 }
 			// 	]
 			},
@@ -446,7 +446,7 @@ function aConstructor()
 						async: false
 					});
 				},
-				// delete completed 
+				// delete completed
 				ondelete: function(node, treeObj, rb)
 				{
 					// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
@@ -515,13 +515,13 @@ function aConstructor()
 		var slideshowItemsSelector = (options['slideshowItemsSelector']) ? options['slideshowItemsSelector'] : '.a-slideshow-item';
 		var slideshowItems = slideshow.find(slideshowItemsSelector);
 		var itemCount = slideshowItems.length;
-		var positionSelector = (options['positionSelector']) ? options['positionSelector'] : '.a-slideshow-position-head';		
+		var positionSelector = (options['positionSelector']) ? options['positionSelector'] : '.a-slideshow-position-head';
 		var positionHead = slideshowControls.find(positionSelector);
 		var intervalTimeout = null;
 		var currentItem;
 		var newItem;
 		var oldItem;
-		
+
  		(options['title']) ? slideshowItems.attr('title', options['title']) : slideshowItems.attr('title','');
 
 		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging') : '';
@@ -535,6 +535,7 @@ function aConstructor()
 		}
 		else
 		{
+			slideshow.addClass('multi-image');
 			// Clear any interval timer left running by a previous slot variant
 			if (window.aSlideshowIntervalTimeouts !== undefined)
 			{
@@ -725,7 +726,7 @@ function aConstructor()
 			return false;
 		});
 	};
-	
+
 	this.areaEnableHistoryButtons = function(options)
 	{
 		apostrophe.log('apostrophe.areaEnableHistoryButtons');
@@ -749,8 +750,8 @@ function aConstructor()
 			$.post(history.data('url'), {}, function (data) {
 				$('.a-history-browser .a-history-items').html(data);
 			});
-			
-		});		
+
+		});
 	};
 
 	this.areaUpdateMoveButtons = function(updateAction, id, name)
@@ -1745,19 +1746,19 @@ function aConstructor()
 		var nurl = options['url'];
 		var name = options['name'];
 		var nest = options['nest'];
-		
+
 		var nav = $("#a-nav-" + name + "-" + nest);
-		
+
 		nav.sortable(
-		{ 
+		{
 			delay: 100,
-			update: function(e, ui) 
-			{ 
+			update: function(e, ui)
+			{
 				var serial = nav.sortable('serialize', {key:'a-tab-nav-item[]'});
 				var options = {"url":nurl,"type":"post"};
 				options['data'] = serial;
 				$.ajax(options);
-				
+
 				// Fixes Margin
 				nav.children().removeClass('first second next-last last');
 				nav.children(':first').addClass('first');
@@ -1767,9 +1768,9 @@ function aConstructor()
 			},
 			items: 'li:not(.extra)'
 		});
-		
+
 	};
-	
+
 	this.allTagsToggle = function(options)
 	{
 		var allTags = options['selector'] ? $(options['selector']) : $('.a-tag-sidebar-title.all-tags');
@@ -1785,11 +1786,11 @@ function aConstructor()
 			allTags.next().toggle();
 		});
 	};
-	
+
 	this.searchCancel = function(options)
 	{
 
-		var search = options['search'];		
+		var search = options['search'];
 		$('#a-media-search-remove').show();
 		$('#a-media-search-submit').hide();
 
@@ -1812,7 +1813,7 @@ function aConstructor()
 			$('#a-media-search-submit').hide();
 		});
 	};
-	
+
 	// A very small set of things that allow us to write CSS and HTML as if they were
 	// better than they are. This is called on every page load and AJAX refresh, so resist
 	// the temptation to get too crazy here.
@@ -1851,7 +1852,7 @@ function aConstructor()
 				$(this).attr('href', href);
 			}
 		});
-		
+
 		// Anchor elements that act as submit buttons. Unfortunately not suitable
 		// for use in AJAX forms because calling submit() on a form doesn't
 		// consistently trigger its submit handlers before triggering native submit.
@@ -1859,7 +1860,7 @@ function aConstructor()
 		var actAsSubmit = $(target).find('.a-act-as-submit');
 		var actAsSubmitForm = actAsSubmit.closest('form');
 		var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
-		
+
 		actAsSubmit.each(function(){
 			var submit = $(this);
 			apostrophe.log('apostrophe.actAsSubmit -- Form Action: ' + submit.closest('form').attr('action'));
@@ -1867,7 +1868,7 @@ function aConstructor()
 			var name = submit.attr('name');
 			var form = submit.closest('form');
 
-			if (!form.find('input[type="submit"]').length) 
+			if (!form.find('input[type="submit"]').length)
 			{
 				var hidden = $('<input type="submit"/>');
 				hidden.attr('value', submit.text());
@@ -1880,7 +1881,7 @@ function aConstructor()
 				{
 					hidden.attr('name', name);
 				}
-				submit.after(hidden);						
+				submit.after(hidden);
 			}
 
 			submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
@@ -1889,7 +1890,7 @@ function aConstructor()
 				form.submit();
 				return false;
 			});
-			
+
 		});
 
 		// The contents of this function can be migrated to better homes
@@ -1952,7 +1953,7 @@ function aConstructor()
 		}
 		return info;
 	};
-	
+
 	// Adapted from http://stackoverflow.com/questions/901115/get-querystring-values-with-jquery/901144#901144
 	// This decodeQuery function is accordingly released under cc attribution-share alike
 	this.decodeQuery = function(query)
@@ -1969,7 +1970,7 @@ function aConstructor()
 		})();
 		return urlParams;
 	};
-	
+
 	this.audioPlayerSetup = function(aAudioContainer, file)
 	{
 		aAudioContainer = $(aAudioContainer);
