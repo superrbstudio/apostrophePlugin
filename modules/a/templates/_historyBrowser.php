@@ -32,12 +32,16 @@
 	</div>
 </div>
 
-<div class="a-history-preview-notice dropshadow">
+<div class="a-ui a-history-preview-notice dropshadow">
 	<h4>History Preview</h4>
-	<a href="#" onclick="return false;" id="a-history-preview-notice-toggle">Hide</a>
+	<a href="#" id="a-history-preview-notice-toggle" class="a-btn icon no-label no-bg a-close-small alt a-align-right"><span class="icon"></span>Hide</a>
 	<p><?php echo __('You are previewing another version of this content area. This will not become the current version unless you click "Save As Current Revision." If you change your mind, click "Cancel."', null, 'apostrophe') ?></p>
-	<div class="a-history-options">
-		<a href="#save-current-revision" class="a-btn icon a-history-revert" id="a-history-revert-button"><span class="icon"></span><?php echo a_('Save as Current Revision') ?></a>
-		<a href="#cancel-history-browser" onclick="return false;" id="a-history-cancel-button" class="a-btn icon a-cancel"><span class="icon"></span><?php echo a_('Cancel') ?></a>
-	</div>
+	<ul class="a-ui a-controls a-history-options">
+		<li>
+			<a href="#save-current-revision" id="a-history-revert-button" class="a-btn icon a-history-revert"><span class="icon"></span><?php echo a_('Save as Current Revision') ?></a>
+		</li>
+		<li>
+			<a href="#cancel-history-browser" id="a-history-cancel-button" class="a-btn icon a-cancel"><span class="icon"></span><?php echo a_('Cancel') ?></a>
+		</li>
+	</ul>
 </div>
