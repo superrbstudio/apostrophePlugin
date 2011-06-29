@@ -2,7 +2,7 @@
 <div class="a-ui a-history-browser dropshadow clearfix">
 	<div class="a-history-browser-heading-container clearfix">
 		<h4 class="a-history-browser-heading"><?php echo a_('You are browsing past revisions for this area.') ?></h4>
-		<?php echo a_js_button(a_('Close History Browser'), array('icon', 'a-close', 'no-label', 'big', 'no-bg'), 'a-history-close-button') ?>
+		<?php echo a_js_button(a_('Close History Browser'), array('icon', 'a-close', 'no-label', 'big', 'no-bg', 'alt'), 'a-history-close-button') ?>
 	</div>
 	<div class="a-history-browser-crop clearfix">
 		<table cellspacing="0" cellpadding="0" border="0" title="<?php echo htmlspecialchars(__('Choose a revision.', null, 'apostrophe')) ?>">
