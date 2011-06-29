@@ -954,7 +954,7 @@ function aConstructor()
 	{
 		var view = $(options['view']);
 
-		$(options['cancel']).bind('click.apostrophe', function(e){
+		$(options['cancel']).bind('click.slotEnableFormButtons', function(e){
 			e.preventDefault();
 			$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
 			$(view).children('.a-controls li.variant').fadeIn();
@@ -963,7 +963,7 @@ function aConstructor()
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
 		});
 
-		$(options['save']).bind('click.apostrophe', function(){
+		$(options['save']).bind('click.slotEnableFormButtons', function(){
 			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
  			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
  			window.apostrophe.callOnSubmit(options['slot-full-id']);
