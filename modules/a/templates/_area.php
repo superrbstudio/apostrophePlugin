@@ -18,15 +18,18 @@
 	<li>
 		<?php $history_button_style = sfConfig::get('app_a_history_button_style', 'no-label big') ?>
 		<?php $history_button_id = "a-area-$pageid-$name-history-button" ?>
-		<?php echo a_js_button(a_('History'), array('icon', 'a-history-btn', 'alt', ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style)), $history_button_id, a_('Area History')) ?>
-		<?php a_js_call('apostrophe.areaEnableHistoryButton(?)', array('buttonId' => $history_button_id, 'pageId' => $pageid, 'name' => $name, 'url' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))), 'moreUrl' => url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))))) ?>
+		<a href="#" id="<?php echo $history_button_id ?>" 
+			class="a-btn icon a-history-btn alt <?php echo ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style) ?>" 
+			title="<?php echo a_('History') ?>"
+			data-url="<?php echo url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))) ?>"
+			data-moreurl="<?php echo url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))) ?>"><span class="icon"></span><?php echo a_('History') ?></a>
 	</li>
 <?php end_slot() ?>
 <?php endif ?>
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" class="a-area a-normal <?php echo "a-area-$name" ?> <?php echo isset($options['area-class']) ? $options['area-class'] : null ?> <?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" <?php echo ($editable) ? 'data-pageid="'.$pageid.'" data-name="'.$name.'"' : '' ?> class="a-area a-normal <?php echo "a-area-$name" ?> <?php echo isset($options['area-class']) ? $options['area-class'] : null ?> <?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>

@@ -7,6 +7,7 @@
 
 <?php // There must be a better time and place for this ?>
 <?php if ($sf_user->isAuthenticated()): ?>
+	<?php a_js_call('apostrophe.areaEnableHistoryButtons()') ?>
 	<?php a_js_call('apostrophe.enableCloseHistoryButtons(?)', array('close_history_buttons' => '#a-history-close-button, #a-history-heading-button')) ?>
 <?php endif ?>
 	
