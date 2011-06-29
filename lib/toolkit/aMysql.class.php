@@ -229,6 +229,34 @@ class aMysql
   }
 
   /**
+   * Insert a new row, or update instead if a duplicate key error occurs. If a new row is added,
+   * returns the id of the new row. If an old row is updated, returns $params['id'] or null if
+   * it is not present. Just ignore the return value if the table does not have an autoincrementing 
+   * id column.
+   * @param mixed $table
+   * @param mixed $params
+   * @return mixed
+   */
+  public function insertOrUpdate($table, $params = array())
+  {
+    $columns = array_keys($params);
+    $q = 'INSERT INTO ' . $table . ' (' . implode(',', $columns) . ') VALUES (' . implode(',', array_map(array($this, 'colonPrefix'), $columns)) . ') ' . 'ON DUPLICATE KEY UPDATE ' . $this->buildSetClauses($params, false);
+    $last = $this->lastInsertId();
+    $this->query($q, $params);
+    $newLast = $this->lastInsertId();
+    if ($last !== $newLast)
+    {
+      // A new row, in a table with autoincrementing ids. Return the new id
+      return $newLast;
+    }
+    // Not a new row (or not autoincrementing). Return the id that was passed in as
+    // a convenience to those who are relying on the return value to do more work 
+    // with this row, like adding the id of the new/updated object to a row in another
+    // table
+    return isset($params['id']) ? $params['id'] : null;
+  }
+
+  /**
    * Useful for simple inserts where you'd like the resulting row returned to you.
    * Not for use with tables that don't have an autoincrementing integer id
    * named 'id', so just use query or plain insert() as you see fit. Makes an extra query to get what
@@ -288,14 +316,31 @@ class aMysql
    */
   public function update($table, $id, $params = array())
   {
-    $q = 'UPDATE ' . $table . ' ';
-    $first = true;
+    $q = 'UPDATE ' . $table . ' ' . $this->buildSetClauses($params);
     $params['id'] = $id;
+    $q .= 'WHERE id = :id';
+    return $this->query($q, $params);
+  }
+
+  /**
+   * Builds a list of SET clauses to update the specified columns
+   * (don't use me directly, see the update and insertOrUpdate methods).
+   * In the ON DUPLICATE KEY UPDATE case we don't need the SET keyword,
+   * so provide a flag for that 
+   */
+    
+  public function buildSetClauses($params, $useSetKeyword = true)
+  {
+    $first = true;
+    $q = '';
     foreach ($params as $k => $v)
     {
       if ($first)
       {
-        $q .= 'SET ';
+        if ($useSetKeyword)
+        {
+          $q .= 'SET ';
+        }
         $first = false;
       }
       else
@@ -304,8 +349,7 @@ class aMysql
       }
       $q .= $k . ' = :' . $k . ' ';
     }
-    $q .= 'WHERE id = :id';
-    return $this->query($q, $params);
+    return $q;
   }
 
   /**
