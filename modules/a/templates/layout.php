@@ -34,7 +34,7 @@
 		</script>
 	<![endif]-->	
 
-	<!--[if lte IE 7]>
+	<!--[if lte IE 8]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
 	<![endif]-->
 	
