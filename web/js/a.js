@@ -1414,7 +1414,7 @@ function aConstructor()
 		var menu;
 		if (typeof(options[menu]) != "undefined")
 		{
-			menu = options[menu];
+			menu = options['menu'];
 		}
 		else
 		{
