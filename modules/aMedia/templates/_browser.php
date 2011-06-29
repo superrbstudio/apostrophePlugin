@@ -8,7 +8,7 @@
   $searchForm = isset($searchForm) ? $sf_data->getRaw('searchForm') : null;
   $selectedCategory = isset($selectedCategory) ? $sf_data->getRaw('selectedCategory') : null;
   $selectedTag = isset($selectedTag) ? $sf_data->getRaw('selectedTag') : null;
-	$selected = array('icon','a-selected','alt'); // Class names for selected filters
+	$selected = array('icon','a-selected','alt','icon-right'); // Class names for selected filters
 ?>
 <?php use_helper('a') ?>
 <?php // Media is now an engine, so there's a page ?>
