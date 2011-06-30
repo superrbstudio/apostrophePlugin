@@ -138,6 +138,9 @@ height: 20px !important;
 .a-history-btn > .icon, 
 .a-history-revert > .icon { background-image: url(../images/a-icon-alt-history.png); }
 .a-media > .icon { background-image: url(../images/a-icon-media.png); }
+.a-media-one-up > .icon { background-image: url(../images/a-icon-media-one-up.png); }
+.a-media-two-up > .icon { background-image: url(../images/a-icon-media-two-up.png); }
+.a-media-four-up > .icon { background-image: url(../images/a-icon-media-four-up.png); }
 .a-page-settings > .icon { background-image: url(../images/a-icon-page-settings.png); }
 .a-page-small > .icon { background-image: url(../images/a-icon-page-small.png); }
 .a-pdf > .icon { background-image: url(../images/a-icon-pdf.png); }

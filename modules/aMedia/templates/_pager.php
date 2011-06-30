@@ -15,6 +15,6 @@
 	<?php endforeach ?>
 	<li class="a-media-footer-separator b">|</li>
 	<?php foreach($enabled_layouts as $enabled_layout): ?>
-		<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon" style="background-image:url('.$enabled_layout['image'].');"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label '.(($enabled_layout['name'] == $layout['name']) ? 'a-active':''))) ?></li>
+		<li class="a-media-footer-layout-option"><?php echo link_to('<span class="icon"></span>'.$enabled_layout['name'],  aUrl::addParams($pagerUrl, array('layout' => $enabled_layout['name'])), array('alt' => $enabled_layout['name'], 'class' => 'a-btn icon lite no-label a-media-' . $enabled_layout['name'] . ' alt ' . (($enabled_layout['name'] == $layout['name']) ? 'a-active':''))) ?></li>
 	<?php endforeach; ?>
 </ul>
