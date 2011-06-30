@@ -338,7 +338,7 @@
 .a-slot.aFile .a-file-slot .a-file-title { width: 100%; font-size: 16px; }
 .a-slot.aFile .a-file-slot .a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
 .a-slot.aFile .a-file-slot .a-file-download { margin-left: -3px; }
-.a-slot.aFile .a-file-slot .a-file-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+.a-slot.aFile .a-file-slot .a-file-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
 
 
 // aPDF Slot Styles
@@ -349,11 +349,11 @@
 .a-slot.aPDF .a-pdf-title { width:100%; font-size: 16px; }
 .a-slot.aPDF .a-pdf-description { margin-top:0px; color:#666; width:100%; margin:5px 0; }
 .a-slot.aPDF .a-pdf-download { margin-left:-3px; }
-.a-slot.aPDF .a-pdf-download a { background: url(../images/a-icon-alt-download.png) no-repeat left center; padding-left:20px; }
+.a-slot.aPDF .a-pdf-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left:20px; }
 
 .a-slot.aPDF .a-pdf-slot.no-label { height: auto !important; height: 43px; }
 .a-slot.aPDF .a-pdf-slot.no-label .a-media-pdf-icon { position:absolute; height:43px; width:34px; margin-top:5px; top:0; left:0; z-index:10; }
-.a-slot.aPDF .a-pdf-slot.no-label .a-media-pdf-icon a { float:left; background: url(../images/a-pdf-icon-tiny.png) no-repeat top left; height:100%; width:100%; overflow:hidden; text-indent: -9999px; }
+.a-slot.aPDF .a-pdf-slot.no-label .a-media-pdf-icon a { float:left; background: url({@a-asset-path}/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left; height:100%; width:100%; overflow:hidden; text-indent: -9999px; }
 .a-slot.aPDF .a-pdf-slot.no-label .a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
 
 
@@ -487,7 +487,7 @@ display: block;
 
 ul.a-controls .a-variant-options.loading
 {
-background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-repeat;
+background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 95% 5px no-repeat;
 }
 
 // aOptions Styles for Slot Edit View :: aOptions is in a-components.css
@@ -584,7 +584,7 @@ margin: 10px 0;
 
 .a-ui.a-audio-player-container .a-audio-player-interface.a-loading * { visibility: hidden; }
 
-.a-ui.a-audio-player-container .a-audio-player-interface.a-loading .a-audio-loading { visibility: visible; display: block; padding:  0 0 0 20px; background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 0 50% no-repeat; line-height: 20px; height: 20px;}
+.a-ui.a-audio-player-container .a-audio-player-interface.a-loading .a-audio-loading { visibility: visible; display: block; padding:  0 0 0 20px; background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 0 50% no-repeat; line-height: 20px; height: 20px;}
 .a-ui.a-audio-player-container .a-audio-player-interface .a-audio-loading { display: none; position: absolute; top: 50%; margin-top: -10px; left: 10px; color: #fff;}
 
 .a-ui.a-audio-player-container .a-audio-controls .a-audio-button
@@ -602,9 +602,9 @@ cursor: pointer;
 
 .a-ui.a-audio-player-container .a-audio-button:hover { background-color: #ddd; }
 
-.a-ui.a-audio-player-container .a-audio-play  { background: #fff url(../images/a-icon-alt-play.png) no-repeat 6px 0; }
+.a-ui.a-audio-player-container .a-audio-play  { background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-play.png) no-repeat 6px 0; }
 
-.a-ui.a-audio-player-container .a-audio-pause { background: #fff url(../images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
+.a-ui.a-audio-player-container .a-audio-pause { background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-pause.png) no-repeat 6px 0; display: none; }
 
 .a-ui.a-audio-player-container .a-audio-controls { float: left; clear: none; }
 
@@ -612,7 +612,7 @@ cursor: pointer;
 
 .a-ui.a-audio-player-container .a-audio-playback { position: relative; z-index: 2; width: 100%; background: none; }
 
-.a-ui.a-audio-player-container .a-audio-volume .ui-widget-header { background: url('/apostrophePlugin/images/a-audio-volume.png') 0 50% repeat-x;  }
+.a-ui.a-audio-player-container .a-audio-volume .ui-widget-header { background: url({@a-asset-path}/apostrophePlugin/images/a-audio-volume.png) 0 50% repeat-x;  }
 
 .a-ui.a-audio-player-container .a-audio-loader
 {
@@ -698,6 +698,6 @@ visibility: hidden;
 }
 
 .a-ui .a-audio-download { float: left; clear: both; display: block; }
-.a-ui .a-audio-download a { background: url(../images/a-icon-alt-download.png) no-repeat top left; padding-left: 20px; float: left; height: 20px; }
+.a-ui .a-audio-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat top left; padding-left: 20px; float: left; height: 20px; }
 
 .a-ui .ui-widget-header { background: #fff; top: 0; left: 0; position: absolute; float: left; height: 100%; }

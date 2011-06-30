@@ -38,10 +38,10 @@ class BaseaAssets
         $param = $factory['param'];
         aAssets::$lessc = new $class($param);
       }
-      aAssets::$lessc->importDir = dirname($path) . '/';
+			// set a new import directory in app.yml if you want to change our imported files, like a-helpers.less
+      aAssets::$lessc->importDir = sfConfig::get('app_a_less_import_directory', dirname($path) . '/');
+
       file_put_contents($compiled, aAssets::$lessc->parse(file_get_contents($path)));
     }
   }
-
-  
 }
