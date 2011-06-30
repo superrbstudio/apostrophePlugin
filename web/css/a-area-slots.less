@@ -125,6 +125,44 @@
 	}
 }
 
+// Slideshow Component Styles (When used outside of a slot)
+// -------------------------------------
+.a-slideshow
+{
+	&.transition-crossfade
+	{
+		overflow: hidden;
+		.a-slideshow-item
+		{
+			// Cross Fade Slideshows must have the items stacked up
+			position: absolute; 
+			top: 0; 
+			left: 0;
+		}
+	}
+	.a-slideshow-item
+	{
+		@clearfix;
+		list-style: none;
+		display: none; 
+		margin: 0;
+		.a-slideshow-title
+		{
+
+		}
+		.a-slideshow-image
+		{
+			display: block;
+			line-height: 0;
+			background-repeat: no-repeat;
+			margin: 0;
+			img
+			{
+				display: block;
+			}
+		}
+	} // [ .a-slideshow-item ]
+} // [ @a-slideshow ]
 
 .a-slot
 {
@@ -167,43 +205,10 @@
 			list-style: none;
 			z-index: 799;
 		}
-
-		.a-slideshow
-		{
-			&.transition-crossfade
-			{
-				overflow: hidden;
-				.a-slideshow-item
-				{
-					// Cross Fade Slideshows must have the items stacked up
-					position: absolute; top: 0; left: 0;
-				}
-			}
-			.a-slideshow-item
-			{
-				list-style: none;
-				overflow: hidden; 
-				display: none; 
-				margin: 0;
-				.a-slideshow-title
-				{
-
-				}
-				.a-slideshow-image
-				{
-					display: block;
-					line-height: 0;
-					background-repeat: no-repeat;
-					margin: 0;
-					img
-					{
-						display: block;
-					}
-				}
-			} // [ .a-slideshow-item ]
-		} // [ .a-slideshow ]
+	
+		.a-slideshow;
+		
 	} // [ .aSlideshow ]
-
 
 	// aButton Slot
 	// ----------------------------------------
@@ -322,7 +327,6 @@
 			}
 		}
 	}
-
 }
 
 // aFile Slot Styles
@@ -460,8 +464,6 @@ width:100%;
 }
 
 
-
-
 // aOptions for Areas & Slots :: aOptions is in a-components.css
 // -------------------------------------------------------------------- 
 .a-ui .a-options.a-area-options { z-index: 699; display: none; min-width: 100%; }
@@ -528,8 +530,8 @@ background: #fff url('/apostrophePlugin/images/a-icon-loader.gif') 95% 5px no-re
 			clear:both;
 			line-height: 27px;
 		}
-	}
-}
+	} // [ &.a-slot-form ]
+} // [ .a-ui.a-options ]
 
 
 
