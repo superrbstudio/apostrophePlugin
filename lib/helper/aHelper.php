@@ -213,10 +213,11 @@ function _a_get_assets_body($type, $assets)
   $sets = array();
   foreach ($assets as $file => $options)
   {
-		if (preg_match('/^http(s)?:/', $file))
+		if (preg_match('/^http(s)?:/', $file) || (isset($options['data-minify']) && $options['data-minify'] === 0))
 		{
-			// Nonlocal URL. Don't get cute with it, otherwise things
-			// like Addthis don't work
+			// Nonlocal URL or minify was explicitly shut off. 
+			// Don't get cute with it, otherwise things
+			// like Addthis and ckeditor don't work
 			if ($type === 'stylesheets')
 			{
       	$html .= stylesheet_tag($file, $options);
