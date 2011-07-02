@@ -50,17 +50,6 @@
 		</div>
 		<?php echo $form['description']->renderError() ?>
 	</div>
-
-	<script type="text/javascript">
-	window.apostrophe.registerOnSubmit("<?php echo $id ?>", 
-	  function(slotId)
-	  {
-	    <?php # FCK doesn't do this automatically on an AJAX "form" submit on every major browser ?>
-	    var value = FCKeditorAPI.GetInstance('slot-form-<?php echo $id ?>-description').GetXHTML();
-	    $('#slot-form-<?php echo $id ?>-description').val(value);
-	  }
-	);
-	</script>
 <?php endif ?>
 
 <?php a_js_call('apostrophe.slotEnhancements(?)', array('slot' => '#a-slot-'.$pageid.'-'.$name.'-'.$permid, 'editClass' => 'a-options')) ?>
