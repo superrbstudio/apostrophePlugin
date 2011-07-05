@@ -234,6 +234,26 @@ function aConstructor()
 		});
 	};
 
+  // Input options['selector'] and options['target'].  When selector is clicked
+  // set target to blank.
+  this.setBlank = function(options)
+  {
+    var selector = $(options['selector']);
+
+    if (selector.length)
+    {
+      selector.bind('click', function(event) {
+        $(options['target']).html('');
+
+        return false;
+      });
+    }
+    else
+    {
+      apostrophe.log('apostrophe.setBlank -- Selector not found');
+    }
+  }
+
 	// Turns a link into an AJAX form that updates the element
 	// with the DOM ID specified by options['update']. You must
 	// specify a 'selector' option as well to identify the link.
