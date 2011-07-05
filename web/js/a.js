@@ -411,7 +411,8 @@ function aConstructor()
 				// Allowing renames and deletes here is an interesting thought but
 				// there's back end stuff that must exist for that.
 				renameable: false,
-				deletable: 'all',
+				// deletable: 'all',
+				deletable: false,
 				creatable: false,
 				draggable: 'all',
 				dragrules: 'all'
@@ -447,54 +448,54 @@ function aConstructor()
 					});
 				},
 				// delete completed
-				ondelete: function(node, treeObj, rb)
-				{
-					// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
-					// tree page
-
-					aPageTree.parent().addClass('working');
-
-					var nid = node.id;
-
-					jQuery.ajax({
-						url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
-						error: function(result) {
-							// 404 errors etc
-							window.location.reload();
-						},
-						success: function(result) {
-							// Look for a specific "all is well" response
-							if (result !== 'ok')
-							{
-								window.location.reload();
-							}
-							aPageTree.parent().removeClass('working');
-						},
-						async: false
-					});
-				}
+				// ondelete: function(node, treeObj, rb)
+				// {
+				// 	// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
+				// 	// tree page
+				// 
+				// 	aPageTree.parent().addClass('working');
+				// 
+				// 	var nid = node.id;
+				// 
+				// 	jQuery.ajax({
+				// 		url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
+				// 		error: function(result) {
+				// 			// 404 errors etc
+				// 			window.location.reload();
+				// 		},
+				// 		success: function(result) {
+				// 			// Look for a specific "all is well" response
+				// 			if (result !== 'ok')
+				// 			{
+				// 				window.location.reload();
+				// 			}
+				// 			aPageTree.parent().removeClass('working');
+				// 		},
+				// 		async: false
+				// 	});
+				// }
 			}
 		});
 		treeRef = $.tree_reference(aPageTree.attr('id'));
-		aPageTree.find('.a-tree-delete-btn').bind('click.apostrophe', function() {
-			var li = $(this).closest('li');
-			if (li.find('li').length)
-			{
-				if (!confirm(options['confirmDeleteWithChildren']))
-				{
-					return false;
-				}
-			}
-			else
-			{
-				if (!confirm(options['confirmDeleteWithoutChildren']))
-				{
-					return false;
-				}
-			}
-			treeRef.remove(li);
-			return false;
-		});
+		// aPageTree.find('.a-tree-delete-btn').bind('click.apostrophe', function() {
+		// 	var li = $(this).closest('li');
+		// 	if (li.find('li').length)
+		// 	{
+		// 		if (!confirm(options['confirmDeleteWithChildren']))
+		// 		{
+		// 			return false;
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		if (!confirm(options['confirmDeleteWithoutChildren']))
+		// 		{
+		// 			return false;
+		// 		}
+		// 	}
+		// 	treeRef.remove(li);
+		// 	return false;
+		// });
 	};
 
 	// aSlideshowSlot

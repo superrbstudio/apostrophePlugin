@@ -950,7 +950,8 @@ abstract class PluginaPage extends BaseaPage
       $class.= (!is_null($info['engine']))? ' engine-'.$info['engine'] : '';
       $item = array(
         "attributes" => array("id" => "tree-" . $info['id'], "class" => $class), 
-        "data" => '<span class="a-tree-title">' . $info['title'] . '<b class="a-tree-delete-btn">Delete</b></span>',
+        "data" => $info['title'],
+        // Too many CSS problems with this '<span class="a-tree-title">' . $info['title'] . '<b class="a-tree-delete-btn">Delete</b></span>',
         "children" => $this->getTreeJSONReadyBody($info['lft'], $info['rgt'], $infos, $offset, $level + 1, $livingOnly)
       );
       if (!count($item['children']))
