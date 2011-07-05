@@ -735,10 +735,9 @@ function aConstructor()
 	};
 
 	this.areaEnableAddSlotChoice = function(options) {
-		var debug = options['debug'];
 		var button = $("#" + options['buttonId']);
-		(debug) ? apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug') : '';
-		(debug) ? apostrophe.log(button) : '';
+		apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug');
+		apostrophe.log(button);
 		$(button).bind('click.apostrophe', function() {
 			var name = options['name'];
 			var pageId = options['pageId'];
@@ -756,7 +755,6 @@ function aConstructor()
 	{
 		apostrophe.log('apostrophe.areaEnableHistoryButtons');
 		var areas = $('.a-area');
-		apostrophe.log('areas' + areas.length);
 		areas.undelegate('a.a-history-btn','click.apostrophe').delegate('a.a-history-btn', 'click.apostrophe', function(){
 			var history = $(this);
 			var area = history.closest('div.a-area');
@@ -2521,7 +2519,7 @@ function aConstructor()
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{
 
-		debug ? apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') ) : '';
+		apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') );
 
 		// Menu must have an ID.
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
@@ -2551,8 +2549,8 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
-			debug ? apostrophe.log('apostrophe.menuToggle -- clickHandler Target') : '';
-			debug ? apostrophe.log(target) : '';
+			apostrophe.log('apostrophe.menuToggle -- clickHandler Target ');
+			apostrophe.log(target);
 			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')))
 			{
 				menu.trigger('toggleClosed');
