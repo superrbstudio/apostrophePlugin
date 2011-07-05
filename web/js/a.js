@@ -223,8 +223,12 @@ function aConstructor()
 			apostrophe.updating(updating);
 			var action = form.attr('action');
 			$.post(action, form.serialize(), function(data) {
-				updating.trigger('a.updated');
 				updating.html(data);
+        updating.trigger('a.updated');
+				
+        var extras = options['refresh-extra']? options['refresh-extra'] : [];
+        $('.a-needs-refresh').trigger('a.refresh', extras);
+
 			});
 			return false;
 		});
