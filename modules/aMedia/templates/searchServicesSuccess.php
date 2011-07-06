@@ -27,7 +27,7 @@
 				<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
     		<?php echo $form['q']->render(array('class' => 'a-search-field')) ?>					
 				<?php if (isset($q)): ?>
-			    <?php echo link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('q' => '')), array('id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>						
+			    <?php echo link_to(__('Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('q' => '')), array('class' => 'a-ui a-clear-search-button', 'id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>						
 				<?php else: ?>
 					<input type="image" src="/apostrophePlugin/images/a-special-blank.gif" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
 				<?php endif ?>

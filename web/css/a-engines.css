@@ -487,23 +487,23 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
 /* Media Engine Selections
 -------------------------------------*/
 
-a#a-media-search-remove
+.a-clear-search-button
 {
 float: left;
-display: none;
+/*display: none;*/
 position: absolute;
 top: 0;
 right: 0;
 width: 20px;
 height: 20px;
 text-indent: -9999;
-background: url(../images/a-icon-close.png) top left no-repeat;
+background: url(/apostrophePlugin/images/a-icon-close.png) top left no-repeat;
 color: #fff;
 overflow: hidden;
 text-indent: -9999px !important;
 }
 
-a#a-media-search-remove:hover { background-position: 0 100%; }
+.a-clear-search-button:hover { background-position: 0 100%; }
 
 .a-search-video
 {
