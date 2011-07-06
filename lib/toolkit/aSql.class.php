@@ -3,32 +3,24 @@
  * @package    apostrophePlugin
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
+ *
+ * The aSql class adds content to Apostrophe sites really, really fast, bypassing the
+ * performance issues of Doctrine. It is intended primarily for use in import operations
+ * where many pages must be created quickly without running out of memory or taking
+ * all year to finish the operation. This code is written with deep knowledge of the
+ * Apostrophe schema, so if you are tempted to bypass the aPage class, use this 
+ * class rather than hacking data into our schema yourself. 
+ *
+ * aSql now subclasses aMysql, which concerns itself solely with providing convenient
+ * ways to do MySQL queries from PHP without the overhead of a full ORM and does not
+ * have Apostrophe-specific features.
+ *
+ * We should have named the classes a bit differently to avoid confusion, but for
+ * historical reasons that is not an option right now. In 2.0 (:
  */
-class aSql
+class aSql extends aMysql
 {
   protected $pdo;
-
-  /**
-   * DOCUMENT ME
-   * @param mixed $pdo
-   */
-  public function __construct($pdo = null)
-  {
-    if (is_null($pdo))
-    {
-      $pdo = Doctrine_Manager::connection()->getDbh();
-    }
-    $this->pdo = $pdo;
-  }
-
-  /**
-   * DOCUMENT ME
-   * @return mixed
-   */
-  protected function getPDO()
-  {
-    return $this->pdo;
-  }
 
   /**
    * DOCUMENT ME
@@ -37,51 +29,6 @@ class aSql
   {
     $sql = 'DELETE FROM a_page where admin IS FALSE AND slug <> :g';
     $this->query($sql, array('g' => 'global'));
-  }
-
-  /**
-   * DOCUMENT ME
-   * @param mixed $s
-   * @param mixed $params
-   * @return mixed
-   */
-  public function query($s, $params = array())
-  {
-    $pdo = $this->getPDO();
-    $nparams = array();
-    // I like to use this with toArray() while not always setting everything,
-    // so I tolerate extra stuff. Also I don't like having to put a : in front
-    // of everything
-    foreach ($params as $key => $value)
-    {
-      if (strpos($s, ":$key") !== false)
-      {
-        $nparams[":$key"] = $value;
-      }
-    }
-    $statement = $pdo->prepare($s);
-    try
-    {
-      $statement->execute($nparams);
-    }
-    catch (Exception $e)
-    {
-      echo($e);
-      echo("Statement: $s\n");
-      echo("Parameters:\n");
-      var_dump($params);
-      exit(1);
-    }
-    $result = true;
-    try
-    {
-      $result = $statement->fetchAll();
-    } catch (Exception $e)
-    {
-      // Oh no, we tried to fetchAll on a DELETE statement, everybody panic!
-      // Seriously PDO, you need to relax
-    }
-    return $result;
   }
 
   /**
@@ -251,14 +198,4 @@ class aSql
   {
     $this->query('DELETE FROM a_area WHERE name = :name AND page_id = :id', array('name' => $name, 'id' => $aPageId));
   }
-
-  /**
-   * DOCUMENT ME
-   * @return mixed
-   */
-  public function lastInsertId()
-  {
-    return $this->getPDO()->lastInsertId();
-  }
-
 }

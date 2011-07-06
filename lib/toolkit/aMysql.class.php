@@ -7,6 +7,11 @@
  * delete rows, etc. without trying to mash objects into MySQL.
  * Borrowed from Tom's Plog project, which in turn borrowed the beginnings of
  * it from Apostrophe's aMigrate class.
+ *
+ * This is now the parent class of the aSql class, which layers Apostrophe-specific
+ * functionality (like importing pages and slots in a hurry without Doctrine overhead)
+ * on top of the core features here.
+ *
  * -Tom
  * @package    apostrophePlugin
  * @subpackage    toolkit
@@ -36,6 +41,15 @@ class aMysql
   }
 
   /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  protected function getPDO()
+  {
+    return $this->pdo;
+  }
+
+  /**
    * Used to run a series of queries where you don't need parameters or results
    * but would like to keep a count of those executed (usually migration stuff)
    * @param mixed $commands
@@ -57,7 +71,8 @@ class aMysql
    * Note that not requiring a : in front of everything in the params array allows us to use a
    * previous result as an argument.
    * If $params['foo'] is an array, then :foo is replaced by a correctly parenthesized and quoted
-   * array for use in a WHERE foo IN (a, b, c) clause.
+   * array for use in a WHERE foo IN (a, b, c) clause. Do not supply the parentheses, they will
+   * be supplied for you.
    * @param mixed $s
    * @param mixed $params
    * @return mixed
