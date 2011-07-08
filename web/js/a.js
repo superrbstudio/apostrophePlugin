@@ -151,6 +151,11 @@ function aConstructor()
 	this.linkToRemote = function(options)
 	{
 		var link = $(options['link']);
+		if (link === null)
+		{
+			// Modern syntax optional
+			link = $(options['selector']);
+		}
 		var update = $(options['update']);
 		var method = (options['method'])? options['method']:'get';
 		var remote_url = options['url'];
