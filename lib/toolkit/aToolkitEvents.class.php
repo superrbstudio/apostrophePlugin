@@ -30,13 +30,8 @@ class aToolkitEvents
     }
     if ($task->getFullName() === 'cache:clear')
     {
-      $dir = aFiles::getUploadFolder(array('asset-cache'));
-      $files = glob("$dir/*");
-      foreach ($files as $file)
-      {
-        echo("Unlinked CSS/JS cache file $file\n");
-        unlink($file);
-      }
+      aAssets::clearAssetCache($task->getFilesystem());
+      
       // Clear the page cache on symfony cc
       if (sfConfig::get('app_a_page_cache_enabled', false))
       {

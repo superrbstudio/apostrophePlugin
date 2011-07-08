@@ -44,4 +44,10 @@ class BaseaAssets
       file_put_contents($compiled, aAssets::$lessc->parse(file_get_contents($path)));
     }
   }
+  
+  public static function clearAssetCache(sfFilesystem $fileSystem)
+  {
+    $assetDir = aFiles::getUploadFolder(array('asset-cache'));
+    $fileSystem->remove(sfFinder::type('file')->in($assetDir));
+  }
 }
