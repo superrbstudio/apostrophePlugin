@@ -76,7 +76,6 @@ class aValidatorFilePersistent extends sfValidatorFile
    */
   public function clean($value)
   {
-    $user = sfContext::getInstance()->getUser();
     $persistid = false;
     if (isset($value['persistid']))
     {
