@@ -41,7 +41,7 @@
   		<?php echo a_anchor_submit_button(a_('Save'), array('a-save','a-show-busy'), null, 'a-slot-form-submit-'.$id) ?>
 		</li>
 	  <li>
-  		<?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon'), 'a-slot-form-cancel-'.$id) ?>		
+  		<?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'alt'), 'a-slot-form-cancel-'.$id) ?>		
 		</li>
 	</ul>
 

@@ -26,7 +26,7 @@
 		<div class="a-form-row submit clearfix">
 			<ul class="a-ui a-controls">
 				<li><?php echo a_js_button(a_('Sign In'), array('big','a-act-as-submit')) ?></li>
-				<li><?php echo a_js_button(a_('Cancel'), array('a-cancel', 'icon', 'a-login-cancel-button', 'big')) ?></li>
+				<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'a-login-cancel-button', 'big', 'alt')) ?></li>
 			</ul>
 		</div>
 		

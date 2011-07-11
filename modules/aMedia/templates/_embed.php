@@ -28,7 +28,7 @@
 
 	<ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
   	<li><?php echo a_anchor_submit_button(a_('Save Embed'), array('big')) ?></li>
-  	<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'big')) ?></li>
+  	<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'big', 'alt')) ?></li>
   </ul>
 
 </form>

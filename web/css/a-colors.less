@@ -1,87 +1,111 @@
 @import 'a-helpers';
 
 // We can move these colors to someplace more accessible for theming
-@a-button-color: rgb(245,135,0);
-@a-button-background: fadeout(@a-button-color, 20%);
 
-// Apostrophe Interface Colors
-// -------------------------------------
+@a-button-border(@color:#000;)
+{
+	border:1px solid lighten(@color, 10%);
+	border-top: 1px solid lighten(@color, 15%);
+	border-bottom: 1px solid lighten(@color, 5%);
+}
 
+.a-button(@color:@a-button-color;)
+{
+	display: block;
+	text-shadow:0px 1px 1px hsl(hue(@color), saturation(@color), lightness(@color) + 30);
+	text-decoration: none;
+	background-color: @color;
+	@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 10); @color);
+	@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 20));
+	color:hsl(hue(@color), saturation(@color), 15%);
+	@a-border-radius(2px);
+	@a-transition(0.218s);
+	&:hover
+	{
+		background-color: hsl(hue(@color), saturation(@color), lightness(@color) + 5);
+		@a-box-shadow(0px 3px 2px -2px fadeout(hsl(hue(@color), saturation(@color), lightness(@color) - 55), 80%));
+		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 13); hsl(hue(@color), saturation(@color), lightness(@color) + 3));
+		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 25));
+	}
+	&:active,
+	&:focus
+	{
+		background-color: hsl(hue(@color), saturation(@color), lightness(@color) - 5);
+		@a-box-shadow(inset 0px 2px 7px -1px hsl(hue(@color), saturation(@color), lightness(@color) - 20));		
+		// @a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 5); hsl(hue(@color), saturation(@color), lightness(@color) - 10));
+		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 30));
+		color:hsl(hue(@color), saturation(@color), 10%);
+	}
+}
+
+.a-button-dark(@color:@a-button-color;)
+{
+	.a-button(@color);
+	text-shadow:0px -1px 1px @color;
+	@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 10); @color);
+	@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 5));
+	color:hsl(hue(@color), saturation(@color), 95%);
+	&:hover
+	{
+		@a-box-shadow(1px 1px 3px fadeout(hsl(hue(@color), saturation(@color), lightness(@color) - 55), 80%));
+		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 15); @color);
+		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 7));
+	}
+	&:active,
+	&:focus
+	{
+		@a-box-shadow(inset 2px 2px 7px @color);
+		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) - 5); hsl(hue(@color), saturation(@color), lightness(@color)));
+		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 10));
+		color:hsl(hue(@color), saturation(@color), 90%);
+	}
+}
+
+
+// Apostrophe Button colors & styles
 .a-ui
 {
-	&.a-global-toolbar
-	{
-		// Apostrophe Mark - Color
-		.the-apostrophe
-		{
-			background: @a-button-color url({@a-asset-path}/apostrophePlugin/images/apostrophe_logo_20px.png) center center no-repeat;
-		}
-	}
 	// Apostrophe Button - Color
 	.a-btn,
 	.a-submit,
-	.a-cancel,
-	.a-btn:visited,
-	.a-submit:visited,
-	.a-cancel:visited,
 	&.a-btn,
-	&.a-submit,
-	&.a-cancel,
-	&.a-btn:visited,
-	&.a-submit:visited,
-	&.a-cancel:visited
+	&.a-submit
 	{
-		color: #fff;
-		text-decoration: none;
-		@a-text-shadow;
-		background: @a-button-color;
-		background: @a-button-background;
-		background-image: -moz-linear-gradient(center bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
-		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(255,255,255,0)), color-stop(1, rgba(255,255,255,0.4)));
-		border:1px solid rgba(20,20,20,0.2);
-		@a-border-radius(2px);
-		// Apostrophe Button - Hover & Focus
-		&:hover,
-		&:focus
-		{
-			color: #fff;
-			// @a-text-shadow;
-			text-decoration: none;
-			background-color: #999;
-		}
-		// Apostrophe Button - Active
-		&:active
-		{
-			color: #eee;
-			// @a-text-shadow;
-			background-color: #111;
-			text-decoration: none;
-		}
+		.a-button(@a-button-color);
 		// Apostrophe Button - Alternative Color
 		&.alt
 		{
-			color: #555;
-			@a-text-shadow(0 1px 0px rgba(255,255,255,255.20));
-			background-color: #f0f0f0;
-			border:1px solid #ccc;
-			// Apostrophe Button - Alternative Hover & Focus
-			&:hover,
-			&:focus
-			{
-				color: #000;
-				background-color: #E0E0E0;
-				// text-shadow: 0 -1px 0px rgba(0,0,0,0.20);
-			}
+			.a-button(@a-button-color-alt);
 		}
 		&.lite
 		{
-			color: #00f;
+			@a-button-border-lite()
+			{
+				border-top: 1px solid transparent !important;
+				border-bottom: 1px solid transparent !important;
+				border-left: 1px solid transparent !important;
+				border-right: 1px solid transparent !important;
+			}
+			text-shadow:none;						
+			background-color: @a-button-color-lite;
 			background: none;
-			border: 1px solid transparent;
+			@a-button-border-lite();
+			&:hover
+			{
+				@a-button-border-lite();
+				@a-gradient(@a-button-color-lite; @a-button-color-lite);
+				@a-box-shadow(0px 0px 0px transparent);
+			}
+			&:active,
+			&:focus
+			{
+				@a-button-border-lite();
+				@a-gradient(@a-button-color-lite; @a-button-color-lite);				
+				@a-box-shadow(0px 0px 0px transparent);			
+			}			
 			&.a-active
 			{
-				color: #111;
-				background-color: #ccc;
+				background-color: lighten(@a-button-color-lite, 5%);
 			}
 		}
 	}
@@ -94,10 +118,9 @@
 			color: #000;
 		}
 	}
-	.a-cancel:hover,
-	.a-cancel:focus
+	.a-cancel
 	{
-		background-color: #666;
+		.a-button(@a-button-color-alt);
 	}
 }
 

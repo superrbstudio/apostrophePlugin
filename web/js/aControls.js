@@ -202,7 +202,7 @@ function aMultipleSelect(target, options)
 				html += '<div class="add" style="display: none">\n';
 				html += '<input name="add-text" class="add-text" type="text">\n';
 				html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
-				html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
+				html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel alt add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
 				html += '</div>\n';
 			}
       for (j = 0; (j < length); j++)

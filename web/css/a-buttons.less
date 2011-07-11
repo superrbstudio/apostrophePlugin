@@ -3,7 +3,7 @@
 // Apostrophe Buttons
 // -------------------------------------
 
-@a-button-size: 18px;
+// @a-button-size gets set in a-helpers.less
 @a-button-size-mini: @a-button-size * 0.889;
 @a-button-size-big: @a-button-size * 1.25;
 @a-button-type-size: @a-button-size * 0.667;
@@ -150,7 +150,7 @@
 			&.no-label
 			{
 				// background-position: 50% 50%; // Fix Me
-				width: 24px;
+				width: @a-button-size-big;
 				> .icon
 				{
 					// background-position: 50% 50%; // Fix Me
@@ -185,15 +185,8 @@
 		// Cancel Button
 		&.a-cancel 
 		{
-			color: #fff !important;
 			padding: 0 4px 0 20px;
-			background-color: #999 !important;
 			padding-left: 20px !important;
-			&:hover 
-			{
-				background-color: #333 !important;
-				text-decoration: none !important;
-			}
 			&.no-label 
 			{
 			padding: 0 !important;
@@ -446,7 +439,7 @@
 	&.a-time > .icon { background-position: @bgleft -1520px; }
 	&.a-crop > .icon { background-position: @bgleft -1540px; }
 	&.a-calendar > .icon { background-position: @bgleft -1560px; }
-	&.a-filters > .icon { background-position: @bgleft -1580px; }
+	&.a-filters > .icon { background-position: @bgleft -1360px; } // TODO Make a new filters icon
 	&.a-help > .icon { background-position: @bgleft -1600px; }
 	&.a-media-four-up > .icon { background-position: @bgleft -1620px; }
 	&.a-media-one-up > .icon { background-position: @bgleft -1640px; }

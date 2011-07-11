@@ -39,7 +39,7 @@
   		  </ul>
   		  <ul class="a-ui a-controls a-media-crop-controls" style="display:none;">
   				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Crop', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn save', 'id' => 'a-save-crop', )) ?></li>
-  				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn icon a-cancel', 'id' => 'a-cancel-crop', )) ?></li>
+  				<li><?php echo content_tag('a', '<span class="icon"></span>'.__('Cancel', null, 'apostrophe'), array('href' => '#', 'class'=>'a-btn icon a-cancel alt', 'id' => 'a-cancel-crop', )) ?></li>
   		  </ul>
   		</div>
   	</div>

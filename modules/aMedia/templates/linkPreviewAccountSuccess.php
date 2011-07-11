@@ -22,6 +22,6 @@
 <p class="a-help">Add this account so that all new media associated with it will automatically be added to the media repository on an ongoing basis.</p>
 <ul class="a-ui a-controls">
   <li><?php echo a_js_button(a_('Add This Account'), array('big', 'icon', 'a-add'), 'a-account-preview-ok') ?></li>
-  <li><?php echo a_js_button(a_('Cancel'), array('big', 'icon', 'a-cancel'), 'a-account-preview-cancel') ?></li>
+  <li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'big', 'alt'), 'a-account-preview-cancel') ?></li>
 </ul>
 </div>

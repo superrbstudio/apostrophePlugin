@@ -32,7 +32,7 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
 
   public function linkToList($params)
   {
-    return '<li class="a-admin-action-list">'.link_to('<span class="icon"></span>'.__('Cancel', array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel')).'</li>';
+    return '<li class="a-admin-action-list">'.link_to('<span class="icon"></span>'.__('Cancel', array(), 'apostrophe'), $this->getUrlForAction('list'), array(), array('class'=>'a-btn icon a-cancel alt')).'</li>';
   }
 
   public function linkToSave($object, $params)
