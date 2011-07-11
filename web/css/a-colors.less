@@ -47,14 +47,14 @@
 	color:hsl(hue(@color), saturation(@color), 95%);
 	&:hover
 	{
-		@a-box-shadow(1px 1px 3px fadeout(hsl(hue(@color), saturation(@color), lightness(@color) - 55), 80%));
+		@a-box-shadow(0px 3px 2px -2px fadeout(hsl(hue(@color), saturation(@color), lightness(@color) - 55), 80%));
 		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 15); @color);
 		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 7));
 	}
 	&:active,
 	&:focus
 	{
-		@a-box-shadow(inset 2px 2px 7px @color);
+		@a-box-shadow(inset 0px 2px 7px -1px @color);
 		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) - 5); hsl(hue(@color), saturation(@color), lightness(@color)));
 		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 10));
 		color:hsl(hue(@color), saturation(@color), 90%);
