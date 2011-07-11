@@ -63,6 +63,7 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
           $this->getUser()->setFlash('notice', $this->__(sprintf('Category %s merged into %s.', $this->getRoute()->getObject()->getName(), $newCategory->getName()), null, 'apostrophe'));
           return $this->redirect('aCategoryAdmin/index');
         } catch (Exception $e) {
+          echo($e);
           $conn->rollback();
         }
       }

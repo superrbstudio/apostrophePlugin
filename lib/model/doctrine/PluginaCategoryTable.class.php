@@ -110,12 +110,17 @@ class PluginaCategoryTable extends Doctrine_Table
    */
   public function mergeCategory($old_id, $new_id, $tableClass, $category_column = 'category_id', $isRefClass = false, $ref_column = null)
   {
+    // TODO: at some point find a way to avoid object hydration here. It's not easy.
+    // This code works correctly where the old and new categories both already have
+    // the object associated with them in a many to many situation. One could use array
+    // hydration and then do a delete query looking at both category_id and ref_column
+    
     if($isRefClass)
     {
       Doctrine_Query::create()
       ->select('old.*')
       ->from("$tableClass old, $tableClass new")
-      ->where("old.$ref_column = new.$ref_column AND old.$category_column = ? AND old.$category_column = ?", array($old_id, $new_id))
+      ->where("old.$ref_column = new.$ref_column AND old.$category_column = ? AND new.$category_column = ?", array($old_id, $new_id))
       ->execute()->delete();
     }
 

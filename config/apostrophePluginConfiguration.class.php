@@ -53,7 +53,7 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     
     $this->dispatcher->connect('a.get_count_by_category', array($this, 'listenToGetCountByCategory'));
 
-    $this->dispatcher->connect('a.merge_category', array($this, 'listenToCategoryMerge'));
+    $this->dispatcher->connect('a.merge_category', array($this, 'listenToMergeCategory'));
   }
 
   /**
@@ -90,7 +90,7 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
    * DOCUMENT ME
    * @param mixed $event
    */
-  public function listenToCategoryMerge($event)
+  public function listenToMergeCategory($event)
   {
     $parameters = $event->getParameters();
     Doctrine::getTable('aMediaItemToCategory')->mergeCategory($parameters['old_id'], $parameters['new_id']);
