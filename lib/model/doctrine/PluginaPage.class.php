@@ -267,7 +267,7 @@ abstract class PluginaPage extends BaseaPage
                 $slot->MediaItems[] = $mediaItem;
               }
             }
-            $this->slotCache[$this->culture][$areaInfo['name']][$areaVersionSlotInfo['permid']] = $slot;
+            $this->slotCache[$areaInfo['culture']][$areaInfo['name']][$areaVersionSlotInfo['permid']] = $slot;
           }
           // foreach ($slot->MediaItems as $mediaItem)
           // {
