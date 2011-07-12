@@ -1,5 +1,5 @@
 <?php use_helper('a') ?>
-<div id="a-search" class="a-search global">
+<div id="a-search" class="a-ui a-search global">
   <form action="<?php echo url_for('a/search') ?>" method="get">
 		<div class="a-form-row"> <?php // div is for page validation ?>
 			<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
