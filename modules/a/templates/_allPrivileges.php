@@ -46,7 +46,7 @@
     	  <?php // Extended permissions, hidden when the setting is public or admins only ?>
     	  <div id="a-page-permissions-view-extended">
 
-					<hr />
+					<hr class="a-hr" />
 
 	    		<p class="a-help"><?php echo a_('Select Groups and Individuals who can view this page and subpages') ?></p>
 
@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<hr />
+<hr class="a-hr" />
 
 <?php if ($admin): ?>
   <div class="a-options-section permissions a-accordion clearfix">
@@ -86,7 +86,7 @@
 
      	  <div id="a-page-permissions-edit-extended">
 
-  				<hr />
+  				<hr class="a-hr" />
   	   		<p class="a-help"><?php echo a_('Select Groups and Individuals who can edit this page') ?></p>
 
        		<div class="a-page-permissions-section clearfix">

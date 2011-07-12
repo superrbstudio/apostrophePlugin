@@ -53,7 +53,7 @@
   		</div>
   	<?php endif ?>
 
-		<hr />
+		<hr class="a-hr" />
 
       <?php if (isset($form['joinedtemplate'])): ?>
   			<div class="a-form-row a-edit-page-template">
