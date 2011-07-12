@@ -43,13 +43,13 @@
 
 <?php if ($options['arrows'] && (count($items) > 1)): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
-	<li class="a-arrow-btn icon a-arrow-left"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
+	<li class="a-arrow-btn icon a-arrow-left<?php echo ($options['arrows'] === 'alt') ? ' alt' : '' ?>"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
 	<?php if ($options['position']): ?>
 		<li class="a-slideshow-position">
 			<span class="a-slideshow-position-head">1</span> of <span class="a-slideshow-position-total"><?php echo count($items); ?></span>
 		</li>
 	<?php endif ?>
-	<li class="a-arrow-btn icon a-arrow-right"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
+	<li class="a-arrow-btn icon a-arrow-right<?php echo ($options['arrows'] === 'alt') ? ' alt' : '' ?>"><span class="icon"></span><?php echo __('Next', null, 'apostrophe') ?></li>
 </ul>
 <?php endif ?>
 
