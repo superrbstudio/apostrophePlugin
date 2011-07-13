@@ -475,7 +475,7 @@ function aConstructor()
 						},
 						async: false
 					});
-				},
+				}
 				// delete completed
 				// ondelete: function(node, treeObj, rb)
 				// {
