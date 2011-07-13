@@ -5,6 +5,19 @@
     <table cellspacing="0" class="a-admin-list-table">
       <thead>
         <tr>
+          <th colspan="<?php echo count($this->configuration->getValue('list.display')) + ($this->configuration->getValue('list.object_actions') ? 1 : 0) + ($this->configuration->getValue('list.batch_actions') ? 1 : 0) ?>">
+						<h6 class="a-admin-list-results">
+	            [?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults(), 'apostrophe') ?]
+	            [?php if ($pager->haveToPaginate()): ?]
+	              [?php // echo __('(page %%page%%/%%nb_pages%%)', array('%%page%%' => $pager->getPage(), '%%nb_pages%%' => $pager->getLastPage()), 'apostrophe') ?]
+	            [?php endif; ?]
+						</h6>
+            [?php if ($pager->haveToPaginate()): ?]
+              [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager)) ?]
+            [?php endif; ?]	
+          </th>
+        </tr>
+        <tr>
 					<?php if ($this->configuration->getValue('list.batch_actions')): ?>
           	<th id="a-admin-list-batch-actions"><input id="a-admin-list-batch-checkbox-toggle" class="a-admin-list-batch-checkbox-toggle a-checkbox" type="checkbox"/></th>
 					<?php endif; ?>
