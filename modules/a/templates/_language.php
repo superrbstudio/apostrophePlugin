@@ -12,4 +12,4 @@
   </li>
 <?php endif ?>
 
-<?php a_js_call('$("#a-language-switch select").change(function() { this.form.submit() });') ?>
+<?php a_js_call('$("#a-language-switch select").change(function() { this.form.submit(); })') ?>
