@@ -180,8 +180,8 @@ class aVimeo extends aEmbedService
     $info = array();
     $info['id'] = $id;
     $info['url'] = $this->getUrlFromId($id);
-    $info['title'] = $result->title;
-    $info['description'] = $result->description;
+    $info['title'] = (string) $result->title;
+    $info['description'] = (string) $result->description;
     $tags = array();
     if (isset($result->tags))
     {
@@ -191,7 +191,7 @@ class aVimeo extends aEmbedService
       }
     }
     $info['tags'] = implode(', ', $tags);
-    $info['credit'] = $result->owner->display_name;
+    $info['credit'] = (string) $result->owner->display_name;
     return $info;
   }
 
@@ -222,12 +222,18 @@ EOM
    */
   public function getIdFromUrl($url)
   {
-    if (!preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
+    http://vimeo.com/moogaloop.swf?clip_id=6788001
+    if (preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
       $url, $matches))
     {
-      return false;
+      return $matches[1];
     }
-    return $matches[1];
+    // Another vimeo format in the wild
+    if (preg_match("/vimeo.com\/moogaloop\.swf\?clip_id=(\d+)/", $url, $matches))
+    {
+      return $matches[1];
+    }
+    return false;
   }
 
   /**
@@ -252,8 +258,8 @@ EOM
 
   /**
    * DOCUMENT ME
-   * @param mixed $videoid
-   * @return mixed
+   * @param string $videoid
+   * @return string
    */
   public function getThumbnail($videoid)
   {
@@ -265,7 +271,7 @@ EOM
       return false;
     }
     $entry = $entry[0];
-    return $entry['thumbnail_large'];
+    return (string) $entry['thumbnail_large'];
   }
 
   /**

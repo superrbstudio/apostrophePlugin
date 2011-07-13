@@ -127,12 +127,12 @@ EOT;
     
     if ($data)
     {
-      return array('id' => $data['id'],
-           'url' => $data['url'],
-           'title' => $data['title'],
+      return array('id' => (string) $data['id'],
+           'url' => (string) $data['url'],
+           'title' => (string) $data['title'],
            'description' => html_entity_decode($data['description'], ENT_COMPAT, 'UTF-8'),
-           'tags' => $data['tags'],
-           'credit' => $data['credit']);
+           'tags' => (string) $data['tags'],
+           'credit' => (string) $data['credit']);
     }
     
     return false;
@@ -156,7 +156,7 @@ EOT;
     
     $data = new SimpleXMLElement($data);
     
-    return array('name' => $user, 'description' => $data->user->description);
+    return array('name' => $user, 'description' => (string) $data->user->description);
   }
 
   /**
@@ -240,7 +240,7 @@ EOT;
     
     if (isset($trackInfo['thumbnail']) && (strlen($trackInfo['thumbnail']) > 0))
     {
-      return $trackInfo['thumbnail'];
+      return (string) $trackInfo['thumbnail'];
     }
     
     return false;

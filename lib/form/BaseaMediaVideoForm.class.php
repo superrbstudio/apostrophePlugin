@@ -1,8 +1,7 @@
 <?php
 /**
- * Common base class of aMediaVideoEmbedForm (for embedded media we don't
- * have an aEmbedService for) and aMediaVideoYoutubeForm (for embedded media
- * we DO have an aEmbedService for)
+ * The one and only video embed form class, handles both media we have a
+ * service for and media we embed dumbly
  * @package    apostrophePlugin
  * @subpackage    form
  * @author     P'unk Avenue <apostrophe@punkave.com>

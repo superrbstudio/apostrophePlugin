@@ -98,7 +98,7 @@ class aImporter
       $this->pageFiles[$root['file-id']->__toString()] = $info;
     } else
     {
-      $this->parseAreas($root, $info['id']);
+      $this->parseAreas($root, $info['id'], $title);
     }
 
     foreach ($root->Page as $page)
@@ -114,8 +114,9 @@ class aImporter
    * @param mixed $root
    * @param mixed $pageId
    */
-  public function parseAreas($root, $pageId)
+  public function parseAreas($root, $pageId, $title = null)
   {
+    $counters = array();
     foreach ($root->Area as $area)
     {
       $name = $area['name'];
@@ -131,7 +132,7 @@ class aImporter
           $method = 'parseSlot' . $type;
           if (method_exists($this, $method))
           {
-            $slotImport = $this->$method($slot);
+            $slotImport = $this->$method($slot, $title, $counters);
             if($slotImport)
             {
               $slotInfos = array_merge($slotInfos, $slotImport);
@@ -139,7 +140,9 @@ class aImporter
           }
         }
         if($slotInfos)
+        {
           $this->sql->insertArea($pageId, $name, $slotInfos);
+        }
       }
     }
   }
@@ -162,7 +165,7 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotARichText(SimpleXMLElement $slot)
+  protected function parseSlotARichText(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
     $info = array();
     $info['type'] = 'aRichText';
@@ -176,7 +179,7 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotAText(SimpleXMLElement $slot)
+  protected function parseSlotAText(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
     $info = array();
     $info['type'] = 'aText';
@@ -190,7 +193,7 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotAButton(SimpleXMLElement $slot)
+  protected function parseSlotAButton(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
     $info = array();
     $info['type'] = 'aButton';
@@ -213,7 +216,7 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotAImage(SimpleXMLElement $slot)
+  protected function parseSlotAImage(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
     $info = array();
     foreach($this->getMediaItems($slot) as $id)
@@ -232,7 +235,7 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotASlideshow(SimpleXMLElement $slot)
+  protected function parseSlotASlideshow(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
     $info = array();
     $value = array();
@@ -244,6 +247,43 @@ class aImporter
     $value['order'] = $order;
     $info = array('type' => 'aSlideshow', 'value' => $value);
     return array($info);
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
+  protected function parseSlotAVideo(SimpleXMLElement $slot, $title = null, &$counters = null)
+  {
+    $results = array();
+    if (!empty($slot->embed))
+    {
+      $form = new aMediaVideoForm();
+      $result = $form->classifyEmbed((string) $slot->embed);
+      if ($result['ok'])
+      {
+        $n = isset($counters['aVideo']['n']) ? $counters['aVideo']['n'] : 1;
+        $fakeTitle = $title . ' video ' . $n;
+        $info = array('title' => isset($result['serviceInfo']['title']) ? $result['serviceInfo']['title'] : $title . ' video ' . $n,
+          'embed' => $result['embed'],
+          'width' => isset($result['width']) ? $result['width'] : null,
+          'height' => isset($result['height']) ? $result['height'] : null,
+          'format' => isset($result['format']) ? $result['format'] : null,
+          'type' => 'video',
+          'tags' => isset($result['serviceInfo']['tags']) ? preg_split('/\s*,\s*/', $result['serviceInfo']['tags']) : array(),
+          'service_url' => isset($result['serviceInfo']['url']) ? $result['serviceInfo']['url'] : null);
+          $mediaId = $this->findOrAddVideo($info);
+          $results[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+        $n++;
+        $counters['aVideo']['n'] = $n;
+      }
+    }
+    if (count($results))
+    {
+      return $results;
+    }
+    return false;
   }
 
   /**
@@ -271,14 +311,33 @@ class aImporter
    * @param SimpleXMLElement $slot
    * @return mixed
    */
-  protected function parseSlotForeignHtml(SimpleXMLElement $slot)
+  protected function parseSlotForeignHtml(SimpleXMLElement $slot, $title = null, &$counters = null)
   {
+    $n = 1;
     $html = $slot->value->__toString();
-    $segments = preg_split('/((?:<a href=".*?".*?>\s*)?(?:<br \/>|&nbsp;|\s)*<img.*?src=".*?".*?>(?:<br \/>|&nbsp;|\s)*(?:\s*<\/a>)?)/i', $html, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+    $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/(?:<a href=".*?".*?>\s*)?(?:<br \/>|&nbsp;|\s)*<img.*?src=".*?".*?>(?:<br \/>|&nbsp;|\s)*(?:\s*<\/a>)/is', '/<object.*?>.*?<\/object>/is', '/<iframe.*?>.*?<\/iframe>/is'));
     foreach ($segments as $segment)
     {
       $mediaItem = null;
-      if (preg_match('/<img.*?src="(.*?)".*?>/i', $segment, $matches))
+      if (preg_match('/\<object.*?\>.*?\<\/object\>|\<iframe.*?\>.*?\<\/iframe\>/is', $segment))
+      {
+        $form = new aMediaVideoForm();
+        $result = $form->classifyEmbed($segment);
+        if ($result['ok'])
+        {
+          $info = array('title' => isset($result['serviceInfo']['title']) ? $result['serviceInfo']['title'] : $title . ' video ' . $n,
+            'embed' => $result['embed'],
+            'width' => isset($result['width']) ? $result['width'] : null,
+            'height' => isset($result['height']) ? $result['height'] : null,
+            'format' => isset($result['format']) ? $result['format'] : null,
+            'type' => 'video',
+            'tags' => isset($result['serviceInfo']['tags']) ? preg_split('/\s*,\s*/', $result['serviceInfo']['tags']) : array(),
+            'service_url' => isset($result['serviceInfo']['url']) ? $result['serviceInfo']['url'] : null);
+            $mediaId = $this->findOrAddVideo($info);
+            $slotInfos[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+          $n++;
+        }
+      } elseif (preg_match('/<img.*?src="(.*?)".*?>/is', $segment, $matches))
       {
         $src = $matches[1];
         // &amp; won't work if we don't decode it to & before passing it to the server
@@ -307,7 +366,7 @@ class aImporter
   }
 
   /**
-   * DOCUMENT ME
+   * Adds an image or PDF (todo: should scan file extensions properly & import word docs etc).
    * @param mixed $src
    * @param mixed $returnType
    * @param mixed $tag
@@ -321,6 +380,25 @@ class aImporter
     $path = $info['dirname'] . '/' . $info['filename'];
 
     $dirname = $info['dirname'];
+    // Move any query string or hash string into the filename and out of the "extension"
+    if (isset($info['extension']))
+    {
+      $qat = strpos($info['extension'], '?');
+      if ($qat !== false)
+      {
+        $path .= substr($info['extension'], $qat);
+        $info['extension'] = substr($info['extension'], 0, $qat);
+      }
+      $hashat = strpos($info['extension'], '#');
+      if ($hashat !== false)
+      {
+        $path .= substr($info['extension'], $hashat);
+        $info['extension'] = substr($info['extension'], 0, $hashat);
+      }
+      // Extension should be a clean Unix path component
+      $info['extension'] = preg_replace('/[^\w]/', '', $info['extension']);
+    }
+    
     // Remove any hostname before splitting for tags, also dump case differences
     $dirname = strtolower(preg_replace('|^\w+://.*?/|', '', $dirname));
     $tags = preg_split('#/#', $dirname);
@@ -335,10 +413,8 @@ class aImporter
     }
     $tags = $newTags;
 
-    $extension = $info['extension'];
-    $slug = aTools::slugify($path) . "-$extension";
-
-    $filename = "web/uploads/media_items/$slug.original.$extension";
+    $extension = isset($info['extension']) ? $info['extension'] : 'unknown';
+    $slug = aTools::slugify($path . "-$extension");
     // We need to encode spaces but not slashes...
     $src = str_replace(' ', '%20', $src);
 
@@ -363,8 +439,11 @@ class aImporter
       {
         $mediaItem->setType('image');
       }
+      $filename = $mediaItem->getOriginalPath($extension);
+      
       if (file_exists($filename))
       {
+        // Avoids costly double imports of media
         $mediaItem->preSaveFile($filename);
       } else
       {
@@ -386,7 +465,10 @@ class aImporter
           {
             $this->failedMedia[$src] = true;
           }
-          unlink($tmpFile);
+          if (file_exists($tmpFile))
+          {
+            unlink($tmpFile);
+          }
         }
       }
       if (!isset($this->failedMedia[$src]))
@@ -412,5 +494,89 @@ class aImporter
 
     return false;
   }
+  
+  /**
+   * Finds or adds a video without the overhead of a proper Doctrine save.
+   * @param array $info
+   * @return mixed
+   */
+  protected function findOrAddVideo($info)
+  {
+    $mediaId = null;
+    $slug = null;
 
+    if (!isset($info['title']))
+    {
+      $info['title'] = 'Imported video';
+    }
+    $slug = aTools::slugify((!empty($info['title'])) ? $info['title'] : ((!empty($info['service_url'])) ? $info['service_url'] : md5($info['embed'])));
+
+    $result = $this->sql->query('SELECT id FROM a_media_item WHERE slug = :slug', array('slug' => $slug));
+    if (isset($result[0]['id']))
+    {
+      $mediaId = $result[0]['id'];
+    } else
+    {
+      $mediaItem = new aMediaItem();
+      foreach ($info as $key => $value)
+      {
+        if ($key !== 'tags')
+        {
+          $mediaItem[$key] = $value;
+        }
+      }
+      if (empty($mediaItem['title']))
+      {
+        $mediaItem->setTitle($slug);
+      }
+      else
+      {
+        $mediaItem->setTitle($info['title']);
+      }
+      $mediaItem->setSlug($slug);
+      $mediaItem->setType('video');
+      if ($mediaItem->service_url)
+      {
+        $service = aMediaTools::getEmbedService($mediaItem->service_url);
+        $id = $service->getIdFromUrl($mediaItem->service_url);
+        if ($service->supports('thumbnail'))
+        {
+          $filename = $service->getThumbnail($id);
+          if ($filename)
+          {
+            // saveFile can't handle a nonlocal file directly, so
+            // copy to a temporary file first
+            $bad = isset($this->failedMedia[$filename]);
+            if (!$bad)
+            {
+              $tmpFile = aFiles::getTemporaryFilename();
+              try
+              {
+                if (!copy($filename, $tmpFile))
+                {
+                  throw new sfException(sprintf('Could not copy file: %s', $src));
+                }
+                if (!$mediaItem->saveFile($tmpFile))
+                {
+                  throw new sfException(sprintf('Could not save file: %s', $src));
+                }
+              } catch (Exception $e)
+              {
+                $this->failedMedia[$filename] = true;
+              }
+              unlink($tmpFile);
+            }
+          }
+        }
+      }
+      $this->sql->fastSaveMediaItem($mediaItem);
+      if (count($info['tags']))
+      {
+        $this->sql->fastSaveTags('aMediaItem', $mediaItem->id, $info['tags']);
+      }
+      $mediaId = $mediaItem->id;
+      $mediaItem->free(true);
+    }
+    return $mediaId;
+  }
 }

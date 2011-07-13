@@ -99,7 +99,7 @@ class aSql extends aMysql
     $this->query('INSERT INTO a_page (created_at, updated_at, slug, template, view_is_secure, archived, published_at, lft, rgt, level, engine, admin) VALUES (NOW(), NOW(), :slug, :template, :view_is_secure, :archived, :published_at, :lft, :rgt, :level, :engine, :admin)', $info);
     $info['id'] = $this->lastInsertId();
 
-    $this->insertArea($info['id'], 'title', array(array('type' => 'aText', 'value' => htmlentities($title))));
+    $this->insertArea($info['id'], 'title', array(array('type' => 'aText', 'value' => $title)));
 
     return $info;    
   }
@@ -125,7 +125,7 @@ class aSql extends aMysql
     $areaId = $this->lastInsertId();
     foreach ($slotInfos as $slotInfo)
     {
-      $this->query('INSERT INTO a_slot (type, value) VALUES (:type, :value)', array('type' => $slotInfo['type'], 'value' => (is_array($slotInfo['value']) ? serialize($slotInfo['value']) : $slotInfo['value'])));
+      $this->query('INSERT INTO a_slot (type, value) VALUES (:type, :value)', array('type' => $slotInfo['type'], 'value' => (isset($slotInfo['value']) ? (is_array($slotInfo['value']) ? serialize($slotInfo['value']) : $slotInfo['value']) : null)));
       $slotId = $this->lastInsertId();
       $slotIds[] = $slotId;
       if ($slotInfo['type'] === 'aSlideshow')
@@ -135,7 +135,7 @@ class aSql extends aMysql
           $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $mediaId, 'slot_id' => $slotId));
         }
       }
-      if (($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') && isset($slotInfo['mediaId']))
+      if ((($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') || ($slotInfo['type'] === 'aVideo')) && isset($slotInfo['mediaId']))
       {
         $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $slotInfo['mediaId'], 'slot_id' => $slotId));
       }
@@ -160,7 +160,7 @@ class aSql extends aMysql
   public function fastSaveMediaItem($a)
   {
     $data = $a->toArray();
-    $this->query('INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure) VALUES (NOW(), NOW(), :slug, :type, :format, :width, :height, :embed, :title, :description, :credit, :view_is_secure)', $data);
+    $this->query('INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure, service_url) VALUES (NOW(), NOW(), :slug, :type, :format, :width, :height, :embed, :title, :description, :credit, :view_is_secure, :service_url)', $data);
     $a->id = $this->lastInsertId();
   }
 

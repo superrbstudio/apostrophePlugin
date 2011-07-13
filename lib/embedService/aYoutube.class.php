@@ -234,8 +234,8 @@ EOM
 
   /**
    * Returns biggest thumbnail available
-   * @param mixed $videoid
-   * @return mixed
+   * @param string $videoid
+   * @return string
    */
   public function getThumbnail($videoid)
   {
@@ -282,7 +282,7 @@ EOM
       $width = $widest['width'] + 0;
       $height = $widest['height'] + 0;
     }
-    return $thumbnail;
+    return (string) $thumbnail;
   }
 
   /**

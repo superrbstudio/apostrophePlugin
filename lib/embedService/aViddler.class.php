@@ -105,7 +105,7 @@ class aViddler extends aEmbedService
     $pagedVideos = array_slice($videos, ($page - 1) * $perPage, $perPage);
     foreach ($pagedVideos as $video)
     {
-      $infos[] = array('id' => $video['id'], 'title' => $video['title'], 'url' => $video['url']);
+      $infos[] = array('id' => (string) $video['id'], 'title' => (string) $video['title'], 'url' => (string) $video['url']);
     }
     return array('total' => count($videos), 'results' => $infos);
   }
@@ -125,7 +125,7 @@ class aViddler extends aEmbedService
       return false;
     }
     $result = $result['user'];
-    return array('name' => $result['username'] . '(' . $result['first_name'] . ' ' . $result['last_name'] . ')', 'description' => $result['about_me']);
+    return array('name' => $result['username'] . '(' . $result['first_name'] . ' ' . $result['last_name'] . ')', 'description' => (string) $result['about_me']);
   }
 
   /**
@@ -155,11 +155,11 @@ class aViddler extends aEmbedService
     }
     $info = array();
     $result = $result['video'];
-    $info['id'] = $result['id'];
-    $info['url'] = $result['url'];
-    $info['title'] = $result['title'];
-    $info['description'] = $result['description'];
-    $info['credit'] = $result['author'];
+    $info['id'] = (string) $result['id'];
+    $info['url'] = (string) $result['url'];
+    $info['title'] = (string) $result['title'];
+    $info['description'] = (string) $result['description'];
+    $info['credit'] = (string) $result['author'];
     $tags = array();
     foreach ($result['tags'] as $tag)
     {
@@ -276,7 +276,7 @@ EOM
     $result = $this->getApi()->viddler_videos_getDetails(array('video_id' => $videoid));
     if (isset($result['video']['thumbnail_url']))
     {
-      return $result['video']['thumbnail_url'];
+      return (string) $result['video']['thumbnail_url'];
     }
     return false;
   }

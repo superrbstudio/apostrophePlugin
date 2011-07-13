@@ -296,5 +296,54 @@ class aString
     $s = addslashes($s);
     return $s;
   }
+  
+  /**
+   * Splits the provided string using the array of regular expressions provided.
+   * The string is split at each point where it matches one of the regular expressions.
+   * Portions of the string not matching any of the regular expressions are also
+   * returned as part of the results array. Unlike regex alternation this function always 
+   * picks the regular expression that matches next rather than being greedy, order-based
+   * or otherwise impractical for tokenizing work. tom@punkave.com
+   */
+  static public function splitAndCaptureAtEarliestMatch($s, $regexps)
+  {
+    $pos = 0;
+    $parts = array();
+    while (true)
+    {
+      $best = null;
+      foreach ($regexps as $regexp)
+      {
+        if (preg_match($regexp, $s, $matches, PREG_OFFSET_CAPTURE, $pos))
+        {
+          if (is_null($best) || ($matches[0][1] < $best[0][1]))
+          {
+            $best = $matches;
+          }
+        }
+      }
+      if (!is_null($best))
+      {
+        $oldPos = $pos;
+
+        $pos = $best[0][1];
+        if ($pos > $oldPos)
+        {
+          $parts[] = substr($s, $oldPos, $pos - $oldPos);
+        }
+        $pos += strlen($best[0][0]);
+        $parts[] = $best[0][0];
+      }
+      else
+      {
+        if ($pos < strlen($s))
+        {
+          $parts[] = substr($s, $pos);
+        }
+        break;
+      }
+    }
+    return $parts;
+  }
 }
 

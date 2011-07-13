@@ -19,6 +19,7 @@ class aImportSiteTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('file', null, sfCommandOption::PARAMETER_REQUIRED, 'Your XML file of page data', null),
       new sfCommandOption('pages', null, sfCommandOption::PARAMETER_REQUIRED, 'Directory of page xml files', null)
       // add your own options here
@@ -49,13 +50,14 @@ EOF;
    */
   protected function execute($args = array(), $options = array())
   {
+    aTaskTools::signinAsTaskUser($this->configuration, $options['connection']);
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getDoctrineConnection();
-
+    
     if(!$this->askConfirmation("Importing any content will erase any existing content, are you sure? [y/N]", 'QUESTION_LARGE', false))
     {
       die("Import CANCELLED.  No changes made.\n");
-    }
+     }
 
     if (is_null($options['file']))
     {
@@ -72,9 +74,5 @@ EOF;
       'imagesDir' => $options['images']
     ));
     $importer->import();
-
-    
   }
-
-
 }
