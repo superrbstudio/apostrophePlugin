@@ -10,6 +10,15 @@
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
 	<?php include_title() ?>
+	
+	<?php if (has_slot('og-meta')): ?>
+		<?php include_slot('og-meta') ?>
+	<?php endif ?>
+
+	<?php if ($fb_page_id = sfConfig::get('app_a_facebook_page_id')): ?>
+		<meta property="fb:page_id" content="<?php echo $fb_page_id ?>" />		
+	<?php endif ?>
+	
 	<?php // 1.3 and up don't do this automatically (no common filter) ?>
   <?php include_stylesheets() ?>
 	<?php include_javascripts() ?>
