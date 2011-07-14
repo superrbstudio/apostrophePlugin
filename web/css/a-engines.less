@@ -1852,7 +1852,7 @@ width: 100%;
 
 .a-form-row  input.a-date-field.hasDatepicker { font: 11.5px/1.2 Arial; }
 
-.a-blog-admin.index .a-content, 
+.a-blog-admin.index .a-content,
 .a-blog-admin .a-admin-content { width: 100%; }
 
 .a-blog-admin .a-subnav-wrapper
@@ -2412,16 +2412,16 @@ clear: none;
 .a-blog-admin-new-ajax .title input { width: 172px; }
 .a-blog-admin-new-ajax .a-form-row { margin: 0 0 5px 0 !important; }
 
-.a-ui .a-blog-filters 
-{ 
-	font-size: 16px; 
+.a-ui .a-blog-filters
+{
+	font-size: 16px;
 	line-height: 20px;
-	padding-bottom: 15px; 
-	&.browser 
-	{ 
-		border-bottom: 1px solid #ddd; 
-		padding-bottom: 10px; 
-		margin-bottom: 10px; 
+	padding-bottom: 15px;
+	&.browser
+	{
+		border-bottom: 1px solid #ddd;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
 	}
 	.a-remove-filter-button
 	{
@@ -2453,20 +2453,54 @@ clear: none;
 .a-media-search-services { clear: both; }
 .a-media-search-services .a-controls { margin: 10px 0 0; }
 
-.a-media-services-form .a-form-row.service { padding: 22px 0 10px 0; }
-.a-media-services-form .a-form-row.service li { line-height: 44px; }
-.a-media-services-form .a-form-row.service input { position: relative; top: 50%; margin-top: -5px; }
-.a-media-services-form .a-form-row.service label { width: 108px; height: 44px; overflow: hidden; margin-top: -22px; line-height: 44px; }
-.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Vimeo,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Vimeo { background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-vimeo.png) top left no-repeat; text-indent: -9999px; }
-.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_YouTube,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_YouTube { background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-youtube.png) top left no-repeat; text-indent: -9999px; }
-.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_Viddler,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_Viddler { background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-viddler.png) top left no-repeat; text-indent: -9999px; }
-.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_SlideShare,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_SlideShare { background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-slideshare.png) top left no-repeat; text-indent: -9999px; }
-.a-media-services-form .a-form-row.service label.aMediaSearchServices_service_SoundCloud,
-.a-media-services-form .a-form-row.service label.a_embed_media_account_service_SoundCloud { background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-soundcloud.png) top left no-repeat; text-indent: -9999px; }
+
+.a-ui.a-media-services-form
+{
+	.a-form-row
+	{
+		&.service
+		{
+			padding: 22px 0 10px 0;
+			li
+			{
+				line-height: 44px;
+			}
+			input
+			{
+				position: relative; top: 50%; margin-top: -5px;
+			}
+			label
+			{
+				width: 108px; height: 44px; overflow: hidden; margin-top: -22px; line-height: 44px;
+				&.aMediaSearchServices_service_Vimeo,
+				&.a_embed_media_account_service_Vimeo
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-vimeo.png) top left no-repeat; text-indent: -9999px;
+				}
+				&.aMediaSearchServices_service_YouTube,
+				&.a_embed_media_account_service_YouTube
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-youtube.png) top left no-repeat; text-indent: -9999px;
+				}
+				&.aMediaSearchServices_service_Viddler,
+				&.a_embed_media_account_service_Viddler
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-viddler.png) top left no-repeat; text-indent: -9999px;
+				}
+				&.aMediaSearchServices_service_SlideShare,
+				&.a_embed_media_account_service_SlideShare
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-slideshare.png) top left no-repeat; text-indent: -9999px;
+				}
+				&.aMediaSearchServices_service_SoundCloud,
+				&.a_embed_media_account_service_SoundCloud
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-media-service-soundcloud.png) top left no-repeat; text-indent: -9999px;
+				}
+			}
+		}
+	}
+}
 
 .a-media-search-services .a-form-row.search { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background:none repeat scroll 0 0 #FFFFFF; height:20px; width: 250px; }
 
