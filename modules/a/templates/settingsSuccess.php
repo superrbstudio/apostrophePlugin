@@ -10,7 +10,6 @@
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
 ?>
 <?php use_helper('a') ?>
-
 <?php $create = $page->isNew() ?>
 <?php $admin = $sf_user->hasCredential('cms_admin') ?>
 

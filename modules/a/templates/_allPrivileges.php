@@ -33,7 +33,7 @@
 
    			<div class="a-page-permissions-section view-options-widget-container clearfix">
     	    <?php // Tristate radio button: public, login required, admins only ?>
-    	    <?php echo $form['view_options']->render(array('class' => 'view-options-widget')) ?>
+          <?php echo $form['view_options']->render(array('class' => 'view-options-widget')) ?>
     	  </div>
 
         <?php if (isset($form['view_options_apply_to_subpages'])): ?>

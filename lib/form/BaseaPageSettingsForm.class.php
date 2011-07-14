@@ -75,6 +75,7 @@ class BaseaPageSettingsForm extends aPageForm
   public function configure()
   {
     parent::configure();    
+    $manage = $this->getObject()->isNew() ? true : $this->getObject()->userHasPrivilege('manage');
    
     $user = sfContext::getInstance()->getUser();
     
@@ -132,25 +133,24 @@ class BaseaPageSettingsForm extends aPageForm
     {
       $default = 'login';
     }
-    
-    $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
-    $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
 
-    if ($this->getObject()->hasChildren(false))
+    if ($manage)
     {
-      $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
-      $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
-        'true_values' =>  array('true', 't', 'on', '1'),
-        'false_values' => array('false', 'f', 'off', '0', ' ', '')
-      )));
+      $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
+      $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
+      if ($this->getObject()->hasChildren(false))
+      {
+        $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
+        $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
+          'true_values' =>  array('true', 't', 'on', '1'),
+          'false_values' => array('false', 'f', 'off', '0', ' ', '')
+        )));
+      }
+      $this->setWidget('view_individuals', new sfWidgetFormInputHidden(array('default' => $this->getViewIndividualsJSON())));
+      $this->setValidator('view_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateViewIndividuals'), 'required' => true)));
+      $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
+      $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
     }
-
-    $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
-    
-    $this->setWidget('view_individuals', new sfWidgetFormInputHidden(array('default' => $this->getViewIndividualsJSON())));
-    $this->setValidator('view_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateViewIndividuals'), 'required' => true)));
-    $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
-    $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
     
     // Changed the name so Doctrine doesn't get uppity
     
@@ -233,7 +233,6 @@ class BaseaPageSettingsForm extends aPageForm
       $this->setValidator('edit_groups', new sfValidatorCallback(array('callback' => array($this, 'validateEditGroups'), 'required' => true)));
     }
     
-    $manage = $this->getObject()->isNew() ? true : $this->getObject()->userHasPrivilege('manage');
     // If you can delete the page, you can change the slug
     if ($manage)
     {
