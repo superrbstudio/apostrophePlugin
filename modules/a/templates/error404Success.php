@@ -7,6 +7,8 @@
 <?php // If there are no slots, show some default text ?>
 <?php if (!count($slots)): ?>
 	<h2><?php echo a_('Error 404 &mdash; The page you are looking for could not be found.') ?></h2>
+	<?php $search = trim(aTools::slugify(str_replace($sf_request->getUriPrefix(), '', $sf_request->getUri()), false, false, ' ')) ?>
+	<h3><?php echo link_to(a_('Try searching for %SEARCH%.', array('%SEARCH%' => $search)), 'a/search?' . http_build_query(array('q' => $search))) ?></h3>
 	<h3><a href="/"><?php echo a_('Go Home.') ?></a></h3>
 <?php endif ?>
 
