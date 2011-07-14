@@ -54,6 +54,7 @@
 	&:active,
 	&:focus
 	{
+		text-shadow:0px -1px 1px hsl(hue(@color), saturation(@color), lightness(@color) - 10);
 		@a-box-shadow(inset 0px 2px 7px -1px @color);
 		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) - 5); hsl(hue(@color), saturation(@color), lightness(@color)));
 		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 10));
@@ -86,6 +87,7 @@
 				border-left: 1px solid transparent !important;
 				border-right: 1px solid transparent !important;
 			}
+			color: #333;
 			text-shadow:none;						
 			background-color: @a-button-color-lite;
 			background: none;
