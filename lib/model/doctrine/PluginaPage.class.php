@@ -1661,7 +1661,13 @@ abstract class PluginaPage extends BaseaPage
         $args = $searchHelper->filterUpdateLuceneIndex($args);
       }
     }
-    aZendSearch::updateLuceneIndex($args);
+
+    // If a filter returns false, it might be associated with a missing event.
+    // don't index
+    if (is_array($args))
+    {
+      aZendSearch::updateLuceneIndex($args);
+    }
   }
 
   /**
