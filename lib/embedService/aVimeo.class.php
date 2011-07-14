@@ -222,7 +222,6 @@ EOM
    */
   public function getIdFromUrl($url)
   {
-    http://vimeo.com/moogaloop.swf?clip_id=6788001
     if (preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
       $url, $matches))
     {
