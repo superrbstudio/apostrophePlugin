@@ -7,7 +7,7 @@
  
 class BaseaAssets
 {
-	static $lessc = null;
+	static public $lessc = null;
 	
 	static protected $cache;
 
@@ -61,9 +61,22 @@ class BaseaAssets
    */
   static public function compileLessIfNeeded($path, $compiled, $options = array())
   {
+	  // In production just return if the final compiled file exists.
+	  // This is good enough in production because we symfony cc on deployment.
+	  // Unserializing the cache file is way faster than recompiling less code
+	  // but it's nowhere near instant as jeremy pointed out
+	  if (!sfConfig::get('app_a_less_check_dependencies', true))
+	  {
+  	  if (file_exists($compiled))
+  	  {
+        return;
+  	  }
+	  }
+
 	  // Leverage the considerable caching abilities of lessphp directly.
 	  // it's smart enough to pay attention to whether imported files
 	  // were cached or not, and we're not that smart
+
 	  
     if (!isset(aAssets::$lessc))
     {
@@ -86,7 +99,7 @@ class BaseaAssets
       $info = $path;
     }
     $lastUpdated = is_array($info) ? $info['updated'] : 0;
-    $info = aAssets::$lessc->cexecute($info, false);
+    $info = aAssets::cexecute($info, false);
     aAssets::setCached($path, $info);
     if ($info['updated'] !== $lastUpdated)
     {
@@ -102,4 +115,76 @@ class BaseaAssets
     $cache = aAssets::getCache();
     $cache->clean();
   }
+  
+  /**
+   *
+   * Borrowed from lessphp because the original version does not allow
+   * dependency injection of the lessc compiler class name. This way
+   * we get to use our single existing lessc object, which is faster, and
+   * also construct it with a custom class name and parameters
+   *
+	 * Execute lessphp on a .less file or a lessphp cache structure
+	 * 
+	 * The lessphp cache structure contains information about a specific
+	 * less file having been parsed. It can be used as a hint for future
+	 * calls to determine whether or not a rebuild is required.
+	 * 
+	 * The cache structure contains two important keys that may be used
+	 * externally:
+	 * 
+	 * compiled: The final compiled CSS
+	 * updated: The time (in seconds) the CSS was last compiled
+	 * 
+	 * The cache structure is a plain-ol' PHP associative array and can
+	 * be serialized and unserialized without a hitch.
+	 * 
+	 * @param mixed $in Input
+	 * @param bool $force Force rebuild?
+	 * @return array lessphp cache structure
+	 */
+	public static function cexecute($in, $force = false) 
+	{
+		// assume no root
+		$root = null;
+
+		if (is_string($in)) {
+			$root = $in;
+		} elseif (is_array($in) and isset($in['root'])) {
+			if ($force or ! isset($in['files'])) {
+				// If we are forcing a recompile or if for some reason the
+				// structure does not contain any file information we should
+				// specify the root to trigger a rebuild.
+				$root = $in['root'];
+			} elseif (isset($in['files']) and is_array($in['files'])) {
+				foreach ($in['files'] as $fname => $ftime ) {
+					if (!file_exists($fname) or filemtime($fname) > $ftime) {
+						// One of the files we knew about previously has changed
+						// so we should look at our incoming root again.
+						$root = $in['root'];
+						break;
+					}
+				}
+			}
+		} else {
+			// TODO: Throw an exception? We got neither a string nor something
+			// that looks like a compatible lessphp cache structure.
+			return null;
+		}
+
+		if ($root !== null) {
+			// If we have a root value which means we should rebuild.
+			$less = aAssets::$lessc;
+			$out = array();
+			$out['root'] = $root;
+			$out['compiled'] = $less->parse(file_get_contents($root));
+			$out['files'] = $less->allParsedFiles();
+			$out['updated'] = time();
+			return $out;
+		} else {
+			// No changes, pass back the structure
+			// we were given initially.
+			return $in;
+		}
+
+	}
 }
