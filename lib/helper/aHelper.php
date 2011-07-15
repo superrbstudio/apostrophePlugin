@@ -161,20 +161,8 @@ function a_get_stylesheets()
 				}
       }
       $path = sfConfig::get('sf_web_dir') . $file;
-      $dir = aFiles::getUploadFolder(array('asset-cache'));
-      $md5 = md5($file);
-      if (!sfConfig::get('app_a_minify', false))
-      {
-        // In dev environments let the developer figure out what the original filename was
-        $slug = aTools::slugify($file);
-        $name = $slug . '-' . $md5 . '.less.css';
-        $compiled = "$dir/$name";
-      }
-      else
-      {
-        $name = $md5 . '.less.css';
-        $compiled = "$dir/$name";
-      }
+      $name = aAssets::getLessBasename($file);
+      $compiled = aFiles::getUploadFolder(array('asset-cache')) . '/' . $name;
       aAssets::compileLessIfNeeded($path, $compiled);
       $newStylesheets[sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $name] = $options;
     }
@@ -310,18 +298,7 @@ function _a_get_assets_body($type, $assets)
 
   foreach ($set as $optionsJson => $files)
   {
-    $groupFilename = '';
-    foreach ($files as $file)
-    {
-      $groupFilename .= $file;
-      // If your CSS files depend on clever aliases that won't work
-      // through the filesystem, we can get them by http. We're caching
-      // so that's not terrible, but it's usually simpler faster and less
-      // buggy to grab the file content.
-    }
-    // I tried just using $groupFilename as is (after stripping dangerous stuff) 
-    // but it's too long for the OS if you include enough to make it unique
-    $groupFilename = md5($groupFilename);
+    $groupFilename = aAssets::getGroupFilename($files);
     $groupFilename .= (($type === 'stylesheets') ? '.css' : '.js');
     if ($gzip)
     {

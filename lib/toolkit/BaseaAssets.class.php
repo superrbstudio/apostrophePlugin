@@ -108,6 +108,39 @@ class BaseaAssets
     }
   }
   
+  /**
+   * @param string $file The name of the file
+   * Basename seems wrong, but it's consistent with pathinfo() (http://us2.php.net/pathinfo), which uses filename to refer
+   * to the basename without the extension.
+   * @return string A unique name for the compiled version of $file
+   */
+  public static function getLessBasename($file)
+  {
+    $name = md5($file) . '.less.css';
+    if (!sfConfig::get('app_a_minify', false))
+    {
+      // In dev environments let the developer figure out what the original filename was
+      $slug = aTools::slugify($file);
+      $name = $slug . '-' . $name;
+    }
+    return $name;
+  }
+  
+  /**
+   * @param array $files An array of paths to assets to include
+   * @return string A unique name based on the paths of $files
+   */
+  public static function getGroupFilename($files)
+  {
+    // If your CSS files depend on clever aliases that won't work
+    // through the filesystem, we can get them by http. We're caching
+    // so that's not terrible, but it's usually simpler faster and less
+    // buggy to grab the file content.
+    // I tried just using $groupFilename as is (after stripping dangerous stuff) 
+    // but it's too long for the OS if you include enough to make it unique
+    return md5(implode('', $files));    
+  }
+  
   public static function clearAssetCache(sfFilesystem $fileSystem)
   {
     $assetDir = aFiles::getUploadFolder(array('asset-cache'));
