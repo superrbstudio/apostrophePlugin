@@ -31,34 +31,30 @@
 	&:focus
 	{
 		background-color: hsl(hue(@color), saturation(@color), lightness(@color) - 5);
-		@a-box-shadow(inset 0px 2px 7px -1px hsl(hue(@color), saturation(@color), lightness(@color) - 20));		
+		@a-box-shadow(inset 0px 2px 5px -1px hsl(hue(@color), saturation(@color), lightness(@color) - 15));		
 		// @a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 5); hsl(hue(@color), saturation(@color), lightness(@color) - 10));
 		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 30));
-		color:hsl(hue(@color), saturation(@color), 10%);
 	}
 }
 
 .a-button-dark(@color:@a-button-color;)
 {
 	.a-button(@color);
-	text-shadow:0px -1px 1px @color;
+	text-shadow:0px -1px 1px darken(@color, 10%);
 	@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 10); @color);
-	@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 5));
-	color:hsl(hue(@color), saturation(@color), 95%);
+	color:#fff;
 	&:hover
 	{
 		@a-box-shadow(0px 3px 2px -2px fadeout(hsl(hue(@color), saturation(@color), lightness(@color) - 55), 80%));
-		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 15); @color);
-		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 7));
+		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) + 13); hsl(hue(@color), saturation(@color), lightness(@color) + 3));
+		color:#fff;
 	}
 	&:active,
 	&:focus
 	{
-		text-shadow:0px -1px 1px hsl(hue(@color), saturation(@color), lightness(@color) - 10);
-		@a-box-shadow(inset 0px 2px 7px -1px @color);
-		@a-gradient(hsl(hue(@color), saturation(@color), lightness(@color) - 5); hsl(hue(@color), saturation(@color), lightness(@color)));
-		@a-button-border(hsl(hue(@color), saturation(@color), lightness(@color) - 10));
-		color:hsl(hue(@color), saturation(@color), 90%);
+		text-shadow:0px -1px 1px hsl(hue(@color), saturation(@color), lightness(@color) - 20);		
+		@a-box-shadow(inset 0px 2px 4px -1px hsl(hue(@color), saturation(@color), lightness(@color) - 20));
+		color:#fff;
 	}
 }
 
