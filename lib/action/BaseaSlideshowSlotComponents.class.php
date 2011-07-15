@@ -67,8 +67,8 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['resizeType'] = $this->getOption('resizeType', 's');
     $this->options['flexHeight'] = $this->getOption('flexHeight');
     $this->options['maxHeight'] = $this->getOption('maxHeight', false);
-    $this->options['title'] = $this->getOption('title');
-    $this->options['description'] = $this->getOption('description');
+    $this->options['title'] = $this->getOption('title', false);
+    $this->options['description'] = $this->getOption('description', false);
     $this->options['credit'] = $this->getOption('credit');
     $this->options['interval'] = $this->getOption('interval', 0) + 0;
     $this->options['arrows'] = $this->getOption('arrows', true);
@@ -79,6 +79,29 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');
     $this->options['random'] = $this->getOption('random', false);
     
+    if ($this->options['title'])
+     {
+      if (isset($data['title']))
+      {
+        $this->options['title'] = $data['title'];
+      }
+      else
+      {
+        $this->options['title'] = false;
+      }
+    }
+
+    if ($this->options['description'])
+    {
+      if (isset($data['description'])) {
+        $this->options['description'] = $data['description'];
+      }
+      else
+      {
+        $this->options['description'] = false;        
+      }
+    }
+
     // We automatically set up the aspect ratio if the resizeType is set to 'c'
     $constraints = $this->getOption('constraints', array());
     if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
