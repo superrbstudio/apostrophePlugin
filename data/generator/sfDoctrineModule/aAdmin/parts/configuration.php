@@ -75,4 +75,19 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorConfiguration ex
   {
     return null;
   }
+  
+  public function getExportManager(sfWebResponse $response)
+  {
+    return new sfExportManager($response);
+  }
+  
+  public function getExportDisplay()
+  {
+    return $this->getListDisplay();
+  }
+  
+  public function getExportTitle()
+  {
+    return "Export";
+  }
 }

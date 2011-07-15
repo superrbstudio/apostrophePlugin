@@ -30,6 +30,8 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   }
 
 <?php include dirname(__FILE__).'/../../parts/indexAction.php' ?>
+  
+<?php include dirname(__FILE__).'/../../parts/exportAction.php' ?>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
 <?php include dirname(__FILE__).'/../../parts/filterAction.php' ?>
