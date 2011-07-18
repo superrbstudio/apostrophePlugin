@@ -91,8 +91,10 @@ class BaseaAssets
       $param = $factory['param'];
       aAssets::$lessc = new $class($param);
   		// set a new import directory in app.yml if you want to change our imported files, like a-helpers.less
-      aAssets::$lessc->importDir = sfConfig::get('app_a_less_import_directory', dirname($path) . '/');
     }
+		// importDir must be reset for each file since they may be in different folders
+		$importDir = sfConfig::get('app_a_less_import_directory', dirname($path) . '/');
+    aAssets::$lessc->importDir = $importDir;
     $info = aAssets::getCached($path);
     if (is_null($info))
     {
@@ -100,12 +102,20 @@ class BaseaAssets
     }
     $lastUpdated = is_array($info) ? $info['updated'] : 0;
     $info = aAssets::cexecute($info, false);
-    aAssets::setCached($path, $info);
+		// Our replacement for cexecute() calls parse() on the contents of a file, so
+		// the cache info structure is missing the name of the original requested file.
+		// Add that back in so the dependency checking works for the file itself
+		if (!isset($info['files'][$path]))
+		{
+			$info['files'][$path] = filemtime($path);
+		}
     if ($info['updated'] !== $lastUpdated)
     {
       // Copy it to our asset cache folder since it has changed
       file_put_contents($compiled, $info['compiled']);
     }
+		unset($info['compiled']);
+    aAssets::setCached($path, $info);
   }
   
   /**
