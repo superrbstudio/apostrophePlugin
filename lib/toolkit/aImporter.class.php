@@ -315,7 +315,7 @@ class aImporter
   {
     $n = 1;
     $html = $slot->value->__toString();
-    $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/(?:<a href=".*?".*?>\s*)?(?:<br \/>|&nbsp;|\s)*<img.*?src=".*?".*?>(?:<br \/>|&nbsp;|\s)*(?:\s*<\/a>)/is', '/<object.*?>.*?<\/object>/is', '/<iframe.*?>.*?<\/iframe>/is'));
+    $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/\<a href=\"[^\"]+\"[^\>]*>\s*(?:\<br \/\>|&nbsp;|\s)*\<img.*?src="[^\"]+[^\>]*\>(?:\<br \/\>|&nbsp;|\s)*\<\/a\>/is', '/\<img.*?src="[^\"]+".*?\>/is', '/\<object.*?\>.*?\<\/object\>/is', '/\<iframe.*?\>.*?\<\/iframe\>/is'));
     foreach ($segments as $segment)
     {
       $mediaItem = null;
