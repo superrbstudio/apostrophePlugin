@@ -27,6 +27,7 @@
 	<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<!--[if lt IE 7]>
+		<link rel="stylesheet" type="text/css" href="/css/ie6.css" />	
 		<script type="text/javascript">
 			$(document).ready(function() {
 				apostrophe.IE6({'authenticated':<?php echo ($sf_user->isAuthenticated())? 'true':'false' ?>, 'message':<?php echo json_encode(__('You are using IE6! That is just awful! Apostrophe does not support editing using Internet Explorer 6. Why don\'t you try upgrading? <a href="http://www.getfirefox.com">Firefox</a> <a href="http://www.google.com/chrome">Chrome</a> 	<a href="http://www.apple.com/safari/download/">Safari</a> <a href="http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx">IE8</a>', null, 'apostrophe')) ?>});
@@ -36,6 +37,7 @@
 
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" type="text/css" href="/apostrophePlugin/css/a-ie.css" />	
+		<link rel="stylesheet" type="text/css" href="/css/ie7-8.css" />	
 	<![endif]-->
 	
 </head>
