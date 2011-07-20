@@ -35,7 +35,7 @@ class BaseaSmartSlideshowForm extends BaseForm
     }
 
     $this->widgetSchema['categories_list'] =
-      new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'aCategory'));
+      new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'aCategory', 'order_by' => array('name', 'asc')));
     $this->validatorSchema['categories_list'] =
       new sfValidatorDoctrineChoice(array('model' => 'aCategory', 'multiple' => true, 'required' => false));
     $this->widgetSchema->setHelp('categories_list', 'Filter Images by Category');
