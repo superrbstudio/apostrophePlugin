@@ -476,6 +476,8 @@ white-space: nowrap;
 height: 18px;
 line-height: 18px;
 border:none;
+background-image: -moz-linear-gradient(center bottom, rgba(171,171,171,0.1) 0%, rgba(237,237,237,0.6) 100%);
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(171,171,171,0.1)), color-stop(1, rgba(237,237,237,0.6)));
 }
 
 .a-btn.a-disabled,
