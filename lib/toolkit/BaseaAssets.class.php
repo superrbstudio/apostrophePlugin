@@ -95,7 +95,13 @@ class BaseaAssets
 		// importDir must be reset for each file since they may be in different folders
 		$importDir = sfConfig::get('app_a_less_import_directory', dirname($path) . '/');
     aAssets::$lessc->importDir = $importDir;
-    $info = aAssets::getCached($path);
+    
+    // The cache key should be the compiled css filename, not the original less filename, because
+    // if we choose to compile the same less file to two different places we'll be misled by the
+    // cache into thinking both destination files already exist. An awesomer solution might be to
+    // keep the compiled css in the cache, but that would slow us down in the more common case where
+    // there is only one destination CSS file per source less file
+    $info = aAssets::getCached($compiled);
     if (is_null($info))
     {
       $info = $path;
@@ -115,7 +121,7 @@ class BaseaAssets
       file_put_contents($compiled, $info['compiled']);
     }
 		unset($info['compiled']);
-    aAssets::setCached($path, $info);
+    aAssets::setCached($compiled, $info);
   }
   
   /**
