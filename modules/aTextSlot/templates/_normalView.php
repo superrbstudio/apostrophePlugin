@@ -15,7 +15,7 @@
 
 <?php if (!strlen($value)): ?>
   <?php if ($editable): ?>
-    <?php echo __('Click edit to add text.', null, 'apostrophe') ?>
+		<?php echo $options['defaultText'] ?>
   <?php endif ?>
 <?php else: ?>
 <?php echo $value ?>
