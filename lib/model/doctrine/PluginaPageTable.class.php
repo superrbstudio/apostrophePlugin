@@ -427,8 +427,17 @@ class PluginaPageTable extends Doctrine_Table
   {
     // The URL should match a_page, which should allow us to break the slug out and learn the
     // user's culture in a way that doesn't hardcode whether cultures are present and how etc.
-    
-    $routes = sfContext::getInstance()->getRouting()->getRoutes();
+
+    $instance = sfContext::getInstance();
+    $routing = $instance->getRouting();
+    if (!$routing)
+    {
+      // Don't bomb if there is no routing
+      // createInstance() calls in tasks somehow
+      // invoke this, don't crash
+      return false;
+    }
+    $routes = $routing->getRoutes();
     $culture = aTools::getUserCulture();
     
     if (isset($routes['a_page']))
@@ -443,7 +452,7 @@ class PluginaPageTable extends Doctrine_Table
         if (isset($parameters['sf_culture']))
         {
           $culture = $parameters['sf_culture'];
-          $user = sfContext::getInstance()->getUser();
+          $user = $instance->getUser();
           if ($user)
           {
             $user->setCulture($culture);
@@ -460,10 +469,10 @@ class PluginaPageTable extends Doctrine_Table
     $culturePrefix = '';
     if (!isset(aPageTable::$dummyUrlCache[$culture]))
     {
-      aPageTable::$dummyUrlCache[$culture] = sfContext::getInstance()->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => $culture), false);
+      aPageTable::$dummyUrlCache[$culture] = $instance->getRouting()->generate('a_page', array('slug' => 'dummy', 'sf_culture' => $culture), false);
     }
     $dummyUrl = aPageTable::$dummyUrlCache[$culture];
-    $rr = preg_quote(sfContext::getInstance()->getRequest()->getRelativeUrlRoot(), '/');
+    $rr = preg_quote($instance->getRequest()->getRelativeUrlRoot(), '/');
     // The URL we're being asked to examine has already
     // lost its relative_root_url, so don't include $rr in
     // the prefix we attempt to remove

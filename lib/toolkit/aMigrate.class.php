@@ -2,6 +2,9 @@
 /**
  * A wrapper for simple MySQL-based schema updates. See the apostrophe:migrate task for
  * an example of usage
+ *
+ * TODO: merge this functionality into aMysql & make this an empty subclass
+ *
  * @package    apostrophePlugin
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
