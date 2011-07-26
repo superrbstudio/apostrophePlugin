@@ -125,7 +125,7 @@ class BaseaButtonSlotComponents extends aSlotComponents
       }
       else
       {
-        $this->options['title'] = false;
+       	$this->options['title'] = ($this->options['title'] === true) ? false : $this->options['title'];
       }
     }
 
