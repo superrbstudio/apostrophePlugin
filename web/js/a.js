@@ -408,6 +408,7 @@ function aConstructor()
 			ui: {
 				theme_path: "/apostrophePlugin/js/jsTree/source/themes/",
 				theme_name: "punk",
+				scroll_spd	: 16,
 				context: false
 			// 	[
 			//					 // {

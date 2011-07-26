@@ -1029,6 +1029,7 @@ class BaseaActions extends sfActions
   public function executeTreeMove($request)
   {
     $this->lockTree();
+    $moved = false;
     try
     {
       $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
@@ -1063,11 +1064,13 @@ class BaseaActions extends sfActions
       {
         $page->getNode()->moveAsNextSiblingOf($refPage);
         $page->forceSlugFromParent();
+        $moved = true;
       }
       elseif ($type === 'before')
       {
         $page->getNode()->moveAsPrevSiblingOf($refPage);
         $page->forceSlugFromParent();
+        $moved = true;
       }
       elseif ($type === 'inside')
       {
@@ -1077,6 +1080,7 @@ class BaseaActions extends sfActions
         }
         $page->getNode()->moveAsLastChildOf($refPage);
         $page->forceSlugFromParent();
+        $moved = true;
       }
       else
       {
@@ -1086,6 +1090,14 @@ class BaseaActions extends sfActions
     {
       $this->unlockTree();
       $this->forward404();
+    }
+    // Notify an event before we unlock, gives project level code a chance
+    // to safely do anything specialized
+    if ($moved)
+    {
+      error_log("a.afterTreeMove posted");
+      $event = new sfEvent($page, 'a.afterTreeMove', array());
+      $this->dispatcher->notify($event);
     }
     $this->unlockTree();
     echo("ok");
