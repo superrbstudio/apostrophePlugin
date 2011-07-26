@@ -112,11 +112,15 @@ class BaseaButtonSlotComponents extends aSlotComponents
     // Behave well if it's not set yet!
     $data = $this->slot->getArrayValue();
 
-    if (isset($data['url']))
+		// If there is a URL stored in the slot
+		// Use that URL (instead of the supplied link slot)
+		if (isset($data['url']))
     {
       $this->options['url'] = $data['url'];
     }
 
+		// If the title is TRUE or a String, check if there's a title set in the slot $data
+		// IF NOT, THEN check if there's a string set in the slot options
     if ($this->options['title'])
      {
       if (isset($data['title']))
