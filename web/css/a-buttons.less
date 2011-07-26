@@ -283,12 +283,6 @@
 			}	
 		}
 
-		// Large Submit Button (Needs 2 extra px)
-		&.a-submit.big
-		{
-			height: @a-button-size-big+2;
-		}
-
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
 
 	// Tags behave like buttons too
@@ -304,6 +298,17 @@
 	}
 
 } // [ .a-ui ]
+
+// Large Submit Buttons that use <input> Need 2 extra px)
+.a-ui input.a-btn, 
+input.a-ui.a-btn 
+{
+	&.a-submit.big
+	{
+		height: @a-button-size-big+2;
+	}	
+}
+
 
 // Apostrophe Arrows --	Note: The arrow buttons are scoped within .a-ui
 // 											because they are used often, when logged-out.
