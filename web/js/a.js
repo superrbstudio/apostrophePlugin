@@ -225,12 +225,11 @@ function aConstructor()
 			// related "normal" form elements
 			$('.a-needs-update').trigger('a.update');
 			var updating = $('#' + options['update']);
-			apostrophe.updating(updating);
 			var action = form.attr('action');
 			$.post(action, form.serialize(), function(data) {
 				updating.html(data);
         updating.trigger('a.updated');
-				
+
         var extras = options['refresh-extra']? options['refresh-extra'] : [];
         $('.a-needs-refresh').trigger('a.refresh', extras);
 
@@ -284,7 +283,6 @@ function aConstructor()
 			// related "normal" form elements
 			$('.a-needs-update').trigger('a.update');
 			var updating = $('#' + options['update']);
-			apostrophe.updating(updating);
 			var action = link.attr('href');
 			$.get(action, {}, function(data) {
 				updating.trigger('a.updated');
@@ -293,25 +291,60 @@ function aConstructor()
 		});
 	};
 
-	// Pass a selector (or jQuery object) and it will display a progress animation by toggling
-	// the a-busy class on any elements inside the selected element that have the .a-show-busy
-	// class (in practice this has to be an anchor tag, not an input type="submit" button).
+	// apostrophe.aShowBusy() looks for anchor submit buttons with the class ".a-show-busy" and will display a progress animation
+	// when the submit is clicked by toggling the the ".a-busy" class. This has to be an anchor tag, not an input type="submit" button.
 	// Usually you wind up replacing it via AJAX, so you don't need a way to stop animating.
-	// However, you can manually toggle the class off again if you need to stop animating
+	// However, you can manually toggle the animation off again by calling $(submit).trigger('aHideBusy');
 
 	this.updating = function(selector)
 	{
-		var updating = $(selector);
-		var submit = updating.find('.a-show-busy');
+		// apostrophe.updating left in place for backwards compatibility 
+		// just incase anyone else is using it outside of a.js
+		apostrophe.aShowBusy({ 'updating' : selector });
+	};
 
-		if (!submit.data('busy'))
+	this.aShowBusy = function(options)
+	{
+		apostrophe.log('apostrophe.aShowBusy');
+	
+		var updating = '';
+		if (options !== undefined && options['updating'])
 		{
-			submit.data('busy',1).addClass('a-busy');
-			if (!submit.hasClass('icon'))
-			{
-				submit.addClass('icon').prepend('<span class="icon"></span>');
-			}
+			updating = options['updating'] + ' .a-show-busy, ';
 		}
+		
+		var submit = $(updating + '.a-show-busy');
+		
+		// We don't need to bind to the click even because
+		// We are binding to the form submit event
+		// This works for pressing ENTER in an input
+		// OR Clicking SUBMIT to submit the form.
+		
+		// submit.unbind('click.aShowBusy').bind('click.aShowBusy', function(event){
+		// 	var $self = $(this);
+		// 	$self.trigger('aShowBusy');
+		// })
+		
+		submit.unbind('aShowBusy').bind('aShowBusy', function(event){
+			var $self = $(this);
+			if (!$self.hasClass('a-busy'))
+			{
+				submit.addClass('a-busy');
+				if (!$self.hasClass('icon'))
+				{
+					$self.addClass('icon').prepend('<span class="icon"></span>');
+				}
+			}
+		}).unbind('aHideBusy').bind('aHideBusy', function(event){
+			var $self = $(this);
+			$self.removeClass('a-busy').removeClass('icon').find('span.icon').remove();
+		});
+		
+		submit.closest('form').unbind('submit.aShowBusy').bind('submit.aShowBusy', function(){
+			var $selfForm = $(this);
+			$selfForm.find('.a-show-busy').trigger('aShowBusy');
+		});
+		
 	};
 
 	// Utility: Create an anchor button that toggles between two radio buttons
@@ -482,11 +515,11 @@ function aConstructor()
 				// {
 				// 	// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
 				// 	// tree page
-				// 
+				//
 				// 	aPageTree.parent().addClass('working');
-				// 
+				//
 				// 	var nid = node.id;
-				// 
+				//
 				// 	jQuery.ajax({
 				// 		url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
 				// 		error: function(result) {
@@ -742,8 +775,8 @@ function aConstructor()
 
 	this.areaEnableAddSlotChoice = function(options) {
 		var button = $("#" + options['buttonId']);
-		apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug');
-		apostrophe.log(button);
+		// apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug');
+		// apostrophe.log(button);
 		$(button).bind('click.apostrophe', function() {
 			var name = options['name'];
 			var pageId = options['pageId'];
@@ -963,7 +996,6 @@ function aConstructor()
 	this.slotEnableForm = function(options)
 	{
 		$(options['slot-form']).submit(function() {
-			apostrophe.updating(options['slot-form']);
 			$.post(
 				// These fields are the context, not something the user gets to edit. So rather than
 				// creating a gratuitous collection of hidden form widgets that are never edited, let's
@@ -1853,6 +1885,8 @@ function aConstructor()
 	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
+		apostrophe.log('apostrophe.smartCSS');
+		
 		var target = 'body';
 		if (options && options['target'])
 		{
@@ -1881,6 +1915,8 @@ function aConstructor()
 				$(this).attr('href', href);
 			}
 		});
+
+		apostrophe.aShowBusy();
 
 		// Anchor elements that act as submit buttons. On some older browsers this might not trigger
 		// other submit handlers for the form before native submit, however it seems to work just fine
@@ -2534,7 +2570,7 @@ function aConstructor()
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{
 
-		apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') );
+		// apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') );
 
 		// Menu must have an ID.
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
