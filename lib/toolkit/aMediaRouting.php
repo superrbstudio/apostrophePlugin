@@ -102,12 +102,12 @@ class aMediaRouting
         'action' => 'select'
       )));
       
-      $r->prependRoute('a_media_info', new sfRoute('/info', array(
+      $r->prependRoute('a_media_info', new sfRoute('/admin/media-api/info', array(
         'module' => 'aMediaBackend',
         'action' => 'info'
       )));
       
-      $r->prependRoute('a_media_tags', new sfRoute('/tags', array(
+      $r->prependRoute('a_media_tags', new sfRoute('/admin/media-api/tags', array(
         'module' => 'aMediaBackend',
         'action' => 'tags'
       )));
