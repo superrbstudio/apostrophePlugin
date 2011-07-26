@@ -132,16 +132,25 @@ function aConstructor()
 		// Use an each here to avoid problems with all of the items getting the
 		// same span label
 		$(selector).each(function() {
-			var id = ""; var clss = "";
-			if ($(this).attr('id') !== '')
-			{
-				id = "id='"+$(this).attr('id')+"'";
-			}
-			if ($(this).attr('class') !== '')
-			{
-				clss = "class='"+$(this).attr('class')+"'";
-			}
-			$(this).replaceWith("<span " + clss + " " + id +">" + $(this).html() + "</span>");
+
+			// Store the current item
+			var $self = $(this); 
+
+			// Building a replacement span with the same properties
+			var aSpan = $('<span>').attr({
+				'id': $self.attr('id'),
+				'class': $self.attr('class'),				
+			}).html($self.html());
+
+			// Make the swap
+			$self.replaceWith(aSpan);
+			
+			// If the button wants to show busy
+			// Re-bind the behavior and call it
+			if (aSpan.hasClass('a-show-busy')) {
+				apostrophe.aShowBusy();
+				aSpan.trigger('aShowBusy');
+			};
 		});
 	};
 
@@ -320,12 +329,10 @@ function aConstructor()
 		// This works for pressing ENTER in an input
 		// OR Clicking SUBMIT to submit the form.
 		
-		// submit.unbind('click.aShowBusy').bind('click.aShowBusy', function(event){
-		// 	var $self = $(this);
-		// 	$self.trigger('aShowBusy');
-		// })
-		
-		submit.unbind('aShowBusy').bind('aShowBusy', function(event){
+		submit.unbind('click.aShowBusy').bind('click.aShowBusy', function(event){
+			var $self = $(this);
+			$self.trigger('aShowBusy');
+		}).unbind('aShowBusy').bind('aShowBusy', function(event){
 			var $self = $(this);
 			if (!$self.hasClass('a-busy'))
 			{
@@ -1267,6 +1274,7 @@ function aConstructor()
 				previewUrl,
 				$('#a-media-add-linked-account').serialize(),
 				function() {
+					form.find('.a-show-busy').trigger('aHideBusy');
 					$('#a-account-preview-ok').bind('click.apostrophe', function(event) {
 						event.preventDefault();
 						ready = true;

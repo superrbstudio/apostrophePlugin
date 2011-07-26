@@ -37,7 +37,7 @@ generator:
             label: <span class="icon"></span> Clean Tags
             action: clean
             params:
-              class: a-btn big
+              class: a-btn big a-show-busy
       
       form:
         class: aTagForm

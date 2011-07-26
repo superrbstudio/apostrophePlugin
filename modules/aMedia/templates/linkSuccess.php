@@ -31,9 +31,11 @@
 			</div>
 		
 		  <ul class="a-ui a-controls" id="a-media-video-add-by-embed-form-submit">
-	      <li><input type="submit" value="<?php echo __('Preview', null, 'apostrophe') ?>" class="a-btn a-submit" /></li>
 	      <li>
-	  			<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel")) ?>
+				<?php echo a_anchor_submit_button(a_('Preview'), array('icon','a-search','a-show-busy')) ?>
+				</li>
+	      <li>
+	  			<?php echo link_to('<span class="icon"></span>'.a_("Cancel"), 'aMedia/resume', array("class" => "a-btn icon a-cancel alt")) ?>
 	  		</li>
 	    </ul>
 		</form>

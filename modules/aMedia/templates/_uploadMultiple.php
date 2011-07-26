@@ -40,7 +40,7 @@
 	  </ul>
 
 	  <ul class="a-ui a-controls">
-	  	<li><?php echo a_anchor_submit_button(a_('Upload ' . aMediaTools::getBestTypeLabel()), array('big')) ?></li>
+	  	<li><?php echo a_anchor_submit_button(a_('Upload ' . aMediaTools::getBestTypeLabel()), array('big','a-show-busy')) ?></li>
 	  	<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'big', 'alt')) ?></li>
 	  </ul>
   </form>

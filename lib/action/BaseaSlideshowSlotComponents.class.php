@@ -24,7 +24,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->setupOptions();
     $this->getLinkedItems();
     
-    if ($this->options['random'])
+    if ($this->options['random'] && count($this->items))
     {
       shuffle($this->items);
     }

@@ -46,7 +46,7 @@
   </div>
 
 	<ul class="a-ui a-controls">
-		<li><?php echo a_button(a_('Save Selection'), url_for("aMedia/selected"), array('save','big','a-select-save'), 'a-save-media-selection') ?></li>
+		<li><?php echo a_button(a_('Save Selection'), url_for("aMedia/selected"), array('save','big','a-select-save','a-show-busy'), 'a-save-media-selection') ?></li>
 		<li><?php echo a_button(a_('Cancel'), url_for("aMedia/selectCancel"), array('icon','a-cancel','big','a-select-cancel')) ?></li>
 	</ul>
 	
