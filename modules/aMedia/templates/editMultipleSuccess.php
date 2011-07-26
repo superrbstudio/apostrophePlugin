@@ -35,7 +35,7 @@
 
 			<?php if (!$singleItem): ?>
 				<ul class="a-ui a-controls top a-align-right">
-					<li><a href="#save" class="a-btn a-submit big a-media-multiple-submit-button"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
+					<li><?php echo a_anchor_submit_button(a_('Save ' . aMediaTools::getBestTypeLabel()), array('big','a-show-busy','a-media-multiple-submit-button')) ?></li>
 					<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel alt big a-js-media-edit-multiple-cancel")) ?></li>
 				</ul>
 			<?php endif ?>
@@ -71,7 +71,7 @@
 		<?php endfor ?>
 		<ul class="a-ui a-controls bottom a-align-left">
 			<li><?php echo link_to('<span class="icon"></span>'.a_("Cancel"), "aMedia/resume", array("class"=>"a-btn icon a-cancel alt big a-js-media-edit-multiple-cancel")) ?></li>
-			<li><a href="#save" class="a-btn a-submit big a-media-multiple-submit-button"><?php echo a_('Save ' . aMediaTools::getBestTypeLabel()) ?></a></li>
+			<li><?php echo a_anchor_submit_button(a_('Save ' . aMediaTools::getBestTypeLabel()), array('big','a-show-busy','a-media-multiple-submit-button')) ?></li>
 		</ul>
 		<?php include_partial('aMedia/itemFormScripts', array('i'=>$i)) ?>
 		</form>
