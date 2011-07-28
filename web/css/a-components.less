@@ -130,53 +130,53 @@
 // Apostrophe Reorganize Tree
 // ---------------------------------------------------- 
 
-.a-reorganize .a-content
+.a-reorganize 
 {
-	display: block;
-	float: left;
-	clear: both;
-	width: 100%;
+	.a-content
+	{
+		display: block;
+		float: left;
+		clear: both;
+		width: 100%;
+	}
+	.a-page-tree-container
+	{
+		@clearfix;
+		position: relative;
+		margin: 20px 0;
+		padding: 20px;
+		border: 1px solid #ddd;
+		@a-border-radius(2px);
+		.a-page-tree-title
+		{
+			margin-bottom: 20px;
+		}
+		.a-page-tree
+		{
+			position: relative;
+			z-index: 1;
+		}
+		.a-page-tree-in-progress
+		{
+			position: absolute;
+			z-index: 2;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(255,255,255,0.75) url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
+			display: none;
+		}
+		&.working
+		{
+			.a-page-tree-in-progress
+			{
+				display: block;
+			}	
+		}
+	}
 }
 
-.a-page-tree-container
-{
-	overflow: hidden;
-	position: relative;
-	margin: 20px 0;
-	padding: 20px;
-	border: 1px solid #ddd;
-	@a-border-radius(2px);
-}
-
-.a-page-tree-title
-{
-	margin-bottom: 20px;
-}
-
-.a-page-tree
-{
-	position: relative;
-	z-index: 1;
-}
-
-.a-page-tree-in-progress
-{
-	position: absolute;
-	z-index: 2;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(255,255,255,0.75) url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) center center no-repeat;
-	display: none;
-}
-
-.a-page-tree-container.working .a-page-tree-in-progress
-{
-	display: block;
-}
 
 
 // Apostrophe Pagination
