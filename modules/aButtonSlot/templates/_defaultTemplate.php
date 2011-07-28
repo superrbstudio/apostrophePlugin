@@ -26,11 +26,11 @@
 	    <?php endif ?>
     </li>
     <?php if ($options['title']): ?>
-      <li class="a-button-title">				
+      <li class="a-button-title">		
       	<?php if ($options['url']): ?>
-					<a class="a-button-link" href="<?php echo $options['url'] ?>"><?php echo $options['title'] ?></a>      		
+					<a class="a-button-link" href="<?php echo $options['url'] ?>"><?php echo aHtml::entities($options['title']) ?></a>      		
 				<?php else: ?>
-					<?php echo $options['title'] ?>
+					<?php echo aHtml::entities($options['title']) ?>
       	<?php endif ?>
       </li>
     <?php endif ?>
@@ -48,7 +48,7 @@
   	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button default">
       <li class="a-button-image">
         <?php // Corner case: they've set the link but are still using the default image ?>
-        <?php $img = image_tag($options['defaultImage'], array('alt' => (($options['title']) ? $options['title'] : ''))) ?>
+        <?php $img = image_tag($options['defaultImage'], array('alt' => (($options['title']) ? aHtml::entities($options['title']) : ''))) ?>
         <?php if ($options['link']): ?>
           <?php echo link_to($img, $options['url']) ?>
         <?php else: ?>
@@ -60,7 +60,7 @@
 		<?php if ($options['link'] || $options['url']): ?>
 	  	<ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button link-only">
 	      <li class="a-button-title">
-	        <?php echo link_to((($options['title'])?$options['title']:$options['url']), $options['url'], array('class' => 'a-button-link')) ?>
+	        <?php echo link_to((($options['title'])?aHtml::entities($options['title']) : aHtml::entities($options['url'])), $options['url'], array('class' => 'a-button-link')) ?>
 	      </li>
 		    <?php if ($options['description']): ?>
 	      <li class="a-button-description"><?php echo $options['description'] ?></li>

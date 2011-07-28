@@ -705,6 +705,14 @@ class aHtml
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
      return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
   }
+  
+  /**
+   * UTF-8 entity escapes the provided text, and nothing else
+   */
+  static public function entities($text)
+  {
+    return htmlentities($text, ENT_COMPAT, 'UTF-8');
+  }
 
   /**
    * For any given HTML, returns only the img tags. If
