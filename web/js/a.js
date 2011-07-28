@@ -514,7 +514,9 @@ function aConstructor()
 							}
 							aPageTree.parent().removeClass('working');
 						},
-						async: false
+						// Now that we have a reasonable progress animation we can go async to avoid
+						// a "do you want to kill the browser window" dialog on slow moves
+						async: true
 					});
 				}
 				// delete completed
