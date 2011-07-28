@@ -213,6 +213,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     // (TODO: for performance, do this one time in a hundred or similar,
     // it's simple to do that probabilistically).
     $files = glob("$dir/*");
+    if ($files === false)
+    {
+      // Folder doesn't exist yet
+      return;
+    }
     $now = time();
     foreach ($files as $file)
     {
