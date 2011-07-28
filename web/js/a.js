@@ -139,7 +139,7 @@ function aConstructor()
 			// Building a replacement span with the same properties
 			var aSpan = $('<span>').attr({
 				'id': $self.attr('id'),
-				'class': $self.attr('class'),				
+				'class': $self.attr('class')
 			}).html($self.html());
 
 			// Make the swap
