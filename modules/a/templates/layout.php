@@ -77,10 +77,9 @@
 	        <?php else: ?>
 	          <?php a_slot('logo', 'aButton', array(
 							'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
-              // 'defaultImage' => '/apostrophePlugin/images/asandbox-logo.png',
+							'defaultImage' => '/apostrophePlugin/images/asandbox-logo.png',
 							'link' => url_for('@homepage'), 
 							'global' => true, 
-							'title' => true,
 							'width' => 360,
 							'flexHeight' => true, 
 							'resizeType' => 's', 
