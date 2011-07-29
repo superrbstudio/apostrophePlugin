@@ -568,6 +568,47 @@ function aConstructor()
 		// 	treeRef.remove(li);
 		// 	return false;
 		// });
+		aPageTree.find('li').each(function() { $(this).find('a:first').after($('<cite class="a-tree-delete">x</cite>')) });
+		apostrophe.log(aPageTree.find('li').length);
+		aPageTree.find('li cite.a-tree-delete').click(function() {
+			var anchor = $(this);
+			var li = anchor.closest('li');
+			var nid = li.attr('id');
+			if (li.find('li').length)
+			{
+				if (!confirm(options['confirmDeleteWithChildren']))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (!confirm(options['confirmDeleteWithoutChildren']))
+				{
+					return false;
+				}
+			}
+			aPageTree.parent().addClass('working');
+			jQuery.ajax({
+				url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
+				error: function(result) {
+					// 404 errors etc
+					window.location.reload();
+				},
+				success: function(result) {
+					// Look for a specific "all is well" response
+					if (result !== 'ok')
+					{
+						window.location.reload();
+					}
+					// Seems to work better than treeRef.remove(li)
+					li.remove();
+					aPageTree.parent().removeClass('working');
+				},
+				async: true
+			});
+			return false;
+		});
 	};
 
 	// aSlideshowSlot
