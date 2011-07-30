@@ -96,7 +96,7 @@
 	<?php if(isset($layout['fields']['downloadable'])): ?>
 		<?php if ($mediaItem->getType() !== 'video'): ?>
 			<li class="a-media-item-download a-media-item-meta">
-				<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => '<span class="icon"></span>'), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+				<?php echo link_to(__("%buttonspan%".a_('Download Original'), array('%buttonspan%' => '<span class="icon"></span>'), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
 			</li>
 		<?php endif ?>
 	<?php endif ?>
