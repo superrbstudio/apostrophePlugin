@@ -7,7 +7,7 @@
 <?php $views = array(20, 50, 100) ?>
 <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
 <ul class="a-ui a-controls a-media-footer-controls">
-	<li class="a-media-footer-item-count"><?php echo $pager->count() ?> .' '. a_('items') </li>
+	<li class="a-media-footer-item-count"><?php echo $pager->count() .' '. a_('items')?></li>
 	<li class="a-media-footer-separator a">|</li>
 	<li class="a-media-footer-view-label"><?php echo a_('view') ?></li>
 	<?php foreach($views as $n): ?>
