@@ -239,7 +239,7 @@
 	    <?php a_js_call('apostrophe.mediaEnableRemoveButton(?)', $i) ?>
 	  <?php endif ?>
     <?php if ($item && $item->getDownloadable()): ?>
-			<?php echo link_to(__("%buttonspan%Download Original", array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
+			<?php echo link_to(__("%buttonspan%".a_('Download Original'), array('%buttonspan%' => "<span class='icon'></span>"), 'apostrophe'),	"aMediaBackend/original?" .http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array("class"=>"a-btn icon a-download lite alt")) ?>
 		<?php endif ?>
 	</div>
 <?php endif ?>

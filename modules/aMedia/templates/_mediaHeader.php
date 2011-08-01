@@ -8,7 +8,7 @@
 	  	<?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
 	  	  <?php // This is important because sometimes you are selecting specific media types ?>
 	      <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
-		    <li><a href="<?php echo url_for("aMedia/resume?add=1") ?>" id="a-media-add-button" class="a-btn icon big a-add"><span class="icon"></span><?php echo a_('Add  ' . $typeLabel) ?></a></li>
+		    <li><a href="<?php echo url_for("aMedia/resume?add=1") ?>" id="a-media-add-button" class="a-btn icon big a-add"><span class="icon"></span><?php echo a_('Add ' . $typeLabel) ?></a></li>
 	      <li><a href="<?php echo url_for("aMedia/searchServices") ?>" class="a-btn icon big a-search"><span class="icon"></span><?php echo a_('Search Services') ?></a></li>
 			<?php endif ?>
 		</ul>
