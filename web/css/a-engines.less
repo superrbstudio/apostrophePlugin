@@ -2407,9 +2407,35 @@ clear: none;
 .a-blog.index .a-content .a-area { clear: both; }
 
 // Initially invisible form for creating new blog posts inline
-.a-blog-admin-new-ajax { display: none; }
-.a-blog-admin-new-ajax .title input { width: 172px; }
-.a-blog-admin-new-ajax .a-form-row { margin: 0 0 5px 0 !important; }
+.a-options.a-blog-admin-new-ajax
+{
+	display: none;
+	left: -5px;
+	right: -5px;
+	.a-form-row
+	{
+		float: none;
+		width: auto;
+		clear: both;
+		margin: 0;
+		.a-form-field
+		{
+			float: none;
+			width: auto;
+			margin: 0 8px 0 0; // 8px + 2px for input border
+			@clearfix;
+		}
+		&.title
+		{
+			margin: 0 0 5px 0;
+			input
+			{
+				width: 100%;
+			}
+		}
+	}
+}
+
 
 .a-ui .a-blog-filters
 {
