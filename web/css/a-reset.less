@@ -5,6 +5,11 @@
 //	Apply the .a-ui reset class name to the parent container of the Apostrophe UI element you are styling
 //	In some instances, the UI is only a button or something small without a container. You can apply the .a-ui class directly to that element to reset it specifically
 
+@a-heading-font
+{
+	font-family: Arial, Sans-serif;
+}
+
 body { margin: 0; padding: 0; }
 
 .a-ui div, .a-ui span, .a-ui iframe, 
@@ -12,11 +17,11 @@ body { margin: 0; padding: 0; }
 .a-ui ol, .a-ui ul, .a-ui li, 
 .a-ui fieldset, .a-ui form, .a-ui label, .a-ui legend, 
 .a-ui table, .a-ui caption, .a-ui tbody, .a-ui tfoot, .a-ui thead, .a-ui tr, .a-ui th, .a-ui td
-// /*div.a-ui, span.a-ui, iframe.a-ui,
+// div.a-ui, span.a-ui, iframe.a-ui,
 // pre.a-ui, a.a-ui, img.a-ui,
 // ol.a-ui, ul.a-ui, li.a-ui, 
 // fieldset.a-ui, form.a-ui, label.a-ui, legend.a-ui, 
-// table.a-ui, caption.a-ui, tbody.a-ui, tfoot.a-ui, thead.a-ui, tr.a-ui, th.a-ui, td.a-ui*/
+// table.a-ui, caption.a-ui, tbody.a-ui, tfoot.a-ui, thead.a-ui, tr.a-ui, th.a-ui, td.a-ui
 { 
 	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; 
 }
@@ -30,3 +35,28 @@ li.a-ui, ul.a-ui, ol.a-ui { list-style: none; }
 .a-ui h4, h4.a-ui { font-size: 14px; }
 .a-ui h5, h5.a-ui { font-size: 12px; font-weight: bold; }
 .a-ui h6, h6.a-ui { font-size: 12px; color: #999; }
+
+// If we ever wanted to base things off percentages
+// Here is the scaling breakdown where 100% = 12px;
+// .a-ui h1, h1.a-ui { font-size: 300%; }
+// .a-ui h2, h2.a-ui { font-size: 233%; }
+// .a-ui h3, h3.a-ui { font-size: 167%; }
+// .a-ui h4, h4.a-ui { font-size: 117%; }
+// .a-ui h5, h5.a-ui { font-size: 100%; font-weight: bold; }
+// .a-ui h6, h6.a-ui { font-size: 100%; color: #999; }
+
+.a-ui
+{
+	h1,h2,h3,h4,h5,h6
+	{
+		@a-heading-font;
+	}
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	&.a-ui
+	{
+		@a-heading-font;	
+	}
+}
