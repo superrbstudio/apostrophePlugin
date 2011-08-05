@@ -84,6 +84,10 @@ class PluginaPageTable extends Doctrine_Table
       {
         $page = new aPage();
         $page->hydrate($pageInfo);
+        if (isset($pageInfo['id']))
+ 		    {
+          $page->assignIdentifier($pageInfo['id']);
+ 		    }
       }
       else
       {
