@@ -49,12 +49,12 @@
 	cursor: @cursor;
 }
 
-@a-transition (@time:0.15s; @ease:ease)
+@a-transition(@property:all; @time:0.15s; @ease:ease)
 {
-	-webkit-transition: all @time @ease;
-	-moz-transition: all @time @ease;
-	-o-transition: all @time @ease;
-	transition: all @time @ease;
+	-webkit-transition: @property @time @ease;
+	-moz-transition: @property @time @ease;
+	-o-transition: @property @time @ease;
+	transition: @property @time @ease;
 }
 
 @a-border-radius(@radius:5px)
