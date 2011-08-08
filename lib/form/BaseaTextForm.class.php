@@ -32,7 +32,7 @@ class BaseaTextForm extends BaseForm
     $class = isset($this->soptions['class']) ? ($this->soptions['class'] . ' ') : '';
     $class .= 'aTextSlot';
 
-    $text = html_entity_decode(strip_tags($this->value), ENT_COMPAT, 'UTF-8');
+    $text = aHtml::toPlaintext($this->value);
 
     if (isset($this->soptions['multiline']) && $this->soptions['multiline'])
     {

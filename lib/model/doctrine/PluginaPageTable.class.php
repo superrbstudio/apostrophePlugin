@@ -1233,6 +1233,11 @@ class PluginaPageTable extends Doctrine_Table
         continue;
       }
       $seenId[$result['id']] = true;
+      // Titles are saved as plaintext slots and people sometimes allow editing of them
+      // as such. Strip any link tags that result since browsers display the raw markup
+      // when such are present. Don't entity decode here, we want preescaped material
+      // already appropriate to echo in a title tag
+      $result['title'] = strip_tags($result['title']);
       // If there is no title yet, supply one to help the translator limp along
       if (!strlen($result['title']))
       {

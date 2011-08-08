@@ -448,6 +448,11 @@ abstract class PluginaPage extends BaseaPage
         }
       }
     }
+    // Title is a plaintext slot. Sometimes people let people edit it as such.
+    // That can introduce link tags, or even paragraph tags if they allow it to be
+    // edited as multiline (but we're mostly worried about the link tags that come
+    // from the more reasonable single-line case)
+    $title = strip_tags($title);
     return $title;
   }
 

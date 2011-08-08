@@ -25,12 +25,16 @@ class BaseaTextSlotActions extends aSlotActions
     {
       // TODO: this might make a nice validator
       $value = $this->form->getValue('value');
+      // All "plaintext" slots are actually stored preescaped to be echoed quickly in HTML
+      // (although we later decided to add email obfuscation on the fly as a final step).
+      // We also convert URLs to links. However only multiline plaintext slots get line breaks 
+      // converted to paragraph breaks
       if (!$this->options['multiline'])
       {
         $value = preg_replace("/\s/", " ", $value);
       }
       // We store light markup for "plain text" slots. We DO NOT store the mailto: obfuscation though
-      $value = aHtml::textToHtml($value);
+      $value = aHtml::textToHtml($value, $this->options['multiline']);
       $maxlength = $this->getOption('maxlength');
       if ($maxlength !== false)
       {

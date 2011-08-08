@@ -249,7 +249,7 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setValidator('realtitle', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
 
     $title = $this->getObject()->getTitle();
-    $this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => html_entity_decode($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
+    $this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => aHtml::toPlaintext($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
     
     // The slug of the home page cannot change (chicken and egg problems)
     if ($this->getObject()->getSlug() === '/')

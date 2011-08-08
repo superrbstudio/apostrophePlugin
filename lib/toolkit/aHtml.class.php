@@ -698,12 +698,18 @@ class aHtml
    * This function is now a wrapper around TextHelper, except for the entity escape which is
    * not included in simple_format_text for some reason
    * @param string $text The text you want converted to basic HTML.
+   * @param bool $newlines If true, convert newlines to line breaks (call simple_format_text).
    * @return string Text with br tags and anchor tags.
    */
-  static public function textToHtml($text)
+  static public function textToHtml($text, $newlines = true)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
-     return auto_link_text(simple_format_text(htmlentities($text, ENT_COMPAT, 'UTF-8')));
+    $text = aHtml::entities($text);
+    if ($newlines)
+    {
+      $text = simple_format_text($text);
+    }
+    return auto_link_text($text);
   }
   
   /**
