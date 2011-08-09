@@ -25,11 +25,11 @@
 // -------------------------------------
 
 // Area Information:
-// .a-area wraps .a-slots 
-// .a-slots wraps all slots, .a-slot 
-// .a-slot wraps .a-slot-content 
-// .a-slot-content wraps .a-slot-content-container AND .a-slot-form 
-// BOTH .a-slot-content-container AND .a-slot-form are not output when logged out 
+// .a-area wraps .a-slots
+// .a-slots wraps all slots, .a-slot
+// .a-slot wraps .a-slot-content
+// .a-slot-content wraps .a-slot-content-container AND .a-slot-form
+// BOTH .a-slot-content-container AND .a-slot-form are not output when logged out
 
 .a-area, .a-slots, .a-slot, .a-slot-content, .a-slot-content-container, .a-slot-form { position: relative; }
 
@@ -135,8 +135,8 @@
 		.a-slideshow-item
 		{
 			// Cross Fade Slideshows must have the items stacked up
-			position: absolute; 
-			top: 0; 
+			position: absolute;
+			top: 0;
 			left: 0;
 		}
 	}
@@ -151,7 +151,7 @@
 	{
 		@clearfix;
 		list-style: none;
-		display: none; 
+		display: none;
 		margin: 0;
 		.a-slideshow-title
 		{
@@ -212,9 +212,9 @@
 			list-style: none;
 			z-index: 799;
 		}
-	
+
 		.a-slideshow;
-		
+
 	} // [ .aSlideshow ]
 
 	// aButton Slot
@@ -239,31 +239,31 @@
 			}
 		}
 
-		.a-button 
-		{ // Fixes IE6 Class Name Bug 
-			background: none; 
-		} 
-		
+		.a-button
+		{ // Fixes IE6 Class Name Bug
+			background: none;
+		}
+
 	} // [ .aButton ]
-	
-	
+
+
 	// aImage Slot Styles
 	// -------------------------------------
 
 	&.aImage
 	{
 		.a-media-image,
-		.a-image-embed 
-		{ 
+		.a-image-embed
+		{
 			clear: both;
 			display: block;
 		}
-	} 
+	}
 
 
 	// aRawHTML Slot Styles
 	// -------------------------------------
-	&.aRawHTML 
+	&.aRawHTML
 	{
 		.a-form-field
 		{
@@ -284,13 +284,13 @@
 			font: 11px/1.5 Monospace;
 			overflow: auto !important;
 		}
-		
+
 	} // [ .aRawHTML ]
-	
-	
+
+
 	// aText Slot Styles
 	// -------------------------------------
-	&.aText 
+	&.aText
 	{
 		.a-form-field
 		{
@@ -337,7 +337,7 @@
 }
 
 // aFile Slot Styles
-// ------------------------------------- 
+// -------------------------------------
 .a-slot.aFile .a-file-slot { position: relative; overflow: hidden; width: 100%; }
 .a-slot.aFile .a-file-slot .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
 .a-slot.aFile .a-file-slot .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
@@ -349,7 +349,7 @@
 
 
 // aPDF Slot Styles
-// ------------------------------------- 
+// -------------------------------------
 .a-slot.aPDF { margin:20px 0px; }
 .a-slot.aPDF .a-pdf-slot { position: relative; overflow: hidden; width: 100%; }
 .a-slot.aPDF .a-pdf-slot .a-pdf-meta { position:relative; margin:5px 0; }
@@ -365,7 +365,7 @@
 
 
 // aSlot Content Styles
-// --------------------------------------- 
+// ---------------------------------------
 .aRichText .a-slot-content strong,
 .aRichText .a-slot-content b { font-weight: bold; }
 
@@ -399,19 +399,38 @@
 
 
 // Blog / Event Slot Styles
-// ------------------------------------- 
+// -------------------------------------
 .aBlog .a-options.a-slot-form,
 .aEvent .a-options.a-slot-form { min-width: 285px; }
 
-.a-blog-edit-wrapper .a-form-row.by-type input { float: left; padding-top: 5px; }
-
-.a-blog-edit-wrapper .a-form-row.by-type input[type="radio"] { margin: 5px 0 0 0; }
-
-.a-blog-edit-wrapper .a-form-row
+.a-blog-edit-wrapper
 {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	.a-form-row
+	{
+		.a-inline-taggable-widget
+		{
+			.ui-autocomplete-input { margin-right: 2px; }
+		}
+		&.by-type
+		{
+		}
+		&.title
+		{
+			.ui-autocomplete-input
+			{
+				min-width: 214px;
+				width: 88%;
+				padding-right: 24px;
+				&.ui-autocomplete-loading
+				{
+					background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 98% center no-repeat;					
+				}
+			}
+		}
+		.blog-slot-radio-button { float: left; margin: 5px 0 0 0; }
+	}
 }
+
 
 .a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type label { width: 120px; }
 
@@ -434,10 +453,6 @@
 .aBlog .a-slot-form.editState-title .a-form-row.by-type.meta div, .aEvent .a-slot-form.editState-title .a-form-row.by-type.meta div {display: none !important;}
 .aBlog .a-slot-form.editState-tags .a-form-row.by-type.title div, .aEvent .a-slot-form.editState-tags .a-form-row.by-type.title div  {display: none !important;}
 
-//.a-blog-edit-wrapper .a-inline-taggable-widget { margin-top: 3px;clear: none;}
-//.a-blog-edit-wrapper .a-inline-taggable-widget input { margin-right: 2px; }
-//.a-blog-edit-wrapper .a-inline-taggable-widget .a-btn.a-add { font-size: 11px; height:17px; line-height:17px !important; }
-
 .a-blog-edit-wrapper h4 { float: left; }
 
 .a-blog-edit-wrapper .a-form-row .a-form-row { padding-left: 20px; }
@@ -447,7 +462,7 @@
 
 .a-blog-edit-wrapper .a-form-row.categories{ margin-bottom: 8px !important; }
 
-// Our PE controls are not happy inline, pair them with labels and float left 
+// Our PE controls are not happy inline, pair them with labels and float left
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories .a-multiple-select,
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
@@ -472,7 +487,7 @@ width:100%;
 
 
 // aOptions for Areas & Slots :: aOptions is in a-components.css
-// -------------------------------------------------------------------- 
+// --------------------------------------------------------------------
 .a-ui .a-options.a-area-options { z-index: 699; display: none; }
 .a-ui .a-options.a-area-options .a-options-item,
 .a-ui .a-options.a-area-options .a-options-item.last {
@@ -485,7 +500,7 @@ list-style: none;
 
 
 // aOptions for Slot Variants :: aOptions is in a-components.css
-// -------------------------------------------------------------------- 
+// --------------------------------------------------------------------
 ul.a-controls .a-controls-item.variant.a-options-open .a-variant-options
 {
 width: auto;
@@ -505,10 +520,10 @@ background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 
 	&.a-slot-form
 	{
 		position: relative;
-		width: 100%; 
-		top: -27px; 
-		left:-5px; 
-		padding:30px 5px 5px; 
+		width: 100%;
+		top: -27px;
+		left:-5px;
+		padding:30px 5px 5px;
 		overflow: visible;
 
 		.a-form-row
@@ -543,9 +558,9 @@ background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 
 
 
 // Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
-// ------------------------------------- 
+// -------------------------------------
 
-.a-media-placeholder { } // Height and Width are defined in the template and applied inline in _normalView.php 
+.a-media-placeholder { } // Height and Width are defined in the template and applied inline in _normalView.php
 
 .a-media-placeholder span
 {
@@ -559,7 +574,7 @@ background: rgba(0,0,0,0.025);
 }
 
 // Misc
-// ------------------------------------- 
+// -------------------------------------
 
 ul.a-controls.a-media-edit-links { width: 100%; }
 
