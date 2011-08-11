@@ -202,7 +202,7 @@ class BaseaPageSettingsForm extends aPageForm
     else
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
-      $options['typeahead-url'] = url_for('taggableComplete/complete');
+      $options['typeahead-url'] = a_url('taggableComplete', 'complete');
     }
     $options['popular-tags'] = PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10);
     $options['commit-selector'] = '#' . ($this->getObject()->isNew() ? 'a-create-page' : 'a-page-settings') . '-submit';

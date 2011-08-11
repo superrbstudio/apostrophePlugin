@@ -51,4 +51,4 @@
 
 </div>
 
-<?php a_js_call('apostrophe.audioPlayerSetup(?, ?)', "#a-audio-player-container-$uniqueID", url_for('aMediaBackend/original?' . http_build_query(array('slug' => $item->getSlug(), 'format' => $item->getFormat())))) ?>
+<?php a_js_call('apostrophe.audioPlayerSetup(?, ?)', "#a-audio-player-container-$uniqueID", a_url('aMediaBackend', 'original', array('slug' => $item->getSlug(), 'format' => $item->getFormat()))) ?>

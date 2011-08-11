@@ -189,7 +189,7 @@
   <?php echo $form['tags']->renderLabel() ?>
 	<div class="a-form-field">
   	<?php echo $form['tags']->render(array('id' => 'a-media-item-tags-input-'.$i, )) ?>
-  	<?php $options = array('popular-tags' => $popularTags, 'tags-label' => ' ', 'commit-selector' => $submitSelector, 'typeahead-url' => url_for('taggableComplete/complete')) ?>
+  	<?php $options = array('popular-tags' => $popularTags, 'tags-label' => ' ', 'commit-selector' => $submitSelector, 'typeahead-url' => a_url('taggableComplete', 'complete')) ?>
   	<?php if (sfConfig::get('app_a_all_tags', true)): ?>
   	  <?php $options['all-tags'] = $allTags ?>
   	<?php endif ?>
@@ -252,11 +252,11 @@
 
   <ul class="a-ui a-controls a-align-left bottom">
 		<?php if ($editVideoSuccess): ?>
-	   	<li><?php echo a_button(a_('Cancel'), url_for('aMedia/resume'), array('icon','a-cancel', 'big')) ?></li>
+	   	<li><?php echo a_button(a_('Cancel'), a_url('aMedia', 'resume'), array('icon','a-cancel', 'big')) ?></li>
 	   	<li><?php echo a_anchor_submit_button(a_('Save Media'), array('big'), substr($submitSelector, 1)) ?></li>
 		<?php else: ?>
 	   	<li><?php echo a_anchor_submit_button(a_('Save'), array(), substr($submitSelector, 1)) ?></li>
-	   	<li><?php echo a_button(a_('Cancel'), url_for('aMedia/resume'), array('icon','a-cancel')) ?></li>
+	   	<li><?php echo a_button(a_('Cancel'), a_url('aMedia', 'resume'), array('icon','a-cancel')) ?></li>
 		<?php endif ?>
   	<?php if ($item): ?>
     	<li>

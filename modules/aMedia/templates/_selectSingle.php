@@ -25,6 +25,6 @@
 	</div>
 	
   <ul class="a-ui a-controls">
-		<li><?php echo a_button(a_('Cancel'), url_for("aMedia/selectCancel"), array('icon','a-cancel','big','a-select-cancel')) ?></li>
+		<li><?php echo a_button(a_('Cancel'), a_url('aMedia', 'selectCancel'), array('icon','a-cancel','big','a-select-cancel')) ?></li>
   </ul>
 </div>

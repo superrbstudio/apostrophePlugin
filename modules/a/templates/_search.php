@@ -1,6 +1,6 @@
 <?php use_helper('a') ?>
 <div id="a-search" class="a-ui a-search global">
-  <form action="<?php echo url_for('a/search') ?>" method="get">
+  <form action="<?php echo a_url('a', 'search') ?>" method="get">
 		<div class="a-form-row"> <?php // div is for page validation ?>
 			<label for="a-search-cms-field" style="display:none;">Search</label><?php // label for accessibility ?>
 			<input type="text" name="q" value="<?php echo htmlspecialchars($sf_params->get('q', null, ESC_RAW)) ?>" class="a-search-field" id="a-search-cms-field"/>

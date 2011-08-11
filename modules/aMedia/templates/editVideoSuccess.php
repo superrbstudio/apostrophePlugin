@@ -25,7 +25,7 @@
   </div>
 
   <div class="a-media-items a-media-edit-video">				
-	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for('aMedia/editVideo'), 'editVideoSuccess' => true)) ?>		
+	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => a_url('aMedia', 'editVideo'), 'editVideoSuccess' => true)) ?>		
   </div>
 
 </div>

@@ -29,7 +29,7 @@
         </li>
         <li id="<?php echo $id ?>-inactive" class="inactive" style="<?php echo (!$active) ? '' : 'display: none' ?>">
           <?php echo a_js_button(a_($settings['label']), array('alt', 'icon', 'a-unchecked', 'no-bg'), $id . '-button') ?>
-          <?php a_js_call('apostrophe.slotEnableVariantButton(?)', array('buttonId' => $id . '-button', 'slotContentId' => "a-slot-content-$pageid-$name-$permid", 'variant' => $variant, 'slotFullId' => "$pageid-$name-$permid", 'url' => url_for('a/setVariant?' . http_build_query(array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant))))) ?>
+          <?php a_js_call('apostrophe.slotEnableVariantButton(?)', array('buttonId' => $id . '-button', 'slotContentId' => "a-slot-content-$pageid-$name-$permid", 'variant' => $variant, 'slotFullId' => "$pageid-$name-$permid", 'url' => a_url('a', 'setVariant', array('id' => $pageid, 'name' => $name, 'permid' => $permid, 'variant' => $variant)))) ?>
         </li>
       <?php endforeach ?>
     </ul>

@@ -21,8 +21,8 @@
 		<a href="#" id="<?php echo $history_button_id ?>" 
 			class="a-btn icon a-history-btn alt <?php echo ((!$infinite) ? str_replace('big','',$history_button_style) : $history_button_style) ?>" 
 			title="<?php echo a_('History') ?>"
-			data-url="<?php echo url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name))) ?>"
-			data-moreurl="<?php echo url_for("a/history?" . http_build_query(array("id" => $pageid, 'name' => $name, 'all' => 1))) ?>"><span class="icon"></span><?php echo a_('History') ?></a>
+			data-url="<?php echo a_url('a', 'history',  array("id" => $pageid, 'name' => $name)) ?>"
+			data-moreurl="<?php echo a_url('a', 'history', array("id" => $pageid, 'name' => $name, 'all' => 1)) ?>"><span class="icon"></span><?php echo a_('History') ?></a>
 	</li>
 <?php end_slot() ?>
 <?php endif ?>
@@ -123,10 +123,10 @@
 					<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', 'no-label'); ?>
 					<?php $delete_button_id = "a-slot-$pageid-$name-$permid-delete-button" ?>
 					<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', 'alt', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
-					<?php a_js_call('apostrophe.areaEnableDeleteSlotButton(?)', array('pageId' => $page->id, 'name' => $name, 'permid' => $permid, 'buttonId' => $delete_button_id, 'confirmPrompt' => a_('Are you sure you want to delete this slot?'), "url" => url_for("a/deleteSlot?" .http_build_query(array(
+					<?php a_js_call('apostrophe.areaEnableDeleteSlotButton(?)', array('pageId' => $page->id, 'name' => $name, 'permid' => $permid, 'buttonId' => $delete_button_id, 'confirmPrompt' => a_('Are you sure you want to delete this slot?'), "url" => a_url('a', 'deleteSlot', array(
             "id" => $page->id,
             "name" => $name,
-            "permid" => $permid))))) ?>
+            "permid" => $permid)))) ?>
         </li>			
       <?php endif ?>
 		</ul>
@@ -161,7 +161,7 @@
 	<?php if ($infinite): ?><?php // Normal Areas ?>
 		<?php a_js_call('apostrophe.areaHighliteNewSlot(?)', array('pageId' => $pageid, 'slotName' => $name)) ?>
 		<?php if ($options['arrows']): ?>
-			<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>	
+			<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', a_url('a', 'moveSlot'), $pageid, $name) ?>	
 		<?php endif ?>
 		<?php a_js_call('apostrophe.menuToggle(?)', array('button' => '#a-add-slot-'.$pageid.'-'.$name, 'classname' => 'a-options-open', 'overlay' => false)) ?>	
 	<?php endif ?>

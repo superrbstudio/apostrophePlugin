@@ -35,9 +35,9 @@
 	<div id="a-audio-player-<?php echo $uniqueID ?>" class="a-audio-player"></div>
 
 	<?php if ($download): ?>
-		<div class="a-audio-download"><?php echo link_to(__("Download Audio File", null, 'apostrophe'), "aMediaBackend/original?" . http_build_query(array("slug" => $item->getSlug(), "format" => $item->getFormat())), array('class' => 'a-download', )) ?></div>
+		<div class="a-audio-download"><?php echo a_link_to(__("Download Audio File", null, 'apostrophe'), 'aMediaBackend', 'original',  array('query_string' => array("slug" => $item->getSlug(), "format" => $item->getFormat()), 'class' => 'a-download')) ?></div>
 	<?php endif ?>
 
 </div>
 	
-<?php a_js_call('apostrophe.audioPlayerSetup(?, ?)', "#a-audio-player-container-$uniqueID", url_for('aMediaBackend/original?' . http_build_query(array('slug' => $item->getSlug(), 'format' => $item->getFormat())))) ?>
+<?php a_js_call('apostrophe.audioPlayerSetup(?, ?)', "#a-audio-player-container-$uniqueID", a_url('aMediaBackend', 'original', array('slug' => $item->getSlug(), 'format' => $item->getFormat()))) ?>

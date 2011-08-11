@@ -36,7 +36,7 @@
                "aMediaIds" => implode(",", $itemIds),
                "type" => "image",
                "label" => a_get_option($options, 'browseLabel', a_('You are creating a slideshow of images.')),
-               "after" => url_for("aSlideshowSlot/edit") . "?" . 
+               "after" => a_url('aSlideshowSlot', 'edit') . "?" . 
                  http_build_query(
                    array(
                      "slot" => $name, 

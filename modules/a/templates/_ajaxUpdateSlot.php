@@ -21,7 +21,7 @@
 <?php if (!$slot->isNew()): ?>
   <?php a_js_call('apostrophe.slotNotNew(?, ?, ?)', $pageid, $name, $permid) ?>
 <?php endif ?>
-<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', url_for('a/moveSlot'), $pageid, $name) ?>
+<?php a_js_call('apostrophe.areaUpdateMoveButtons(?, ?, ?)', a_url('a', 'moveSlot'), $pageid, $name) ?>
 
 <?php if (isset($variant)): ?>
   <?php a_js_call('apostrophe.slotHideVariantsMenu(?)', "#a-$pageid-$name-$permid-variant ul.a-variant-options") ?>

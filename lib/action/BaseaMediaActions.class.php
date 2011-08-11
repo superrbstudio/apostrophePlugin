@@ -1151,6 +1151,7 @@ class BaseaMediaActions extends aEngineActions
    */
   public function executeClearSelecting()
   {
+    throw new Exception('wtf');
     aMediaTools::clearSelecting();
     exit(0);
   }

@@ -8,7 +8,7 @@
 <?php $domId = 'a-media-thumb-link-' . $mediaItem->getId() ?>
 <?php $galleryConstraints = aMediaTools::getOption('gallery_constraints'); ?>
 <?php (isset($layout['showSuccess'])) ? $embedConstraints = aMediaTools::getOption('show_constraints') : $embedConstraints = $galleryConstraints ?>
-<?php $showUrl = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))) ?>
+<?php $showUrl = url_for('a_media_image_show', array("slug" => $mediaItem->getSlug())) ?>
 <?php $embeddable = $mediaItem->getEmbeddable() ?>
 <?php isset($autoplay) ? $autoplay : $autoplay = false ?>
 <?php if ($selecting): ?>
@@ -20,7 +20,7 @@
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $linkHref = a_url('aMedia', 'multipleAdd', array('id' => $mediaItem->getId())) ?>
     <?php $multipleStyleSelect = false ?>
   <?php endif ?>
 <?php else: ?>

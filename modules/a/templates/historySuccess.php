@@ -32,7 +32,7 @@
 </tr>
 <?php $n++; endforeach ?>
 
-<?php a_js_call('apostrophe.historyOpen(?)', array('id' => $id, 'name' => $name, 'versionsInfo' => $versions, 'all' => $all, 'revert' => url_for('a/revert'), 'revisionsLabel' => a_(' Revisions'))) ?>
+<?php a_js_call('apostrophe.historyOpen(?)', array('id' => $id, 'name' => $name, 'versionsInfo' => $versions, 'all' => $all, 'revert' => a_url('a', 'revert'), 'revisionsLabel' => a_(' Revisions'))) ?>
 
 <?php if (count($versions) == 0): ?>
 	<tr class="a-history-item">

@@ -4,7 +4,7 @@
 ?>
 
 <script type="text/javascript">
-	apostrophe.mediaItemRefresh({'url':<?php echo json_encode(url_for("aMedia/show?slug=" . $mediaItem->getSlug())) ?>});
+	apostrophe.mediaItemRefresh(<?php echo json_encode(array('url' => url_for('a_media_image_show', array('slug' => $mediaItem->getSlug())))) ?>);
 </script>
 
 <?php // Hello! I can't figure out what this partial is used for. I put the JS function into the apostorphe JS file ?>

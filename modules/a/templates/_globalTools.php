@@ -52,6 +52,6 @@
 <?php if (aTools::isPotentialEditor() || $pageSettings): ?>
 	<div class="a-page-overlay"></div>
 	<?php if ($page): ?>
-		<?php a_js_call('apostrophe.enablePageSettingsButtons(?)', array('aPageSettingsURL' => url_for('a/settings') . '?' . http_build_query(array('id' => $page->id)), 'aPageSettingsCreateURL' => url_for('a/settings') . '?' . http_build_query(array('new' => 1, 'parent' => $page->slug)))) ?>
+		<?php a_js_call('apostrophe.enablePageSettingsButtons(?)', array('aPageSettingsURL' => a_url('a', 'settings') . '?' . http_build_query(array('id' => $page->id)), 'aPageSettingsCreateURL' => a_url('a', 'settings') . '?' . http_build_query(array('new' => 1, 'parent' => $page->slug)))) ?>
 	<?php endif ?>	
 <?php endif ?>

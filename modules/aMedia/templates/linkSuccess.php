@@ -11,7 +11,7 @@
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 
-		<form id="a-media-add-linked-account" method="post" action="<?php echo url_for('aMedia/linkAddAccount') ?>" class="a-ui a-media-services-form a-media-linked-accounts-form">
+		<form id="a-media-add-linked-account" method="post" action="<?php echo a_url('aMedia', 'linkAddAccount') ?>" class="a-ui a-media-services-form a-media-linked-accounts-form">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
 			</div>		
@@ -49,7 +49,7 @@
 		          <li class="a-service a-<?php echo $account->service ?>"><?php echo $account->service ?></li>
 		          <li class="a-account"><?php echo a_entities($account->username) ?></li>
 		          <?php if (isset($form)): ?>
-		            <li class="a-actions"><?php echo a_button(a_('Remove'), url_for('aMedia/linkRemoveAccount?id=' . $account->id), array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
+		            <li class="a-actions"><?php echo a_button(a_('Remove'), a_url('aMedia', 'linkRemoveAccount', array('id' => $account->id)), array('icon','a-close-small','no-label', 'no-bg'), null, null, 'Remove') ?></li>
 		          <?php endif ?>
 		        </ul>
 		      </li>
@@ -65,5 +65,5 @@
 	</div>
 </div>
 
-<?php a_js_call('apostrophe.mediaEnableLinkAccount(?)', url_for('aMedia/linkPreviewAccount')) ?>
+<?php a_js_call('apostrophe.mediaEnableLinkAccount(?)', a_url('aMedia', 'linkPreviewAccount')) ?>
 <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a_embed_media_account_username', 'title' => a_('Username'))) ?>

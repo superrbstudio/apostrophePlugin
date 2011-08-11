@@ -14,10 +14,10 @@
   <?php else: ?>
     <?php // Non-image single select. The multiple add action is a bit of a misnomer here ?>
     <?php // and redirects to aMedia/selected after adding the media item ?>
-    <?php $linkHref = url_for('aMedia/multipleAdd?id=' . $mediaItem->getId()); ?>
+    <?php $linkHref = a_url('aMedia', 'multipleAdd', array('id' => $mediaItem->getId())); ?>
   <?php endif ?>
 <?php else: ?>
-  <?php $linkHref = url_for("aMedia/show?" . http_build_query(array("slug" => $mediaItem->getSlug()))); ?>
+  <?php $linkHref = url_for('a_media_image_show', array("slug" => $mediaItem->getSlug())); ?>
 <?php endif ?>
 
 <ul class="a-ui">
@@ -42,7 +42,7 @@
 		<?php if ($mediaItem->getDownloadable()): ?>
 		  <li class="a-media-item-link a-media-item-meta a-form-row">
 				<?php echo __('<span>Permalink:</span> %urlfield%', array('%urlfield%' =>
-				'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $mediaItem->getId() . '" name="a-media-item-link-value" value="' . url_for("aMediaBackend/original?".http_build_query(array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
+				'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $mediaItem->getId() . '" name="a-media-item-link-value" value="' . a_url('aMediaBackend', 'original', array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat()), true) . '" />'), 'apostrophe') ?>
 			</li>
 		<?php endif ?>
 	<?php endif ?>

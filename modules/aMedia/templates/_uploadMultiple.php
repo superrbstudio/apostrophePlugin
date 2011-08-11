@@ -20,7 +20,7 @@
 
   <?php echo $form->renderGlobalErrors() ?>
 
-  <form method="post" action="<?php echo url_for("aMedia/upload") ?>" enctype="multipart/form-data" id="a-media-upload-form">
+  <form method="post" action="<?php echo a_url('aMedia', 'upload') ?>" enctype="multipart/form-data" id="a-media-upload-form">
 	  <div class="a-form-row a-hidden">
 	  	<?php echo $form->renderHiddenFields() ?>
 	  </div>

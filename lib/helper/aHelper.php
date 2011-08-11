@@ -625,3 +625,27 @@ function a_remove_filter_button($label, $url, $parameter)
   return link_to($label.'<span class="icon"></span>', url_for($url), array('class' => 'a-remove-filter-button', 'title' => 'Remove Filter: ' . $label));
 }
 
+function a_url($module, $action, $getParams = array(), $absolute = false)
+{
+  $params = array('action' => $action);
+  if ($module == 'aMedia')
+  {
+    $route = 'a_media_other';
+  }
+  else
+  {
+    $route = sfConfig::get('app_a_default_route', 'default');
+    $params['module'] = $module;
+  }
+ return url_for($route, $params, $absolute) . ($getParams ? '?' . http_build_query($getParams) : '');
+}
+
+function a_link_to($label, $module, $action, $options = array())
+{
+ if (isset($options['query_string']) && is_array($options['query_string']))
+ {
+  $options['query_string'] = http_build_query($options['query_string']);
+ }
+  return link_to($label, sfConfig::get('app_a_default_route', 'default'),
+  array('module' => $module, 'action' => $action), array('query_string' => http_build_query($getParams)));
+}

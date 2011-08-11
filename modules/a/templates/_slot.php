@@ -47,7 +47,7 @@
 
   </form>
   
-  <?php a_js_call('apostrophe.slotEnableForm(?)', array('slot-form' => '#a-slot-form-' . $id, 'slot-content' => '#a-slot-content-' . $id, 'url' => url_for($type . 'Slot/edit') . '?' . http_build_query(array('slot' => $name, 'permid' => $permid, 'slug' => $slug)))) ?>
+  <?php a_js_call('apostrophe.slotEnableForm(?)', array('slot-form' => '#a-slot-form-' . $id, 'slot-content' => '#a-slot-content-' . $id, 'url' => a_url($type . 'Slot', 'edit', array('slot' => $name, 'permid' => $permid, 'slug' => $slug)))) ?>
 <?php endif ?>
 
 <?php if ($editable): ?>
