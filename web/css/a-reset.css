@@ -29,3 +29,9 @@ li.a-ui, ul.a-ui, ol.a-ui { list-style: none; }
 .a-ui h4, h4.a-ui { font-size: 14px; }
 .a-ui h5, h5.a-ui { font-size: 12px; font-weight: bold; }
 .a-ui h6, h6.a-ui { font-size: 12px; color: #999; }
+
+input::-moz-focus-inner 
+{ 
+    border: 0;
+    padding: 0;
+}
