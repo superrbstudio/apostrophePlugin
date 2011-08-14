@@ -21,6 +21,8 @@ class aValidatorFilePersistent extends sfValidatorFile
   // Word can contain Excel and vice versa
   protected $originalName;
 
+  protected $mustBeImage = false;
+  
   /**
    * DOCUMENT ME
    * @param mixed $options
@@ -40,6 +42,21 @@ class aValidatorFilePersistent extends sfValidatorFile
       array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
       array_unshift($mimeTypeGuessers, array($this, 'guessFromID3'));
       array_unshift($mimeTypeGuessers, array($this, 'guessRTF'));
+      // If any of these options are not null, the uploaded file must 
+      // be of an image format acceptable to getimagesize()
+      // (GIF, JPEG, PNG).
+      $this->addOption('minimum-width', null);
+      $this->addOption('minimum-height', null);
+      $this->addOption('maximum-width', null);
+      $this->addOption('maximum-height', null);
+      $this->addMessage('not-an-image', 'The file %value% is not an image. Please upload an image in GIF, JPEG or PNG format.');
+      $this->addMessage('minimum-width', 'Please upload an image at least %minimum-width% pixels wide.');
+      $this->addMessage('maximum-width', 'Please upload an image less than %maximum-width% pixels wide.');
+      $this->addMessage('minimum-height', 'Please upload an image at least %minimum-height% pixels tall.');
+      $this->addMessage('maximum-height', 'Please upload an image less than %maximum-height% pixels tall.');
+      $this->addMessage('minimum-dimensions', 'Please upload an image at least %minimum-width%x%minimum-height% pixels in size.');
+      $this->addMessage('maximum-dimensions', 'Please upload an image no more than %maximum-width%x%maximum-height% pixels in size.');
+    
       $this->setOption('mime_type_guessers', $mimeTypeGuessers);
     }
   }
@@ -76,6 +93,10 @@ class aValidatorFilePersistent extends sfValidatorFile
    */
   public function clean($value)
   {
+    if ($this->getOption('minimum-width') || $this->getOption('minimum-height') || $this->getOption('maximum-width') || $this->getOption('maximum-height'))
+    {
+      $this->mustBeImage = true;
+    }
     $persistid = false;
     if (isset($value['persistid']))
     {
@@ -157,6 +178,88 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       // Expiration of abandoned stuff has to happen somewhere
       self::removeOldFiles($persistentDir);
+      if ($this->mustBeImage)
+      {
+        // Check whether the dimensions of the image are acceptable.
+        // If not build a validator error message
+        $info = getimagesize($cvalue['tmp_name']);
+        if (!$info)
+        {
+          throw new sfValidatorError($this, 'not-an-image', array('value' => (string) $value));
+        }
+        $messageArgs = array('minimum-width' => $this->getOption('minimum-width'), 'width' => $info[0], 'minimum-height' => $this->getOption('minimum-height'), 'height' => $info[1], 'maximum-width' => $this->getOption('maximum-width'), 'maximum-height' => $this->getOption('maximum-height'));
+        $msg = false;
+        if ($this->getOption('minimum-width'))
+        {
+          if ($info[0] < $this->getOption('minimum-width'))
+          {
+            // If there is also a minimum-width don't be a tease, tell
+            // them about both limits to save them grief
+            if ($this->getOption('minimum-height'))
+            {
+              $msg = 'minimum-dimensions';
+            }
+            else
+            {
+              $msg = 'minimum-width';
+            }
+          }
+        }
+        if ($this->getOption('maximum-width'))
+        {
+          if ($info[0] > $this->getOption('maximum-width'))
+          {
+            if ($this->getOption('maximum-height'))
+            {
+              $msg = 'maximum-dimensions';
+            }
+            else
+            {
+              $msg = 'maximum-width';
+            }
+          }
+        }
+        if ($this->getOption('minimum-height'))
+        {
+          if ($info[1] < $this->getOption('minimum-height'))
+          {
+            if ($this->getOption('minimum-width'))
+            {
+              $msg = 'minimum-dimensions';
+            }
+            else
+            {
+              $msg = 'minimum-height';
+            }
+          }
+        }
+        if ($this->getOption('maximum-height'))
+        {
+          if ($info[1] > $this->getOption('maximum-height'))
+          {
+            if ($this->getOption('maximum-width'))
+            {
+              $msg = 'maximum-dimensions';
+            }
+            else
+            {
+              $msg = 'maximum-height';
+            }
+          }
+        }
+        if ($msg)
+        {
+          $error = new sfValidatorError($this, $msg, $messageArgs);
+          if ($persistid !== false)
+          {
+            $infoPath = "$persistentDir/$persistid.data";
+            $filePath = "$persistentDir/$persistid.file";
+            @unlink($infoPath);
+            @unlink($filePath);
+          }
+          throw $error;
+        }
+      }
       if ($persistid !== false)
       {
         $filePath = "$persistentDir/$persistid.file";

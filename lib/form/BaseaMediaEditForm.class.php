@@ -109,10 +109,29 @@ class BaseaMediaEditForm extends aMediaItemForm
     // then they resubmit - we can add an affirmative way
     // to remove one item from the annotation form later
     
-    $this->setValidator("file", new aValidatorFilePersistent(
-      array("mime_types" => $mimeTypes,
-        'validated_file_class' => 'aValidatedFile',
-        "required" => $this->getObject()->isNew() ? true : false),
+    // Make the validator aware of the minimum dimensions for
+    // the select
+        
+    $minimumWidth = null;
+    $minimumHeight = null;
+    if (aMediaTools::isSelecting())
+    {
+      $minimumWidth = aMediaTools::getAttribute('minimum-width');
+      $minimumHeight = aMediaTools::getAttribute('minimum-height');
+    }
+    
+    $options = array("mime_types" => $mimeTypes,
+      'validated_file_class' => 'aValidatedFile',
+      "required" => $this->getObject()->isNew() ? true : false);
+    if ($minimumWidth)
+    {
+      $options['minimum-width'] = $minimumWidth;
+    }
+    if ($minimumHeight)
+    {
+      $options['minimum-height'] = $minimumHeight;
+    }
+    $this->setValidator("file", new aValidatorFilePersistent($options,
       array("mime_types" => "The following file types are accepted: " . implode(', ', $extensions))));
 
     // Necessary to work around FCK's "id and name cannot differ" problem
