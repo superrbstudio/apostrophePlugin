@@ -4,9 +4,19 @@
 <?php // Images support cropping, which makes some of the constraints unnecessary to display ?>
 <?php // With other media types we must find an item that satisfies all of them. ?>
 <?php if (aMediaTools::getAttribute('type') === 'image'): ?>
-  <?php // We went with something simpler when cropping is present ?>
+  <?php // With cropping only minimum-width and minimum-height matter at this stage, ?>
+  <?php // so it won't be too scary to give them real information and it'll help people ?>
+  <?php // who understand their tools a little ?>
 	<?php if ($limitSizes): ?>
-	<h3><?php echo __('Only images that can be used are displayed below. <br/>Some images in your media library may not be large enough to be selected.', null, 'apostrophe') ?></h4>
+  	<h3 class="a-simple-constraints">
+  	  <?php if (aMediaTools::getAttribute('minimum-width') && aMediaTools::getAttribute('minimum-height')): ?>
+  	    <?php echo __('Only images with a minimum size of minimum-widthxminimum-height pixels are displayed below. <br/>Some images in your media library may not be large enough to be selected.', array('minimum-width' => aMediaTools::getAttribute('minimum-width'), 'minimum-height' => aMediaTools::getAttribute('minimum-height')), 'apostrophe') ?>
+  	  <?php elseif (aMediaTools::getAttribute('minimum-width')): ?>
+  	    <?php echo __('Only images with a minimum width of minimum-width pixels are displayed below. <br/>Some images in your media library may not be wide enough to be selected.', array('minimum-width' => aMediaTools::getAttribute('minimum-width')), 'apostrophe') ?></h4>
+  	  <?php elseif (aMediaTools::getAttribute('minimum-height')): ?>
+  	    <?php echo __('Only images with a minimum height of minimum-height pixels are displayed below. <br/>Some images in your media library may not be tall enough to be selected.', array('minimum-height' => aMediaTools::getAttribute('minimum-height')), 'apostrophe') ?></h4>
+  	  <?php endif ?>
+  	</h3>
 	<?php endif ?>
 <?php else: ?>
   <?php // No cropping, their only hope is to get proper details from us on what is allowed ?>

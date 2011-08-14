@@ -6,7 +6,10 @@
 <?php // If there are no slots, show some default text ?>
 <?php if (!count($slots)): ?>
 	<h3>
-		<?php echo a_('Oops! You don\'t have anything in your media library.') ?><br/>
+	  <?php // I added the word "suitable" here and now it's equally reasonable ?>
+	  <?php // for the case where the constraints, the filters, etc. are the reason ?>
+	  <?php // you don't see anything, rather than the library being truly 100% empty. -Tom ?>
+		<?php echo a_('Oops! You don\'t have anything suitable in your media library yet.') ?><br/>
 		<?php echo a_('Do you want to <a href="#upload-images" class="a-add-media-toggle">add some media?</a>') ?>
 	</h3>
 <?php endif ?>

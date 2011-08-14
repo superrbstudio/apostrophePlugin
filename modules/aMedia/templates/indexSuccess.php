@@ -49,7 +49,10 @@
 	</div>
 	<?php endif ?>
 	
-	<?php if ($limitSizes && $pager->count()): ?>
+	<?php // This should never have been disabled for cases where there are zero images matching. ?>
+	<?php // That is exactly when you need it most to understand why you don't see nuttin'! ?>
+	<?php // Overrides to the contrary must be at project level only. -Tom ?>
+	<?php if ($limitSizes): ?>
 		<div class="a-media-selection-contraints clearfix">
 			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>		
 		</div>
