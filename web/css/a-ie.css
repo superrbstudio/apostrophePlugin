@@ -51,3 +51,4 @@ border-color: rgb(153,204,51);
 color: rgb(153,204,51);
 }
 
+.a-media-item-thumbnail-image { visibility: hidden !important; }
