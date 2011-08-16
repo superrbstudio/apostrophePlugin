@@ -151,3 +151,30 @@
 	background: @rgb;
 	background: @rgba;
 }
+
+@a-webkit-scrollbar(@width:8px; @radius:4px; @color:#efefef;)
+{
+	&::-webkit-scrollbar
+	{
+    width: @width;
+		background-color: @color;
+		@a-border-radius(@radius);
+		&:vertical
+		{
+			
+		}
+		&:horizontal
+		{
+			height: 8px;
+		}
+	}
+	&::-webkit-scrollbar-thumb
+	{
+		background-color: darken(@color, 50%);
+		@a-border-radius(@radius);
+	}
+	&::-webkit-scrollbar-corner
+	{
+		background-color: @color;
+	}
+}
