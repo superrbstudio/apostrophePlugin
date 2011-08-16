@@ -46,7 +46,7 @@ class BaseaActions extends sfActions
     {
       $slug = "/$slug";
     }
-    
+
     $page = aPageTable::retrieveBySlugWithSlots($slug);
     if (!$page)
     {
