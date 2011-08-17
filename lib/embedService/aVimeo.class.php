@@ -222,13 +222,12 @@ EOM
    */
   public function getIdFromUrl($url)
   {
-    if (preg_match("/vimeo.com(?:\/video)?\/(\d+)/", 
-      $url, $matches))
+    if (preg_match("/vimeo.com(?:\/video)?\/(\d+)/", $url, $matches))
     {
       return $matches[1];
     }
     // Another vimeo format in the wild
-    if (preg_match("/vimeo.com\/moogaloop\.swf\?clip_id=(\d+)/", $url, $matches))
+    elseif (preg_match("/vimeo.com\/moogaloop\.swf\?clip_id=(\d+)/", $url, $matches))
     {
       return $matches[1];
     }
