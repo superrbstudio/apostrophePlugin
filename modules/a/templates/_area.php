@@ -29,7 +29,7 @@
 
 <?php if (!$refresh): ?>
 
-  <div id="a-area-<?php echo "$pageid-$name" ?>" <?php echo ($editable) ? 'data-pageid="'.$pageid.'" data-name="'.$name.'"' : '' ?> class="a-area a-normal <?php echo "a-area-$name" ?> <?php echo isset($options['area-class']) ? $options['area-class'] : null ?> <?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> clearfix">
+  <div id="a-area-<?php echo "$pageid-$name" ?>" <?php echo ($editable) ? 'data-pageid="'.$pageid.'" data-name="'.$name.'"' : '' ?> class="a-area a-normal <?php echo "a-area-$name" ?> <?php echo isset($options['area-class']) ? $options['area-class'] : null ?> <?php echo (!$infinite) ? ' singleton '.$options['type'] :'' ?> <?php echo ($editable) ? 'a-area-editable': null ?> clearfix">
     
   <?php // Area Controls ?>
   <?php if ($editable): ?>
