@@ -159,24 +159,33 @@ function aConstructor()
 	// Restore feature stashes the old content in .data() and binds restore to a cancel button returned within data
 	this.linkToRemote = function(options)
 	{
-		var link = $(options['link']);
-		if (link === null)
+		apostrophe.log('apostrophe.linkToRemote');
+
+		var selector = options['link'];
+
+		if (selector === undefined)
 		{
 			// Modern syntax optional
-			link = $(options['selector']);
+			selector = options['selector'];
 		}
+
+		var link = $(selector);
 		var update = $(options['update']);
-		var method = (options['method'])? options['method']:'get';
-		var remote_url = options['url'];
-		var eventType = (options['event'])? options['event']:'click';
+		var method = (options['method'])? options['method'] : 'get';
+		var remoteURL = options['url'];
+		var eventType = (options['event'])? options['event'] : 'click';
 		var restore = (options['restore']) ? options['restore'] : false;
 
-		if (link.length) {
-			link.bind(eventType, function(){
+		apostrophe.log('apostrophe.linkToRemote -- selector:' + selector);
+		apostrophe.log('apostrophe.linkToRemote -- update:' + options['update']);
+		apostrophe.log('apostrophe.linkToRemote -- url:' + remoteURL);
+		
+		if (link.length && update.length) {
+			link.bind(eventType, function() {
 				$.ajax({
 					type:method,
 					dataType:'html',
-					beforeSend:function(){
+					beforeSend:function() {
 						update.addClass('a-remote-data-loading');
 					},
 					success:function(data, textStatus)
@@ -187,7 +196,7 @@ function aConstructor()
 						}
 						update.html(data);
 					},
-					complete:function(){
+					complete:function() {
 						if (restore)
 						{
 							update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
@@ -197,18 +206,16 @@ function aConstructor()
 						}
 						update.removeClass('a-remote-data-loading');
 					},
-					url:remote_url
+					url:remoteURL
 				});
 				return false;
 			});
 		}
-		else
-		{
-		apostrophe.log('apostrophe.linkToRemote -- No Link Found');
-		}
-		if (!update.length)
-		{
-		apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
+		if (!link.length) {
+			apostrophe.log('apostrophe.linkToRemote -- No Link Found');			
+		}			
+		if (!update.length) {
+			apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
 		}
 	};
 
