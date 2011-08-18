@@ -204,7 +204,7 @@ function aConstructor()
 								update.html(update.data('aBeforeUpdate'));
 							});
 						}
-						update.removeClass('a-remote-data-loading');
+						update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
 					},
 					url:remoteURL
 				});
@@ -1931,6 +1931,25 @@ function aConstructor()
 			$('#a-media-search-remove').show();
 			$('#a-media-search-submit').hide();
 		});
+	};
+	
+	// Hide / Show the page overlay. Accepts true or false, and an optional call back
+	// apostrophe.togglePageOverlay({ toggle: true | false , callback : f() });
+	this.togglePageOverlay = function(options)
+	{
+		var overlay = $('.a-page-overlay');
+		if (options['toggle'])
+		{
+			overlay.addClass('active');
+		}
+		else
+		{
+			overlay.removeClass('active');
+		}
+		if (options.callback && typeof(options.callback) === 'function') 
+		{
+			options.callback();
+		};		
 	};
 
 	// A very small set of things that allow us to write CSS and HTML as if they were
