@@ -5,9 +5,15 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', <?php echo json_encode($analytics['account']) ?>]);
     <?php // Not all sites need this field ?>
+
     <?php if (isset($analytics['domainName'])): ?>
       _gaq.push(['_setDomainName', <?php echo json_encode($analytics['domainName']) ?>]);
     <?php endif ?>
+
+    <?php if (isset($analytics['allowLinker'])): ?>
+  		_gaq.push(['_setAllowLinker', <?php echo $analytics['allowLinker'] ?>]);
+    <?php endif ?>
+
     _gaq.push(['_trackPageview']);
 
     (function() {
