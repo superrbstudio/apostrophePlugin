@@ -1139,7 +1139,7 @@ class BaseaTools
    * Lock names must be \w+
    * @param mixed $name
    */
-  static public function lock($name)
+  static public function lock($name, $wait = true)
   {
     $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
     if (!preg_match('/^\w+$/', $name))
@@ -1152,15 +1152,25 @@ class BaseaTools
       $fp = fopen($file, 'a');
       if ($fp)
       {
-        if (flock($fp, LOCK_EX))
+        $flags = LOCK_EX;
+        if (!$wait)
+        {
+          $flags |= LOCK_NB;
+        }
+        if (flock($fp, $flags))
         {
           break;
         }
+      }
+      if (!$wait)
+      {
+        return false;
       }
       sleep(1);
     } 
     flock($fp, LOCK_EX);
     aTools::$locks[] = $fp;
+    return true;
   }
 
   /**
