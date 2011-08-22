@@ -418,7 +418,12 @@ class aMysql
     $data = array();
     try
     {
-      $data = $this->conn->query("SHOW CREATE TABLE $tableName")->fetchAll();
+      $query = $this->conn->query("SHOW CREATE TABLE $tableName");
+      if (!$query)
+      {
+        throw new Exception('query is false, PDO sometimes does this for nonexistent tables, other times you get a different PDO exception from fetchAll, don\'t ask me why');
+      }
+      $data = $query->fetchAll();
     } catch (Exception $e)
     {
     }

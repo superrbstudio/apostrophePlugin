@@ -948,8 +948,12 @@ class BaseaActions extends sfActions
       $nvalue->slug = $nvalue->slug_stored;
       $nvalue->title = $nvalue->title_stored;
       $nvalue->summary = $nvalue->summary_stored;
-      
-      if (strlen($nvalue->engine_stored))
+
+      // Search results engine helper should only be triggered for virtual pages
+      // with an engine associated with them. Regular engine pages are, well,
+      // pages, and don't need special treatment. For some reason this is cropping
+      // up with search services but I can't figure out why it didn't with Lucene
+      if (strlen($nvalue->engine_stored) && (!preg_match('/^\//', $nvalue->slug)))
       {
         $helperClass = $nvalue->engine_stored . 'SearchHelper';
         if (class_exists($helperClass))
