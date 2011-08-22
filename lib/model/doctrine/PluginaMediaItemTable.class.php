@@ -63,6 +63,10 @@ class PluginaMediaItemTable extends Doctrine_Table
    */
   public function addSearchQuery(Doctrine_Query $q = null, $luceneQuery)
   {
+    if ($q)
+    {
+      $q->addSelect($q->getRootAlias() . '.*');
+    }
     return aZendSearch::addSearchQuery($this, $q, $luceneQuery);
   }
 

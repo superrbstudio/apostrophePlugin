@@ -50,6 +50,24 @@ class aMysql
   }
 
   /**
+   * Transaction support (just pass through to PDO)
+   */
+  public function beginTransaction()
+  {
+    $this->conn->beginTransaction();
+  }
+
+  public function commit()
+  {
+    $this->conn->commit();
+  }
+
+  public function rollback()
+  {
+    $this->conn->rollback();
+  }
+    
+  /**
    * Used to run a series of queries where you don't need parameters or results
    * but would like to keep a count of those executed (usually migration stuff)
    * @param mixed $commands

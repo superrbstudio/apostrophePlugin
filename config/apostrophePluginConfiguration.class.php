@@ -54,6 +54,12 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     $this->dispatcher->connect('a.get_count_by_category', array($this, 'listenToGetCountByCategory'));
 
     $this->dispatcher->connect('a.merge_category', array($this, 'listenToMergeCategory'));
+    
+    $class = sfConfig::get('app_a_search_service_class', null);
+    if ($class)
+    {
+      aTools::$searchService = new $class(sfConfig::get('app_a_search_service_options', null));
+    }
   }
 
   /**

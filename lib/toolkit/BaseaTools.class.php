@@ -22,6 +22,8 @@ class BaseaTools
   static protected $allowSlotEditing = true;
   static protected $realUrl = null;
   static public $jsCalls = array();
+  
+  static public $searchService = null;
 
   /**
    * Must reset ALL static variables to their initial state

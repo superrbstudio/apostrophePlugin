@@ -1084,6 +1084,69 @@ class PluginaPageTable extends Doctrine_Table
     }
     return aPageTable::$childrenInfo[$id];
   }
+  
+  /**
+   * Add appropriate visibility restrictions to a Doctrine query based on the
+   * current user's identity. This logic was extracted from getPagesInfo(). I'm
+   * interested in overhauling getPagesInfo() to use this and discarding raw
+   * SQL in favor of Doctrine array hydration wherever the performance is
+   * acceptable and DQL will permit the necessary logic to be written. NOTE:
+   * this does NOT exclude virtual pages, since that is not always desirable. -Tom
+   */
+  
+  public function addViewPermissionsToQuery($q)
+  {
+    $user = sfContext::getInstance()->getUser();
+    $user_id = 0;
+    $hasViewLockedPermission = false;
+    $group_ids = array(0);
+    $hasCmsAdmin = false;
+    if ($user->isAuthenticated())
+    {
+      $user_id = $user->getGuardUser()->id;
+      // In 1.5 this one is a little bit of a misnomer because of the new provision for locking
+      // to individuals or groups rather than "Editors & Guests". In the new use case it is
+      // merely a prerequisite
+      $credentials = sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked');
+      $hasViewLockedPermission = $user->hasCredential($credentials);
+      $group_ids = aArray::getIds($user->getGroups());
+      // Careful: empty IN clauses do not work
+      if (!count($group_ids))
+      {
+        $group_ids = array(0);
+      }
+      $hasCmsAdmin = $user->hasCredential('cms_admin');
+    }
+    $q->leftJoin('p.Accesses aa WITH aa.user_id = ?', array($user_id));
+    if (!count($group_ids))
+    {
+      // A group that can never be
+      $group_ids = array(0);
+    }
+    // The automatic array-to-parenthesized-clause feature of Doctrine seems not
+    // to work in a leftJoin ):
+    $q->leftJoin('p.GroupAccesses ga WITH ga.group_id IN (' . implode(',', $group_ids) . ')');
+    // CMS admin can always view
+    if (!$hasCmsAdmin)
+    {
+      // YOU CAN VIEW IF
+      // * view_admin_lock is NOT set, AND
+      // * You can edit
+      // OR
+      // p.archived is false AND p.published_at is in the past AND p.view_is_secure is false
+      // OR
+      // p.archived is false AND p.published_at is in the past AND p.view_is_secure is true AND (p.view_guest is true OR you have view_locked OR you have an explicit view privilege
+      // However note that if you have a group privilege you don't need to have hasViewLockedPermission (all groups are candidates)
+      $q->addWhere('(p.view_admin_lock IS FALSE AND (((aa.privilege = "edit") OR (ga.privilege = "edit")) OR ' .
+        '((p.archived IS FALSE OR p.archived IS NULL) AND p.published_at < NOW() AND ' .
+        '((p.view_is_secure IS FALSE OR p.view_is_secure IS NULL) OR ' .
+          '(p.view_is_secure IS TRUE AND ' .
+            '(ga.privilege = "view_custom" OR ' . ($hasViewLockedPermission ? '(p.view_guest IS TRUE OR aa.privilege = "view_custom")' : '(0 <> 0)') . '))))))');
+    }
+    
+    // admin pages are never visible in normal navigation
+    $q->addWhere('(p.admin IS FALSE OR p.admin IS NULL)');
+  }
 
   /**
    * Accepts array('info' => [page info array], 'where' => [where clause])

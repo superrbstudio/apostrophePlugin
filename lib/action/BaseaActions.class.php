@@ -775,121 +775,176 @@ class BaseaActions extends sfActions
       $q = $replacements[$key];
     }
 
-    try
+    if (aTools::$searchService)
     {
-      $values = aZendSearch::searchLuceneWithValues(Doctrine::getTable('aPage'), $q, aTools::getUserCulture());
-    } catch (Exception $e)
-    {
-      // Lucene search error. TODO: display it nicely if they are always safe things to display. For now: just don't crash
-      $values = array();
-    }
-
-    // The truth is that Zend cannot do all of our filtering for us, especially
-    // permissions-based. So we can do some other filtering as well, although it
-    // would be bad not to have Zend take care of the really big cuts (if 99% are
-    // not being prefiltered by Zend, and we have a Zend max results of 1000, then 
-    // we are reduced to working with a maximum of 10 real results).
-    
-    $nvalues = array();
-
-    $index = Doctrine::getTable('aPage')->getLuceneIndex();
-    
-    foreach ($values as $value)
-    {
-      $document = $index->getDocument($value->id);
-//      $published_at = $value->published_at;
-      // New way: don't touch anything but $hit->id directly and you won't force a persistent
-      // use of memory for the lazy loaded columns http://zendframework.com/issues/browse/ZF-8267
-      $published_at = $document->getFieldValue('published_at');
-      if ($published_at > $now)
-      {
-        continue;
-      }
-
-      // 1.5: the names under which we store columns in Zend Lucene have changed to
-      // avoid conflict with also indexing them
-      $info = unserialize($document->getFieldValue('info_stored'));
+      // Search services are incompatible with addSearchResults. Achieving compatibility
+      // with addSearchResults would require that we discard the benefits of a simple
+      // query and start hydrating everything out to the 1000th result in order to merge, 
+      // and merging results from unrelated types usually does not work that well anyway.
+      // There is a simple alternative: see the a/searchAfter and a/searchBefore partials
+      // for a great place to override and add sidebars to your page search that search
+      // for other types of information and provide teaser links to get more results. 
+      //
+      // Another solution: mirror (or store) your content in an Apostrophe virtual page whose
+      // slug is a valid Symfony URL: @mymodule_search_redirect?id=52 
+      // 
+      // If the slug is a valid Symfony URL it will be included in search results and
+      // linked to that URL with link_to().
+      //
+      // This is how blog posts and events get merged into search results - their content
+      // lives in pages to begin with.
       
-      if (!aPageTable::checkPrivilege('view', $info))
-      {
-        continue;
-      }
+      $table = Doctrine::getTable('aPage');
+      $query = $table->createQuery('p')->select('p.*');
+      // Restrict page visibility as appropriate
+      $table->addViewPermissionsToQuery($query);
+      // Now add search
+      $query = aTools::$searchService->addSearchToQuery($query, $q, array('item_model' => 'aPage', 'culture' => aTools::getUserCulture()));
+
+      // We're interested in regular pages (start with /) and virtual pages
+      // whose slugs are valid Symfony URLs (contain / or start with @)
+      $query->addWhere('p.slug LIKE "%/%" OR p.slug LIKE "@%"');
       
-      $slug = $document->getFieldValue('slug_stored');
-      if ((substr($slug, 0, 1) !== '@') && (strpos($slug, '/') === false))
-      {
-        // A virtual page slug which is not a route is not interested in being part of search results
-        continue;
-      }
-      $nvalues[] = $value;
+      // Now add pagination (notice we're still building one query)
+      $this->pager = new sfDoctrinePager('aPage', sfConfig::get('app_a_search_results_per_page', 10));    
+      $this->pager->setQuery($query);
+      $this->pager->setPage($request->getParameter('page', 1));
+      $this->pager->init();
     }
-
-    $values = $nvalues;
-
-    if ($this->searchAddResults($values, $q))
+    else
     {
+      try
+      {
+        $values = aZendSearch::searchLuceneWithValues(Doctrine::getTable('aPage'), $q, aTools::getUserCulture());
+      } catch (Exception $e)
+      {
+        // Lucene search error. TODO: display it nicely if they are always safe things to display. For now: just don't crash
+        $values = array();
+      }
+
+      // The truth is that Zend cannot do all of our filtering for us, especially
+      // permissions-based. So we can do some other filtering as well, although it
+      // would be bad not to have Zend take care of the really big cuts (if 99% are
+      // not being prefiltered by Zend, and we have a Zend max results of 1000, then 
+      // we are reduced to working with a maximum of 10 real results).
+    
+      $nvalues = array();
+
+      $index = Doctrine::getTable('aPage')->getLuceneIndex();
+    
       foreach ($values as $value)
       {
-        if (get_class($value) === 'stdClass')
+        $document = $index->getDocument($value->id);
+  //      $published_at = $value->published_at;
+        // New way: don't touch anything but $hit->id directly and you won't force a persistent
+        // use of memory for the lazy loaded columns http://zendframework.com/issues/browse/ZF-8267
+        $published_at = $document->getFieldValue('published_at');
+        if ($published_at > $now)
         {
-          // bc with existing implementations of searchAddResults
-          if (!isset($value->slug_stored))
+          continue;
+        }
+
+        // 1.5: the names under which we store columns in Zend Lucene have changed to
+        // avoid conflict with also indexing them
+        $info = unserialize($document->getFieldValue('info_stored'));
+      
+        if (!aPageTable::checkPrivilege('view', $info))
+        {
+          continue;
+        }
+      
+        $slug = $document->getFieldValue('slug_stored');
+        if ((substr($slug, 0, 1) !== '@') && (strpos($slug, '/') === false))
+        {
+          // A virtual page slug which is not a route is not interested in being part of search results
+          continue;
+        }
+        $nvalues[] = $value;
+      }
+
+      $values = $nvalues;
+
+      if ($this->searchAddResults($values, $q))
+      {
+        foreach ($values as $value)
+        {
+          if (get_class($value) === 'stdClass')
           {
-            if (isset($value->slug))
+            // bc with existing implementations of searchAddResults
+            if (!isset($value->slug_stored))
             {
-              $value->slug_stored = $value->slug;
+              if (isset($value->slug))
+              {
+                $value->slug_stored = $value->slug;
+              }
+              else
+              {
+                $value->slug_stored = null;
+              }
             }
-            else
+            if (!isset($value->title_stored))
             {
-              $value->slug_stored = null;
+              $value->title_stored = $value->title;
             }
-          }
-          if (!isset($value->title_stored))
-          {
-            $value->title_stored = $value->title;
-          }
-          if (!isset($value->summary_stored))
-          {
-            $value->summary_stored = $value->summary;
-          }
-          if (!isset($value->engine_stored))
-          {
-            if (isset($value->engine))
+            if (!isset($value->summary_stored))
             {
-              $value->engine_stored = $value->engine;
+              $value->summary_stored = $value->summary;
             }
-            else
+            if (!isset($value->engine_stored))
             {
-              $value->engine_stored = null;
+              if (isset($value->engine))
+              {
+                $value->engine_stored = $value->engine;
+              }
+              else
+              {
+                $value->engine_stored = null;
+              }
             }
           }
         }
-      }
-      // $value = new stdClass();
-      // $value->url = $url;
-      // $value->title = $title;
-      // $value->score = $scores[$id];
-      // $value->summary = $summary;
-      // $value->class = 'Article';
-      // $values[] = $value;
+        // $value = new stdClass();
+        // $value->url = $url;
+        // $value->title = $title;
+        // $value->score = $scores[$id];
+        // $value->summary = $summary;
+        // $value->class = 'Article';
+        // $values[] = $value;
       
-      usort($values, "aActions::compareScores");
+        usort($values, "aActions::compareScores");
+      }
+      $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
+      $this->pager->setResultArray($values);
+      $this->pager->setPage($request->getParameter('page', 1));
+      $this->pager->init();
     }
-    $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
-    $this->pager->setResultArray($values);
-    $this->pager->setPage($request->getParameter('page', 1));
-    $this->pager->init();
-    $this->pagerUrl = "a/search?" .http_build_query(array("q" => $q));
+  
+    $this->pagerUrl = "a/search?" . http_build_query(array("q" => $q));
     // setTitle takes care of escaping things
     $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
-    $results = $this->pager->getResults();
-  
+
     // Now that we have paginated and obtained the short list of results we really
     // care about it's OK to use the lazy load features of Lucene for the last mile
+    $results = $this->pager->getResults();
     $nresults = array();
     foreach ($results as $value)
     {
-      $nvalue = $value;
+      if (aTools::$searchService)
+      {
+        // bc with the object-style syntax used in search template overrides,
+        // which are numerous. If we didn't care about bc with the old zend
+        // stuff there would be less copying of stuff here
+        $info = aTools::$searchService->getInfoForResult($value);
+        $nvalue = new stdclass();
+        $nvalue->engine_stored = $info['engine_stored'];
+        $nvalue->slug_stored = $info['slug_stored'];
+        $nvalue->title_stored = $info['title_stored'];
+        $nvalue->summary_stored = $info['summary_stored'];
+      }
+      else
+      {
+        $nvalue = $value;
+      }
       $nvalue->slug = $nvalue->slug_stored;
       $nvalue->title = $nvalue->title_stored;
       $nvalue->summary = $nvalue->summary_stored;

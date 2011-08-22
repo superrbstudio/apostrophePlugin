@@ -49,8 +49,45 @@ class aZendSearch
    * @param mixed $andLuceneQuery
    * @return mixed
    */
-  static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null, $andLuceneQuery = null)
+  static public function searchLuceneWithValues(Doctrine_Table $table, $luceneQueryString, $culture = null, $andLuceneQuery = null, $options = array())
    {
+     if (aTools::$searchService)
+     {
+       // Forward compatibility with the new search services.
+       // $andLuceneQuery is ignored.
+       //
+       // There is no guarantee of support for keyword-specific
+       // searches and code assuming such support probably won't
+       // work when a search service is used
+       //
+       // There is no support for the methods of zend search hit objects,
+       // but if you just look at properties you stored you should be fine 
+    
+       if (isset($options['service-query']) && $options['service-query'])
+       {
+         $q = $options['service-query'];
+       }
+       else
+       {
+         $q = $table->createQuery('i');
+       }
+       $q->addSelect($q->getRootAlias() . '.id');
+       aTools::$searchService->addSearchToQuery($q, $luceneQueryString, array('culture' => $culture));
+       $results = $q->fetchArray();
+       $nresults = array();
+       foreach ($results as $result)
+       {
+         $nresult = new stdclass();
+         $info = aTools::$searchService->getInfoForResult($result);
+         foreach ($info as $key => $value)
+         {
+           $nresult->{$key} = $value;
+         }
+         $nresults[] = $nresult;
+       }
+       return $nresults;
+     }
+     
      // Ugh: UTF8 Lucene is case sensitive work around this
      if (function_exists('mb_strtolower'))
      {
@@ -127,6 +164,11 @@ class aZendSearch
     {
       $q = Doctrine_Query::create()
         ->from($name);
+      $q->addSelect($q->getRootAlias() . '.*');
+    }
+    if (aTools::$searchService)
+    {
+      return aTools::$searchService->addSearchToQuery($q, $luceneQuery, array('culture' => $culture));
     }
     
     $results = $table->searchLucene($luceneQuery, $culture);
@@ -214,27 +256,31 @@ class aZendSearch
    */
   static public function purgeLuceneIndex(Doctrine_Table $table)
   {
-    $file = $table->getLuceneIndexFile();
-
-    if (file_exists($file))
+    if (aTools::$searchService)
     {
-      sfToolkit::clearDirectory($file);
-      rmdir($file);
+      aTools::$searchService->deleteAll(array('item_model' => $table->getComponentName()));
+    }
+    else
+    {
+      $file = $table->getLuceneIndexFile();
+
+      if (file_exists($file))
+      {
+        sfToolkit::clearDirectory($file);
+        rmdir($file);
+      }
     }
   }
 
   /**
-   * DOCUMENT ME
+   * We rarely use this as our own tables support the lucene_dirty flag and
+   * can be reindexed without the overhead of hydrating everything at once.
    * @param Doctrine_Table $table
    * @return mixed
    */
   static public function rebuildLuceneIndex(Doctrine_Table $table)
   {
     self::purgeLuceneIndex($table);
-    $index = $table->getLuceneIndex();
-    
-    // TODO: hydrate these one at a time once Doctrine supports
-    // doing that efficiently
     $all = $table->findAll();
     foreach ($all as $item)
     {
@@ -251,9 +297,15 @@ class aZendSearch
    */
   static public function optimizeLuceneIndex(Doctrine_Table $table)
   {
-    $index = $table->getLuceneIndex();
-
-    return $index->optimize();
+    if (aTools::$searchService)
+    {
+      aTools::$searchService->optimize();
+    }
+    else
+    {
+      $index = $table->getLuceneIndex();
+      return $index->optimize();
+    }
   }
 
   /**
@@ -269,6 +321,12 @@ class aZendSearch
    */
   static public function deleteFromLuceneIndex(Doctrine_Record $object, $culture = null)
   {
+    // Forward compatibility with our new simplified search services
+    if (aTools::$searchService)
+    {
+      aTools::$searchService->delete(array('item' => $object, 'culture' => $culture));
+      return;
+    }
     $index = $object->getTable()->getLuceneIndex();
    
     // remove an existing entry
@@ -327,6 +385,27 @@ class aZendSearch
       $storedFields = isset($options['stored']) ? $options['stored'] : array();
       $keywords = isset($options['keywords']) ? $options['keywords'] : array();
       $boostsByField = isset($options['boosts']) ? $options['boosts'] : array();
+      if (aTools::$searchService)
+      {
+        // We're using the newfangled (and simplified) search service support,
+        // provide bc for our existing code
+        $texts = array();
+        foreach ($fields as $field => $text)
+        {
+          $texts[] = array('name' => $field, 'text' => $text, 'weight' => isset($boostsByField[$field]) ? $boostsByField[$field] : 1.0);
+        }
+        // Keywords are not fully supported in the Lucene sense by search services,
+        // because the new role of search services is to stay the heck out of Doctrine's
+        // way when it comes to metadata and just search the darn text. However
+        // we do index them and also store them for retrieval as this is helpful for bc.
+        foreach ($keywords as $key => $value)
+        {
+          $texts[] = array('name' => $key, 'text' => $value, 'weight' => 1.0);
+          $storedFields[$key] = $value;
+        }
+        aTools::$searchService->update(array('item' => $object, 'culture' => $culture, 'texts' => $texts, 'info' => $storedFields));
+        return;
+      }
     }
     else
     {

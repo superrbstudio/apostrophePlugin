@@ -18,7 +18,8 @@ class aupdateluceneTask extends sfBaseTask
     // ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      // We need a default here so app.yml works
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('limit', null, sfCommandOption::PARAMETER_REQUIRED, 'Max pages to update on this pass', false),
