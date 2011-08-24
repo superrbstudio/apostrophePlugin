@@ -111,6 +111,12 @@ class BaseaSlotActions extends sfActions
    */
   protected function editSave()
   {
+    // A simple hook to let other code know when slot editing has taken place and 
+    // a new slot is about to be saved. Since objects are passed by reference it's
+    // possible to change the slot object, but this is mainly for logging purposes
+    $event = new sfEvent($this->slot, 'a.slotEdited', array('page' => $this->page));
+    $this->dispatcher->notify($event);
+    
     $this->slot->save();
     $this->page->newAreaVersion(
       $this->name, 

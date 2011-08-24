@@ -16,6 +16,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    */
   public function save(Doctrine_Connection $conn = null)
   {
+    $new = $this->isNew();
     if (!$this->getOwnerId())
     {
       if (sfContext::hasInstance())
@@ -37,6 +38,17 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       $crop->setCredit($this->getCredit());
       $crop->save();
     }
+    
+    if ($new)
+    {
+      $event = new sfEvent($this, 'a.mediaAdded', array());
+    }
+    else
+    {
+      $event = new sfEvent($this, 'a.mediaEdited', array());
+    }
+    sfContext::getInstance()->getEventDispatcher()->notify($event);
+    
     return $result;
   }
 

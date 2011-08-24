@@ -719,6 +719,13 @@ class BaseaPageSettingsForm extends aPageForm
       $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
     }
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
+    
+    if ($this->new)
+    {
+      $event = new sfEvent($object, 'a.pageAdded', array());
+      sfContext::getInstance()->getEventDispatcher()->notify($event);
+    }
+    
     return $object;
   }
 
