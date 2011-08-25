@@ -69,21 +69,24 @@ class aTestFunctional extends sfTestFunctional
    * @param mixed $password
    * @return mixed
    */
-  public function login($username = 'admin', $password = null)
+ public function login($username = 'admin', $password = null)
   {
     if (!$password)
     {
       $password = $username;
     }
     
+    // Due to the use of javascript based login buttons we have to
+    // just submit the form. Thanks to George on the google group
     return $this->
       get($this->options['login-url'])->
-      setField('signin[username]', $username)->
-      setField('signin[password]', $password)->
-      click($this->options['login-button-text'], array('_with_csrf' => true))->
-      with('response')->isRedirected()->
-      followRedirect()
+      post('/login', array('signin'=> array('username' => $username,
+ 'password' => $password)))->
+     with('response')->
+      isStatusCode(302)->
+        followRedirect()
     ;
+
   }
 
   /**
