@@ -47,7 +47,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       $event = new sfEvent($this, 'a.mediaEdited', array());
     }
-    sfContext::getInstance()->getEventDispatcher()->notify($event);
+    if (sfContext::hasInstance())
+    {
+      sfContext::getInstance()->getEventDispatcher()->notify($event);
+    }
     
     return $result;
   }
