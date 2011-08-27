@@ -1317,8 +1317,11 @@ abstract class PluginaPage extends BaseaPage
     
       foreach ($aPages as $page)
       {
-        aPageTable::retrieveByIdWithSlots($page->id);
-        $page->updateLuceneIndex();
+        // I swear to you that this used to update the same object due to Doctrine's
+        // internal caching, but guess what, it doesn't anymore. So make sure we call
+        // updateLuceneIndex on the returned object 
+        $newPage = aPageTable::retrieveByIdWithSlots($page->id);
+        $newPage->updateLuceneIndex();
       }
     }
   }
