@@ -1318,7 +1318,7 @@ abstract class PluginaPage extends BaseaPage
       foreach ($aPages as $page)
       {
         aPageTable::retrieveByIdWithSlots($page->id);
-        $page->updateLuceneIndex();   
+        $page->updateLuceneIndex();
       }
     }
   }

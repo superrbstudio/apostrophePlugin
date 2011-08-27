@@ -800,7 +800,6 @@ class BaseaActions extends sfActions
       $table->addViewPermissionsToQuery($query);
       // Now add search
       $query = aTools::$searchService->addSearchToQuery($query, $q, array('item_model' => 'aPage', 'culture' => aTools::getUserCulture()));
-
       // We're interested in regular pages (start with /) and virtual pages
       // whose slugs are valid Symfony URLs (contain / or start with @)
       $query->addWhere('p.slug LIKE "%/%" OR p.slug LIKE "@%"');
@@ -1154,7 +1153,6 @@ class BaseaActions extends sfActions
     // to safely do anything specialized
     if ($moved)
     {
-      error_log("a.afterTreeMove posted");
       $event = new sfEvent($page, 'a.afterTreeMove', array());
       $this->dispatcher->notify($event);
     }
