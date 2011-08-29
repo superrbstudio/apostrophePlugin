@@ -1,5 +1,6 @@
 <?php
   // Compatible with sf_escaping_strategy: true
+  $ulClass = isset($ulClass) ? $sf_data->getRaw('ulClass') : null;
   $active = isset($active) ? $sf_data->getRaw('active') : null;
   $class = isset($class) ? $sf_data->getRaw('class') : null;
   $dragIcon = isset($dragIcon) ? $sf_data->getRaw('dragIcon') : null;
@@ -10,7 +11,7 @@
   $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
   $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
 ?>
-<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix <?php echo $ulClass ?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
 
   <?php foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;

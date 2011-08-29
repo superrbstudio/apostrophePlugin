@@ -7,5 +7,7 @@
   $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
   $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
+  $ulClass = isset($ulClass) ? $sf_data->getRaw('ulClass') : null;
+  $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
 ?>
-<?php include_partial('aNavigation/accordion', array('nav' => $nav, 'maxDepth' => $depth, 'nest' => 0, 'draggable' => $draggable, 'name' => $name, 'dragIcon' => $dragIcon, 'tabs' => true, 'class' => $class, 'active' => $active)) ?>
+<?php include_partial('aNavigation/accordion', array('nav' => $nav, 'maxDepth' => $depth, 'nest' => $nest, 'ulClass' => $ulClass, 'draggable' => $draggable, 'name' => $name, 'dragIcon' => $dragIcon, 'tabs' => true, 'class' => $class, 'active' => $active)) ?>

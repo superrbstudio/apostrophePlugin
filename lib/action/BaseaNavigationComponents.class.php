@@ -36,6 +36,15 @@ class BaseaNavigationComponents extends sfComponents
     $this->draggable = isset($this->draggable)? $this->rootPage->userHasPrivilege('edit'): false;
 
     $this->class = isset($this->class)? $this->class : 'a-nav-item';
+    
+    if (!isset($this->nest))
+    {
+      $this->nest = 0;
+    }
+    if (!isset($this->ulClass))
+    {
+      $this->ulClass = '';
+    }
   }
 
   /**
@@ -47,10 +56,7 @@ class BaseaNavigationComponents extends sfComponents
     $this->maxDepth = isset($this->maxDepth)? $this->maxDepth : 999;
     $this->navigation = new aNavigationAccordion($this->rootPage, $this->activePage, array('maxDepth' => $this->maxDepth));
     
-    $this->nav = $this->navigation->getNav();
-    
-    
-    $this->nest = 0;
+    $this->nav = $this->navigation->getNav();    
   }
 
   /**
