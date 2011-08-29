@@ -39,7 +39,6 @@ function aConstructor()
 	// Utility: A DOM ready that can be used to hook into Apostrophe related events
 	this.ready = function(options)
 	{
-		// apostrophe.log('apostrophe.ready');
 		// You can define this function in your site.js
 		// We use this for refreshing progressive enhancements such as Cufon following an Ajax request.
 		if (typeof(apostropheReady) === "function")
@@ -112,7 +111,6 @@ function aConstructor()
 	// options['persisentLabel'] = true -- Keeps the label visible until the person starts typing
 	this.selfLabel = function(options)
 	{
-		apostrophe.log('apostrophe.selfLabel -- selector: ' + options['selector'] + ' title: ' + options['title']);
 		aInputSelfLabel(options['selector'], options['title'], options['select'], options['focus'], options['persistentLabel']);
 	};
 
@@ -159,7 +157,6 @@ function aConstructor()
 	// Restore feature stashes the old content in .data() and binds restore to a cancel button returned within data
 	this.linkToRemote = function(options)
 	{
-		apostrophe.log('apostrophe.linkToRemote');
 
 		var selector = options['link'];
 
@@ -176,9 +173,6 @@ function aConstructor()
 		var eventType = (options['event'])? options['event'] : 'click';
 		var restore = (options['restore']) ? options['restore'] : false;
 
-		apostrophe.log('apostrophe.linkToRemote -- selector:' + selector);
-		apostrophe.log('apostrophe.linkToRemote -- update:' + options['update']);
-		apostrophe.log('apostrophe.linkToRemote -- url:' + remoteURL);
 		
 		if (link.length && update.length) {
 			link.bind(eventType, function() {
@@ -321,7 +315,6 @@ function aConstructor()
 
 	this.aShowBusy = function(options)
 	{
-		apostrophe.log('apostrophe.aShowBusy');
 	
 		var updating = '';
 		if (options !== undefined && options['updating'])
@@ -364,7 +357,6 @@ function aConstructor()
 	// Utility: Create an anchor button that toggles between two radio buttons
 	this.radioToggleButton = function(options)
 	{
-		apostrophe.log('apostrophe.radioToggleButton');
 		// Set the button toggle labels
 		var opt1Label = (options['opt1Label'])? options['opt1Label'] : 'on';
 		var opt2Label = (options['opt2Label'])? options['opt2Label'] : 'off';
@@ -576,7 +568,6 @@ function aConstructor()
 		// 	return false;
 		// });
 		aPageTree.find('li').each(function() { $(this).find('a:first').after($('<cite class="a-tree-delete">x</cite>')) });
-		apostrophe.log(aPageTree.find('li').length);
 		aPageTree.find('li cite.a-tree-delete').click(function() {
 			var anchor = $(this);
 			var li = anchor.closest('li');
@@ -1765,10 +1756,13 @@ function aConstructor()
 	{
 		apostrophe.log('apostrophe.enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
-		// Why is this necessary?
-		$('#' + options['id'] + '-submit').bind('click.apostrophe', function() {
-			form.submit();
-		});
+		// This was causing double submits, and double subpages in FM profiles.  
+		// The submit button is now an a-act-as-submit and it works without this extra hack.
+		// DO NOT put this back witout talking to me. -Tom
+		// $('#' + options['id'] + '-submit').bind('click.apostrophe', function() {
+		// 	form.submit();
+		// });
+		
 		// The form will not actually submit until ajaxDirty is false. This allows us
 		// to wait for asynchronous things like the slug field AJAX updates to complete
 		var ajaxDirty = false;
@@ -1787,7 +1781,6 @@ function aConstructor()
 			{
 				$.post(options['url'], form.serialize(), function(data) {
 					$('.a-page-overlay').hide();
-					apostrophe.log(data);
 					$('#' + options['id']).html(data);
 				});
 			}
@@ -1962,7 +1955,6 @@ function aConstructor()
 	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
-		apostrophe.log('apostrophe.smartCSS');
 		
 		var target = 'body';
 		if (options && options['target'])
@@ -2005,7 +1997,6 @@ function aConstructor()
 
 		actAsSubmit.each(function(){
 			var submit = $(this);
-			apostrophe.log('apostrophe.actAsSubmit -- Form Action: ' + submit.closest('form').attr('action'));
 
 			var form = submit.closest('form');
 			if (!form.find('input[type="submit"]').length)
@@ -2570,7 +2561,6 @@ function aConstructor()
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
 				apostrophe.swapNodes(slot, slots[n - 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-				apostrophe.log('move up');
 				return false;
 			});
 		}
@@ -2586,7 +2576,6 @@ function aConstructor()
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
 				apostrophe.swapNodes(slot, slots[n + 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
-				apostrophe.log('move down');
 				return false;
 			});
 		}
@@ -2647,8 +2636,6 @@ function aConstructor()
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{
 
-		// apostrophe.log('apostrophe.menuToggle -- debug -- #' + button.attr('id') );
-
 		// Menu must have an ID.
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
 		if (menu.attr('id') == '')
@@ -2677,8 +2664,6 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
-			apostrophe.log('apostrophe.menuToggle -- clickHandler Target ');
-			apostrophe.log(target);
 			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')))
 			{
 				menu.trigger('toggleClosed');
