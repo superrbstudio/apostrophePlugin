@@ -60,10 +60,17 @@ abstract class aSearchService
    *
    * NOTES TO THOSE IMPLEMENTING NEW SERVICES (those simply using them may ignore this):
    *
-   * The exact search query language depends on the subclass you're using, but reasonable results 
-   * must always be returned to the user who just types a few likely words. The default behavior 
-   * should be "the more words matched the better." If your search engine can favor words in 
-   * correct order, even better. Search engines should ignore punctuation marks they do not understand. 
+   * The exact search query language depends on the subclass you're using, but these minimum requirements
+   * are imposed:
+   *
+   * * Reasonable results MUST always be returned to the user who just types a few likely words. 
+   * * A wildcard ("*") at the end of a word MUST match all words with that prefix. Support for
+   *   wildcards elsewhere in a word is optional. This is necessary for blog post slot title typeahead.
+   * * Unrecognized punctuation SHOULD be ignored in such a way that reasonable results are still
+   *   provided based on the words typed.
+   * 
+   * The default behavior should be "the more words matched the better." If your search engine can favor 
+   * words in correct order, even better. Search engines should ignore punctuation marks they do not understand. 
    * If your search engine can handle searches for punctuation marks themselves, you should make sure 
    * they are in quotation marks. These rules allow for a variety of search syntaxes with reasonably 
    * intuitive default behaviors when the search engine doesn't know about them.
@@ -73,7 +80,7 @@ abstract class aSearchService
    * Apostrophe core no longer depends on the availability of such features (that's what joins are for).
    *
    * Be aware that Apostrophe sites can and do contain UTF8 characters not in the ASCII
-   * character set.
+   * character set. You MUST support UTF8 fully.
    *
    * You must support the 'culture' option and filter results accordingly.
    *
