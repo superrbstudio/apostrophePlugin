@@ -56,11 +56,13 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
+    $context = sfContext::createInstance($this->configuration);
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
     // PDO connection not so useful, get the doctrine one
     $conn = Doctrine_Manager::connection();
+    
     if ($options['table'] === 'aPage')
     {
       $q = Doctrine::getTable('aLuceneUpdate')->createQuery('u');

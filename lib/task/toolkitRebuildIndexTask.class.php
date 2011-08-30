@@ -51,6 +51,7 @@ EOF;
     
     ini_set('memory_limit', '256M');
     
+    $context = sfContext::createInstance($this->configuration);
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
@@ -62,7 +63,6 @@ EOF;
     $_SERVER['PHP_SELF'] = '';
     $_SERVER['SCRIPT_NAME'] = '';
      
-    $context = sfContext::createInstance($this->configuration);
     if (isset($options['table']))
     {
       $indexes = array($options['table']);
