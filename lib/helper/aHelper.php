@@ -597,7 +597,7 @@ function a_submit_button($label, $classes = array(), $name = null)
 
 function a_anchor_submit_button($label, $classes = array(), $name = null, $id = null)
 {
-  $classes[] = 'a-btn';
+  // a-btn would be redundant here, a_button does that
   $classes[] = 'a-act-as-submit';
   return a_button($label, '#', $classes, $id, $name);
 }
