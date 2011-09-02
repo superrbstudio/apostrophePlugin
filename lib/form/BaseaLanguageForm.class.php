@@ -111,6 +111,6 @@ class BaseaLanguageForm extends BaseForm
     
     // CSRF for this form defeats caching for logged out users and
     // is not necessary
-    $this->disableCSRFProtection();
+    $this->disableLocalCSRFProtection();
   }
 }
