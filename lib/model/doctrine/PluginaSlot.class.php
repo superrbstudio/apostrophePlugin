@@ -222,7 +222,11 @@ abstract class PluginaSlot extends BaseaSlot
   }
 
   /**
-   * DOCUMENT ME
+   * Get all media items, if any, associated with this slot, and return
+   * them in the order specified by the getMediaItems() method. By default
+   * there is no particular ordering and getMediaItems returns false, however
+   * subclasses such as aSlideshowSlot have an implementation that returns
+   * an array of media item IDs and this order is respected if present.
    * @return mixed
    */
   public function getOrderedMediaItems()
@@ -247,9 +251,13 @@ abstract class PluginaSlot extends BaseaSlot
   }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * If the media items associated with this slot (if any) have a particular order,
+   * return an array of media item ids in the correct order. If media items are
+   * irrelevant to the slot or there is no ordering to them, return false
+   * (the default behavior). See PluginaSlideshowSlot for an implementation of
+   * ordering.
    */
+
   public function getMediaItemOrder()
   {
     return false;
