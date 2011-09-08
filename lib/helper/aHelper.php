@@ -530,7 +530,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   }
   // Unfortunately we can't get fancy and wrap a span here because jquery does not
   // bubble click events by default and this is very confusing for devs
-  $s .= . a_($label) . '</a>';
+  $s .= a_($label) . '</a>';
   return $s;
 }
 
