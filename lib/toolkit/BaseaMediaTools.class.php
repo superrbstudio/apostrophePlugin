@@ -682,7 +682,10 @@ class BaseaMediaTools
     $aspectRatio = aMediaTools::getAspectRatio();
     
     $imageAspectRatio = $mediaItem->getWidth() / $mediaItem->getHeight();
-    
+    // This is a fine time to record the actual dimensions so we don't have to 
+    // manipulate the imageInfo attribute twice
+    $imageInfo[$mediaItem->id]['width'] = $mediaItem->getWidth();
+    $imageInfo[$mediaItem->id]['height'] = $mediaItem->getHeight();
     if ($aspectRatio)
     {     
       // We have an aspect ratio constraint

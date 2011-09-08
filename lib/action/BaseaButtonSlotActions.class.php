@@ -22,12 +22,12 @@ class BaseaButtonSlotActions extends aSlotActions
     $this->logMessage("====== in aButtonSlotActions::executeImage", "info");
     $this->editSetup();
     $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'image'))
-    {
-      return $this->redirectToPage();
-    }
     $this->slot->unlink('MediaItems');
-    $this->slot->link('MediaItems', array($item->id));
+    // It's not a bug to have no media item selected - allow the trashcan to work to remove it
+    if ($item && ($item->type === 'image'))
+    {
+      $this->slot->link('MediaItems', array($item->id));
+    }
     $this->editSave();
   }
 

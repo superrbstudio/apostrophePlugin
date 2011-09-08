@@ -735,6 +735,11 @@ class BaseaMediaActions extends aEngineActions
         {
           $object->saveFile($thumbnail->getTempName());
         }
+        
+        if (aMediaTools::isSelecting())
+        {
+          return $this->redirect('aMedia/multipleAdd?id=' . $object->id);
+        }
 
         return $this->redirect("aMedia/resumeWithPage");
       } while (false);
@@ -883,6 +888,7 @@ class BaseaMediaActions extends aEngineActions
     {
       $values = $this->form->getValues();
       // This is NOT automatic since this isn't a Doctrine form. http://thatsquality.com/articles/can-the-symfony-forms-framework-be-domesticated-a-simple-todo-list
+      $added = array();
       foreach ($this->form->getEmbeddedForms() as $key => $itemForm)
       {
         // Called from doSave in the embedded form, these will never be called here if we don't call them ourselves.
@@ -913,6 +919,32 @@ class BaseaMediaActions extends aEngineActions
         $object->preSaveFile($file);
         $object->save();
         $object->saveFile($file);
+        $added[] = $object;
+      }
+      $selection = aMediaTools::getSelection();
+      $kept = array();
+      foreach ($added as $object)
+      {
+        if (!aMediaTools::isMultiple())
+        {
+          // We wind up with the last one, if they upload more than one 
+          // during a single-image select operation (why would they do that?)
+          $selection = array($object['id']);
+          $kept = array($object);
+        }
+        else
+        {
+          $selection[] = $object['id'];
+          $kept[] = $object;
+        }
+      }
+      aMediaTools::setSelection($selection);
+      foreach ($kept as $object)
+      {
+        if ($object->getCroppable())
+        {
+          aMediaTools::setDefaultCropDimensions($object);
+        } 
       }
       return $this->redirect('aMedia/resume');
     }
