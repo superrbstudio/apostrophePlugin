@@ -528,9 +528,9 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   {
     $s .= '<span class="icon"></span>';
   }
-  // Make it possible to update the button text easily later, for instance if a user's name is changed
-  // by an AJAX action
-  $s .= '<span class="a-button-text">' . a_($label) . '</span></a>';
+  // Unfortunately we can't get fancy and wrap a span here because jquery does not
+  // bubble click events by default and this is very confusing for devs
+  $s .= . a_($label) . '</a>';
   return $s;
 }
 
