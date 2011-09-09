@@ -1194,7 +1194,9 @@ class BaseaTools
   
   static public function standardAreaSlots()
   {
-    return array('aRichText', 'aVideo', 'aSlideshow', 'aSmartSlideshow', 'aFile', 'aAudio', 'aFeed', 'aButton', 'aBlog', 'aEvent', 'aText', 'aRawHTML');
+    // The plaintext slot is deeply unexciting, do not offer it by default in a standard area.
+    // Raw HTML is problematic but generally obligatory in practice
+    return array('aRichText', 'aVideo', 'aSlideshow', 'aSmartSlideshow', 'aFile', 'aAudio', 'aFeed', 'aButton', 'aBlog', 'aEvent', 'aRawHTML');
   }
   
   static public function standardAreaSlotOptions()
