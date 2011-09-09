@@ -196,4 +196,85 @@ class BaseaComponents extends aSlotComponents
     $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin'); 
     $this->form = new $class();
   }
+  
+  /**
+   * Outputs an area with a reasonable default list of slots. You can override
+   * various aspects: the slots allowed, the width of media slots, etc. 
+   *
+   * You must pass 'name' to name the area. You may pass slots' => array(the exact slot names you want),
+   * 'plusSlots' => array(additional slot names to add), or 'minusSlots' => array(slot names to exclude).
+   * You may also pass 'width', 'height' and 'flexHeight' to specify the behavior of media slots and 
+   * 'toolbar' to specify the rich text toolbar. If you want more control than that you should write a complete
+   * a_area call with the exact options you want.
+   *
+   * We use this component to ensure consistency between templates used for different page
+   * templates and the blog and events templates (where the minusSlots option is very useful to
+   * prevent recursion). 
+   *
+   * You can override the default list of slots globally by overriding aTools::getStandardSlots.
+   */
+  public function executeStandardArea(sfWebRequest $request)
+  {
+    if (!isset($this->slots))
+    {
+      $this->slots = aTools::standardAreaSlots($this->slots);
+    }
+    // array_flip is a handy way to turn a flat array into an associative array so you can set and
+    // unset things and then fetch the keys to see what you wound up with
+    $this->slots = array_flip($this->slots);
+    if (isset($this->plusSlots))
+    {
+      foreach ($this->plusSlots as $slot)
+      {
+        $this->slots[$slot] = true;
+      }
+    }
+    if (isset($this->minusSlots))
+    {
+      foreach ($this->minusSlots as $slot)
+      {
+        unset($this->slots[$slot]);
+      }
+    }
+    $this->slots = array_keys($this->slots);
+    $this->type_options = aTools::standardAreaSlotOptions();
+    // Slots do not object to extra options, so we can simplify by applying to all
+    if (isset($this->width))
+    {
+      foreach ($this->slots as $slot)
+      {
+        $this->type_options[$slot]['width'] = $this->width;
+        $this->type_options[$slot]['constraints']['minimum-width'] = $this->width;
+      }
+    }
+    if (isset($this->height))
+    {
+      foreach ($this->slots as $slot)
+      {
+        $this->type_options[$slot]['height'] = $this->height;
+        $this->type_options[$slot]['constraints']['minimum-height'] = $this->height;
+      }
+    }
+    if (isset($this->flexHeight))
+    {
+      foreach ($this->slots as $slot)
+      {
+        $this->type_options[$slot]['flexHeight'] = $this->flexHeight;
+      }
+    }
+    if (isset($this->toolbar))
+    {
+      foreach ($this->slots as $slot)
+      {
+        $this->type_options[$slot]['toolbar'] = $this->toolbar;
+      }
+    }
+    foreach ($this->slots as $slot)
+    {
+      $this->type_options[$slot]['slideshowOptions'] = array(
+  			'width' => $this->width,
+  			'height' => false
+  		);
+	  }
+	}
 }

@@ -47,9 +47,8 @@ abstract class PluginaSmartSlideshowSlot extends BaseaSmartSlideshowSlot
    */
   public function getMediaItemOrder()
   {
-    $data = $this->getArrayValue();
-    
-    return $data['order'];
+    // Smart slideshows do NOT have an order
+    return false;
   }
   
   // We don't need refreshSlot anymore thanks to ON DELETE CASCADE

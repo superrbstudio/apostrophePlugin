@@ -1,0 +1,1 @@
+<?php a_area($name, array('allowed_types' => $slots, 'type_options' => $type_options, 'edit' => isset($edit) ? $edit : null, 'slug' => isset($slug) ? $slug : null)) ?>
