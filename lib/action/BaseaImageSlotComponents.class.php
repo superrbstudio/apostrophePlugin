@@ -24,6 +24,12 @@ class BaseaImageSlotComponents extends aSlotComponents
   {
     $this->setup();
 		$this->setupOptions();
+		if (!isset($this->options['showTemplate']))
+		{
+		  // Overriding this allows you to change the rendering of the slot for
+		  // a particular a_slot call
+		  $this->options['showTemplate'] = 'show';
+		}
     // $this->constraints = $this->getOption('constraints', array());
     // $this->width = $this->getOption('width', 440);
     // $this->height = $this->getOption('height', 330);

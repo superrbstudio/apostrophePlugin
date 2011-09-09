@@ -23,12 +23,15 @@ class BaseaImageSlotActions extends aSlotActions
     $this->editSetup();
 
     $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
-    if ((!$item) || ($item->type !== 'image'))
-    {
-      return $this->redirectToPage();
-    }
     $this->slot->unlink('MediaItems');
-    $this->slot->link('MediaItems', array($item->id));
+    if ($item && ($item->type === 'image'))
+    {
+      $this->slot->link('MediaItems', array($item->id));
+    }
+    else
+    {
+      // They reverted to not having an image, on purpose (trashcan icon). Let it stay cleared.
+    }
     $this->editSave();
   }
 }
