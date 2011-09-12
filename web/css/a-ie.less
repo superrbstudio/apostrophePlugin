@@ -1,0 +1,55 @@
+@import 'a-helpers';
+
+// Apostrophe Buttons - IE Stylesheet
+// -------------------------------------
+
+input.checkbox, input.radio { width: auto; border: none !important; }
+
+.a-search form input.a-search-field { line-height: 20px; }
+
+ul.a-slideshow { background: none !important; }
+
+/* RGBA is awesome. Except for IE. Solid Colors */
+.a-page-overlay { filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#aaffffff,endColorstr=#aaffffff) !important; background:none; zoom: 1; }
+
+div.tag-suggestions li a,
+div.tag-suggestions li a:link { background: #444; }
+
+.a-slot.aSlideshow.compact .a-slideshow-title { background: #000; }
+
+/* No Drop Shadow for IE */
+.dropshadow {	border: 1px solid #ddd; border-bottom-color:#888; border-right-color:#888; }
+
+/* IE z-index Bug fix for Menu Toggle */
+.ie-z-index-fix { z-index: 9999; }
+
+table.a-calendar { background-image:none; }
+
+.a-ui.a-signin-popup .a-form-row.submit { width: 185px; padding-bottom: 10px; } /* hard width needed to prevent wrapping */
+
+/* Color Fixes for <= IE7
+-------------------------------------*/
+
+.the-apostrophe
+{ /* Apostrophe */
+background-color: rgb(153,204,51) !important;
+}
+
+.a-btn,
+.a-submit,
+.a-cancel
+{ /* Background Color */
+background-color: rgb(153,204,51);
+}
+
+.a-history-browser
+{ /* Border Color */
+border-color: rgb(153,204,51);	
+}
+
+.a-global-toolbar .a-logged-in-user span,
+#a-personal-settings-heading span
+{ /* Text Color */
+color: rgb(153,204,51);
+}
+
