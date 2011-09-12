@@ -41,8 +41,11 @@
 	<?php if(isset($layout['fields']['link'])): ?>
 		<?php if ($mediaItem->getDownloadable()): ?>
 		  <li class="a-media-item-link a-media-item-meta a-form-row">
+		    <?php // For performance reasons the a_media_image_original route is no longer optional. ?>
+		    <?php // See aMediaRouting if you need to know this route's parameters because you have ?>
+		    <?php // explicitly disabled our standard routes. ?>
 				<?php echo __('<span>Permalink:</span> %urlfield%', array('%urlfield%' =>
-				'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $mediaItem->getId() . '" name="a-media-item-link-value" value="' . a_url('aMediaBackend', 'original', array("slug" => $mediaItem->getSlug(),"format" => $mediaItem->getFormat()), true) . '" />'), 'apostrophe') ?>
+				'<input type="text" class="a-select-on-focus" id="a-media-item-link-value-' . $mediaItem->getId() . '" name="a-media-item-link-value" value="' . url_for('@a_media_image_original?' . http_build_query(array("slug" => $mediaItem->getSlug(), "format" => $mediaItem->getFormat())), true) . '" />'), 'apostrophe') ?>
 			</li>
 		<?php endif ?>
 	<?php endif ?>

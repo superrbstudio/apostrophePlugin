@@ -428,7 +428,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
           "cropWidth" => $options['cropWidth'], "cropHeight" => $options['cropHeight'])
       );
     }
-    return "aMediaBackend/image?" . http_build_query($params);
+    // Must use named route to avoid serious performance hit
+    return "@a_media_image?" . http_build_query($params);
   }
 
   /**
