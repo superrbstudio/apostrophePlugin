@@ -41,7 +41,7 @@ class aCacheTools
     {
       $class = sfConfig::get('app_a_' . $name . '_cache_class', 'sfFileCache');
       $options = sfConfig::get('app_a_' . $name . '_cache_options');
-      $cache = $class($options);
+      $cache = new $class($options);
     }
     // In the sandbox this is set to aMysqlCache, but we don't retroactively force that
     // on old projects that won't have the a_cache_item table
