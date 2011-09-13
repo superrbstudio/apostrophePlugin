@@ -43,9 +43,8 @@ class aFeed
    */
   static public function fetchCachedFeed($url, $interval = 300)
   {
-    $cacheClass = sfConfig::get('app_a_feed_cache_class', 'sfFileCache');
-    $cache = new $cacheClass(sfConfig::get('app_a_feed_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_feed_cache')))));
-    $key = 'apostrophe:feed:' . $url;
+    $cache = aCacheTools::get('feed');
+    $key = $url;
     $feed = $cache->get($key, false);
     if ($feed === 'invalid')
     {

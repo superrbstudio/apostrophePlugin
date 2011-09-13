@@ -983,8 +983,6 @@ class aImageConverter
    */
   static public function getHintCache()
   {
-    $cacheClass = sfConfig::get('app_a_hint_cache_class', 'sfFileCache');
-    $cache = new $cacheClass(sfConfig::get('app_a_hint_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_hint_cache')))));
-    return $cache;
+    return aCacheTools::get('hint');
   }
 }

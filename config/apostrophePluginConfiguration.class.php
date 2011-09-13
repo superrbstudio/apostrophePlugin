@@ -46,6 +46,8 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
     {
       $this->dispatcher->connect('routing.load_configuration', array('aMediaRouting', 'listenToRoutingLoadConfigurationEvent'));
     }
+
+    $this->dispatcher->connect('command.pre_command', array('aToolkitEvents',  'listenToCommandPreCommandEvent'));  
     
     $this->dispatcher->connect('command.post_command', array('aToolkitEvents',  'listenToCommandPostCommandEvent'));  
 

@@ -21,7 +21,8 @@ class aMysql
 {
   protected $conn;
   protected $commandsRun;
-
+  protected $rowsAffected;
+  
   /**
    * Constructs a new aMysql object, connected to the specified PDO handle if
    * any, otherwise to the default PDO connection of Doctrine (although we're not
@@ -143,6 +144,7 @@ class aMysql
     try
     {
       $statement->execute();
+      $this->rowsAffected = $statement->rowCount();
     }
     catch (Exception $e)
     {
@@ -516,5 +518,15 @@ class aMysql
       $ids[] = $result['id'];
     }
     return $ids;
+  }
+
+  /**
+   * Returns the # of rows affected by the most recent statement. Results are
+   * undefined for SELECT statements, you should use a COUNT statement and
+   * queryOneScalar for that
+   */
+  public function getRowsAffected()
+  {
+    return $this->rowsAffected;
   }
 }

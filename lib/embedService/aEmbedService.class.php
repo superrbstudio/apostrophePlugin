@@ -179,7 +179,6 @@ abstract class aEmbedService
   // something is actually not valid
   
   const SECONDS_IN_DAY = 86400;
-  protected $cache;
 
   /**
    * DOCUMENT ME
@@ -215,14 +214,8 @@ abstract class aEmbedService
    * DOCUMENT ME
    * @return mixed
    */
-  private function getCache()
+  protected function getCache()
   {
-    if ($this->cache)
-    {
-      return $this->cache;
-    }
-    $cacheClass = sfConfig::get('app_a_embed_cache_class', 'sfFileCache');
-    $this->cache = new $cacheClass(sfConfig::get('app_a_embed_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_embed_cache')))));
-    return $this->cache;
+    return aCacheTools::get('embed');
   }
 }

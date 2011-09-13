@@ -9,8 +9,6 @@ class BaseaAssets
 {
 	static public $lessc = null;
 	
-	static protected $cache;
-
   /**
    * Access to an sfCache used to leverage the excellent dependency caching capabilities of lessphp
    * @param string $key
@@ -46,13 +44,7 @@ class BaseaAssets
    */
   static public function getCache()
   {
-    if (aAssets::$cache)
-    {
-      return aAssets::$cache;
-    }
-    $cacheClass = sfConfig::get('app_a_less_cache_class', 'sfFileCache');
-    aAssets::$cache = new $cacheClass(sfConfig::get('app_a_less_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_less_cache')))));
-    return aAssets::$cache;
+    return aCacheTools::get('less');
   }
   
   /**

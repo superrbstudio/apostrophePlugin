@@ -821,3 +821,26 @@ aEmbedMediaAccount:
     username:
       type: string(100)
       notnull: true
+
+# See the aMysqlCache class. This table is created by Doctrine, but
+# for performance reasons it is later manipulated via the PDO connection,
+# so if you wish to use a specific database connection make sure you pass that
+# explicitly when constructing the aDoctrineCache object
+
+aCacheItem:
+  columns:
+    # MySQL gets mad if I call this column key
+    k: 
+      type: varchar(255)
+      primary: true
+    # Illegal to call it data in Doctrine
+    value:
+      type: clob
+    timeout:
+      # Unix timestamp, the math in the queries is all integer seconds
+      type: integer
+    # Illegal to call it last_modified in Doctrine
+    last_mod:
+      # Same thing, Unix timestamp
+      type: integer
+    

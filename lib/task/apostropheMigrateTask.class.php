@@ -337,6 +337,10 @@ but why take chances with your data?
     }
     echo("Ensured there is an admin media engine\n");
     
+    if (!$this->migrate->tableExists('a_cache_item'))
+    {
+      $this->migrate->sql(array('CREATE TABLE a_cache_item (k VARCHAR(255), value LONGTEXT, timeout BIGINT, last_mod BIGINT, PRIMARY KEY(k)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+    }
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

@@ -66,8 +66,6 @@ class aCacheFilter extends sfFilter
   
   static public function getCache()
   {
-    $cacheClass = sfConfig::get('app_a_page_cache_class', 'sfFileCache');
-    $cache = new $cacheClass(sfConfig::get('app_a_page_cache_options', array('cache_dir' => aFiles::getWritableDataFolder(array('a_page_cache')))));
-    return $cache;
+    return aCacheTools::get('page');
   }
 }
