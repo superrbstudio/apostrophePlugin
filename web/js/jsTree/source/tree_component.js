@@ -513,14 +513,24 @@
 			},
 			off_height : function () {
 				if(this.offset === false) {
-					this.container.css({ position : "relative" });
+					// Don't screw up the existing position setting if it is already compatible tom@punkave.com
+					var position = this.container.css('position');
+					var changePosition = false;
+					if ((position !== 'relative') && (position !== 'absolute'))
+					{
+						this.container.css({ position : "relative" });
+						changePosition = true;
+					}
 					this.offset = this.container.offset();
 					var tmp = 0;
 					tmp = parseInt($.curCSS(this.container.get(0), "paddingTop", true),10);
 					if(tmp) this.offset.top += tmp;
 					tmp = parseInt($.curCSS(this.container.get(0), "borderTopWidth", true),10);
 					if(tmp) this.offset.top += tmp;
-					this.container.css({ position : "" });
+					if (changePosition)
+					{
+						this.container.css({ position : position });
+					}
 				}
 				if(!this.li_height) {
 					var tmp = this.container.find("ul li.closed, ul li.leaf").eq(0);

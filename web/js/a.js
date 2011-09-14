@@ -567,7 +567,13 @@ function aConstructor()
 		// 	treeRef.remove(li);
 		// 	return false;
 		// });
-		aPageTree.find('li').each(function() { $(this).find('a:first').after($('<cite class="a-tree-delete">x</cite>')) });
+		aPageTree.find('li').each(function() { 
+			var id = $(this).attr('id');
+			var a = $(this).find('a:first');
+			// This markup was carefully created to avoid 80000 conflicts with other CSS,
+			// so please do not change it casually
+			a.after($('<cite class="a-tree-delete">x</cite>'));
+		});
 		aPageTree.find('li cite.a-tree-delete').click(function() {
 			var anchor = $(this);
 			var li = anchor.closest('li');
