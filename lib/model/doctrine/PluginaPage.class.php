@@ -915,6 +915,8 @@ abstract class PluginaPage extends BaseaPage
     $level = 0;
     $tree = array("attributes" => array("id" => "tree-" . $this->id),
       "data" => $this->getTitle(),
+      // This is sometimes useful in project level overrides and the extra info doesn't hurt
+      "slug" => $this->getSlug(),
       "state" => 'open',
       "children" => $this->getTreeJSONReadyBody($this->lft, $this->rgt, $infos, $offset, $level + 1, $livingOnly)
     );
@@ -926,7 +928,7 @@ abstract class PluginaPage extends BaseaPage
     {
       $item['state'] = 'open';
     }
-  return $tree;
+    return $tree;
   }
 
   /**
@@ -956,6 +958,7 @@ abstract class PluginaPage extends BaseaPage
       $item = array(
         "attributes" => array("id" => "tree-" . $info['id'], "class" => $class), 
         "data" => $info['title'],
+        "slug" => $info['slug'],
         // Too many CSS problems with this '<span class="a-tree-title">' . $info['title'] . '<b class="a-tree-delete-btn">Delete</b></span>',
         "children" => $this->getTreeJSONReadyBody($info['lft'], $info['rgt'], $infos, $offset, $level + 1, $livingOnly)
       );
