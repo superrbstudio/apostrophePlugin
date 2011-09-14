@@ -63,7 +63,10 @@ class aSql extends aMysql
         list($lft, $rgt, $level) = array($result[0]['lft'], $result[0]['rgt'], $result[0]['level']);
       }
     }
-    $this->query('UPDATE a_page SET rgt = rgt + 2 WHERE lft <= :lft AND rgt >= :rgt', array('lft' => $lft, 'rgt' => $rgt));
+    // Ancestors and pages appearing below this page in the reorganize tree need their lft pointer nudged over
+    $this->query('UPDATE a_page SET rgt = rgt + 2 WHERE rgt >= :rgt', array('rgt' => $rgt));
+    // Pages appearing below this page in the reorganize tree - NOT its ancestors nor just its descendants - need their lft pointer nudged over
+    $this->query('UPDATE a_page SET lft = lft + 2 WHERE lft > :rgt', array('rgt' => $rgt));
     $info['lft'] = $rgt;
     $info['rgt'] = $rgt + 1;
     $info['level'] = $level + 1;
