@@ -32,7 +32,7 @@
 
 		&:hover
 		{
-			text-decoration: none;			
+			text-decoration: none;
 		}
 
 		// Buttons with Icons
@@ -169,9 +169,9 @@
 				{
 					line-height: @a-button-size-big;
 				}
-			}			
+			}
 		}
-		
+
 		// Buttons without a background
 		&.no-bg,
 		&.no-bg:hover,
@@ -188,24 +188,24 @@
 			line-height: 20px !important;
 			height: 20px !important;
 		}
-			
+
 		// Cancel Button
-		&.a-cancel 
+		&.a-cancel
 		{
 			padding: 0 4px 0 20px;
 			padding-left: 20px !important;
-			&.no-label 
+			&.no-label
 			{
 			padding: 0 !important;
-			}			
+			}
 		}
-		
+
 		// Drag Button
-		&.a-drag 
+		&.a-drag
 		{
 			cursor: move;
 		}
-		
+
 		&.a-sort-arrow
 		{
 			&.not-sorting
@@ -217,22 +217,22 @@
 				}
 			}
 		}
-		
+
 		// Animated Busy Button
 		&.a-busy > .icon
 		{
 			background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
 		}
-		
+
 		// Wide button for Blog / Events sidebar -- "New Post"
-		&.a-sidebar-button 
+		&.a-sidebar-button
 		{
 			width: 99%;
 			padding: 0 !important;
 			text-align: center;
 			clear: both;
 			margin: 0 0 10px;
-			.label 
+			.label
 			{
 				width: 100%;
 				text-align: center;
@@ -242,24 +242,24 @@
 		}
 
 		// Toggle Button -- Permissions
-		&.a-toggle-btn 
+		&.a-toggle-btn
 		{
 			@a-no-user-select;
 			&.option-1 .option-1,
-			&.option-2 .option-2 
+			&.option-2 .option-2
 			{
 				display: block;
 			}
 
 			&.option-1 .option-2,
-			&.option-2 .option-1 
+			&.option-2 .option-1
 			{
 				display: none;
 			}
 
-			&.icon 
+			&.icon
 			{
-				> .icon 
+				> .icon
 				{
 					@a-border-radius(6px);
 					height: 10px;
@@ -268,19 +268,19 @@
 					border: 1px inset rgba(0,0,0,0.20);
 					background-image: none;
 				}
-				&.option-1 > .icon 
+				&.option-1 > .icon
 				{
 					background: #31AB64;
 					background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
 					background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
-				}		
-				&.option-2 > .icon 
+				}
+				&.option-2 > .icon
 				{
 					background: #F66;
 					background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
 					background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
-				}		
-			}	
+				}
+			}
 		}
 
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
@@ -300,13 +300,13 @@
 } // [ .a-ui ]
 
 // Large Submit Buttons that use <input> Need 2 extra px)
-.a-ui input.a-btn, 
-input.a-ui.a-btn 
+.a-ui input.a-btn,
+input.a-ui.a-btn
 {
 	&.a-submit.big
 	{
 		height: @a-button-size-big+2;
-	}	
+	}
 }
 
 
@@ -314,7 +314,7 @@ input.a-ui.a-btn
 // 											because they are used often, when logged-out.
 // ----------------------------------------------------------------------
 
-.a-arrow-btn 
+.a-arrow-btn
 {
 	float: left;
 	cursor: pointer;
@@ -403,20 +403,20 @@ input.a-ui.a-btn
 	&.a-events.day-29 > .icon	{ background-position: @bgleft -1040px; }
 	&.a-events.day-30 > .icon	{ background-position: @bgleft -1060px; }
 	&.a-events.day-31,
-	&.a-event, 
-	&.a-eventsingle 
+	&.a-event,
+	&.a-eventsingle
 	{
 		> .icon
 		{
 			background-position: @bgleft -1080px;
-		}  
+		}
 	}
 	&.a-feed,
-	&.a-rss-feed, 
-	&.a-rss { 
+	&.a-rss-feed,
+	&.a-rss {
 		> .icon
 		{
-			background-position: @bgleft -1100px;			
+			background-position: @bgleft -1100px;
 		}
 		&.color
 		{
@@ -465,10 +465,11 @@ input.a-ui.a-btn
 	&.a-selected > .icon,
 	&.a-cancel > .icon,
 	&.a-close-small > .icon { background-position: @bgleft -1800px  }
-	&.a-insetarea > .icon { background-position: @bgleft -1820px  }	
+	&.a-insetarea > .icon { background-position: @bgleft -1820px  }
 	&.a-insetimage > .icon { background-position: @bgleft -1840px  }
-	&.a-undo > .icon { background-position: @bgleft -1860px; } // TODO Make Google Maps Icon
-	&.a-redo > .icon { background-position: @bgleft -1880px; } // TODO Make Google Maps Icon	
+	&.a-undo > .icon { background-position: @bgleft -1860px; }
+	&.a-redo > .icon { background-position: @bgleft -1880px; }
+	&.a-apps > .icon { background-position: @bgleft -1900px; }	
 	&.a-google-maps > .icon { background-position: @bgleft -0px; } // TODO Make Google Maps Icon
 }
 
