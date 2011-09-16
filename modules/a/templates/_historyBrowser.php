@@ -41,7 +41,7 @@
 			<a href="#save-current-revision" id="a-history-revert-button" class="a-btn icon a-history-revert"><span class="icon"></span><?php echo a_('Save as Current Revision') ?></a>
 		</li>
 		<li>
-			<a href="#cancel-history-browser" id="a-history-cancel-button" class="a-btn icon a-cancel"><span class="icon"></span><?php echo a_('Cancel') ?></a>
+			<a href="#cancel-history-browser" id="a-history-cancel-button" class="a-btn icon a-cancel alt"><span class="icon"></span><?php echo a_('Cancel') ?></a>
 		</li>
 	</ul>
 </div>
