@@ -172,7 +172,7 @@ function aConstructor()
 		var remoteURL = options['url'];
 		var eventType = (options['event'])? options['event'] : 'click';
 		var restore = (options['restore']) ? options['restore'] : false;
-
+		var callback = (options['callback'] && typeof(options['callback']) === 'function') ? options['callback'] : false; 
 		
 		if (link.length && update.length) {
 			link.bind(eventType, function() {
@@ -197,6 +197,10 @@ function aConstructor()
 								event.preventDefault();
 								update.html(update.data('aBeforeUpdate'));
 							});
+						}
+						if (callback) 
+						{
+							callback();
 						}
 						update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
 					},
