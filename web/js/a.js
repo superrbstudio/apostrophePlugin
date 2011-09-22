@@ -2039,6 +2039,9 @@ function aConstructor()
 					form.append(hidden);
 				}
 
+				// If the form being submitted has this event bound to it, it will execute it. Awesome, right?
+				// If it doesn't, jQ just lets it go quietly.
+				form.trigger('aActAsSubmitCallback');
 				form.submit();
 				return false;
 			});
