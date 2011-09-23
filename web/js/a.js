@@ -1943,11 +1943,14 @@ function aConstructor()
 		var overlay = $('.a-page-overlay');
 		if (options['toggle'])
 		{
-			overlay.addClass('active');
+			// I want it to fade in / out
+			overlay.fadeIn(100);
+			// overlay.addClass('active');
 		}
 		else
 		{
-			overlay.removeClass('active');
+			// overlay.removeClass('active');
+			overlay.hide();
 		}
 		if (options.callback && typeof(options.callback) === 'function') 
 		{
