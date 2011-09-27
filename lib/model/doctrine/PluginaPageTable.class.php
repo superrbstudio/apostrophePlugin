@@ -1216,6 +1216,11 @@ class PluginaPageTable extends Doctrine_Table
         $hasCmsAdmin = $user->hasCredential('cms_admin');
       }
     }
+    
+    // A little simple validation - there's no injection issue here per se but
+    // the user id can apparently be empty if a busted session is hanging around.
+    // Deal with that by making sure it's inserted as a numeric 0
+    $user_id = (int) $user_id;
         
     $joins .= 'LEFT JOIN a_access aa ON aa.page_id = p.id AND aa.user_id = ' . $user_id . ' ';
     if (!count($group_ids))
