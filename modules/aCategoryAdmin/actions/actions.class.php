@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BaseaCategoryAdminActions.class.php';/**
+/**
  * 
  * aCategoryAdmin actions.
  * @package    aBlogPlugin

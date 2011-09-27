@@ -1,7 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/aCategoryAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__) . '/aCategoryAdminGeneratorHelper.class.php';/**
+/**
  * 
  * Base actions for the aPlugin aCategoryAdmin module.
  * @package     aPlugin
