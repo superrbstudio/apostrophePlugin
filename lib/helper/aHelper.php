@@ -427,13 +427,6 @@ function a_include_js_calls()
   echo(a_get_js_calls());
 }
 
-function a_include_js_calls_only()
-{
-	echo('<script type="text/javascript" id="a-js-calls-only">');
-  echo(a_get_js_calls_only());
-	echo('</script>');
-}
-
 function a_get_js_calls()
 {
   $html = '';
@@ -441,21 +434,14 @@ function a_get_js_calls()
   {
     $html .= '<script type="text/javascript" id="a-js-calls">' . "\n";
     $html .= '$(function() {' . "\n";
-  	$html .= a_get_js_calls_only();
-  	$html .= '});' . "\n";
+    foreach (aTools::$jsCalls as $call)
+    {
+      $html .= _a_js_call($call['callable'], $call['args']);
+    }
+    $html .= '});' . "\n";
     $html .= '</script>' . "\n";
   }
   return $html;
-}
-
-function a_get_js_calls_only()
-{
-	$html = "";
-  foreach (aTools::$jsCalls as $call)
-  {
-    $html .= _a_js_call($call['callable'], $call['args']);
-  }
-	return $html;
 }
 
 function _a_js_call($callable, $args)
@@ -529,7 +515,7 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
   }
 
 	if (!$aLink && !$arrowBtn) {
-	  $s .= 'class="a-ui a-btn ' . implode(' ', $classes) . '">';
+	  $s .= 'class="a-btn ' . implode(' ', $classes) . '">';
 	}
 	else
 	{
