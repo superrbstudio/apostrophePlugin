@@ -429,7 +429,7 @@ function a_include_js_calls()
 
 function a_include_js_calls_only()
 {
-	echo('<script type="text/javascript">');
+	echo('<script type="text/javascript" id="a-js-calls-only">');
   echo(a_get_js_calls_only());
 	echo('</script>');
 }
@@ -439,7 +439,7 @@ function a_get_js_calls()
   $html = '';
   if (count(aTools::$jsCalls))
   {
-    $html .= '<script type="text/javascript">' . "\n";
+    $html .= '<script type="text/javascript" id="a-js-calls">' . "\n";
     $html .= '$(function() {' . "\n";
   	$html .= a_get_js_calls_only();
   	$html .= '});' . "\n";
