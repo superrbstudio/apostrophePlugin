@@ -152,6 +152,68 @@ function aConstructor()
 		});
 	};
 
+	// This is exported because we have to be able to call it from
+	// fixed-up versions of ancient onclick="" handlers in order to repair them magically.
+	// Repairing things magically is why we have overrideLinks, so we can't hold our
+	// noses too much
+	
+	this._submitFormForOverrideLinks = function(form, update)
+	{
+		$.post(
+			$(form).attr('action'),
+			$(form).serialize(),
+			function(data) {
+				_fixContentForOverrideLinks(data, update);
+			}
+		);
+	}
+
+	// This is up at this level so that it can be called by _submitFormForOverrideLinks. You
+	// don't want to call this yourself, look at linkToRemote to do what you probably intend
+	
+	function _fixContentForOverrideLinks(data, update)
+	{
+		var markup = $(data);
+		var update = $(update);
+		markup.find('a.a-delete').each(function() {
+			var onclick = this.getAttribute('onclick');
+			if (onclick && onclick.length)
+			{
+				var updateId = update.attr('id');
+				if (!updateId)
+				{
+					apostrophe.log("WARNING: element being updated has no id, overrideLinks can't work");
+				}
+				onclick = onclick.replace('f.submit()', 'apostrophe._submitFormForOverrideLinks(f, "#' + updateId + '")');
+				this.setAttribute('onclick', onclick);
+			}
+		});
+		
+		// Don't mess up things with existing handlers
+		$('a:not([href="#"])', markup).click(function(event) {
+			var onclick = this.getAttribute('onclick');
+			if (onclick && onclick.length)
+			{
+				// Don't interfere with old-school handlers
+				// (the one case in which we do so is handled above)
+				return true;
+			}
+			event.preventDefault();
+			$.get($(this).attr('href'), function(data) {
+				_fixContentForOverrideLinks(data, update);
+			});
+		});
+		$('form', markup).submit(function(event) {
+			apostrophe.log('form submit handler');
+			event.preventDefault();
+			apostrophe._submitFormForOverrideLinks(this, update);
+		});
+		update.empty();
+		update.append(markup);
+		apostrophe.smartCSS({ target: update });
+		update.trigger('aAfterOverrideLinks');
+	}
+	
 	// Utility: an updated version of the jq_link_to_remote helper
 	// Allows you to create the same functionality without outputting javascript in the markup.
 	// Restore feature stashes the old content in .data() and binds restore to a cancel button returned within data
@@ -188,7 +250,24 @@ function aConstructor()
 						{
 							update.data('aBeforeUpdate', update.children().clone(true));
 						}
-						update.html(data);
+						newContent(data);
+						function newContent(data)
+						{
+							// The overrideLinks option changes all links and forms inside the
+							// popup container to AJAX update the container rather than causing
+							// a page refresh. It will leave your links alone if they point
+							// to '#', but in general it is intended for pulling boring, simple
+							// stuff like admin generator modules into a popup container and should
+							// not be mistaken for the solution to all of your life's problems
+							if (options['overrideLinks'])
+							{
+								_fixContentForOverrideLinks(data, update);
+							}
+							else
+							{
+								update.html(data);
+							}
+						}
 					},
 					complete:function() {
 						if (restore)
@@ -2056,19 +2135,19 @@ function aConstructor()
 		// Once this function is empty it can be deleted
 		// called in partial a/globalJavascripts
 		// Variants
-		$('a.a-variant-options-toggle').unbind('click.aVariantOptionsToggle').bind('click.aVariantOptionsToggle', function(){
+		$(target).find('a.a-variant-options-toggle').unbind('click.aVariantOptionsToggle').bind('click.aVariantOptionsToggle', function(){
 			$(this).parents('.a-slots').children().css('z-index','699');
 			$(this).parents('.a-slot').css('z-index','799');
 		});
 		// Cross Browser Opacity Settings
-		$('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
+		$(target).find('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
 		// Apply clearfix on controls and options
-		$('.a-controls, .a-options').addClass('clearfix');
+		$(target).find('.a-controls, .a-options').addClass('clearfix');
 		// Add 'last' Class To Last Option
-		$('.a-controls li:last-child').addClass('last');
+		$(target).find('.a-controls li:last-child').addClass('last');
 		// Valid way to have links open up in a new browser window
 		// Example: <a href="..." rel="external">Click Meh</a>
-		$('a[rel="external"]').attr('target','_blank');
+		$(target).find('a[rel="external"]').attr('target','_blank');
 
 		// THINGS WE'D LIKE TO GET RID OF START HERE
 
@@ -2651,7 +2730,6 @@ function aConstructor()
 
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{
-
 		// Menu must have an ID.
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
 		if (menu.attr('id') == '')
