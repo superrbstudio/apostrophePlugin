@@ -1,5 +1,7 @@
 <?php
 
+require dirname(__FILE__) . '/../lib/BaseaCategoryAdminActions.class.php';
+
 /**
  * 
  * aCategoryAdmin actions.

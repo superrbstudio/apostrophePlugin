@@ -311,7 +311,7 @@ class BaseaTools
       array(
          'aText' => 'Plain Text',
          'aRichText' => 'Rich Text',
-         'aFeed' => 'RSS Feed',
+         'aFeed' => 'Twitter &amp; RSS',
          'aSlideshow' => 'Photo Slideshow',
          'aSmartSlideshow' => 'Smart Slideshow',
          'aButton' => 'Button',

@@ -1,7 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/aTagAdminGeneratorConfiguration.class.php';
-require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';/**
+require_once dirname(__FILE__) . '/aTagAdminGeneratorHelper.class.php';
+
+/**
  * 
  * Base actions for the aPlugin aTagAdmin module.
  * @package     aPlugin
