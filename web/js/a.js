@@ -2037,6 +2037,37 @@ function aConstructor()
 		};		
 	};
 
+	this.aInjectActualUrl = function(options) {
+
+		// Media selection links and similar "go away, get something, come back" links need
+		// to know what page to come back to. JavaScript knows much better than PHP does because
+		// PHP can be confused by an AJAX update action etc. It's a little tricky because we
+		// have to reencode the URL properly. Find the 'after' parameter, which is a URL to
+		// return to in order to save the selection, and parse it in order to add the
+		// 'actual_url' parameter to it. Then rebuild the whole thing correctly
+		
+		apostrophe.log('apostrophe.aInjectActualUrl');
+		
+		var target = options['target'];
+		
+		apostrophe.log('apostrophe.aInjectActualUrl -- target = ' + target);		
+		
+		$(target).find('.a-inject-actual-url').each(function() {
+			var href = $(this).attr('href');
+			var parsed = apostrophe.parseUrl(href);
+			if (parsed.queryData.after !== undefined)
+			{
+				var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
+				afterParsed.queryData.actual_url = window.location.href;
+				afterParsed.query = $.param(afterParsed.queryData);
+				parsed.queryData.after = afterParsed.stem + afterParsed.query;
+				parsed.query = $.param(parsed.queryData);
+				href = parsed.stem + parsed.query;
+				$(this).attr('href', href);
+			}
+		});
+	};
+
 	// A very small set of things that allow us to write CSS and HTML as if they were
 	// better than they are. This is called on every page load and AJAX refresh, so resist
 	// the temptation to get too crazy here.
@@ -2054,29 +2085,7 @@ function aConstructor()
 			target = options['target'];
 		};
 
-		// KEEPERS START HERE
-
-		// Media selection links and similar "go away, get something, come back" links need
-		// to know what page to come back to. JavaScript knows much better than PHP does because
-		// PHP can be confused by an AJAX update action etc. It's a little tricky because we
-		// have to reencode the URL properly. Find the 'after' parameter, which is a URL to
-		// return to in order to save the selection, and parse it in order to add the
-		// 'actual_url' parameter to it. Then rebuild the whole thing correctly
-		$(target).find('.a-inject-actual-url').each(function() {
-			var href = $(this).attr('href');
-			var parsed = apostrophe.parseUrl(href);
-			if (parsed.queryData.after !== undefined)
-			{
-				var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
-				afterParsed.queryData.actual_url = window.location.href;
-				afterParsed.query = $.param(afterParsed.queryData);
-				parsed.queryData.after = afterParsed.stem + afterParsed.query;
-				parsed.query = $.param(parsed.queryData);
-				href = parsed.stem + parsed.query;
-				$(this).attr('href', href);
-			}
-		});
-
+		apostrophe.aInjectActualUrl({ target : target });
 		apostrophe.aShowBusy();
 
 		// Anchor elements that act as submit buttons. On some older browsers this might not trigger
