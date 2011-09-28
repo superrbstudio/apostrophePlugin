@@ -1,13 +1,6 @@
 [?php use_helper('a', 'Date') ?]
 [?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
 
-[?php slot('a-page-header')?]
-<div class="a-ui a-admin-header">
-	<h3 class="a-admin-title">[?php echo __('<?php echo $this->configuration->getValue('edit.title') ?>', array(), 'apostrophe') ?]</h3>
-</div>
-[?php end_slot() ?]
-
-
 [?php slot('a-subnav') ?]
 <div class="a-ui a-subnav-wrapper admin">
 	<div class="a-subnav-inner">
