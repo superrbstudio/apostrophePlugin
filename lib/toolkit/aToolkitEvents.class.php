@@ -40,25 +40,25 @@ class aToolkitEvents
     }
     if ($task->getFullName() === 'cache:clear')
     {
-      // symfony cc does not fire up the database, which aMysqlCache needs
-      $options = aToolkitEvents::$options;
-      if (!isset($options['app']))
-      {
-        $options['app'] = 'frontend';
-      } 
-      if (!isset($options['env']))
-      {
-        $options['env'] = 'dev';
-      }
-      $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
-      $databaseManager = new sfDatabaseManager($appConfiguration);
-      $connections = $databaseManager->getNames();
-      if (count($connections))
-      {
-        $databaseManager->getDatabase($connections[0])->getConnection();
-      }
       try
       {
+        // symfony cc does not fire up the database, which aMysqlCache needs
+        $options = aToolkitEvents::$options;
+        if (!isset($options['app']))
+        {
+          $options['app'] = 'frontend';
+        } 
+        if (!isset($options['env']))
+        {
+          $options['env'] = 'dev';
+        }
+        $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
+        $databaseManager = new sfDatabaseManager($appConfiguration);
+        $connections = $databaseManager->getNames();
+        if (count($connections))
+        {
+          $databaseManager->getDatabase($connections[0])->getConnection();
+        }
         aAssets::clearAssetCache($task->getFilesystem());
       
         // Clear the page cache on symfony cc
@@ -77,7 +77,7 @@ class aToolkitEvents
       } catch (Exception $e)
       {
         echo("WARNING: the following exception occurred while clearing caches. If you do not have\n");
-        echo("a database yet this may be OK:\n\n");
+        echo("a database yet this may be OK otherwise specify --env and --application correctly:\n\n");
         echo($e);
       }
     }
