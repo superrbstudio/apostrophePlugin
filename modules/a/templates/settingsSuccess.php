@@ -54,23 +54,31 @@
 
 		<hr class="a-hr" />
 
-      <?php if (isset($form['joinedtemplate'])): ?>
-  			<div class="a-form-row a-edit-page-template">
-  				<h4><label><?php echo a_('Page Type') ?></label></h4>
-  				<div class="a-form-field">
-  				  <?php echo $form['joinedtemplate']->render() ?>
-  				</div>
-  			</div>
-  		<?php endif ?>
-
-		   <?php // This outer div is an AJAX target, it has to be here all the time ?>
-		   <?php // in case the user selects an engine ?>
-			<div class="a-engine-page-settings">
-			  <?php if (isset($engineSettingsPartial)): ?>
-			    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
-			  <?php endif ?>
+    <?php if (isset($form['joinedtemplate'])): ?>
+			<div class="a-form-row a-edit-page-template">
+				<h4><label><?php echo a_('Page Type') ?></label></h4>
+				<div class="a-form-field">
+				  <?php echo $form['joinedtemplate']->render() ?>
+				</div>
 			</div>
+		<?php endif ?>
 
+	   <?php // This outer div is an AJAX target, it has to be here all the time ?>
+	   <?php // in case the user selects an engine ?>
+		<div class="a-engine-page-settings">
+		  <?php if (isset($engineSettingsPartial)): ?>
+		    <?php include_partial($engineSettingsPartial, array('form' => $engineForm)) ?>
+		  <?php endif ?>
+		</div>
+
+    <?php if (sfConfig::get('app_a_simple_permissions')): ?>
+      <div class="a-form-row status">
+        <h4><label><?php echo a_('Who can see this?') ?></label></h4>
+        <div class="a-form-field">
+          <?php echo $form['simple_status']->render() ?>
+        </div>
+      </div>
+    <?php else: ?>
 			<div class="a-form-row status">
 			  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
 		  	<div class="<?php echo $stem ?>-status">
@@ -82,6 +90,7 @@
 					<?php endif ?> 
 				</div>
 			</div>
+    <?php endif ?>
 	</div>
 	
 	
@@ -111,10 +120,12 @@
 		</div>
 	</div>
 
-  <?php if ($manage): ?>
- 		<hr/>
- 		<?php $hasSubpages = $page->hasChildren(false) ?>
-    <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>
+  <?php if (!sfConfig::get('app_a_simple_permissions')): ?>
+    <?php if ($manage): ?>
+   		<hr/>
+   		<?php $hasSubpages = $page->hasChildren(false) ?>
+      <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>
+    <?php endif ?>
   <?php endif ?>
   
 	<?php if ($create): ?>

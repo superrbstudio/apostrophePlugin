@@ -124,32 +124,61 @@ class BaseaPageSettingsForm extends aPageForm
       unset($choices['admin']);
     }
     
-    $default = 'public';
-    if ($object->view_admin_lock)
+    if (sfConfig::get('app_a_simple_permissions'))
     {
-      $default = 'admin';
-    }
-    elseif ($object->view_is_secure)
-    {
-      $default = 'login';
-    }
-
-    if ($manage)
-    {
-      $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
-      $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
-      if ($this->getObject()->hasChildren(false))
+      unset($this['archived']);
+      unset($this['view_is_secure']);
+      unset($this['view_admin_lock']);
+      $choices = array('everyone' => 'Everyone', 'guests' => 'Guests', 'editors' => 'Editors');
+      
+      if ($object['view_is_secure'])
       {
-        $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
-        $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
-          'true_values' =>  array('true', 't', 'on', '1'),
-          'false_values' => array('false', 'f', 'off', '0', ' ', '')
-        )));
+        if ($object['view_guest'])
+        {
+          $value = 'guests';
+        }
+        else
+        {
+          $value = 'editors';
+        }
+      } 
+      else 
+      {
+        $value = 'everyone';
       }
-      $this->setWidget('view_individuals', new sfWidgetFormInputHidden(array('default' => $this->getViewIndividualsJSON())));
-      $this->setValidator('view_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateViewIndividuals'), 'required' => true)));
-      $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
-      $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
+      
+      $this->setWidget('simple_status', new sfWidgetFormChoice(array('choices' => $choices, 'default' => $value)));
+      $this->setValidator('simple_status', new sfValidatorChoice(array('choices' => array_keys($choices))));
+    }
+    else
+    {
+      if ($manage)
+      {
+        $default = 'public';
+        if ($object->view_admin_lock)
+        {
+          $default = 'admin';
+        }
+        elseif ($object->view_is_secure)
+        {
+          $default = 'login';
+        }
+        
+        $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
+        $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
+        if ($this->getObject()->hasChildren(false))
+        {
+          $this->setWidget('view_options_apply_to_subpages', new sfWidgetFormInputCheckbox(array('label' => 'Apply to Subpages')));
+          $this->setValidator('view_options_apply_to_subpages', new sfValidatorBoolean(array(
+            'true_values' =>  array('true', 't', 'on', '1'),
+            'false_values' => array('false', 'f', 'off', '0', ' ', '')
+          )));
+        }
+        $this->setWidget('view_individuals', new sfWidgetFormInputHidden(array('default' => $this->getViewIndividualsJSON())));
+        $this->setValidator('view_individuals', new sfValidatorCallback(array('callback' => array($this, 'validateViewIndividuals'), 'required' => true)));
+        $this->setWidget('view_groups', new sfWidgetFormInputHidden(array('default' => $this->getViewGroupsJSON())));
+        $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
+      }
     }
     
     // Changed the name so Doctrine doesn't get uppity
@@ -635,60 +664,83 @@ class BaseaPageSettingsForm extends aPageForm
       $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
     }
     
-    $jvalues = json_decode($this->getValue('view_groups'), true);
-    // Most custom permissions are saved in separate methods called from save()
-    // after the object exists. However the "Editors + Guests" group is a special
-    // case which really maps to everyone who has the 'view_locked' permission, so
-    // we have to scan for it in the list of groups
-    foreach ($jvalues as $value)
+    if (sfConfig::get('app_a_simple_permissions'))
     {
-      if ($value['id'] === 'editors_and_guests')
+      $object['view_admin_lock'] = false;
+      $object['archived'] = false;
+      if ($values['simple_status'] === 'everyone')
       {
-        // Editors + Guests special case
-        $object->view_guest = $value['selected'] && ($value['selected'] !== 'remove');
+        $object['view_guest'] = false;
+        $object['view_is_secure'] = false;
+      }
+      elseif ($values['simple_status'] === 'guests')
+      {
+        $object['view_guest'] = true;
+        $object['view_is_secure'] = true;
+      }
+      elseif ($values['simple_status'] === 'editors')
+      {
+        $object['view_guest'] = false;
+        $object['view_is_secure'] = true;
       }
     }
+    else
+    {
+      $jvalues = json_decode($this->getValue('view_groups'), true);
+      // Most custom permissions are saved in separate methods called from save()
+      // after the object exists. However the "Editors + Guests" group is a special
+      // case which really maps to everyone who has the 'view_locked' permission, so
+      // we have to scan for it in the list of groups
+      foreach ($jvalues as $value)
+      {
+        if ($value['id'] === 'editors_and_guests')
+        {
+          // Editors + Guests special case
+          $object->view_guest = $value['selected'] && ($value['selected'] !== 'remove');
+        }
+      }
     
-    // Check for cascading operations
-    if ($this->getValue('cascade_archived'))
-    {
-      $q = Doctrine::getTable('aPage')->createQuery()
-        ->update()
-        ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
-      $q->set('archived', '?', $object->getArchived());
-      $q->execute();
-    }
+      // Check for cascading operations
+      if ($this->getValue('cascade_archived'))
+      {
+        $q = Doctrine::getTable('aPage')->createQuery()
+          ->update()
+          ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
+        $q->set('archived', '?', $object->getArchived());
+        $q->execute();
+      }
     
-    if ($values['view_options'] === 'public')
-    {
-      $object->view_admin_lock = false;
-      $object->view_is_secure = false;
-    }
-    elseif ($values['view_options'] === 'login')
-    {
-      $object->view_admin_lock = false;
-      $object->view_is_secure = true;
-    }
-    elseif ($values['view_options'] === 'admin')
-    {
-      $object->view_admin_lock = true;
-      $object->view_is_secure = true;
-    }
+      if ($values['view_options'] === 'public')
+      {
+        $object->view_admin_lock = false;
+        $object->view_is_secure = false;
+      }
+      elseif ($values['view_options'] === 'login')
+      {
+        $object->view_admin_lock = false;
+        $object->view_is_secure = true;
+      }
+      elseif ($values['view_options'] === 'admin')
+      {
+        $object->view_admin_lock = true;
+        $object->view_is_secure = true;
+      }
     
-    if ($this->getValue('view_options_apply_to_subpages'))
-    {
-      $q = Doctrine::getTable('aPage')->createQuery()
-        ->update()
-        ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
-      $q->set('view_admin_lock', '?', $object->view_admin_lock);
-      $q->set('view_is_secure', '?', $object->view_is_secure);
-      $q->set('view_guest', '?', $object->view_guest);
-      $q->execute();
+      if ($this->getValue('view_options_apply_to_subpages'))
+      {
+        $q = Doctrine::getTable('aPage')->createQuery()
+          ->update()
+          ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
+        $q->set('view_admin_lock', '?', $object->view_admin_lock);
+        $q->set('view_is_secure', '?', $object->view_is_secure);
+        $q->set('view_guest', '?', $object->view_guest);
+        $q->execute();
+      }
     }
     
     // We have no UI for scheduling publication yet, so make sure
     // we set the publication date when we save with archived false
-    if (!$values['archived'])
+    if ((!isset($values['archived'])) || (!$values['archived']))
     {
       $object->setPublishedAt(aDate::mysql());
     }
@@ -708,10 +760,13 @@ class BaseaPageSettingsForm extends aPageForm
   public function save($con = null)
   {
     $object = parent::save($con);
-    $this->saveIndividualViewPrivileges($object);
-    $this->saveGroupViewPrivileges($object);
-    $this->saveIndividualEditPrivileges($object);
-    $this->saveGroupEditPrivileges($object);
+    if (!sfConfig::get('app_a_simple_permissions'))
+    {
+      $this->saveIndividualViewPrivileges($object);
+      $this->saveGroupViewPrivileges($object);
+      $this->saveIndividualEditPrivileges($object);
+      $this->saveGroupEditPrivileges($object);
+    }
     // Update meta-description on Page
     // This involves creating a slot so it has to happen last
     if ($this->getValue('real_meta_description') != '')
