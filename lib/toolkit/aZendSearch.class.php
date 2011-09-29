@@ -91,7 +91,7 @@ class aZendSearch
      // Ugh: UTF8 Lucene is case sensitive work around this
      if (function_exists('mb_strtolower'))
      {
-       $luceneQueryString = mb_strtolower($luceneQueryString);
+       $luceneQueryString = mb_strtolower($luceneQueryString, 'UTF-8');
      }
      else
      {
@@ -428,7 +428,7 @@ class aZendSearch
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
       {
-        $value = mb_strtolower($value);
+        $value = mb_strtolower($value, 'UTF-8');
       }
       else
       {
@@ -448,7 +448,7 @@ class aZendSearch
       // Ugh: UTF8 Lucene is case sensitive work around this
       if (function_exists('mb_strtolower'))
       {
-        $value = mb_strtolower($value);
+        $value = mb_strtolower($value, 'UTF-8');
       }
       else
       {
