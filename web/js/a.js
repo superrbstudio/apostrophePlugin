@@ -2067,6 +2067,64 @@ function aConstructor()
 			}
 		});
 	};
+	
+	this.aActAsSubmit = function(options) {
+		
+			apostrophe.log('apostrophe.aActAsSubmit');
+		
+			var target = options['target'];
+				
+			// Anchor elements that act as submit buttons. On some older browsers this might not trigger
+			// other submit handlers for the form before native submit, however it seems to work just fine
+			// in modern browsers even if the form is an ajax form
+
+			var actAsSubmit = $(target).find('.a-act-as-submit');
+			var actAsSubmitForm = actAsSubmit.closest('form');
+			var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
+
+			actAsSubmit.each(function(){
+				var submit = $(this);
+
+				var form = submit.closest('form');
+				if (!form.find('input[type="submit"]').length)
+				{
+					var hidden = $('<input type="submit"/>');
+					hidden.attr('value', submit.text());
+					hidden.addClass('a-hidden-submit');
+					submit.after(hidden);
+				}
+
+				submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
+					var form = submit.closest('form');
+
+					// Submit buttons have names used to distinguish them.
+					// Fortunately, anchors have names too. There is NO
+					// default name - and in particular 'submit' breaks
+					// form.submit, so don't use it
+					var name = submit.attr('name');
+					if (name && name.length)
+					{
+						var hidden = $('<input type="hidden"/>');
+						// To correctly simulate what happens when you click a named submit button
+						// we need a hidden element with the same name and the label as the value.
+						// The name is what the server end is really looking for but let's get this
+						// as accurate as possible. Anchor tags don't have a val attribute but they
+						// do have label text, which is what you get as a value with a normal
+						// named submit button
+						hidden.attr('name', name);
+						hidden.val(submit.text());
+						form.append(hidden);
+					}
+
+					// If the form being submitted has this event bound to it, it will execute it. Awesome, right?
+					// If it doesn't, jQ just lets it go quietly.
+					form.trigger('aActAsSubmitCallback');
+					form.submit();
+					return false;
+				});
+
+			});
+	}
 
 	// A very small set of things that allow us to write CSS and HTML as if they were
 	// better than they are. This is called on every page load and AJAX refresh, so resist
@@ -2087,57 +2145,7 @@ function aConstructor()
 
 		apostrophe.aInjectActualUrl({ target : target });
 		apostrophe.aShowBusy();
-
-		// Anchor elements that act as submit buttons. On some older browsers this might not trigger
-		// other submit handlers for the form before native submit, however it seems to work just fine
-		// in modern browsers even if the form is an ajax form
-
-		var actAsSubmit = $(target).find('.a-act-as-submit');
-		var actAsSubmitForm = actAsSubmit.closest('form');
-		var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
-
-		actAsSubmit.each(function(){
-			var submit = $(this);
-
-			var form = submit.closest('form');
-			if (!form.find('input[type="submit"]').length)
-			{
-				var hidden = $('<input type="submit"/>');
-				hidden.attr('value', submit.text());
-				hidden.addClass('a-hidden-submit');
-				submit.after(hidden);
-			}
-
-			submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
-				var form = submit.closest('form');
-
-				// Submit buttons have names used to distinguish them.
-				// Fortunately, anchors have names too. There is NO
-				// default name - and in particular 'submit' breaks
-				// form.submit, so don't use it
-				var name = submit.attr('name');
-				if (name && name.length)
-				{
-					var hidden = $('<input type="hidden"/>');
-					// To correctly simulate what happens when you click a named submit button
-					// we need a hidden element with the same name and the label as the value.
-					// The name is what the server end is really looking for but let's get this
-					// as accurate as possible. Anchor tags don't have a val attribute but they
-					// do have label text, which is what you get as a value with a normal
-					// named submit button
-					hidden.attr('name', name);
-					hidden.val(submit.text());
-					form.append(hidden);
-				}
-
-				// If the form being submitted has this event bound to it, it will execute it. Awesome, right?
-				// If it doesn't, jQ just lets it go quietly.
-				form.trigger('aActAsSubmitCallback');
-				form.submit();
-				return false;
-			});
-
-		});
+		apostrophe.aActAsSubmit({ target : target })
 
 		// The contents of this function can be migrated to better homes
 		// if it makes sense to move them.
