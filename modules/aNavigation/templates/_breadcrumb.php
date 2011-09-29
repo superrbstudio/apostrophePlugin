@@ -7,7 +7,10 @@
   $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
   $separator = isset($separator) ? $sf_data->getRaw('separator') : null;
 ?>
-<ul id="a-breadcrumb-<?php echo ($name)? $name:'component' ?>" class="a-nav a-nav-breadcrumb a-breadcrumb-<?php echo ($name)? $name:'component' ?> breadcrumb clearfix">
+<?php // Some weirdness going on with the class names for the breadcrumb. I updated this to have the correct class name format .a-nav-$name 
+      // But I also left in the old stuff for compat.
+ ?>
+<ul id="a-breadcrumb-<?php echo ($name)? $name:'component' ?>" class="a-nav a-nav-breadcrumb a-nav-<?php echo ($name)? $name:'component' ?> a-breadcrumb-<?php echo ($name)? $name:'component' ?> breadcrumb clearfix">
 	<?php foreach($nav as $pos => $item): ?>
 		<?php if (!$item['archived'] || $draggable): ?>
 			<li class="<?php echo $class;
