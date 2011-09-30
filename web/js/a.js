@@ -2806,9 +2806,11 @@ function aConstructor()
 			menu.trigger('afterClosed');
 		});
 
-		$('#' + menu.attr('id') + ' .a-options-cancel').live('click',function(e){
+		// Any .a-cancel buttos in the menu itself close it
+		$('#' + menu.attr('id') + ' .a-cancel').die('click.aMenuToggle').live('click.aMenuToggle',function(e){
 			e.preventDefault();
 			menu.trigger('toggleClosed');
+			return false;
 		});
 	}
 

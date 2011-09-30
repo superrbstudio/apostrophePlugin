@@ -58,7 +58,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
   }
 
   /**
-   * DOCUMENT ME
+   * Setup Options for Slideshow Slot
    */
   protected function setupOptions()
   {
