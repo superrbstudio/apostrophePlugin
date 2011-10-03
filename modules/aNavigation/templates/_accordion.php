@@ -7,6 +7,8 @@
   $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
   $maxDepth = isset($maxDepth) ? $sf_data->getRaw('maxDepth') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
+  // Safe to pass to recursive invocations
+  $escNav = $nav;
   $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
   $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
   $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
@@ -35,7 +37,7 @@
       <?php endif ?>
 
       <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
-        <?php include_partial('aNavigation/accordion', array('nav' => $item['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active)) ?>
+        <?php include_partial('aNavigation/accordion', array('nav' => $escNav[$pos]['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active)) ?>
       <?php endif ?>
 
       <?php if ($dragIcon && $draggable): ?>
