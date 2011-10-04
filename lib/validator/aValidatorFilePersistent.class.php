@@ -167,7 +167,6 @@ class aValidatorFilePersistent extends sfValidatorFile
         $data['validatedType'] = $type;
         // For getMimeType to see now
         $this->validatedType = $type;
-        error_log("I set validatedType!");
       }
       else
       {

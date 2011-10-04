@@ -18,15 +18,6 @@
 <?php if ($item): ?>
   <ul class="a-media-image">
     <li class="a-image-embed">
-    <?php if (isset($dimensions)): ?>
-      <?php $embed = str_replace(
-        array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-        array($dimensions['width'], 
-          $dimensions['height'],
-          $dimensions['resizeType'],
-          $dimensions['format']),
-        $embed) ?>
-    <?php endif ?>
     <?php if ($options['link']): ?>
       <?php $embed = "<a href='".$options['link']."'>$embed</a>" ?>
     <?php endif ?>

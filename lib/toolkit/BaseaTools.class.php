@@ -1307,6 +1307,13 @@ class BaseaTools
   			'title' => false,
   			'description' => false,
   		),
+  		'aImage' => array(
+  			'width' => 480,
+  			'height' => false,
+  			'resizeType' => 's',
+  			'flexHeight' => true,
+  			'constraints' => array('minimum-width' => 480)
+  		),
   		'aSlideshow' => array(
   			'width' => 480,
   			'height' => false,

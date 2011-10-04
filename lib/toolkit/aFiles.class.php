@@ -366,12 +366,6 @@ class aFiles
         }
         aFiles::rmRf($filePath);
       }
-      if (substr($path, 0, 2) !== 's3')
-      {
-        echo("I'm afraid: $path\n");
-        exit(0);
-      }
-      error_log("Removing $path (directory)");
       if (!rmdir($path))
       {
         return false;
@@ -379,13 +373,6 @@ class aFiles
     }
     else
     {
-      if (substr($path, 0, 2) !== 's3')
-      {
-        echo("I'm afraid: $path\n");
-        exit(0);
-      }
-
-      error_log("removing $path");
       if (!unlink($path))
       {
         return false;
@@ -418,7 +405,6 @@ class aFiles
    */
   static public function sync($from, $to, $options = array())
   {
-    error_log("Comparing $from and $to");
     $fromList = aFiles::ls($from);
     if ($fromList === false)
     {
@@ -429,7 +415,6 @@ class aFiles
     {
       if (!mkdir($to))
       {
-        error_log("Cannot mkdir $to");
         return false;
       }
       $toList = array();
@@ -487,7 +472,6 @@ class aFiles
       }
       else
       {
-        error_log("Copying $fromPath to $toPath");
         copy($fromPath, $toPath);
       }
     }

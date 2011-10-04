@@ -134,7 +134,6 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
         $info = aValidatorFilePersistent::getFileInfo($persistid);
         $source = $info['tmp_name'];
         $imageInfo = isset($info['imageInfo']) ? $info['imageInfo'] : false;
-        error_log(json_encode($imageInfo));
       }
       else
       {
@@ -153,8 +152,8 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
         $imagename = "$persistid.$format";
         $url = "$urlStem/$imagename";
         $output = "$dir/$imagename";
-        error_log("I want to generate the URL $url and the output file $output");
-        if ((isset($imageInfo['newfile']) && $imageInfo['newfile']) || (!file_exists($output)))
+        $exists = file_exists($output);
+        if ((isset($imageInfo['newfile']) && $imageInfo['newfile']) || (!$exists))
         {
           if ($imagePreview['resizeType'] === 'c')
           {
@@ -164,12 +163,9 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
           {
             $method = 'scaleToFit';
           }
-          sfContext::getInstance()->getLogger()->info("YY calling converter method $method width " . $dimensions['width'] . ' height ' . $dimensions['height']);
-          error_log("Let's see if we really need to convert $source to $output");
           // If the original didn't change on this pass leave it alone & avoid busywork & roundtrips to slow backends (S3)
-          if ($info['newfile'])
+          if ($info['newfile'] || (!$exists))
           {
-            error_log("Yes it's really new");
             aImageConverter::$method(
               $source,
               $output,

@@ -255,7 +255,6 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
     $assetStatCache = aCacheTools::get('assetStat');
     if (!$assetStatCache->get($groupPathname))
     {
-      error_log("file_exists call");
       if (!file_exists($groupPathname))
       {
         $content  = '';
@@ -334,7 +333,6 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
       // Remember that this file now exists so that we can
       // quickly blow past this even when the filesystem is an
       // expensive S3 call away
-      error_log("Setting the cache");
       $assetStatCache->set($groupPathname, 1, 86400 * 365);
     }
     $options = json_decode($optionsJson, true);

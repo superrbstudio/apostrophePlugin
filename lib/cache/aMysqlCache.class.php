@@ -143,7 +143,6 @@ class aMysqlCache extends sfCache
   public function removePattern($pattern)
   {
     $pattern = $this->getOption('prefix') . $pattern;
-    error_log(self::patternToRegexp($pattern));
     $this->sql->query('DELETE FROM a_cache_item WHERE k REGEXP :pattern', array('pattern' => self::patternToRegexp($pattern)));
     return !!$this->sql->getRowsAffected();
   }

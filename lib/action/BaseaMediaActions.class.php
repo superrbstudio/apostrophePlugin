@@ -692,7 +692,18 @@ class BaseaMediaActions extends aEngineActions
         // OMG file widgets can't have defaults! Ah, but our persistent file widget can
         $tmpFile = aFiles::getTemporaryFilename();
         file_put_contents($tmpFile, file_get_contents($thumbnail));
-        $vfp = new aValidatorFilePersistent();
+
+        $mimeTypes = aMediaTools::getOption('mime_types');
+        // It comes back as a mapping of extensions to types, get the types
+        $extensions = array_keys($mimeTypes);
+        $mimeTypes = array_values($mimeTypes);
+        
+        $vfp = new aValidatorFilePersistent(
+          array('mime_types' => $mimeTypes,
+            'validated_file_class' => 'aValidatedFile',
+            'required' => false),
+          array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
+
         $guid = aGuid::generate();
         $vfp->clean(
           array(
@@ -837,8 +848,6 @@ class BaseaMediaActions extends aEngineActions
    */
   public function executeEditMultiple(sfWebRequest $request)
   {
-    error_log("ENTERING");
-    
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $this->embedAllowed = aMediaTools::getEmbedAllowed();
     $this->uploadAllowed = aMediaTools::getUploadAllowed();  

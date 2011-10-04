@@ -14,7 +14,6 @@
   <div class="a-form-row image">
 		<label for="a-button-edit-view-<?php echo $pageid.'-'.$name.'-'.$permid; ?>">Image</label>
     <div class="a-form-field" id="a-button-edit-view-<?php echo $pageid.'-'.$name.'-'.$permid; ?>">
-    	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
     	<?php echo $embed ?>			
     </div>
   </div>

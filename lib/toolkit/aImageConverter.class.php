@@ -176,7 +176,6 @@ class aImageConverter
   {    
     if (!isset(aImageConverter::$localPathCache[$fileIn]))
     {
-      error_log("Caching $fileIn");
       if (preg_match('/^\w+:\/\//', $fileIn))
       {
         // For paths with a protocol, copy to fast local temporary storage first. In addition to
@@ -196,7 +195,6 @@ class aImageConverter
     {
       $fileIn = aImageConverter::$localPathCache[$fileIn];
     }
-    error_log("Now fileIn is $fileIn");
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
       // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
@@ -259,10 +257,8 @@ class aImageConverter
     $exif = exif_read_data($file);
     if (!$exif)
     {
-      error_log("No EXIF");
       return 1;
     }
-    error_log(json_encode($exif));
     if (isset($exif['IFD0']['Orientation']))
     {
       // Code I'm seeing does this
@@ -594,7 +590,6 @@ class aImageConverter
       {
         $height = $cropParameters['height'];
       }
-      error_log("width: $width height: $height original: $fileIn");
       $cropped = self::createTrueColorAlpha($width, $height);
       imagealphablending($cropped, false);
       imagesavealpha($cropped, true);
@@ -878,9 +873,7 @@ class aImageConverter
         IMAGETYPE_PNG => "png",
         IMAGETYPE_GIF => "gif"
       );
-      error_log("X X X Calling getimagesize on $file");
       $data = getimagesize($file);
-      error_log("Got back " . json_encode($data));
       if (count($data) < 3)
       {
         return false;
