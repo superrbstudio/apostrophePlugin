@@ -18,7 +18,6 @@
 <?php if ($item): ?>
   <ul id="a-button-<?php echo $pageid.'-'.$name.'-'.$permid; ?>" class="a-button">
     <li class="a-button-image">
-    	<?php $embed = str_replace(array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"), array($dimensions['width'], $dimensions['height'], $dimensions['resizeType'],  $dimensions['format']), $embed) ?>
 	    <?php if ($options['url']): ?>
 	      <?php echo '<a class="a-button-link" href="'.$options['url'].'">'.$embed.'</a>' ?>
 			<?php else: ?>
