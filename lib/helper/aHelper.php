@@ -216,7 +216,7 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
     else
     {
       $url = a_javascript_path($file, $absolute);
-      $file = a_stylesheet_path($file, false, array('filesystem' => true));
+      $file = a_javascript_path($file, false, array('filesystem' => true));
     }
 
     if (is_null($options))
