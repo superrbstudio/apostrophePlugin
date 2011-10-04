@@ -52,10 +52,38 @@ class aCacheTools
     }
     else
     {
-      // Old school behavior
-      $cache = new sfFileCache(array('cache_dir' => aFiles::getWritableDataFolder(array('a_' . $name . '_cache'))));
+      // The folder location cache cannot be located with getWritableDataFolder (infinite recursion),
+      // but in situations where a file cache is acceptable there is no benefit in having
+      // a folder location cache anyway. sfNoCache implements the cache APIs but never
+      // turns out to contain anything (:
+      if ($name === 'folder')
+      {
+        $cache = new sfNoCache();
+      }
+      else
+      {
+        // Old school behavior
+        $cache = new sfFileCache(array('cache_dir' => aFiles::getWritableDataFolder(array('a_' . $name . '_cache'))));
+      }
     }
     aCacheTools::$caches[$name] = $cache;
     return $cache;
+  }
+  
+  /**
+   * Clears all caches listed in app_a_cache_clear_list, or a default list. Uses get() so that
+   * your custom settings are respected. We also notify the a.afterClearCache event which you
+   * may find useful if you are not following this pattern for some reason
+   *
+   */
+  
+  static public function clearAll()
+  {
+    $cacheClearList = sfConfig::get('app_a_cache_clear_list', array('feed', 'embed', 'media', 'page', 'folder', 'hint', 'less'));
+    foreach ($cacheClearList as $cacheName)
+    {
+      $cache = aCacheTools::get($cacheName);
+      $cache->clean();
+    }
   }
 }

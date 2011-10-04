@@ -27,6 +27,7 @@ class BaseaMediaBackendActions extends sfActions
       aImageConverter::convertFormat($item->getOriginalPath(),
         $item->getOriginalPath($format));
     }
+    header("Content-length: " . filesize($item->getOriginalPath($format)));
     header("Content-type: " . $mimeTypes[$format]);
     readfile($item->getOriginalPath($format));
     // Don't let the binary get decorated with crap
@@ -34,95 +35,47 @@ class BaseaMediaBackendActions extends sfActions
   }
 
   /**
-   * DOCUMENT ME
+   * Generate an image based on URL parameters taking advantage of Symfony's support
+   * for . as a separator. If the image already exists an Apache mod_rewrite rule will
+   * deliver it automatically and we never get this far
    * @param sfRequest $request
    */
   public function executeImage(sfRequest $request)
   {
     $item = $this->getItem();
     $slug = $item->getSlug();
-    $width = ceil($request->getParameter('width') + 0);
-    $height = ceil($request->getParameter('height') + 0);
+    $width = $request->getParameter('width');
+    $height = $request->getParameter('height');
     $resizeType = $request->getParameter('resizeType');
     $format = $request->getParameter('format');
-    $mimeTypes = aMediaTools::getOption('mime_types');
-    $this->forward404Unless(isset($mimeTypes[$format]));
-    $this->forward404Unless(($resizeType !== 'c') || ($resizeType !== 's'));
-    // EDITED FOR ARBITRARY CROPPING
-    $cropLeft = $request->getParameter('cropLeft');
-    $cropTop = $request->getParameter('cropTop');
-    $cropWidth = $request->getParameter('cropWidth');
-    $cropHeight = $request->getParameter('cropHeight');
     
-    if (!is_null($cropWidth) && !is_null($cropHeight) && !is_null($cropLeft) && !is_null($cropTop))
-    {
-      $cropLeft = ceil($cropLeft + 0);
-      $cropTop = ceil($cropTop + 0);
-      $cropWidth = ceil($cropWidth + 0);
-      $cropHeight = ceil($cropHeight + 0);
-
-      // Do this BEFORE we force resizeType to c for cropping. Otherwise Apache doesn't see that we already have
-      // the file and PHP is forced to output it every time. Should be a big performance win when 's' is used
-      // and cropping is present
-      $output = $this->getDirectory() . 
-        DIRECTORY_SEPARATOR . "$slug.$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";      
-
-      // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
-      // and only the cropOriginal method actually supports cropping parameters, so
-      $resizeType = 'c';
-    }
-    else
-    {
-      $cropLeft = null;
-      $cropTop = null;
-      $cropWidth = null;
-      $cropHeight = null;
-      $output = $this->getDirectory() . 
-        DIRECTORY_SEPARATOR . "$slug.$width.$height.$resizeType.$format";
-    }
-
-    // If .htaccess has not been set up, or we are not running
-    // from the default front controller, then we may get here
-    // even though the file already exists. Tolerate that situation 
-    // with reasonable efficiency by just outputting it.
+    $result = $item->render(array('width' => $width, 'height' => $height, 'resizeType' => $resizeType, 'format' => $format,
+      'cropLeft' => $request->getParameter('cropLeft'), 'cropTop' => $request->getParameter('cropTop'),
+      'cropWidth' => $request->getParameter('cropWidth'), 'cropHeight' => $request->getParameter('cropHeight')));
     
-    if (!file_exists($output))
+    if (is_array($result))
     {
-      $originalFormat = $item->getFormat();
-      if ($resizeType === 'c')
+      // If the URL is local, deliver the image directly the first time. Then Apache
+      // mod_rewrite rules should kick in to deliver it in the future without a PHP 
+      // interpreter hit
+      if (substr($result['url'], 0, 1) === '/')
       {
-        $method = 'cropOriginal';
+        header("Content-length: " . $result['size']);
+        header("Content-type: " . $result['contentType']);
+        readfile($result['path']);
+        // If I don't bail out manually here I get PHP warnings,
+        // even if I return sfView::NONE
+        exit(0);
       }
       else
       {
-        $method = 'scaleToFit';
+        // The URL is nonlocal - the image has been kicked into S3 or similar
+        // and we're ready to redirect the browser there (not the whole browser window,
+        // just the img src in question). Yes you can do that these days!
+        return $this->redirect($result['url']);
       }
-      aImageConverter::$method(
-        aMediaItemTable::getDirectory() .
-          DIRECTORY_SEPARATOR .
-          "$slug.original.$originalFormat", 
-        $output,
-        $width,
-        $height,
-        sfConfig::get('app_aMedia_jpeg_quality', 75),
-        $cropLeft,
-        $cropTop,
-        $cropWidth,
-        $cropHeight);
     }
-    // The FIRST time, we output this here. Later it
-    // can come directly from the file if Apache is
-    // configured with our recommended directives and
-    // we're in the default controller. If we're in another
-    // controller, this is still pretty efficient because
-    // we don't generate the image again, but there is the
-    // PHP interpreter hit to consider, so use those directives!
-    header("Content-length: " . filesize($output));
-    header("Content-type: " . $mimeTypes[$format]);
-    readfile($output);
-      // If I don't bail out manually here I get PHP warnings,
-    // even if I return sfView::NONE
-    exit(0);
+    $this->forward404(); 
   }
   
   protected $validAPIKey = false;

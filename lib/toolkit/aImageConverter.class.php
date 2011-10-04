@@ -162,16 +162,41 @@ class aImageConverter
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $fileIn
-   * @param mixed $fileOut
-   * @param mixed $scaleParameters
-   * @param mixed $cropParameters
-   * @param mixed $quality
-   * @return mixed
+   * When you know that a local file is a copy of a path in S3 or some other slow storage
+   * for at least the duration of the current request, you can set $localPathCache['slow remote path'] = 'fast local path'
+   * and that will be used in place of 'slow remote path' when it shows up in the $fileIn parameter
+   * of scaleBody
+   */
+  static public $localPathCache = array();
+  
+  /**
+   * Scale and crop $fileIn to $fileOut, potentially converting the format as well
    */
   static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75) 
   {    
+    if (!isset(aImageConverter::$localPathCache[$fileIn]))
+    {
+      error_log("Caching $fileIn");
+      if (preg_match('/^\w+:\/\//', $fileIn))
+      {
+        // For paths with a protocol, copy to fast local temporary storage first. In addition to
+        // enabling netpbm use this also speeds up the generation of several images during
+        // a single request
+        $tmp = aFiles::getTemporaryFilename();
+        aImageConverter::$localPathCache[$fileIn] = aFiles::getTemporaryFilename();
+        copy($fileIn, aImageConverter::$localPathCache[$fileIn]);
+        $fileIn = aImageConverter::$localPathCache[$fileIn];
+      }
+      else
+      {
+        // Middle case: original is a local file, don't cache anything
+      }
+    }
+    else
+    {
+      $fileIn = aImageConverter::$localPathCache[$fileIn];
+    }
+    error_log("Now fileIn is $fileIn");
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
       // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
@@ -231,11 +256,13 @@ class aImageConverter
       return 1;
     }
     // exif_read_data is noisy if it encounters Adobe XMP instead of EXIF in the app0 marker
-    $exif = @exif_read_data($file);
+    $exif = exif_read_data($file);
     if (!$exif)
     {
+      error_log("No EXIF");
       return 1;
     }
+    error_log(json_encode($exif));
     if (isset($exif['IFD0']['Orientation']))
     {
       // Code I'm seeing does this
@@ -567,6 +594,7 @@ class aImageConverter
       {
         $height = $cropParameters['height'];
       }
+      error_log("width: $width height: $height original: $fileIn");
       $cropped = self::createTrueColorAlpha($width, $height);
       imagealphablending($cropped, false);
       imagesavealpha($cropped, true);
@@ -647,15 +675,15 @@ class aImageConverter
     $extension = strtolower($infoOut['extension']);
     if ($extension === 'gif')
     {
-      imagegif($out, $fileOut);
+      aImageConverter::imagegif($out, $fileOut);
     }
     elseif (($extension === 'jpg') || ($extension === 'jpeg'))
     {
-      imagejpeg($out, $fileOut, $quality);
+      aImageConverter::imagejpeg($out, $fileOut, $quality);
     }
     elseif ($extension === 'png')
     {
-      imagepng($out, $fileOut);
+      aImageConverter::imagepng($out, $fileOut);
     }
     else
     {
@@ -667,6 +695,57 @@ class aImageConverter
     return true;
   }
 
+  /**
+   * Stream wrapper safe versions
+   */
+  static protected function imagegif($im, $file)
+  {
+    if (preg_match('/^[\w]+:\/\//', $file))
+    {
+      ob_start();
+      imagegif($im);
+      file_put_contents($file, ob_get_clean());
+    }
+    else
+    {
+      imagegif($im, $file);
+    }
+  }
+
+  /**
+   * Stream wrapper safe versions
+   */
+  static protected function imagejpeg($im, $file, $quality)
+  {
+    if (preg_match('/^[\w]+:\/\//', $file))
+    {
+      ob_start();
+      imagejpeg($im, null, $quality);
+      file_put_contents($file, ob_get_clean());
+    }
+    else
+    {
+      imagejpeg($im, $file, $quality);
+    }
+  }
+  
+  /**
+   * Stream wrapper safe versions
+   */
+  static protected function imagepng($im, $file)
+  {
+    if (preg_match('/^[\w]+:\/\//', $file))
+    {
+      ob_start();
+      imagepng($im);
+      file_put_contents($file, ob_get_clean());
+    }
+    else
+    {
+      imagepng($im, $file);
+    }
+  }
+  
   /**
    * Flips the image in place
    * @param mixed $in
@@ -732,6 +811,7 @@ class aImageConverter
   static public function getInfo($file, $options = array())
   {
     $formatOnly = (isset($options['format-only']) && $options['format-only']);
+    $noPdfSize = (isset($options['no-pdf-size']) && $options['no-pdf-size']);
     $result = array();
     $in = fopen($file, "rb");
     $data = fread($in, 4);
@@ -741,7 +821,7 @@ class aImageConverter
     if ($data === '%PDF')
     {
       // format-only 
-      if ($formatOnly || (!aImageConverter::supportsInput('pdf')))
+      if ($formatOnly || (!aImageConverter::supportsInput('pdf')) || ($noPdfSize))
       {
         // All we can do is confirm the format and allow
         // download of the original (which, for PDF, is
@@ -798,7 +878,9 @@ class aImageConverter
         IMAGETYPE_PNG => "png",
         IMAGETYPE_GIF => "gif"
       );
+      error_log("X X X Calling getimagesize on $file");
       $data = getimagesize($file);
+      error_log("Got back " . json_encode($data));
       if (count($data) < 3)
       {
         return false;
@@ -835,13 +917,37 @@ class aImageConverter
 
   /**
    * Odds and ends missing from gd
-   * As commonly found on the Internets
-   * @param mixed $filename
-   * @return mixed
+   * @param string $filename
+   * @return gdImage resource
    */
   static private function imagecreatefromany($filename) 
   {
-    foreach (array('png', 'jpeg', 'gif', 'bmp', 'ico') as $type) 
+    // For decent performance, determine the type up front, don't
+    // open the file in three different ways until something works
+    $info = getimagesize($filename);
+    if ($info !== false)
+    {
+      $type = $info[2];
+      if ($type === IMAGETYPE_GIF)
+      {
+        $func = 'imagecreatefromgif';
+      } 
+      elseif ($type === IMAGETYPE_PNG)
+      {
+        $func = 'imagecreatefrompng';
+      }
+      elseif ($type === IMAGETYPE_JPEG)
+      {
+        $func = 'imagecreatefromjpeg';
+      }
+    }
+    if (isset($func))
+    {
+      return @call_user_func($func, $filename);
+    }
+    
+    // Fallback: types not enumerated. This is slower of course
+    foreach (array('bmp', 'ico') as $type) 
     {
       $func = 'imagecreatefrom' . $type;
       if (is_callable($func)) 

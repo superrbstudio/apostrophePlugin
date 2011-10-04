@@ -78,7 +78,7 @@ class aTrace
    * @param mixed $trace
    * @return mixed
    */
-  static public function traceText($ignoreCount = 1, $trace = null)
+  static public function traceText($ignoreCount = 1, $trace = null, $maxDepth = null)
   {
     if ($trace === null)
     {
@@ -101,6 +101,10 @@ class aTrace
       else
       {
         $lastLine = 'NONE';
+      }
+      if (isset($maxDepth) && ($count - $ignoreCount >= $maxDepth))
+      {
+        break;
       }
     }
     return $result;

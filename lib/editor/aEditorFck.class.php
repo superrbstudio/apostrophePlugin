@@ -64,7 +64,12 @@ class aEditorFck extends aEditor
 
     // What if the name isn't an acceptable id? 
     $fckeditor           = new FCKeditor($options['name']);
-    $fckeditor->BasePath = sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('sf_rich_text_fck_js_dir').'/';
+    
+    // We'd like to use app_a_static_url but we can't because FCK loads in an iframe
+    // and therefore can't talk to the page if it's loaded from S3
+    $sf_relative_url_root = sfContext::getInstance()->getRequest()->getRelativeUrlRoot();
+    
+    $fckeditor->BasePath = $sf_relative_url_root.'/'.sfConfig::get('sf_rich_text_fck_js_dir').'/';
     $fckeditor->Value    = $value;
 
     if (isset($options['width']))

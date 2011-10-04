@@ -8,6 +8,7 @@
  * no new file has been specified.
  * The file should come from the aWidgetFormInputFilePersistent widget.
  * Should behave like the parent class in all other respects.
+ *
  * @see sfValidatorFile
  * @package    apostrophePlugin
  * @subpackage    validator
@@ -20,6 +21,7 @@ class aValidatorFilePersistent extends sfValidatorFile
   // magic numbers, and those that do exist can be misleading because
   // Word can contain Excel and vice versa
   protected $originalName;
+  protected $validatedType;
 
   protected $mustBeImage = false;
   
@@ -30,35 +32,20 @@ class aValidatorFilePersistent extends sfValidatorFile
    */
   protected function configure($options = array(), $messages = array())
   {
-    $guessersSet = isset($options['mime_type_guessers']);
     parent::configure($options, $messages);
-    if (!$guessersSet)
-    {
-      // Extend the default list from the parent class with guessers that are more
-      // robust about spotting files that can't be picked up if Unix file is 
-      // unavailable, mime type files are out of date, Unix file has a bug that
-      // hates on certain valid MP3s, etc. Everything else falls back to the other guessers
-      $mimeTypeGuessers = $this->getOption('mime_type_guessers');
-      array_unshift($mimeTypeGuessers, array($this, 'guessFromImageconverter'));
-      array_unshift($mimeTypeGuessers, array($this, 'guessFromID3'));
-      array_unshift($mimeTypeGuessers, array($this, 'guessRTF'));
-      // If any of these options are not null, the uploaded file must 
-      // be of an image format acceptable to getimagesize()
-      // (GIF, JPEG, PNG).
-      $this->addOption('minimum-width', null);
-      $this->addOption('minimum-height', null);
-      $this->addOption('maximum-width', null);
-      $this->addOption('maximum-height', null);
-      $this->addMessage('not-an-image', 'The file %value% is not an image. Please upload an image in GIF, JPEG or PNG format.');
-      $this->addMessage('minimum-width', 'Please upload an image at least %minimum-width% pixels wide.');
-      $this->addMessage('maximum-width', 'Please upload an image less than %maximum-width% pixels wide.');
-      $this->addMessage('minimum-height', 'Please upload an image at least %minimum-height% pixels tall.');
-      $this->addMessage('maximum-height', 'Please upload an image less than %maximum-height% pixels tall.');
-      $this->addMessage('minimum-dimensions', 'Please upload an image at least %minimum-width%x%minimum-height% pixels in size.');
-      $this->addMessage('maximum-dimensions', 'Please upload an image no more than %maximum-width%x%maximum-height% pixels in size.');
-    
-      $this->setOption('mime_type_guessers', $mimeTypeGuessers);
-    }
+    // If any of these options are not null, the uploaded file must 
+    // be a GIF, JPEG or PNG file
+    $this->addOption('minimum-width', null);
+    $this->addOption('minimum-height', null);
+    $this->addOption('maximum-width', null);
+    $this->addOption('maximum-height', null);
+    $this->addMessage('not-an-image', 'The file %value% is not an image. Please upload an image in GIF, JPEG or PNG format.');
+    $this->addMessage('minimum-width', 'Please upload an image at least %minimum-width% pixels wide.');
+    $this->addMessage('maximum-width', 'Please upload an image less than %maximum-width% pixels wide.');
+    $this->addMessage('minimum-height', 'Please upload an image at least %minimum-height% pixels tall.');
+    $this->addMessage('maximum-height', 'Please upload an image less than %maximum-height% pixels tall.');
+    $this->addMessage('minimum-dimensions', 'Please upload an image at least %minimum-width%x%minimum-height% pixels in size.');
+    $this->addMessage('maximum-dimensions', 'Please upload an image no more than %maximum-width%x%maximum-height% pixels in size.');
   }
 
   /**
@@ -103,7 +90,6 @@ class aValidatorFilePersistent extends sfValidatorFile
       $persistid = $value['persistid'];      
     }
     $newFile = false;
-    $persistentDir = $this->getPersistentDir();
     if (!self::validPersistId($persistid))
     {
       $persistid = false;
@@ -123,19 +109,11 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       if ($persistid !== false)
       {
-        $filePath = "$persistentDir/$persistid.file";
-        $data = false;
-        if (file_exists($filePath))
+        $data = aValidatorFilePersistent::getFileInfo($persistid);
+        if ($data)
         {
-          $dataPath = "$persistentDir/$persistid.data";
-          // Don't let them expire
-          touch($filePath);
-          touch($dataPath);
-          $data = file_get_contents($dataPath);
-          if (strlen($data))
-          {
-            $data = unserialize($data);
-          }
+          // Keep it considered current. A little blunt but effective
+          aValidatorFilePersistent::putFileInfo($persistid, $data);
         }
         if ($data)
         {
@@ -156,42 +134,58 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       $this->originalName = '';
     }
-    try
-    {
-      $result = parent::clean($cvalue);
-    } catch (Exception $e)
-    {
-      // If there is a validation error stop keeping this
-      // file around and don't display the reassuring
-      // "you don't have to upload again" message side by side
-      // with the validation error.
-      if ($persistid !== false)
-      {
-        $infoPath = "$persistentDir/$persistid.data";
-        $filePath = "$persistentDir/$persistid.file";
-        @unlink($infoPath);
-        @unlink($filePath);
-      }
-      throw $e;
-    }
     if ($newFile)
     {
       // Expiration of abandoned stuff has to happen somewhere
-      self::removeOldFiles($persistentDir);
+      aValidatorFilePersistent::removeOldFiles($this->getPersistentDir());
+      // We are always interested in getting image dimensions and
+      // format information about the file (the widget might want it
+      // in the cache for preview purposes, even if we don't have any
+      // width and height restrictions to check). We also want to know
+      // the mime type. We do everything we can to avoid hitting the
+      // standard cascade of guessers, which are super slow over S3
+      $imageInfo = aImageConverter::getInfo($cvalue['tmp_name']);
+      if ($imageInfo)
+      {
+        $type = $this->guessFromImageconverter($cvalue['tmp_name'], $imageInfo);
+      }
+      if (is_null($type))
+      {
+        $type = $this->guessFromMicrosoft($cvalue['tmp_name']);
+      }
+      if (is_null($type))
+      {
+        $type = $this->guessFromID3($cvalue['tmp_name']);
+      }
+      if (is_null($type))
+      {
+        $type = $this->guessFromRTF($cvalue['tmp_name']);
+      }
+      if (!is_null($type))
+      {
+        // Persist it for the next pass
+        $data['validatedType'] = $type;
+        // For getMimeType to see now
+        $this->validatedType = $type;
+        error_log("I set validatedType!");
+      }
+      else
+      {
+        $data['validatedType'] = null;
+      }
       if ($this->mustBeImage)
       {
         // Check whether the dimensions of the image are acceptable.
         // If not build a validator error message
-        $info = getimagesize($cvalue['tmp_name']);
-        if (!$info)
+        if (!$imageInfo)
         {
           throw new sfValidatorError($this, 'not-an-image', array('value' => (string) $value));
         }
-        $messageArgs = array('minimum-width' => $this->getOption('minimum-width'), 'width' => $info[0], 'minimum-height' => $this->getOption('minimum-height'), 'height' => $info[1], 'maximum-width' => $this->getOption('maximum-width'), 'maximum-height' => $this->getOption('maximum-height'));
+        $messageArgs = array('minimum-width' => $this->getOption('minimum-width'), 'width' => $imageInfo['width'], 'minimum-height' => $this->getOption('minimum-height'), 'height' => $imageInfo['height'], 'maximum-width' => $this->getOption('maximum-width'), 'maximum-height' => $this->getOption('maximum-height'));
         $msg = false;
         if ($this->getOption('minimum-width'))
         {
-          if ($info[0] < $this->getOption('minimum-width'))
+          if ($imageInfo['width'] < $this->getOption('minimum-width'))
           {
             // If there is also a minimum-width don't be a tease, tell
             // them about both limits to save them grief
@@ -207,7 +201,7 @@ class aValidatorFilePersistent extends sfValidatorFile
         }
         if ($this->getOption('maximum-width'))
         {
-          if ($info[0] > $this->getOption('maximum-width'))
+          if ($imageInfo['width'] > $this->getOption('maximum-width'))
           {
             if ($this->getOption('maximum-height'))
             {
@@ -221,7 +215,7 @@ class aValidatorFilePersistent extends sfValidatorFile
         }
         if ($this->getOption('minimum-height'))
         {
-          if ($info[1] < $this->getOption('minimum-height'))
+          if ($imageInfo['height'] < $this->getOption('minimum-height'))
           {
             if ($this->getOption('minimum-width'))
             {
@@ -235,7 +229,7 @@ class aValidatorFilePersistent extends sfValidatorFile
         }
         if ($this->getOption('maximum-height'))
         {
-          if ($info[1] > $this->getOption('maximum-height'))
+          if ($imageInfo['height'] > $this->getOption('maximum-height'))
           {
             if ($this->getOption('maximum-width'))
             {
@@ -252,19 +246,18 @@ class aValidatorFilePersistent extends sfValidatorFile
           $error = new sfValidatorError($this, $msg, $messageArgs);
           if ($persistid !== false)
           {
-            $infoPath = "$persistentDir/$persistid.data";
-            $filePath = "$persistentDir/$persistid.file";
-            @unlink($infoPath);
-            @unlink($filePath);
+            $this->discard($persistid);
           }
           throw $error;
         }
       }
       if ($persistid !== false)
       {
+        $persistentDir = $this->getPersistentDir();
         $filePath = "$persistentDir/$persistid.file";
         copy($cvalue['tmp_name'], $filePath);
         $data = $cvalue;
+        $data['imageInfo'] = $imageInfo;
         $data['newfile'] = true;
         $data['tmp_name'] = $filePath;
         
@@ -293,13 +286,33 @@ class aValidatorFilePersistent extends sfValidatorFile
         $data['newfile'] = false;
         self::putFileInfo($persistid, $data);
       }
+      if (isset($data['validatedType']))
+      {
+        $this->validatedType = $data['validatedType'];
+      }
+    }
+    try
+    {
+      $result = parent::clean($cvalue);
+    } catch (Exception $e)
+    {
+      // If there is a validation error stop keeping this
+      // file around and don't display the reassuring
+      // "you don't have to upload again" message side by side
+      // with the validation error.
+      if ($persistid !== false)
+      {
+        $this->discard($persistid);
+      }
+      throw $e;
     }
     return $result;
   }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * Returns the location where persistent file uploads are kept between
+   * validation passes.
+   * @return string
    */
   static protected function getPersistentDir()
   {
@@ -307,23 +320,23 @@ class aValidatorFilePersistent extends sfValidatorFile
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $dir
+   * The cache of information about persistent file uploads is self-cleaning, but the
+   * files themselves are too large for sfCache derivatives (the MySQL 1MB limit, the
+   * practical limits of memcache, etc. are not great for large originals). So we 
+   * must use S3 for these. Occasional cleanup is necessary
    */
   static public function removeOldFiles($dir)
   {
     // Age off any stale uploads in the cache
-    // (TODO: for performance, do this one time in a hundred or similar,
-    // it's simple to do that probabilistically).
-    $files = glob("$dir/*");
-    if ($files === false)
-    {
-      // Folder doesn't exist yet
-      return;
-    }
+    
+    // glob is busted for stream wrappers
+    $files = aFiles::ls($dir, array('fullPath' => true));
+    
     $now = time();
     foreach ($files as $file)
     {
+      $mtime = filemtime($file);
+      // Don't fuss about it if someone else happens to clear these first
       if ($now - filemtime($file) > 
         sfConfig::get('sf_persistent_upload_lifetime', 60) * 60)
       {
@@ -343,31 +356,25 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       $persistid = $value['persistid'];
       $info = self::getFileInfo($persistid);
-      // Only web images are reasonable for preview. We could do
-      // PDFs but in practice it's very slow, slower than you
-      // want to wait for when annotating; it's worth it later
-      // for display in the media repository
-      return $info['tmp_name'] && getimagesize($info['tmp_name']);
+      // Only web friendly image formats are reasonable for preview. Make sure
+      // there's a persistent file and a width for that image in the cache.
+      return $info['tmp_name'] && isset($info['imageInfo']['width']);
     }
     return false;
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $value
-   * @return mixed
+   * Determines whether the specified form field value refers to a
+   * file that is already persisting in the widget, as in the case of
+   * a second validation pass
    */
   static public function alreadyPersisting($value)
   {
     if (isset($value['persistid']))
     {
+      // I should really do a 'has' on the cache here
       $persistid = $value['persistid'];
-      $info = self::getFileInfo($persistid);
-      // Only web images are reasonable for preview. We could do
-      // PDFs but in practice it's very slow, slower than you
-      // want to wait for when annotating; it's worth it later
-      // for display in the media repository
-      return !!$info['tmp_name'];
+      return !!self::getFileInfo($persistid);
     }
     return false;
   }
@@ -384,16 +391,13 @@ class aValidatorFilePersistent extends sfValidatorFile
       // Roll our eyes at the hackers
       return false;
     }
-    $persistentDir = self::getPersistentDir();
-    $infoPath = "$persistentDir/$persistid.data";
-    if (file_exists($infoPath))
+    $cache = aCacheTools::get('persistentFiles');
+    $raw = $cache->get($persistid);
+    if (is_null($raw))
     {
-      return unserialize(file_get_contents($infoPath));
+      return false;
     }
-    else
-    {
-      return false; 
-    }
+    return unserialize($raw);
   }
 
   /**
@@ -403,8 +407,8 @@ class aValidatorFilePersistent extends sfValidatorFile
    */
   static public function putFileInfo($persistid, $data)
   {
-    $persistentDir = self::getPersistentDir();
-    file_put_contents("$persistentDir/$persistid.data", serialize($data));
+    $cache = aCacheTools::get('persistentFiles');
+    $cache->set($persistid, serialize($data), 3600);
   }
 
   /**
@@ -422,11 +426,15 @@ class aValidatorFilePersistent extends sfValidatorFile
    * Guess the file mime type with aImageConverter's getInfo method, which uses imagesize and
    * magic numbers to be more robust than relying on a lot of badly configured external tools
    * @param  string $file  The absolute path of a file
+   * @param  array $info   Previously fetched aImageConverter::getInfo() result, for performance
    * @return string The mime type of the file (null if not guessable)
    */
-  protected function guessFromImageconverter($file)
+  protected function guessFromImageconverter($file, $info = null)
   {
-    $info = aImageConverter::getInfo($file);
+    if (!$info)
+    {
+      $info = aImageConverter::getInfo($file);
+    }
     if (!$info)
     {
       return null;
@@ -523,22 +531,27 @@ class aValidatorFilePersistent extends sfValidatorFile
   }
 
   /**
-   * DOCUMENT ME
+   * Get the mime type of the file. We do our best to short circuit this
+   * early rather than doing 80000 reads of the file over a slow link
    * @param mixed $file
    * @param mixed $fallback
    * @return mixed
    */
   protected function getMimeType($file, $fallback)
   {
-    // The microsoft guesser needs access to the original filename.
-    // For reasons I'm not sure of, it doesn't work as a dynamic method
-    // with call_user_func.
-    $match = $this->guessMicrosoft($file);
-    if (!is_null($match))
+    if (!is_null($this->validatedType))
     {
-      return $match;
+      return $this->validatedType;
     }
 
     return parent::getMimeType($file, $fallback);
+  }
+  
+  protected function discard($persistid)
+  {
+    $cache = aCacheTools::get('persistentFiles');
+    $cache->remove($persistid);
+    $dir = aValidatorFilePersistent::getPersistentDir();
+    @unlink("$dir/$persistid.file");
   }
 }

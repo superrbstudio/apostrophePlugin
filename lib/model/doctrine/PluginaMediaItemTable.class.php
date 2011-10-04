@@ -71,12 +71,19 @@ class PluginaMediaItemTable extends Doctrine_Table
   }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * Returns the folder in the filesystem to which media items should be stored
    */
   static public function getDirectory()
   {
     return aFiles::getUploadFolder('media_items');
+  }
+  
+  /**
+   * Returns the URL corresponding to that folder
+   */
+  static public function getUrl()
+  {
+    return sfConfig::get('app_aMedia_static_url', sfConfig::get('app_a_static_url', '') . '/uploads/media_items');
   }
 
   /**

@@ -1143,52 +1143,143 @@ class BaseaTools
    */
   static public function lock($name, $wait = true)
   {
-    $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
-    if (!preg_match('/^\w+$/', $name))
+    $lockType = sfConfig::get('app_a_lock_type', 'flock');
+    if ($lockType === 'mysql')
     {
-      throw new sfException("Lock name is empty or contains non-word characters");
-    }
-    $file = "$dir/$name.lck";
-    while (true)
-    {
-      $fp = fopen($file, 'a');
-      if ($fp)
+      $info = aTools::getLockDbInfo();
+      $dbName = $info['dbName'];
+      $sql = $info['sql'];
+      $key = "$dbName-$name";
+      $locked = $sql->queryOneScalar('SELECT GET_LOCK(:key, 30)', array('key' => $key));
+      if (!$locked)
       {
-        $flags = LOCK_EX;
-        if (!$wait)
-        {
-          $flags |= LOCK_NB;
-        }
-        if (flock($fp, $flags))
-        {
-          break;
-        }
+        throw new sfException("Unable to obtain a lock after 30 seconds. MySQL must be very busy.");
       }
-      if (!$wait)
-      {
-        return false;
-      }
-      sleep(1);
-    } 
-    flock($fp, LOCK_EX);
-    aTools::$locks[] = $fp;
-    return true;
-  }
-
-  /**
-   * DOCUMENT ME
-   */
-  static public function unlock()
-  {
-    if (count(aTools::$locks))
-    {
-      $fp = array_pop(aTools::$locks);
-      fclose($fp);
+      aTools::$locks[] = $name;
     }
     else
     {
-      // It's OK to call with no lock, this greatly simplifies methods like flunkUnless()
-      // If you are using multiple names you are responsible for making sure you unlock consistently. 
+      $dir = aFiles::getWritableDataFolder(array('a', 'locks'));
+      if (!preg_match('/^\w+$/', $name))
+      {
+        throw new sfException("Lock name is empty or contains non-word characters");
+      }
+      $file = "$dir/$name.lck";
+      $tries = 0;
+      while (true)
+      {
+        $fp = fopen($file, 'a');
+        if ($fp)
+        {
+          $flags = LOCK_EX;
+          if (!$wait)
+          {
+            $flags |= LOCK_NB;
+          }
+          if (flock($fp, $flags))
+          {
+            break;
+          }
+        }
+        if (!$wait)
+        {
+          return false;
+        }
+        $tries++;
+        if ($tries == 30)
+        {
+          throw new sfException("Unable to obtain a lock after 30 seconds. Set app_a_lockType to mysql or make sure $dir is on a filesystem that supports flock() calls.");
+        }
+        sleep(1);
+      } 
+      aTools::$locks[] = $fp;
+      return true;
+    }
+  }
+
+  static protected $lockSql;
+  static protected $dbName;
+  
+  /**
+   * Connect to the lock database and return an array containing
+   * dbName (the name of the *main* database for this site) and
+   * sql (an aMysql object ready to talk to the *lock* database, which
+   * can be separate). We need dbName to namespace our locks properly
+   *
+   * If app_a_lock_db is unspecified we use the default database
+   * for locks too. IF THIS DATABASE IS A MASTER/SLAVE SETUP, LOCKS WILL NOT 
+   * BE PROPERLY MANAGED AND YOUR PAGE TREE WILL NOT BE SAFE. If this is a problem 
+   * for you, set up a separate mysql instance that is NOT master/slave as a lockserver 
+   * and specify the credentials for it in app_a_lock_db, giving the keys
+   * host, user and password. No database name is required.
+   *
+   * Results are cached between calls during the same PHP request. Otherwise
+   * we'd have separate connections to the lockdb and be unable to release what
+   * we locked
+   */
+   
+  static public function getLockDbInfo()
+  {
+    if (!isset(aTools::$lockSql))
+    {
+      $mainSql = new aMysql();
+      $dbName = $mainSql->queryOneScalar('SELECT DATABASE()');
+      if (!strlen($dbName))
+      {
+        throw new sfException('Unable to get name of main database for lock namespacing purposes');
+      }
+      $params = sfConfig::get('app_a_lock_db');
+      if ($params)
+      {
+        $pdo = new PDO('mysql:host=' . $params['host'], $params['user'], $params['password']);
+        if (!$pdo)
+        {
+          throw new sfException('Unable to connect to lock db specified by app_a_lock_db');
+        }
+        $sql = new aMysql($pdo);
+      }
+      else
+      {
+        // OK, use the main database. This is NOT SAFE if you use MySQL replication 
+        $sql = new $mainSql;
+      }
+      aTools::$dbName = $dbName;
+      aTools::$lockSql = $sql;
+    }
+    return array('dbName' => aTools::$dbName, 'sql' => aTools::$lockSql);
+  }
+
+  /**
+   * Release the most recent lock
+   */
+  static public function unlock()
+  {
+    $lockType = sfConfig::get('app_a_lock_type', 'flock');
+    
+    if ($lockType === 'mysql')
+    {
+      if (count(aTools::$locks))
+      {
+        $name = array_pop(aTools::$locks);
+        $info = aTools::getLockDbInfo();
+        $dbName = $info['dbName'];
+        $sql = $info['sql'];
+        $key = "$dbName-$name";
+        $sql->queryOneScalar('SELECT RELEASE_LOCK(:key)', array('key' => $key));
+      }
+    }
+    else
+    {
+      if (count(aTools::$locks))
+      {
+        $fp = array_pop(aTools::$locks);
+        fclose($fp);
+      }
+      else
+      {
+        // It's OK to call with no lock, this greatly simplifies methods like flunkUnless()
+        // If you are using multiple names you are responsible for making sure you unlock consistently
+      }
     }
   }
   

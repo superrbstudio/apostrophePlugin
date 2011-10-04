@@ -95,7 +95,6 @@ class BaseaNavigationComponents extends sfComponents
 
       array_unshift($this->nav, $item);
     }
-
   }
 
   /**

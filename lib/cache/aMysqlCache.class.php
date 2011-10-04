@@ -41,12 +41,10 @@ class aMysqlCache extends sfCache
   {
     if (isset($options['doctrineConnection']))
     {
-      echo("Hmm");
       $this->sql = new aMysql($options['doctrineConnection']->getDbh());
     }
     elseif (isset($options['pdoConnection']))
     {
-      echo("Hmm");
       $this->sql = new aMysql($options['pdoConnection']);
     }
     else
@@ -110,6 +108,34 @@ class aMysqlCache extends sfCache
     $this->sql->query('DELETE FROM a_cache_item WHERE k = :key', array('key' => $key));
     return !!$this->sql->getRowsAffected();
   }
+  
+  /**
+   * Converts a pattern to a regular expression.
+   *
+   * A pattern can use some special characters:
+   *
+   *  - * Matches a namespace (foo:*:bar)
+   *  - ** Matches one or more namespaces (foo:**:bar)
+   *
+   * @param string $pattern A pattern
+   *
+   * @return string A regular expression
+   *
+   * Borrowed from sfCache with a slight modification because
+   * MySQL doesn't want delimiters on the regexp. Henry Spencer
+   * regexps are more basic than PCRE but they are equivalent
+   * for this case
+   */
+  protected function patternToRegexp($pattern)
+  {
+    $regexp = str_replace(
+      array('\\*\\*', '\\*'),
+      array('.+?',    '[^'.preg_quote(sfCache::SEPARATOR, '#').']+'),
+      preg_quote($pattern)
+    );
+
+    return '^'.$regexp.'$';
+  }
 
   /**
    * @see sfCache
@@ -117,7 +143,7 @@ class aMysqlCache extends sfCache
   public function removePattern($pattern)
   {
     $pattern = $this->getOption('prefix') . $pattern;
-    
+    error_log(self::patternToRegexp($pattern));
     $this->sql->query('DELETE FROM a_cache_item WHERE k REGEXP :pattern', array('pattern' => self::patternToRegexp($pattern)));
     return !!$this->sql->getRowsAffected();
   }
@@ -161,20 +187,20 @@ class aMysqlCache extends sfCache
   /**
    * @see sfCache
    */
- public function getMany($keys)
- {
-   $keysByPrefixedKey = array();
-   foreach ($keys as $key)
-   {
-     $keysByPrefixedKey[$this->getOption('prefix') . $key] = $key;
-   }
-   $prefixedKeys = array_keys($keysByPrefixedKey);
-   $raw = $this->sql->queryScalar("SELECT value FROM a_cache_item WHERE k IN :keys AND timeout > :time", array("keys" => $prefixedKeys, "time" => time()));
-   $values = array();
-   foreach ($raw as $row)
-   {
-     $values[$keysByPrefixedKey[$row['k']]] = $row['value'];
-   }
-   return $values;
- }
+  public function getMany($keys)
+  {
+    $keysByPrefixedKey = array();
+    foreach ($keys as $key)
+    {
+      $keysByPrefixedKey[$this->getOption('prefix') . $key] = $key;
+    }
+    $prefixedKeys = array_keys($keysByPrefixedKey);
+    $raw = $this->sql->queryScalar("SELECT value FROM a_cache_item WHERE k IN :keys AND timeout > :time", array("keys" => $prefixedKeys, "time" => time()));
+    $values = array();
+    foreach ($raw as $row)
+    {
+      $values[$keysByPrefixedKey[$row['k']]] = $row['value'];
+    }
+    return $values;
+  }
 }

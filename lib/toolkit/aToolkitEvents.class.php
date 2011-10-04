@@ -40,46 +40,35 @@ class aToolkitEvents
     }
     if ($task->getFullName() === 'cache:clear')
     {
+      // symfony cc does not fire up the database, which aMysqlCache needs
+      $options = aToolkitEvents::$options;
+      if (!isset($options['app']))
+      {
+        $options['app'] = 'frontend';
+      } 
+      if (!isset($options['env']))
+      {
+        $options['env'] = 'dev';
+      }
+      $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
+      sfContext::createInstance($appConfiguration);
+      
       try
       {
-        // symfony cc does not fire up the database, which aMysqlCache needs
-        $options = aToolkitEvents::$options;
-        if (!isset($options['app']))
-        {
-          $options['app'] = 'frontend';
-        } 
-        if (!isset($options['env']))
-        {
-          $options['env'] = 'dev';
-        }
-        $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
-        $databaseManager = new sfDatabaseManager($appConfiguration);
-        $connections = $databaseManager->getNames();
-        if (count($connections))
-        {
-          $databaseManager->getDatabase($connections[0])->getConnection();
-        }
+        aCacheTools::clearAll();
+        // Not a normal sfCache-derived thing, this is a folder of compiled CSS files
         aAssets::clearAssetCache($task->getFilesystem());
-      
-        // Clear the page cache on symfony cc
-        if (sfConfig::get('app_a_page_cache_enabled', false))
-        {
-          echo("Clearing Apostrophe page cache\n");
-          $cache = aCacheFilter::getCache();
-          $cache->clean();
-        }
-        else
-        {
-          // Cache not enabled for this environment. Too many tasks
-          // invoke symfony cc with no environment, so let's not print
-          // anything needlessly worrying here
-        }
       } catch (Exception $e)
       {
         echo("WARNING: the following exception occurred while clearing caches. If you do not have\n");
-        echo("a database yet this may be OK otherwise specify --env and --application correctly:\n\n");
+        echo("a database yet this may be OK:\n\n");
         echo($e);
       }
+      
+      // Help out any custom cache code the developer may have by
+      // posting a simple a.afterClearCache event
+      $event = new sfEvent(null, 'a.afterClearCache', array());
+      sfContext::getInstance()->getEventDispatcher()->notify($event);
     }
   }
 }

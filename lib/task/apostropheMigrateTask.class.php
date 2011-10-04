@@ -339,8 +339,19 @@ but why take chances with your data?
     
     if (!$this->migrate->tableExists('a_cache_item'))
     {
-      $this->migrate->sql(array('CREATE TABLE a_cache_item (k VARCHAR(255), value LONGTEXT, timeout BIGINT, last_mod BIGINT, PRIMARY KEY(k)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+      $this->migrate->sql(array('CREATE TABLE a_cache_item (k VARCHAR(255), value LONGBLOB, timeout BIGINT, last_mod BIGINT, PRIMARY KEY(k)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
     }
+    else
+    {
+      $data = $this->migrate->query("SHOW CREATE TABLE a_cache_item");
+      $desc = $data[0]['Create Table'];
+      // longchar was a big mistake here, it can't store binary data
+      if (strpos($desc, 'longtext') !== false)
+      {
+        $this->migrate->sql(array('ALTER TABLE a_cache_item MODIFY COLUMN value LONGBLOB', 'DELETE FROM a_cache_item'));
+      }
+    }
+    if ($this->migrate->tableExists('a_cache_item')) 
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {

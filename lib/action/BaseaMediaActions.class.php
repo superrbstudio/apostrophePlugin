@@ -447,7 +447,8 @@ class BaseaMediaActions extends aEngineActions
     {
       $nid = $id;
       // Try not to make gratuitous crops
-      if (isset($imageInfo[$id]))
+      // Also, don't crash if the item is gone from the db
+      if (isset($imageInfo[$id]) && isset($items[$id]))
       {
         $item = $items[$id];
         $i = $imageInfo[$id];
@@ -836,6 +837,8 @@ class BaseaMediaActions extends aEngineActions
    */
   public function executeEditMultiple(sfWebRequest $request)
   {
+    error_log("ENTERING");
+    
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $this->embedAllowed = aMediaTools::getEmbedAllowed();
     $this->uploadAllowed = aMediaTools::getUploadAllowed();  

@@ -138,6 +138,7 @@ function a_navaccordion()
 
 function a_get_stylesheets()
 {
+  $urlMap = array();
   $newStylesheets = array();
   $response = sfContext::getInstance()->getResponse();
   foreach ($response->getStylesheets() as $file => $options)
@@ -150,89 +151,56 @@ function a_get_stylesheets()
         unset($options['absolute']);
         $absolute = true;
       }
-      if (!isset($options['raw_name']))
-      {
-        $file = stylesheet_path($file, $absolute);
-			  $request = sfContext::getInstance()->getRequest();
-			  $sf_relative_url_root = $request->getRelativeUrlRoot();
-				if (strlen($sf_relative_url_root))
-				{
-					$file = preg_replace('/^' . preg_quote($sf_relative_url_root, '/') . '/', '', $file);
-				}
-      }
-      $path = sfConfig::get('sf_web_dir') . $file;
+      // Note: you can't use the raw_name option with a less file
+      $file = a_stylesheet_path($file, $absolute, array('filesystem' => true));
       $name = aAssets::getLessBasename($file);
+      
       $compiled = aFiles::getUploadFolder(array('asset-cache')) . '/' . $name;
-      aAssets::compileLessIfNeeded($path, $compiled);
-      $newStylesheets[sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $name] = $options;
+      aAssets::compileLessIfNeeded($file, $compiled, array('cacheOnly' => aAssets::canMinify($file, $options)));
+      $url = sfConfig::get('app_a_static_url', sfContext::getInstance()->getRequest()->getRelativeUrlRoot()) . '/uploads/asset-cache/' . $name;
+      $newStylesheets[$compiled] = $options;
+      $urlMap[$compiled] = $url;
     }
     else
     {
       $newStylesheets[$file] = $options;
     }
   }
-  return _a_get_assets_body('stylesheets', $newStylesheets);
+  return _a_get_assets_body('stylesheets', $newStylesheets, $urlMap);
 }
 
 function a_get_javascripts()
 {
-  if (sfConfig::get('app_a_minify', false))
-  {
-    $response = sfContext::getInstance()->getResponse();
-    return _a_get_assets_body('javascripts', $response->getJavascripts());
-  }
-  else
-  {
-    return get_javascripts();
-  }
+  $response = sfContext::getInstance()->getResponse();
+  return _a_get_assets_body('javascripts', $response->getJavascripts());
 }
 
-function _a_get_assets_body($type, $assets)
+function _a_get_assets_body($type, $assets, $urlMap = array())
 {
   $gzip = sfConfig::get('app_a_minify_gzip', false);
   sfConfig::set('symfony.asset.' . $type . '_included', true);
 
   $html = '';
 
-  // We need our own copy of the trivial case here because we rewrote the asset list
-  // for stylesheets after LESS compilation, and there is no way to
-  // reset the list in the response object
-  if (!sfConfig::get('app_a_minify', false))
-  {
-		// This branch is seen only for CSS, because javascript calls the original Symfony
-		// functionality when minify is off
-    foreach ($assets as $file => $options)
-    {
-      $html .= stylesheet_tag($file, $options);
-    }
-    return $html;
-  }
-  
   $sets = array();
   foreach ($assets as $file => $options)
   {
-		if (preg_match('/^http(s)?:/', $file) || (isset($options['data-minify']) && $options['data-minify'] === 0))
+		if (!aAssets::canMinify($file, $options))
 		{
 			// Nonlocal URL or minify was explicitly shut off. 
 			// Don't get cute with it, otherwise things
 			// like Addthis and ckeditor don't work
 			if ($type === 'stylesheets')
 			{
-      	$html .= stylesheet_tag($file, $options);
+      	$html .= a_stylesheet_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
 			}
 			else
 			{
-      	$html .= javascript_include_tag($file, $options);
+      	$html .= a_javascript_include_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
 			}
 			continue;
 		}
-    /*
-     *
-     * Guts borrowed from stylesheet_tag and javascript_tag. We still do a tag if it's
-     * a conditional stylesheet
-     *
-     */
-
+		
     $absolute = false;
     if (isset($options['absolute']) && $options['absolute'])
     {
@@ -240,27 +208,15 @@ function _a_get_assets_body($type, $assets)
       $absolute = true;
     }
 
-    $condition = null;
-    if (isset($options['condition']))
+    if ($type === 'stylesheets')
     {
-      $condition = $options['condition'];
-      unset($options['condition']);
-    }
-
-    if (!isset($options['raw_name']))
-    {
-      if ($type === 'stylesheets')
-      {
-        $file = stylesheet_path($file, $absolute);
-      }
-      else
-      {
-        $file = javascript_path($file, $absolute);
-      }
+      $url = a_stylesheet_path($file, $absolute);
+      $file = a_stylesheet_path($file, false, array('filesystem' => true));
     }
     else
     {
-      unset($options['raw_name']);
+      $url = a_javascript_path($file, $absolute);
+      $file = a_stylesheet_path($file, false, array('filesystem' => true));
     }
 
     if (is_null($options))
@@ -269,25 +225,15 @@ function _a_get_assets_body($type, $assets)
     }
     if ($type === 'stylesheets')
     {
-      $options = array_merge(array('rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'screen', 'href' => $file), $options);
+      $options = array_merge(array('rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'screen'), $options);
     }
     else
     {
-      $options = array_merge(array('type' => 'text/javascript', 'src' => $file), $options);
+      $options = array_merge(array('type' => 'text/javascript'), $options);
     }
     
-    if (null !== $condition)
-    {
-      $tag = tag('link', $options);
-      $tag = comment_as_conditional($condition, $tag);
-      $html .= $tag . "\n";
-    }
-    else
-    {
-      unset($options['href'], $options['src']);
-      $optionGroupKey = json_encode($options);
-      $set[$optionGroupKey][] = $file;
-    }
+    $optionGroupKey = json_encode($options);
+    $sets[$optionGroupKey][] = $file;
     // echo($file);
     // $html .= "<style>\n";
     // $html .= file_get_contents(sfConfig::get('sf_web_dir') . '/' . $file);
@@ -296,7 +242,7 @@ function _a_get_assets_body($type, $assets)
   
   // CSS files with the same options grouped together to be loaded together
 
-  foreach ($set as $optionsJson => $files)
+  foreach ($sets as $optionsJson => $files)
   {
     $groupFilename = aAssets::getGroupFilename($files);
     $groupFilename .= (($type === 'stylesheets') ? '.css' : '.js');
@@ -305,72 +251,102 @@ function _a_get_assets_body($type, $assets)
       $groupFilename .= 'gz';
     }
     $dir = aFiles::getUploadFolder(array('asset-cache'));
-    if (!file_exists($dir . '/' . $groupFilename))
+    $groupPathname = $dir . '/' . $groupFilename;
+    $assetStatCache = aCacheTools::get('assetStat');
+    if (!$assetStatCache->get($groupPathname))
     {
-      $content  = '';
-      foreach ($files as $file)
+      error_log("file_exists call");
+      if (!file_exists($groupPathname))
       {
-        $path = null;
-        if (sfConfig::get('app_a_stylesheet_cache_http', false))
+        $content  = '';
+        foreach ($files as $file)
         {
-          $url = sfContext::getRequest()->getUriPrefix() . $file;
-          $fileContent = file_get_contents($url);
-        }
-        else
-        {
-          $path = sfConfig::get('sf_web_dir') . $file;
-          $fileContent = file_get_contents($path);
-        }
-        if ($type === 'stylesheets')
-        {
-          $options = array();
-          if (!is_null($path))
+          $path = $file;
+          // For minified LESS-compiled CSS we get the CSS from the cache. This sidesteps
+          // issues with storing it on slow remote filesystems as an intermediate step 
+          $fileContent = null;
+          if ($type === 'stylesheets')
           {
-            // Rewrite relative URLs in CSS files.
-            // This trick is available only when we don't insist on
-            // pulling our CSS files via http rather than the filesystem
+            $info = aAssets::getCached($file);
+            if ($info)
+            {
+              $fileContent = $info['compiled'];
+            }
+          }
+          if (is_null($fileContent))
+          {
+            $fileContent = file_get_contents($file);
+          }
+          if ($type === 'stylesheets')
+          {
+            $options = array();
+            if (!is_null($path))
+            {
+              // Rewrite relative URLs in CSS files.
+              // This trick is available only when we don't insist on
+              // pulling our CSS files via http rather than the filesystem
             
-            // dirname would resolve symbolic links, we don't want that
-            $fdir = preg_replace('/\/[^\/]*$/', '', $path);
-            $options['currentDir'] = $fdir;
-            $options['docRoot'] = sfConfig::get('sf_web_dir');
+              // dirname would resolve symbolic links, we don't want that
+              $fdir = preg_replace('/\/[^\/]*$/', '', $path);
+              $options['currentDir'] = $fdir;
+              $options['docRoot'] = sfConfig::get('sf_web_dir');
+            }
+            if (sfConfig::get('app_a_minify', false))
+            {
+              $fileContent = Minify_CSS::minify($fileContent, $options);
+            }
           }
-          if (sfConfig::get('app_a_minify', false))
+          else
           {
-            $fileContent = Minify_CSS::minify($fileContent, $options);
+            // Trailing carriage return makes behavior more consistent with
+            // JavaScript's behavior when loading separate files. For instance,
+            // a missing trailing semicolon should be tolerated to the same
+            // degree it would be with separate files. The minifier is not
+            // a lint tool and should not surprise you with breakage
+            $fileContent = JSMin::minify($fileContent) . "\n";
           }
+          $content .= $fileContent;
+        }
+        if (sfConfig::get('app_a_copy_assets_then_rename', true))
+        {
+          if ($gzip)
+          {
+            _gz_file_put_contents($groupPathname . '.tmp', $content);
+          }
+          else
+          {
+            file_put_contents($groupPathname . '.tmp', $content);
+          }
+          @rename($groupPathname . '.tmp', $groupPathname);
         }
         else
         {
-          // Trailing carriage return makes behavior more consistent with
-          // JavaScript's behavior when loading separate files. For instance,
-          // a missing trailing semicolon should be tolerated to the same
-          // degree it would be with separate files. The minifier is not
-          // a lint tool and should not surprise you with breakage
-          $fileContent = JSMin::minify($fileContent) . "\n";
+          if ($gzip)
+          {
+            _gz_file_put_contents($groupPathname, $content);
+          }
+          else
+          {
+            file_put_contents($groupPathname, $content);
+          }
         }
-        $content .= $fileContent;
       }
-      if ($gzip)
-      {
-        _gz_file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
-      }
-      else
-      {
-        file_put_contents($dir . '/' . $groupFilename . '.tmp', $content);
-      }
-      @rename($dir . '/' . $groupFilename . '.tmp', $dir . '/' . $groupFilename);
+      // Remember that this file now exists so that we can
+      // quickly blow past this even when the filesystem is an
+      // expensive S3 call away
+      error_log("Setting the cache");
+      $assetStatCache->set($groupPathname, 1, 86400 * 365);
     }
     $options = json_decode($optionsJson, true);
     // Use stylesheet_path and javascript_path so we can respect relative_root_dir
     if ($type === 'stylesheets')
     {
-      $options['href'] = stylesheet_path(sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $groupFilename);
+      $options['href'] = a_stylesheet_path(aAssets::getAssetCacheUrl() . '/' . $groupFilename);
       $html .= tag('link', $options);
     }
     else
     {
-      $options['src'] = javascript_path(sfConfig::get('app_a_assetCacheUrl', '/uploads/asset-cache') . '/' . $groupFilename);
+      $options['src'] = a_javascript_path(aAssets::getAssetCacheUrl() . '/' . $groupFilename);
       $html .= content_tag('script', '', $options); 
     }
   }
@@ -651,3 +627,351 @@ function a_link_to($label, $module, $action, $options = array())
   return link_to($label, sfConfig::get('app_a_default_route', 'default'),
   array('module' => $module, 'action' => $action), array('query_string' => http_build_query($getParams)));
 }
+
+/**
+ * Returns the web path to a JavaScript asset. NOT a filename. app_a_static_url takes precedence over sf_relative_url.
+ * Borrowed from the standard Symfony AssetHelper, which can't be subclassed due to the use of functions rather
+ * than classes.
+ *
+ * <b>Example:</b>
+ * <code>
+ *  echo a_javascript_path('myscript');
+ *    => /js/myscript.js
+ * </code>
+ *
+ * <b>Note:</b> The asset name can be supplied as a...
+ * - full path, like "/my_js/myscript.css"
+ * - file name, like "myscript.js", that gets expanded to "/js/myscript.js"
+ * - file name without extension, like "myscript", that gets expanded to "/js/myscript.js"
+ *
+ * @param string $source   asset name
+ * @param bool   $absolute return absolute path ?
+ * @param array  $options  'filesystem' => true means return a filesystem path rather than a web path
+ * @return string file path to the JavaScript file
+ * @see    a_javascript_include_tag
+ */
+function a_javascript_path($source, $absolute = false, $options = array())
+{
+  return a_compute_public_path($source, sfConfig::get('sf_web_js_dir_name', 'js'), 'js', $absolute, $options);
+}
+
+/**
+ * Returns a <script> include tag per source given as argument.
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo javascript_include_tag('xmlhr');
+ *    => <script language="JavaScript" type="text/javascript" src="/js/xmlhr.js"></script>
+ *  echo javascript_include_tag('common.javascript', '/elsewhere/cools');
+ *    => <script language="JavaScript" type="text/javascript" src="/js/common.javascript"></script>
+ *       <script language="JavaScript" type="text/javascript" src="/elsewhere/cools.js"></script>
+ * </code>
+ *
+ * @param string asset names
+ * @param array additional HTML compliant <link> tag parameters
+ *
+ * @return string XHTML compliant <script> tag(s)
+ * @see    javascript_path
+ */
+function a_javascript_include_tag()
+{
+  $sources = func_get_args();
+  $sourceOptions = (func_num_args() > 1 && is_array($sources[func_num_args() - 1])) ? array_pop($sources) : array();
+
+  $html = '';
+  foreach ($sources as $source)
+  {
+    $absolute = false;
+    if (isset($sourceOptions['absolute']))
+    {
+      unset($sourceOptions['absolute']);
+      $absolute = true;
+    }
+
+    $condition = null;
+    if (isset($sourceOptions['condition']))
+    {
+      $condition = $sourceOptions['condition'];
+      unset($sourceOptions['condition']);
+    }
+
+    if (!isset($sourceOptions['raw_name']))
+    {
+      $source = a_javascript_path($source, $absolute);
+    }
+    else
+    {
+      unset($sourceOptions['raw_name']);
+    }
+
+    $options = array_merge(array('type' => 'text/javascript', 'src' => $source), $sourceOptions);
+    $tag = content_tag('script', '', $options);
+
+    if (null !== $condition)
+    {
+      $tag = comment_as_conditional($condition, $tag);
+    }
+
+    $html .= $tag."\n";
+  }
+
+  return $html;
+}
+
+/**
+ * Returns the path to a stylesheet asset. Respects app_a_static_url.
+ *
+ * <b>Example:</b>
+ * <code>
+ *  echo a_stylesheet_path('style');
+ *    => /css/style.css
+ * </code>
+ *
+ * <b>Note:</b> The asset name can be supplied as a...
+ * - full path, like "/my_css/style.css"
+ * - file name, like "style.css", that gets expanded to "/css/style.css"
+ * - file name without extension, like "style", that gets expanded to "/css/style.css"
+ *
+ * @param string $source   asset name
+ * @param bool   $absolute return absolute path
+ * @param array  $options 'filesystem' => true returns filesystem paths rather than URL paths, ignores $absolute
+ * @return string file path to the stylesheet file
+ * @see    stylesheet_tag
+ */
+function a_stylesheet_path($source, $absolute = false, $options = array())
+{
+  return a_compute_public_path($source, sfConfig::get('sf_web_css_dir_name', 'css'), 'css', $absolute, $options);
+}
+
+/**
+ * Returns a css <link> tag per source given as argument,
+ * to be included in the <head> section of a HTML document. Respects app_a_static_url.
+ *
+ * <b>Options:</b>
+ * - rel - defaults to 'stylesheet'
+ * - type - defaults to 'text/css'
+ * - media - defaults to 'screen'
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo stylesheet_tag('style');
+ *    => <link href="/stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" />
+ *  echo stylesheet_tag('style', array('media' => 'all'));
+ *    => <link href="/stylesheets/style.css" media="all" rel="stylesheet" type="text/css" />
+ *  echo stylesheet_tag('style', array('raw_name' => true));
+ *    => <link href="style" media="all" rel="stylesheet" type="text/css" />
+ *  echo stylesheet_tag('random.styles', '/css/stylish');
+ *    => <link href="/stylesheets/random.styles" media="screen" rel="stylesheet" type="text/css" />
+ *       <link href="/css/stylish.css" media="screen" rel="stylesheet" type="text/css" />
+ * </code>
+ *
+ * @param string asset names
+ * @param array  additional HTML compliant <link> tag parameters
+ *
+ * @return string XHTML compliant <link> tag(s)
+ * @see    stylesheet_path
+ */
+function a_stylesheet_tag()
+{
+  $sources = func_get_args();
+  $sourceOptions = (func_num_args() > 1 && is_array($sources[func_num_args() - 1])) ? array_pop($sources) : array();
+
+  $html = '';
+  foreach ($sources as $source)
+  {
+    $absolute = false;
+    if (isset($sourceOptions['absolute']))
+    {
+      unset($sourceOptions['absolute']);
+      $absolute = true;
+    }
+
+    $condition = null;
+    if (isset($sourceOptions['condition']))
+    {
+      $condition = $sourceOptions['condition'];
+      unset($sourceOptions['condition']);
+    }
+
+    if (!isset($sourceOptions['raw_name']))
+    {
+      $source = a_stylesheet_path($source, $absolute);
+    }
+    else
+    {
+      unset($sourceOptions['raw_name']);
+    }
+
+    $options = array_merge(array('rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'screen', 'href' => $source), $sourceOptions);
+    $tag = tag('link', $options);
+
+    if (null !== $condition)
+    {
+      $tag = comment_as_conditional($condition, $tag);
+    }
+
+    $html .= $tag."\n";
+  }
+
+  return $html;
+}
+
+/**
+ * Returns the path to an image asset.
+ *
+ * <b>Example:</b>
+ * <code>
+ *  echo image_path('foobar');
+ *    => /images/foobar.png
+ * </code>
+ *
+ * <b>Note:</b> The asset name can be supplied as a...
+ * - full path, like "/my_images/image.gif"
+ * - file name, like "rss.gif", that gets expanded to "/images/rss.gif"
+ * - file name without extension, like "logo", that gets expanded to "/images/logo.png"
+ *
+ * @param string $source   asset name
+ * @param bool   $absolute return absolute path ?
+ * @param array  $options  'filesystem' => true returns a filesystem path rather than a URL, ignores $absolute
+ * @return string file path to the image file
+ * @see    image_tag
+ */
+function a_image_path($source, $absolute = false, $options = array())
+{
+  return a_compute_public_path($source, sfConfig::get('sf_web_images_dir_name', 'images'), 'png', $absolute, $options);
+}
+
+/**
+ * Returns an <img> image tag for the asset given as argument. Respects app_a_static_url.
+ *
+ * <b>Options:</b>
+ * - 'absolute' - to output absolute file paths, useful for embedded images in emails
+ * - 'alt'  - defaults to the file name part of the asset (capitalized and without the extension)
+ * - 'size' - Supplied as "XxY", so "30x45" becomes width="30" and height="45"
+ *
+ * <b>Examples:</b>
+ * <code>
+ *  echo image_tag('foobar');
+ *    => <img src="images/foobar.png" alt="Foobar" />
+ *  echo image_tag('/my_images/image.gif', array('alt' => 'Alternative text', 'size' => '100x200'));
+ *    => <img src="/my_images/image.gif" alt="Alternative text" width="100" height="200" />
+ * </code>
+ *
+ * @param string $source  image asset name
+ * @param array  $options additional HTML compliant <img> tag parameters
+ *
+ * @return string XHTML compliant <img> tag
+ * @see    image_path
+ */
+function a_image_tag($source, $options = array())
+{
+  if (!$source)
+  {
+    return '';
+  }
+
+  $options = _parse_attributes($options);
+
+  $absolute = false;
+  if (isset($options['absolute']))
+  {
+    unset($options['absolute']);
+    $absolute = true;
+  }
+
+  if (!isset($options['raw_name']))
+  {
+    $options['src'] = a_image_path($source, $absolute);
+  }
+  else
+  {
+    $options['src'] = $source;
+    unset($options['raw_name']);
+  }
+
+  if (isset($options['alt_title']))
+  {
+    // set as alt and title but do not overwrite explicitly set
+    if (!isset($options['alt']))
+    {
+      $options['alt'] = $options['alt_title'];
+    }
+    if (!isset($options['title']))
+    {
+      $options['title'] = $options['alt_title'];
+    }
+    unset($options['alt_title']);
+  }
+
+  if (isset($options['size']))
+  {
+    list($options['width'], $options['height']) = explode('x', $options['size'], 2);
+    unset($options['size']);
+  }
+
+  return tag('img', $options);
+}
+
+/**
+ * Extended by punkave to support $options['filesystem'] = true. If this is set a
+ * filesystem path is returned, respecting app_a_static_path if set and built in the
+ * usual way if not. If filesystem is not set, the web URL returned 
+ * respects app_a_static_url. This combination allows us to push all of the 
+ * non-dynamic URLs of the site onto another site (such as S3)
+ * without causing problems for the actual PHP URLs (as sf_relative_url would).
+ */
+ 
+function a_compute_public_path($source, $dir, $ext, $absolute = false, $options = array())
+{
+  if (strpos($source, '://'))
+  {
+    return $source;
+  }
+
+  $request = sfContext::getInstance()->getRequest();
+  
+  $filesystem = isset($options['filesystem']) && $options['filesystem'];
+  
+  if ($filesystem)
+  {
+    $stem = sfConfig::get('app_a_static_path', sfConfig::get('sf_web_dir'));
+  }
+  else
+  {
+    $stem = sfConfig::get('app_a_static_url', $request->getRelativeUrlRoot());
+  }
+  
+  if (0 !== strpos($source, '/'))
+  {
+    $source = $stem.'/'.$dir.'/'.$source;
+  }
+
+  $query_string = '';
+  if (false !== $pos = strpos($source, '?'))
+  {
+    $query_string = substr($source, $pos);
+    $source = substr($source, 0, $pos);
+  }
+
+  if (false === strpos(basename($source), '.'))
+  {
+    $source .= '.'.$ext;
+  }
+
+  if (strlen($stem) && 0 !== strpos($source, $stem))
+  {
+    $source = $stem.$source;
+  }
+
+  if ($absolute)
+  {
+    // We may already have an absolute URL at this point due to the use of app_a_static_url
+    if (!preg_match('/^https?:/', $source))
+    {
+      $source = 'http'.($request->isSecure() ? 's' : '').'://'.$request->getHost().$source;
+    }
+  }
+
+  return $source.$query_string;
+}
+

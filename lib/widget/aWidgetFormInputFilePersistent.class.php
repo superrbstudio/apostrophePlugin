@@ -123,44 +123,38 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
     }
     if ($exists || $defaultPreview)
     {
-      // Note change of key
-      $urlStem = sfConfig::get('app_aPersistentFileUpload_preview_url', '/uploads/uploaded_image_preview');
-      $urlStem = sfContext::getInstance()->getRequest()->getRelativeUrlRoot() . $urlStem;
-      
-      // This is the corresponding directory path. You have to override one
-      // if you override the other. You override this one by setting
-      // app_aToolkit_upload_uploaded_image_preview_dir
+      $urlStem = sfConfig::get('app_a_static_url', sfContext::getInstance()->getRequest()->getRelativeUrlRoot());
+      $urlStem = $urlStem . sfConfig::get('app_aPersistentFileUpload_preview_url', '/uploads/uploaded_image_preview');
+     
+      // This is the corresponding directory path in the filesystem. The easy way to map all this to S3
+      // is to use app_a_static_url and app_a_static_path
       $dir = aFiles::getUploadFolder("uploaded_image_preview");
-      // While we're here age off stale previews
-      aValidatorFilePersistent::removeOldFiles($dir);
       if ($exists)
       {
         $info = aValidatorFilePersistent::getFileInfo($persistid);
         $source = $info['tmp_name'];
+        $imageInfo = isset($info['imageInfo']) ? $info['imageInfo'] : false;
+        error_log(json_encode($imageInfo));
       }
       else
       {
         $source = $defaultPreview;
+        $imageInfo = aImageConverter::getInfo($source, array('no-pdf-size' => true));
       }
-      $info = aImageConverter::getInfo($source, array('format-only' => true));
-      $previewable = false;
-      if ($info && in_array($info['format'], array('jpg', 'png', 'gif')))
-      {
-        $previewable = true;
-        $info = aImageConverter::getInfo($source);
-      }
+      $previewable = isset($imageInfo['width']);
       if ($previewable)
       {
-        $iwidth = $info['width'];
-        $iheight = $info['height'];
+        $iwidth = $imageInfo['width'];
+        $iheight = $imageInfo['height'];
         // This is safe - based on sniffed file contents and not a user supplied extension
-        $format = $info['format'];
+        $format = $imageInfo['format'];
         $dimensions = aDimensions::constrain($iwidth, $iheight, $format, $imagePreview);
         // A simple filename reveals less
         $imagename = "$persistid.$format";
         $url = "$urlStem/$imagename";
         $output = "$dir/$imagename";
-        if ((isset($info['newfile']) && $info['newfile']) || (!file_exists($output)))
+        error_log("I want to generate the URL $url and the output file $output");
+        if ((isset($imageInfo['newfile']) && $imageInfo['newfile']) || (!file_exists($output)))
         {
           if ($imagePreview['resizeType'] === 'c')
           {
@@ -171,12 +165,17 @@ class aWidgetFormInputFilePersistent extends sfWidgetForm
             $method = 'scaleToFit';
           }
           sfContext::getInstance()->getLogger()->info("YY calling converter method $method width " . $dimensions['width'] . ' height ' . $dimensions['height']);
-          aImageConverter::$method(
-            $source,
-            $output,
-            $dimensions['width'],
-            $dimensions['height']);
-          sfContext::getInstance()->getLogger()->info("YY after converter");
+          error_log("Let's see if we really need to convert $source to $output");
+          // If the original didn't change on this pass leave it alone & avoid busywork & roundtrips to slow backends (S3)
+          if ($info['newfile'])
+          {
+            error_log("Yes it's really new");
+            aImageConverter::$method(
+              $source,
+              $output,
+              $dimensions['width'],
+              $dimensions['height']);
+          }
         }
       }
       else

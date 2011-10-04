@@ -834,8 +834,10 @@ aCacheItem:
       type: varchar(255)
       primary: true
     # Illegal to call it data in Doctrine
+    # We need it to be a blob, not a clob, because we want to be able to store
+    # arbitrary bytes including leading nulls if we wish
     value:
-      type: clob
+      type: blob
     timeout:
       # Unix timestamp, the math in the queries is all integer seconds
       type: integer

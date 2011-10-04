@@ -92,6 +92,8 @@ class aFiles
       sfConfig::get('sf_upload_dir'), $components);
   }
 
+  static protected $folderCache = array();
+
   /**
    * 
    * Returns a subfolder of $basePath.
@@ -124,6 +126,10 @@ class aFiles
    * aToolkit:
    * _writable_zend_indexes_dir: SF_DATA_DIR/zendIndexes
    * SF_WEB_DIR is supported in the same way.
+   *
+   * Results of this call are cached for the duration of the request so that you can
+   * call it repeatedly without hitting the filesystem with slow stat() calls.
+   *
    * @param mixed $baseKey
    * @param mixed $basePath
    * @param mixed $components
@@ -135,63 +141,85 @@ class aFiles
     {
       $components = preg_split("/\//", $components, -1, PREG_SPLIT_NO_EMPTY);
     }
-    $key = $baseKey;
-    $count = count($components);
-    $path = false;
-    $baseKeyStem = $baseKey;
-    $pos = strpos($baseKey, "_dir");
-    if ($pos !== false)
+    $cacheKey = implode('/', $components);
+    if (strlen($cacheKey))
     {
-      $baseKeyStem = substr($baseKey, 0, $pos) . "_";
+      $cacheKey = $baseKey . $cacheKey;
     }
-    for ($i = $count; ($i >= 0); $i--)
+    else
     {
-      if ($i === 0)
+      $cacheKey = $baseKey;
+    }
+    // Keep trying to find it in the per-request cache, first by
+    // checking the persistent cache, then by actually doing the 
+    // slow filesystem stat() and mkdir() work
+    if (!isset(aFiles::$folderCache[$cacheKey]))
+    {
+      $persistentCache = aCacheTools::get('folder');
+      aFiles::$folderCache[$cacheKey] = $persistentCache->get($cacheKey);
+    }
+    if (!isset(aFiles::$folderCache[$cacheKey]))
+    {
+      $key = $baseKey;
+      $count = count($components);
+      $path = false;
+      $baseKeyStem = $baseKey;
+      $pos = strpos($baseKey, "_dir");
+      if ($pos !== false)
       {
-        $key = $baseKey;
+        $baseKeyStem = substr($baseKey, 0, $pos) . "_";
       }
-      else
+      for ($i = $count; ($i >= 0); $i--)
       {
-        $key = $baseKeyStem . 
-          implode("_", array_slice($components, 0, $i)) . "_dir";
-      }
-      $default = false;
-      if ($i === 0)
-      {
-        $default = $basePath;
-      }
-      $result = sfConfig::get($key, $default);
-      if ($result !== false)
-      {
-        $remainder = implode(DIRECTORY_SEPARATOR, array_slice($components, $i));
-        $ancestor = $result;
-        if (strlen($remainder))
+        if ($i === 0)
         {
-          $path = $result . DIRECTORY_SEPARATOR . $remainder;
+          $key = $baseKey;
         }
         else
         {
-          $path = $result;
+          $key = $baseKeyStem . 
+            implode("_", array_slice($components, 0, $i)) . "_dir";
         }
-        break;
+        $default = false;
+        if ($i === 0)
+        {
+          $default = $basePath;
+        }
+        $result = sfConfig::get($key, $default);
+        if ($result !== false)
+        {
+          $remainder = implode(DIRECTORY_SEPARATOR, array_slice($components, $i));
+          $ancestor = $result;
+          if (strlen($remainder))
+          {
+            $path = $result . DIRECTORY_SEPARATOR . $remainder;
+          }
+          else
+          {
+            $path = $result;
+          }
+          break;
+        }
       }
-    }
     
-    $path = str_replace(
-      array("SF_DATA_DIR", "SF_WEB_DIR"),
-      array(sfConfig::get('sf_data_dir'), sfConfig::get('sf_web_dir')),
-      $path);
-    if (!is_dir($path))
-    {
-      // There's a recursive mkdir flag in PHP 5.x, neato
-      if (!mkdir($path, 0777, true))
+      $path = str_replace(
+        array("SF_DATA_DIR", "SF_WEB_DIR"),
+        array(sfConfig::get('sf_data_dir'), sfConfig::get('sf_web_dir')),
+        $path);
+      if (!is_dir($path))
       {
-        // It's better to report $ancestor rather than $path because
-        // creating that one parent should solve the problem
-        throw new Exception("Unable to create $path in $ancestor the admin will probably need to do this manually the first time and set permissions so that the web server can write to that folder");
+        // There's a recursive mkdir flag in PHP 5.x, neato
+        if (!mkdir($path, 0777, true))
+        {
+          // It's better to report $ancestor rather than $path because
+          // creating that one parent should solve the problem
+          throw new Exception("Unable to create $path in $ancestor the admin will probably need to do this manually the first time and set permissions so that the web server can write to that folder");
+        }
       }
+      aFiles::$folderCache[$cacheKey] = $path;
+      $persistentCache->set($cacheKey, $path, 86400 * 365);
     }
-    return $path;
+    return aFiles::$folderCache[$cacheKey];
   }
 
   /**
@@ -217,5 +245,292 @@ class aFiles
     $filename = aGuid::generate();
     $tempDir = self::getTemporaryFileFolder();
     return $tempDir . DIRECTORY_SEPARATOR . $filename;
+  }
+  
+  static public function touch($file)
+  {
+    // Update the modification time of the file, even if it
+    // is accessed via a stream wrapper. PHP does not support
+    // this otherwise in the regular touch() function
+    $out = fopen($file, "a");
+    if ($out)
+    {
+      fclose($out);
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Returns array of filenames in directory, without the useless and dangerous . and .. entries,
+   * using only functions that stream wrappers support. Returns just the basenames, the
+   * full path is NOT returned unless you specify $options['fullPath'] = true
+   */
+  static public function ls($path, $options = array())
+  {
+    $dir = opendir($path);
+    if (!$dir)
+    {
+      return false;
+    }
+    $files = array();
+    $fullPath = isset($options['fullPath']) && $options['fullPath'];
+    if ($fullPath)
+    {
+      $prependPath = preg_replace('/\/$/', '', $path);
+    }
+    while (($file = readdir($dir)) !== false)
+    {
+      if (($file === '.') || ($file === '..'))
+      {
+        continue;
+      }
+      if ($fullPath)
+      {
+        $files[] = "$prependPath/$file";
+      }
+      else
+      {
+        $files[] = $file;
+      }
+    }
+    closedir($dir);
+    return $files;
+  }
+  
+  /**
+   * A partial implementation of glob() that uses only functions that stream wrappers support. 
+   * Right now this implementation is very limited: you can only have one * wildcard and it must
+   * be in the last component of the path. The . and .. entries are never returned. Subdirectories
+   * are returned. Performance would be better if we used native globbing functionality of the
+   * underlying implementations like S3 to avoid pulling a list of everything in the folder first. 
+   * For now it's good enough for the media repository's needs
+   *
+   * Returns a full path, because glob does
+   */
+   
+  static public function glob($pattern)
+  {
+    $path = dirname($pattern);
+    $pattern = basename($pattern);
+    $pattern = '/^' . str_replace('\*', '.*', preg_quote($pattern, '/')) . '$/';
+    $files = aFiles::ls($path);
+    $results = array();
+    foreach ($files as $file)
+    {
+      if (preg_match($pattern, $file))
+      {
+        $results[] = $path . '/' . $file;
+      }
+    }
+    return $results;
+  }
+  
+  /**
+   * $statInfo is an array returned by stat(). Determines whether
+   * it ultimately refers to a regular file
+   */
+  static public function statIsFile($statInfo)
+  {
+    return $statInfo['mode'] & 0100000;
+  }
+
+  /**
+   * $statInfo() is an array returned by stat(). Determines whether
+   * it ultimately refers to a directory
+   */
+  static public function statIsDir($statInfo)
+  {
+    return $statInfo['mode'] & 0040000;
+  }
+  
+  /**
+   * Be careful with this, it follows symlinks if any. Mainly for stream wrappers
+   */
+  static public function rmRf($path)
+  {
+    $stat = @stat($path);
+    if (!$stat)
+    {
+      return;
+    }
+    if (aFiles::statIsDir($stat))
+    {
+      $list = aFiles::ls($path);
+      foreach ($list as $file)
+      {
+        $filePath = "$path/$file";
+        if (strlen($filePath) < strlen($path))
+        {
+          throw new sfException("I almost tried to delete something higher up the original, I don't like this, bailing out");
+        }
+        aFiles::rmRf($filePath);
+      }
+      if (substr($path, 0, 2) !== 's3')
+      {
+        echo("I'm afraid: $path\n");
+        exit(0);
+      }
+      error_log("Removing $path (directory)");
+      if (!rmdir($path))
+      {
+        return false;
+      }
+    }
+    else
+    {
+      if (substr($path, 0, 2) !== 's3')
+      {
+        echo("I'm afraid: $path\n");
+        exit(0);
+      }
+
+      error_log("removing $path");
+      if (!unlink($path))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * Make one directory a mirror of the other, deleting and adding files as needed.
+   * Creates $to if necessary.
+   *
+   * Compares sizes and modification dates to determine whether source is newer
+   * than destination unless 'force' => true is specified as an option. In addition, you can 
+   * specify an array of regular expressions
+   * to be compared to each full source pathname with 'exclude' => array('regexp1', 'regexp2' ...).
+   * Note that if a regular expression matches a parent folder then files and subfolders within it
+   * will not be synced, regardless of whether they individually match or not.
+   *
+   * Patterns excluded on the source are also left alone on the destination.
+   *
+   * This is useful for syncing content to an Amazon S3 wrapper
+   * and in other situations where rsync is not available. Does not attempt to
+   * set permissions (stream wrappers don't support chmod, for one thing). With our
+   * usual s3 configuration you should just use the s3public: protocol for public stuff and 
+   * the s3private: protocol for private stuff.
+   * 
+   * Symlinks, if encountered, are followed and what they refer to is copied,
+   * so don't copy any recursive references
+   */
+  static public function sync($from, $to, $options = array())
+  {
+    error_log("Comparing $from and $to");
+    $fromList = aFiles::ls($from);
+    if ($fromList === false)
+    {
+      return false;
+    }
+    $toList = aFiles::ls($to);
+    if ($toList === false)
+    {
+      if (!mkdir($to))
+      {
+        error_log("Cannot mkdir $to");
+        return false;
+      }
+      $toList = array();
+    }
+    $valid = array();
+    foreach ($fromList as $file)
+    {
+      $fromPath = "$from/$file";
+      if (aFiles::syncExclude($fromPath, $options))
+      {
+        continue;
+      }
+      // Ensure consistency regardless of whether a given system likes trailing slashes on directories
+      $valid[preg_replace('/\/$/', '', $file)] = true;
+      $toPath = "$to/$file";
+      $fromStat = @stat($fromPath);
+      if (!$fromStat)
+      {
+        error_log("Warning: cannot stat $fromPath, maybe it disappeared in mid-sync?");
+        continue;
+      }
+      $toStat = @stat($toPath);
+      $fromDir = aFiles::statIsDir($fromStat);
+      $fromFile = aFiles::statIsFile($fromStat);
+      if ($toStat)
+      {
+        $toDir = aFiles::statIsDir($toStat);
+        $toFile = aFiles::statIsFile($toStat);
+        if (($toDir !== $fromDir) || ($toFile !== $fromFile))
+        {
+          /**
+           * Same name but a completely different kind of animal.
+           * Remove it on the destination so we'll able to make the
+           * other (dir vs. file or vice versa)
+           */
+          aFiles::rmRf($toPath);
+        }
+        elseif ($fromFile)
+        {
+          if ((!isset($options['force'])) || (!$options['force']))
+          {
+            if (($toStat['mtime'] >= $fromStat['mtime']) && ($toStat['size'] === $fromStat['size']))
+            {
+              continue;
+            }
+          }
+        }
+      }
+      if ($fromDir)
+      {
+        if (!aFiles::sync($fromPath, $toPath, $options))
+        {
+          return false;
+        }
+      }
+      else
+      {
+        error_log("Copying $fromPath to $toPath");
+        copy($fromPath, $toPath);
+      }
+    }
+    // Remove any files on the destination that did not exist on the source
+    foreach ($toList as $file)
+    {
+      // Remove any inconsistency as to whether a trailing slash is present,
+      // otherwise we trash perfectly good folders
+      $testFile = preg_replace('/\/$/', '', $file);
+      if (!isset($valid[$testFile]))
+      {
+        $toPath = "$to/$file";
+        if (aFiles::syncExclude($toPath, $options))
+        {
+          continue;
+        }
+        if (!aFiles::rmRf($toPath))
+        {
+          error_log("Warning: can't remove $toPath, maybe someone else got rid of it for us");
+        }
+      }
+    }
+    return true;
+  }
+  
+  static public function syncExclude($path, $options)
+  {
+    if (isset($options['exclude']))
+    {
+      $excluded = false;
+      // Remove any trailing / before considering patterns.
+      // The s3 wrapper appends / to folders to make stat calls faster,
+      // but people writing exclude expressions cannot be reasonably
+      // expected to consider this
+      $excludePath = preg_replace('/\/$/', '', $path);
+      foreach ($options['exclude'] as $regexp)
+      {
+        if (preg_match($regexp, $excludePath))
+        {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

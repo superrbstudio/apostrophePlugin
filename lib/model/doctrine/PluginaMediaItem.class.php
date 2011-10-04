@@ -141,9 +141,9 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $deleteOriginals
-   * @return mixed
+   * Remove both the pregenerated renders of the image at various sizes and
+   * the cache information that says they are available. Remove the originals
+   * too if specifically asked to do so
    */
   public function clearImageCache($deleteOriginals = false)
   {
@@ -151,7 +151,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       return;
     }
-    $cached = glob(aMediaItemTable::getDirectory() . DIRECTORY_SEPARATOR . $this->getSlug() . ".*");
+    $cache = aCacheTools::get('media');
+    $cache->removePattern($this->getSlug() . ':*');
+    // Use our wimpy implementation of glob that is stream wrapper friendly
+    $cached = aFiles::glob(aMediaItemTable::getDirectory() . '/' . $this->getSlug() . ".*");
     foreach ($cached as $file)
     {
       if (!$deleteOriginals)
@@ -323,38 +326,21 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * This is currently allowed for all types, although a PDF will give you a plain white box if you
-   * don't have ghostscript available
    * @param mixed $width
    * @param mixed $height
    * @param mixed $resizeType
    * @param mixed $format
    * @param mixed $absolute
    * @param array $options
-   * @return mixed
+   * @return string (URL)
+   * A bc wrapper around getScaledUrl 
    */
   public function getImgSrcUrl($width, $height, $resizeType, $format = 'jpg', $absolute = false, $options = array())
   {
-    if ($height === false)
-    {
-      // Scale the height. I had this backwards
-      $height = floor(($width * $this->height / $this->width) + 0.5); 
-    }
-
-    $controller = sfContext::getInstance()->getController();
-    $slug = $this->getSlug();
-		if (isset($options['ignore_manual_cropping']) && $options['ignore_manual_cropping'])
-		{
-			$slug = preg_replace('/\..*$/', '', $slug);
-		}
-    // Use named routing rule to ensure the desired result (and for speed)
-    return $controller->genUrl("@a_media_image?" . 
-      http_build_query(
-        array("slug" => $slug, 
-          "width" => $width, 
-          "height" => $height, 
-          "resizeType" => $resizeType,
-          "format" => $format)), $absolute);
+    /**
+     * This is now a wrapper around getScaledUrl
+     */
+    return $this->getScaledUrl(array_merge(array('width' => $width, 'height' => $height, 'format' => $format, 'resizeType' => $resizeType), $options));
   }
 
   /**
@@ -415,8 +401,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    */
   public function getScaledUrl($options)
   {
+    // Implement flexible height
+    if ($options['height'] === false)
+    {
+      $options['height'] = floor(($options['width'] * $this->height / $this->width) + 0.5); 
+    }
+
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
-    $params = array("slug" => $this->slug, "width" => $options['width'], "height" => $options['height'], 
+    $params = array("width" => $options['width'], "height" => $options['height'], 
       "resizeType" => $options['resizeType'], "format" => $options['format']);
 
     // check for null because 0 is valid
@@ -428,8 +420,26 @@ abstract class PluginaMediaItem extends BaseaMediaItem
           "cropWidth" => $options['cropWidth'], "cropHeight" => $options['cropHeight'])
       );
     }
-    // Must use named route to avoid serious performance hit
-    return "@a_media_image?" . http_build_query($params);
+    // If the image is already generated point to it directly, don't do
+    // an unnecessary redirect
+    
+    $result = $this->render(array_merge($params, array('cachedOnly' => true, 'authorize' => true)));
+    if (is_array($result))
+    {
+      return $result['url'];
+    }
+    
+    if (!is_null($options['cropWidth']))
+    {
+      $route = 'a_media_image_cropped';
+    }
+    else
+    {
+      $route = 'a_media_image';
+    }
+    // Betcha didn't know this syntax for calling genUrl existed. It's faster because we don't have to unpack and repack the parameters
+    $url = sfContext::getInstance()->getController()->genUrl(array_merge(array('sf_route' => $route, 'slug' => $this->slug), $params));
+    return $url;
   }
 
   /**
@@ -634,5 +644,154 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   public function isAdmin()
   {
     return sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'));
+  }
+
+  /**
+   * Render an image with the specified width, height, resizeType, format and optionally cropLeft, cropTop, cropWidth and cropHeight.
+   * Renders to the appropriate backend storage and returns an array with url, path (in filesystem), size and contentType keys
+   * (contentType is ready for the Content-type: header). First checks the cache for a previous authorization to do so, if there
+   * is no authorization returns false (this prevents DOS attacks). If the cachedOnly option is true, returns previously
+   * rendered images but does not attempt to render new ones. If the authorize option is true, stores an authorization in the cache
+   * allowing a future success to successfully render, returns true and renders nothing now (however if the image is already
+   * rendered an array is returned immediately so that you can avoid redundant work). 
+   */
+  public function render($options)
+  {
+    $width = ceil($options['width']) + 0;
+    $height = ceil($options['height']) + 0;
+    $format = $options['format'];
+    $resizeType = $options['resizeType'];
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    if (!isset($mimeTypes[$format]))
+    {
+      return false;
+    }
+    $contentType = $mimeTypes[$format];
+    if (($resizeType !== 'c') && ($resizeType !== 's'))
+    {
+      return false;
+    }
+
+    $slug = $this->getSlug();
+    
+    // If this is a cropped version of another image, discover the real slug, and
+    // get the crop parameters out and make them the defaults. (This used to be done for
+    // us by a route, but now we generate images at page rendering time so that we have
+    // a chance to talk to external storage like S3.)
+    if (preg_match('/^([^\.]*)\.(.*)$/', $slug, $matches))
+    {
+      $slug = $matches[1];
+      list($cropLeft, $cropTop, $cropWidth, $cropHeight) = preg_split('/\./', $matches[2]);
+      $options = array_merge(array('cropLeft' => $cropLeft, 'cropTop' => $cropTop, 'cropWidth' => $cropWidth, 'cropHeight' => $cropHeight), $options);
+    }
+
+    $cropTop = isset($options['cropTop']) ? $options['cropTop'] : null;
+    $cropLeft = isset($options['cropLeft']) ? $options['cropLeft'] : null;
+    $cropWidth = isset($options['cropWidth']) ? $options['cropWidth'] : null;
+    $cropHeight = isset($options['cropHeight']) ? $options['cropHeight'] : null;
+    
+    if (!is_null($cropWidth) && !is_null($cropHeight) && !is_null($cropLeft) && !is_null($cropTop))
+    {
+      $cropLeft = ceil($cropLeft + 0);
+      $cropTop = ceil($cropTop + 0);
+      $cropWidth = ceil($cropWidth + 0);
+      $cropHeight = ceil($cropHeight + 0);
+      // Do this BEFORE we force resizeType to c for cropping. Otherwise Apache doesn't see that we already have
+      // the file and PHP is forced to output it every time. Should be a big performance win when 's' is used
+      // and cropping is present
+      $suffix = ".$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";
+      // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
+      // and only the cropOriginal method actually supports cropping parameters, so...
+      $resizeType = 'c';
+    }
+    else
+    {  
+      $cropLeft = null;
+      $cropTop = null;
+      $cropWidth = null;
+      $cropHeight = null;
+      $suffix = ".$width.$height.$resizeType.$format";
+    }
+    $basename = "$slug$suffix";
+    // The : is a namespace separator for the cache so we can removePattern later
+    $cacheKey = "$slug:$suffix";
+
+    $cache = aCacheTools::get('media');
+    $cached = $cache->get($cacheKey);
+    if (!$cached)
+    {
+      // This is just a request to generate the image in response to a separate HTTP request later
+      // (eg via img src) so we don't pause the page render. Let the cache know this is a
+      // legitimately requested size
+      if (isset($options['authorize']) && $options['authorize'])
+      {
+        $cache->set($cacheKey, serialize(array('authorized' => true)));
+        return true;
+      }
+      // There is no mention of this image in the cache yet, therefore we have no
+      // authorization to generate it
+      return false;
+    }
+    $result = unserialize($cached);
+    
+    // Image is already rendered
+    if (isset($result['url']) && $result['url'])
+    {
+      return $result;
+    }
+
+    // Not rendered yet, but at least authorized, so if our goal was to authorize
+    // we should return true at this point
+    if (isset($options['authorize']) && $options['authorize'])
+    {
+      return true;
+    }
+    
+
+    // We are only interested if the image is already rendered
+    if (isset($options['cachedOnly']) && $options['cachedOnly'])
+    {
+      // We're just looking for a pregenerated image and don't want to wait to
+      // generate a new one right now
+      return false;
+    }
+
+    // We can generate the image now only if there's an authorization to do so
+    // in the cache (from a legitimate page render that really needs it)
+    if (!(isset($result['authorized']) && $result['authorized']))
+    {
+      return false;
+    }
+    
+    $path = aMediaItemTable::getDirectory() . '/' . $basename;
+    $url = aMediaItemTable::getUrl() . '/' . $basename;
+
+    if (!file_exists($path))
+    {
+      $originalFormat = $this->getFormat();
+      if ($resizeType === 'c')
+      {
+        $method = 'cropOriginal';
+      }
+      else
+      {
+        $method = 'scaleToFit';
+      }
+      aImageConverter::$method(
+        aMediaItemTable::getDirectory() .
+          '/' .
+          "$slug.original.$originalFormat", 
+        $path,
+        $width,
+        $height,
+        sfConfig::get('app_aMedia_jpeg_quality', 75),
+        $cropLeft,
+        $cropTop,
+        $cropWidth,
+        $cropHeight);
+    }
+    $result = array('url' => $url, 'path' => $path, 'contentType' => $contentType, 'size' => filesize($path));
+    $cache->set($cacheKey, serialize($result), 86400 * 365);
+    return $result;
   }
 }

@@ -49,20 +49,29 @@ class BaseaAssets
   
   /**
    * Compiles the less source file $path to the CSS file $compiled unless it is up to date
-   * according to the high quality dependency checking provided by lessphp
+   * according to the high quality dependency checking provided by lessphp. If
+   * $options['cacheOnly'] is true then we just update the cache using $compiled as a key
+   * but do not actually copy anything to a final file. aAssets::getCached($compiled) can then
+   * be used to retrieve the cached array; if you get an array back $info['compiled'] has
+   * the compiled CSS code.
    */
   static public function compileLessIfNeeded($path, $compiled, $options = array())
   {
-	  // In production just return if the final compiled file exists.
+    $cacheOnly = isset($options['cacheOnly']) && $options['cacheOnly'];
+    
+	  // In production just return if the final compiled file exists in the cache.
 	  // This is good enough in production because we symfony cc on deployment.
-	  // Unserializing the cache file is way faster than recompiling less code
-	  // but it's nowhere near instant as jeremy pointed out
+	  // Unserializing the cache to check dependencies in detail is way faster 
+	  // than recompiling less code but it's nowhere near instant as jeremy pointed out
+	  
+	  $cache = aAssets::getCache();
+	  
 	  if (!sfConfig::get('app_a_less_check_dependencies', true))
 	  {
-  	  if (file_exists($compiled))
-  	  {
-        return;
-  	  }
+	    if ($cache->has($compiled))
+	    {
+	      return;
+	    }
 	  }
 
 	  // Leverage the considerable caching abilities of lessphp directly.
@@ -109,10 +118,12 @@ class BaseaAssets
 		}
     if ($info['updated'] !== $lastUpdated)
     {
-      // Copy it to our asset cache folder since it has changed
-      file_put_contents($compiled, $info['compiled']);
+      if (!$cacheOnly)
+      {
+        // Copy it to our asset cache folder since it has changed
+        file_put_contents($compiled, $info['compiled']);
+      }
     }
-		unset($info['compiled']);
     aAssets::setCached($compiled, $info);
   }
   
@@ -152,7 +163,12 @@ class BaseaAssets
   public static function clearAssetCache(sfFilesystem $fileSystem)
   {
     $assetDir = aFiles::getUploadFolder(array('asset-cache'));
-    $fileSystem->remove(sfFinder::type('file')->in($assetDir));
+    // It would be nice to use sfFinder but that invokes realpath() which is not supported by stream wrappers ):
+    $files = aFiles::ls($assetDir);
+    foreach ($files as $file)
+    {
+      unlink("$assetDir/$file");
+    }
     $cache = aAssets::getCache();
     $cache->clean();
   }
@@ -227,5 +243,26 @@ class BaseaAssets
 			return $in;
 		}
 
+	}
+	
+	static public function getAssetCacheUrl()
+	{
+	  return sfConfig::get('app_a_assetCacheUrl', sfConfig::get('app_a_upload_url', sfConfig::get('app_a_static_url', '') . '/uploads') . '/asset-cache');
+	}
+	
+	static protected function getOption($options, $option)
+	{
+	  return isset($options[$option]) ? $options[$option] : null;
+	}
+	
+	/**
+	 * Based on an asset filename and its associated options determine whether
+	 * it should be minified. Refuse to minify if app_a_minify is false, the path to
+	 * the file is nonlocal, the data-minify attribute is explicitly set to 0, or
+	 * a condition or raw_name option is present
+	 */
+	static public function canMinify($file, $options)
+	{
+	  return sfConfig::get('app_a_minify') && (!(preg_match('/^http(s)?:/', $file) || (aAssets::getOption($options, 'data-minify') === 0) || (aAssets::getOption($options, 'condition')) || (aAssets::getOption($options, 'raw_name'))));
 	}
 }
