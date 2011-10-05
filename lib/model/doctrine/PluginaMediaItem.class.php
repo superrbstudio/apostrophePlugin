@@ -433,18 +433,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       return $result['url'];
     }
-    
-    if (!is_null($options['cropWidth']))
-    {
-      $route = 'a_media_image_cropped';
-    }
     else
     {
-      $route = 'a_media_image';
-    }
-    // Betcha didn't know this syntax for calling genUrl existed. It's faster because we don't have to unpack and repack the parameters
-    $url = sfContext::getInstance()->getController()->genUrl(array_merge(array('sf_route' => $route, 'slug' => $this->slug), $params));
-    return $url;
+      throw new sfException('Unable to render image');
+    }    
   }
 
   /**
@@ -723,8 +715,15 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // The : is a namespace separator for the cache so we can removePattern later
     $cacheKey = "$slug:$suffix";
 
+    // The final URL, in the cloud (if we're not just storing locally)
     $url = aMediaItemTable::getUrl() . '/' . $basename;
 
+    // Local URL, used if we need to generate the image in response
+    // to a later request (pausing execution of the page is no good)
+    $request = sfContext::getInstance()->getRequest();
+    $sf_relative_url_root = $request->getRelativeUrlRoot();
+    $localUrl = $sf_relative_url_root . '/uploads/media_items/' . $basename;
+    
     $cache = aCacheTools::get('media');
     $cached = $cache->get($cacheKey);
     if (!$cached)
@@ -736,6 +735,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       if (isset($options['authorize']) && $options['authorize'])
       {
         $cache->set($cacheKey, serialize(array('authorized' => true)));
+
+        $url = $localUrl;
         if ($absolute)
         {
           $url = $this->makeMediaUrlAbsolute($url);      
@@ -762,6 +763,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // and generate later we should return the URL at this point
     if (isset($options['authorize']) && $options['authorize'])
     {
+      $url = $localUrl;
       $result = array('url' => $url);
       if ($absolute)
       {
