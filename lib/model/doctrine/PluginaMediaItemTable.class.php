@@ -79,11 +79,13 @@ class PluginaMediaItemTable extends Doctrine_Table
   }
   
   /**
-   * Returns the URL corresponding to that folder
+   * Returns the URL where media repository contents are found
    */
-  static public function getUrl()
+  static public function getUrl($options = array())
   {
-    return sfConfig::get('app_aMedia_static_url', sfConfig::get('app_a_static_url', '') . '/uploads/media_items');
+    $absolute = isset($options['absolute']) && $options['absolute'];
+    $result = sfConfig::get('app_aMedia_static_url', sfConfig::get('app_a_static_url', '') . '/uploads/media_items');
+    return $result;
   }
 
   /**

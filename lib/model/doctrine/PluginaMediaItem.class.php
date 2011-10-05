@@ -340,7 +340,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     /**
      * This is now a wrapper around getScaledUrl
      */
-    return $this->getScaledUrl(array_merge(array('width' => $width, 'height' => $height, 'format' => $format, 'resizeType' => $resizeType), $options));
+    return $this->getScaledUrl(array_merge(array('width' => $width, 'height' => $height, 'format' => $format, 'resizeType' => $resizeType, 'absolute' => $absolute), $options));
   }
 
   /**
@@ -395,7 +395,9 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * Returns a Symfony action URL. Call url_for or use sfController for final routing.
+   * Returns a complete URL to the media item. This URL may point to a Symfony action that will
+   * generate the image on the fly, or directly to a previously generated image.
+   * 
    * @param mixed $options
    * @return mixed
    */
@@ -407,9 +409,11 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       $options['height'] = floor(($options['width'] * $this->height / $this->width) + 0.5); 
     }
 
+    $absolute = isset($options['absolute']) && $options['absolute'];
+
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
     $params = array("width" => $options['width'], "height" => $options['height'], 
-      "resizeType" => $options['resizeType'], "format" => $options['format']);
+      "resizeType" => $options['resizeType'], "format" => $options['format'], 'absolute' => $absolute);
 
     // check for null because 0 is valid
     if (!is_null($options['cropLeft']) && !is_null($options['cropTop']) && !is_null($options['cropWidth']) && !is_null($options['cropHeight']))
@@ -420,6 +424,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
           "cropWidth" => $options['cropWidth'], "cropHeight" => $options['cropHeight'])
       );
     }
+    
     // If the image is already generated point to it directly, don't do
     // an unnecessary redirect
     
@@ -652,11 +657,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    * (contentType is ready for the Content-type: header). First checks the cache for a previous authorization to do so, if there
    * is no authorization returns false (this prevents DOS attacks). If the cachedOnly option is true, returns previously
    * rendered images but does not attempt to render new ones. If the authorize option is true, stores an authorization in the cache
-   * allowing a future success to successfully render, returns true and renders nothing now (however if the image is already
-   * rendered an array is returned immediately so that you can avoid redundant work). 
+   * allowing a future success to successfully render, returns an array containing only the 'url' key and renders nothing now 
+   * (however if the image is already rendered a complete array is returned immediately).
    */
   public function render($options)
   {
+    $absolute = isset($options['absolute']) && $options['absolute'];
+    unset($options['absolute']);
     $width = ceil($options['width']) + 0;
     $height = ceil($options['height']) + 0;
     $format = $options['format'];
@@ -716,17 +723,24 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // The : is a namespace separator for the cache so we can removePattern later
     $cacheKey = "$slug:$suffix";
 
+    $url = aMediaItemTable::getUrl() . '/' . $basename;
+
     $cache = aCacheTools::get('media');
     $cached = $cache->get($cacheKey);
     if (!$cached)
     {
       // This is just a request to generate the image in response to a separate HTTP request later
       // (eg via img src) so we don't pause the page render. Let the cache know this is a
-      // legitimately requested size
+      // legitimately requested size, then return the URL only since the actual generation
+      // hasn't happened yet
       if (isset($options['authorize']) && $options['authorize'])
       {
         $cache->set($cacheKey, serialize(array('authorized' => true)));
-        return true;
+        if ($absolute)
+        {
+          $url = $this->makeMediaUrlAbsolute($url);      
+        }
+        return array('url' => $url);
       }
       // There is no mention of this image in the cache yet, therefore we have no
       // authorization to generate it
@@ -737,14 +751,23 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // Image is already rendered
     if (isset($result['url']) && $result['url'])
     {
+      if ($absolute)
+      {
+        $result['url'] = $this->makeMediaUrlAbsolute($result['url']);      
+      }
       return $result;
     }
 
     // Not rendered yet, but at least authorized, so if our goal was to authorize
-    // we should return true at this point
+    // and generate later we should return the URL at this point
     if (isset($options['authorize']) && $options['authorize'])
     {
-      return true;
+      $result = array('url' => $url);
+      if ($absolute)
+      {
+        $result['url'] = $this->makeMediaUrlAbsolute($result['url']);      
+      }
+      return $result;
     }
     
 
@@ -764,7 +787,6 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
     
     $path = aMediaItemTable::getDirectory() . '/' . $basename;
-    $url = aMediaItemTable::getUrl() . '/' . $basename;
 
     if (!file_exists($path))
     {
@@ -792,6 +814,19 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
     $result = array('url' => $url, 'path' => $path, 'contentType' => $contentType, 'size' => filesize($path));
     $cache->set($cacheKey, serialize($result), 86400 * 365);
+    if ($absolute)
+    {
+      $result['url'] = $this->makeMediaUrlAbsolute($result['url']);      
+    }
     return $result;
+  }
+  
+  protected function makeMediaUrlAbsolute($url)
+  {
+    if (substr($url, 0, 1) === '/')
+    {
+      $url = sfContext::getInstance()->getRequest()->getUriPrefix() . $url;
+    }
+    return $url;
   }
 }
