@@ -48,7 +48,7 @@
 	&.a-controls
 	{
 		display: block;
-		margin: 0 !important;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 		clear: both;
@@ -58,7 +58,7 @@
 			float: left;
 			clear: none;
 			position: relative;
-			margin: 0px 2px 2px 0 !important;
+			margin: 0px 2px 2px 0;
 			width: auto;
 			border: none;
 			list-style: none !important;
@@ -88,6 +88,10 @@
 	> .a-ui.a-controls
 	{
 		margin: 0 0 10px;
+		li
+		{
+			margin: 0 2px 2px 0;
+		}
 	}
 	&.singleton
 	{
@@ -176,6 +180,10 @@
 	 > .a-ui.a-controls
 	{
 		width: 100%;
+		li
+		{
+			margin: 0 2px 2px 0;
+		}
 	}
 
 	// New Slot
