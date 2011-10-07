@@ -15,6 +15,22 @@ class aToolkitEvents
   static public function listenToCommandPreCommandEvent(sfEvent $event)
   {
     aToolkitEvents::$options = $event['options'];
+    $task = $event->getSubject();
+    if ($task->getFullName() === 'cache:clear')
+    {
+      // symfony cc does not fire up the database, which aMysqlCache needs
+      $options = aToolkitEvents::$options;
+      if (!isset($options['app']))
+      {
+        $options['app'] = 'frontend';
+      } 
+      if (!isset($options['env']))
+      {
+        $options['env'] = 'dev';
+      }
+      $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
+      sfContext::createInstance($appConfiguration);
+    }
   }
   
   /**
@@ -40,19 +56,6 @@ class aToolkitEvents
     }
     if ($task->getFullName() === 'cache:clear')
     {
-      // symfony cc does not fire up the database, which aMysqlCache needs
-      $options = aToolkitEvents::$options;
-      if (!isset($options['app']))
-      {
-        $options['app'] = 'frontend';
-      } 
-      if (!isset($options['env']))
-      {
-        $options['env'] = 'dev';
-      }
-      $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
-      sfContext::createInstance($appConfiguration);
-      
       try
       {
         aCacheTools::clearAll();

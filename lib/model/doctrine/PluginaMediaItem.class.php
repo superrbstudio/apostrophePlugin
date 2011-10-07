@@ -80,7 +80,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     
     // Don't even think about trashing the original until we know
     // it's gone from the db and so forth
-    unlink($this->getOriginalPath());
+    if (!$this->isCrop())
+    {
+      unlink($this->getOriginalPath());
+    }
     return $ret;
   }
 
@@ -125,7 +128,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * DOCUMENT ME
+   * Returns file path to the original. If this is a crop,
+   * the true original's path is returned
    * @param mixed $format
    * @return mixed
    */
@@ -135,8 +139,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       $format = $this->getFormat();
     }
+    $slug = $this->getSlug();
+    if (preg_match('/^([^\.]*)\.(.*)$/', $slug, $matches))
+    {
+      $slug = $matches[1];
+    }
     $path = aMediaItemTable::getDirectory() . 
-      DIRECTORY_SEPARATOR . $this->getSlug() . ".original.$format";
+      DIRECTORY_SEPARATOR . $slug . ".original.$format";
     return $path;
   }
 
@@ -404,7 +413,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   public function getScaledUrl($options)
   {
     // Implement flexible height
-    if ($options['height'] === false)
+    if ($options['height'] == 0)
     {
       $options['height'] = floor(($options['width'] * $this->height / $this->width) + 0.5); 
     }
@@ -695,13 +704,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       $cropTop = ceil($cropTop + 0);
       $cropWidth = ceil($cropWidth + 0);
       $cropHeight = ceil($cropHeight + 0);
-      // Do this BEFORE we force resizeType to c for cropping. Otherwise Apache doesn't see that we already have
-      // the file and PHP is forced to output it every time. Should be a big performance win when 's' is used
-      // and cropping is present
-      $suffix = ".$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";
       // Explicit cropping always preempts any automatic cropping, so there's no difference between c and s,
       // and only the cropOriginal method actually supports cropping parameters, so...
       $resizeType = 'c';
+      $suffix = ".$cropLeft.$cropTop.$cropWidth.$cropHeight.$width.$height.$resizeType.$format";
     }
     else
     {  
@@ -715,14 +721,36 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // The : is a namespace separator for the cache so we can removePattern later
     $cacheKey = "$slug:$suffix";
 
-    // The final URL, in the cloud (if we're not just storing locally)
-    $url = aMediaItemTable::getUrl() . '/' . $basename;
-
     // Local URL, used if we need to generate the image in response
     // to a later request (pausing execution of the page is no good)
     $request = sfContext::getInstance()->getRequest();
-    $sf_relative_url_root = $request->getRelativeUrlRoot();
-    $localUrl = $sf_relative_url_root . '/uploads/media_items/' . $basename;
+    
+    // We need to use actual routing for these because otherwise folks who have
+    // overridden the routes to alter their paths will not get the expected result
+    if (!is_null($cropLeft))
+    {
+      $params = array('slug' => $slug, 'width' => $width, 'height' => $height, 'cropLeft' => $cropLeft, 'cropTop' => $cropTop, 'cropWidth' => $cropWidth, 'cropHeight' => $cropHeight, 'format' => $format, 'resizeType' => $resizeType, 'sf_route' => 'a_media_image_cropped');
+      $localUrl = sfContext::getInstance()->getController()->genUrl($params);
+    }
+    else
+    {
+      $params = array('slug' => $slug, 'width' => $width, 'height' => $height, 'format' => $format, 'resizeType' => $resizeType, 'sf_route' => 'a_media_image');
+      $localUrl = sfContext::getInstance()->getController()->genUrl($params);
+    }
+
+    // The final URL, in the cloud (if we're not just storing locally)
+    if (sfConfig::get('app_a_static_url') || sfConfig::get('app_aMedia_static_url'))
+    {
+      $url = aMediaItemTable::getUrl() . '/' . $basename;
+    }
+    else
+    {
+      // Non-cloud sites don't need to fuss with this
+      $url = $localUrl;
+    }
+    
+    // $sf_relative_url_root = $request->getRelativeUrlRoot();
+    // $localUrl = $sf_relative_url_root . '/uploads/media_items/' . $basename;
     
     $cache = aCacheTools::get('media');
     $cached = $cache->get($cacheKey);
@@ -802,9 +830,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         $method = 'scaleToFit';
       }
       aImageConverter::$method(
-        aMediaItemTable::getDirectory() .
-          '/' .
-          "$slug.original.$originalFormat", 
+        $this->getOriginalPath(), 
         $path,
         $width,
         $height,
