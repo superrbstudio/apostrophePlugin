@@ -149,7 +149,8 @@ class BaseaMediaBackendActions extends sfActions
   }
 
   /**
-   * DOCUMENT ME
+   * API to get information about an image. This has suffered some code rot since we don't
+   * ever use the API anymore
    * @param sfRequest $request
    */
   public function executeInfo(sfRequest $request)
@@ -235,15 +236,9 @@ class BaseaMediaBackendActions extends sfActions
       $info['description'] = $item->getDescription();
       $info['credit'] = $item->getCredit();
       $info['tags'] = array_keys($item->getTags());
-      // The embed HTML we suggest is a template in which they can
-      // replace _WIDTH_ and _HEIGHT_ and _c-OR-s_ with
-      // whatever they please
-      
-      // Absolute URL option
-      $info['embed'] = $item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', $absolute);
-      // The image URL we suggest is a template in which they can
-      // replace _WIDTH_, _HEIGHT_, _c-OR-s_ and _FORMAT_ with
-      // whatever they please
+      // Absolute URL option. We no longer allow str_replace on the client side, the API
+      // will need some rethinking but is not documented or used here
+      $info['embed'] = $item->getEmbedCode(600, false, 's', $item->format, $absolute);
       $controller = sfContext::getInstance()->getController();
       
       // Must use keys that will be acceptable as property names, no hyphens!
@@ -262,13 +257,11 @@ class BaseaMediaBackendActions extends sfActions
         http_build_query(
           array(
             "slug" => $item->getSlug(),
-            "width" => "1000001", 
-            "height" => "1000002", 
+            "width" => "600", 
+            "height" => "400", 
             "format" => "jpg", 
             "resizeType" => "c")), 
           $absolute);
-      $info['image'] = str_replace(array("1000001", "1000002", ".c."),
-        array("_WIDTH_", "_HEIGHT_", "._c-OR-s_."), $info['image']);
       $info['image'] = preg_replace("/\.jpg$/", "._FORMAT_", $info['image']);
       if ($info['type'] === 'video')
       {

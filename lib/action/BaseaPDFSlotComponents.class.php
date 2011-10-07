@@ -53,7 +53,12 @@ class BaseaPDFSlotComponents extends aSlotComponents
             "height" => $this->flexHeight ? false : $this->height,
             "resizeType" => $this->resizeType));
       }
-      $this->embed = $this->item->getEmbedCode('_WIDTH_', '_HEIGHT_', '_c-OR-s_', '_FORMAT_', false);
+      else
+      {
+        // Placeholder dimensions
+        $this->dimensions = array('width' => $this->width, 'height' => $this->width * 3 / 4, 'format' => 'png', 'resizeType' => 's');
+      }
+      $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false);
     }
   }
 }

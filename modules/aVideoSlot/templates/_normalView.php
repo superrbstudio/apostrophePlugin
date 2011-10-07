@@ -46,15 +46,6 @@
   <ul class="a-media-video">
 
   <li class="a-media-video-embed">
-  <?php if (isset($dimensions)): ?>
-    <?php $embed = str_replace(
-      array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-      array($dimensions['width'], 
-        $dimensions['height'],
-        $dimensions['resizeType'],
-        $dimensions['format']),
-      $embed) ?>
-  <?php endif ?>
   <?php echo $embed ?>
 	</li>
   <?php if ($options['title']): ?>

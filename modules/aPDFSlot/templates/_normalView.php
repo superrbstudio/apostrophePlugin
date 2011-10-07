@@ -48,13 +48,7 @@
       <?php // Thumbnail image as a link to the original PDF ?>
 			<?php if ($pdfPreview): ?>
 
-	      <?php echo link_to(str_replace(
-	          array("_WIDTH_", "_HEIGHT_", "_c-OR-s_", "_FORMAT_"),
-	          array($dimensions['width'], 
-	            $dimensions['height'],
-	            $dimensions['resizeType'],
-	            $dimensions['format']),
-	          $embed), 
+	      <?php echo link_to($embed,
 	        "aMediaBackend/original?" .
 	          http_build_query(
 	            array(
