@@ -293,6 +293,11 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
             if (sfConfig::get('app_a_minify', false))
             {
               $fileContent = Minify_CSS::minify($fileContent, $options);
+              $relativeUrlRoot = sfContext::getInstance()->getRequest()->getRelativeUrlRoot();
+              if (strlen($relativeUrlRoot))
+              {
+                $fileContent = Minify_CSS_UriRewriter::prepend($fileContent, $relativeUrlRoot, array('prependToRootRelative' => true));
+              }
             }
           }
           else

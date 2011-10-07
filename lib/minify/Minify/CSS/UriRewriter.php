@@ -92,11 +92,15 @@ class Minify_CSS_UriRewriter {
      * 
      * @param string $path The path to prepend.
      * 
+     * @param array $options If 'prependToRootRelative' is set to true, root-relative
+     * URLs (starting with / but not https?:) are also prepended to (tom@punkave.com)
+     *
      * @return string
      */
-    public static function prepend($css, $path)
+    public static function prepend($css, $path, $options = array())
     {
         self::$_prependPath = $path;
+        self::$_prependToRootRelative = isset($options['prependToRootRelative']) && $options['prependToRootRelative'];
         
         $css = self::_trimUrls($css);
         
@@ -132,6 +136,11 @@ class Minify_CSS_UriRewriter {
      */
     private static $_prependPath = null;
     
+    /**
+     * @var bool if true, prepend to root-relative URLs as well (tom@punkave.com)
+     */
+    private static $_prependToRootRelative = false;
+    
     private static function _trimUrls($css)
     {
         return preg_replace('/
@@ -161,7 +170,7 @@ class Minify_CSS_UriRewriter {
                 : substr($m[1], 1, strlen($m[1]) - 2);
         }
         // analyze URI
-        if ('/' !== $uri[0]                  // root-relative
+        if ((self::$_prependToRootRelative || ('/' !== $uri[0]))                  // root-relative
             && false === strpos($uri, '//')  // protocol (non-data)
             && 0 !== strpos($uri, 'data:')   // data protocol
         ) {
