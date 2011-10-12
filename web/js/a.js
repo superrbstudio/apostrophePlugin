@@ -132,7 +132,7 @@ function aConstructor()
 		$(selector).each(function() {
 
 			// Store the current item
-			var $self = $(this); 
+			var $self = $(this);
 
 			// Building a replacement span with the same properties
 			var aSpan = $('<span>').attr({
@@ -142,7 +142,7 @@ function aConstructor()
 
 			// Make the swap
 			$self.replaceWith(aSpan);
-			
+
 			// If the button wants to show busy
 			// Re-bind the behavior and call it
 			if (aSpan.hasClass('a-show-busy')) {
@@ -156,7 +156,7 @@ function aConstructor()
 	// fixed-up versions of ancient onclick="" handlers in order to repair them magically.
 	// Repairing things magically is why we have overrideLinks, so we can't hold our
 	// noses too much
-	
+
 	this._submitFormForOverrideLinks = function(form, update)
 	{
 		$.post(
@@ -170,7 +170,7 @@ function aConstructor()
 
 	// This is up at this level so that it can be called by _submitFormForOverrideLinks. You
 	// don't want to call this yourself, look at linkToRemote to do what you probably intend
-	
+
 	function _fixContentForOverrideLinks(data, update)
 	{
 		var markup = $(data);
@@ -188,7 +188,7 @@ function aConstructor()
 				this.setAttribute('onclick', onclick);
 			}
 		});
-		
+
 		// Don't mess up things with existing handlers
 		$('a:not([href="#"])', markup).click(function(event) {
 			var onclick = this.getAttribute('onclick');
@@ -213,7 +213,7 @@ function aConstructor()
 		apostrophe.smartCSS({ target: update });
 		update.trigger('aAfterOverrideLinks');
 	}
-	
+
 	// Utility: an updated version of the jq_link_to_remote helper
 	// Allows you to create the same functionality without outputting javascript in the markup.
 	// Restore feature stashes the old content in .data() and binds restore to a cancel button returned within data
@@ -234,8 +234,8 @@ function aConstructor()
 		var remoteURL = options['url'];
 		var eventType = (options['event'])? options['event'] : 'click';
 		var restore = (options['restore']) ? options['restore'] : false;
-		var callback = (options['callback'] && typeof(options['callback']) === 'function') ? options['callback'] : false; 
-		
+		var callback = (options['callback'] && typeof(options['callback']) === 'function') ? options['callback'] : false;
+
 		if (link.length && update.length) {
 			link.bind(eventType, function() {
 				$.ajax({
@@ -277,7 +277,7 @@ function aConstructor()
 								update.html(update.data('aBeforeUpdate'));
 							});
 						}
-						if (callback) 
+						if (callback)
 						{
 							callback();
 						}
@@ -289,8 +289,8 @@ function aConstructor()
 			});
 		}
 		if (!link.length) {
-			apostrophe.log('apostrophe.linkToRemote -- No Link Found');			
-		}			
+			apostrophe.log('apostrophe.linkToRemote -- No Link Found');
+		}
 		if (!update.length) {
 			apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
 		}
@@ -391,27 +391,27 @@ function aConstructor()
 
 	this.updating = function(selector)
 	{
-		// apostrophe.updating left in place for backwards compatibility 
+		// apostrophe.updating left in place for backwards compatibility
 		// just incase anyone else is using it outside of a.js
 		apostrophe.aShowBusy({ 'updating' : selector });
 	};
 
 	this.aShowBusy = function(options)
 	{
-	
+
 		var updating = '';
 		if (options !== undefined && options['updating'])
 		{
 			updating = options['updating'] + ' .a-show-busy, ';
 		}
-		
+
 		var submit = $(updating + '.a-show-busy');
-		
+
 		// We don't need to bind to the click even because
 		// We are binding to the form submit event
 		// This works for pressing ENTER in an input
 		// OR Clicking SUBMIT to submit the form.
-		
+
 		submit.unbind('click.aShowBusy').bind('click.aShowBusy', function(event){
 			var $self = $(this);
 			$self.trigger('aShowBusy');
@@ -429,12 +429,12 @@ function aConstructor()
 			var $self = $(this);
 			$self.removeClass('a-busy').removeClass('icon').find('span.icon').remove();
 		});
-		
+
 		submit.closest('form').unbind('submit.aShowBusy').bind('submit.aShowBusy', function(){
 			var $selfForm = $(this);
 			$selfForm.find('.a-show-busy').trigger('aShowBusy');
 		});
-		
+
 	};
 
 	// Utility: Create an anchor button that toggles between two radio buttons
@@ -650,7 +650,7 @@ function aConstructor()
 		// 	treeRef.remove(li);
 		// 	return false;
 		// });
-		aPageTree.find('li').each(function() { 
+		aPageTree.find('li').each(function() {
 			var id = $(this).attr('id');
 			var a = $(this).find('a:first');
 			// This markup was carefully created to avoid 80000 conflicts with other CSS,
@@ -1845,13 +1845,13 @@ function aConstructor()
 	{
 		apostrophe.log('apostrophe.enablePageSettings');
 		var form = $('#' + options['id'] + '-form');
-		// This was causing double submits, and double subpages in FM profiles.  
+		// This was causing double submits, and double subpages in FM profiles.
 		// The submit button is now an a-act-as-submit and it works without this extra hack.
 		// DO NOT put this back witout talking to me. -Tom
 		// $('#' + options['id'] + '-submit').bind('click.apostrophe', function() {
 		// 	form.submit();
 		// });
-		
+
 		// The form will not actually submit until ajaxDirty is false. This allows us
 		// to wait for asynchronous things like the slug field AJAX updates to complete
 		var ajaxDirty = false;
@@ -2014,7 +2014,7 @@ function aConstructor()
 			$('#a-media-search-submit').hide();
 		});
 	};
-	
+
 	// Hide / Show the page overlay. Accepts true or false, and an optional call back
 	// apostrophe.togglePageOverlay({ toggle: true | false , callback : f() });
 	this.togglePageOverlay = function(options)
@@ -2031,10 +2031,10 @@ function aConstructor()
 			// overlay.removeClass('active');
 			overlay.hide();
 		}
-		if (options.callback && typeof(options.callback) === 'function') 
+		if (options.callback && typeof(options.callback) === 'function')
 		{
 			options.callback();
-		};		
+		};
 	};
 
 	this.aInjectActualUrl = function(options) {
@@ -2045,13 +2045,13 @@ function aConstructor()
 		// have to reencode the URL properly. Find the 'after' parameter, which is a URL to
 		// return to in order to save the selection, and parse it in order to add the
 		// 'actual_url' parameter to it. Then rebuild the whole thing correctly
-		
+
 		apostrophe.log('apostrophe.aInjectActualUrl');
-		
+
 		var target = options['target'];
-		
-		apostrophe.log('apostrophe.aInjectActualUrl -- target = ' + target);		
-		
+
+		apostrophe.log('apostrophe.aInjectActualUrl -- target = ' + target);
+
 		$(target).find('.a-inject-actual-url').each(function() {
 			var href = $(this).attr('href');
 			var parsed = apostrophe.parseUrl(href);
@@ -2067,13 +2067,13 @@ function aConstructor()
 			}
 		});
 	};
-	
+
 	this.aActAsSubmit = function(options) {
-		
+
 			apostrophe.log('apostrophe.aActAsSubmit');
-		
+
 			var target = options['target'];
-				
+
 			// Anchor elements that act as submit buttons. On some older browsers this might not trigger
 			// other submit handlers for the form before native submit, however it seems to work just fine
 			// in modern browsers even if the form is an ajax form
@@ -2136,7 +2136,7 @@ function aConstructor()
 	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
-		
+
 		var target = 'body';
 		if (options && options['target'])
 		{
