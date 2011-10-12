@@ -43,10 +43,11 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
-    // We need a basic context so we can call helpers to format text
-    $context = sfContext::createInstance($this->configuration);
+    // The relevant settings are generally environment and application specific
+    $appConfiguration = ProjectConfiguration::getApplicationConfiguration($options['application'], $options['env'], true);
+    sfContext::createInstance($appConfiguration);
     // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
+    $databaseManager = new sfDatabaseManager($appConfiguration);
     // Sync all files in web/ except those that are inappropriate. We exclude
     // fckeditor because it is (1) huge and (2) not possible to load from the cloud
     // anyway due to security restrictions on iframes
