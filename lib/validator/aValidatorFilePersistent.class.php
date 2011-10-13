@@ -145,6 +145,7 @@ class aValidatorFilePersistent extends sfValidatorFile
       // the mime type. We do everything we can to avoid hitting the
       // standard cascade of guessers, which are super slow over S3
       $imageInfo = aImageConverter::getInfo($cvalue['tmp_name']);
+      $type = null;
       if ($imageInfo)
       {
         $type = $this->guessFromImageconverter($cvalue['tmp_name'], $imageInfo);
@@ -163,14 +164,11 @@ class aValidatorFilePersistent extends sfValidatorFile
       }
       if (!is_null($type))
       {
-        // Persist it for the next pass
-        $data['validatedType'] = $type;
-        // For getMimeType to see now
         $this->validatedType = $type;
       }
       else
       {
-        $data['validatedType'] = null;
+        $this->validatedType = null;
       }
       if ($this->mustBeImage)
       {
@@ -256,6 +254,10 @@ class aValidatorFilePersistent extends sfValidatorFile
         $filePath = "$persistentDir/$persistid.file";
         copy($cvalue['tmp_name'], $filePath);
         $data = $cvalue;
+        if (isset($this->validatedType))
+        {
+          $data['validatedType'] = $this->validatedType;
+        }
         $data['imageInfo'] = $imageInfo;
         $data['newfile'] = true;
         $data['tmp_name'] = $filePath;
@@ -267,7 +269,7 @@ class aValidatorFilePersistent extends sfValidatorFile
         {
           // It's not sensible to trust a browser-submitted mime type anyway,
           // so don't force non-web invocations of this code to supply one
-          $cvalue['type'] = 'unknown/unknown';
+          $cvalue['type'] = 'application/octet-stream';
         }
         $data['mime_type'] = $this->getMimeType($filePath, $cvalue['type']);
         if (isset($extensionsByMimeType[$data['mime_type']]))
@@ -487,7 +489,7 @@ class aValidatorFilePersistent extends sfValidatorFile
    * @param mixed $file
    * @return mixed
    */
-  protected function guessMicrosoft($file)
+  protected function guessFromMicrosoft($file)
   {
     // We look at the original name to get the rest.
     // Sorry, but there are no reliable magic numbers
