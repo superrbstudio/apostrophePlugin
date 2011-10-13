@@ -1150,12 +1150,28 @@ class BaseaTools
       $dbName = $info['dbName'];
       $sql = $info['sql'];
       $key = "$dbName-$name";
-      $locked = $sql->queryOneScalar('SELECT GET_LOCK(:key, 30)', array('key' => $key));
+      if ($wait)
+      {
+        $timeout = 30;
+      }
+      else
+      {
+        $timeout = 0;
+      }
+      $locked = $sql->queryOneScalar('SELECT GET_LOCK(:key, :timeout)', array('key' => $key, 'timeout' => $timeout));
       if (!$locked)
       {
-        throw new sfException("Unable to obtain a lock after 30 seconds. MySQL must be very busy.");
+        if (!$wait)
+        {
+          return false;
+        }
+        else
+        {
+          throw new sfException("Unable to obtain a lock after 30 seconds. MySQL must be very busy.");
+        }
       }
       aTools::$locks[] = $name;
+      return true;
     }
     else
     {
