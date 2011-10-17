@@ -49,6 +49,6 @@
   
 </ul>
 
-<?php if ($draggable): ?>
+<?php if (($draggable) and (isset($item))): ?>
 	<?php a_js_call('apostrophe.accordionEnhancements(?)', array('name' => $name, 'nest' => $nest, 'url' => a_url('a', 'sortNav', array('page' => $item['id'])))) ?>
 <?php endif ?>
