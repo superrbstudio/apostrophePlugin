@@ -23,7 +23,7 @@
 
 <?php if (sfConfig::get('app_a_js_debug', false)): ?>
 <script type="text/javascript" charset="utf-8">
-	apostrophe.setDebug(true)
+	apostrophe.setDebug(true);
 </script>
 <?php endif ?>
 <?php a_include_js_calls() ?>
