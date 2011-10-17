@@ -2702,8 +2702,10 @@ function aConstructor()
 		var fullId = pageid + '-' + name + '-' + permid;
  		var editBtn = $('#a-slot-edit-' + fullId);
  		var editSlot = $('#a-slot-' + fullId);
+		var editArea = editSlot.closest('.a-area');
+		var editContainers = editSlot.add(editArea);
 
-		editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
+		editContainers.addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
 		editSlot.children('.a-slot-content').children('.a-slot-content-container').hide(); // Hide the Content Container
 		editSlot.children('.a-slot-content').children('.a-slot-form').fadeIn(); // Fade In the Edit Form
 		editSlot.children('.a-control li.variant').hide(); // Hide the Variant Options
