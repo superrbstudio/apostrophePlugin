@@ -1281,17 +1281,14 @@ function aConstructor()
 		var url = options['url'];
 		var update = $(options['update']);
 		var file = form.find('input[type="file"]');
-		var descId = options['descId'];
-		var fck = $('#'+descId);
 		var embedChanged = false;
 		if (form.length) {
 			form.find('.a-form-row.embed textarea').change(function() {
 				embedChanged = true;
 			});
 			form.submit(function(event) {
-				if (fck.length) {
-					fck.val(FCKeditorAPI.GetInstance(descId).GetXHTML());
-				}
+				// New approach to telling rich text editors to debrief their textareas PDQ
+				$('.a-needs-update').trigger('a.update');
 				// If the file field is empty and the embed code hasn't been changed,
 				// we can submit the edit form asynchronously
 				apostrophe.log(embedChanged);
