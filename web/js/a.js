@@ -2777,7 +2777,7 @@ function aConstructor()
 
 		var clickHandler = function(event){
 			var target = $(event.target);
-			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')))
+			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')) && target.parents('html').length)
 			{
 				menu.trigger('toggleClosed');
 			}
