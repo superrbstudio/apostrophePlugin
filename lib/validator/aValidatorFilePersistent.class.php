@@ -472,7 +472,7 @@ class aValidatorFilePersistent extends sfValidatorFile
    * @param mixed $file
    * @return mixed
    */
-  protected function guessRTF($file)
+  protected function guessFromRTF($file)
   {
     $in = fopen($file, 'rb');
     $magic = fread($in, 5);
