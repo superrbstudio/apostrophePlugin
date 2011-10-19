@@ -405,6 +405,8 @@ class aFiles
    */
   static public function sync($from, $to, $options = array())
   {
+    // Let's be verbose for this first big scary migration on staging
+    error_log("Syncing $from to $to\n");
     $fromList = aFiles::ls($from);
     if ($fromList === false)
     {
