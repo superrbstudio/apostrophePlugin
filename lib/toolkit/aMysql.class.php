@@ -405,6 +405,43 @@ class aMysql
   {
     return $this->commandsRun;
   }
+  
+  /**
+   * Does this database exist?
+   * @param string $databaseName
+   * @return boolean
+   */
+   public function databaseExists($databaseName)
+   {
+     $data = $this->query('SHOW DATABASES');
+     foreach ($data as $row)
+     {
+       if ($row['Database'] === $databaseName)
+       {
+         return true;
+       }
+     }
+     return false;
+   }
+
+   /**
+    * Returns a list of all database names in the system.
+    * May include "databases" internal to mysql, like
+    * information_schema. Naive misuse of this function's
+    * return value can be dangerous. Filter carefully before you
+    * drop databases.
+    * @return array
+    */
+    public function getDatabases()
+    {
+      $data = $this->query('SHOW DATABASES');
+      $names = array();
+      foreach ($data as $row)
+      {
+        $names[] = $row['Database'];
+      }
+      return $names;
+    }
 
   /**
    * Does this table already exist?
