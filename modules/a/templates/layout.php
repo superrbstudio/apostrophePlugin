@@ -1,11 +1,13 @@
+<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
+<?php $page = aTools::getCurrentNonAdminPage() ?>
+<?php $realPage = aTools::getCurrentPage() ?>
+<?php $root = aPageTable::retrieveBySlug('/') ?>
+
 <?php use_helper('a') ?>
 <?php // This is a copy of apostrophePlugin/modules/a/templates/layout.php ?>
 <?php // It also makes a fine site-wide layout, which gives you global slots on non-page templates ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
-	<?php $page = aTools::getCurrentNonAdminPage() ?>
-  <?php $root = aPageTable::retrieveBySlug('/') ?>
 <head>
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
@@ -42,15 +44,19 @@
 	
 </head>
 
+<?php // a-body-class allows you to set a class for the body element from a template ?>
+<?php // body_class is preserved here for backwards compatibility ?>
+
 <?php $a_bodyclass = '' ?>
-<?php $a_bodyclass .= ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?> 
+<?php $a_bodyclass .= (has_slot('a-body-class')) ? get_slot('a-body-class') : '' ?>
+<?php $a_bodyclass .= (has_slot('body_class')) ? get_slot('body_class') : '' ?>
 <?php $a_bodyclass .= ($page && $page->archived) ? ' a-page-unpublished' : '' ?> 
 <?php $a_bodyclass .= ($page && $page->view_is_secure) ? ' a-page-secure' : '' ?> 
 <?php $a_bodyclass .= (sfConfig::get('app_a_js_debug', false)) ? ' js-debug':'' ?>
+<?php $a_bodyclass .= ($realPage && !is_null($realPage['engine'])) ? ' a-engine':'' ?>
+<?php $a_bodyclass .= ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?>
 
-<?php // a-body-class allows you to set a class for the body element from a template ?>
-<?php // body_class is preserved here for backwards compatibility ?>
-<body class="<?php if (has_slot('a-body-class')): ?> <?php include_slot('a-body-class') ?><?php endif ?><?php if (has_slot('body_class')): ?> <?php include_slot('body_class') ?><?php endif ?><?php echo $a_bodyclass ?>">
+<body class="<?php echo $a_bodyclass ?>">
 
 	<?php include_partial('a/doNotEdit') ?>
   <?php include_partial('a/globalTools') ?>
