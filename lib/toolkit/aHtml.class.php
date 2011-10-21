@@ -713,6 +713,33 @@ class aHtml
   }
   
   /**
+   * Convert anything that looks like a hostname into a proper URL so that
+   * textToHtml will pick up on it and turn it into a link if called next.
+   * Tom chipped this in from his wejoinem project 10/21/11
+   * @param string $text
+   * @return string
+   */
+  static public function lazyUrls($text)
+  {
+    $text = preg_replace_callback('/([a-z]+:\/\/)?[A-Za-z0-9\-]+\.[A-Za-z0-9\-\.]+(\/\S*)?/', array('aHtml', '_cleanupUrl'), $text);
+    return $text;
+  }
+  
+  /**
+   * Callback for lazyUrls, not really public. Handles one match, converting a hostname
+   * to a URL if it isn't already. Tom chipped this in from his wejoinem project 10/21/11
+   */
+  static public function _cleanupUrl($matches)
+  {
+    $url = $matches[0];
+    if (!preg_match('/[a-z]+\:/', $url))
+    {
+      $url = 'http://' . $url;
+    }
+    return $url;
+  }
+  
+  /**
    * UTF-8 entity escapes the provided text, and nothing else
    */
   static public function entities($text)

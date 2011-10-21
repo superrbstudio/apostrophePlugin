@@ -16,8 +16,11 @@ class aString
    * @param uint $word_limit
    * number of words to return
    * @param optional array
-   * if $options['append_ellipsis'] is set, append that string to the end
-   * of strings that have been truncated
+   *
+   * if $options['append_ellipsis'] is true, append &hellip; (note this is an HTML entity)
+   * when truncating the string. If $options['ellipsis'] is set, append that instead
+   * of &hellip; (append_ellipsis must still be set to activate the behavior)
+   *
    * if $options['characters'] is true, limit by characters rather than words
    * (a single API call for both is convenient when this is wrapped by other calls)
    * Whitespace will be collapsed to single spaces. UTF8-aware where supported
@@ -55,7 +58,8 @@ class aString
     }
     if ($append_ellipsis == true && $num_words > $word_limit)
     {
-      $string .= '&hellip;';
+      $ellipsis = isset($options['ellipsis']) ? $options['ellipsis'] : '&hellip;';
+      $string .= $ellipsis;
     }
     
     return $string;
