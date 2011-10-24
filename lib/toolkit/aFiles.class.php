@@ -264,12 +264,14 @@ class aFiles
   /**
    * Returns array of filenames in directory, without the useless and dangerous . and .. entries,
    * using only functions that stream wrappers support. Returns just the basenames, the
-   * full path is NOT returned unless you specify $options['fullPath'] = true
+   * full path is NOT returned unless you specify $options['fullPath'] = true. Returns false
+   * if the path does not exist or is not a directory (you may get an empty list for stream wrappers
+   * that can't really make this distinction)
    */
   static public function ls($path, $options = array())
   {
-    $dir = opendir($path);
-    if (!$dir)
+    $dir = @opendir($path);
+    if ($dir === false)
     {
       return false;
     }
@@ -476,6 +478,7 @@ class aFiles
       }
       else
       {
+        error_log("Copying $fromPath to $toPath");
         if (!aFiles::copy($fromPath, $toPath))
         {
           error_log("Cannot copy $fromPath to $toPath, maybe it disappeared in mid-sync or receiving drive is full");
@@ -615,8 +618,23 @@ class aFiles
       fclose($in);
       return false;
     }
-    while (($buf = fread($from, 65536)) !== false)
+    while (true)
     {
+      $buf = fread($in, 65536);
+      if ($buf === false)
+      {
+        // Read failed
+        fclose($in);
+        fclose($out);
+        unlink($to);
+        return false;
+      }
+      if (strlen($buf) === 0)
+      {
+        // EOF
+        error_log("EOF, yay");
+        break;
+      }
       if (fwrite($out, $buf) !== strlen($buf))
       {
         fclose($in);
@@ -631,6 +649,7 @@ class aFiles
       unlink($to);
       return false;
     }
+    error_log("Copy succeeded");
     return true;
   }
   
