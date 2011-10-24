@@ -92,5 +92,9 @@ class aTaskTools
     $_SERVER['HTTP_HOST'] = $host;
     // Otherwise we get ./symfony after the hostname
     $_SERVER['SCRIPT_NAME'] = '';
+    if (sfConfig::get('app_cli_https'))
+    {
+      $_SERVER['HTTPS'] = 'on';
+    }
   }
 }
