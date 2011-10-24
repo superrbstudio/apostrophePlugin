@@ -410,7 +410,6 @@ class aFiles
   static public function sync($from, $to, $options = array())
   {
     // Let's be verbose for this first big scary migration on staging
-    error_log("Syncing $from to $to\n");
     $fromList = aFiles::ls($from);
     if ($fromList === false)
     {
@@ -478,7 +477,6 @@ class aFiles
       }
       else
       {
-        error_log("Copying $fromPath to $toPath");
         if (!aFiles::copy($fromPath, $toPath))
         {
           error_log("Cannot copy $fromPath to $toPath, maybe it disappeared in mid-sync or receiving drive is full");
@@ -552,8 +550,6 @@ class aFiles
   {
     $continueOnError = isset($options['continue-on-error']) && $options['continue-on-error'];
     $result = true;
-    // Let's be verbose for this first big scary migration on staging
-    error_log("Copying $from to $to\n");
     
     $fromList = aFiles::ls($from);
     if ($fromList === false)
@@ -632,7 +628,6 @@ class aFiles
       if (strlen($buf) === 0)
       {
         // EOF
-        error_log("EOF, yay");
         break;
       }
       if (fwrite($out, $buf) !== strlen($buf))
@@ -649,7 +644,6 @@ class aFiles
       unlink($to);
       return false;
     }
-    error_log("Copy succeeded");
     return true;
   }
   
