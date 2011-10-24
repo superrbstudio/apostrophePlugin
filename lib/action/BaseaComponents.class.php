@@ -46,7 +46,7 @@ class BaseaComponents extends aSlotComponents
 		$aOptions['history'] = $this->getOption('history', true); // Option for disabling History on specific areas
 		$aOptions['delete'] = $this->getOption('delete', false); // Option for enabling Delete on singleton slots
 		$aOptions['areaClass'] = $this->getOption('areaClass', false); // Option for enabling Delete on singleton slots		
-		
+		$aOptions['areaHideWhenEmpty'] = $this->getOption('areaHideWhenEmpty', false); // Option for enabling Delete on singleton slots		
 		$this->options = $aOptions;
     if (!is_null($this->getOption('edit', null)))
     {
@@ -269,6 +269,7 @@ class BaseaComponents extends aSlotComponents
         $this->type_options[$slot]['toolbar'] = $this->toolbar;
       }
     }
+		$this->areaOptions = (!is_null($this->areaOptions)) ? $this->areaOptions : array();
     foreach ($this->slots as $slot)
     {
       $this->type_options[$slot]['slideshowOptions'] = array(
