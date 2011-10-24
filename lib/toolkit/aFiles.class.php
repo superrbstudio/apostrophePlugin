@@ -383,7 +383,9 @@ class aFiles
   
   /**
    * Make one directory a mirror of the other, deleting and adding files as needed.
-   * Creates $to if necessary.
+   * Creates $to if necessary. Source files that disappear in mid-sync log a warning.
+   * Failures to write to the destination are considered serious errors and result in the
+   * entire operation returning false. 
    *
    * Compares sizes and modification dates to determine whether source is newer
    * than destination unless 'force' => true is specified as an option. In addition, you can 
@@ -474,7 +476,11 @@ class aFiles
       }
       else
       {
-        copy($fromPath, $toPath);
+        if (!aFiles::copy($fromPath, $toPath))
+        {
+          error_log("Cannot copy $fromPath to $toPath, maybe it disappeared in mid-sync or receiving drive is full");
+          return false;
+        }
       }
     }
     // Remove any files on the destination that did not exist on the source
@@ -518,5 +524,135 @@ class aFiles
       }
     }
     return false;
+  }
+  
+  /**
+   * Recursively copy one folder to another. Assumes the second path does not exist.
+   * This is a lot faster than a sync because it doesn't have to stat() everything.
+   *
+   * This is useful for syncing content to an Amazon S3 wrapper
+   * and in other situations where rsync is not available. Does not attempt to
+   * set permissions (stream wrappers don't support chmod, for one thing). 
+   * 
+   * Symlinks, if encountered, are followed and what they refer to is copied,
+   * so don't copy any recursive references
+   *
+   * By default, if any part of the copy fails the whole thing fails and is
+   * backed out, leaving nothing at $to. If you don't want this, specify
+   * 'continue-on-error' => true as an option and the copy will be as complete
+   * as possible in the event that one or more items cannot be copied. Verbose
+   * errors are logged to the PHP log in this situation.
+   *
+   * Returns false if any errors occur, true otherwise.
+   */
+  static public function copyFolder($from, $to, $options = array())
+  {
+    $continueOnError = isset($options['continue-on-error']) && $options['continue-on-error'];
+    $result = true;
+    // Let's be verbose for this first big scary migration on staging
+    error_log("Copying $from to $to\n");
+    
+    $fromList = aFiles::ls($from);
+    if ($fromList === false)
+    {
+      error_log("WARNING: aFiles::ls returns false for $from");
+      $result = false;
+      return $result;
+    }
+    
+    foreach ($fromList as $file)
+    {
+      $fromPath = "$from/$file";
+      $toPath = "$to/$file";
+      if (is_dir($fromPath))
+      {
+        $result = aFiles::copyFolder($fromPath, $toPath);
+        if (!$result)
+        {
+          $result = false;
+          error_log("WARNING: unable to copy $fromPath to $toPath");
+          if (!$continueOnError)
+          {
+            // If we fail on any file undo the whole thing
+            aFiles::rmRf($to);
+            return $result;
+          }
+        }
+      }
+      else
+      {
+        if (!aFiles::copy($fromPath, $toPath))
+        {
+          $result = false;
+          error_log("WARNING: unable to copy $fromPath to $toPath");
+          if (!$continueOnError)
+          {
+            // If we fail on any file undo the whole thing
+            aFiles::rmRf($to);
+            return $result;
+          }
+        }
+      }
+    }
+    return $result;
+  }
+  
+  /**
+   * Copy a file, checking the result of fflush() to make sure it really
+   * got there. Native php copy() DOES NOT do this. Returns true if the
+   * whole thing actually got there. If not, removes $to and returns false
+   */
+  static public function copy($from, $to)
+  {
+    $in = fopen($from, "rb");
+    if (!$in)
+    {
+      return false;
+    }
+    $out = fopen($to, "wb");
+    if (!$out)
+    {
+      fclose($in);
+      return false;
+    }
+    while (($buf = fread($from, 65536)) !== false)
+    {
+      if (fwrite($out, $buf) !== strlen($buf))
+      {
+        fclose($in);
+        fclose($out);
+        unlink($to);
+        return false;
+      }
+    }
+    fclose($in);
+    if (!aFiles::close($out))
+    {
+      unlink($to);
+      return false;
+    }
+    return true;
+  }
+  
+  /**
+   * Close a file opened with fopen() and friends, after making sure
+   * that the write (if any) has actually been successful by checking
+   * the result of fflush(). Returns true only if both fflush and fclose
+   * succeed. As of this writing fclose always returns true in PHP even
+   * if its implicit flush call fails so we need this for reliable close
+   */
+  static public function close($file)
+  {
+    if (!fflush($file))
+    {
+      fclose($file);
+      return false;
+    }
+    // It would be nice if this reported false on a failed implicit flush but it doesn't
+    if (!fclose($file))
+    {
+      return false;
+    }
+    return true;
   }
 }
