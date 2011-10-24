@@ -1,4 +1,5 @@
 <?php use_helper('a') ?>
+<?php if ($sf_user->isAuthenticated()): ?>
 <div class="a-ui a-history-browser dropshadow clearfix">
 	<div class="a-history-browser-heading-container clearfix">
 		<h4 class="a-history-browser-heading"><?php echo a_('You are browsing past revisions for this area.') ?></h4>
@@ -45,3 +46,4 @@
 		</li>
 	</ul>
 </div>
+<?php endif ?>
