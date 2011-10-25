@@ -331,6 +331,30 @@ class aMysql
   }
 
   /**
+   * Good for fetching a row when there is 'type' column.
+   * @param mixed $table
+   * @param mixed $column_name
+   * @param mixed $column_val
+   * @return mixed
+   */
+  public function findAllBy($table, $column_name, $column_val)
+  {
+    return $this->query('SELECT * from ' . $table . ' WHERE :column_name = :column_val', array('column_name' => $column_name, 'column_val' => $column_val));
+  }
+  
+  /**
+   * Good for fetching a row when there is unique column.
+   * @param mixed $table
+   * @param mixed $column_name
+   * @param mixed $column_val
+   * @return mixed
+   */
+  public function findOneBy($table, $column_name, $column_val)
+  {
+    return $this->queryOne('SELECT * from ' . $table . ' WHERE :column_name = :column_val LIMIT 1', array('column_name' => $column_name, 'column_val' => $column_val));
+  }
+  
+  /**
    * DOCUMENT ME
    * @param mixed $table
    * @param mixed $id
