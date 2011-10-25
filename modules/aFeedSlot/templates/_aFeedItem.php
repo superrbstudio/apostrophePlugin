@@ -19,6 +19,8 @@
     <?php if ($date): ?>
       <li class="date"><?php echo $dateFormat ? date($dateFormat, $date) : aDate::pretty($date) . ' ' . aDate::time($date) ?></li>
     <?php endif ?>
-    <li class="description"><?php echo auto_link_text(aHtml::simplify($feedItem->getDescription(), $markup, false, (isset($attributes)? $attributes:false), (isset($styles)? $styles:false))) ?></li>
+    <?php if ((!sfConfig::get('app_a_feed_hide_identical_description')) || (trim($feedItem->getTitle()) !== trim($feedItem->getDescription()))): ?>
+      <li class="description"><?php echo auto_link_text(aHtml::simplify($feedItem->getDescription(), $markup, false, (isset($attributes)? $attributes:false), (isset($styles)? $styles:false))) ?></li>
+    <?php endif ?>
   </ul>
 </li>
