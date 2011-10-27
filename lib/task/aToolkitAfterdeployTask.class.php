@@ -59,6 +59,11 @@ EOF;
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
       $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
     }
+    // This should not be necessary but we've seen with our own eyes that it is
+    // necessary on FM - deploys are unpredictable without it.
+    echo("Pausing before second cc\n");
+    sleep(5);
+    $this->attemptTask('cc', array(), array('env' => $arguments['env']));
   }
 
   /**
