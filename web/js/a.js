@@ -365,7 +365,7 @@ function aConstructor()
 		link.unbind('click.aLinkUpdates');
 		link.bind('click.aLinkUpdates', function(event) {
 			event.preventDefault();
-			if (confirmMessage.length)
+			if (confirmMessage)
 			{
 				if (!confirm(confirmMessage))
 				{
@@ -376,6 +376,7 @@ function aConstructor()
 			// related "normal" form elements
 			$('.a-needs-update').trigger('a.update');
 			var updating = $('#' + options['update']);
+			apostrophe.log(updating);
 			var action = link.attr('href');
 			$.get(action, {}, function(data) {
 				updating.trigger('a.updated');
