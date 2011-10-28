@@ -244,7 +244,14 @@ class BaseaComponents extends aSlotComponents
       foreach ($this->slots as $slot)
       {
         $this->type_options[$slot]['width'] = $this->width;
-        $this->type_options[$slot]['constraints']['minimum-width'] = $this->width;
+        if (sfConfig::get('app_a_standard_area_enforce_minimum_width', true))
+        {
+          $this->type_options[$slot]['constraints']['minimum-width'] = $this->width;
+        }
+        else
+        {
+          unset($this->type_options[$slot]['constraints']['minimum-width']);
+        }
       }
     }
     if (isset($this->height))
@@ -252,7 +259,14 @@ class BaseaComponents extends aSlotComponents
       foreach ($this->slots as $slot)
       {
         $this->type_options[$slot]['height'] = $this->height;
-        $this->type_options[$slot]['constraints']['minimum-height'] = $this->height;
+        if (sfConfig::get('app_a_standard_area_enforce_minimum_height', true))
+        {
+          $this->type_options[$slot]['constraints']['minimum-height'] = $this->height;
+        }
+        else
+        {
+          unset($this->type_options[$slot]['constraints']['minimum-height']);
+        }
       }
     }
     if (isset($this->flexHeight))

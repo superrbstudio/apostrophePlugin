@@ -91,6 +91,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     // idSuffix works with the Blog Slot slideshows 
     // Creates unique ids for the same slideshows if they show up in separate slots on a single page.
     $this->options['idSuffix'] = $this->getOption('idSuffix', false); 
+    error_log(json_encode($this->options));
   }
 
 }
