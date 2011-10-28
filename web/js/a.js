@@ -34,6 +34,11 @@ function aConstructor()
 	this.setMessages = function(messages)
 	{
 		this.messages = messages;
+		if (!this.messages.save_changes_first)
+		{
+			// bc with sites that don't inject an i18n'd version of this new message yet
+			this.messages.save_changes_first = 'Please save your changes first.';
+		}
 	};
 
 	// Utility: A DOM ready that can be used to hook into Apostrophe related events
@@ -1100,18 +1105,13 @@ function aConstructor()
 	{
 		var fullId = pageid + '-' + name + '-' + permid;
  		var editSlot = $('#a-slot-' + fullId);
-		if (!editSlot.children('.a-slot-content').children('.a-slot-form').length)
-		{
- 			$.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid, realUrl: realUrl }, function(data) {
-				editSlot.children('.a-slot-content').html(data);
-				slotShowEditViewPreloaded(pageid, name, permid);
-			});
-		}
-		else
-		{
-			// Reuse edit view
+		// Always reload the edit view when edit is clicked. This change was made because there are too many
+		// edge cases where editors (like CkEditor) behave badly if you move them with the arrows, etc. and
+		// then open them again. Fewer possibilities = fewer bugs
+		$.get(editSlot.data('a-edit-url'), { id: pageid, slot: name, permid: permid, realUrl: realUrl }, function(data) {
+			editSlot.children('.a-slot-content').html(data);
 			slotShowEditViewPreloaded(pageid, name, permid);
-		}
+		});
 	};
 
 	this.slotNotNew = function(pageid, name, permid)
@@ -2667,8 +2667,15 @@ function aConstructor()
 			// TODO: this is not sensitive enough to nested areas
 			up.parent().removeClass('a-hidden');
 			up.unbind('click.apostrophe').bind('click.apostrophe', function() {
+				if ($(slot).hasClass('a-editing') || $(slots[n - 1]).hasClass('a-editing'))
+				{
+					alert(apostrophe.messages.save_changes_first);
+					return false;
+				}
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 1 });
+				$(slot).find('.a-needs-update').trigger('a.update');
+				$(slots[n - 1]).find('.a-needs-update').trigger('a.update');
 				apostrophe.swapNodes(slot, slots[n - 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
 				return false;
@@ -2682,8 +2689,16 @@ function aConstructor()
 		{
 			down.parent().removeClass('a-hidden');
 			down.unbind('click.apostrophe').bind('click.apostrophe', function() {
+				apostrophe.log(slot);
+				if ($(slot).hasClass('a-editing') || $(slots[n + 1]).hasClass('a-editing'))
+				{
+					alert(apostrophe.messages.save_changes_first);
+					return false;
+				}
 				// It would be nice to confirm success here in some way
 				$.get(updateAction, { id: id, name: name, permid: $(slot).data('a-permid'), up: 0 });
+				$(slot).find('.a-needs-update').trigger('a.update');
+				$(slots[n + 1]).find('.a-needs-update').trigger('a.update');
 				apostrophe.swapNodes(slot, slots[n + 1]);
 				apostrophe.areaUpdateMoveButtons(updateAction, id, name);
 				return false;

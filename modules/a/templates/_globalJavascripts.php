@@ -16,8 +16,9 @@
 	<?php include_partial('aBlog/disqus_countcode') ?>
 <?php endif ?>
 
+<?php // There should not be any text in a.js (except fallbacks for people who overrode this partial without newer messages) ?>
+<?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'), 'save_changes_first' => a_('Please save your changes first.'))) ?>
 <?php // A handful of fundamental improvements like a-autosubmit for anchor buttons ?>
-<?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'))) ?>
 <?php a_js_call('apostrophe.smartCSS()') ?>
 <?php // End of body - time to emit all of the queued JS as one script block ?>
 
