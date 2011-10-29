@@ -217,7 +217,7 @@ class BaseaComponents extends aSlotComponents
   {
     if (!isset($this->slots))
     {
-      $this->slots = aTools::standardAreaSlots($this->slots);
+      $this->slots = aTools::standardAreaSlots();
     }
     // array_flip is a handy way to turn a flat array into an associative array so you can set and
     // unset things and then fetch the keys to see what you wound up with
