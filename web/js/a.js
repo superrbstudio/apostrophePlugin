@@ -258,6 +258,20 @@ function aConstructor()
 						newContent(data);
 						function newContent(data)
 						{
+							if (options.beforeNewContent)
+							{
+								options.beforeNewContent();
+							}
+							
+							if (restore)
+							{
+								update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
+									event.preventDefault();
+									update.html(update.data('aBeforeUpdate'));
+								});
+							}
+							update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
+							
 							// The overrideLinks option changes all links and forms inside the
 							// popup container to AJAX update the container rather than causing
 							// a page refresh. It will leave your links alone if they point
@@ -272,21 +286,18 @@ function aConstructor()
 							{
 								update.html(data);
 							}
+							
+							if (options.afterNewContent)
+							{
+								options.afterNewContent();
+							}
+							
+							// For bc we support this overly generic name for afterNewContent too
+							if (options.callback)
+							{
+								options.callback();
+							}
 						}
-					},
-					complete:function() {
-						if (restore)
-						{
-							update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
-								event.preventDefault();
-								update.html(update.data('aBeforeUpdate'));
-							});
-						}
-						if (callback)
-						{
-							callback();
-						}
-						update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
 					},
 					url:remoteURL
 				});
