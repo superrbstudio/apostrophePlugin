@@ -219,13 +219,98 @@ function aConstructor()
 		update.trigger('aAfterOverrideLinks');
 	}
 
-	// Utility: an updated version of the jq_link_to_remote helper
+	// Used to implement linkToRemote and also used directly to load dialogs under other
+	// circumstances
+	//
+	// Load options.url into the element specified by the jquery selector options.update. 
+	// Set the a-remote-data-loading class during loading and the a-remote-data-loaded class
+	// when loading is complete. If the restore option is true, set
+	// any a-cancel buttons present to restore the content prior to the loading of the new content.
+	// Use the method specified by options.method, defaulting to the get method. If 
+	// options.beforeNewContent is set, invoke that callback before installing the new content.
+	// If options.afterNewContent is set, invoke that callback after installing the new content.
+	// For bc the alternate name options.callback is also accepted for options.afterNewContent.
+	
+	this.loadRemote = function(options)
+	{
+		var update = $(options['update']);
+		var method = (options['method'])? options['method'] : 'get';
+		var remoteURL = options['url'];
+		var restore = (options['restore']) ? options['restore'] : false;
+		$.ajax({
+			type:method,
+			dataType:'html',
+			beforeSend:function() {
+				update.addClass('a-remote-data-loading');
+			},
+			success:function(data, textStatus)
+			{
+				if (restore)
+				{
+					update.data('aBeforeUpdate', update.children().clone(true));
+				}
+				newContent(data);
+				function newContent(data)
+				{
+					if (options.beforeNewContent)
+					{
+						options.beforeNewContent();
+					}
+					
+					if (restore)
+					{
+						update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
+							event.preventDefault();
+							update.html(update.data('aBeforeUpdate'));
+						});
+					}
+					update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
+					
+					// The overrideLinks option changes all links and forms inside the
+					// popup container to AJAX update the container rather than causing
+					// a page refresh. It will leave your links alone if they point
+					// to '#', but in general it is intended for pulling boring, simple
+					// stuff like admin generator modules into a popup container and should
+					// not be mistaken for the solution to all of your life's problems
+					if (options['overrideLinks'])
+					{
+						_fixContentForOverrideLinks(data, update);
+					}
+					else
+					{
+						update.html(data);
+					}
+					
+					if (options.afterNewContent)
+					{
+						options.afterNewContent();
+					}
+					
+					// For bc we support this overly generic name for afterNewContent too
+					if (options.callback)
+					{
+						options.callback();
+					}
+				}
+			},
+			url:remoteURL
+		});
+	};
+	
+	// Utility: an updated version of the jq_link_to_remote helper.
 	// Allows you to create the same functionality without outputting javascript in the markup.
-	// Restore feature stashes the old content in .data() and binds restore to a cancel button returned within data
+	//
+	// Set options.selector to a jQuery selector matching the link to be enhanced.
+	// Set options.eventType to bind an event other than 'click' (such as a namespaced click event).
+	// Accepts options.link as a synonym for options.link. 
+	//
+	// For the remaining options, especially options.update, see this.loadRemote above
+	
 	this.linkToRemote = function(options)
 	{
-
 		var selector = options['link'];
+		var update = $(options['update']);
+		var eventType = (options['event'])? options['event'] : 'click';
 
 		if (selector === undefined)
 		{
@@ -234,73 +319,9 @@ function aConstructor()
 		}
 
 		var link = $(selector);
-		var update = $(options['update']);
-		var method = (options['method'])? options['method'] : 'get';
-		var remoteURL = options['url'];
-		var eventType = (options['event'])? options['event'] : 'click';
-		var restore = (options['restore']) ? options['restore'] : false;
-		var callback = (options['callback'] && typeof(options['callback']) === 'function') ? options['callback'] : false;
-
 		if (link.length && update.length) {
 			link.bind(eventType, function() {
-				$.ajax({
-					type:method,
-					dataType:'html',
-					beforeSend:function() {
-						update.addClass('a-remote-data-loading');
-					},
-					success:function(data, textStatus)
-					{
-						if (restore)
-						{
-							update.data('aBeforeUpdate', update.children().clone(true));
-						}
-						newContent(data);
-						function newContent(data)
-						{
-							if (options.beforeNewContent)
-							{
-								options.beforeNewContent();
-							}
-							
-							if (restore)
-							{
-								update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
-									event.preventDefault();
-									update.html(update.data('aBeforeUpdate'));
-								});
-							}
-							update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
-							
-							// The overrideLinks option changes all links and forms inside the
-							// popup container to AJAX update the container rather than causing
-							// a page refresh. It will leave your links alone if they point
-							// to '#', but in general it is intended for pulling boring, simple
-							// stuff like admin generator modules into a popup container and should
-							// not be mistaken for the solution to all of your life's problems
-							if (options['overrideLinks'])
-							{
-								_fixContentForOverrideLinks(data, update);
-							}
-							else
-							{
-								update.html(data);
-							}
-							
-							if (options.afterNewContent)
-							{
-								options.afterNewContent();
-							}
-							
-							// For bc we support this overly generic name for afterNewContent too
-							if (options.callback)
-							{
-								options.callback();
-							}
-						}
-					},
-					url:remoteURL
-				});
+				apostrophe.loadRemote(options);
 				return false;
 			});
 		}
