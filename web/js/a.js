@@ -222,15 +222,15 @@ function aConstructor()
 	// Used to implement linkToRemote and also used directly to load dialogs under other
 	// circumstances
 	//
-	// Load options.url into the element specified by the jquery selector options.update. 
+	// Load options.url into the element specified by the jquery selector options.update.
 	// Set the a-remote-data-loading class during loading and the a-remote-data-loaded class
 	// when loading is complete. If the restore option is true, set
 	// any a-cancel buttons present to restore the content prior to the loading of the new content.
-	// Use the method specified by options.method, defaulting to the get method. If 
+	// Use the method specified by options.method, defaulting to the get method. If
 	// options.beforeNewContent is set, invoke that callback before installing the new content.
 	// If options.afterNewContent is set, invoke that callback after installing the new content.
 	// For bc the alternate name options.callback is also accepted for options.afterNewContent.
-	
+
 	this.loadRemote = function(options)
 	{
 		var update = $(options['update']);
@@ -256,7 +256,7 @@ function aConstructor()
 					{
 						options.beforeNewContent();
 					}
-					
+
 					if (restore)
 					{
 						update.find('.a-cancel').unbind('click.aRestore').bind('click.aRestore', function(event){
@@ -265,7 +265,7 @@ function aConstructor()
 						});
 					}
 					update.removeClass('a-remote-data-loading').addClass('a-remote-data-loaded');
-					
+
 					// The overrideLinks option changes all links and forms inside the
 					// popup container to AJAX update the container rather than causing
 					// a page refresh. It will leave your links alone if they point
@@ -280,12 +280,12 @@ function aConstructor()
 					{
 						update.html(data);
 					}
-					
+
 					if (options.afterNewContent)
 					{
 						options.afterNewContent();
 					}
-					
+
 					// For bc we support this overly generic name for afterNewContent too
 					if (options.callback)
 					{
@@ -296,16 +296,16 @@ function aConstructor()
 			url:remoteURL
 		});
 	};
-	
+
 	// Utility: an updated version of the jq_link_to_remote helper.
 	// Allows you to create the same functionality without outputting javascript in the markup.
 	//
 	// Set options.selector to a jQuery selector matching the link to be enhanced.
 	// Set options.eventType to bind an event other than 'click' (such as a namespaced click event).
-	// Accepts options.link as a synonym for options.link. 
+	// Accepts options.link as a synonym for options.link.
 	//
 	// For the remaining options, especially options.update, see this.loadRemote above
-	
+
 	this.linkToRemote = function(options)
 	{
 		var selector = options['link'];
@@ -951,7 +951,6 @@ function aConstructor()
 	this.areaEnableAddSlotChoice = function(options) {
 		var button = $("#" + options['buttonId']);
 		// apostrophe.log('apostrophe.areaEnableAddSlotChoice -- Debug');
-		// apostrophe.log(button);
 		$(button).bind('click.apostrophe', function() {
 			var name = options['name'];
 			var pageId = options['pageId'];
@@ -967,7 +966,7 @@ function aConstructor()
 
 	this.areaEnableHistoryButtons = function(options)
 	{
-		apostrophe.log('apostrophe.areaEnableHistoryButtons');
+		// apostrophe.log('apostrophe.areaEnableHistoryButtons');
 		var areas = $('.a-area');
 		areas.undelegate('a.a-history-btn','click.apostrophe').delegate('a.a-history-btn', 'click.apostrophe', function(){
 			var history = $(this);
@@ -2076,11 +2075,11 @@ function aConstructor()
 		// return to in order to save the selection, and parse it in order to add the
 		// 'actual_url' parameter to it. Then rebuild the whole thing correctly
 
-		apostrophe.log('apostrophe.aInjectActualUrl');
+		// apostrophe.log('apostrophe.aInjectActualUrl');
 
 		var target = options['target'];
 
-		apostrophe.log('apostrophe.aInjectActualUrl -- target = ' + target);
+		// apostrophe.log('apostrophe.aInjectActualUrl -- target = ' + target);
 
 		$(target).find('.a-inject-actual-url').each(function() {
 			var href = $(this).attr('href');
@@ -2100,7 +2099,7 @@ function aConstructor()
 
 	this.aActAsSubmit = function(options) {
 
-			apostrophe.log('apostrophe.aActAsSubmit');
+			// apostrophe.log('apostrophe.aActAsSubmit');
 
 			var target = options['target'];
 
