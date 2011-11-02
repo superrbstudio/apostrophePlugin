@@ -1072,7 +1072,8 @@ class BaseaTools
         {
           $options['data-asset-group'] = $group;
         }
-        $response->addStylesheet($winner, '', $options);
+				// Our stylesheets now load first to avoid chicken and egg problems
+        $response->addStylesheet($winner, 'first', $options);
       }
     }
   }
@@ -1126,7 +1127,10 @@ class BaseaTools
         {
           $options['data-asset-group'] = $group;
         }
-        $response->addJavascript($winner, '', $options);
+				// We now load our javascripts first so that jQuery has always been loaded.
+				// Typical developers, including our own team, take a dim view of having to
+				// load their stuff explicitly "last" just to have jQuery
+        $response->addJavascript($winner, 'first', $options);
       }
       else
       {
