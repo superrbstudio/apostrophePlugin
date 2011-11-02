@@ -284,6 +284,11 @@ class BaseaComponents extends aSlotComponents
       }
     }
 		$this->areaOptions = (!is_null($this->areaOptions)) ? $this->areaOptions : array();
+    $defaultAreaOptions = sfConfig::get('app_a_standard_area_options');
+    if ($defaultAreaOptions)
+    {
+      $this->areaOptions = array_merge($defaultAreaOptions, $this->areaOptions);
+    }
     foreach ($this->slots as $slot)
     {
       $this->type_options[$slot]['slideshowOptions'] = array(

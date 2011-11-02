@@ -1307,12 +1307,12 @@ class BaseaTools
   {
     // The plaintext slot is deeply unexciting, do not offer it by default in a standard area.
     // Raw HTML is problematic but generally obligatory in practice
-    return array('aRichText', 'aVideo', 'aSlideshow', 'aSmartSlideshow', 'aFile', 'aAudio', 'aFeed', 'aButton', 'aBlog', 'aEvent', 'aRawHTML');
+    return sfConfig::get('app_a_standard_area_slots', array('aRichText', 'aVideo', 'aSlideshow', 'aSmartSlideshow', 'aFile', 'aAudio', 'aFeed', 'aButton', 'aBlog', 'aEvent', 'aRawHTML'));
   }
   
   static public function standardAreaSlotOptions()
   {
-    return array(
+    $standardOptions = sfConfig::get('app_a_standard_area_slot_options', array(
   		'aRichText' => array(
   		  'tool' => 'Sidebar',
   			// 'allowed-tags' => array(),
@@ -1411,6 +1411,9 @@ class BaseaTools
   			),
   		),
   		'aRawHTML' => array(
-  		));
+  		)));
+  	$extraOptions = sfConfig::get('app_a_standard_area_extra_slot_options', array());
+  	$standardOptions = array_merge($standardOptions, $extraOptions);
+  	return $standardOptions;
   }
 }
