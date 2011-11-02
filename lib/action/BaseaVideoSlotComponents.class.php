@@ -30,6 +30,8 @@ class BaseaVideoSlotComponents extends aSlotComponents
     $this->options['flexHeight'] = $this->getOption('flexHeight', true);
     $this->options['title'] = $this->getOption('title', false);
     $this->options['description'] = $this->getOption('description', false);
+    $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'defaultItem');
+
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
     {
