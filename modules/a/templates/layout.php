@@ -62,7 +62,6 @@
   <?php include_partial('a/globalTools') ?>
 	
 	<div class="a-wrapper clearfix">
-
     <?php // Note that just about everything can be suppressed or replaced by setting a ?>
     <?php // Symfony slot. Use them - don't write zillions of layouts or do layout stuff ?>
     <?php // in the template (except by setting a slot). To suppress one of these slots ?>
@@ -85,10 +84,10 @@
 							'edit' => (isset($page) && $sf_user->hasCredential('cms_admin')) ? true : false,				
 							'defaultImage' => '/apostrophePlugin/images/asandbox-logo.png',
 							'link' => url_for('@homepage'), 
-							'global' => true, 
+							'global' => true,
 							'width' => 360,
-							'flexHeight' => true, 
-							'resizeType' => 's', 
+							'flexHeight' => true,
+							'resizeType' => 's',
 						)) ?>
 	        <?php endif ?>
 	    <?php endif ?>

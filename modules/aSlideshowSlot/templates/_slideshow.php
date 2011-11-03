@@ -26,7 +26,7 @@
 			  <?php $dimensions = aDimensions::constrain(
 			    $item->width,
 			    $item->height,
-			    $item->format, 
+			    $item->format,
 			    array("width" => false,
 			      "height" => $options['maxHeight'],
 			      "resizeType" => $options['resizeType'])) ?>
