@@ -349,5 +349,30 @@ class aString
     }
     return $parts;
   }
+  
+  /**
+   * Implode a list of strings, separating them with ', ' except for the last pair, which are
+   * separated by 'and '. 
+   */
+  static public function implodeWithAnd($list)
+  {
+    $result = '';
+    for ($i = 0; ($i < count($list)); $i++)
+    {
+      if (!$i)
+      {
+        $result .= $list[$i];
+      }
+      elseif (($i + 1) < count($list))
+      {
+        $result .= ', ' . $list[$i];
+      }
+      else
+      {
+        $result .= ' and ' . $list[$i];
+      }
+    }
+    return $result;
+  }
 }
 

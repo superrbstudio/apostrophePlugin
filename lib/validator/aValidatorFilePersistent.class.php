@@ -485,6 +485,24 @@ class aValidatorFilePersistent extends sfValidatorFile
   }
 
   /**
+   * Microsoft extensions validated by guessFromMicrosoft. It's useful to be able to
+   * check this list from elsewhere, do not hide this property please
+   */
+  static public $msExtensions = array(
+    'xls' => 'application/vnd.ms-excel',
+    'ppt' => 'application/vnd.ms-powerpoint',
+    'doc' => 'application/msword',
+    'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+    'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+    'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template'
+  );
+  
+  /**
    * DOCUMENT ME
    * @param mixed $file
    * @return mixed
@@ -507,19 +525,9 @@ class aValidatorFilePersistent extends sfValidatorFile
     {
       return null;
     }
-    $ms = array(
-      'xls' => 'application/vnd.ms-excel',
-      'ppt' => 'application/vnd.ms-powerpoint',
-      'doc' => 'application/msword',
-      'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-      'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-      'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-      'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-      'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template'
-    );
+    
+    $ms = aValidatorFilePersistent::$msExtensions;
+    
     if (preg_match('/\.(\w+)$/', $this->originalName, $matches))
     {
       $extension = $matches[1];

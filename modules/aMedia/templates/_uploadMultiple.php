@@ -6,7 +6,7 @@
 <div class="a-media-add-subheading a-media-add-upload">
   <?php // This is important because sometimes you are selecting specific media types ?>
   <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
-  <h3><?php echo a_('Upload ' . aMediaTools::getBestTypeLabel()) ?></h3>
+  <?php include_partial('aMedia/uploadMultipleHeader')?>
 
   <?php // This is present if we have a second pass due to upload failure ?>
   <?php if ($sf_user->getFlash('aMedia.postMaxSizeExceeded')): ?>
