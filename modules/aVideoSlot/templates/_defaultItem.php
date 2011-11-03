@@ -1,3 +1,10 @@
+<?php
+  // Compatible with sf_escaping_strategy: true
+  $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $options = isset($options) ? $sf_data->getRaw('options') : null;
+  $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
+?>
+
 <ul class="a-media-video">
 	<li class="a-media-video-embed">
 		<?php echo $embed ?>
