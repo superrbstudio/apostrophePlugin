@@ -183,6 +183,8 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
   $html = '';
 
   $sets = array();
+  
+  $unminified = '';
   foreach ($assets as $file => $options)
   {
 		if (!aAssets::canMinify($file, $options))
@@ -192,11 +194,11 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
 			// like Addthis and ckeditor don't work
 			if ($type === 'stylesheets')
 			{
-      	$html .= a_stylesheet_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
+      	$unminified .= a_stylesheet_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
 			}
 			else
 			{
-      	$html .= a_javascript_include_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
+      	$unminified .= a_javascript_include_tag(isset($urlMap[$file]) ? $urlMap[$file] : $file, $options);
 			}
 			continue;
 		}
@@ -231,8 +233,9 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
     {
       $options = array_merge(array('type' => 'text/javascript'), $options);
     }
-    
     $optionGroupKey = json_encode($options);
+    error_log($optionGroupKey);
+    error_log($file);
     $sets[$optionGroupKey][] = $file;
     // echo($file);
     // $html .= "<style>\n";
@@ -353,6 +356,8 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
       $html .= content_tag('script', '', $options); 
     }
   }
+  // Unminified stuff goes last, after key Apostrophe things have been loaded
+  $html .= $unminified;
   return $html;
 }
 
