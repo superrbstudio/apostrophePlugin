@@ -2797,9 +2797,25 @@ function aConstructor()
 		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
 		if (menu.attr('id') == '')
 		{
-			newID = button.attr('id')+'-menu';
+			var	newID = button.attr('id')+'-menu';
 			menu.attr('id', newID).addClass('a-options-container');
 		}
+
+		// Menu listens for ESCAPE key if it's open
+    $(document).unbind('keyup.' + menu.attr('id')).bind('keyup.' + menu.attr('id'), function(event) {
+      if (event.keyCode === 27) {
+				// Hey you pressed escape
+	      apostrophe.log('apostrophe.menuToggle -- ESC')
+				// Does the menu have the open class when you're pressing escape?
+				if (menu.hasClass(classname)) 
+				{
+					// Close that menu
+      		apostrophe.log('apostrophe.menuToggle -- ESC Pressed: keyup.' + menu.attr('id'))
+					menu.trigger('toggleClosed');
+	        return false;					
+				}
+      }
+    });
 
 		// Button Toggle
 		button.unbind('click.menuToggle').bind('click.menuToggle', function(event){
