@@ -141,12 +141,14 @@ abstract class PluginaSlot extends BaseaSlot
   }
 
   /**
-   * DOCUMENT ME
+   * Returns true if this slot should open the edit view immediately.
+   * That's true if the slot is new and is designed to be edited immediately
+   * when new
    * @return mixed
    */
   public function isOpen()
   {
-    return $this->isNew() && $this->editDefault;
+    return $this->isNew() && $this->editDefault();
   }
 
   /**
