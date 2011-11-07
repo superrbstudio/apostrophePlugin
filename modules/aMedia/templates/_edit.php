@@ -262,7 +262,7 @@
     	<li>
     		<?php echo link_to("<span class='icon'></span>".__("Delete", null, 'apostrophe'), "aMedia/delete?" . http_build_query(
          array("slug" => $item->slug)),
-         array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete no-label", 'title' => __('Delete', null, 'apostrophe'), ),
+         array("confirm" => __("Are you sure you want to delete this item?", null, 'apostrophe'), "class"=>"a-btn icon a-delete alt no-label", 'title' => __('Delete', null, 'apostrophe'), ),
          array("target" => "_top")) ?>
     	</li>
     <?php endif ?>
