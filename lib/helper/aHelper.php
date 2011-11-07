@@ -115,7 +115,7 @@ function a_navtree($depth = null)
 
 function a_navtree_body($children)
 {
-  $s = "<ul>\n";
+  $s = "<ul>\r\n";
   foreach ($children as $info)
   {
     $s .= '<li>' . link_to($info['title'], aTools::urlForPage($info['slug']));
@@ -123,9 +123,9 @@ function a_navtree_body($children)
     {
       $s .= a_navtree_body($info['children']);
     }
-    $s .= "</li>\n";
+    $s .= "</li>\r\n";
   }
-  $s .= "</ul>\n";
+  $s .= "</ul>\r\n";
   return $s;
 }
 
@@ -238,9 +238,9 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
     error_log($file);
     $sets[$optionGroupKey][] = $file;
     // echo($file);
-    // $html .= "<style>\n";
+    // $html .= "<style>\r\n";
     // $html .= file_get_contents(sfConfig::get('sf_web_dir') . '/' . $file);
-    // $html .= "</style>\n";
+    // $html .= "</style>\r\n";
   }
   
   // CSS files with the same options grouped together to be loaded together
@@ -310,7 +310,7 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
             // a missing trailing semicolon should be tolerated to the same
             // degree it would be with separate files. The minifier is not
             // a lint tool and should not surprise you with breakage
-            $fileContent = JSMin::minify($fileContent) . "\n";
+            $fileContent = JSMin::minify($fileContent) . "\r\n";
           }
           $content .= $fileContent;
         }
@@ -349,11 +349,13 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
     {
       $options['href'] = a_stylesheet_path(aAssets::getAssetCacheUrl() . '/' . $groupFilename);
       $html .= tag('link', $options);
+			$html .= "\r\n\t";
     }
     else
     {
       $options['src'] = a_javascript_path(aAssets::getAssetCacheUrl() . '/' . $groupFilename);
       $html .= content_tag('script', '', $options); 
+			$html .= "\r\n\t";
     }
   }
   // Unminified stuff goes last, after key Apostrophe things have been loaded
@@ -416,14 +418,14 @@ function a_get_js_calls()
   $html = '';
   if (count(aTools::$jsCalls))
   {
-    $html .= '<script type="text/javascript" id="a-js-calls">' . "\n";
-    $html .= '$(function() {' . "\n";
+    $html .= '<script type="text/javascript" id="a-js-calls">' . "\r\n";
+    $html .= '$(function() {' . "\r\n";
     foreach (aTools::$jsCalls as $call)
     {
       $html .= _a_js_call($call['callable'], $call['args']);
     }
-    $html .= '});' . "\n";
-    $html .= '</script>' . "\n";
+    $html .= '});' . "\r\n";
+    $html .= '</script>' . "\r\n";
   }
   return $html;
 }
@@ -449,7 +451,7 @@ function _a_js_call($callable, $args)
   {
     throw new sfException('Number of arguments does not match number of ? placeholders in js call');
   }
-  return $code . ";\n";
+  return $code . ";\r\n";
 }
 
 // i18n with less effort. Also more flexibility for the future in how we choose to do it  
@@ -720,7 +722,7 @@ function a_javascript_include_tag()
       $tag = comment_as_conditional($condition, $tag);
     }
 
-    $html .= $tag."\n";
+    $html .= $tag."\r\n\t";
   }
 
   return $html;
@@ -818,7 +820,7 @@ function a_stylesheet_tag()
       $tag = comment_as_conditional($condition, $tag);
     }
 
-    $html .= $tag."\n";
+    $html .= $tag."\r\n";
   }
 
   return $html;
