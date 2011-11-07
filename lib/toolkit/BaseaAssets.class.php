@@ -139,7 +139,7 @@ class BaseaAssets
     if (!sfConfig::get('app_a_minify', false))
     {
       // In dev environments let the developer figure out what the original filename was
-      $slug = aTools::slugify($file);
+      $slug = aTools::slugify(basename($file));
       $name = $slug . '-' . $name;
     }
     return $name;
