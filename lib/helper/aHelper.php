@@ -234,8 +234,6 @@ function _a_get_assets_body($type, $assets, $urlMap = array())
       $options = array_merge(array('type' => 'text/javascript'), $options);
     }
     $optionGroupKey = json_encode($options);
-    error_log($optionGroupKey);
-    error_log($file);
     $sets[$optionGroupKey][] = $file;
     // echo($file);
     // $html .= "<style>\r\n";
