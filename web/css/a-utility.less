@@ -6,25 +6,23 @@
 // General Dropshadow class used on modal boxes
 .dropshadow
 {
--moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
--webkit-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
--opera-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
--khtml-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
+	@a-box-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
 }
 
-// General overlay class to create a translucent box overtop of a containing element
-.a-overlay { 
-	position:absolute; top:0; left:0; display:none; background: rgba(255,255,255,0.5); height:100%; width:100%; z-index:999; overflow: hidden; 
+// Complete page overlay class to create a translucent box overtop of the entier page
+.a-page-overlay { 
+	display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; z-index: 996; 
+	@a-rgba-background(#fff; rgba(255,255,255,0.5));	
 	&.active
 	{
 		display: block;
 	}
 }
 
-// Complete page overlay class to create a translucent box overtop of the entier page
-.a-page-overlay { 
-	display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; background: rgba(255,255,255,0.65); z-index: 996; 
+// General overlay class to create a translucent box overtop of a containing element
+.a-overlay { 
+	position:absolute; top:0; left:0; display:none; height:100%; width:100%; z-index:999; overflow: hidden; 
+	@a-rgba-background(#fff; rgba(255,255,255,0.5));
 	&.active
 	{
 		display: block;
@@ -48,7 +46,7 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 .a-default-value { color: #888; }
 
 // Make any element a block inside its column
-.a-block { width: 100%; float: left; clear: both; display: inline; position: relative; }
+.a-block { width: 100%; float: left; clear: both; display: block; position: relative; }
 
 // Disabled - Fade and force default cursor
 .a-disabled, .a-disabled * { cursor: default !important; opacity: 0.65; }
@@ -92,7 +90,8 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 .a-accordion-toggle.hover,
 .a-accordion-toggle:hover { cursor: pointer; color: #000; }
 
-.a-fix-me { color: #fff !important; background: #f00 !important; } // Help us find malformed button markup
+// Dev Utility Class: Helps find malformed button markup
+.a-fix-me { color: #fff !important; background: #f00 !important; } 
 
 .a-ui .a-remote-data-loading
 {
@@ -122,15 +121,8 @@ box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
 .a-ui .a-help,
 .a-help { float: left; clear: both; font-size: 11px; color: #888; } // Help Text
 
-.clearfix
-{
-	@clearfix;
-}
-
-.reset
-{
-	@a-reset;
-}
+.clearfix { @clearfix; }
+.reset { @a-reset; }
 
 // This input class is for actAsSubmit. It hide the submit button that allows for pressing ENTER on inputs to submit the form.
 input.a-hidden-submit
