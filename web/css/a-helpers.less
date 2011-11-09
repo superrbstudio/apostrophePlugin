@@ -41,6 +41,14 @@
 	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; list-style: none;
 }
 
+@a-opacity(@opacity: 0.5;)
+{
+	@msOpacity:@opacity*100;
+	opacity: @opacity;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity={@msOpacity})";
+	filter: alpha(opacity=@msOpacity);
+}
+
 @a-user-select-none(@cursor: default;)
 {
 	-moz-user-select: none;
@@ -66,7 +74,7 @@
 	behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
-@a-box-shadow(@shadow:rgba(0,0,0,0.15) 0px 0px 10px)
+@a-box-shadow(@shadow:0px 0px 10px rgba(0,0,0,0.15))
 {
 	-moz-box-shadow:@shadow;
 	-webkit-box-shadow:@shadow;
