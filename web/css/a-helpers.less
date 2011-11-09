@@ -55,6 +55,7 @@
 	-moz-transition: @property @time @ease;
 	-o-transition: @property @time @ease;
 	transition: @property @time @ease;
+	behavior: url(/apostrophePlugin/css/PIE.htc);		
 }
 
 @a-border-radius(@radius:5px)
@@ -62,6 +63,7 @@
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
   border-radius: @radius;
+	behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-box-shadow(@shadow:rgba(0,0,0,0.15) 0px 0px 10px)
@@ -71,6 +73,7 @@
 	-opera-box-shadow:@shadow;
 	-khtml-box-shadow:@shadow;
 	box-shadow:@shadow;
+	behavior: url(/apostrophePlugin/css/PIE.htc);	
 }
 
 @a-gradient(@top:#fff;@bottom:#000;)
@@ -78,6 +81,7 @@
 	background-image: -moz-linear-gradient(center bottom, @bottom 0%, @top 100%);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, @bottom), color-stop(1, @top));
 	background-image: -o-linear-gradient(center bottom, @bottom 0%, @top 100%);
+	behavior: url(/apostrophePlugin/css/PIE.htc);		
 }
 
 @a-text-shadow(@params:0 -1px 0px rgba(0,0,0,0.20);)
@@ -150,6 +154,7 @@
 {
 	background: @rgb;
 	background: @rgba;
+	behavior: url(/apostrophePlugin/css/PIE.htc);	
 }
 
 @a-webkit-scrollbar(@width:8px; @radius:4px; @color:#efefef;)
