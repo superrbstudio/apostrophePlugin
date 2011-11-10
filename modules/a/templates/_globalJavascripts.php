@@ -23,7 +23,7 @@
 <?php // End of body - time to emit all of the queued JS as one script block ?>
 
 <?php if (sfConfig::get('app_a_js_debug', false)): ?>
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 	apostrophe.setDebug(true);
 </script>
 <?php endif ?>
