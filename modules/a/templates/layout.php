@@ -52,10 +52,10 @@
 <?php $a_bodyclass .= (has_slot('body_class')) ? get_slot('body_class') : '' ?>
 <?php $a_bodyclass .= ($page && $page->archived) ? ' a-page-unpublished' : '' ?> 
 <?php $a_bodyclass .= ($page && $page->view_is_secure) ? ' a-page-secure' : '' ?> 
+<?php $a_bodyclass .= ($page) ? ' a-page-id-'.$page->id.' a-page-depth-'.$page->level : '' ?>
 <?php $a_bodyclass .= (sfConfig::get('app_a_js_debug', false)) ? ' js-debug':'' ?>
 <?php $a_bodyclass .= ($realPage && !is_null($realPage['engine'])) ? ' a-engine':'' ?>
 <?php $a_bodyclass .= ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?>
-<?php $a_bodyclass .= ($page) ? ' page-id-'.$page->id.' page-depth-'.$page->level : '' ?> 
 
 <body class="<?php echo $a_bodyclass ?>">
 
