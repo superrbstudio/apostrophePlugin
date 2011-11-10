@@ -18,8 +18,9 @@
 
   <?php $n=1; foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;
-        if($item['slug'] == $active) echo ' a-current-page';
-        if(isset($item['ancestor'])) echo ' ancestor';
+				echo ' a-nav-item-'.$nest;
+        if($item['slug'] == $active) echo ' a-current-page a-ancestor a-ancestor-'.$nest;
+        if(isset($item['ancestor'])) echo ' ancestor a-ancestor a-ancestor-'.$nest;
         //Most people probably don't want this class, lets not clutter things up too much
         //if(isset($item['ancestor-peer'])) echo ' ancestor-peer';
         if(isset($item['extra'])) echo ' a-extra-page';
@@ -34,7 +35,7 @@
       <?php if(isset($item['external']) && $item['external']): ?>
         <?php echo link_to($item['title'], $item['slug']) ?>
       <?php else: ?>
-        <?php echo link_to($item['title'], aTools::urlForPage($item['slug'], array('absolute' => true))) ?>
+        <?php echo link_to($item['title'], aTools::urlForPage($item['slug'], array('absolute' => true)), array('class' => 'a-nav-link a-nav-link-'.$nest)) ?>
       <?php endif ?>
 
       <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
