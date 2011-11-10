@@ -140,3 +140,33 @@
 {
 	background-color: @a-button-color;
 }
+
+// IE Doesn't handle the dropshadows on Buttons well when using PIE.htc
+// So we disable them here
+.ie8,
+.ie7
+{
+	.a-ui
+	{
+		.a-btn,
+		.a-submit,
+		&.a-btn,
+		&.a-submit
+		{
+			&:hover
+			{
+				@a-box-shadow(0px 0px 0px transparent);					
+			}		
+			&.alt,
+			&.no-bg,
+			&.lite
+			{
+				&:hover
+				{
+					@a-box-shadow(0px 0px 0px transparent);	
+				}
+			}
+		} // .a-btn
+	} // .a-ui
+
+} // .ie8, .ie7
