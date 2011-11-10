@@ -351,7 +351,7 @@ class aMysql
    */
   public function findOneBy($table, $column_name, $column_val)
   {
-    return $this->queryOne('SELECT * from ' . $table . ' WHERE :column_name = :column_val LIMIT 1', array('column_name' => $column_name, 'column_val' => $column_val));
+    return $this->queryOne('SELECT * from ' . $table . ' WHERE :column_name = :column_val', array('column_name' => $column_name, 'column_val' => $column_val));
   }
   
   /**
