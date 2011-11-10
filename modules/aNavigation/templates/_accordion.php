@@ -12,10 +12,11 @@
   $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
   $nest = isset($nest) ? $sf_data->getRaw('nest') : null;
   $tabs = isset($tabs) ? $sf_data->getRaw('tabs') : null;
+	$n = isset($n) ? $sf_data->getRaw('n') : null;
 ?>
-<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix <?php echo $ulClass ?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?>">
+<ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix <?php echo $ulClass ?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?><?php echo ($n) ? '-'.$n : '' ?>">
 
-  <?php foreach($nav as $pos => $item): ?>
+  <?php $n=1; foreach($nav as $pos => $item): ?>
     <li class="<?php echo $class;
         if($item['slug'] == $active) echo ' a-current-page';
         if(isset($item['ancestor'])) echo ' ancestor';
@@ -37,7 +38,7 @@
       <?php endif ?>
 
       <?php if(isset($item['children']) && count($item['children']) && $nest < $maxDepth): ?>
-        <?php include_partial('aNavigation/accordion', array('nav' => $escNav[$pos]['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active)) ?>
+        <?php include_partial('aNavigation/accordion', array('nav' => $escNav[$pos]['children'], 'draggable' => $draggable, 'maxDepth' => $maxDepth-1, 'name' => $name, 'nest' => $nest+1, 'dragIcon' => $dragIcon, 'class' => $class, 'active' => $active, 'n' => $n)) ?>
       <?php endif ?>
 
       <?php if ($dragIcon && $draggable): ?>
@@ -45,7 +46,7 @@
       <?php endif ?>
 
     </li>
-  <?php endforeach ?>
+  <?php $n++; endforeach ?>
   
 </ul>
 
