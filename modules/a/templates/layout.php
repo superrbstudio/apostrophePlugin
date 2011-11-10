@@ -55,6 +55,7 @@
 <?php $a_bodyclass .= (sfConfig::get('app_a_js_debug', false)) ? ' js-debug':'' ?>
 <?php $a_bodyclass .= ($realPage && !is_null($realPage['engine'])) ? ' a-engine':'' ?>
 <?php $a_bodyclass .= ($sf_user->isAuthenticated()) ? ' logged-in':' logged-out' ?>
+<?php $a_bodyclass .= ($page) ? ' page-id-'.$page->id.' page-depth-'.$page->level : '' ?> 
 
 <body class="<?php echo $a_bodyclass ?>">
 
