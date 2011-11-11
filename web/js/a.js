@@ -196,6 +196,11 @@ function aConstructor()
 
 		// Don't mess up things with existing handlers
 		$('a:not([href="#"])', markup).click(function(event) {
+			// This class means we should let the link apply to the whole page after all
+			if ($(this).hasClass('a-no-override-links'))
+			{
+				return true;
+			}
 			var onclick = this.getAttribute('onclick');
 			if (onclick && onclick.length)
 			{
