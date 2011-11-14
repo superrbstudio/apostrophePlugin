@@ -20,7 +20,9 @@ class apostropheDeployTask extends sfBaseTask
 
     $this->addOptions(array(
       new sfCommandOption('skip-migrate', 
-        sfCommandOption::PARAMETER_NONE)
+        sfCommandOption::PARAMETER_NONE),
+      new sfCommandOption('rsync-extras', null,
+        sfCommandOption::PARAMETER_OPTIONAL)
     ));
 
     $this->namespace        = 'apostrophe';
@@ -108,8 +110,8 @@ EOF;
     // --no-t: Don't preserve timestamp. That way we don't have to clear the APC cache after every sync, because APC
     // can tell our code is new
     
-    $cmd = "./symfony project:deploy --rsync-options=\"-azvCcI --no-t --force --delete --progress --exclude-from=config/rsync_exclude.txt\" --go $eserver";
-  	system($cmd, $result);
+    $cmd = "./symfony project:deploy --rsync-options=\"-azvCcI --no-t --force --delete --progress --exclude-from=config/rsync_exclude.txt {$options['rsync-extras']}\" --go $eserver";
+    system($cmd, $result);
     if ($result != 0)
     {
       throw new sfException('Problem executing project:deploy task.');
