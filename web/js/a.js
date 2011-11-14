@@ -418,7 +418,6 @@ function aConstructor()
 			// related "normal" form elements
 			$('.a-needs-update').trigger('a.update');
 			var updating = $('#' + options['update']);
-			apostrophe.log(updating);
 			var action = link.attr('href');
 			$.get(action, {}, function(data) {
 				updating.trigger('a.updated');
@@ -768,14 +767,14 @@ function aConstructor()
 
  		(options['title']) ? slideshowItems.attr('title', options['title']) : slideshowItems.attr('title','');
 
-		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging') : '';
-		( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Item Count : ' + itemCount ) : '';
+		// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Debugging');
+		// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Item Count : ' + itemCount );
 
 		if (itemCount === 1)
 		{
 			slideshow.addClass('single-image');
 			$(slideshowItems[0]).show();
-			( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Single Image') : '';
+			// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Single Image');
 		}
 		else
 		{
@@ -795,7 +794,6 @@ function aConstructor()
 
 			function init()
 			{
-				( debug ) ? apostrophe.log(slideshowItems) : '';
 				// Initialize the slideshow
 				// Hiding all of the items, showing the first one, setting the position, and starting the timer
 				slideshowItems.hide();
@@ -809,7 +807,7 @@ function aConstructor()
 				currentItem = position;
 				(position == 0) ? position = itemCount - 1 : position--;
 				showItem(position, currentItem);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Previous : ' + currentItem + ' / ' + position) : '';
+				// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Previous : ' + currentItem + ' / ' + position);
 			};
 
 			function next()
@@ -817,7 +815,7 @@ function aConstructor()
 				currentItem = position;
 				(position == itemCount-1) ? position = 0 : position++;
 				showItem(position, currentItem);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Next : ' + currentItem + ' / ' + position) : '';
+				// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Next : ' + currentItem + ' / ' + position);
 			};
 
 			function showItem(position, currentItem)
@@ -851,12 +849,12 @@ function aConstructor()
 			function setPosition(p)
 			{
 				slideshow.data('position', p);
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- positionFlag : ' + positionFlag ) : '';
-				( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + (p + 1) ) : '';
+				// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- positionFlag : ' + positionFlag );
+				// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + (p + 1) );
 				if (positionFlag && positionHead.length)
 				{
 					positionHead.text(parseInt(p) + 1);
-					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + p + 1 ) : '';
+					// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- setPosition : ' + p + 1 );
 				};
 			};
 
@@ -870,7 +868,7 @@ function aConstructor()
 				{
 					intervalTimeout = setTimeout(next, intervalSetting * 1000);
 					window.aSlideshowIntervalTimeouts['a-' + id] = intervalTimeout;
-					( debug ) ? apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting ) : '';
+					// apostrophe.log('apostrophe.slideshowSlot --'+id+'-- Interval : ' + intervalSetting );
 				}
 			};
 
@@ -887,8 +885,6 @@ function aConstructor()
 				intervalEnabled = false;
 				next();
 			});
-
-			( debug ) ? apostrophe.log('slideshowControls -- ' + slideshowControlsSelector + ' -- ' + slideshowControls.length ) : '';
 
 			slideshowControls.find('.a-arrow-left').bind('click.apostrophe', function(event){
 				event.preventDefault();
@@ -1169,16 +1165,24 @@ function aConstructor()
 
 	this.slotEnableForm = function(options)
 	{
-		$(options['slot-form']).submit(function() {
+		var	$slotForm = $(options['slot-form']),
+				$slot = $slotForm.closest('.a-slot'),
+				$singleton = $slot.closest('.a-area.singleton'),
+				$slotContent = $(options['slot-content']);
+				
+		// apostrophe.log('apostrophe.slotEnableForm -- form : ' + options['slot-form']);
+		$slotForm.submit(function() {
 			$.post(
 				// These fields are the context, not something the user gets to edit. So rather than
 				// creating a gratuitous collection of hidden form widgets that are never edited, let's
 				// attach the necessary context fields to the URL just like Doctrine forms do.
 				// We force a query string for compatibility with our simple admin routing rule
 				options['url'],
-				$(options['slot-form']).serialize(),
+				$slotForm.serialize(),
 				function(data) {
-					$(options['slot-content']).html(data);
+					$slotContent.html(data);
+					$slot.removeClass('a-editing').addClass('a-normal');
+					$singleton.removeClass('a-editing'); // Singletons are an edge case
 				},
 				'html'
 			);
@@ -1188,28 +1192,35 @@ function aConstructor()
 
 	this.slotEnableFormButtons = function(options)
 	{
-		var view = $(options['view']);
+		// apostrophe.log('apostrophe.slotEnableFormButtons');
 
-		$(options['cancel']).bind('click.slotEnableFormButtons', function(e){
-			e.preventDefault();
-			$(view).children('.a-slot-content').children('.a-slot-content-container').fadeIn();
-			$(view).children('.a-controls li.variant').fadeIn();
-			$(view).children('.a-slot-content').children('.a-slot-form').hide();
-			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
- 			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
+		var $slot = $(options['view']),
+				$singleton = $slot.closest('.a-area.singleton'),
+				$cancelButton = $(options['cancel']),
+				$saveButton = $(options['save']);
+
+		// Note: The selectors are rigid here because slots can be nested inside of other slots. 
+		// We have to use .children() -- .find() won't work here.
+
+		$cancelButton.unbind('click.slotEnableFormButtons').bind('click.slotEnableFormButtons', function(event){
+			event.preventDefault();
+			$slot.children('.a-slot-content').children('.a-slot-content-container').fadeIn();
+			$slot.children('.a-controls li.variant').fadeIn();
+			$slot.children('.a-slot-content').children('.a-slot-form').hide();
+			$slot.removeClass('a-editing').addClass('a-normal');
+			$singleton.removeClass('a-editing');
 		});
 
-		$(options['save']).bind('click.slotEnableFormButtons', function(){
-			$(view).find('.a-editing').removeClass('a-editing').addClass('a-normal');
- 			$(view).parents('.a-area.a-editing').removeClass('a-editing').addClass('a-normal').find('.a-editing').removeClass('a-editing').addClass('a-normal'); // for singletons
+		$saveButton.unbind('click.slotEnableFormButtons').bind('click.slotEnableFormButtons', function(event){
+			event.preventDefault();
  			window.apostrophe.callOnSubmit(options['slot-full-id']);
  			return true;
 		});
 
 		if (options['showEditor'])
 		{
-			var editBtn = $(options['edit']);
-			editBtn.parents('.a-slot, .a-area').addClass('a-editing').removeClass('a-normal'); // Apply a class to the Area and Slot Being Edited
+			$slot.addClass('a-editing').removeClass('a-normal');
+			$singleton.addClass('a-editing').removeClass('a-normal');
 		}
 	};
 
@@ -1246,7 +1257,7 @@ function aConstructor()
 			{
 				return;
 			}
-			apostrophe.log("Cancelling select for " + href);
+			apostrophe.log("Cancel select for " + href);
 			// "Why is this synchronous?" So that we can allow the events associated with
 			// this link to execute normally (return true) after we request the cancel,
 			// rather than second-guessing the nature of the link and screwing lots of
@@ -1300,7 +1311,7 @@ function aConstructor()
 					var newFileMessage = $('<div/>');
 					newFileMessage.html('<div class="a-options open"><p>'+ message + '</p><p>'+ fileLabel + '<span>' + input.val() + '</span>' + '</p></div>');
 					newFileMessage.addClass('a-new-file-message help');
-					apostrophe.log(newFileMessage);
+					// apostrophe.log(newFileMessage);
 					input.closest('.a-form-row').append(newFileMessage);
 				};
 			});
@@ -1328,7 +1339,7 @@ function aConstructor()
 				$('.a-needs-update').trigger('a.update');
 				// If the file field is empty and the embed code hasn't been changed,
 				// we can submit the edit form asynchronously
-				apostrophe.log(embedChanged);
+				// apostrophe.log(embedChanged);
 				if((file.val() == '') && (!embedChanged))
 				{
 					event.preventDefault();
@@ -1350,7 +1361,7 @@ function aConstructor()
 
 		if (typeof(items) == 'undefined' || !items.length) {
 			apostrophe.log('apostrophe.mediaFourUpLayoutEnhancements -- Items is undefined or no items found');
-			apostrophe.log(items);
+			// apostrophe.log(items);
 		}
 
 		items.mouseover(function(){
@@ -1534,7 +1545,7 @@ function aConstructor()
 				(listHeight < item.height()) ? listHeight = item.height() : '';
 			});
 			items.css('height',listHeight);
-			apostrophe.log(listHeight);
+			// apostrophe.log(listHeight);
 		});
 	};
 
@@ -2812,12 +2823,12 @@ function aConstructor()
 				// Hey you pressed escape
 	      apostrophe.log('apostrophe.menuToggle -- ESC')
 				// Does the menu have the open class when you're pressing escape?
-				if (menu.hasClass(classname)) 
+				if (menu.hasClass(classname))
 				{
 					// Close that menu
       		apostrophe.log('apostrophe.menuToggle -- ESC Pressed: keyup.' + menu.attr('id'))
 					menu.trigger('toggleClosed');
-	        return false;					
+	        return false;
 				}
       }
     });
