@@ -26,6 +26,12 @@ class aTaskTools
    */
   static public function signinAsTaskUser($configuration, $connectionName = 'doctrine')
   {
+    // sfCacheSessionStorage generates warnings if this is unset
+    if (!isset($_SERVER['REMOTE_ADDR']))
+    {
+      $_SERVER['REMOTE_ADDR'] = '127.0.0.1'; 
+    }
+    
     // Create the context
     sfContext::createInstance($configuration);
     
