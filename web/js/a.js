@@ -2736,7 +2736,7 @@ function aConstructor()
 		{
 			down.parent().removeClass('a-hidden');
 			down.unbind('click.apostrophe').bind('click.apostrophe', function() {
-				apostrophe.log(slot);
+				// apostrophe.log(slot);
 				if ($(slot).hasClass('a-editing') || $(slots[n + 1]).hasClass('a-editing'))
 				{
 					alert(apostrophe.messages.save_changes_first);
