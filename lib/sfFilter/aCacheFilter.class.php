@@ -28,7 +28,6 @@ class aCacheFilter extends sfFilter
     // Check for the aCacheInvalid override both before and after content gets generated
     if ($sfUser->isAuthenticated() || ($this->context->getRequest()->getMethod() !== 'GET') || ($sfUser->getFlash('aCacheInvalid', false)) || ($sfUser->getAttribute('aCacheInvalid', false)))
     {
-      error_log("Cache overridden");
       $filterChain->execute();
       return;
     }
@@ -37,24 +36,20 @@ class aCacheFilter extends sfFilter
     $content = $cache->get($uri, null);
     if (!is_null($content))
     {
-      error_log("Cache reusing content");
       $this->context->getResponse()->setContent($content);
     }
     else
     {
-      error_log("Cache miss");
       $filterChain->execute();
       $content = $this->context->getResponse()->getContent();
       // Check whether aCacheInvalid was set for this user during the current request, don't cache
       // if it was
       if ($sfUser->getFlash('aCacheInvalid', false))
       {
-        error_log("Cache: aCacheInvalid set as flash");
         return;
       }
       if ($sfUser->getAttribute('aCacheInvalid', false))
       {
-        error_log("Cache: aCacheInvalid set as attribute");
         return;
       }
       // Never cache anything with a CSRF token as it won't work (you should remove CSRF tokens from
@@ -63,7 +58,6 @@ class aCacheFilter extends sfFilter
       // spammer doesn't know your password)
       if (strstr($content, '_csrf_token') !== false)
       {
-        error_log("Cache: CSRF token in content, not caching");
         return;
       }
       $cache->set($uri, $this->context->getResponse()->getContent(), sfConfig::get('app_a_page_cache_lifetime', 300));
