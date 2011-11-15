@@ -219,6 +219,18 @@
 				ol li { list-style-type: decimal; }
 			}
 		}
+		&.a-editing
+		{
+			.a-richtext-textarea-wrapper
+			{
+				background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 50% 50% no-repeat; // In case it takes a while for the editor to load
+			}
+			.a-richtext-textarea
+			{
+				height: 290px; //This prevents the jumpy-resizy thing when the editor is rendered
+				visibility: hidden; // We don't need to see this textarea as it's going to be enhanced by CKEditor
+			}
+		}
 	}
 
 	// aSlideshow Slot
