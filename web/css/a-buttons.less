@@ -10,22 +10,31 @@
 @a-button-type-size-big: @a-button-type-size * 1.5;
 @a-button-type-size-mini: @a-button-type-size * 0.8334;
 
+@a-icon(@width:20px; @height:20px; @sprite:'/apostrophePlugin/images/a-icon-sprite.png';)
+{
+	// This is a mixin because it's shared by .a-btn and .a-simple-icon
+	display: block;
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	margin-top: -10px;
+	background-repeat: no-repeat;
+	background-image: url({@a-asset-path}{@sprite});
+	overflow: hidden;
+	text-indent: -9999px;	
+}
+
 .a-ui
 {
-
-	// See also below
-	.a-after-button, &.a-after-button
-	{
-		// Margin to match border on preceding button
-		margin: 1px;
-	}
-	
 	// Buttons and Links
 	.a-btn, &.a-btn,
 	.a-link, &.a-link,
 	// Text after a button in the same font, as with our upgrade buttons (Tom)
 	.a-after-button, &.a-after-button
-	{ // <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
+	{ 
+		// <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
 		position: relative;
 		display: inline-block;
 		float: left;
@@ -69,17 +78,7 @@
 			// The Button's Icon
 			> .icon
 			{ // <a class="a-btn ... icon"><span class="icon"></span>example</a>
-				display: block;
-				height: 20px;
-				width: 20px;
-				position: absolute;
-				top: 50%;
-				left: 0;
-				margin-top: -10px;
-				background-repeat: no-repeat;
-				background-image: url({@a-asset-path}/apostrophePlugin/images/a-icon-sprite.png);
-				overflow: hidden;
-				text-indent: -9999px;
+				@a-icon;
 			}
 			// Buttons where the icon is on the right side
 			&.icon-right
@@ -295,6 +294,26 @@
 
 	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
 
+
+	// a-after-button is Tom's thing
+	.a-after-button, &.a-after-button
+	{
+		margin: 1px; // Margin to match border on preceding button
+	}
+
+	&.a-simple-icon
+	{
+		position: relative;
+		float: left;
+		height: 20px;
+		width: 20px;
+		// Simple Icon
+		> .icon
+		{ // <i class="a-ui a-simple-icon a-icon-name"><i class="icon"></i></i>
+			@a-icon;
+		}		
+	}
+
 	// Tags behave like buttons too
 	&.a-tag,
 	.a-tag
@@ -488,7 +507,19 @@ input.a-ui.a-btn
 }
 
 // White Icons
-.a-btn, .a-arrow-btn { @a-button-icons(0px); }
+.a-btn, 
+.a-arrow-btn,
+.a-simple-icon 
+{
+	@a-button-icons(0px); 
+}
 
 // Black Icons
-.a-btn.alt, .a-link, .a-btn.lite, .a-arrow-btn.alt { @a-button-icons(-20px); }
+.a-btn.alt, 
+.a-link, 
+.a-btn.lite, 
+.a-arrow-btn.alt,
+.a-simple-icon.alt
+{ 
+	@a-button-icons(-20px); 
+}
