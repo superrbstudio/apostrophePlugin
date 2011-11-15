@@ -12,9 +12,19 @@
 
 .a-ui
 {
+
+	// See also below
+	.a-after-button, &.a-after-button
+	{
+		// Margin to match border on preceding button
+		margin: 1px;
+	}
+	
 	// Buttons and Links
 	.a-btn, &.a-btn,
-	.a-link, &.a-link
+	.a-link, &.a-link,
+	// Text after a button in the same font, as with our upgrade buttons (Tom)
+	.a-after-button, &.a-after-button
 	{ // <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
 		position: relative;
 		display: inline-block;
