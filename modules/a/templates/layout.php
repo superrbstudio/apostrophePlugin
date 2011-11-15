@@ -1,14 +1,15 @@
-<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
-<?php $page = aTools::getCurrentNonAdminPage() ?>
-<?php $realPage = aTools::getCurrentPage() ?>
-<?php $root = aPageTable::retrieveBySlug('/') ?>
-
-<?php use_helper('a') ?>
-<?php // This is a copy of apostrophePlugin/modules/a/templates/layout.php ?>
-<?php // It also makes a fine site-wide layout, which gives you global slots on non-page templates ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+	<?php // If this page is an admin page we don't want to present normal navigation relative to it. ?>
+	<?php $page = aTools::getCurrentNonAdminPage() ?>
+	<?php $realPage = aTools::getCurrentPage() ?>
+	<?php $root = aPageTable::retrieveBySlug('/') ?>
+
+	<?php use_helper('a') ?>
+	<?php // This is a copy of apostrophePlugin/modules/a/templates/layout.php ?>
+	<?php // It also makes a fine site-wide layout, which gives you global slots on non-page templates ?>
+ 
 	<?php include_http_metas() ?>
 	<?php include_metas() ?>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
