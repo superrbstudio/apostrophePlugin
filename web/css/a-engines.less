@@ -461,6 +461,12 @@
 		float: left;
 		width: 720px;
 		margin-bottom: 30px;
+		.a-media-thumb-link
+		{
+		  display: inline;
+		  position: relative;
+		  float: left;
+		}
 	}
 	.a-media-selection
 	{
@@ -580,7 +586,7 @@
 			border: 1px solid rgba(255,0,0,0.75);
 			background: #f00;
 			background: rgba(255,0,0,0.5);
-			@a-border-radius(5px)
+			@a-border-radius(5px);
 		}
 
 		.a-media-item-download
@@ -1153,7 +1159,7 @@ padding: 0;
 
 .a-media-video-heading { float: left; display: inline; position: relative; font-size: 14px; }
 
-.a-media-thumb-link { position: relative; display: block; line-height: 0; }
+.a-media-thumb-link { position: relative; float:left; line-height: 0; }
 .a-media-thumb-link:hover { text-decoration: none; }
 
 .a-media-item-thumbnail-span { position: relative; background: transparent 50% 50% no-repeat; background-size: cover; display: block; height: 100%; @a-border-radius(2px); }
