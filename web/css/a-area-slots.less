@@ -44,373 +44,373 @@
 
 .a-ui
 {
-	.a-controls,
-	&.a-controls
-	{
-		display: block;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		clear: both;
-		@a-user-select(none);
-		li
-		{
-			float: left;
-			clear: none;
-			position: relative;
-			margin: 0px 2px 2px 0;
-			width: auto;
-			border: none;
-			list-style: none !important;
-			&:last-child,
-			&.last
-			{
-				margin: 0 0 2px 0
-			}
-		}
-		&.stacked
-		{ // Controls stack up
-			li
-			{
-				width: 100%;
-			}
-		}
-		&.over,
-		&.a-over
-		{ // Controls sit on top of slot
-			position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important;
-		}
-	}
+  .a-controls,
+  &.a-controls
+  {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    clear: both;
+    @a-user-select(none);
+    li
+    {
+      float: left;
+      clear: none;
+      position: relative;
+      margin: 0px 2px 2px 0;
+      width: auto;
+      border: none;
+      list-style: none !important;
+      &:last-child,
+      &.last
+      {
+        margin: 0 0 2px 0
+      }
+    }
+    &.stacked
+    { // Controls stack up
+      li
+      {
+        width: 100%;
+      }
+    }
+    &.over,
+    &.a-over
+    { // Controls sit on top of slot
+      position: absolute; top: 0; left: 0; z-index: 799; margin: 0 !important;
+    }
+  }
 }
 
 .a-area
 {
-	> .a-ui.a-controls
-	{
-		margin: 0 0 10px;
-		li
-		{
-			margin: 0 2px 2px 0;
-		}
-	}
-	&.singleton
-	{
-		// Singletons place the controls over the slot
-		> .a-ui.a-controls
-		{
-			position: absolute; top: 0; left: 0; z-index: 799; margin: 0;
-		}
+  > .a-ui.a-controls
+  {
+    margin: 0 0 10px;
+    li
+    {
+      margin: 0 2px 2px 0;
+    }
+  }
+  &.singleton
+  {
+    // Singletons place the controls over the slot
+    > .a-ui.a-controls
+    {
+      position: absolute; top: 0; left: 0; z-index: 799; margin: 0;
+    }
 
-		// Singletons in edit mode
-		&.editing
-		{
-			> .a-ui.a-controls
-			{
-				z-index: 899;
-			}
-		}
+    // Singletons in edit mode
+    &.editing
+    {
+      > .a-ui.a-controls
+      {
+        z-index: 899;
+      }
+    }
 
-		// Some Singleton Slots don't want Area Controls to sit on top of their content
-		&.aRichText > .a-controls,
-		&.aText > .a-controls,
-		&.aBlog > .a-controls,
-		&.aBlogSingle > .a-controls,
-		&.aEvent > .a-controls,
-		&.aEventSingle > .a-controls
-		{
-			position: relative; margin-bottom: 0;
-		}
+    // Some Singleton Slots don't want Area Controls to sit on top of their content
+    &.aRichText > .a-controls,
+    &.aText > .a-controls,
+    &.aBlog > .a-controls,
+    &.aBlogSingle > .a-controls,
+    &.aEvent > .a-controls,
+    &.aEventSingle > .a-controls
+    {
+      position: relative; margin-bottom: 0;
+    }
 
-		// There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load
-		.a-slot-controls
-		{
-			display: none;
-		}
-	}
+    // There are no such thing as slot controls for singleton areas. This prevents the page wiggle on load
+    .a-slot-controls
+    {
+      display: none;
+    }
+  }
 }
 
 // Slideshow Component Styles (When used outside of a slot)
 // -------------------------------------
 .a-slideshow
 {
-	&.transition-crossfade
-	{
-		overflow: hidden;
-		.a-slideshow-item
-		{
-			// Cross Fade Slideshows must have the items stacked up
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-	}
-	&.single-image
-	{
-		.a-slideshow-item
-		{
-			display: block;
-		}
-	}
-	.a-slideshow-item
-	{
-		@clearfix;
-		list-style: none;
-		display: none;
-		margin: 0;
-		.a-slideshow-title
-		{
+  &.transition-crossfade
+  {
+    overflow: hidden;
+    .a-slideshow-item
+    {
+      // Cross Fade Slideshows must have the items stacked up
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  &.single-image
+  {
+    .a-slideshow-item
+    {
+      display: block;
+    }
+  }
+  .a-slideshow-item
+  {
+    @clearfix;
+    list-style: none;
+    display: none;
+    margin: 0;
+    .a-slideshow-title
+    {
 
-		}
-		.a-slideshow-image
-		{
-			display: block;
-			line-height: 0;
-			background-repeat: no-repeat;
-			margin: 0;
-			img
-			{
-				display: block;
-			}
-		}
-	} // [ .a-slideshow-item ]
+    }
+    .a-slideshow-image
+    {
+      display: block;
+      line-height: 0;
+      background-repeat: no-repeat;
+      margin: 0;
+      img
+      {
+        display: block;
+      }
+    }
+  } // [ .a-slideshow-item ]
 } // [ @a-slideshow ]
 
 .a-slot
 {
-	 > .a-ui.a-controls
-	{
-		width: 100%;
-		li
-		{
-			margin: 0 2px 2px 0;
-		}
-	}
+   > .a-ui.a-controls
+  {
+    width: 100%;
+    li
+    {
+      margin: 0 2px 2px 0;
+    }
+  }
 
-	// New Slot
-	&.a-new-slot
-	{ // Controls sit on top when adding a new slot
-		> .a-ui.a-controls
-		{
-			position: relative; z-index: 899;
-		}
-	}
+  // New Slot
+  &.a-new-slot
+  { // Controls sit on top when adding a new slot
+    > .a-ui.a-controls
+    {
+      position: relative; z-index: 899;
+    }
+  }
 
-	// Editing Slot
-	&.a-editing
-	{ // Controls sit on top when editing a slot
-		> .a-ui.a-controls
-		{
-			position: relative; z-index: 899;
-		}
-	}
+  // Editing Slot
+  &.a-editing
+  { // Controls sit on top when editing a slot
+    > .a-ui.a-controls
+    {
+      position: relative; z-index: 899;
+    }
+  }
 
-	// aRichtext Slot
-	// ----------------------------------------
-	&.aRichText
-	{
-		&.a-normal
-		{
-			.a-slot-content
-			{
-				strong, b { font-weight: bold; }
-				em, i { font-style: italic; }
-				ul, ol { margin-left: 1.5em; }
-				ul li { list-style-type: disc; }
-				ol li { list-style-type: decimal; }
-			}
-		}
-		&.a-editing
-		{
-			.a-richtext-textarea-wrapper
-			{
-				background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 50% 50% no-repeat; // In case it takes a while for the editor to load
-			}
-			.a-richtext-textarea
-			{
-				height: 290px; //This prevents the jumpy-resizy thing when the editor is rendered
-				visibility: hidden; // We don't need to see this textarea as it's going to be enhanced by CKEditor
-			}
-		}
-	}
+  // aRichtext Slot
+  // ----------------------------------------
+  &.aRichText
+  {
+    &.a-normal
+    {
+      .a-slot-content
+      {
+        strong, b { font-weight: bold; }
+        em, i { font-style: italic; }
+        ul, ol { margin-left: 1.5em; }
+        ul li { list-style-type: disc; }
+        ol li { list-style-type: decimal; }
+      }
+    }
+    &.a-editing
+    {
+      .a-richtext-textarea-wrapper
+      {
+        background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 50% 50% no-repeat; // In case it takes a while for the editor to load
+      }
+      .a-richtext-textarea
+      {
+        height: 290px; //This prevents the jumpy-resizy thing when the editor is rendered
+        visibility: hidden; // We don't need to see this textarea as it's going to be enhanced by CKEditor
+      }
+    }
+  }
 
-	// aSlideshow Slot
-	// ----------------------------------------
+  // aSlideshow Slot
+  // ----------------------------------------
 
-	&.aSlideshow
-	{
-		@a-user-select(text);
-		.a-slideshow-controls
-		{
-			position: absolute;
-			top: 5px;
-			right: 5px;
-			height: auto;
-			border: none;
-			list-style: none;
-			z-index: 799;
-		}
+  &.aSlideshow
+  {
+    @a-user-select(text);
+    .a-slideshow-controls
+    {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      height: auto;
+      border: none;
+      list-style: none;
+      z-index: 799;
+    }
 
-		.a-slideshow;
+    .a-slideshow;
 
-	} // [ .aSlideshow ]
+  } // [ .aSlideshow ]
 
-	// aButton Slot
-	// ----------------------------------------
+  // aButton Slot
+  // ----------------------------------------
 
-	&.aButton
-	{
-		.a-button
-		{
-			clear: both;
-			margin: 0;
-			.a-button-image,
-			.a-button-link,
-			.a-button-title
-			{
-				clear: both;
-				margin: 0;
-			}
-			.a-button-link:hover img
-			{
-				opacity: 0.65;
-			}
-		}
+  &.aButton
+  {
+    .a-button
+    {
+      clear: both;
+      margin: 0;
+      .a-button-image,
+      .a-button-link,
+      .a-button-title
+      {
+        clear: both;
+        margin: 0;
+      }
+      .a-button-link:hover img
+      {
+        opacity: 0.65;
+      }
+    }
 
-		.a-button
-		{ // Fixes IE6 Class Name Bug
-			background: none;
-		}
+    .a-button
+    { // Fixes IE6 Class Name Bug
+      background: none;
+    }
 
-	} // [ .aButton ]
-
-
-	// aImage Slot Styles
-	// -------------------------------------
-
-	&.aImage
-	{
-		.a-media-image,
-		.a-image-embed
-		{
-			clear: both;
-			display: block;
-		}
-	}
+  } // [ .aButton ]
 
 
-	// aRawHTML Slot Styles
-	// -------------------------------------
-	&.aRawHTML
-	{
-		.a-form-field
-		{
-			overflow: hidden;
-			width: 100%;
-		}
+  // aImage Slot Styles
+  // -------------------------------------
 
-		textarea
-		{
-			display:block;
-			clear: both;
-			width: 100%;
-			margin: 0 0 0 -1px;
-			min-height: 200px;
-			padding: 2px;
-			border: 1px solid #333;
-			background: #efefef;
-			font: 11px/1.5 Monospace;
-			overflow: auto !important;
-		}
-
-	} // [ .aRawHTML ]
+  &.aImage
+  {
+    .a-media-image,
+    .a-image-embed
+    {
+      clear: both;
+      display: block;
+    }
+  }
 
 
-	// aText Slot Styles
-	// -------------------------------------
-	&.aText
-	{
-		.a-form-field
-		{
-			overflow: hidden;
-			width: 100%;
-		}
-		.single-line
-		{
-			float: left;
-			width: 95%;
-		}
-		.multi-line
-		{
-			float: left;
-			width: 95%;
-			min-height: 120px;
-			font-size: 12px/16px;
-		}
-	} // [ .aText ]
+  // aRawHTML Slot Styles
+  // -------------------------------------
+  &.aRawHTML
+  {
+    .a-form-field
+    {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    textarea
+    {
+      display:block;
+      clear: both;
+      width: 100%;
+      margin: 0 0 0 -1px;
+      min-height: 200px;
+      padding: 2px;
+      border: 1px solid #333;
+      background: #efefef;
+      font: 11px/1.5 Monospace;
+      overflow: auto !important;
+    }
+
+  } // [ .aRawHTML ]
 
 
-	// aFeed Slot Styles
-	// -------------------------------------
-	&.aFeed
-	{
-		.a-feed,
-		.a-feed-item
-		{
-			clear: both;
-			margin-bottom: 10px;
-			@clearfix;
-		}
-		.a-feed
-		{
-			.a-feed-item
-			{
-				.title { font-size: 14px; }
-				.date { margin: 5px 0; color: #999; }
-				.date,
-				.description { font-size: 11px; line-height: 1.4; word-wrap:break-word; }
-			}
-		}
-	}
+  // aText Slot Styles
+  // -------------------------------------
+  &.aText
+  {
+    .a-form-field
+    {
+      overflow: hidden;
+      width: 100%;
+    }
+    .single-line
+    {
+      float: left;
+      width: 95%;
+    }
+    .multi-line
+    {
+      float: left;
+      width: 95%;
+      min-height: 120px;
+      font-size: 12px/16px;
+    }
+  } // [ .aText ]
 
-	// aFile Slot Styles
-	// -------------------------------------
-	&.aFile
-	{
-		.a-file-slot
-		{
-			position: relative; overflow: hidden; width: 100%;
-			.a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
-			.a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
-			.a-file-meta li {list-style:none;}
-			.a-file-title { width: 100%; font-size: 16px; }
-			.a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
-			.a-file-download { margin-left: -3px; }
-			.a-file-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
-		}
-	}
 
-	// aPDF Slot Styles
-	// -------------------------------------
-	&.aPDF
-	{
-		margin:20px 0px;
-		.a-pdf-slot
-		{
-			position: relative; overflow: hidden; width: 100%;
-			.a-pdf-meta { position:relative; margin:5px 0; }
-			&.no-label
-			{
-				height: auto !important; height: 43px;
-				.a-media-pdf-icon { position:absolute; height:43px; width:34px; margin-top:5px; top:0; left:0; z-index:10; }
-				.a-media-pdf-icon a { float:left; background: url({@a-asset-path}/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left; height:100%; width:100%; overflow:hidden; text-indent: -9999px; }
-				.a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
-			}
-		}
-		.a-pdf-title { width:100%; font-size: 16px; }
-		.a-pdf-description { margin-top:0px; color:#666; width:100%; margin:5px 0; }
-		.a-pdf-download { margin-left:-3px; }
-		.a-pdf-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left:20px; }
-	}
+  // aFeed Slot Styles
+  // -------------------------------------
+  &.aFeed
+  {
+    .a-feed,
+    .a-feed-item
+    {
+      clear: both;
+      margin-bottom: 10px;
+      @clearfix;
+    }
+    .a-feed
+    {
+      .a-feed-item
+      {
+        .title { font-size: 14px; }
+        .date { margin: 5px 0; color: #999; }
+        .date,
+        .description { font-size: 11px; line-height: 1.4; word-wrap:break-word; }
+      }
+    }
+  }
+
+  // aFile Slot Styles
+  // -------------------------------------
+  &.aFile
+  {
+    .a-file-slot
+    {
+      position: relative; overflow: hidden; width: 100%;
+      .a-media-file-icon { width: auto; display: inline; position: relative; float: left;}
+      .a-file-meta { position: relative; display: inline; position: relative; float: left; margin-left: 15px; }
+      .a-file-meta li {list-style:none;}
+      .a-file-title { width: 100%; font-size: 16px; }
+      .a-file-description { margin-top: 0px; color: #666; width: 100%; margin: 0px; }
+      .a-file-download { margin-left: -3px; }
+      .a-file-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left: 20px; }
+    }
+  }
+
+  // aPDF Slot Styles
+  // -------------------------------------
+  &.aPDF
+  {
+    margin:20px 0px;
+    .a-pdf-slot
+    {
+      position: relative; overflow: hidden; width: 100%;
+      .a-pdf-meta { position:relative; margin:5px 0; }
+      &.no-label
+      {
+        height: auto !important; height: 43px;
+        .a-media-pdf-icon { position:absolute; height:43px; width:34px; margin-top:5px; top:0; left:0; z-index:10; }
+        .a-media-pdf-icon a { float:left; background: url({@a-asset-path}/apostrophePlugin/images/a-pdf-icon-tiny.png) no-repeat top left; height:100%; width:100%; overflow:hidden; text-indent: -9999px; }
+        .a-pdf-meta { padding-left:45px; text-indent: 0 !important; }
+      }
+    }
+    .a-pdf-title { width:100%; font-size: 16px; }
+    .a-pdf-description { margin-top:0px; color:#666; width:100%; margin:5px 0; }
+    .a-pdf-download { margin-left:-3px; }
+    .a-pdf-download a { background: url({@a-asset-path}/apostrophePlugin/images/a-icon-alt-download.png) no-repeat left center; padding-left:20px; }
+  }
 
 }
 
@@ -435,7 +435,7 @@
 .aSmartSlideshow .a-slideshow,
 .aSmartSlideshow .a-slideshow li,
 .aSlideshow .a-slideshow,
-.aSlideshow .a-slideshow li {	float: left; width: 100%; clear: both; }
+.aSlideshow .a-slideshow li { float: left; width: 100%; clear: both; }
 
 .aButton a img { border: 0; }
 
@@ -447,30 +447,30 @@
 
 .a-blog-edit-wrapper
 {
-	.a-form-row
-	{
-		.a-inline-taggable-widget
-		{
-			.ui-autocomplete-input { margin-right: 2px; }
-		}
-		&.by-type
-		{
-		}
-		&.title
-		{
-			.ui-autocomplete-input
-			{
-				min-width: 214px;
-				width: 88%;
-				padding-right: 24px;
-				&.ui-autocomplete-loading
-				{
-					background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 98% center no-repeat;
-				}
-			}
-		}
-		.blog-slot-radio-button { float: left; margin: 5px 0 0 0; }
-	}
+  .a-form-row
+  {
+    .a-inline-taggable-widget
+    {
+      .ui-autocomplete-input { margin-right: 2px; }
+    }
+    &.by-type
+    {
+    }
+    &.title
+    {
+      .ui-autocomplete-input
+      {
+        min-width: 214px;
+        width: 88%;
+        padding-right: 24px;
+        &.ui-autocomplete-loading
+        {
+          background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 98% center no-repeat;
+        }
+      }
+    }
+    .blog-slot-radio-button { float: left; margin: 5px 0 0 0; }
+  }
 }
 
 
@@ -480,10 +480,10 @@
 
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row label
 {
-	padding-left: 0px;
-	margin-bottom: 0px;
-	font-size: 12px;
-	line-height: 20px;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .a-ui.a-options.a-slot-form .a-blog-edit-wrapper .a-form-row.by-type { margin: 0; }
@@ -508,9 +508,9 @@
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.categories .a-multiple-select,
 .a-blog-edit-wrapper .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget
 {
-	width: auto;
-	float: left;
-	padding-right: 10px;
+  width: auto;
+  float: left;
+  padding-right: 10px;
 }
 
 .a-blog-edit-wrapper .a-slot-form .a-form-row.by-type .a-form-row.tags .a-inline-taggable-widget input { width: 100px;}
@@ -559,42 +559,42 @@ background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 
 
 .a-ui.a-options
 {
-	&.a-slot-form
-	{
-		position: relative;
-		width: 100%;
-		top: -27px;
-		left:-5px;
-		padding:30px 5px 5px;
-		overflow: visible;
+  &.a-slot-form
+  {
+    position: relative;
+    width: 100%;
+    top: -27px;
+    left:-5px;
+    padding:30px 5px 5px;
+    overflow: visible;
 
-		.a-form-row
-		{
-			line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
+    .a-form-row
+    {
+      line-height: 20px; margin: 0 0 15px 0; padding: 0 10px; width: auto; clear: both;
 
-			label
-			{
-				width: 80px; float: left; margin: 0 10px 0 0; color: #666;
-			}
+      label
+      {
+        width: 80px; float: left; margin: 0 10px 0 0; color: #666;
+      }
 
-		}
+    }
 
-		.a-form-field
-		{
-			float: left;
-		}
+    .a-form-field
+    {
+      float: left;
+    }
 
-		.a-slot-form-title
-		{
-			position: relative;
-			float: left;
-			padding:0 10px;
-			margin-bottom: 10px;
-			width: auto;
-			clear:both;
-			line-height: 27px;
-		}
-	} // [ &.a-slot-form ]
+    .a-slot-form-title
+    {
+      position: relative;
+      float: left;
+      padding:0 10px;
+      margin-bottom: 10px;
+      width: auto;
+      clear:both;
+      line-height: 27px;
+    }
+  } // [ &.a-slot-form ]
 } // [ .a-ui.a-options ]
 
 
@@ -680,43 +680,43 @@ cursor: pointer;
 
 .a-ui.a-audio-player-container .a-audio-loader
 {
-	height: 16px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	border: 0;
-	margin: 0 0 -16px 0;
-	margin-bottom: -16px;
-	background: none;
-	width: 100%;
-	position: relative;
-	z-index: 1;
+  height: 16px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  border: 0;
+  margin: 0 0 -16px 0;
+  margin-bottom: -16px;
+  background: none;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .a-ui.a-audio-player-container .a-audio-loader .ui-progressbar-value
 {
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	border: 0;
-	background: #fff;
-	opacity: 0.25;
-	margin: 0;
-	height: 100%;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  border: 0;
+  background: #fff;
+  opacity: 0.25;
+  margin: 0;
+  height: 100%;
 }
 
 .a-ui .a-audio-time
 {
-	position: absolute;
-	height: 16px;
-	line-height: 16.5px;
-	right: 1%;
-	top: 0;
-	margin: 1px;
-	z-index: 3;
-	font-size: 9.5px;
-	color: #000;
-	cursor: default;
+  position: absolute;
+  height: 16px;
+  line-height: 16.5px;
+  right: 1%;
+  top: 0;
+  margin: 1px;
+  z-index: 3;
+  font-size: 9.5px;
+  color: #000;
+  cursor: default;
 }
 
 .a-ui .a-audio-slider-wrapper

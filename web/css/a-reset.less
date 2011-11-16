@@ -1,40 +1,40 @@
 @import 'a-helpers';
 
-// 	Apostrophe UI Reset based on Eric Meyer's Reset CSS  -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+//  Apostrophe UI Reset based on Eric Meyer's Reset CSS  -- http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
 //
-//	Apply the .a-ui reset class name to the parent container of the Apostrophe UI element you are styling
-//	In some instances, the UI is only a button or something small without a container. You can apply the .a-ui class directly to that element to reset it specifically
+//  Apply the .a-ui reset class name to the parent container of the Apostrophe UI element you are styling
+//  In some instances, the UI is only a button or something small without a container. You can apply the .a-ui class directly to that element to reset it specifically
 
 @a-heading-font
 {
-	font-family: Arial, Sans-serif;
+  font-family: Arial, Sans-serif;
 }
 
-body 
-{ 
-	margin: 0; padding: 0; 
-	.a-ui
-	{ 
-		font-size: 12px;
-	}
-	.a-ui *
-	{
-		font-weight: normal !important;		
-	}
+body
+{
+  margin: 0; padding: 0;
+  .a-ui
+  {
+    font-size: 12px;
+  }
+  .a-ui *
+  {
+    font-weight: normal !important;
+  }
 }
 
-.a-ui div, .a-ui span, .a-ui iframe, 
-.a-ui pre, .a-ui a, .a-ui img, 
-.a-ui ol, .a-ui ul, .a-ui li, 
-.a-ui fieldset, .a-ui form, .a-ui label, .a-ui legend, 
+.a-ui div, .a-ui span, .a-ui iframe,
+.a-ui pre, .a-ui a, .a-ui img,
+.a-ui ol, .a-ui ul, .a-ui li,
+.a-ui fieldset, .a-ui form, .a-ui label, .a-ui legend,
 .a-ui table, .a-ui caption, .a-ui tbody, .a-ui tfoot, .a-ui thead, .a-ui tr, .a-ui th, .a-ui td
 // div.a-ui, span.a-ui, iframe.a-ui,
 // pre.a-ui, a.a-ui, img.a-ui,
-// ol.a-ui, ul.a-ui, li.a-ui, 
-// fieldset.a-ui, form.a-ui, label.a-ui, legend.a-ui, 
+// ol.a-ui, ul.a-ui, li.a-ui,
+// fieldset.a-ui, form.a-ui, label.a-ui, legend.a-ui,
 // table.a-ui, caption.a-ui, tbody.a-ui, tfoot.a-ui, thead.a-ui, tr.a-ui, th.a-ui, td.a-ui
-{ 
-	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; 
+{
+  margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline;
 }
 
 .a-ui li, .a-ui ul, .a-ui ol,
@@ -58,23 +58,23 @@ li.a-ui, ul.a-ui, ol.a-ui { list-style: none; }
 
 .a-ui
 {
-	h1,h2,h3,h4,h5,h6
-	{
-		@a-heading-font;
-	}
+  h1,h2,h3,h4,h5,h6
+  {
+    @a-heading-font;
+  }
 }
 
 h1,h2,h3,h4,h5,h6
 {
-	&.a-ui
-	{
-		@a-heading-font;	
-	}
+  &.a-ui
+  {
+    @a-heading-font;
+  }
 }
 
 // Removed issue input button text would not be vertically aligned in FF
-input::-moz-focus-inner 
-{ 
+input::-moz-focus-inner
+{
     border: 0;
     padding: 0;
 }

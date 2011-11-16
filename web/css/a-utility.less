@@ -9,23 +9,23 @@
 .ie7 .dropshadow { @a-box-shadow(0px 0px 5px #ccc); }
 
 // Complete page overlay class to create a translucent box overtop of the entier page
-.a-page-overlay { 
-	display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; z-index: 996; 
-	@a-rgba-background(#fff; rgba(255,255,255,0.5));	
-	&.active
-	{
-		display: block;
-	}
+.a-page-overlay {
+  display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; z-index: 996;
+  @a-rgba-background(#fff; rgba(255,255,255,0.5));
+  &.active
+  {
+    display: block;
+  }
 }
 
 // General overlay class to create a translucent box overtop of a containing element
-.a-overlay { 
-	position:absolute; top:0; left:0; display:none; height:100%; width:100%; z-index:999; overflow: hidden; 
-	@a-rgba-background(#fff; rgba(255,255,255,0.5));
-	&.active
-	{
-		display: block;
-	}
+.a-overlay {
+  position:absolute; top:0; left:0; display:none; height:100%; width:100%; z-index:999; overflow: hidden;
+  @a-rgba-background(#fff; rgba(255,255,255,0.5));
+  &.active
+  {
+    display: block;
+  }
 }
 
 // Put a spinner anywhere
@@ -61,60 +61,60 @@
 // Z-Index Clobber
 .a-super-z-index
 {
-	z-index: 9999;
+  z-index: 9999;
 }
 
 // Hidden elements turned on in the print stylesheet
-.a-for-print 
+.a-for-print
 {
-	display: none;
+  display: none;
 }
 
 // Accordion works with apostrophe.accordion()
 .a-accordion
 {
-	.a-accordion-content
-	{
-		display: none;
-	}
-	&.open
-	{
-		.a-accordion-content
-		{
-			display: block;
-		}
-	}
+  .a-accordion-content
+  {
+    display: none;
+  }
+  &.open
+  {
+    .a-accordion-content
+    {
+      display: block;
+    }
+  }
 }
 
 .a-accordion-toggle.hover,
 .a-accordion-toggle:hover { cursor: pointer; color: #000; }
 
 // Dev Utility Class: Helps find malformed button markup
-.a-fix-me { color: #fff !important; background: #f00 !important; } 
+.a-fix-me { color: #fff !important; background: #f00 !important; }
 
 .a-ui .a-remote-data-loading
 {
-	background: rgba(0,0,0,0.1);
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	min-height: 50px;
-	min-width: 50px;
-	background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
-	clear: both;
+  background: rgba(0,0,0,0.1);
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  min-height: 50px;
+  min-width: 50px;
+  background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
+  clear: both;
 }
 
-.a-do-not-edit 
-{ 
-	background: #d22; color: #fff; padding: 8px; font-size: 16px; text-shadow: 1px 1px 0px #000; text-align: center; 
-	a 
-	{ 
-		color: #fff; text-decoration: underline; 
-	} 
-	strong 
-	{ 
-		font-weight: bold; 
-	}
+.a-do-not-edit
+{
+  background: #d22; color: #fff; padding: 8px; font-size: 16px; text-shadow: 1px 1px 0px #000; text-align: center;
+  a
+  {
+    color: #fff; text-decoration: underline;
+  }
+  strong
+  {
+    font-weight: bold;
+  }
 }
 
 .a-ui .a-help,
@@ -126,8 +126,8 @@
 // This input class is for actAsSubmit. It hide the submit button that allows for pressing ENTER on inputs to submit the form.
 input.a-hidden-submit
 {
-	position: absolute !important;
-	border: none !important;
+  position: absolute !important;
+  border: none !important;
   width: 0 !important;
   height: 0 !important;
   line-height: 0 !important;

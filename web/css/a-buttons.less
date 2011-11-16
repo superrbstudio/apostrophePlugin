@@ -12,315 +12,315 @@
 
 @a-icon(@width:20px; @height:20px; @sprite:'/apostrophePlugin/images/a-icon-sprite.png';)
 {
-	// This is a mixin because it's shared by .a-btn and .a-simple-icon
-	display: block;
-	height: 20px;
-	width: 20px;
-	position: absolute;
-	top: 50%;
-	left: 0;
-	margin-top: -10px;
-	background-repeat: no-repeat;
-	background-image: url({@a-asset-path}{@sprite});
-	overflow: hidden;
-	text-indent: -9999px;	
+  // This is a mixin because it's shared by .a-btn and .a-simple-icon
+  display: block;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: -10px;
+  background-repeat: no-repeat;
+  background-image: url({@a-asset-path}{@sprite});
+  overflow: hidden;
+  text-indent: -9999px;
 }
 
 .a-ui
 {
-	// Buttons and Links
-	.a-btn, &.a-btn,
-	.a-link, &.a-link,
-	// Text after a button in the same font, as with our upgrade buttons (Tom)
-	.a-after-button, &.a-after-button
-	{ 
-		// <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
-		position: relative;
-		display: inline-block;
-		float: left;
-		text-decoration: none;
-		font-family: arial,sans-serif;
-		font-size: @a-button-type-size;
-		font-weight: normal;
-		cursor: pointer;
-		padding: 0 4px;
-		white-space: nowrap;
-		height: @a-button-size;
-		line-height: @a-button-size;
-		border: none;
+  // Buttons and Links
+  .a-btn, &.a-btn,
+  .a-link, &.a-link,
+  // Text after a button in the same font, as with our upgrade buttons (Tom)
+  .a-after-button, &.a-after-button
+  {
+    // <a class="a-btn | a-link | a-ui a-btn | a-ui a-link">example</a>
+    position: relative;
+    display: inline-block;
+    float: left;
+    text-decoration: none;
+    font-family: arial,sans-serif;
+    font-size: @a-button-type-size;
+    font-weight: normal;
+    cursor: pointer;
+    padding: 0 4px;
+    white-space: nowrap;
+    height: @a-button-size;
+    line-height: @a-button-size;
+    border: none;
 
-		&:hover
-		{
-			text-decoration: none;
-		}
+    &:hover
+    {
+      text-decoration: none;
+    }
 
-		// Buttons with Icons
-		&.icon
-		{
-			padding: 0 4px 0 20px;
-			&:hover,
-			&:focus
-			{
-				> .icon
-				{
-					background-color: transparent;
-				}
-			}
-			// This would be lovely if Firefox supported it.
-			// &.alt
-			// {
-			// 	> .icon
-			// 	{
-			// 		background-position-x: -20px;
-			// 	}
-			// }
+    // Buttons with Icons
+    &.icon
+    {
+      padding: 0 4px 0 20px;
+      &:hover,
+      &:focus
+      {
+        > .icon
+        {
+          background-color: transparent;
+        }
+      }
+      // This would be lovely if Firefox supported it.
+      // &.alt
+      // {
+      //  > .icon
+      //  {
+      //    background-position-x: -20px;
+      //  }
+      // }
 
-			// The Button's Icon
-			> .icon
-			{ // <a class="a-btn ... icon"><span class="icon"></span>example</a>
-				@a-icon;
-			}
-			// Buttons where the icon is on the right side
-			&.icon-right
-			{ // <a class="a-btn ... icon icon-right"><span class="icon"></span>example</a>
-				padding: 0 20px 0 4px;
-				> .icon
-				{
-					left: auto;
-					right: 0;
-				}
-			}
-			&.no-icon
-			{
-				> .icon
-				{
-					background: none;
-					text-indent: 0;
-					text-align: center;
-					line-height: @a-button-size+2px;
-				}
-			}
-		}
+      // The Button's Icon
+      > .icon
+      { // <a class="a-btn ... icon"><span class="icon"></span>example</a>
+        @a-icon;
+      }
+      // Buttons where the icon is on the right side
+      &.icon-right
+      { // <a class="a-btn ... icon icon-right"><span class="icon"></span>example</a>
+        padding: 0 20px 0 4px;
+        > .icon
+        {
+          left: auto;
+          right: 0;
+        }
+      }
+      &.no-icon
+      {
+        > .icon
+        {
+          background: none;
+          text-indent: 0;
+          text-align: center;
+          line-height: @a-button-size+2px;
+        }
+      }
+    }
 
-		// Buttons without a Text Label
-		&.no-label,
-		&.no-label:hover
-		{
-			background-repeat: no-repeat;
-			text-indent: -9999px;
-			padding: 0;
-			width: @a-button-size;
-			// Buttons without a Text Label > .icon should on the button
-			&.icon > .icon
-			{
-				left: 50%;
-				margin-left: -10px;
-			}
-		}
+    // Buttons without a Text Label
+    &.no-label,
+    &.no-label:hover
+    {
+      background-repeat: no-repeat;
+      text-indent: -9999px;
+      padding: 0;
+      width: @a-button-size;
+      // Buttons without a Text Label > .icon should on the button
+      &.icon > .icon
+      {
+        left: 50%;
+        margin-left: -10px;
+      }
+    }
 
-		// Lite Button Style
-		&.lite {
-			text-shadow: none;
-			background: none;
-			border: 1px solid transparent;
-			&:hover
-			{
-				color: #000 !important;
-				background-color: rgba(0,0,0,0.125) !important;
-				border: 1px inset rgba(0,0,0,0.125) !important;
-			}
-		}
+    // Lite Button Style
+    &.lite {
+      text-shadow: none;
+      background: none;
+      border: 1px solid transparent;
+      &:hover
+      {
+        color: #000 !important;
+        background-color: rgba(0,0,0,0.125) !important;
+        border: 1px inset rgba(0,0,0,0.125) !important;
+      }
+    }
 
-		// Mini Button Style
-		&.mini
-		{
-			font-size: @a-button-type-size-mini;
-			height: @a-button-size-mini;
-			line-height: @a-button-size-mini;
-			// Small Buttons without a Text Label
-			&.no-label
-			{
-				width: @a-button-size-mini;
-			}
-			&.no-icon
-			{
-				> .icon
-				{
-					line-height: @a-button-size-mini;
-				}
-			}
-		}
+    // Mini Button Style
+    &.mini
+    {
+      font-size: @a-button-type-size-mini;
+      height: @a-button-size-mini;
+      line-height: @a-button-size-mini;
+      // Small Buttons without a Text Label
+      &.no-label
+      {
+        width: @a-button-size-mini;
+      }
+      &.no-icon
+      {
+        > .icon
+        {
+          line-height: @a-button-size-mini;
+        }
+      }
+    }
 
-		// Big Button Style
-		&.big
-		{
-			font-size: @a-button-type-size-big;
-			height: @a-button-size-big;
-			line-height: @a-button-size-big;
-			// background-position: center left; // Fix Me
-			> .icon
-			{
+    // Big Button Style
+    &.big
+    {
+      font-size: @a-button-type-size-big;
+      height: @a-button-size-big;
+      line-height: @a-button-size-big;
+      // background-position: center left; // Fix Me
+      > .icon
+      {
 
-				// background-position: center left; // Fix Me
-			}
-			&.no-label
-			{
-				// background-position: 50% 50%; // Fix Me
-				width: @a-button-size-big;
-				> .icon
-				{
-					// background-position: 50% 50%; // Fix Me
-				}
-			}
-			&.no-icon
-			{
-				> .icon
-				{
-					line-height: @a-button-size-big;
-				}
-			}
-		}
+        // background-position: center left; // Fix Me
+      }
+      &.no-label
+      {
+        // background-position: 50% 50%; // Fix Me
+        width: @a-button-size-big;
+        > .icon
+        {
+          // background-position: 50% 50%; // Fix Me
+        }
+      }
+      &.no-icon
+      {
+        > .icon
+        {
+          line-height: @a-button-size-big;
+        }
+      }
+    }
 
-		// Buttons without a background
-		&.no-bg,
-		&.no-bg:hover,
-		&.no-bg:focus
-		{
-			border: 0 !important;
-			text-shadow: none !important;
-			background: none !important;
-			@a-box-shadow(none);
-			line-height: 20px !important;
-			height: 20px !important;
-		}
+    // Buttons without a background
+    &.no-bg,
+    &.no-bg:hover,
+    &.no-bg:focus
+    {
+      border: 0 !important;
+      text-shadow: none !important;
+      background: none !important;
+      @a-box-shadow(none);
+      line-height: 20px !important;
+      height: 20px !important;
+    }
 
-		// Cancel Button
-		&.a-cancel
-		{
-			padding: 0 4px 0 20px;
-			padding-left: 20px !important;
-			&.no-label
-			{
-			padding: 0 !important;
-			}
-		}
+    // Cancel Button
+    &.a-cancel
+    {
+      padding: 0 4px 0 20px;
+      padding-left: 20px !important;
+      &.no-label
+      {
+      padding: 0 !important;
+      }
+    }
 
-		// Drag Button
-		&.a-drag
-		{
-			cursor: move;
-		}
+    // Drag Button
+    &.a-drag
+    {
+      cursor: move;
+    }
 
-		&.a-sort-arrow
-		{
-			&.not-sorting
-			{
-				opacity: 0.5;
-				&:hover
-				{
-					opacity: 1;
-				}
-			}
-		}
+    &.a-sort-arrow
+    {
+      &.not-sorting
+      {
+        opacity: 0.5;
+        &:hover
+        {
+          opacity: 1;
+        }
+      }
+    }
 
-		// Animated Busy Button
-		&.a-busy > .icon
-		{
-			background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
-		}
+    // Animated Busy Button
+    &.a-busy > .icon
+    {
+      background: url({@a-asset-path}/apostrophePlugin/images/a-icon-loader-2.gif) 50% 50% no-repeat;
+    }
 
-		// Wide button for Blog / Events sidebar -- "New Post"
-		&.a-sidebar-button
-		{
-			width: 99%;
-			padding: 0 !important;
-			text-align: center;
-			clear: both;
-			margin: 0 0 10px;
-			.label
-			{
-				width: 100%;
-				text-align: center;
-				display: block;
-				position: absolute;
-			}
-		}
+    // Wide button for Blog / Events sidebar -- "New Post"
+    &.a-sidebar-button
+    {
+      width: 99%;
+      padding: 0 !important;
+      text-align: center;
+      clear: both;
+      margin: 0 0 10px;
+      .label
+      {
+        width: 100%;
+        text-align: center;
+        display: block;
+        position: absolute;
+      }
+    }
 
-		// Toggle Button -- Permissions
-		&.a-toggle-btn
-		{
-			@a-no-user-select;
-			&.option-1 .option-1,
-			&.option-2 .option-2
-			{
-				display: block;
-			}
+    // Toggle Button -- Permissions
+    &.a-toggle-btn
+    {
+      @a-no-user-select;
+      &.option-1 .option-1,
+      &.option-2 .option-2
+      {
+        display: block;
+      }
 
-			&.option-1 .option-2,
-			&.option-2 .option-1
-			{
-				display: none;
-			}
+      &.option-1 .option-2,
+      &.option-2 .option-1
+      {
+        display: none;
+      }
 
-			&.icon
-			{
-				> .icon
-				{
-					@a-border-radius(6px);
-					height: 10px;
-					width: 10px;
-					margin: -6px 4px 0;
-					border: 1px inset rgba(0,0,0,0.20);
-					background-image: none;
-				}
-				&.option-1 > .icon
-				{
-					background: #31AB64;
-					background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
-					background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
-				}
-				&.option-2 > .icon
-				{
-					background: #F66;
-					background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
-					background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
-				}
-			}
-		}
+      &.icon
+      {
+        > .icon
+        {
+          @a-border-radius(6px);
+          height: 10px;
+          width: 10px;
+          margin: -6px 4px 0;
+          border: 1px inset rgba(0,0,0,0.20);
+          background-image: none;
+        }
+        &.option-1 > .icon
+        {
+          background: #31AB64;
+          background-image: -moz-radial-gradient(#31AB64 0%,#008040 100%);
+          background-image: -webkit-gradient(radial,color-stop(0,#0f0),color-stop(1,#008040));
+        }
+        &.option-2 > .icon
+        {
+          background: #F66;
+          background-image: -moz-radial-gradient(center bottom,#F66 0%,#f00 100%);
+          background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,red),color-stop(1,#F66));
+        }
+      }
+    }
 
-	} //	[ .a-btn, &.a-btn, .a-link, &.a-link ]
+  } //  [ .a-btn, &.a-btn, .a-link, &.a-link ]
 
 
-	// a-after-button is Tom's thing
-	.a-after-button, &.a-after-button
-	{
-		margin: 1px; // Margin to match border on preceding button
-	}
+  // a-after-button is Tom's thing
+  .a-after-button, &.a-after-button
+  {
+    margin: 1px; // Margin to match border on preceding button
+  }
 
-	&.a-simple-icon
-	{
-		position: relative;
-		float: left;
-		height: 20px;
-		width: 20px;
-		// Simple Icon
-		> .icon
-		{ // <i class="a-ui a-simple-icon a-icon-name"><i class="icon"></i></i>
-			@a-icon;
-		}		
-	}
+  &.a-simple-icon
+  {
+    position: relative;
+    float: left;
+    height: 20px;
+    width: 20px;
+    // Simple Icon
+    > .icon
+    { // <i class="a-ui a-simple-icon a-icon-name"><i class="icon"></i></i>
+      @a-icon;
+    }
+  }
 
-	// Tags behave like buttons too
-	&.a-tag,
-	.a-tag
-	{
-		> .a-tag-count
-		{
-			color: #999;
-			text-indent: 0;
-			text-align: center;
-		}
-	}
+  // Tags behave like buttons too
+  &.a-tag,
+  .a-tag
+  {
+    > .a-tag-count
+    {
+      color: #999;
+      text-indent: 0;
+      text-align: center;
+    }
+  }
 
 } // [ .a-ui ]
 
@@ -328,32 +328,32 @@
 .a-ui input.a-btn,
 input.a-ui.a-btn
 {
-	&.a-submit.big
-	{
-		height: @a-button-size-big+2;
-	}
+  &.a-submit.big
+  {
+    height: @a-button-size-big+2;
+  }
 }
 
 
-// Apostrophe Arrows --	Note: The arrow buttons are scoped within .a-ui
-// 											because they are used often, when logged-out.
+// Apostrophe Arrows -- Note: The arrow buttons are scoped within .a-ui
+//                      because they are used often, when logged-out.
 // ----------------------------------------------------------------------
 
 .a-arrow-btn
 {
-	float: left;
-	cursor: pointer;
-	text-indent: -9999px;
-	padding: 0;
-	width: 20px;
-	height: 20px;
-	outline: none;
-	overflow: hidden;
-	background-image: url({@a-asset-path}/apostrophePlugin/images/a-icon-sprite.png);
-	&:hover
-	{
-		opacity: 0.5;
-	}
+  float: left;
+  cursor: pointer;
+  text-indent: -9999px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  outline: none;
+  overflow: hidden;
+  background-image: url({@a-asset-path}/apostrophePlugin/images/a-icon-sprite.png);
+  &:hover
+  {
+    opacity: 0.5;
+  }
 }
 
 // Apostrophe Button Icons
@@ -361,161 +361,161 @@ input.a-ui.a-btn
 
 @a-button-icons(@bgleft: 0;)
 {
-	&.a-none > .icon { background-image: none !important; }
-	&.a-add > .icon { background-position: @bgleft 0px; }
-	&.a-arrow-btn.a-arrow-down,
-	&.a-arrow-down > .icon { background-position: @bgleft -20px; }
-	&.a-arrow-btn.a-arrow-up,
-	&.a-arrow-up > .icon { background-position: @bgleft -40px; }
-	&.a-arrow-btn.a-arrow-left,
-	&.a-arrow-left > .icon { background-position: @bgleft -60px; }
-	&.a-arrow-btn.a-arrow-right,
-	&.a-arrow-right > .icon { background-position: @bgleft -80px; }
-	&.a-arrow-btn.a-arrow-left.chunky,
-	&.a-arrow-left.chunky > .icon { background-position: @bgleft -100px; }
-	&.a-arrow-btn.a-arrow-right.chunky,
-	&.a-arrow-right.chunky > .icon { background-position: @bgleft -120px; }
-	&.a-arrow-btn.a-arrow-left.thin,
-	&.a-arrow-left.thin > .icon { background-position: @bgleft -140px; }
-	&.a-arrow-btn.a-arrow-right.thin,
-	&.a-arrow-right.thin > .icon { background-position: @bgleft -160px; }
-	&.a-return > .icon { background-position: @bgleft -180px; }
-	&.a-dropdown-arrow.right > .icon { background-position: @bgleft -200px; }
-	&.a-dropdown-arrow.left > .icon { background-position: @bgleft -220px; }
-	&.a-dropdown-arrow.down > .icon { background-position: @bgleft -240px; }
-	&.a-dropdown-arrow.up > .icon { background-position: @bgleft -260px; }
-	&.a-audio > .icon { background-position: @bgleft -280px; }
-	&.a-blogmulti > .icon { background-position: @bgleft -300px; }
-	&.a-blog > .icon,
-	&.a-blog-btn > .icon,
-	&.a-blogpost > .icon,
-	&.a-blogsingle > .icon { background-position: @bgleft -320px; }
-	&.a-button > .icon { background-position: @bgleft -340px; }
-	&.a-checked > .icon { background-position: @bgleft -360px; }
-	&.a-unchecked > .icon { background-position: @bgleft -380px; }
-	&.a-download > .icon { background-position: @bgleft -400px; }
-	&.a-drag > .icon { background-position: @bgleft -420px; }
-	&.a-edit > .icon, &.a-publish > .icon { background-position: @bgleft -440px; }
-	&.a-email > .icon { background-position: @bgleft -460px; }
-	&.a-events.day-1 > .icon 	{ background-position: @bgleft -480px; }
-	&.a-events.day-2 > .icon 	{ background-position: @bgleft -500px; }
-	&.a-events.day-3 > .icon 	{ background-position: @bgleft -520px; }
-	&.a-events.day-4 > .icon 	{ background-position: @bgleft -540px; }
-	&.a-events.day-5 > .icon 	{ background-position: @bgleft -560px; }
-	&.a-events.day-6 > .icon 	{ background-position: @bgleft -580px; }
-	&.a-events.day-7 > .icon 	{ background-position: @bgleft -600px; }
-	&.a-events.day-8 > .icon 	{ background-position: @bgleft -620px; }
-	&.a-events.day-9 > .icon 	{ background-position: @bgleft -640px; }
-	&.a-events.day-10 > .icon	{ background-position: @bgleft -660px; }
-	&.a-events.day-11 > .icon	{ background-position: @bgleft -680px; }
-	&.a-events.day-12 > .icon	{ background-position: @bgleft -700px; }
-	&.a-events.day-13 > .icon	{ background-position: @bgleft -720px; }
-	&.a-events.day-14 > .icon	{ background-position: @bgleft -740px; }
-	&.a-events.day-15 > .icon	{ background-position: @bgleft -760px; }
-	&.a-events.day-16 > .icon	{ background-position: @bgleft -780px; }
-	&.a-events.day-17 > .icon	{ background-position: @bgleft -800px; }
-	&.a-events.day-18 > .icon	{ background-position: @bgleft -820px; }
-	&.a-events.day-19 > .icon	{ background-position: @bgleft -840px; }
-	&.a-events.day-20 > .icon	{ background-position: @bgleft -860px; }
-	&.a-events.day-21 > .icon	{ background-position: @bgleft -880px; }
-	&.a-events.day-22 > .icon	{ background-position: @bgleft -900px; }
-	&.a-events.day-23 > .icon	{ background-position: @bgleft -920px; }
-	&.a-events.day-24 > .icon	{ background-position: @bgleft -940px; }
-	&.a-events.day-25 > .icon	{ background-position: @bgleft -960px; }
-	&.a-events.day-26 > .icon	{ background-position: @bgleft -980px; }
-	&.a-events.day-27 > .icon	{ background-position: @bgleft -1000px; }
-	&.a-events.day-28 > .icon	{ background-position: @bgleft -1020px; }
-	&.a-events.day-29 > .icon	{ background-position: @bgleft -1040px; }
-	&.a-events.day-30 > .icon	{ background-position: @bgleft -1060px; }
-	&.a-events.day-31,
-	&.a-event,
-	&.a-eventsingle
-	{
-		> .icon
-		{
-			background-position: @bgleft -1080px;
-		}
-	}
-	&.a-feed,
-	&.a-rss-feed,
-	&.a-rss {
-		> .icon
-		{
-			background-position: @bgleft -1100px;
-		}
-		&.color
-		{
-			> .icon { background-position: @bgleft -1760px; } //TODO Make these real
-		}
-	}
-	&.a-file > .icon 					{ background-position: @bgleft -1120px; }
-	&.a-history-btn > .icon,
-	&.a-history-revert > .icon { background-position: @bgleft -1140px; }
-	&.a-slideshow > .icon,
-	&.a-media > .icon,
-	&.a-image > .icon { background-position: @bgleft -1160px; }
-	&.a-smartslideshow > .icon { background-position: @bgleft -1180px; }
-	&.a-page-settings > .icon { background-position: @bgleft -1200px; }
-	&.a-page-small > .icon { background-position: @bgleft -1220px; }
-	// &.a-??? > .icon { background-position: @bgleft -1240px; } // audio pause button
-	&.a-pdf > .icon { background-position: @bgleft -1260px; }
-	// &.a-??? > .icon { background-position: @bgleft -1280px; } // audio play button
-	&.a-rawhtml > .icon { background-position: @bgleft -1300px; }
-	&.a-replace > .icon { background-position: @bgleft -1320px; }
-	&.a-search > .icon { background-position: @bgleft -1340px; }
-	&.a-settings > .icon { background-position: @bgleft -1360px; }
-	&.a-reorganize > .icon { background-position: @bgleft -1380px; }
-	&.a-theme > .icon,
-	&.a-templates > .icon { background-position: @bgleft -1400px; }
-	&.a-richtext > .icon, &.a-text > .icon { background-position: @bgleft -1420px; }
-	&.a-delete > .icon { background-position: @bgleft -1440px; }
-	&.a-categories > .icon,
-	&.a-tags > .icon { background-position: @bgleft -1460px; }
-	&.a-users > .icon { background-position: @bgleft -1480px; }
-	&.a-video > .icon { background-position: @bgleft -1500px; }
-	&.a-time > .icon { background-position: @bgleft -1520px; }
-	&.a-crop > .icon { background-position: @bgleft -1540px; }
-	&.a-calendar > .icon { background-position: @bgleft -1560px; }
-	&.a-filters > .icon { background-position: @bgleft -1360px; } // TODO Make a new filters icon
-	&.a-help > .icon { background-position: @bgleft -1600px; }
-	&.a-media-four-up > .icon { background-position: @bgleft -1620px; }
-	&.a-media-one-up > .icon { background-position: @bgleft -1640px; }
-	&.a-media-two-up > .icon { background-position: @bgleft -1660px; }
-	&.a-page-blog > .icon { background-position: @bgleft -1680px; } //TODO Implement sprite
-	&.a-page-events  > .icon { background-position: @bgleft -1700px; } //TODO Implement sprite
-	&.a-page-media  > .icon { background-position: @bgleft -1720px; } //TODO Implement sprite
-	&.a-page-normal > .icon { background-position: @bgleft -1740px; } //TODO Implement sprite
-	//&.a-rss.color...  { background-position: @bgleft -1760px; } // Color RSS grouped with B&W RSS Above ^
-	&.a-close > .icon { background-position: @bgleft -1780px; }
-	&.a-selected > .icon,
-	&.a-cancel > .icon,
-	&.a-close-small > .icon { background-position: @bgleft -1800px  }
-	&.a-insetarea > .icon { background-position: @bgleft -1820px  }
-	&.a-insetimage > .icon { background-position: @bgleft -1840px  }
-	&.a-undo > .icon { background-position: @bgleft -1860px; }
-	&.a-redo > .icon { background-position: @bgleft -1880px; }
-	&.a-apps > .icon { background-position: @bgleft -1900px; }	
-	&.a-print > .icon { background-position: @bgleft -1920px; }	
-	&.a-paypalbutton > .icon { background-position: @bgleft -1940px; }		
-	&.a-wufooform > .icon { background-position: @bgleft -1960px; }	
-	&.a-close-big > .icon { background-position: @bgleft -1980px; }		
-	&.a-google-maps > .icon { background-position: @bgleft -0px; } // TODO Make Google Maps Icon
+  &.a-none > .icon { background-image: none !important; }
+  &.a-add > .icon { background-position: @bgleft 0px; }
+  &.a-arrow-btn.a-arrow-down,
+  &.a-arrow-down > .icon { background-position: @bgleft -20px; }
+  &.a-arrow-btn.a-arrow-up,
+  &.a-arrow-up > .icon { background-position: @bgleft -40px; }
+  &.a-arrow-btn.a-arrow-left,
+  &.a-arrow-left > .icon { background-position: @bgleft -60px; }
+  &.a-arrow-btn.a-arrow-right,
+  &.a-arrow-right > .icon { background-position: @bgleft -80px; }
+  &.a-arrow-btn.a-arrow-left.chunky,
+  &.a-arrow-left.chunky > .icon { background-position: @bgleft -100px; }
+  &.a-arrow-btn.a-arrow-right.chunky,
+  &.a-arrow-right.chunky > .icon { background-position: @bgleft -120px; }
+  &.a-arrow-btn.a-arrow-left.thin,
+  &.a-arrow-left.thin > .icon { background-position: @bgleft -140px; }
+  &.a-arrow-btn.a-arrow-right.thin,
+  &.a-arrow-right.thin > .icon { background-position: @bgleft -160px; }
+  &.a-return > .icon { background-position: @bgleft -180px; }
+  &.a-dropdown-arrow.right > .icon { background-position: @bgleft -200px; }
+  &.a-dropdown-arrow.left > .icon { background-position: @bgleft -220px; }
+  &.a-dropdown-arrow.down > .icon { background-position: @bgleft -240px; }
+  &.a-dropdown-arrow.up > .icon { background-position: @bgleft -260px; }
+  &.a-audio > .icon { background-position: @bgleft -280px; }
+  &.a-blogmulti > .icon { background-position: @bgleft -300px; }
+  &.a-blog > .icon,
+  &.a-blog-btn > .icon,
+  &.a-blogpost > .icon,
+  &.a-blogsingle > .icon { background-position: @bgleft -320px; }
+  &.a-button > .icon { background-position: @bgleft -340px; }
+  &.a-checked > .icon { background-position: @bgleft -360px; }
+  &.a-unchecked > .icon { background-position: @bgleft -380px; }
+  &.a-download > .icon { background-position: @bgleft -400px; }
+  &.a-drag > .icon { background-position: @bgleft -420px; }
+  &.a-edit > .icon, &.a-publish > .icon { background-position: @bgleft -440px; }
+  &.a-email > .icon { background-position: @bgleft -460px; }
+  &.a-events.day-1 > .icon  { background-position: @bgleft -480px; }
+  &.a-events.day-2 > .icon  { background-position: @bgleft -500px; }
+  &.a-events.day-3 > .icon  { background-position: @bgleft -520px; }
+  &.a-events.day-4 > .icon  { background-position: @bgleft -540px; }
+  &.a-events.day-5 > .icon  { background-position: @bgleft -560px; }
+  &.a-events.day-6 > .icon  { background-position: @bgleft -580px; }
+  &.a-events.day-7 > .icon  { background-position: @bgleft -600px; }
+  &.a-events.day-8 > .icon  { background-position: @bgleft -620px; }
+  &.a-events.day-9 > .icon  { background-position: @bgleft -640px; }
+  &.a-events.day-10 > .icon { background-position: @bgleft -660px; }
+  &.a-events.day-11 > .icon { background-position: @bgleft -680px; }
+  &.a-events.day-12 > .icon { background-position: @bgleft -700px; }
+  &.a-events.day-13 > .icon { background-position: @bgleft -720px; }
+  &.a-events.day-14 > .icon { background-position: @bgleft -740px; }
+  &.a-events.day-15 > .icon { background-position: @bgleft -760px; }
+  &.a-events.day-16 > .icon { background-position: @bgleft -780px; }
+  &.a-events.day-17 > .icon { background-position: @bgleft -800px; }
+  &.a-events.day-18 > .icon { background-position: @bgleft -820px; }
+  &.a-events.day-19 > .icon { background-position: @bgleft -840px; }
+  &.a-events.day-20 > .icon { background-position: @bgleft -860px; }
+  &.a-events.day-21 > .icon { background-position: @bgleft -880px; }
+  &.a-events.day-22 > .icon { background-position: @bgleft -900px; }
+  &.a-events.day-23 > .icon { background-position: @bgleft -920px; }
+  &.a-events.day-24 > .icon { background-position: @bgleft -940px; }
+  &.a-events.day-25 > .icon { background-position: @bgleft -960px; }
+  &.a-events.day-26 > .icon { background-position: @bgleft -980px; }
+  &.a-events.day-27 > .icon { background-position: @bgleft -1000px; }
+  &.a-events.day-28 > .icon { background-position: @bgleft -1020px; }
+  &.a-events.day-29 > .icon { background-position: @bgleft -1040px; }
+  &.a-events.day-30 > .icon { background-position: @bgleft -1060px; }
+  &.a-events.day-31,
+  &.a-event,
+  &.a-eventsingle
+  {
+    > .icon
+    {
+      background-position: @bgleft -1080px;
+    }
+  }
+  &.a-feed,
+  &.a-rss-feed,
+  &.a-rss {
+    > .icon
+    {
+      background-position: @bgleft -1100px;
+    }
+    &.color
+    {
+      > .icon { background-position: @bgleft -1760px; } //TODO Make these real
+    }
+  }
+  &.a-file > .icon          { background-position: @bgleft -1120px; }
+  &.a-history-btn > .icon,
+  &.a-history-revert > .icon { background-position: @bgleft -1140px; }
+  &.a-slideshow > .icon,
+  &.a-media > .icon,
+  &.a-image > .icon { background-position: @bgleft -1160px; }
+  &.a-smartslideshow > .icon { background-position: @bgleft -1180px; }
+  &.a-page-settings > .icon { background-position: @bgleft -1200px; }
+  &.a-page-small > .icon { background-position: @bgleft -1220px; }
+  // &.a-??? > .icon { background-position: @bgleft -1240px; } // audio pause button
+  &.a-pdf > .icon { background-position: @bgleft -1260px; }
+  // &.a-??? > .icon { background-position: @bgleft -1280px; } // audio play button
+  &.a-rawhtml > .icon { background-position: @bgleft -1300px; }
+  &.a-replace > .icon { background-position: @bgleft -1320px; }
+  &.a-search > .icon { background-position: @bgleft -1340px; }
+  &.a-settings > .icon { background-position: @bgleft -1360px; }
+  &.a-reorganize > .icon { background-position: @bgleft -1380px; }
+  &.a-theme > .icon,
+  &.a-templates > .icon { background-position: @bgleft -1400px; }
+  &.a-richtext > .icon, &.a-text > .icon { background-position: @bgleft -1420px; }
+  &.a-delete > .icon { background-position: @bgleft -1440px; }
+  &.a-categories > .icon,
+  &.a-tags > .icon { background-position: @bgleft -1460px; }
+  &.a-users > .icon { background-position: @bgleft -1480px; }
+  &.a-video > .icon { background-position: @bgleft -1500px; }
+  &.a-time > .icon { background-position: @bgleft -1520px; }
+  &.a-crop > .icon { background-position: @bgleft -1540px; }
+  &.a-calendar > .icon { background-position: @bgleft -1560px; }
+  &.a-filters > .icon { background-position: @bgleft -1360px; } // TODO Make a new filters icon
+  &.a-help > .icon { background-position: @bgleft -1600px; }
+  &.a-media-four-up > .icon { background-position: @bgleft -1620px; }
+  &.a-media-one-up > .icon { background-position: @bgleft -1640px; }
+  &.a-media-two-up > .icon { background-position: @bgleft -1660px; }
+  &.a-page-blog > .icon { background-position: @bgleft -1680px; } //TODO Implement sprite
+  &.a-page-events  > .icon { background-position: @bgleft -1700px; } //TODO Implement sprite
+  &.a-page-media  > .icon { background-position: @bgleft -1720px; } //TODO Implement sprite
+  &.a-page-normal > .icon { background-position: @bgleft -1740px; } //TODO Implement sprite
+  //&.a-rss.color...  { background-position: @bgleft -1760px; } // Color RSS grouped with B&W RSS Above ^
+  &.a-close > .icon { background-position: @bgleft -1780px; }
+  &.a-selected > .icon,
+  &.a-cancel > .icon,
+  &.a-close-small > .icon { background-position: @bgleft -1800px  }
+  &.a-insetarea > .icon { background-position: @bgleft -1820px  }
+  &.a-insetimage > .icon { background-position: @bgleft -1840px  }
+  &.a-undo > .icon { background-position: @bgleft -1860px; }
+  &.a-redo > .icon { background-position: @bgleft -1880px; }
+  &.a-apps > .icon { background-position: @bgleft -1900px; }
+  &.a-print > .icon { background-position: @bgleft -1920px; }
+  &.a-paypalbutton > .icon { background-position: @bgleft -1940px; }
+  &.a-wufooform > .icon { background-position: @bgleft -1960px; }
+  &.a-close-big > .icon { background-position: @bgleft -1980px; }
+  &.a-google-maps > .icon { background-position: @bgleft -0px; } // TODO Make Google Maps Icon
 }
 
 // White Icons
-.a-btn, 
+.a-btn,
 .a-arrow-btn,
-.a-simple-icon 
+.a-simple-icon
 {
-	@a-button-icons(0px); 
+  @a-button-icons(0px);
 }
 
 // Black Icons
-.a-btn.alt, 
-.a-link, 
-.a-btn.lite, 
+.a-btn.alt,
+.a-link,
+.a-btn.lite,
 .a-arrow-btn.alt,
 .a-simple-icon.alt
-{ 
-	@a-button-icons(-20px); 
+{
+  @a-button-icons(-20px);
 }

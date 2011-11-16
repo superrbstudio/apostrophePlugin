@@ -21,49 +21,49 @@
 
 @clearfix // Clear Fix - Borrowed from HTML5 Boilerplate -- http://html5boilerplate.com
 {
-	zoom: 1;
-	&:after,
-	&:before
-	{
-	  content: "\0020";
-		display: block;
-		height: 0;
-		visibility: hidden;		
-	}
-	&:after
-	{
-		clear: both;
-	}
+  zoom: 1;
+  &:after,
+  &:before
+  {
+    content: "\0020";
+    display: block;
+    height: 0;
+    visibility: hidden;
+  }
+  &:after
+  {
+    clear: both;
+  }
 }
 
 @a-reset
 { // for manual resets. You can apply .reset class to the element as well (see: a-utility)
-	margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; list-style: none;
+  margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; list-style: none;
 }
 
 @a-opacity(@opacity: 0.5;)
 {
-	@msOpacity:@opacity*100;
-	opacity: @opacity;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity={@msOpacity})";
-	filter: alpha(opacity=@msOpacity);
+  @msOpacity:@opacity*100;
+  opacity: @opacity;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity={@msOpacity})";
+  filter: alpha(opacity=@msOpacity);
 }
 
 @a-user-select-none(@cursor: default;)
 {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
-	cursor: @cursor;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: @cursor;
 }
 
 @a-transition(@time:0.15s; @ease:ease; @property:all)
 {
-	-webkit-transition: @property @time @ease;
-	-moz-transition: @property @time @ease;
-	-o-transition: @property @time @ease;
-	transition: @property @time @ease;
-	behavior: url(/apostrophePlugin/css/PIE.htc);		
+  -webkit-transition: @property @time @ease;
+  -moz-transition: @property @time @ease;
+  -o-transition: @property @time @ease;
+  transition: @property @time @ease;
+  behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-border-radius(@radius:5px)
@@ -71,123 +71,123 @@
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
   border-radius: @radius;
-	behavior: url(/apostrophePlugin/css/PIE.htc);
+  behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-box-shadow(@shadow:0px 0px 10px rgba(0,0,0,0.15))
 {
-	-moz-box-shadow:@shadow;
-	-webkit-box-shadow:@shadow;
-	-opera-box-shadow:@shadow;
-	-khtml-box-shadow:@shadow;
-	box-shadow:@shadow;
-	behavior: url(/apostrophePlugin/css/PIE.htc);	
+  -moz-box-shadow:@shadow;
+  -webkit-box-shadow:@shadow;
+  -opera-box-shadow:@shadow;
+  -khtml-box-shadow:@shadow;
+  box-shadow:@shadow;
+  behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-gradient(@top:#fff;@bottom:#000;)
 {
-	background-image: -moz-linear-gradient(center bottom, @bottom 0%, @top 100%);
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, @bottom), color-stop(1, @top));
-	background-image: -o-linear-gradient(center bottom, @bottom 0%, @top 100%);
-	behavior: url(/apostrophePlugin/css/PIE.htc);		
+  background-image: -moz-linear-gradient(center bottom, @bottom 0%, @top 100%);
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, @bottom), color-stop(1, @top));
+  background-image: -o-linear-gradient(center bottom, @bottom 0%, @top 100%);
+  behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-text-shadow(@params:0 -1px 0px rgba(0,0,0,0.20);)
 {
-	text-shadow: @params;
+  text-shadow: @params;
 }
 
 @a-no-user-select
 {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @a-after-shadow
 {
-	&::after
-	{
-		visibility: visible;
-		float: left;
-		content: ' ';
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: auto;
-		z-index: -2;
-		height: 15px;
-		margin: 0 5%;
-		width: 90%;
-		@a-box-shadow(0 0 15px rgba(0,0,0,0.25));
-		-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
-		-moz-border-radius-bottomleft: 200px 10px;
-		-moz-border-radius-bottomright: 200px 10px;
-		-webkit-border-bottom-left-radius: 200px 10px;
-		-webkit-border-bottom-right-radius: 200px 10px;
-		border-bottom-left-radius: 200px 15px;
-		border-bottom-right-radius: 200px 15px;
-	}		
+  &::after
+  {
+    visibility: visible;
+    float: left;
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: -2;
+    height: 15px;
+    margin: 0 5%;
+    width: 90%;
+    @a-box-shadow(0 0 15px rgba(0,0,0,0.25));
+    -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+    -moz-border-radius-bottomleft: 200px 10px;
+    -moz-border-radius-bottomright: 200px 10px;
+    -webkit-border-bottom-left-radius: 200px 10px;
+    -webkit-border-bottom-right-radius: 200px 10px;
+    border-bottom-left-radius: 200px 15px;
+    border-bottom-right-radius: 200px 15px;
+  }
 }
 
 @a-before-shadow
 {
-	&::before
-	{
-		visibility: visible;
-		float: left;
-		content: ' ';
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: auto;
-		z-index: -2;
-		height: 15px;
-		margin: 0 5%;
-		width: 90%;
-		@a-box-shadow(0 0 15px rgba(0,0,0,0.25));
-		-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
-		-moz-border-radius-topleft: 200px 10px;
-		-moz-border-radius-topright: 200px 10px;
-		-webkit-border-top-left-radius: 200px 10px;
-		-webkit-border-top-right-radius: 200px 10px;
-		border-top-left-radius: 200px 15px;
-		border-top-right-radius: 200px 15px;
-	}		
+  &::before
+  {
+    visibility: visible;
+    float: left;
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
+    z-index: -2;
+    height: 15px;
+    margin: 0 5%;
+    width: 90%;
+    @a-box-shadow(0 0 15px rgba(0,0,0,0.25));
+    -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+    -moz-border-radius-topleft: 200px 10px;
+    -moz-border-radius-topright: 200px 10px;
+    -webkit-border-top-left-radius: 200px 10px;
+    -webkit-border-top-right-radius: 200px 10px;
+    border-top-left-radius: 200px 15px;
+    border-top-right-radius: 200px 15px;
+  }
 }
 
 @a-rgba-background( @rgb:#fff; @rgba:rgba(255,255,255,0.95); )
 {
-	background: @rgb;
-	background: @rgba;
-	behavior: url(/apostrophePlugin/css/PIE.htc);	
+  background: @rgb;
+  background: @rgba;
+  behavior: url(/apostrophePlugin/css/PIE.htc);
 }
 
 @a-webkit-scrollbar(@width:8px; @radius:4px; @color:#efefef;)
 {
-	&::-webkit-scrollbar
-	{
+  &::-webkit-scrollbar
+  {
     width: @width;
-		background-color: @color;
-		@a-border-radius(@radius);
-		&:vertical
-		{
-			
-		}
-		&:horizontal
-		{
-			height: 8px;
-		}
-	}
-	&::-webkit-scrollbar-thumb
-	{
-		background-color: darken(@color, 50%);
-		@a-border-radius(@radius);
-	}
-	&::-webkit-scrollbar-corner
-	{
-		background-color: @color;
-	}
+    background-color: @color;
+    @a-border-radius(@radius);
+    &:vertical
+    {
+
+    }
+    &:horizontal
+    {
+      height: 8px;
+    }
+  }
+  &::-webkit-scrollbar-thumb
+  {
+    background-color: darken(@color, 50%);
+    @a-border-radius(@radius);
+  }
+  &::-webkit-scrollbar-corner
+  {
+    background-color: @color;
+  }
 }

@@ -14,18 +14,18 @@
 
 .a-admin #a-admin-list-actions
 {
-	width:100%;
-	padding-bottom:20px;
-	margin-bottom:20px;
-	border-bottom:1px solid #ddd;
+  width:100%;
+  padding-bottom:20px;
+  margin-bottom:20px;
+  border-bottom:1px solid #ddd;
 }
 
 .a-admin .notice
 {
-color: #666;
-font-size: 18px;
-line-height: 18px;
-margin-bottom: 20px;
+  color: #666;
+  font-size: 18px;
+  line-height: 18px;
+  margin-bottom: 20px;
 }
 
 .a-admin fieldset h2
@@ -164,7 +164,7 @@ vertical-align: middle;
 
 .a-admin-list thead th * { float: left; }
 
-.a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded, 
+.a-admin-list thead th .a-btn.flag.icon.a-sort-arrow.expanded,
 .a-admin-list thead th .a-btn.flag.no-label.a-sort-arrow.expanded { background-position: 0 -20px; }
 
 .a-admin-list tfoot th
@@ -186,7 +186,7 @@ border-right: none;
 
 .a-admin .a-admin-edit-help { color: #aaa; }
 
-.a-admin select.a-admin-multiple, 
+.a-admin select.a-admin-multiple,
 .a-admin select.a-admin-multiple-selected { width: 12em; }
 
 .a-admin ul.a-admin-checklist li
@@ -243,24 +243,24 @@ text-transform: capitalize;
 .a-date-wrapper,
 .a-time-wrapper
 {
-	margin-bottom:4px;
-	float: left;
-	clear: both;
+  margin-bottom:4px;
+  float: left;
+  clear: both;
 }
 
 .a-date-wrapper input,
 .a-time-wrapper input
 {
-	float: left;
-	border:1px solid rgba(0, 0, 0, 0.2);
-	padding:1px;
-	-moz-border-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	border-radius: 3px;
-	
+  float: left;
+  border:1px solid rgba(0, 0, 0, 0.2);
+  padding:1px;
+  -moz-border-radius: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-radius: 3px;
+
 }
 
 .ui-timepicker-trigger,
@@ -279,7 +279,7 @@ cursor: pointer;
 
 .a-admin .a-admin-flashes
 {
-// We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice 
+// We should make two styles for .a-admin-flashes.error and .a-admin-flashes.notice
 color: #EF9920;
 float: left;
 clear: both;
@@ -343,15 +343,15 @@ padding: 10px;
 
 .a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row
 {
-	padding:0;
-	margin:3px 0 2px 0;
+  padding:0;
+  margin:3px 0 2px 0;
 }
 
 .a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-label
 {
-	width:120px;
-	float:left;
-	display:inline;
+  width:120px;
+  float:left;
+  display:inline;
 
 }
 
@@ -364,16 +364,16 @@ display:inline;
 
 .a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field
 {
-	display:inline;
-	margin:0 0 0 120px;
-	width: 580px;
+  display:inline;
+  margin:0 0 0 120px;
+  width: 580px;
 }
 
 .a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field label
 {
-	position: relative !important;
-	display: block;
-	float: left;
+  position: relative !important;
+  display: block;
+  float: left;
 }
 
 
@@ -386,46 +386,46 @@ display:inline;
   {
     .a-form-row
     {
-      // Label floats to the left of main filter field 
+      // Label floats to the left of main filter field
       margin: 10px 0;
       border-bottom: 1px solid #efefef;
       .a-admin-filter-label
       {
         width:120px;
-      	float: left;
-      	display: block;
+        float: left;
+        display: block;
       }
       .a-admin-filter-field
       {
         margin: 0px 0px 10px 120px;
-      	width: 580px;
-      	display: block;
-      	// "Is Empty" is inline 
-      	label
-      	{
-      	  display: inline;
-        	width: auto;
-        	float: none;
-        	min-width: 0px;
-      	}
-      	// "Is Empty" is inline; checkboxes need a min-width override that really works cross-browser 
-      	input[type="checkbox"]
-      	{
-      	  display: inline;
-        	width: auto;
-        	float: none;
+        width: 580px;
+        display: block;
+        // "Is Empty" is inline
+        label
+        {
+          display: inline;
+          width: auto;
+          float: none;
+          min-width: 0px;
+        }
+        // "Is Empty" is inline; checkboxes need a min-width override that really works cross-browser
+        input[type="checkbox"]
+        {
+          display: inline;
+          width: auto;
+          float: none;
           // margin-left: 10px;
-        	min-width: 0px;
-      	}
-      	select
-      	{
-      	  margin: 0px 3px;
-      	}
+          min-width: 0px;
+        }
+        select
+        {
+          margin: 0px 3px;
+        }
       }
-      
+
     }
   }
-  // The actual data entry fields are inline so they can be consecutive on a line etc. as in date range widgets 
+  // The actual data entry fields are inline so they can be consecutive on a line etc. as in date range widgets
   .a-form-row
   {
     input[type="text"],
@@ -434,26 +434,26 @@ display:inline;
     textarea
     {
       float: none;
-    	display: inline;
+      display: inline;
     }
   }
 }
 
 
-// br is a special case, it's not really an element that can be styled consistently: 
+// br is a special case, it's not really an element that can be styled consistently:
 // http://stackoverflow.com/questions/899252/can-you-target-br-with-css
-// So we transform it via jQuery (apostrophe.enableUserAdmin) into a div with a class that we can style 
-	
+// So we transform it via jQuery (apostrophe.enableUserAdmin) into a div with a class that we can style
+
 .a-admin div.a-spacer
 {
-	display: block;
-	padding-bottom: 6px;
+  display: block;
+  padding-bottom: 6px;
 }
 
 // 33. Some Admin Generator Styles
 // -------------------------------------
 
-.a-admin-generator .a-form-row input, 
+.a-admin-generator .a-form-row input,
 .a-admin-generator .a-form-row textarea
 {
 min-width: 160px;
@@ -549,12 +549,12 @@ margin-bottom: 3px;
 border: none;
 }
 
-// Tag and Category Admin 
+// Tag and Category Admin
 
 .a-admin-generator.aTagAdmin .a-subnav-wrapper.admin,
 .a-admin-generator.aCategoryAdmin .a-subnav-wrapper.admin
 {
-	display: none;
+  display: none;
 }
 
 .a-admin-generator.aTagAdmin .a-content,
@@ -562,8 +562,8 @@ border: none;
 .a-admin-generator.aCategoryAdmin .a-content,
 .a-admin-generator.aCategoryAdmin .a-admin-content
 {
-	width: 100%;
+  width: 100%;
 }
 
-// JQ Date Picker Fix 
+// JQ Date Picker Fix
 #ui-datepicker-div { z-index: 9999; }
