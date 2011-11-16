@@ -362,31 +362,31 @@ class aImageConverter
         break;
 
         case 2: // horizontal flip
-        $rotate = '| pamflip -leftright ';
+        $rotate = '| pnmflip -leftright ';
         break;
 
         case 3: // 180 rotate left
-        $rotate = '| pamflip -rotate180 ';
+        $rotate = '| pnmflip -rotate180 ';
         break;
 
         case 4: // vertical flip
-        $rotate = '| pamflip -topbottom ';
+        $rotate = '| pnmflip -topbottom ';
         break;
 
         case 5: // vertical flip + 90 rotate right
-        $rotate = '| pamflip -topbottom | pamflip -cw ';
+        $rotate = '| pnmflip -topbottom | pnmflip -cw ';
         break;
 
         case 6: // 90 rotate right
-        $rotate = '| pamflip -cw ';
+        $rotate = '| pnmflip -cw ';
         break;
 
         case 7: // horizontal flip + 90 rotate right
-        $rotate = '| pamflip -leftright | pamflip -cw ';
+        $rotate = '| pnmflip -leftright | pnmflip -cw ';
         break;
 
         case 8:    // 90 rotate left
-        $rotate = '| pamflip -ccw ';
+        $rotate = '| pnmflip -ccw ';
         break;
     }
     
