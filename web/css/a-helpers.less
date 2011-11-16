@@ -45,7 +45,7 @@
 {
   @msOpacity:@opacity*100;
   opacity: @opacity;
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity={@msOpacity})";
+  -ms-filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity={@msOpacity})");
   filter: alpha(opacity=@msOpacity);
 }
 
