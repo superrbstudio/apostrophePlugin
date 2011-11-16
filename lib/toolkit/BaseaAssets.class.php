@@ -93,8 +93,20 @@ class BaseaAssets
       aAssets::$lessc = new $class($param);
   		// set a new import directory in app.yml if you want to change our imported files, like a-helpers.less
     }
-		// importDir must be reset for each file since they may be in different folders
-		$importDir = sfConfig::get('app_a_less_import_directory', dirname($path) . '/');
+		// importDir, which is actually an array of allowed import directories, 
+		// must be reset for each file since they may be in different folders
+		$importDir = sfConfig::get('app_a_less_import_directory', array('SELF_DIR'));
+		if (!is_null($importDir))
+		{
+		  if (!is_array($importDir))
+		  {
+		    $importDir = array($importDir);
+		  }
+		  foreach ($importDir as &$dir)
+		  {
+		    $dir = str_replace(array('SF_PLUGINS_DIR', 'SF_WEB_DIR', 'SELF_DIR'), array(sfConfig::get('sf_plugins_dir'), sfConfig::get('sf_web_dir'), dirname($path)), $dir);
+		  }
+		}
     aAssets::$lessc->importDir = $importDir;
     
     // The cache key should be the compiled css filename, not the original less filename, because
