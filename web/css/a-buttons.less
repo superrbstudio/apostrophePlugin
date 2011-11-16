@@ -63,7 +63,7 @@
 			{
 				> .icon
 				{
-					background-color: none;
+					background-color: transparent;
 				}
 			}
 			// This would be lovely if Firefox supported it.
@@ -189,11 +189,7 @@
 			border: 0 !important;
 			text-shadow: none !important;
 			background: none !important;
-			-moz-box-shadow: 0 0 0 transparent !important;
-			-webkit-box-shadow: 0 0 0 transparent !important;
-			-opera-box-shadow: 0 0 0 transparent !important;
-			-khtml-box-shadow: 0 0 0 transparent !important;
-			box-shadow: 0 0 0 transparent !important;
+			@a-box-shadow(none);
 			line-height: 20px !important;
 			height: 20px !important;
 		}
