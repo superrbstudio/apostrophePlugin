@@ -47,7 +47,7 @@
 								array(
 								"slug" => $item->getSlug(),
 	              "format" => $item->getFormat()
-	 							))) ?>	
+	 							)), array('target' => 'false', )) ?>	
 			</div>
 			
       <ul class="a-file-meta">
@@ -64,7 +64,7 @@
     								array(
     								"slug" => $item->getSlug(),
     	              "format" => $item->getFormat()
-    	 							))) ?>
+    	 							)), array('target' => 'false', )) ?>
     		   </li>
       </ul>
     </div>
