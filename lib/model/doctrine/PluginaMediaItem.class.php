@@ -253,8 +253,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     
     $path = $this->getOriginalPath($this->getFormat());
     $result = copy($file, $path);
-    // Crops are invalid if you replace the original image
-    $this->deleteCrops();
+    // What to do about crops of the old image? We used to delete them, but this 
+    // causes user confusion. A better idea is to autocrop the center of the new 
+    // image to the same dimensions. If this is not possible we do delete the crop
+    // in question - otherwise we might be violating the original constraints,
+    // which are not knowable at this stage (they are to be found in one or more
+    // page templates that had a hand in causing this crop to exist)
+    $this->fixCropsForNewDimensions();
     return $result;
   }
 
@@ -517,7 +522,45 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * DOCUMENT ME
+   * The image has been replaced with another image. Look at all existing crops of the
+   * old image. Autocrop the center of the new image to the same dimensions. If this is 
+   * not possible we drop the crop in question. Less disruptive than the old 
+   * "drop all the crops when changing the image" policy
+   */
+  public function fixCropsForNewDimensions()
+  {
+    $crops = $this->getCrops();
+    foreach ($crops as $crop)
+    {
+      $info = $crop->getCroppingInfo();
+      if (!isset($info['cropWidth']))
+      {
+        continue;
+      }
+      $width = $info['cropWidth'];
+      $height = $info['cropHeight'];
+      if (($width > $this->width) || ($height > $this->height))
+      {
+        $crop->delete();
+      }
+      else
+      {
+        $info['cropLeft'] = floor(($this->width - $width) / 2);
+        $info['cropTop'] = floor(($this->height - $height) / 2);
+        $crop->slug = $this->formatCropSlug($info);
+        $crop->save();
+      }
+    }
+  }
+
+  public function formatCropSlug($info)
+  {
+    return $this->slug . '.' . $info['cropLeft'] . '.' . $info['cropTop'] . '.' . $info['cropWidth'] . '.' . $info['cropHeight'];
+  }
+  
+  /**
+   * Remove all aMediaItem objects that are just cropping dimensions referring
+   * back to this same object
    */
   public function deleteCrops()
   {
@@ -536,7 +579,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    */
   public function findOrCreateCrop($info)
   {
-    $slug = $this->slug . '.' . $info['cropLeft'] . '.' . $info['cropTop'] . '.' . $info['cropWidth'] . '.' . $info['cropHeight'];
+    $slug = $this->formatCropSlug($info);
     $crop = $this->getTable()->findOneBySlug($slug);
     if (!$crop)
     {
@@ -555,7 +598,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   public function getCroppingInfo()
   {
     $p = preg_split('/\./', $this->slug);
-    if (count($p) == 5)
+    if (count($p) === 5)
     {
       // Without the casts JSON won't give integers to JavaScript see #640
       return array('cropLeft' => (int) $p[1], 'cropTop' => (int) $p[2], 'cropWidth' => (int) $p[3], 'cropHeight' => (int) $p[4]);
