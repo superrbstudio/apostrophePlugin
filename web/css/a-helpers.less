@@ -86,6 +86,7 @@
 
 @a-gradient(@top:#fff;@bottom:#000;)
 {
+  background-color: @top; // Fallback for unsupported browsers
   background-image: -moz-linear-gradient(center bottom, @bottom 0%, @top 100%);
   background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, @bottom), color-stop(1, @top));
   background-image: -o-linear-gradient(center bottom, @bottom 0%, @top 100%);
