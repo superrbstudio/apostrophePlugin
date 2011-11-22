@@ -51,12 +51,19 @@ class aTaskTools
    * @return mixed
    */
   static public function getTaskUser()
-  {    
+  {
     $user = Doctrine::getTable('sfGuardUser')->findOneByUsername('ataskuser');
     if (!$user)
     {
+      // Cope with projects where username is slaved to email_address
+      $user = Doctrine::getTable('sfGuardUser')->findOneByUsername('ataskuser@example.com');
+    }
+    if (!$user)
+    {
       $user = new sfGuardUser();
-      $user->setUsername('ataskuser');
+      $user->setUsername('ataskuser@example.com');
+      // Also required in newer sfDoctrineGuardPlugin 
+      $user->setEmailAddress('ataskuser@example.com');
       // Set a good unique password just in case someone cluelessly sets the active flag.
       // This further ensures that no one can ever log in with this account
       $user->setPassword(aGuid::generate());
