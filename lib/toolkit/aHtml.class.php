@@ -239,12 +239,28 @@ class aHtml
       $result = htmlspecialchars($value);
     }
 
+    if ($complete)
+    {
+      // Don't allow whitespace to balloon
+      $result = trim($result);
+    }
+    else
+    {
+      $result = self::documentToFragment($result);
+    }
+
+    // Browser RTEs insert  <p>&nbsp;</p> at the beginning and
+    // <p>&nbsp;</p> at the end to work around bugs in the actual rich text
+    // editing component in the browser. Pull this brain damage back out
+
+    $result = preg_replace(array('|^\s*<p>\s*&nbsp;\s*</p>|s', '|<p>\s*&nbsp;\s*</p>\s*$|s'), array('', ''), $result);
+
     // Browser RTEs love to insert <p>&nbsp;</p> where <br /> is all they really need.
     // There are more elaborate cases we don't mess with because 
     // introducing a <br /> as a replacement for <h4>&nbsp;</h4> would not
     // have the same impact (an h4-sized gap between two h4s). Tested across
     // browsers. Fixes #500
-    $result = str_replace('<p>&nbsp;</p>', '<br />', $result);
+    $result = preg_replace('|<p>\s*&nbsp;\s*</p>|s', '<br />', $result);
     
     if($htmlStrictBr)
     {
@@ -255,14 +271,6 @@ class aHtml
     {
       set_error_handler($oldHandler);
     }
-      
-    if ($complete)
-    {
-      // Don't allow whitespace to balloon
-      return trim($result);
-    }
-
-    $result = self::documentToFragment($result);
     return $result;
   }
 
