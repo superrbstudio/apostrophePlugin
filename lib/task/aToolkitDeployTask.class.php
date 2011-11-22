@@ -115,7 +115,8 @@ EOF;
           'QUESTION_LARGE',
           false))
         {
-          die("Operation CANCELLED. No changes made.\n");
+          fwrite(STDERR, "Operation CANCELLED. No changes made.\n");
+          exit(1);
         }
       }
     }
