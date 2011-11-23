@@ -23,9 +23,6 @@
 .ie7 .a-slot.aSlideshow.compact .a-slideshow-title,
 .ie6 .a-slot.aSlideshow.compact .a-slideshow-title { background: #000; }
 
-/* No Drop Shadow for IE */
-.ie7 .dropshadow,
-.ie6 .dropshadow {	border: 1px solid #ddd; border-bottom-color:#888; border-right-color:#888; }
 
 /* Classname inheritance bug. Unset misplaced BG image */
 .ie6 table.a-calendar { background-image:none; }
@@ -39,5 +36,12 @@
 /* IE z-index Bug fix for Menu Toggle */
 .ie-z-index-fix { z-index: 9999; }
 
+/* No Drop Shadow for IE */
+.ie8 .dropshadow,
+.ie7 .dropshadow,
+.ie6 .dropshadow,
+.ie8 .a-ui.dropshadow,
+.ie7 .a-ui.dropshadow,
+.ie6 .a-ui.dropshadow,
 .ie8 .a-ui.a-options,
-.ie7 .a-ui.a-options { border: 1px solid #ccc; }
+.ie7 .a-ui.a-options { border: 1px solid #ddd; border-bottom-color:#888; border-right-color:#888; }
