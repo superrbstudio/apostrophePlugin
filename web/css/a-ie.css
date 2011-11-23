@@ -1,54 +1,37 @@
-/* Apostrophe Buttons - IE Stylesheet
+/* Apostrophe - IE Stylesheet
 -------------------------------------*/
 
-input.checkbox, input.radio { width: auto; border: none !important; }
+.ie7 input.checkbox, 
+.ie7 input.radio,
+.ie6 input.checkbox, 
+.ie6 input.radio { width: auto; border: none !important; }
 
-.a-search form input.a-search-field { line-height: 20px; }
+.ie7 .a-search form input.a-search-field,
+.ie6 .a-search form input.a-search-field { line-height: 20px; }
 
-ul.a-slideshow { background: none !important; }
+.ie7 ul.a-slideshow,
+.ie6 ul.a-slideshow { background: none !important; }
 
-/* RGBA is awesome. Except for IE. Solid Colors */
-.a-page-overlay { filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#aaffffff,endColorstr=#aaffffff) !important; background:none; zoom: 1; }
+.ie7 div.tag-suggestions li a,
+.ie7 div.tag-suggestions li a:link,
+.ie6 div.tag-suggestions li a,
+.ie6 div.tag-suggestions li a:link { background: #444; }
 
-div.tag-suggestions li a,
-div.tag-suggestions li a:link { background: #444; }
-
-.a-slot.aSlideshow.compact .a-slideshow-title { background: #000; }
+.ie7 .a-slot.aSlideshow.compact .a-slideshow-title,
+.ie6 .a-slot.aSlideshow.compact .a-slideshow-title { background: #000; }
 
 /* No Drop Shadow for IE */
-.dropshadow {	border: 1px solid #ddd; border-bottom-color:#888; border-right-color:#888; }
+.ie7 .dropshadow,
+.ie6 .dropshadow {	border: 1px solid #ddd; border-bottom-color:#888; border-right-color:#888; }
+
+/* Classname inheritance bug. Unset misplaced BG image */
+.ie6 table.a-calendar { background-image:none; }
+
+/* hard width needed to prevent wrapping */
+.ie6 .a-ui.a-signin-popup .a-form-row.submit { width: 185px; padding-bottom: 10px; } 
+
+/* Don't show the thumbnail image */
+.ie6 .a-media-item-thumbnail-image { visibility: hidden !important; }
 
 /* IE z-index Bug fix for Menu Toggle */
 .ie-z-index-fix { z-index: 9999; }
-
-table.a-calendar { background-image:none; }
-
-.a-ui.a-signin-popup .a-form-row.submit { width: 185px; padding-bottom: 10px; } /* hard width needed to prevent wrapping */
-
-/* Color Fixes for <= IE7
--------------------------------------*/
-
-.the-apostrophe
-{ /* Apostrophe */
-background-color: rgb(153,204,51) !important;
-}
-
-.a-btn,
-.a-submit,
-.a-cancel
-{ /* Background Color */
-background-color: rgb(153,204,51);
-}
-
-.a-history-browser
-{ /* Border Color */
-border-color: rgb(153,204,51);	
-}
-
-.a-global-toolbar .a-logged-in-user span,
-#a-personal-settings-heading span
-{ /* Text Color */
-color: rgb(153,204,51);
-}
-
-.a-media-item-thumbnail-image { visibility: hidden !important; }

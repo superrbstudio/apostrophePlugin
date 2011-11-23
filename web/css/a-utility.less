@@ -11,7 +11,7 @@
 // Complete page overlay class to create a translucent box overtop of the entier page
 .a-page-overlay {
   display: none; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; z-index: 996;
-  @a-rgba-background(#fff; rgba(255,255,255,0.5));
+  @a-rgba-background(url('/apostrophePlugin/images/rgba-255-255-255-0.5.png'); rgba(255,255,255,0.5));
   &.active
   {
     display: block;
@@ -21,7 +21,7 @@
 // General overlay class to create a translucent box overtop of a containing element
 .a-overlay {
   position:absolute; top:0; left:0; display:none; height:100%; width:100%; z-index:999; overflow: hidden;
-  @a-rgba-background(#fff; rgba(255,255,255,0.5));
+  @a-rgba-background(url('/apostrophePlugin/images/rgba-255-255-255-0.5.png'); rgba(255,255,255,0.5));
   &.active
   {
     display: block;
