@@ -104,7 +104,9 @@ class aEngineTools
       {
         $engineCache[$engine['slug']] = array();
         foreach($engine['Categories'] as $category)
+        {
           $engineCache[$engine['slug']][] = $category['name'];
+        }
       }
       self::$engineCategoryCache[$engineName] = $engineCache;
     }    
@@ -124,7 +126,10 @@ class aEngineTools
     $categories = array();
     foreach($object->Categories as $category)
     {
-      $categories[] = $category;
+      // A list of names, not objects, to be consistent with
+      // getEngineCategories. The difference led our best-page
+      // algorithm to fail
+      $categories[] = $category['name'];
     }
     // This method is usually a one-line wrapper around aEngineTools::getEngineCategories() that specifies
     // the right engine name. The engine name and the model class name are often not the same
@@ -134,7 +139,7 @@ class aEngineTools
     foreach($engines as $engineSlug => $engineCategories)
     {
       $score = 0;
-      if(count($engines) == 0)
+      if (count($engineCategories) === 0)
       {
         $score = 1;
       }
