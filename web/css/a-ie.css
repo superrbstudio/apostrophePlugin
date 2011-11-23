@@ -1,9 +1,12 @@
 /* Apostrophe - IE Stylesheet
 -------------------------------------*/
 
-.ie7 input.checkbox, 
+/* IE6 can't do anything, no global toolbar for you! */
+.ie6 .a-global-toolbar { display: none; }
+
+.ie7 input.checkbox,
 .ie7 input.radio,
-.ie6 input.checkbox, 
+.ie6 input.checkbox,
 .ie6 input.radio { width: auto; border: none !important; }
 
 .ie7 .a-search form input.a-search-field,
@@ -28,10 +31,13 @@
 .ie6 table.a-calendar { background-image:none; }
 
 /* hard width needed to prevent wrapping */
-.ie6 .a-ui.a-signin-popup .a-form-row.submit { width: 185px; padding-bottom: 10px; } 
+.ie6 .a-ui.a-signin-popup .a-form-row.submit { width: 185px; padding-bottom: 10px; }
 
 /* Don't show the thumbnail image */
 .ie6 .a-media-item-thumbnail-image { visibility: hidden !important; }
 
 /* IE z-index Bug fix for Menu Toggle */
 .ie-z-index-fix { z-index: 9999; }
+
+.ie8 .a-ui.a-options,
+.ie7 .a-ui.a-options { border: 1px solid #ccc; }

@@ -547,12 +547,13 @@ function aConstructor()
 	// Utility: IE6 Users get a special message when they log into apostrophe
 	this.IE6 = function(options)
 	{
-		var authenticated = options['authenticated'];
-		var message = options['message'];
-		// This is called within a conditional comment for IE6 in Apostrophe's layout.php
-		if (authenticated)
+		var ieBody = $('body');
+		    authenticated = options['authenticated'],
+		    message = options['message'];
+		// This is called within a conditional comment for IE in Apostrophe's layout.php
+		if (authenticated && ieBody.closest('.ie6').size())
 		{
-			$(document.body).addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');
+			ieBody.addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');
 		}
 	};
 
