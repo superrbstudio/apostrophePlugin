@@ -17,7 +17,12 @@
 <ul class="a-nav a-nav-<?php echo $name ?><?php echo (isset($tabs))? ' tabs':' accordion' ?> nav-depth-<?php echo $nest?> clearfix <?php echo $ulClass ?>" id="a-nav-<?php echo $name ?>-<?php echo $nest ?><?php echo ($n) ? '-'.$n : '' ?>">
 
   <?php $n=1; foreach($nav as $pos => $item): ?>
-    <li class="<?php echo $class;
+    <?php // extras can have a custom class attribute too ?>
+    <?php $itemClass = $class ?>
+    <?php if (isset($item['class'])): ?>
+      <?php $itemClass .= " " . $item['class'] ?>
+    <?php endif ?>
+    <li class="<?php echo $itemClass;
 				echo ' a-nav-item-'.$nest;
         if($item['slug'] == $active) echo ' a-current-page a-ancestor a-ancestor-'.$nest;
         if(isset($item['ancestor'])) echo ' ancestor a-ancestor a-ancestor-'.$nest;

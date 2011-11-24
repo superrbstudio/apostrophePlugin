@@ -77,10 +77,16 @@ class BaseaNavigationComponents extends sfComponents
 
     $i = 0;
     $urlValidator = new sfValidatorUrl();
-    foreach($this->extras as $slug => $title)
+    foreach($this->extras as $slug => $info)
     {
+      if (!is_array($info))
+      {
+        $info = array('title' => $info);
+      }
+      $title = $info['title'];
+      $class = isset($info['class']) ? $info['class'] : '';
       $external = false;
-      try{
+      try {
         $urlValidator->clean($slug);
         $external = true;
       } catch(sfValidatorError $e) {}
@@ -91,6 +97,7 @@ class BaseaNavigationComponents extends sfComponents
         'view_is_secure' => false,
         'archived' => false,
         'extra' => true,
+        'class' => $class,
         'external' => $external );
 
       array_unshift($this->nav, $item);
