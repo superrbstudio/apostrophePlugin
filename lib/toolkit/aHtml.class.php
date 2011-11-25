@@ -835,11 +835,26 @@ class aHtml
    * 'script src' tags are converted to jQuery.getScript() calls. This doesn't work 
    * for every possible edge case but it is often effective. 
    *
+   * If the embed code makes document.write() calls to dynamically insert more
+   * <script src="..."> tags, we're out of luck - it is not possible to dynamically
+   * but synchronously load cross-domain JavaScript files (see the jQuery async docs,
+   * for example, which explicitly warn the async flag is no help here). So instead
+   * a message saying "Refresh the page to see the result" is shown to the user and
+   * apostrophe.log is called with information about the JS file the embed code tried
+   * to load. You can implement loading of that file by some other means, in which
+   * case you'll want to specify $options['ignoreDynamicScriptSrc'] = true so that
+   * the 'refresh the page' message stops appearing and the document.write() call 
+   * is harmlessly ignored.
+   *
+   * Returns jQuery code, wrapped in a domready function. Stuff it in a script block
+   * or emit it as the success function of a $.getScript() call.
+   *
    * @param string $code
    * @param string $appendToSelector
+   * @param array $options
    * @return string (the AJAX-friendly embed code)
    */
-  static public function ajaxifyEmbedCode($code, $appendToSelector)
+  static public function ajaxifyEmbedCode($code, $appendToSelector, $options = array())
   {
     // Find any <script src="foo.js"></script> tags, capture their src URL, and
     // remove them from the markup. These don't work as-is in AJAX responses
@@ -883,21 +898,45 @@ jQuery.getScript($escapedSrc, function() {
 EOM
 ;
     }
-    
+
+    // If they make dynamic document.write calls to generate script src tags,
+    // flag that to be special-cased at a higher level. I have some bad news:
+    // there is no reliable way to synchronously load js files from another domain
+    // (read that whole sentence carefully please) and jQuery doesn't try, even if
+    // the async flag is false. So we really can't fix this automagically.
+
+    if ((!isset($options['ignoreDynamicScriptSrc'])) || (!$options['ignoreDynamicScriptSrc']))
+    {
+      $catchDynamicScriptSrc = <<<EOM
+      var scriptSrcRegex = /<script.*?src=[\'"]([^\'"]+)[\'"].*?<\/script>/g;      
+      if (matches = scriptSrcRegex.exec(markup))
+      {
+        var src = matches[1];
+        apostrophe.log("ajaxifyEmbedCode cannot synchronously load this cross-domain .js file: " + src);
+        $($escapedSelector).append("Refresh the page to see the result.");
+        return;
+      }
+      markup.replace(scriptSrcRegex, '');
+EOM
+;
+    }
+    else
+    {
+      $catchDynamicScriptSrc = '';
+    }
+
     $result = <<<EOM
-<script type="text/javascript" charset="utf-8">
   $(function() {
     var apostropheSaveDocumentWrite = document.write;
     var apostropheDocumentWriteBuffer = '';
     document.write = function(markup) {
+      $catchDynamicScriptSrc
       apostropheDocumentWriteBuffer += markup;
     };
     $result
   });
-</script>
 EOM
 ;
-    error_log($result);
     return $result;
   }
 }
