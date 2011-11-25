@@ -827,4 +827,77 @@ class aHtml
     // needed
     return html_entity_decode(str_replace('&nbsp;', ' ', strip_tags($html)), ENT_COMPAT, 'UTF-8');
   }
+  
+  /**
+   * Accepts an embed code from a service like Wufoo or Etsy and attempts to fix it to
+   * be loaded safely via AJAX. document.write() is temporarily overridden to append 
+   * content to the specified selector rather than blanking the entire page, and any
+   * 'script src' tags are converted to jQuery.getScript() calls. This doesn't work 
+   * for every possible edge case but it is often effective. 
+   *
+   * @param string $code
+   * @param string $appendToSelector
+   * @return string (the AJAX-friendly embed code)
+   */
+  static public function ajaxifyEmbedCode($code, $appendToSelector)
+  {
+    // Find any <script src="foo.js"></script> tags, capture their src URL, and
+    // remove them from the markup. These don't work as-is in AJAX responses
+        
+    $count = preg_match_all('|<script.*?src=[\'"]([^\'"]+)[\'"].*?</script>|', $code, $matches); 
+    if ($count)
+    {
+      $srcs = $matches[1];
+      $code = preg_replace('|<script.*?src=[\'"]([^\'"]+)[\'"].*?</script>|', '', $code);
+    }
+    else
+    {
+      $srcs = array();
+    }
+
+    // Build up the response by successively decorating it from the inside out. First the
+    // simple append call to add the markup to the selector, then the jQuery.getScript calls
+    // to load the required javascripts, and then the logic to override document.write() to
+    // also append to the selector
+    
+    $escapedSelector = json_encode($appendToSelector);
+    $escapedCode = json_encode($code);
+    
+    $result = <<<EOM
+$($escapedSelector).append($escapedCode);
+$($escapedSelector).append(apostropheDocumentWriteBuffer);
+document.write = apostropheSaveDocumentWrite;
+EOM
+;
+    // Reverse the order so that the file that should be loaded first is the outermost
+    // getScript() call
+    $srcs = array_reverse($srcs);
+    
+    foreach ($srcs as $src)
+    {
+      $escapedSrc = json_encode($src);
+      $result = <<<EOM
+jQuery.getScript($escapedSrc, function() {
+  $result
+});
+EOM
+;
+    }
+    
+    $result = <<<EOM
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    var apostropheSaveDocumentWrite = document.write;
+    var apostropheDocumentWriteBuffer = '';
+    document.write = function(markup) {
+      apostropheDocumentWriteBuffer += markup;
+    };
+    $result
+  });
+</script>
+EOM
+;
+    error_log($result);
+    return $result;
+  }
 }
