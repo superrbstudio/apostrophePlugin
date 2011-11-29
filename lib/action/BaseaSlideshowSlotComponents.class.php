@@ -38,23 +38,10 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->setupOptions();
   }
 
-  /**
-   * DOCUMENT ME
-   */
   protected function getLinkedItems()
   {
-    // Behave well if it's not set yet!
-    $data = $this->slot->getArrayValue();
-    if (isset($data['order']))
-    {
-      $this->items = $this->slot->getOrderedMediaItems();
-      $this->itemIds = aArray::getIds($this->items);
-    }
-    else
-    {
-      $this->items = array();
-      $this->itemIds = array();
-    }
+    $this->items = $this->slot->getOrderedMediaItems();
+    $this->itemIds = aArray::getIds($this->items);
   }
 
   /**

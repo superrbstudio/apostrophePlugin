@@ -174,9 +174,10 @@ class BaseaSlotActions extends sfActions
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $editorOpen
-   * @return mixed
+   * Re-render the slot in an AJAX response. If $editorOpen is true the
+   * edit view will be visible, otherwise the normal view
+   * @param bool $editorOpen
+   * @return partial
    */
   protected function editAjax($editorOpen)
   {

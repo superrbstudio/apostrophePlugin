@@ -48,8 +48,11 @@ abstract class PluginaSlideshowSlot extends BaseaSlideshowSlot
   public function getMediaItemOrder()
   {
     $data = $this->getArrayValue();
-    
-    return $data['order'];
+    if (isset($data['order']))
+    {
+      return $data['order'];
+    }
+    return null;
   }
   
   // We don't need refreshSlot anymore thanks to ON DELETE CASCADE
