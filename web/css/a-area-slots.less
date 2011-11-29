@@ -236,7 +236,7 @@
   // aSlideshow Slot
   // ----------------------------------------
 
-  &.aSlideshow
+  &.aSlideshow,.aReusableSlideshow
   {
     @a-user-select(text);
     .a-slideshow-controls
@@ -429,13 +429,16 @@
 .aVideo .a-slot-content ul,
 .aSmartSlideshow .a-slot-content ul,
 .aSlideshow .a-slot-content ul,
+.aReusableSlideshow .a-slot-content ul,
 .aPDF .a-slot-content ul,
 .aButton .a-slot-content ul { list-style: none; padding: 0; }
 
 .aSmartSlideshow .a-slideshow,
 .aSmartSlideshow .a-slideshow li,
 .aSlideshow .a-slideshow,
-.aSlideshow .a-slideshow li { float: left; width: 100%; clear: both; }
+.aReusableSlideshow .a-slideshow,
+.aSlideshow .a-slideshow li,
+.aReusableSlideshow .a-slideshow li { float: left; width: 100%; clear: both; }
 
 .aButton a img { border: 0; }
 

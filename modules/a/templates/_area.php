@@ -94,8 +94,8 @@
 	   <?php a_slot_body($name, $slot->type, $permid, array_merge(array('edit' => $editable, 'preview' => $preview), $slotOptions), array(), $slot->isOpen()) ?>
 	 <?php end_slot() ?>
 
-		<!-- START SLOT -->
-		<div class="a-slot a-normal <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
+		<?php // New data attributes make it much easier to target actions to slots ?>
+		<div class="a-slot a-normal <?php echo $slot->getEffectiveVariant($slotOptions) ?> <?php echo $slot->type ?><?php echo ($slot->isNew())? ' a-new-slot':'' ?> clearfix" data-pageid="<?php echo $pageid ?>" data-name="<?php echo $name ?>" data-permid="<?php echo $permid ?>" id="a-slot-<?php echo "$pageid-$name-$permid" ?>">
  		
 			<?php // Slot Controls ?>
 	    <?php if ($editable): ?>
