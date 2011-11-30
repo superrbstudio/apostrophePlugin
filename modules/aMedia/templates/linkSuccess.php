@@ -11,6 +11,10 @@
 
 	  <h3><?php echo a_('Linked Accounts') ?></h3>
 
+    <p class="a-help">
+      New videos and other media in linked accounts are automatically copied to your site's media repository every 20 minutes.
+    </p>
+    
 		<form id="a-media-add-linked-account" method="post" action="<?php echo a_url('aMedia', 'linkAddAccount') ?>" class="a-ui a-media-services-form a-media-linked-accounts-form">
 			<div class="a-form-row a-hidden">
 				<?php echo $form->renderHiddenFields() ?>
