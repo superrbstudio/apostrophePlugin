@@ -373,6 +373,9 @@ class BaseaMediaTools
 
     // Also see 'getDownloadable' and 'getEmbeddable' in aMediaItem
 
+    // Also override the enum in schema.yml if you have configured Doctrine to use
+    // database-level enums rather than strings to represent Doctrine enums
+    
     'types' => array(
       // You must have an image type
       'image' => array('label' => 'Image', 'extensions' => array('gif', 'png', 'jpg'), 'embeddable' => false, 'downloadable' => true),

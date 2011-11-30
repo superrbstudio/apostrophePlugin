@@ -488,7 +488,7 @@ aMediaItem:
     type:
       type: enum
       notnull: true
-      values: [image, video, audio, pdf]  
+      values: [image, video, audio, pdf, office]  
     # URL on YouTube
     service_url:
       type: string(200)
