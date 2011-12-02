@@ -330,12 +330,13 @@ function aConstructor()
 				return false;
 			});
 		}
-		if (!link.length) {
-			apostrophe.log('apostrophe.linkToRemote -- No Link Found');
-		}
-		if (!update.length) {
-			apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
-		}
+    // Enable for debugging
+    // if (!link.length) {
+    //  apostrophe.log('apostrophe.linkToRemote -- No Link Found');
+    // }
+    // if (!update.length) {
+    //  apostrophe.log('apostrophe.linkToRemote -- No Update Target Found');
+    // }
 	};
 
 	this.unobfuscateEmail = function(aClass, email, label)
