@@ -42,7 +42,13 @@ class BaseaSlideshowSlotActions extends aSlotActions
       $value['form'] = array('type' => 'selected');
       $value['order'] = $links;
       $this->slot->setArrayValue($value);
+      $this->afterSetMediaIds();
       return $this->editSave();
     }
+  }
+  
+  protected function afterSetMediaIds()
+  {
+    // In case a subclass wants to stop doing something else when media ids are stored
   }
 }
