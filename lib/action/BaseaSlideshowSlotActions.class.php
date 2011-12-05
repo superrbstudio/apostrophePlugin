@@ -31,10 +31,17 @@ class BaseaSlideshowSlotActions extends aSlotActions
       $this->slot->unlink('MediaItems');
       $links = aArray::getIds($items);
       $this->slot->link('MediaItems', $links);
+
       // This isn't a normal form submission, but the act of selecting items for a
       // slideshow implies we picked the 'selected' radio button, so just save 'form' as if
       // that choice had been saved normally
-      $this->slot->value = serialize(array('form' => array('type' => 'selected'), 'order' => $links));
+      
+      // Allow subclasses to store other stuff in here - don't just trash what is already in other keys
+      // of the value array
+      $value = $this->slot->getArrayValue();
+      $value['form'] = array('type' => 'selected');
+      $value['order'] = $links;
+      $this->slot->setArrayValue($value);
       return $this->editSave();
     }
   }
