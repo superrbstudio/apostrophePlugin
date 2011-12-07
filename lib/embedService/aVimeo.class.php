@@ -209,8 +209,10 @@ class aVimeo extends aEmbedService
   {
     // Ignore title: we can't make an iframe any more accessible, hopefully Vimeo is offering alt attributes of its own
     $id = urlencode($id);
+    // Maintain a fully secure page to avoid browser warnings (vimeo just started supporting this)
+    $protocol = sfContext::getInstance()->getRequest()->isSecure() ? 'https' : 'http';
     return <<<EOM
-<iframe src="http://player.vimeo.com/video/$id?portrait=0&title=0&byline=0&autoplay=$autoplay" width="$width" height="$height" frameborder="0"></iframe>
+<iframe src="$protocol://player.vimeo.com/video/$id?portrait=0&title=0&byline=0&autoplay=$autoplay" width="$width" height="$height" frameborder="0"></iframe>
 EOM
 ;
   }
