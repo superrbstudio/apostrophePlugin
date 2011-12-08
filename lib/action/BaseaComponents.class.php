@@ -296,5 +296,10 @@ class BaseaComponents extends aSlotComponents
   			'height' => false
   		);
 	  }
+	  $forceOptions = sfConfig::get('app_a_standard_area_force_slot_options');
+	  if ($forceOptions)
+	  {
+	    $this->type_options = sfToolkit::arrayDeepMerge($this->type_options, $forceOptions);
+	  }
 	}
 }
