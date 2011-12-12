@@ -79,7 +79,7 @@ function a_slot_body($name, $type, $permid, $options, $validationData, $editorOp
   $user = sfContext::getInstance()->getUser();
   $controller = sfContext::getInstance()->getController();
   $moduleName = $type . 'Slot';
-  if ($controller->componentExists($moduleName, "executeSlot"))
+  if ($controller->componentExists($moduleName, "slot"))
   {
     include_component($moduleName, "slot", $parameters);
   }

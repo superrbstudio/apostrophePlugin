@@ -128,14 +128,11 @@ class BaseaSlotComponents extends sfComponents
   }
 
   /**
-   * DOCUMENT ME
+   * executeSlot removed. This was meant as a convenience when overriding the slot component, but
+   * its presence caused more problems than it solved, and in any case this feature was entirely
+   * broken until now. See http://trac.apostrophenow.org/ticket/1200
    */
-  public function executeSlot()
-  {
-    // Sadly components have no preExecute method
-    $this->setup();
-  }
-
+   
   /**
    * DOCUMENT ME
    * @param mixed $name
