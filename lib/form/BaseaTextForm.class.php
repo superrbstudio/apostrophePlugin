@@ -38,14 +38,12 @@ class BaseaTextForm extends BaseForm
     {
       unset($this->soptions['multiline']);
       $class .= ' multi-line';
-      $this->soptions['class'] = $class;
-      $this->setWidgets(array('value' => new sfWidgetFormTextarea(array('default' => $text), $this->soptions)));
+      $this->setWidgets(array('value' => new sfWidgetFormTextarea(array('default' => $text), array('class' => $class))));
     }
     else
     {
       $class .= ' single-line';
-      $this->soptions['class'] = $class;
-      $this->setWidgets(array('value' => new sfWidgetFormInputText(array('default' => $text), $this->soptions)));
+      $this->setWidgets(array('value' => new sfWidgetFormInputText(array('default' => $text), array('class' => $class))));
     }
 
     $this->setValidators(array('value' => new sfValidatorString(array('required' => false))));
