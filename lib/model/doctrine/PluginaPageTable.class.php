@@ -1149,7 +1149,7 @@ class PluginaPageTable extends Doctrine_Table
   }
 
   /**
-   * Accepts array('info' => [page info array], 'where' => [where clause])
+   * Accepts array('where' => [where clause]) or array('ids' => array(1, 5, 17...))
    * 
    * Returns results the current user is permitted to see. You can override this if you specify the
    * following options (must specify all or none):
@@ -1161,6 +1161,15 @@ class PluginaPageTable extends Doctrine_Table
    */
   static public function getPagesInfo($options)
   {
+    if (isset($options['ids']))
+    {
+      if (!count($options['ids']))
+      {
+        // Empty WHERE IN clauses are a SQL error. No ids = no results
+        return array();
+      }
+      $options['where'] = 'p.id IN (' . implode(',', array_map('floor', $options['ids'])) . ')';
+    }
     $whereClauses = array();
     $ignorePermissions = false;
     if (isset($options['ignore_permissions']))
