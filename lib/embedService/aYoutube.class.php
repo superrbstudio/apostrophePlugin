@@ -207,6 +207,10 @@ EOM
     {
       return $matches[1];
     }
+    elseif (preg_match("/youtu\.be\/(\w+)/", $url, $matches))
+    {
+      return $matches[1];
+    }
     elseif (preg_match("/youtube.com\/embed\/([\w+\-\+]+)/", $url, $matches))
     {
       return $matches[1];
