@@ -11,7 +11,9 @@
   $slots = isset($slots) ? $sf_data->getRaw('slots') : null;
 ?>
 
-<?php if ((!$editable) && a_get_option($options, 'areaHideWhenEmpty') && (!count($slots))): ?>
+<?php $firstSlot = reset($slots) // We need this to check singleton slots against the areaHideWhenEmpty flag  ?>
+
+<?php if ((!$editable) && a_get_option($options, 'areaHideWhenEmpty') && ((!count($slots)) || ((count($slots) === 1) && ($firstSlot->isNew())))): ?>
 	<?php // Do not output the area when you are logged out, there are no slots, and the option to hide the area is set to true ?>
 <?php else: ?>
 	<?php use_helper('a') ?>
