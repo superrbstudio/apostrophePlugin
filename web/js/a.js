@@ -2203,8 +2203,7 @@ function aConstructor()
 			$(this).parents('.a-slots').children().css('z-index','699');
 			$(this).parents('.a-slot').css('z-index','799');
 		});
-		// Cross Browser Opacity Settings
-		$(target).find('.a-nav .a-archived-page').fadeTo(0,.5); // Archived Page Labels
+
 		// Apply clearfix on controls and options
 		$(target).find('.a-controls, .a-options').addClass('clearfix');
 		// Add 'last' Class To Last Option
