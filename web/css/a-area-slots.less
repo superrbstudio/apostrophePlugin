@@ -602,21 +602,45 @@ background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 
 
 
 
-// Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
-// -------------------------------------
+/* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
+------------------------------------- */
 
-.a-media-placeholder { } // Height and Width are defined in the template and applied inline in _normalView.php
-
-.a-media-placeholder span
+.a-media-placeholder
 {
-display: block;
-width: 100%;
-height: 100%;
-text-align: center;
-border: 1px dashed #ddd;
-margin: -1px 0 0 -1px;
-background: rgba(0,0,0,0.025);
+  display: block;
+  position: relative;
+  width: auto;
+  height: 0;
+  padding-top: 56.25%; // 16:9 Square
+  border: 1px dotted #ddd;
+  margin: -1px 0 0 -1px;
+  @a-rgba-background('/apostrophePlugin/images/rgba-0-0-0-0.25.png'; rgba(0,0,0,0.05));
+  @a-border-radius(3px);
+  text-decoration: none;
+  color: #999;
+  @a-transition;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.65);
+  &:hover,
+  &:focus
+  {
+    @a-rgba-background('/apostrophePlugin/images/rgba-0-0-0-0.5.png'; rgba(0,0,0,0.125));
+    color: #333;
+    text-decoration: none;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.125);    
+  }
+  span
+  {
+  display: block;
+  position: absolute;
+  top:50%; right:0; left:0;
+  width: 100%;
+  text-align: center;
+  line-height: 20px;
+  margin-top: -10px;
+  }
 }
+
+
 
 // Misc
 // -------------------------------------

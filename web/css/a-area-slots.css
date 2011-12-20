@@ -449,17 +449,39 @@ width:100%;
 /* Media Placeholder :: Shared by aSlideshow, aImage, aVideo, aButton
 ------------------------------------- */
 
-.a-media-placeholder { } /* Height and Width are defined in the template and applied inline in _normalView.php */
+.a-media-placeholder 
+{ 
+  display: block;
+  position: relative;
+  width: auto;
+  height: 0;
+  padding-top: 56.25%;
+  border: 1px dotted #ddd;
+  margin: -1px 0 0 -1px;
+  background: #eee;
+  text-decoration: none;
+  color: #999;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.65);  
+} /* Height and Width are defined in the template and applied inline in _normalView.php */
 
 .a-media-placeholder span
 {
-display: block;
-width: 100%;
-height: 100%;
-text-align: center;
-border: 1px dashed #ddd;
-margin: -1px 0 0 -1px;
-background: rgba(0,0,0,0.025);
+  display: block;
+  position: absolute;
+  top:50%; right:0; left:0;
+  width: 100%;
+  text-align: center;
+  line-height: 20px;
+  margin-top: -10px;
+}
+
+.a-media-placeholder:hover,
+.a-media-placeholder:focus
+{
+  background: #999;
+  color: #333;
+  text-decoration: none;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.125);    
 }
 
 /* Misc

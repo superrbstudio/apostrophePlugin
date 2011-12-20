@@ -1119,6 +1119,7 @@ function aConstructor()
 
 	this.slotEnhancements = function(options)
 	{
+	  apostrophe.log('apostrophe.slotEnhancements');
 		var slot = $(options['slot']);
 		var editClass = options['editClass'];
 		if (slot.length)
@@ -1134,6 +1135,21 @@ function aConstructor()
 			apostrophe.log('apostrophe.slotEnhancements -- Selector: '+ options['slot']);
 		}
 	};
+
+  /**
+    mediaSlotEnhancements -- Logged-in editing enhancements for media slots. Makes the placeholder a clickable button redundant functionality for the 'Choose' button
+  */
+  this.mediaSlotEnhancements = function() 
+  {
+    apostrophe.log('apostorphe.mediaSlotEnhancements');
+    var placeholders = $('.a-media-placeholder');
+    placeholders.die('click.mediaSlotEnhancements').live('click.mediaSlotEnhancements', function(event){
+      var $self = $(this),
+          chooseBtn = $self.closest('.a-slot').find('.a-js-choose-button');
+      window.location.href = chooseBtn.attr('href');
+      return false;
+    });
+  };
 
 	this.slotShowEditView = function(pageid, name, permid, realUrl)
 	{
@@ -2183,53 +2199,62 @@ function aConstructor()
 	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
-
-		var target = 'body';
+	  apostrophe.log('apostrophe.smartCSS');
+	  
+	  var aBody = $('body'),
+		    target = 'body';
+		    
 		if (options && options['target'])
 		{
 			target = options['target'];
 		};
 
-		apostrophe.aInjectActualUrl({ target : target });
-		apostrophe.aShowBusy();
-		apostrophe.aActAsSubmit({ target : target })
+    // Enhancements that we only need to execute these enhancements when we are logged in
+    if (aBody.hasClass('logged-in')) 
+    {
+      apostrophe.mediaSlotEnhancements();
+  		apostrophe.aInjectActualUrl({ target : target });
+  		apostrophe.aShowBusy();
+  		apostrophe.aActAsSubmit({ target : target })
 
-		// The contents of this function can be migrated to better homes
-		// if it makes sense to move them.
-		// Once this function is empty it can be deleted
-		// called in partial a/globalJavascripts
-		// Variants
-		$(target).find('a.a-variant-options-toggle').unbind('click.aVariantOptionsToggle').bind('click.aVariantOptionsToggle', function(){
-			$(this).parents('.a-slots').children().css('z-index','699');
-			$(this).parents('.a-slot').css('z-index','799');
-		});
+  		// The contents of this function can be migrated to better homes
+  		// if it makes sense to move them.
+  		// Once this function is empty it can be deleted
+  		// called in partial a/globalJavascripts
+  		// Variants
+  		$(target).find('a.a-variant-options-toggle').unbind('click.aVariantOptionsToggle').bind('click.aVariantOptionsToggle', function(){
+  			$(this).parents('.a-slots').children().css('z-index','699');
+  			$(this).parents('.a-slot').css('z-index','799');
+  		});
 
-		// Apply clearfix on controls and options
-		$(target).find('.a-controls, .a-options').addClass('clearfix');
-		// Add 'last' Class To Last Option
-		$(target).find('.a-controls li:last-child').addClass('last');
+  		// Apply clearfix on controls and options
+  		$(target).find('.a-controls, .a-options').addClass('clearfix');
+  		// Add 'last' Class To Last Option
+  		$(target).find('.a-controls li:last-child').addClass('last');
+
+
+      // Utility for finding malformed buttons in old code
+      // Most likely has no affect anymore
+      
+  		var aBtns = $(target).find('.a-btn,.a-submit,.a-cancel');
+  		aBtns.each(function() {
+  			var aBtn = $(this);
+  			// Setup Icons for buttons with icons that are missing the icon container
+  			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
+  			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length)
+  			{
+  				// Button Exterminator
+  				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');
+  			};
+  		});
+
+    };
+
+    // Enhancements for both Logged-out and Logged-in Apostrophe
+
 		// Valid way to have links open up in a new browser window
 		// Example: <a href="..." rel="external">Click Meh</a>
 		$(target).find('a[rel="external"]').attr('target','_blank');
-
-		// THINGS WE'D LIKE TO GET RID OF START HERE
-
-		// Apply any classes or additional markup necessary for apostrophe buttons via the .a-btn class
-		// called in partial a/globalJavascripts. This is deprecated, we should put the right spans in them to
-		// begin with, which is easier now with a_js_button and a_link_button, so we're showing these
-		// not-properly-formatted buttons in red in anticipation of killing this code
-
-		var aBtns = $(target).find('.a-btn,.a-submit,.a-cancel');
-		aBtns.each(function() {
-			var aBtn = $(this);
-			// Setup Icons for buttons with icons that are missing the icon container
-			// Markup: <a href="#" class="a-btn icon a-some-icon"><span class="icon"></span>Button</a>
-			if (aBtn.is('a') && aBtn.hasClass('icon') && !aBtn.children('.icon').length)
-			{
-				// Button Exterminator
-				aBtn.prepend('<span class="icon"></span>').addClass('a-fix-me');
-			};
-		});
 	};
 
 	// Breaks the url into a stem (everything before the query, inclusive of the ?), a query

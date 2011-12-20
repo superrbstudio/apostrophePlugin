@@ -34,5 +34,5 @@
         "type" => $type,
         "label" => $label,
         "after" => $after))),
-      'class' => $class . ' a-inject-actual-url')) ?></li>
+      'class' => $class . ' a-inject-actual-url a-js-choose-button')) ?></li>
 <?php aRouteTools::popTargetEnginePage('aMedia') ?>
