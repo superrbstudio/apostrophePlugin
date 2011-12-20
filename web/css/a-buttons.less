@@ -10,7 +10,7 @@
 @a-button-type-size-big: @a-button-type-size * 1.5;
 @a-button-type-size-mini: @a-button-type-size * 0.8334;
 
-@a-icon(@width:20px; @height:20px; @sprite:'/apostrophePlugin/images/a-icon-sprite.png';)
+@a-icon(@width:20px; @height:20px;)
 {
   // This is a mixin because it's shared by .a-btn and .a-simple-icon
   display: block;
@@ -21,7 +21,7 @@
   left: 0;
   margin-top: -10px;
   background-repeat: no-repeat;
-  background-image: url({@a-asset-path}{@sprite});
+  background-image: url({@a-asset-path}{@a-sprite});
   overflow: hidden;
   text-indent: -9999px;
 }

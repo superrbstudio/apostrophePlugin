@@ -106,10 +106,14 @@
 
     .a-date-wrapper
     {
+      position: relative;
       margin-right: 3px;
       img
       {
-        margin-left: -20px;
+        position: absolute;
+        top: 50%;
+        margin: -10px 0 0 0;
+        right: 0;
       }
     }
 
@@ -126,7 +130,7 @@
       width: 52px;
       padding: 2px 20px 2px 3px;
       border:1px solid #ddd;
-      background: #fff url('../images/a-icon-time.png') no-repeat right 50%;
+      background: #fff url({@a-asset-path}'/apostrophePlugin/images/a-icon-time.png') no-repeat right 50%;
       @a-border-radius(3px);
     }
 
