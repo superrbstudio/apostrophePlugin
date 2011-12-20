@@ -1146,6 +1146,7 @@ function aConstructor()
     placeholders.die('click.mediaSlotEnhancements').live('click.mediaSlotEnhancements', function(event){
       var $self = $(this),
           chooseBtn = $self.closest('.a-slot').find('.a-js-choose-button');
+          $self.addClass('in-progress');
       window.location.href = chooseBtn.attr('href');
       return false;
     });
@@ -2214,8 +2215,6 @@ function aConstructor()
     {
       apostrophe.mediaSlotEnhancements();
   		apostrophe.aInjectActualUrl({ target : target });
-  		apostrophe.aShowBusy();
-  		apostrophe.aActAsSubmit({ target : target })
 
   		// The contents of this function can be migrated to better homes
   		// if it makes sense to move them.
@@ -2251,6 +2250,8 @@ function aConstructor()
     };
 
     // Enhancements for both Logged-out and Logged-in Apostrophe
+		apostrophe.aShowBusy();
+		apostrophe.aActAsSubmit({ target : target })
 
 		// Valid way to have links open up in a new browser window
 		// Example: <a href="..." rel="external">Click Meh</a>

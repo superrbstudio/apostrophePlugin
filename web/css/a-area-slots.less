@@ -628,10 +628,19 @@ background: #fff url({@a-asset-path}/apostrophePlugin/images/a-icon-loader.gif) 
     text-decoration: none;
     text-shadow: 1px 1px 0px rgba(0,0,0,0.125);    
   }
+  &.in-progress
+  {
+    span
+    {
+      text-indent:-999em;
+      background: url('/apostrophePlugin/images/a-icon-loader-2.gif') 50% 50% no-repeat;
+    }
+  }
   span
   {
   display: block;
   position: absolute;
+  overflow: hidden;
   top:50%; right:0; left:0;
   width: 100%;
   text-align: center;
