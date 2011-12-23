@@ -2921,4 +2921,15 @@ function aConstructor()
 
 }
 
+
+/**
+  aCall -- Utility for checking and executing a callback
+*/
+function aCall(callback) {
+  if (typeof(callback) === 'function') 
+  {
+    callback();
+  };
+}
+
 window.apostrophe = new aConstructor();
