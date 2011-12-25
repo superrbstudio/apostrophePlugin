@@ -9,10 +9,14 @@
 <div class="a-media-library">
 	<div class="a-ui a-media-select clearfix">
 
-	  <h3><?php echo a_('Linked Accounts') ?></h3>
+	  <h3><?php echo a_('Your Linked Accounts') ?></h3>
 
-    <p class="a-help">
-      New videos and other media in linked accounts are automatically copied to your site's media library every 20 minutes.
+    <p>
+      <?php echo a_('Take advantage of all of the videos and media you have stored on your favorite web services.') ?>
+    </p>
+    
+    <p>
+      <?php echo a_('When you link your accounts, new videos and other media are automatically pulled into your site\'s media library. It updates itself by checking for new media every 20 minutes without you having to do anything more.') ?>
     </p>
     
 		<form id="a-media-add-linked-account" method="post" action="<?php echo a_url('aMedia', 'linkAddAccount') ?>" class="a-ui a-media-services-form a-media-linked-accounts-form">

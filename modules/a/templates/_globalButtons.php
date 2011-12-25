@@ -17,22 +17,20 @@
 <?php // in the order specified by app_a_global_button_order if any. Note that if ?>
 <?php // you do specify an order you must specify all of the buttons ?>
 	
-<?php if (1): ?>
-  <?php $buttons = aTools::getGlobalButtons() ?>
-  <?php foreach ($buttons as $button): ?>
-  	<li>
-  		<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
-  	</li>
-  <?php endforeach ?>
-  <?php include_partial('a/globalProjectButtons', array()) ?>
-<?php endif ?>
+<?php $buttons = aTools::getGlobalButtons() ?>
+<?php foreach ($buttons as $button): ?>
+	<li class="a-global-toolbar-<?php echo aTools::slugify($button->getLabel()) ?>">
+		<?php echo link_to('<span class="icon"></span>'.__($button->getLabel(), null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
+	</li>
+<?php endforeach ?>
+<?php include_partial('a/globalProjectButtons', array()) ?>
 
 <?php // An alternative: call aTools::getGlobalButtonsByName(). Then you can emit them in any order you want with ?>
 <?php // any styling you want, and app_a_global_button_order is ignored. However you MUST test them with isset('media'), ?>
 <?php // etc. before assuming this particular user is entitled to see them. This is an exaggerated example with just two ?>
 <?php // buttons to show that you have control over the markup ?>
 
-<?php if (0): ?>
+<?php /* Example Code ?> 
   <?php $buttons = aTools::getGlobalButtonsByName() ?>
   <?php if (isset($buttons['media'])): ?>
     <?php $button = $buttons['media'] ?>
@@ -47,7 +45,7 @@
   		<?php echo link_to('<span class="icon"></span>'.__('Journal', null, 'apostrophe'), $button->getLink(), array('class' => 'a-btn icon alt no-bg ' . $button->getCssClass())) ?>
   	</li>
   <?php endif ?>
-<?php endif ?>
+<?php //*/ ?>
 
 <?php // The markup of add-page is also specialized and DHTML-based ?>
 

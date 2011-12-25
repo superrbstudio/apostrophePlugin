@@ -11,16 +11,11 @@
     <?php endif ?>
   </div>
   
+  <?php // TODO: Refactor this ?>
   <?php if ($sf_params->get('add') || $sf_user->getFlash('aMedia.postMaxSizeExceeded')): ?>
-    <?php // This is a validation error pass ?>
-    <script type="text/javascript">
-      $(function() {
-        $('#a-media-add').show();
-      });
-    </script>
+    <?php a_js_call("$('#a-media-add').show()") // This is a validation error pass  ?>
   <?php endif ?>
-  <script type="text/javascript">
-    $(function() {
+  <?php a_js_call("
       $('#a-media-add-button').click(function() {
         $('#a-media-add').show();
         return false;
@@ -28,7 +23,7 @@
       $('#a-media-add .a-cancel').click(function() {
         $('#a-media-add').hide();
         return false;
-      });
-    });
-  </script>
+      })"
+  ) ?>
+  
 <?php endif ?>

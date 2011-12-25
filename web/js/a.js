@@ -1136,6 +1136,7 @@ function aConstructor()
 		}
 	};
 
+
   /**
     mediaSlotEnhancements -- Logged-in editing enhancements for media slots. Makes the placeholder a clickable button redundant functionality for the 'Choose' button
   */
@@ -1152,6 +1153,10 @@ function aConstructor()
     });
   };
 
+
+  /**
+    slotShowEditView
+  */
 	this.slotShowEditView = function(pageid, name, permid, realUrl)
 	{
 		var fullId = pageid + '-' + name + '-' + permid;
@@ -1165,11 +1170,19 @@ function aConstructor()
 		});
 	};
 
+
+  /**
+    slotNotNew -- Remove's new slot class name
+  */
 	this.slotNotNew = function(pageid, name, permid)
 	{
 		$("#a-slot-" + pageid + "-" + name + "-" + permid).removeClass('a-new-slot');
 	};
 
+
+  /**
+    slotEnableEditButton -- Enables slot edit button
+  */
 	this.slotEnableEditButton = function(pageid, name, permid, editUrl, realUrl)
 	{
 		var fullId = pageid + '-' + name + '-' + permid;
@@ -1182,6 +1195,10 @@ function aConstructor()
  		});
 	};
 
+
+  /**
+    slotEnableForm -- Enables slot edit form
+  */
 	this.slotEnableForm = function(options)
 	{
 		var	$slotForm = $(options['slot-form']),
@@ -2729,6 +2746,42 @@ function aConstructor()
 		$('.a-admin #a-admin-filters-container #a-admin-filters-form .a-form-row .a-admin-filter-field br').replaceWith('<div class="a-spacer"></div>');
 		aMultipleSelectAll({ 'choose-one': options['choose-one-label']});
 	};
+
+
+	/**
+	 enhanceAdmin -- Setup enhanced interface elements for blog admin
+	*/
+	this.enhanceAdmin = function(options)
+	{
+	  apostrophe.log('apostrophe.enhanceAdmin');
+	  
+	  // Sortable Label Buttons
+  	var sortLabel = $("a.a-sort-label").parent().parent();
+  	if (sortLabel.length) 
+  	{
+    	sortLabel.unbind('click.sortLabel').bind('click.sortLabel', function() {
+    		var thisSortLabel = $(this).find('a.a-sort-label');
+    		thisSortLabel.focus();
+        $(this).addClass('show-filters').find(".filternav").show();
+        $(this).parent().hover(function() {
+        }, function() {
+    			thisSortLabel.blur();
+    			$(this).find('ul').removeClass('show-filters');
+          $(this).find(".filternav").fadeOut();
+        });
+        return false;
+      });  	  
+  	};
+    
+    // Batch Checkbox Toggle
+    $('#a-admin-list-batch-checkbox-toggle').unbind('click.batchToggle').bind('click.batchToggle', function(){
+			$('.a-admin-batch-checkbox').each( function() {
+				$(this)[0].checked = !$(this)[0].checked;
+			});
+      // return false;
+		});
+	};
+	
 
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)

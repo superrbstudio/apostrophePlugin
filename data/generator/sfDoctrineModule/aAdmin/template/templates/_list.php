@@ -46,12 +46,4 @@
   [?php endif; ?]
 </div>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#a-admin-list-batch-checkbox-toggle').click(function(){
-			$('.a-admin-batch-checkbox').each( function() {
-				$(this)[0].checked = !$(this)[0].checked;
-			});
-		})
-	});
-</script>
+[?php a_js_call('apostrophe.enhanceAdmin()') ?]

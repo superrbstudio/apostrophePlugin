@@ -23,7 +23,6 @@
 
   	  <?php if ($cmsAdmin || count($buttons) || $pageEdit): ?>
         <?php include_partial('a/globalButtons', array('pageSettings' => $pageSettings, 'addPage' => $addPage)) ?>
-			
   		<?php endif ?>
 
   		<li class="a-login">
