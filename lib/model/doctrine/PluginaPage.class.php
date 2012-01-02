@@ -208,6 +208,26 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
+  * DOCUMENT ME
+  * @param string $areaName
+  * @param string $slotType
+  * @return boolean
+  */  
+  public function hasSlotType($areaName = 'body', $slotType)
+  {
+    $slots = $this->getSlotsByAreaName($areaName);
+    
+    foreach($slots as $slot)
+    {
+      if ($slot->getType() == $slotType) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
+  /**
    * @param $areaInfos array
    * Iterates through areas, area versions and area version slots to locate the actual
    * current list of slots for each area name and arrange them in a convenient associative
