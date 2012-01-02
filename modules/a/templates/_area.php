@@ -107,10 +107,10 @@
 
 			<ul class="a-ui a-controls a-slot-controls clearfix">		
 	      <?php if ($infinite && $options['arrows']): ?>
-					<li class="a-move up">
+					<li class="a-move-slot a-move up">
 					  <a href="#move-up" class="a-btn icon a-arrow-up no-label" title="<?php echo a_('Move Up') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Up') ?></a>
 					</li>
-					<li class="a-move down">
+					<li class="a-move-slot a-move down">
 					  <a href="#move-down" class="a-btn icon a-arrow-down no-label" title="<?php echo a_('Move Down') ?>" onclick="return false;"><span class="icon"></span><?php echo a_('Move Down') ?></a>
 					</li>
 	      <?php endif ?>
@@ -124,7 +124,7 @@
 
 	      <?php if ($infinite || $options['delete']): ?>
 				<?php // Tom: Just a quick note about this -- Enabling the delete button for singleton slot works, it just clears out the value for that slot instead of deleting the slot. ?>
-	        <li>
+	        <li class="a-delete-slot">
 						<?php $delete_button_style = sfConfig::get('app_a_delete_button_style', 'no-label'); ?>
 						<?php $delete_button_id = "a-slot-$pageid-$name-$permid-delete-button" ?>
 						<?php echo a_js_button(a_('Delete'), array('icon', 'a-delete', 'alt', $delete_button_style), $delete_button_id, a_('Delete Slot')) ?>
