@@ -1,6 +1,6 @@
 function aConstructor()
 {
-	var debug = false;
+	this.debug = false;
 	this.onSubmitHandlers = {};
 
 	// This is the old, painful way, see aEditorFck for the
@@ -70,20 +70,18 @@ function aConstructor()
 	// Utility: console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
 	this.log = function(output)
 	{
-		if (window.console && console.log && debug === true) {
-			console.log(output);
-		}
+    aLog(output);
 	};
 
 	// apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
 	this.setDebug = function(flag)
 	{
-		debug = flag;
+		apostrophe.debug = flag;
 	};
 
 	this.getDebug = function()
 	{
-		return debug;
+		apostrophe.debug;
 	};
 
 	// Often JS code relating to an object needs to be able to find the
@@ -2983,6 +2981,15 @@ function aCall(callback) {
   {
     callback();
   };
+}
+
+/**
+  aLog -- Utility for 
+*/
+function aLog(output) {
+	if (window.console && console.log && apostrophe.debug === true) {
+		console.log(output);
+	}
 }
 
 window.apostrophe = new aConstructor();
