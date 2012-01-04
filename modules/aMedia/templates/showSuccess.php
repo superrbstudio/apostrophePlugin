@@ -9,6 +9,7 @@
 <?php $selecting = aMediaTools::isSelecting() ?>
 
 <?php $body_class = 'a-media a-media-show'?>
+<?php $body_class .= ($page->admin) ? ' aMediaAdmin':'' ?>
 <?php $body_class .= ($selecting) ? ' a-media-selecting a-previewing':'' ?>
 <?php slot('body_class', $body_class) ?>
 
@@ -18,8 +19,8 @@
 	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
 
-<div class="a-media-library">	
-	<div class="a-media-items">		
+<div class="a-media-library">
+	<div class="a-media-items">
     <?php include_partial('aMedia/mediaItem', array('mediaItem' => $mediaItem, 'layout' => $layout, 'i' => $i, 'selecting' => $selecting, 'autoplay' => true)) ?>
 	</div>
 </div>

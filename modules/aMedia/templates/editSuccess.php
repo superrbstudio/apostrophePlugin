@@ -7,14 +7,16 @@
 ?>
 <?php use_helper('a') ?>
 
-<?php slot('body_class') ?>a-media<?php end_slot() ?>
+<?php $body_class = 'a-media a-media-edit'?>
+<?php $body_class .= ($page->admin) ? ' aMediaAdmin':'' ?>
+<?php slot('body_class', $body_class) ?>
 
 <?php slot('a-page-header') ?>
 	<?php include_partial('aMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library">
-	
+
 	<?php include_component('aMedia', 'browser') ?>
 
 	<div class="a-media-toolbar">
@@ -26,7 +28,7 @@
   <?php endif ?>
 
 	<div class="a-media-items">
-	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))))) ?>		
+	  <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))))) ?>
 	</div>
-	
+
 </div>
