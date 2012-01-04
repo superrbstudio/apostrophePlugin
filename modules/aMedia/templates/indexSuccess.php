@@ -14,6 +14,7 @@
 <?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
 
 <?php $body_class = 'a-media a-media-index'?>
+<?php $body_class .= ($page->admin) ? ' aMediaAdmin':'' ?>
 <?php $body_class .= ($selecting) ? ' a-media-selecting':'' ?>
 <?php $body_class .= ' '.$layout['name'] ?>
 
@@ -30,7 +31,7 @@
 <div class="a-media-library clearfix">
 
   <?php include_partial('aMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
-  
+
 	<?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
 			<?php if (aMediaTools::isSelecting()): ?>
 				<div class="a-media-selection">
@@ -39,7 +40,7 @@
 			    <?php else: ?>
 			      <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
 			    <?php endif ?>
-				</div>		
+				</div>
 			<?php endif ?>
 	<?php endif ?>
 
@@ -48,13 +49,13 @@
 		<?php include_slot('a-media-library-controls') ?>
 	</div>
 	<?php endif ?>
-	
+
 	<?php // This should never have been disabled for cases where there are zero images matching. ?>
 	<?php // That is exactly when you need it most to understand why you don't see nuttin'! ?>
 	<?php // Overrides to the contrary must be at project level only. -Tom ?>
 	<?php if ($limitSizes): ?>
 		<div class="a-media-selection-contraints clearfix">
-			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>		
+			<?php include_partial('aMedia/describeConstraints', array('limitSizes' => $limitSizes)) ?>
 		</div>
 	<?php endif ?>
 
@@ -77,7 +78,7 @@
 			<?php include_slot('a-media-library-controls') ?>
 		</div>
 	</div>
-	
+
 </div>
 
 <?php // Media Sidebar is wrapped slot('a-subnav') ?>
