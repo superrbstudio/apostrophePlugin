@@ -131,7 +131,13 @@ window.aCrop = {
     var imageInfo = aCrop.getCurrentImageInfo();
 
     if (!imageInfo.cropWidth) {
-      if (aCrop.options.aspectRatio > 1) {
+			if (!aCrop.options.aspectRatio)
+			{
+        imageInfo.cropWidth = imageInfo.width;
+        imageInfo.cropHeight = imageInfo.height;
+			}
+			else if (aCrop.options.aspectRatio > 1) 
+			{
         imageInfo.cropWidth = imageInfo.width;
         imageInfo.cropHeight = Math.floor(imageInfo.width / aCrop.options.aspectRatio);
       } else {
@@ -231,7 +237,6 @@ window.aCrop = {
       imageInfo.cropLeft + imageInfo.cropWidth,
       imageInfo.cropTop + imageInfo.cropHeight
     ];
-    
     aCrop.api.setSelect(coords);
 		$('.cropping-now').removeClass('cropping-now');
 		$(".a-crop-workspace").fadeOut();
