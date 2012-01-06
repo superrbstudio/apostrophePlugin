@@ -99,6 +99,8 @@ class aImageConverter
    */
   static public function cropOriginal($fileIn, $fileOut, $width, $height, $quality = 75, $cropLeft = null, $cropTop = null, $cropWidth = null,  $cropHeight = null)
   {
+    $args = func_get_args();
+    error_log(implode(',', $args));
     // Allow skipping of parameters
     if (is_null($quality))
     {
@@ -107,11 +109,15 @@ class aImageConverter
     $width = ceil($width);
     $height = ceil($height);
     $quality = ceil($quality);
-    list($iwidth, $iheight) = getimagesize($fileIn); 
-    if (!$iwidth) 
+    // Make sure we use a method that understands about JPEG orientation
+    $info = aImageConverter::getInfo($fileIn); 
+    if (!$info)
     {
       return false;
     }
+    $iwidth = $info['width'];
+    $iheight = $info['height'];
+    
     $iratio = $iwidth / $iheight;
     $ratio = $width / $height;
 
@@ -145,6 +151,8 @@ class aImageConverter
     }
     $scale = array('xysize' => array($width + 0, $height + 0));
     $crop = array('left' => $cropLeft, 'top' => $cropTop, 'width' => $cropWidth, 'height' => $cropHeight);
+    error_log("scale: " . json_encode($scale));
+    error_log("crop: " . json_encode($crop));
     return self::scaleBody($fileIn, $fileOut, $scale, $crop, $quality);
   }
 

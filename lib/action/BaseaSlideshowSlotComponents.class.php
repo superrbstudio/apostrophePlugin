@@ -24,6 +24,17 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->setupOptions();
     $this->getLinkedItems();
     
+    if ($this->options['uncropped'])
+    {
+      $newItems = array();
+      foreach ($this->items as $item)
+      {
+        $item = $item->getCropOriginal();
+        $newItems[] = $item;
+      }
+      $this->items = $newItems;
+    }
+    
     if ($this->options['random'] && count($this->items))
     {
       shuffle($this->items);
@@ -65,6 +76,9 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
     $this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');
     $this->options['random'] = $this->getOption('random', false);
+    // Ignore any manual crops by the user. This is useful if you want to use 'c' in an
+    // alternative rendering of a slideshow where custom crops are normally welcome
+    $this->options['uncropped'] = $this->getOption('uncropped', false);
     
     // We automatically set up the aspect ratio if the resizeType is set to 'c'
     $constraints = $this->getOption('constraints', array());
