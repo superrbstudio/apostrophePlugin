@@ -18,9 +18,9 @@
 			<a href="#" class="a-audio-play a-audio-button" id="a-audio-play-<?php echo $uniqueID ?>" onclick="return false;">Play</a>
 			<a href="#" class="a-audio-pause a-audio-button" id="a-audio-pause-<?php echo $uniqueID ?>"  onclick="return false;">Pause</a>
 		</div>
-		<div class="a-audio-slider-wrapper playhead" style="width:<?php echo $width-140 ?>px;<?php // echo ($width < 200) ? 'display:none;' : '' ?>">			
+		<div class="a-audio-slider-wrapper playhead">			
 			<div class="a-audio-loader"></div>
-			<div class="a-audio-playback a-audio-slider" id="a-audio-playback-<?php echo $uniqueID ?>" style="width:<?php echo $width-140 ?>px;">
+			<div class="a-audio-playback a-audio-slider" id="a-audio-playback-<?php echo $uniqueID ?>">
 				<a href="#" class="a-audio-slider-handle ui-slider-handle">Playback</a>
 			</div>
 			<div class="a-audio-time"></div>

@@ -1138,7 +1138,7 @@ function aConstructor()
   /**
     mediaSlotEnhancements -- Logged-in editing enhancements for media slots. Makes the placeholder a clickable button redundant functionality for the 'Choose' button
   */
-  this.mediaSlotEnhancements = function() 
+  this.mediaSlotEnhancements = function()
   {
     apostrophe.log('apostorphe.mediaSlotEnhancements');
     var placeholders = $('.a-media-placeholder');
@@ -1203,7 +1203,7 @@ function aConstructor()
 				$slot = $slotForm.closest('.a-slot'),
 				$singleton = $slot.closest('.a-area.singleton'),
 				$slotContent = $(options['slot-content']);
-				
+
 		// apostrophe.log('apostrophe.slotEnableForm -- form : ' + options['slot-form']);
 		$slotForm.submit(function() {
 			$.post(
@@ -1233,7 +1233,7 @@ function aConstructor()
 				$cancelButton = $(options['cancel']),
 				$saveButton = $(options['save']);
 
-		// Note: The selectors are rigid here because slots can be nested inside of other slots. 
+		// Note: The selectors are rigid here because slots can be nested inside of other slots.
 		// We have to use .children() -- .find() won't work here.
 
 		$cancelButton.unbind('click.slotEnableFormButtons').bind('click.slotEnableFormButtons', function(event){
@@ -2216,17 +2216,17 @@ function aConstructor()
 	this.smartCSS = function(options)
 	{
 	  apostrophe.log('apostrophe.smartCSS');
-	  
+
 	  var aBody = $('body'),
 		    target = 'body';
-		    
+
 		if (options && options['target'])
 		{
 			target = options['target'];
 		};
 
     // Enhancements that we only need to execute these enhancements when we are logged in
-    if (aBody.hasClass('logged-in')) 
+    if (aBody.hasClass('logged-in'))
     {
       apostrophe.mediaSlotEnhancements();
   		apostrophe.aInjectActualUrl({ target : target });
@@ -2249,7 +2249,7 @@ function aConstructor()
 
       // Utility for finding malformed buttons in old code
       // Most likely has no affect anymore
-      
+
   		var aBtns = $(target).find('.a-btn,.a-submit,.a-cancel');
   		aBtns.each(function() {
   			var aBtn = $(this);
@@ -2328,6 +2328,27 @@ function aConstructor()
 			var time = aAudioContainer.find('.a-audio-time');
 			var aAudioPlayer = aAudioContainer.find('.a-audio-player');
 			var aAudioInterface = aAudioContainer.find('.a-audio-player-interface');
+
+      // It's unfortunate, but the jquery ui playback works a lot better if it has a pixel value applied to the parent container. 
+      // We don't need this for the player to look right, it just helps the playback feel better.
+			aAudioContainer.unbind('setSize.audioPlayer').bind('setSize.audioPlayer', function(){
+			  var loader = aAudioContainer.find('.a-audio-loader'),
+			      playback = aAudioContainer.find('.a-audio-playback'),
+			      newWidth = loader.parent().width();
+	      loader.css({
+	        width : newWidth
+	      });
+	      playback.css({
+	        width : newWidth
+	      });
+			});
+
+			aAudioContainer.trigger('setSize.audioPlayer');
+
+			$(window).unbind('resize.audioPlayer').bind('resize.audioPlayer', function(){
+			  aAudioContainer.trigger('setSize.audioPlayer');
+			});
+
 			aAudioPlayer.jPlayer({
 				ready: function ()
 				{
@@ -2394,7 +2415,7 @@ function aConstructor()
 		}
 		else
 		{
-			throw "Cannot find DOM Element for Audio Player.";
+			throw "Cannot find Audio Player.";
 		}
 	};
 
@@ -2752,10 +2773,10 @@ function aConstructor()
 	this.enhanceAdmin = function(options)
 	{
 	  apostrophe.log('apostrophe.enhanceAdmin');
-	  
+
 	  // Sortable Label Buttons
   	var sortLabel = $("a.a-sort-label").parent().parent();
-  	if (sortLabel.length) 
+  	if (sortLabel.length)
   	{
     	sortLabel.unbind('click.sortLabel').bind('click.sortLabel', function() {
     		var thisSortLabel = $(this).find('a.a-sort-label');
@@ -2768,9 +2789,9 @@ function aConstructor()
           $(this).find(".filternav").fadeOut();
         });
         return false;
-      });  	  
+      });
   	};
-    
+
     // Batch Checkbox Toggle
     $('#a-admin-list-batch-checkbox-toggle').unbind('click.batchToggle').bind('click.batchToggle', function(){
 			$('.a-admin-batch-checkbox').each( function() {
@@ -2779,7 +2800,7 @@ function aConstructor()
       // return false;
 		});
 	};
-	
+
 
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
@@ -2977,14 +2998,14 @@ function aConstructor()
   aCall -- Utility for checking and executing a callback
 */
 function aCall(callback) {
-  if (typeof(callback) === 'function') 
+  if (typeof(callback) === 'function')
   {
     callback();
   };
 }
 
 /**
-  aLog -- Utility for 
+  aLog -- Utility for
 */
 function aLog(output) {
 	if (window.console && console.log && apostrophe.debug === true) {
