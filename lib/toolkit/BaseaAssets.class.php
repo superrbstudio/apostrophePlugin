@@ -54,6 +54,8 @@ class BaseaAssets
    * but do not actually copy anything to a final file. aAssets::getCached($compiled) can then
    * be used to retrieve the cached array; if you get an array back $info['compiled'] has
    * the compiled CSS code.
+   *
+   * If $options['prepend'] is set it is prepended to the LESS code before compilation.
    */
   static public function compileLessIfNeeded($path, $compiled, $options = array())
   {
@@ -120,7 +122,13 @@ class BaseaAssets
       $info = $path;
     }
     $lastUpdated = is_array($info) ? $info['updated'] : 0;
-    $info = aAssets::cexecute($info, false);
+    
+    $lessOptions = array();
+    if (isset($options['prepend']))
+    {
+      $lessOptions['prepend'] = $options['prepend'];
+    }
+    $info = aAssets::cexecute($info, false, $lessOptions);
 		// Our replacement for cexecute() calls parse() on the contents of a file, so
 		// the cache info structure is missing the name of the original requested file.
 		// Add that back in so the dependency checking works for the file itself
@@ -206,12 +214,16 @@ class BaseaAssets
 	 * 
 	 * The cache structure is a plain-ol' PHP associative array and can
 	 * be serialized and unserialized without a hitch.
+	 *
+	 * If $options['prepend'] is present that LESS code is prepended before
+	 * the compilation.
 	 * 
 	 * @param mixed $in Input
-	 * @param bool $force Force rebuild?
+	 * @param bool $force Force rebuild
+	 * @param array $options 
 	 * @return array lessphp cache structure
 	 */
-	public static function cexecute($in, $force = false) 
+	public static function cexecute($in, $force = false, $options = array()) 
 	{
 		// assume no root
 		$root = null;
@@ -245,7 +257,12 @@ class BaseaAssets
 			$less = aAssets::$lessc;
 			$out = array();
 			$out['root'] = $root;
-			$out['compiled'] = $less->parse(file_get_contents($root));
+			$code = file_get_contents($root);
+			if (isset($options['prepend']))
+			{
+			  $code = $options['prepend'] . "\n" . $code;
+			}
+			$out['compiled'] = $less->parse($code);
 			$out['files'] = $less->allParsedFiles();
 			$out['updated'] = time();
 			return $out;
