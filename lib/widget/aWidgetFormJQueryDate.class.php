@@ -124,6 +124,9 @@ function %s_update_linked(date)
     \$(month).val('');
     \$(day).val('');
     \$(year).val('');
+    \$(month).change();
+    \$(day).change();
+    \$(year).change();
     return;
   }
   
@@ -131,6 +134,9 @@ function %s_update_linked(date)
   \$(month).val(components[1].replace(/^0+/, ''));
   \$(day).val(components[2].replace(/^0+/, ''));
   \$(year).val(components[3].replace(/^0+/, ''));
+  \$(month).change();
+  \$(day).change();
+  \$(year).change();
   
   // Something we can bind to update other fields 
   $('#$id').trigger('aDateUpdated');

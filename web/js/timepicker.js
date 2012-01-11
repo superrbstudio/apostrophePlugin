@@ -205,6 +205,8 @@ function timepicker2(selector, options_array)
 				var inputs = timeinput.find('select');
 				$(inputs[0]).val(time.hours);
 				$(inputs[1]).val(time.minutes);
+				$(inputs[0]).change();
+				$(inputs[1]).change();
 			}
 		}
 		

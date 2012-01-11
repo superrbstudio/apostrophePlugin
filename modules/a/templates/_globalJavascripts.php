@@ -20,6 +20,8 @@
 <?php a_js_call('apostrophe.setMessages(?)', array('updating' => a_('Updating...'), 'updated' => a_('Updated'), 'save_changes_first' => a_('Please save your changes first.'))) ?>
 <?php // A handful of fundamental improvements like a-autosubmit for anchor buttons ?>
 <?php a_js_call('apostrophe.smartCSS()') ?>
+<?php // Warn the user if they try to leave the page and it has open slot editors on it ?>
+<?php a_js_call('apostrophe.onBeforeUnload()') ?>
 <?php // End of body - time to emit all of the queued JS as one script block ?>
 
 <?php if (sfConfig::get('app_a_js_debug', false)): ?>

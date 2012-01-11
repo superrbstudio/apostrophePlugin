@@ -2273,6 +2273,25 @@ function aConstructor()
 		$(target).find('a[rel="external"]').attr('target','_blank');
 	};
 
+  this.onBeforeUnload = function()
+  {
+    $(window).unbind('beforeunload.apostrophe').bind('beforeunload.apostrophe', function() {
+      // Event first since it gets both classes
+      if ($('.a-admin-event-form form').data('changed'))
+      {
+        return "You have not saved your changes to the settings for this event in the form at left. Any edits you have made will be lost if you do not save them first before leaving the page.";
+      }
+      if ($('.a-admin-blog-post-form form').data('changed'))
+      {
+        return "You have not saved your changes to the settings for this blog post in the form at left. Any edits you have made will be lost if you do not save them first before leaving the page.";
+      }
+      if ($('.a-slot.a-editing').length)
+      {
+        return "You are still editing content. Any edits you have made will be lost if you do not save them first before leaving the page.";
+      }
+    });
+  }
+  
 	// Breaks the url into a stem (everything before the query, inclusive of the ?), a query
 	// (the encoded query string), and queryData (the query string parsed into an object)
 	this.parseUrl = function(url)
