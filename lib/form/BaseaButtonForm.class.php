@@ -63,7 +63,7 @@ class BaseaButtonForm extends BaseForm
       'url' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot')),
       'title' => new sfWidgetFormInputText(array(), array('class' => 'aButtonSlot'))  
     ));
-
+    
     $this->setValidators(array(
       'description' => new sfValidatorHtml(array('required' => false, 'allowed_tags' => $this->allowedTags, 'allowed_attributes' => $this->allowedAttributes, 'allowed_styles' => $this->allowedStyles)),
       'url' => new sfValidatorAnd(array(
@@ -74,6 +74,12 @@ class BaseaButtonForm extends BaseForm
       )),
       'title' => new sfValidatorString(array('required' => false)) 
     ));
+
+    $editLink = $this->consumeSlotOption('editLink');
+    if ($editLink === false)
+    {
+      unset($this['url']);
+    }
 
     // Ensures unique IDs throughout the page. Hyphen between slot and form to please our CSS
     $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '-%s');

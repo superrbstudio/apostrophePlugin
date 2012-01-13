@@ -33,13 +33,15 @@
 	</div>
 <?php endif ?>
 
-<div class="a-form-row link">
-	<?php echo $form['url']->renderLabel('Link') ?>
-	<div class="a-form-field">
-		<?php echo $form['url']->render() ?>
-	</div>
-	<?php echo $form['url']->renderError() ?>
-</div>
+<?php if ((!isset($options['editLink'])) || ($options['editLink'] !== false)): ?>
+  <div class="a-form-row link">
+  	<?php echo $form['url']->renderLabel('Link') ?>
+  	<div class="a-form-field">
+  		<?php echo $form['url']->render() ?>
+  	</div>
+  	<?php echo $form['url']->renderError() ?>
+  </div>
+<?php endif ?>
 
 <?php if ($options['description']): ?>
 	<div class="a-form-row description">

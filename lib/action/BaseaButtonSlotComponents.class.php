@@ -87,9 +87,22 @@ class BaseaButtonSlotComponents extends aSlotComponents
       {
         $this->form->setDefault('url', $value['url']);      
       }
+      else
+      {
+        $this->form->setDefault('url', $this->getOption('link'));
+      }
       if (isset($value['title']))
       {
         $this->form->setDefault('title', $value['title']);      
+      }
+      else
+      {
+        // Careful, just plain true is a valid setting for this option
+        $title = $this->getOption('title');
+        if (strlen($title) && ($title !== true))
+        {
+          $this->form->setDefault('title', $title);
+        }
       }
       if (isset($value['description']))
       {

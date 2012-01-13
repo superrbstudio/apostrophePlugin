@@ -28,7 +28,7 @@ class BaseaButtonSlotActions extends aSlotActions
     {
       $this->slot->link('MediaItems', array($item->id));
     }
-    $this->editSave();
+    return $this->editSave();
   }
 
   /**
@@ -56,17 +56,26 @@ class BaseaButtonSlotActions extends aSlotActions
         $value[$matches[1]] = $v;
       }
     }
-		
-		// Trim whitespace off the front & end of the URL to avoid failing validation on a perfectly acceptable URL
-		$value['url'] = trim($value['url']); 
+
+		if ($this->getOption('editLink', null) !== false)
+		{
+  		// Trim whitespace off the front & end of the URL to avoid failing validation on a perfectly acceptable URL
+  		$value['url'] = trim($value['url']); 
+  	}
 
     $this->form = new aButtonForm($this->id, $this->options);
     $this->form->bind($value);
     if ($this->form->isValid())
     {
-      $url = $this->form->getValue('url');
+  		if ($this->getOption('editLink', null) !== false)
+  		{
+        $url = $this->form->getValue('url');
+      }
       $value = $this->slot->getArrayValue();
-      $value['url'] = $url;
+  		if ($this->getOption('editLink', null) !== false)
+  		{
+        $value['url'] = $url;
+      }
       $value['title'] = $this->form->getValue('title');
       $value['description'] = $this->form->getValue('description');
       $this->slot->setArrayValue($value);

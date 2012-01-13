@@ -930,7 +930,7 @@ function aConstructor()
 			apostrophe.log('apostrophe.buttonSlot -- no button found');
 		}
 	};
-
+	
 	this.afterAddingSlot = function(name)
 	{
 		$('#a-add-slot-form-' + name).hide();
@@ -2287,7 +2287,18 @@ function aConstructor()
       }
       if ($('.a-slot.a-editing').length)
       {
-        return "You are still editing content. Any edits you have made will be lost if you do not save them first before leaving the page.";
+        // Don't stop the user if all of the open slot edit forms have .a-no-unload-warning
+        var stop = false;
+        $('.a-slot.a-editing').each(function() {
+          if (!$(this).hasClass('a-no-unload-warning'))
+          {
+            stop = true;
+          }
+        });
+        if (stop)
+        {
+          return "You are still editing content. Any edits you have made will be lost if you do not save them first before leaving the page.";
+        }
       }
     });
   }
