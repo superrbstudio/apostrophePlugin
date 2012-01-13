@@ -302,7 +302,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
 
     // Accessible alt title
-    $title = htmlentities($this->getTitle(), ENT_COMPAT, 'UTF-8');
+    if (isset($options['alt']))
+    {
+      $title = aHtml::entities($options['alt']);
+    }
+    else
+    {
+      $title = aHtml::entities($this->getTitle());
+    }
     if ($this->getEmbeddable())
     {
       if ($this->service_url)

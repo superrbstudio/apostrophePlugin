@@ -43,7 +43,7 @@ class BaseaButtonSlotComponents extends aSlotComponents
         array("width" => $this->options['width'],
           "height" => $this->options['flexHeight'] ? false : $this->options['height'],
           "resizeType" => $this->options['resizeType']));
-      $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false);
+      $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false, 'opaque', false, array('alt' => strlen($this->options['title']) ? $this->options['title'] : ''));
     }
   }
 
