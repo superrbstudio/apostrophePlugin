@@ -363,7 +363,7 @@ abstract class PluginaPage extends BaseaPage
    */
   public function getRichTextForArea($areaname, $word_limit = false)
   {
-    $this->getAreaBasicHtml($areaname, $word_limit);
+    return $this->getAreaBasicHtml($areaname, $word_limit);
   }
 
   /**
