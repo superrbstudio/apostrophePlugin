@@ -1141,7 +1141,7 @@ function aConstructor()
   this.mediaSlotEnhancements = function()
   {
     apostrophe.log('apostorphe.mediaSlotEnhancements');
-    var placeholders = $('.a-media-placeholder');
+    var placeholders = $('.a-js-media-placeholder');
     placeholders.die('click.mediaSlotEnhancements').live('click.mediaSlotEnhancements', function(event){
       var $self = $(this),
           chooseBtn = $self.closest('.a-slot').find('.a-js-choose-button');
