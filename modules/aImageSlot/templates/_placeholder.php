@@ -4,7 +4,7 @@
 <?php // The label text is centered vertically and horizontally within the box ?>
 
 <?php if ($sf_user->isAuthenticated() && (isset($options['singleton']) != true)): ?>
-	<a href="#<?php echo aTools::slugify($placeholderText) ?>" class="a-ui a-media-placeholder a-js-media-placeholder">
+	<a href="#<?php echo aTools::slugify($placeholderText) ?>" class="a-ui a-media-placeholder <?php echo (isset($clickToSelect) && ($clickToSelect === false)) ? '' : 'a-js-media-placeholder' ?>">
 		<span><?php echo $placeholderText ?></span>
 	</a>
 <?php endif ?>

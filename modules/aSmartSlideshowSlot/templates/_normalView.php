@@ -21,5 +21,5 @@
 <?php if (count($items)): ?>
 	<?php include_component('aSlideshowSlot', 'slideshow', array('items' => $items, 'id' => $id, 'options' => $options)) ?>
 <?php else: ?>				
-	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("No Matching Photos Found"), 'options' => $options)) ?>
+	<?php include_partial('aImageSlot/placeholder', array('clickToSelect' => false, 'placeholderText' => a_("No Matching Photos Found"), 'options' => $options)) ?>
 <?php endif ?>
