@@ -1144,13 +1144,13 @@ function aConstructor()
     var placeholders = $('.a-js-media-placeholder');
     placeholders.die('click.mediaSlotEnhancements').live('click.mediaSlotEnhancements', function(event){
       var $self = $(this),
-          chooseBtn = $self.closest('.a-slot').find('.a-js-choose-button');
+          chooseBtn = ($self.closest('.singleton').length) ? $self.closest('.a-area').find('.a-js-choose-button') : $self.closest('.a-slot').find('.a-js-choose-button');
           $self.addClass('in-progress');
       window.location.href = chooseBtn.attr('href');
       return false;
     });
   };
-
+  
 
   /**
     slotShowEditView
