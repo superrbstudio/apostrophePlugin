@@ -23,7 +23,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->setup();
     $this->setupOptions();
     $this->getLinkedItems();
-    
+
     if ($this->options['uncropped'])
     {
       $newItems = array();
@@ -34,7 +34,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
       }
       $this->items = $newItems;
     }
-    
+
     if ($this->options['random'] && count($this->items))
     {
       shuffle($this->items);
@@ -70,7 +70,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['credit'] = $this->getOption('credit');
     $this->options['interval'] = $this->getOption('interval', 0) + 0;
     $this->options['arrows'] = $this->getOption('arrows', true);
-    $this->options['transition'] = ($this->options['height']) ? $this->getOption('transition', 'normal') : 'normal-forced';
+    $this->options['transition'] = $this->getOption('transition','normal');
     $this->options['duration'] = $this->getOption('duration', 300) + 0;
     $this->options['position'] = $this->getOption('position', false);
     $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
@@ -79,7 +79,7 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     // Ignore any manual crops by the user. This is useful if you want to use 'c' in an
     // alternative rendering of a slideshow where custom crops are normally welcome
     $this->options['uncropped'] = $this->getOption('uncropped', false);
-    
+
     // We automatically set up the aspect ratio if the resizeType is set to 'c'
     $constraints = $this->getOption('constraints', array());
     if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
@@ -89,9 +89,9 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     }
     $this->options['constraints'] = $constraints;
 
-    // idSuffix works with the Blog Slot slideshows 
+    // idSuffix works with the Blog Slot slideshows
     // Creates unique ids for the same slideshows if they show up in separate slots on a single page.
-    $this->options['idSuffix'] = $this->getOption('idSuffix', false); 
+    $this->options['idSuffix'] = $this->getOption('idSuffix', false);
   }
 
 }
