@@ -25,12 +25,7 @@ class BaseaSlideshowSlotActions extends aSlotActions
     if ($request->hasParameter('aMediaIds'))
     {
       $ids = preg_split('/,/', $request->getParameter('aMediaIds'));
-      $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids)->andWhere('m.type = "image"');
-      // Let the query preserve order for us
-      $items = aDoctrine::orderByList($q, $ids)->execute();
-      $this->slot->unlink('MediaItems');
-      $links = aArray::getIds($items);
-      $this->slot->link('MediaItems', $links);
+      $this->relinkMediaItems($ids);
 
       // This isn't a normal form submission, but the act of selecting items for a
       // slideshow implies we picked the 'selected' radio button, so just save 'form' as if
@@ -45,6 +40,21 @@ class BaseaSlideshowSlotActions extends aSlotActions
       $this->afterSetMediaIds();
       return $this->editSave();
     }
+  }
+
+  /**
+   * Drop any existing links to media items and re-link to any valid media item ids
+   * mentioned in $ids. Doctrine is not very good at this, but this solution is
+   * battle-tested
+   */
+  protected function relinkMediaItems($ids)
+  {
+    $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids)->andWhere('m.type = "image"');
+    // Let the query preserve order for us
+    $items = aDoctrine::orderByList($q, $ids)->execute();
+    $this->slot->unlink('MediaItems');
+    $links = aArray::getIds($items);
+    $this->slot->link('MediaItems', $links);
   }
   
   protected function afterSetMediaIds()

@@ -106,11 +106,21 @@ class BaseaSlotActions extends sfActions
   }
 
   /**
-   * DOCUMENT ME
+   * Save a new version of the area with the updated or created slot in question, refreshing the page
+   * so that it will render properly. If the request parameter 'noajax' is present, redirect to the
+   * page, otherwise call editAjax to trigger an ajax refresh of the slot. 
+   *
+   * If $options['quiet'] is specified and true, don't try to redirect or refresh the slot, just do the 
+   * backend storage of the new version of the slot. If $options['refresh'] is specified and false,
+   * don't refresh the page and its slots
+   *
    * @return mixed
    */
-  protected function editSave()
+  protected function editSave($options)
   {
+    $quiet = isset($options['quiet']) && $options['quiet'];
+    $refresh = (!isset($options['refresh'])) || $options['refresh'];
+    
     // A simple hook to let other code know when slot editing has taken place and 
     // a new slot is about to be saved. Since objects are passed by reference it's
     // possible to change the slot object, but this is mainly for logging purposes
@@ -124,15 +134,21 @@ class BaseaSlotActions extends sfActions
       array('permid' => $this->permid, 'slot' => $this->slot,  'top' => sfConfig::get('app_a_new_slots_top', true)));
     // Refetch the page to reflect these changes before we
     // rerender the slot
-    aTools::setCurrentPage(
-      aPageTable::retrieveByIdWithSlots($this->page->id));
-    if ($this->getRequestParameter('noajax'))
+    if ($refresh)
     {
-      return $this->redirectToPage();
+      aTools::setCurrentPage(
+        aPageTable::retrieveByIdWithSlots($this->page->id));
     }
-    else
+    if (!$quiet)
     {
-      return $this->editAjax(false);
+      if ($this->getRequestParameter('noajax'))
+      {
+        return $this->redirectToPage();
+      }
+      else
+      {
+        return $this->editAjax(false);
+      }
     }
   }
 
