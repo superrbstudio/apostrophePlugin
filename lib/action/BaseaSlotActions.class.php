@@ -116,7 +116,7 @@ class BaseaSlotActions extends sfActions
    *
    * @return mixed
    */
-  protected function editSave($options)
+  protected function editSave($options = array())
   {
     $quiet = isset($options['quiet']) && $options['quiet'];
     $refresh = (!isset($options['refresh'])) || $options['refresh'];
