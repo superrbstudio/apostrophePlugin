@@ -1215,6 +1215,8 @@ function aConstructor()
 				$slotForm.serialize(),
 				function(data) {
 					$slotContent.html(data);
+					var $area = $slot.closest('.a-area');
+					$area.removeClass('a-editing').addClass('a-normal');
 					$slot.removeClass('a-editing').addClass('a-normal');
 					$singleton.removeClass('a-editing'); // Singletons are an edge case
 				},
@@ -1243,6 +1245,9 @@ function aConstructor()
 			$slot.children('.a-slot-content').children('.a-slot-form').hide();
 			$slot.removeClass('a-editing').addClass('a-normal');
 			$singleton.removeClass('a-editing');
+			
+			var $area = $slot.closest('.a-area');
+			$area.removeClass('a-editing').addClass('a-normal');
 		});
 
 		$saveButton.unbind('click.slotEnableFormButtons').bind('click.slotEnableFormButtons', function(event){
