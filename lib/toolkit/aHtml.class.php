@@ -672,12 +672,21 @@ class aHtml
     // Cripes... crc has to include user, domain *and* label to make it unique.
     // This is worth it to produce cacheable content though
     $class = 'a-email-' . sprintf("%u", crc32($user . '@' . $domain . ':' . $label));
-    $href = rawurlencode("mailto:$user@$domain");
-    $label = rawurlencode(trim($label));
-    // This is an acceptable way to stub in a js call for now, since it's the
-    // way the helper has to do it too
-    aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($class, $href, $label));
-    return "<a href='#' class='$class'></a>";
+    $href = "mailto:$user@$domain";
+    if (sfConfig::get('app_a_inline_obfuscate_mailto'))
+    {
+      $result = '<a href="#" class="a-obs-email ' . $class . '" data-prefix="' . $user . '" data-suffix="' . $domain . '" data-label="' . $label . '"></a>';
+    }
+    else
+    {
+      // This is an acceptable way to stub in a js call for now, since it's the
+      // way the helper has to do it too
+      $result = "<a href='#' class='$class'></a>";  
+      $label = rawurlencode(trim($label));          
+      $href = rawurlencode($href);      
+      aTools::$jsCalls[] = array('callable' => 'apostrophe.unobfuscateEmail(?, ?, ?)', 'args' => array($class, $href, $label));
+    }
+    return $result;
   }
 
   /**

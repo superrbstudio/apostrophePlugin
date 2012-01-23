@@ -339,8 +339,27 @@ function aConstructor()
 
 	this.unobfuscateEmail = function(aClass, email, label)
 	{
+	  aLog('apostrophe.unobfuscateEmail -- ' + aClass + ', ' + email + ', ' + label);
 		$('.' + aClass).attr('href', unescape(email)).html(unescape(label));
 	};
+
+
+  /**
+    apostrophe.unobfuscateEmailInline -- works in conjunction with an app.yml flag:
+    //  a:
+    //    inline_obfuscate_mailto: true
+    To unobfuscate all emails loaded on a page after a_js has fired.
+  */
+  this.unobfuscateEmailInline = function() {
+    var links = $('.a-obs-email');
+    if (links.length) 
+    {
+      links.each(function(){
+        $self = $(this);
+        $self.attr('href', 'mailto:' + $self.attr('data-prefix') + '@' + $self.attr('data-suffix')).html($self.attr('data-label'));
+      });
+    };
+  };
 
 	// Turns a form into an AJAX form that updates the element
 	// with the DOM ID specified by options['update']. You must
