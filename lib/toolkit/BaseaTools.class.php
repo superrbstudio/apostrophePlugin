@@ -1166,10 +1166,6 @@ class BaseaTools
       aTools::$lockService = new $class($options);
     }
     $result = aTools::$lockService->lock($name, $wait);
-    if ($result)
-    {
-      error_log("Locked $name");
-    }
     return $result;
   }
 
@@ -1186,7 +1182,6 @@ class BaseaTools
       return;
     }
     aTools::$lockService->unlock();
-    error_log("Unlocked");
   }
   
   static public function standardAreaSlots()
