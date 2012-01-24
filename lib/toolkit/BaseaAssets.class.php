@@ -187,7 +187,7 @@ class BaseaAssets
     $files = aFiles::ls($assetDir);
     foreach ($files as $file)
     {
-      unlink("$assetDir/$file");
+      aFiles::unlink("$assetDir/$file");
     }
     $cache = aAssets::getCache();
     $cache->clean();

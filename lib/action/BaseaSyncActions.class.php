@@ -154,7 +154,7 @@ result in an error when it happens to be empty. Move along, nothing to see here.
 
     $dataDemo = "$uploads/apostrophedemo-awritable.zip";
     $this->zip($dataDemo, $data);
-    unlink($dump);
+    aFiles::unlink($dump);
   }
 
   /**
@@ -166,7 +166,7 @@ result in an error when it happens to be empty. Move along, nothing to see here.
   {
     if (file_exists($file))
     {
-      unlink($file);
+      aFiles::unlink($file);
     }
     // We want only relative paths in the zipfile so we must chdir
     // I wish we could use --filesync but most zips don't have it.

@@ -82,7 +82,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // it's gone from the db and so forth
     if (!$this->isCrop())
     {
-      unlink($this->getOriginalPath());
+      aFiles::unlink($this->getOriginalPath());
     }
     return $ret;
   }
@@ -173,7 +173,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
           continue;
         }
       }
-      unlink($file); 
+      aFiles::unlink($file); 
     }
   }
 

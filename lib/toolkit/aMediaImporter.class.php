@@ -125,7 +125,7 @@ class aMediaImporter
           $item->delete();
           continue;
         }
-        unlink($file);
+        aFiles::unlink($file);
         $count++;
         $this->giveFeedback("completed", $count, $file);
       }

@@ -467,7 +467,7 @@ class aImporter
           }
           if (file_exists($tmpFile))
           {
-            unlink($tmpFile);
+            aFiles::unlink($tmpFile);
           }
         }
       }
@@ -564,7 +564,7 @@ class aImporter
               {
                 $this->failedMedia[$filename] = true;
               }
-              unlink($tmpFile);
+              aFiles::unlink($tmpFile);
             }
           }
         }

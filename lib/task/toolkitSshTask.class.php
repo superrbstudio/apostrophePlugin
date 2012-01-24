@@ -82,6 +82,6 @@ interact
 EOM
     );
     passthru("expect $scriptFile");
-    unlink($scriptFile);
+    aFiles::unlink($scriptFile);
   }
 }

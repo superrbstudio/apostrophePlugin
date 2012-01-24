@@ -266,8 +266,7 @@ class aZendSearch
 
       if (file_exists($file))
       {
-        sfToolkit::clearDirectory($file);
-        rmdir($file);
+        aFiles::rmRf($file);
       }
     }
   }

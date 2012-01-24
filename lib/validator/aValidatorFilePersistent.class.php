@@ -341,7 +341,7 @@ class aValidatorFilePersistent extends sfValidatorFile
       if ($now - filemtime($file) > 
         sfConfig::get('sf_persistent_upload_lifetime', 60) * 60)
       {
-        unlink($file); 
+        aFiles::unlink($file); 
       }
     }
   }
@@ -561,6 +561,6 @@ class aValidatorFilePersistent extends sfValidatorFile
     $cache = aCacheTools::get('persistentFiles');
     $cache->remove($persistid);
     $dir = aValidatorFilePersistent::getPersistentDir();
-    @unlink("$dir/$persistid.file");
+    @aFiles::unlink("$dir/$persistid.file");
   }
 }
