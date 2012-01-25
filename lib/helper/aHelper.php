@@ -471,8 +471,31 @@ function a_link_button($label, $symfonyUrl, $options = array(), $classes = array
   return a_button($label, url_for($symfonyUrl, $options), $classes, $id);
 }
 
-function a_button($label, $url, $classes = array(), $id = null, $name = null, $title = null)
+/**
+ * Conveniently outputs a button, supplying the a-btn class and also supplying the
+ * "icon" span if 'icon' is in the $classes array. If a-link or a-arrow-btn is in the
+ * classes array then a-btn is not supplied. 
+ *
+ * You can now pass all of these arguments, plus the new target option, as a single 
+ * array parameter rather than passing a long list of parameters. None are mandatory.
+ */
+function a_button($label, $url = '#', $classes = array(), $id = null, $name = null, $title = null, $options = array())
 {
+  if (is_array($label))
+  {
+    $options = $label;
+    $label = a_get_option($options, 'label', null);
+    $url = a_get_option($options, 'url', '#');
+    $classes = a_get_option($options, 'classes', array());
+    $id = a_get_option($options, 'id', null);
+    $name = a_get_option($options, 'name', null);
+    $title = a_get_option($options, 'title', null);
+    $target = a_get_option($options, 'target', null);
+  }
+  else
+  {
+    $target = null;
+  }
   $hasIcon = in_array('icon', $classes);
 	$aLink = in_array('a-link', $classes);
 	$arrowBtn = in_array('a-arrow-btn', $classes);
@@ -484,6 +507,10 @@ function a_button($label, $url, $classes = array(), $id = null, $name = null, $t
 	}
 	
   $s = '<a ';
+  if (!is_null($target))
+  {
+    $s .= 'target="' . a_entities($target) . '" ';
+  }
   if (!is_null($name))
   {
     $s .= 'name="' . a_entities($name) . '" ';
