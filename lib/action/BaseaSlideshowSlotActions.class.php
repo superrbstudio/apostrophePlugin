@@ -25,7 +25,7 @@ class BaseaSlideshowSlotActions extends aSlotActions
     if ($request->hasParameter('aMediaIds'))
     {
       $ids = preg_split('/,/', $request->getParameter('aMediaIds'));
-      $this->relinkMediaItems($ids);
+      $links = $this->relinkMediaItems($ids);
 
       // This isn't a normal form submission, but the act of selecting items for a
       // slideshow implies we picked the 'selected' radio button, so just save 'form' as if
@@ -45,7 +45,7 @@ class BaseaSlideshowSlotActions extends aSlotActions
   /**
    * Drop any existing links to media items and re-link to any valid media item ids
    * mentioned in $ids. Doctrine is not very good at this, but this solution is
-   * battle-tested
+   * battle-tested. Return the valid ids in order
    */
   protected function relinkMediaItems($ids)
   {
@@ -55,6 +55,7 @@ class BaseaSlideshowSlotActions extends aSlotActions
     $this->slot->unlink('MediaItems');
     $links = aArray::getIds($items);
     $this->slot->link('MediaItems', $links);
+    return $links;
   }
   
   protected function afterSetMediaIds()
