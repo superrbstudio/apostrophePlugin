@@ -490,7 +490,7 @@ function aConstructor()
 			$self.removeClass('a-busy').removeClass('icon').find('span.icon').remove();
 		});
 
-		submit.closest('form').unbind('submit.aShowBusy').bind('submit.aShowBusy', function(){
+		submit.closest($('form')).unbind('submit.aShowBusy').bind('submit.aShowBusy', function(){
 			var $selfForm = $(this);
 			$selfForm.find('.a-show-busy').trigger('aShowBusy');
 		});
@@ -569,7 +569,7 @@ function aConstructor()
 		    authenticated = options['authenticated'],
 		    message = options['message'];
 		// This is called within a conditional comment for IE in Apostrophe's layout.php
-		if (authenticated && ieBody.closest('.ie6').size())
+		if (authenticated && ieBody.closest($('.ie6')).size())
 		{
 			ieBody.addClass('ie6').prepend('<div id="ie6-warning"><h2>' + message + '</h2></div>');
 		}
@@ -593,31 +593,6 @@ function aConstructor()
 				theme_name: "punk",
 				scroll_spd	: 16,
 				context: false
-			// 	[
-			//					 // {
-			//					 //		 id			: "create",
-			//					 //		 label	 : "Create",
-			//					 //		 icon		: "create.png",
-			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); },
-			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); }
-			//					 // },
-			//					 // "separator",
-			//					 // {
-			//					 //		 id			: "rename",
-			//					 //		 label	 : "Rename",
-			//					 //		 icon		: "rename.png",
-			//					 //		 visible : function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); },
-			//					 //		 action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(); }
-			//					 // },
-			//					 {
-			//							 id			: "delete",
-			//							 label	 : "Delete",
-			//							 // icon		: "remove.png",
-			//							 visible : function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; },
-			// 			// Also see ondelete below
-			//							 action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); }
-			//					 }
-			// 	]
 			},
 			rules: {
 				// Turn off most operations as we're only here to reorg the tree.
@@ -662,56 +637,11 @@ function aConstructor()
 						async: true
 					});
 				}
-				// delete completed
-				// ondelete: function(node, treeObj, rb)
-				// {
-				// 	// To avoid creating an inconsistent tree we need to use a synchronous request. If the request fails, refresh the
-				// 	// tree page
-				//
-				// 	aPageTree.parent().addClass('working');
-				//
-				// 	var nid = node.id;
-				//
-				// 	jQuery.ajax({
-				// 		url: options['deleteURL'] + "?" + "id=" + nid.substr("tree-".length),
-				// 		error: function(result) {
-				// 			// 404 errors etc
-				// 			window.location.reload();
-				// 		},
-				// 		success: function(result) {
-				// 			// Look for a specific "all is well" response
-				// 			if (result !== 'ok')
-				// 			{
-				// 				window.location.reload();
-				// 			}
-				// 			aPageTree.parent().removeClass('working');
-				// 		},
-				// 		async: false
-				// 	});
-				// }
 			}
 		});
 		treeRef = $.tree_reference(aPageTree.attr('id'));
-		// aPageTree.find('.a-tree-delete-btn').bind('click.apostrophe', function() {
-		// 	var li = $(this).closest('li');
-		// 	if (li.find('li').length)
-		// 	{
-		// 		if (!confirm(options['confirmDeleteWithChildren']))
-		// 		{
-		// 			return false;
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		if (!confirm(options['confirmDeleteWithoutChildren']))
-		// 		{
-		// 			return false;
-		// 		}
-		// 	}
-		// 	treeRef.remove(li);
-		// 	return false;
-		// });
-		aPageTree.find('li').each(function() {
+
+                aPageTree.find('li').each(function() {
 			var id = $(this).attr('id');
 			var a = $(this).find('a:first');
 			// This markup was carefully created to avoid 80000 conflicts with other CSS,
@@ -1713,32 +1643,41 @@ function aConstructor()
 
 	this.menuToggle = function(options)
 	{
-		var button = options['button'];
-		var menu;
-		if (typeof(options[menu]) != "undefined")
-		{
-			menu = options['menu'];
-		}
-		else
-		{
-			menu = $(button).parent();
-		}
-		var classname = options['classname'];
-		var overlay = options['overlay'];
+            var button = options.button || null;
+            var menu = options.menu || null;
+            var classname = options.classname || null;
+            var overlay = options.overlay || null;
 
-		if (typeof(button) == "undefined") {
-			apostrophe.log('apostrophe.menuToggle -- Button is undefined');
-		}
-		else
-		{
-			if (typeof button == "string") { button = $(button); } /* button that toggles the menu open & closed */
-			if (typeof classname == "undefined" || classname == '') { classname = "show-options";	} /* optional classname override to use for toggle & styling */
-			if (typeof overlay != "undefined" && overlay) { overlay = $('.a-page-overlay'); } /* optional full overlay */
+            if (button)
+            {
+                button = $(options.button);
+            }
+            else
+            {
+                return;
+            }
 
-			if (typeof(menu) == "object") {
-				_menuToggle(button, menu, classname, overlay, options['beforeOpen'], options['afterClosed'], options['afterOpen'], options['beforeClosed'], options['focus'], options['debug']);
-			}
-		}
+            if (menu)
+            {
+                menu = $(options.menu);
+            }
+            else
+            {
+                menu = $(button).parent();
+            }
+
+            if (!classname)
+            {
+                classname = 'show-options';
+            }
+
+            if (overlay)
+            {
+                overlay = $(overlay);
+            }
+
+            _menuToggle(button, menu, classname, overlay, options.beforeOpen, options.afterClosed, options.afterOpen, options.beforeClosed, options.focus, options.debug);
+
 	};
 
 	this.pager = function(selector, pagerOptions)
@@ -2962,87 +2901,100 @@ function aConstructor()
 
 	function _menuToggle(button, menu, classname, overlay, beforeOpen, afterClosed, afterOpen, beforeClosed, focus, debug)
 	{
-		// Menu must have an ID.
-		// If the menu doesn't have one, we create it by appending 'menu' to the Button ID
-		if (menu.attr('id') == '')
-		{
-			var	newID = button.attr('id')+'-menu';
-			menu.attr('id', newID).addClass('a-options-container');
-		}
+            // Menu must have an ID.
+            // If the menu doesn't have one, we create it by appending 'menu' to the Button ID
+            if (menu.attr('id') == '')
+            {
+                    var	newID = button.attr('id')+'-menu';
+                    menu.attr('id', newID).addClass('a-options-container');
+            }
 
-		// Menu listens for ESCAPE key if it's open
-    $(document).unbind('keyup.' + menu.attr('id')).bind('keyup.' + menu.attr('id'), function(event) {
-      if (event.keyCode === 27) {
-				// Hey you pressed escape
-	      apostrophe.log('apostrophe.menuToggle -- ESC')
-				// Does the menu have the open class when you're pressing escape?
-				if (menu.hasClass(classname))
-				{
-					// Close that menu
-      		apostrophe.log('apostrophe.menuToggle -- ESC Pressed: keyup.' + menu.attr('id'))
-					menu.trigger('toggleClosed');
-	        return false;
-				}
-      }
-    });
+            // Menu listens for ESCAPE key if it's open
+            $(document).unbind('keyup.' + menu.attr('id')).bind('keyup.' + menu.attr('id'), function(event) {
+                if (event.keyCode === 27) {
+                    // Hey you pressed escape
+                    apostrophe.log('apostrophe.menuToggle -- ESC')
+                    // Does the menu have the open class when you're pressing escape?
+                    if (menu.hasClass(classname))
+                    {
+                        // Close that menu
+                        apostrophe.log('apostrophe.menuToggle -- ESC Pressed: keyup.' + menu.attr('id'))
+                        menu.trigger('toggleClosed');
+                        return false;
+                    }
+                }
+            });
 
-		// Button Toggle
-		button.unbind('click.menuToggle').bind('click.menuToggle', function(event){
-			event.preventDefault();
-			if (!button.hasClass('aActiveMenu'))
-			{
-				menu.trigger('toggleOpen');
-			}
-			else
-			{
-				menu.trigger('toggleClosed');
-			}
-		}).addClass('a-options-button');
+            // Button Toggle
+            button.unbind('click.menuToggle').bind('click.menuToggle', function(event){
+                event.preventDefault();
+                if (!button.hasClass('aActiveMenu'))
+                {
+                    menu.trigger('toggleOpen');
+                }
+                else
+                {
+                    menu.trigger('toggleClosed');
+                }
+            });
+            button.addClass('a-options-button');
 
-		if (beforeOpen) { menu.bind('beforeOpen', beforeOpen); }
-		if (afterClosed) { menu.bind('afterClosed', afterClosed); }
-		if (afterOpen) { menu.bind('afterOpen', afterOpen);	}
-		if (beforeClosed) { menu.bind('beforeClosed', beforeClosed); }
+            if (beforeOpen) { menu.bind('beforeOpen', beforeOpen); }
+            if (afterClosed) { menu.bind('afterClosed', afterClosed); }
+            if (afterOpen) { menu.bind('afterOpen', afterOpen);	}
+            if (beforeClosed) { menu.bind('beforeClosed', beforeClosed); }
 
-		var clickHandler = function(event){
-			var target = $(event.target);
-			if (target.hasClass('a-page-overlay') || target.hasClass('a-cancel') || (!target.parents().is('#'+menu.attr('id')) && !target.parents().hasClass('ui-widget')) && target.parents('html').length)
-			{
-				menu.trigger('toggleClosed');
-			}
-		}
+            var clickHandler = function(event){
+                var target = $(event.target);
 
-		// Open Menu, Create Listener
-		menu.unbind('toggleOpen').bind('toggleOpen', function(){
-			menu.trigger('beforeOpen');
-			button.addClass('aActiveMenu');
-			menu.parents().addClass('ie-z-index-fix');
-			button.closest('.a-controls').addClass('aActiveMenu');
-			menu.addClass(classname);
-			if (overlay) { overlay.fadeIn(); }
-			$(document).bind('click.menuToggleClickHandler', clickHandler);
-			if (focus) { $(focus).focus(); };
-			menu.trigger('afterOpen');
-		});
+                if ((target.closest(button.selector).length == 0))
+                {
+                    menu.trigger('toggleClosed');
+                }
 
-		// Close Menu, Destroy Listener
-		menu.unbind('toggleClosed').bind('toggleClosed', function(){
-			menu.trigger('beforeClosed');
-			button.removeClass('aActiveMenu');
-			menu.parents().removeClass('ie-z-index-fix');
-			button.closest('.a-controls').removeClass('aActiveMenu');
-			menu.removeClass(classname);
-			if (overlay) { overlay.hide(); };
-			$(document).unbind('click.menuToggleClickHandler'); // Clear out click event
-			menu.trigger('afterClosed');
-		});
+                if (target.closest(overlay.selector).length)
+                {
+                    menu.trigger('toggleClosed');
+                }
 
-		// Any .a-cancel buttos in the menu itself close it
-		$('#' + menu.attr('id') + ' .a-cancel').die('click.aMenuToggle').live('click.aMenuToggle',function(e){
-			e.preventDefault();
-			menu.trigger('toggleClosed');
-			return false;
-		});
+                if (target.closest('.a-cancel').length)
+                {
+                    menu.trigger('toggleClosed');
+                }
+
+            }
+
+            // Open Menu, Create Listener
+            menu.unbind('toggleOpen').bind('toggleOpen', function(){
+                menu.trigger('beforeOpen');
+                button.addClass('aActiveMenu');
+                menu.parents().addClass('ie-z-index-fix');
+                button.closest('.a-controls').addClass('aActiveMenu');
+                menu.addClass(classname);
+                if (overlay) { overlay.fadeIn(); }
+                $(document).bind('click.menuToggleClickHandler', clickHandler);
+                if (focus) { $(focus).focus(); };
+                menu.trigger('afterOpen');
+            });
+
+            // Close Menu, Destroy Listener
+            menu.unbind('toggleClosed').bind('toggleClosed', function(){
+                    menu.trigger('beforeClosed');
+                    button.removeClass('aActiveMenu');
+                    menu.parents().removeClass('ie-z-index-fix');
+                    button.closest('.a-controls').removeClass('aActiveMenu');
+                    menu.removeClass(classname);
+                    if (overlay) { overlay.hide(); };
+                    $(document).unbind('click.menuToggleClickHandler'); // Clear out click event
+                    menu.trigger('afterClosed');
+            });
+
+            // Any .a-cancel buttos in the menu itself close it
+            $('#' + menu.attr('id') + ' .a-cancel').die('click.aMenuToggle').live('click.aMenuToggle',function(e){
+                    e.preventDefault();
+                    menu.trigger('toggleClosed');
+                    return false;
+            });
 	}
 
 }
@@ -3062,9 +3014,9 @@ function aCall(callback) {
   aLog -- Utility for
 */
 function aLog(output) {
-	if (window.console && console.log && apostrophe.debug === true) {
-		console.log(output);
-	}
+    if (window.console && console.log && apostrophe.debug === true) {
+        console.log(output);
+    }
 }
 
 window.apostrophe = new aConstructor();
