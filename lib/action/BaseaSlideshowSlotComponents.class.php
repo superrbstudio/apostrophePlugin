@@ -80,6 +80,13 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     // alternative rendering of a slideshow where custom crops are normally welcome
     $this->options['uncropped'] = $this->getOption('uncropped', false);
 
+    // Crossfade doesn't work well without a height unless you do special gymnastics. The simple
+    // workaround is to specify maxHeight as a fallback
+    if (($this->options['transition'] === 'crossfade') && ($this->options['height'] === false) && ($this->options['maxHeight'] !== false))
+    {
+      $this->options['height'] = $this->options['maxHeight'];
+    }
+
     // We automatically set up the aspect ratio if the resizeType is set to 'c'
     $constraints = $this->getOption('constraints', array());
     if (($this->getOption('resizeType', 's') === 'c') && isset($constraints['minimum-width']) && isset($constraints['minimum-height']) && (!isset($constraints['aspect-width'])))
