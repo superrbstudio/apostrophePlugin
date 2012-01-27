@@ -1673,7 +1673,13 @@ function aConstructor()
 
             if (overlay)
             {
-                overlay = $(overlay);
+              // You can specify a particular overlay, but if you don't
+              // make an explicit choice .a-page-overlay is used 
+              if (overlay === true)
+              {
+                overlay = '.a-page-overlay';
+              }
+              overlay = $(overlay);
             }
 
             _menuToggle(button, menu, classname, overlay, options.beforeOpen, options.afterClosed, options.afterOpen, options.beforeClosed, options.focus, options.debug);
@@ -2985,7 +2991,10 @@ function aConstructor()
                     menu.parents().removeClass('ie-z-index-fix');
                     button.closest('.a-controls').removeClass('aActiveMenu');
                     menu.removeClass(classname);
-                    if (overlay) { overlay.hide(); };
+                    if (overlay) { 
+                      aLog(overlay);
+                      overlay.hide(); 
+                    };
                     $(document).unbind('click.menuToggleClickHandler'); // Clear out click event
                     menu.trigger('afterClosed');
             });
