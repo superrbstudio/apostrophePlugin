@@ -2573,7 +2573,8 @@ function aConstructor()
 			return false;
 		});
 		$('#a-media-edit-form-0').submit(function() {
-			return true;
+  		$('.a-needs-update').trigger('a.update');
+  		return true;
 		});
 		$('#a-media-edit-form-0 .a-media-editor .a-delete').bind('click.apostrophe', function() {
 			$(this).parents('.a-media-editor').remove();
