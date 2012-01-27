@@ -11,7 +11,10 @@
 <?php use_helper('a') ?>
 
 <?php if (count($items)): ?>
-	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix <?php echo (count($items === 1) ? 'single-image' : 'multi-image') ?> transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? ' style="height:'.$options['height'].'px; width:'.$options['width'].'px;"':'' ?>>
+  <?php // Crossfade doesn't work well without a height unless you do special gymnastics. The simple ?>
+  <?php // workaround is to specify maxHeight as a fallback ?>
+  
+	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix <?php echo (count($items === 1) ? 'single-image' : 'multi-image') ?> transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? ' style="height:'.($options['height'] ? $options['height'] : ($options['maxHeight'] ? $options['maxHeight'] : 0)) . 'px; width:'.$options['width'].'px;"':'' ?>>
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
 	  <?php $dimensions = aDimensions::constrain(
 	    $item->width, 
