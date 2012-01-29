@@ -349,37 +349,48 @@ class BaseaFiles
   }
   
   /**
-   * Be careful with this, it follows symlinks if any. Mainly for stream wrappers
+   * Be careful with this, it follows symlinks if any. Mainly for stream wrappers.
+   * Recursion has been removed in favor of building up and emptying out a paths array
+   * in multiple passes so that we don't hit the "100 levels of recursion, bailing out" problem 
+   * when removing a big, deeply screwed up directory structure (:
    */
   static public function rmRf($path)
   {
-    $stat = @stat($path);
-    if (!$stat)
+    $originalPath = $path;
+    $paths = array();
+    error_log("Removing $path");
+    $paths[] = $path;
+    while (count($paths))
     {
-      return;
-    }
-    if (aFiles::statIsDir($stat))
-    {
-      $list = aFiles::ls($path);
-      foreach ($list as $file)
+      $path = array_shift($paths);
+      $stat = @stat($path);
+      if (!$stat)
       {
-        $filePath = "$path/$file";
-        if (strlen($filePath) < strlen($path))
+        return false;
+      }
+      if (aFiles::statIsDir($stat))
+      {
+        $list = aFiles::ls($path);
+        foreach ($list as $file)
         {
-          throw new sfException("I almost tried to delete something higher up the original, I don't like this, bailing out");
+          $filePath = "$path/$file";
+          if (strlen($filePath) < strlen($originalPath))
+          {
+            throw new sfException("I almost tried to delete something higher up than the original, I don't like this, bailing out");
+          }
+          $paths[] = $filePath;
         }
-        aFiles::rmRf($filePath);
+        if (!aFiles::rmdir($path))
+        {
+          return false;
+        }
       }
-      if (!aFiles::rmdir($path))
+      else
       {
-        return false;
-      }
-    }
-    else
-    {
-      if (!aFiles::unlink($path))
-      {
-        return false;
+        if (!aFiles::unlink($path))
+        {
+          return false;
+        }
       }
     }
     return true;
@@ -426,6 +437,7 @@ class BaseaFiles
    */
   static public function sync($from, $to, $options = array())
   {
+    error_log("Syncing $from to $to");
     // Let's be verbose for this first big scary migration on staging
     $fromList = aFiles::ls($from);
     if ($fromList === false)
