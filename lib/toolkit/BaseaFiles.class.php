@@ -209,7 +209,9 @@ class BaseaFiles
       if (!is_dir($path))
       {
         // There's a recursive mkdir flag in PHP 5.x, neato
-        if (!mkdir($path, 0777, true))
+        // Occasionally this will already exist because of a symlink,
+        // suppress the warning
+        if (!@mkdir($path, 0777, true))
         {
           // It's better to report $ancestor rather than $path because
           // creating that one parent should solve the problem
