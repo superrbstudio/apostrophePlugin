@@ -2954,17 +2954,15 @@ function aConstructor()
             var clickHandler = function(event){
                 var target = $(event.target);
 
-                if ((target.closest(button.selector).length == 0))
+                if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form').length == 0))
                 {
                     menu.trigger('toggleClosed');
                 }
-
-                if (target.closest(overlay.selector).length)
+                else if (overlay && target.closest(overlay.selector).length)
                 {
                     menu.trigger('toggleClosed');
                 }
-
-                if (target.closest('.a-cancel').length)
+                else if (target.closest('.a-cancel').length)
                 {
                     menu.trigger('toggleClosed');
                 }
