@@ -825,9 +825,11 @@ class aHtml
   }
 
   /**
-   * DOCUMENT ME
-   * @param mixed $html
-   * @return mixed
+   * Converts input string to true plaintext (BE CAREFUL: use aHtml::entities() if you display
+   * it later). Nonbreaking spaces become vanilla spaces, tags re removed and entities are
+   * decoded according to UTF-8
+   * @param string $html
+   * @return string
    */
   static public function toPlaintext($html)
   {
