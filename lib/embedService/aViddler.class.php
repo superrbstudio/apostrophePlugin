@@ -161,11 +161,14 @@ class aViddler extends aEmbedService
     $info['description'] = (string) $result['description'];
     $info['credit'] = (string) $result['author'];
     $tags = array();
-    foreach ($result['tags'] as $tag)
+    if (isset($result['tags']))
     {
-      if ($tag['type'] === 'global')
+      foreach ($result['tags'] as $tag)
       {
-        $tags[] = $tag['text'];
+        if ($tag['type'] === 'global')
+        {
+          $tags[] = $tag['text'];
+        }
       }
     }
     $info['tags'] = implode(',', $tags);
@@ -204,7 +207,14 @@ EOM
    */
   public function getIdFromUrl($url)
   {
-    // Viddler is atypical in that you cannot determine the id from the URL,
+    // Newfangled viddler URLs have ids in them
+    if (preg_match("/viddler.com\/v\/(\w+)$/", $url, $matches))
+    {
+      $id = $matches[1];
+      return $id;
+    }
+    
+    // OLD STYLE: Viddler is atypical in that you cannot determine the id from the URL,
     // so let's ask them
     if (preg_match("/viddler.com\/explore\//", $url))
     {
