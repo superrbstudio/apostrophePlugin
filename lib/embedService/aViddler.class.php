@@ -154,6 +154,12 @@ class aViddler extends aEmbedService
       return false;
     }
     $info = array();
+    // Sometimes the viddler API decides it's fun to return something other than false
+    // on failure. Just make sure there's a video in there
+    if (!isset($result['video']))
+    {
+      return false;
+    }
     $result = $result['video'];
     $info['id'] = (string) $result['id'];
     $info['url'] = (string) $result['url'];
