@@ -277,15 +277,30 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    */
   public function getEmbedCode($width, $height, $resizeType, $format = 'jpg', $absolute = false, $wmode = 'opaque', $autoplay = false, $options = array())
   {
+    $embeddable = $this->getEmbeddable();
+    $service = null;
+    // A little bit of refactoring to avoid instantiating the service twice.
+    // We need an embed service to handle anything embeddable with a service URL, so
+    // check early
+    if ($embeddable && strlen($this->service_url))
+    {
+      $service = aMediaTools::getEmbedService($this->service_url);
+      if (!$service)
+      {
+        // Most likely explanation: this service was configured, now it's not.
+        // Don't crash
+        return '<div>Video Service Not Available</div>';
+      }
+    }
+    
     if ($height === false)
     {
       // We need to scale the height. That requires knowing the true height
       if (!$this->height)
       {
         // Not known yet. This comes up when previewing a video with a service URL that we haven't saved yet
-        if ($this->service_url)
+        if (isset($service))
         {
-          $service = aMediaTools::getEmbedService($this->service_url);
           $thumbnail = $service->getThumbnail($service->getIdFromUrl($this->service_url));
           if ($thumbnail)
           {
@@ -310,17 +325,10 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       $title = aHtml::entities($this->getTitle());
     }
-    if ($this->getEmbeddable())
+    if ($embeddable)
     {
-      if ($this->service_url)
+      if ($service)
       {
-        $service = aMediaTools::getEmbedService($this->service_url);
-        if (!$service)
-        {
-          // Most likely explanation: this service was configured, now it's not.
-          // Don't crash
-          return '<div>Video Service Not Available</div>';
-        }
         return $service->embed($service->getIdFromUrl($this->service_url), $width, $height, $title, $wmode, $autoplay);
       }
       elseif ($this->embed)
