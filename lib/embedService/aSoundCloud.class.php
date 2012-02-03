@@ -107,11 +107,14 @@ class aSoundCloud extends aEmbedService
    */
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
+    // Height is fixed at 81 pixels because soundcloud has no provision for any other height.
+    // wmode is now passed through properly, also width. Thanks to awssmith
 return <<<EOT
-<object height="$height" width="$width">
+<object height="81" width="$width">
+    <param name="wmode" value="$wmode"></param>
     <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id"></param>
     <param name="allowscriptaccess" value="always"></param>
-    <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id" type="application/x-shockwave-flash" width="100%"></embed>
+    <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id" type="application/x-shockwave-flash" width="$width" wmode="$wmode"></embed>
 </object>
 EOT;
   }
