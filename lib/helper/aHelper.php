@@ -621,6 +621,8 @@ function a_anchor_submit_button($label, $classes = array(), $name = null, $id = 
 // Symfony URL with &-separated params but get a user friendly routed URL as final output.
 // This ought to call a_button but I'm wrestling with the incompatibility of inline
 // content and a_button's CSS. Notice that it's playing out rather well in the blog engine. -Tom
+//
+// Always entity-encode the label. Without this the blog filters are an XSS vulnerability
 
 function a_remove_filter_button($label, $url, $parameter)
 {
@@ -635,7 +637,7 @@ function a_remove_filter_button($label, $url, $parameter)
     $remove[$p] = '';
   }
   $url = aUrl::addParams($url, $remove);
-  return link_to($label.'<span class="icon"></span>', url_for($url), array('class' => 'a-remove-filter-button', 'title' => 'Remove Filter: ' . $label));
+  return link_to(aHtml::entities($label).'<span class="icon"></span>', url_for($url), array('class' => 'a-remove-filter-button', 'title' => 'Remove Filter: ' . $label));
 }
 
 function a_url($module, $action, $getParams = array(), $absolute = false)
