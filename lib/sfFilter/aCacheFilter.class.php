@@ -41,6 +41,13 @@ class aCacheFilter extends sfFilter
     else
     {
       $filterChain->execute();
+      // Never try to cache a 404 error. Later we might consider
+      // caching them but remembering their status properly so it 
+      // doesn't magically become a 200 OK when returned from cache
+      if ($this->context->getResponse()->getStatusCode() !== 200)
+      {
+        return;
+      }
       $content = $this->context->getResponse()->getContent();
       // Check whether aCacheInvalid was set for this user during the current request, don't cache
       // if it was
