@@ -358,8 +358,7 @@ class BaseaFiles
   {
     $originalPath = $path;
     $paths = array();
-    error_log("Removing $path");
-    $paths[] = $path;
+    $paths[$path] = $path;
     while (count($paths))
     {
       $path = array_shift($paths);
@@ -371,18 +370,31 @@ class BaseaFiles
       if (aFiles::statIsDir($stat))
       {
         $list = aFiles::ls($path);
-        foreach ($list as $file)
+        // If the directory has contents, add them to the list, and make sure they are
+        // removed before the parent folder is. This can happen more than once if they
+        // have nested contents, which is OK
+        if (count($list))
         {
-          $filePath = "$path/$file";
-          if (strlen($filePath) < strlen($originalPath))
+          foreach ($list as $file)
           {
-            throw new sfException("I almost tried to delete something higher up than the original, I don't like this, bailing out");
+            $filePath = "$path/$file";
+            if (strlen($filePath) < strlen($originalPath))
+            {
+              throw new sfException("I almost tried to delete something higher up than the original, I don't like this, bailing out");
+            }
+            $paths[$filePath] = $filePath;
           }
-          $paths[] = $filePath;
+          // Make the parent the last path in the queue to be removed, removing any duplicate from the list first
+          unset($paths[$path]);
+          $paths[$path] = $path;
         }
-        if (!aFiles::rmdir($path))
+        else
         {
-          return false;
+          if (!aFiles::rmdir($path))
+          {
+            return false;
+          }
+          $removed[$path] = true;
         }
       }
       else
