@@ -48,6 +48,7 @@ class aMediaImporter
     // It comes back as a mapping of extensions to types, get the types
     $extensions = array_keys($mimeTypes);
     $mimeTypes = array_values($mimeTypes);
+    $table = Doctrine::getTable('aMediaItem');
     foreach ($iterator as $sfile)
     {
       if ($sfile->isFile())
@@ -66,68 +67,38 @@ class aMediaImporter
         {
           continue;
         }
-        $vfp = new aValidatorFilePersistent(
-          array('mime_types' => $mimeTypes,
-            'validated_file_class' => 'aValidatedFile',
-            'required' => false),
-          array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
-        $guid = aGuid::generate();
-        try
+
+        $result = $table->addFileAsMediaItem($file);
+        if ($result['status'] === 'ok')
         {
-          $vf = $vfp->clean(
-           array(
-             'newfile' => 
-               array('tmp_name' => $file, 'name' => $pathinfo['basename']), 
-             'persistid' => $guid)); 
-        } catch (Exception $e)
-        {
-          $this->giveFeedback("warning", "Not supported or corrupt", $file);
-          continue;
+          $item = $result['item'];
+          // Split it up to make tags out of the portion of the path that isn't dir (i.e. the folder structure they used).
+          // This feature is specific to the importer so I didn't drag it into addFileToMediaLibrary
+          $dir = $this->dir;
+          $dir = preg_replace('/\/$/', '', $dir) . '/';
+          $relevant = preg_replace('/^' . preg_quote($dir, '/') . '/', '', $file);
+          // TODO: not Microsoft-friendly, might matter in some setting
+          $components = preg_split('/\//', $relevant);
+          $tags = array_slice($components, 0, count($components) - 1);
+          foreach ($tags as &$tag)
+          {
+            // We don't strictly need to be this harsh, but it's safe and definitely
+            // takes care of some things we definitely can't allow, like periods
+            // (which cause mod_rewrite problems with pretty Symfony URLs).
+            // TODO: clean it up in a nicer way without being UTF8-clueless
+            // (aTools::slugify is UTF8-safe)
+            $tag = aTools::slugify($tag);
+          }
+          $item->setTags($tags);
+          $item->save();
+          aFiles::unlink($file);
+          $count++;
+          $this->giveFeedback("completed", $count, $file);
         }
-        
-        $item = new aMediaItem();
-        
-        // Split it up to make tags out of the portion of the path that isn't dir (i.e. the folder structure they used)
-        $dir = $this->dir;
-        $dir = preg_replace('/\/$/', '', $dir) . '/';
-        $relevant = preg_replace('/^' . preg_quote($dir, '/') . '/', '', $file);
-        // TODO: not Microsoft-friendly, might matter in some setting
-        $components = preg_split('/\//', $relevant);
-        $tags = array_slice($components, 0, count($components) - 1);
-        foreach ($tags as &$tag)
+        else
         {
-          // We don't strictly need to be this harsh, but it's safe and definitely
-          // takes care of some things we definitely can't allow, like periods
-          // (which cause mod_rewrite problems with pretty Symfony URLs).
-          // TODO: clean it up in a nicer way without being UTF8-clueless
-          // (aTools::slugify is UTF8-safe)
-          $tag = aTools::slugify($tag);
+          $this->giveFeedback("warning", $result['error'], $file);
         }
-        $item->title = aMediaTools::filenameToTitle($pathinfo['basename']);
-        $item->setTags($tags);
-        if (!strlen($item->title))
-        {
-          $this->giveFeedback("error", "Files must have a basename", $file);
-          continue;
-        }
-        // The preSaveImage / save / saveImage dance is necessary because
-        // the sluggable behavior doesn't kick in until save and the image file
-        // needs a slug based filename.
-        if (!$item->preSaveFile($vf))
-        {
-          $this->giveFeedback("error", "Save failed", $file);
-          continue;
-        }
-        $item->save();
-        if (!$item->saveFile($vf))
-        {
-          $this->giveFeedback("error", "Save failed", $file);
-          $item->delete();
-          continue;
-        }
-        aFiles::unlink($file);
-        $count++;
-        $this->giveFeedback("completed", $count, $file);
       }
     }
     $this->giveFeedback("total", $count);

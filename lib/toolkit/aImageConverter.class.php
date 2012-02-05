@@ -28,7 +28,7 @@ class aImageConverter
     $width = ceil($width);
     $height = ceil($height);
     $quality = ceil($quality);
-    list($iwidth, $iheight) = getimagesize($fileIn); 
+    list($iwidth, $iheight) = @getimagesize($fileIn); 
     if (!$iwidth) {
       return false;
     }
@@ -207,7 +207,7 @@ class aImageConverter
     {
       // Auto fallback to gd, but only if it's not a small image gd can handle better (1.4). This means we get
       // full alpha channel for manageably-sized PNGs and good performance for huge PNGs
-      $info = getimagesize($fileIn);
+      $info = @getimagesize($fileIn);
       $mapTypes = array(IMAGETYPE_GIF => IMG_GIF, IMAGETYPE_PNG => IMG_PNG, IMAGETYPE_JPEG => IMG_JPG);
       // Usually the 1024x768 rule is better, but this is useful for testing
       if (sfConfig::get('app_aimageconverter_netpbm', true) === 'always')
@@ -342,7 +342,7 @@ class aImageConverter
     }
     fclose($in);
     
-    $info = getimagesize($fileIn);
+    $info = @getimagesize($fileIn);
     if ($info !== false)
     {
       $type = $info[2];
@@ -466,7 +466,7 @@ class aImageConverter
     // Default to normal orientation
     $orientation = 1;
     
-    $imageInfo = getimagesize($fileIn);
+    $imageInfo = @getimagesize($fileIn);
     // Don't panic on a PDF, fall through to the fake handler for that.
     if ($imageInfo)
     {
@@ -881,7 +881,7 @@ class aImageConverter
         IMAGETYPE_PNG => "png",
         IMAGETYPE_GIF => "gif"
       );
-      $data = getimagesize($file);
+      $data = @getimagesize($file);
       if (count($data) < 3)
       {
         return false;
@@ -925,7 +925,7 @@ class aImageConverter
   {
     // For decent performance, determine the type up front, don't
     // open the file in three different ways until something works
-    $info = getimagesize($filename);
+    $info = @getimagesize($filename);
     if ($info !== false)
     {
       $type = $info[2];

@@ -97,7 +97,7 @@ EOF;
         }
       }
     }
-    if ($category === 'error')
+    if (($category === 'error') || (($category === 'warning') && ($this->verbose)))
     {
       echo((is_null($file) ? '' : $file . ": ") . "$message\n");
     }

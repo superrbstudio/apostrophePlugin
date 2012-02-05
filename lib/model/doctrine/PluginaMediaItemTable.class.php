@@ -311,4 +311,166 @@ class PluginaMediaItemTable extends Doctrine_Table
   {
     return 'media_items';
   }
+
+  /**
+   * Add the provided file to the media library, following the same practices as the 
+   * media library's standard upload actions and forms. The file is copied to the library.
+   * You do not need to keep the original if it is a temporary file.
+   *
+   * By default this method pays close attention to what the user is doing in the context of
+   * the media library (selecting things of certain sizes and types, filtering by type) but this can be 
+   * disabled via options.
+   *
+   * Default behavior: if the user's session does not indicate they are in the midst of a selection
+   * operation or applying a filter in the media library, any type of downloadable media 
+   * permissible in the media library will pass validation and be accepted. If the user's 
+   * session indicates they are in the midst of a selection or filter operation then only media satisfying 
+   * the type requirements of that operation will be accepted. If a selection operation has
+   * minimum size constraints only media meeting those minimum constraints will be accepted.
+   *
+   * The file's basename is used to create a reasonable title for the media item. 
+   *
+   * On success, returns an array as follows:
+   *
+   * array('status' => 'ok', 'item' => [the new aMediaItem object])
+   *
+   * On failure, returns an array as follows:
+   * array('status' => 'failed', 'error' => [descriptive error message suitable for the user])
+   *
+   * Options provided to override standard behavior:
+   *
+   * If the 'type' option is specified, then only media of that major media library type (image,
+   * video, audio (MP3), office...) will be accepted.
+   * 
+   * To explicitly accept all downloadable media even if the user is filtering
+   * for a specific type, you can use the _downloadable type (note leading underscore).
+   *
+   * If the 'constraints' option is specified, then $options['constraints']['minimumWidth'] and
+   * $options['constraints']['minimumHeight'] are respecteds, media not meeting these will
+   * be rejected.
+   *
+   * If the 'noConstraints' option is explicitly set true, then there will be no minimum width and
+   * height, regardless of any constraints that apply to the selection in progress.
+   */
+
+  public function addFileAsMediaItem($filename, $options = array())
+  {
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    // It comes back as a mapping of extensions to types, get the types
+    $extensions = array_keys($mimeTypes);
+    $mimeTypes = array_values($mimeTypes);
+    
+    $type = isset($options['type']) ? $options['type'] : false;
+    // What we are selecting to add to a page
+    if (!$type)
+    {
+      $type = aMediaTools::getType();
+    }
+    if (!$type)
+    {
+      // What we are filtering for 
+      $type = aMediaTools::getSearchParameter('type');
+    }
+    if ($type)
+    {
+      // This supports composite types like _downloadable
+      $infos = aMediaTools::getTypeInfos($type);
+      $extensions = array();
+      foreach ($infos as $info)
+      {
+        if ($info['embeddable'])
+        {
+          // This widget is actually supplying a thumbnail - allow gif, jpg and png
+          $info['extensions'] = array('gif', 'jpg', 'png');
+        }
+        foreach ($info['extensions'] as $extension)
+        {
+          $extensions[] = $extension;
+        }
+      }
+      $mimeTypes = array();
+      $mimeTypesByExtension = aMediaTools::getOption('mime_types');
+      foreach ($extensions as $extension)
+      {
+        // Careful, if we are filtering for a particular type then not everything
+        // will be on the list
+        if (isset($mimeTypesByExtension[$extension]))
+        {
+          $mimeTypes[] = $mimeTypesByExtension[$extension];
+        }
+      }
+    }
+    // Make the validator aware of the minimum dimensions for
+    // the selection operation in progress unless overridden by options
+    
+    if (isset($options['constraints']))
+    {
+      $minimumWidth = $options['constraints']['minimumWidth'];
+      $minimumHeight = $options['constraints']['minimumHeight'];
+    }    
+    elseif (isset($options['noConstraints']) && $options['noConstraints'])
+    {
+      $minimumWidth = null;
+      $minimumHeight = null;
+    }
+    else
+    {
+      $minimumWidth = null;
+      $minimumHeight = null;
+      if (aMediaTools::isSelecting())
+      {
+        $minimumWidth = aMediaTools::getAttribute('minimum-width');
+        $minimumHeight = aMediaTools::getAttribute('minimum-height');
+      }
+    }
+    $options = array("mime_types" => $mimeTypes,
+      'validated_file_class' => 'aValidatedFile',
+      "required" => true);
+    if ($minimumWidth)
+    {
+      $options['minimum-width'] = $minimumWidth;
+    }
+    if ($minimumHeight)
+    {
+      $options['minimum-height'] = $minimumHeight;
+    }
+    $vfp = new aValidatorFilePersistent($options,
+      array("mime_types" => "The following file types are accepted: " . implode(', ', $extensions)));
+
+    $pathinfo = pathinfo($filename);
+    $guid = aGuid::generate();
+    try
+    {
+      $vf = $vfp->clean(
+       array(
+         'newfile' => 
+           array('tmp_name' => $filename, 'name' => $pathinfo['basename']), 
+         'persistid' => $guid)); 
+    } catch (Exception $e)
+    {
+      return array('status' => 'failed', 'error' => $e->getMessage());
+    }
+
+    $item = new aMediaItem();
+    $item->title = aMediaTools::filenameToTitle($pathinfo['basename']);
+    if (!strlen($item->title))
+    {
+      return array('status' => 'failed', 'error' => 'Filename does not have a basename');
+    }
+    // The preSaveImage / save / saveImage dance is necessary because
+    // the sluggable behavior doesn't kick in until save and the image file
+    // needs a slug based filename.
+    if (!$item->preSaveFile($vf))
+    {
+      // this shouldn't happen, but just in case
+      return array('status' => 'failed', 'Pre-save operations failed');
+    }
+    $item->save();
+    if (!$item->saveFile($vf))
+    {
+      $item->delete();
+      return array('status' => 'failed', 'Save operation failed (out of space?)');
+    }
+    return array('status' => 'ok', 'item' => $item);
+  }
 }
