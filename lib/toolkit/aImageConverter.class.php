@@ -212,22 +212,34 @@ class aImageConverter
       // Usually the 1024x768 rule is better, but this is useful for testing
       if (sfConfig::get('app_aimageconverter_netpbm', true) === 'always')
       {
+        error_log("Forcing netpbm");
         return self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
-      // If we got valid image info, the image size is less than 1024x768, gd is enabled, and gd supports
-      // the image type... *then* we skip to gd.
-      if (($info !== false) && (($info[0] <= 1024) && ($info[1] <= 768)) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
+      // Defaulting to gd when the image exceeds 1024 pixels wide or 768 pixels tall excludes a lot of
+      // non-square images that actually have reasonable memory requirements when unpacked. Let's say what
+      // we mean here and base the limitation on bytes required, period.
+      if ($info !== false)
       {
+        $bytes = $info[0] * $info[1] * 4;
+      }
+      // If we got valid image info, the image requires less than 4MB to fully unpack in RAM (load in gd), , gd is enabled, 
+      // and gd supports the image type... *then* we skip to gd.
+      if (($info !== false) && ($bytes <= 4 * 1024 * 1024) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
+      {
+        error_log("Using gd because it's small enough");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
+      error_log("Trying netpbm");
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       if (!$result)
       {
+        error_log("Falling back to gd");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
     }
     else
     {
+      error_log("explicitly using gd");
       return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
     }
   }
