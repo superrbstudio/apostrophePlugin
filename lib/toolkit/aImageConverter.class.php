@@ -100,7 +100,6 @@ class aImageConverter
   static public function cropOriginal($fileIn, $fileOut, $width, $height, $quality = 75, $cropLeft = null, $cropTop = null, $cropWidth = null,  $cropHeight = null)
   {
     $args = func_get_args();
-    error_log(implode(',', $args));
     // Allow skipping of parameters
     if (is_null($quality))
     {
@@ -151,8 +150,6 @@ class aImageConverter
     }
     $scale = array('xysize' => array($width + 0, $height + 0));
     $crop = array('left' => $cropLeft, 'top' => $cropTop, 'width' => $cropWidth, 'height' => $cropHeight);
-    error_log("scale: " . json_encode($scale));
-    error_log("crop: " . json_encode($crop));
     return self::scaleBody($fileIn, $fileOut, $scale, $crop, $quality);
   }
 
@@ -212,7 +209,6 @@ class aImageConverter
       // Usually the 1024x768 rule is better, but this is useful for testing
       if (sfConfig::get('app_aimageconverter_netpbm', true) === 'always')
       {
-        error_log("Forcing netpbm");
         return self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
       // Defaulting to gd when the image exceeds 1024 pixels wide or 768 pixels tall excludes a lot of
@@ -226,20 +222,16 @@ class aImageConverter
       // and gd supports the image type... *then* we skip to gd.
       if (($info !== false) && ($bytes <= 4 * 1024 * 1024) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
       {
-        error_log("Using gd because it's small enough");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
-      error_log("Trying netpbm");
       $result = self::scaleNetpbm($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       if (!$result)
       {
-        error_log("Falling back to gd");
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
       }
     }
     else
     {
-      error_log("explicitly using gd");
       return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
     }
   }
