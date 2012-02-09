@@ -19,7 +19,12 @@ class aString
    *
    * if $options['append_ellipsis'] is true, append &hellip; (note this is an HTML entity)
    * when truncating the string. If $options['ellipsis'] is set, append that instead
-   * of &hellip; (append_ellipsis must still be set to activate the behavior)
+   * of &hellip; (append_ellipsis must still be set to activate the behavior).
+   *
+   * WARNING: this class is really meant for manipulating text, not entity-escaped HTML, not
+   * even tag-free entity-escaped HTML. We append &hellip; for backwards compatibility but
+   * you should probably set $options['ellipsis'] to … (a Unicode horizontal ellipsis)
+   * instead, because that is actual text, and will not get double-escaped later.
    *
    * if $options['characters'] is true, limit by characters rather than words
    * (a single API call for both is convenient when this is wrapped by other calls)
