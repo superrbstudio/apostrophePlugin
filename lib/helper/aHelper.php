@@ -33,20 +33,82 @@ function a_slot($name, $type, $options = false)
   $options = a_slot_get_options($options);
   $options['type'] = $type;
 	$options['singleton'] = true;
-  aTools::globalSetup($options);
-  include_component("a", "area", 
-    array("name" => $name, "options" => $options)); 
-  aTools::globalShutdown();
+
+  a_area_cache_wrapper($name, $options);
+
+}
+
+/**
+ * By default we don't cache the area contents, but if app_a_area_cache_eanbled is set we
+ * cache them for 5 minutes for logged-out users. For simple pages most of the cost is already
+ * paid in hydrating the whole page, but for cases involving virtual pages there can be huge wins
+ * when the same blog post is pulled into many different URLs
+ * 
+ *
+ * ***** HEY! TODO: Marsha is missing because the a_js_calls are not part of the cache. Fix that.
+ */
+function a_area_cache_wrapper($name, $options)
+{
+  $cache = null;
+  $info = null;
+  $cachedJsCalls = array();
+  if (sfConfig::get('app_a_area_cache_enabled', false) && (!sfContext::getInstance()->getUser()->isAuthenticated()))
+  {
+    // The cache key is based on the page slug. We could use the page id but that would require
+    // calling globalSetup which hydrates the page, sacrificing most of the cache benefit
+    // if it's not the current page
+    $global = a_get_option($options, 'global');
+    if ($global)
+    {
+      $slug = 'global';
+    }
+    else
+    {
+      $slug = a_get_option($options, 'slug', null);
+      if (is_null($slug))
+      {
+        $slug = aTools::getCurrentPage()->slug;
+      }
+    }
+    $key = md5($slug . serialize($options)) . ':' . $name;
+    $cache = aCacheTools::get('area');
+
+    $info = $cache->get($key, null);
+  }
+  if (!is_null($info))
+  {
+    $info = unserialize($info);
+    echo($info['content']);
+    aTools::$jsCalls = array_merge(aTools::$jsCalls, $info['jsCalls']);
+  }
+  else
+  {
+    if ($cache)
+    {
+      ob_start();
+      $jsCalls = aTools::$jsCalls;
+      aTools::$jsCalls = array();
+    }
+    aTools::globalSetup($options);
+    include_component("a", "area", 
+      array("name" => $name, "options" => $options)); 
+    
+    aTools::globalShutdown();
+    if ($cache)
+    {
+      $content = ob_get_clean();
+      $cache->set($key, serialize(array('content' => $content, 'jsCalls' => aTools::$jsCalls)), 300);
+      echo($content);
+      aTools::$jsCalls = array_merge($jsCalls, aTools::$jsCalls);
+    }
+  }
 }
 
 function a_area($name, $options = false)
 {
   $options = a_slot_get_options($options);
   $options['infinite'] = true; 
-  aTools::globalSetup($options);
-  include_component("a", "area", 
-    array("name" => $name, "options" => $options)); 
-  aTools::globalShutdown();
+  a_area_cache_wrapper($name, $options);
 }
 
 function a_slot_get_options($options)
