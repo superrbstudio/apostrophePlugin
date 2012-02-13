@@ -11,6 +11,7 @@
   $permid = isset($permid) ? $sf_data->getRaw('permid') : null;
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
   $type = isset($type) ? $sf_data->getRaw('type') : null;
+  $now = isset($now) ? $sf_data->getRaw('now') : null;
 ?>
 <?php // Make sure we target the administrative media engine page and not a public instance ?>
 <?php aRouteTools::pushTargetEngineSlug('/admin/media', 'aMedia') ?>
@@ -23,16 +24,21 @@
       // guessing at the full context here when we might be in an AJAX update etc.
       "permid" => $permid,
       "noajax" => 1)) ?>
-<li><?php echo link_to('<span class="icon"></span>'.$buttonLabel,
-  'aMedia/select',
-  array('query_string' =>
-    http_build_query(
-      array_merge(
-        $constraints,
-        array(
-        "aMediaId" => $itemId,
-        "type" => $type,
-        "label" => $label,
-        "after" => $after))),
-      'class' => $class . ' a-inject-actual-url a-js-choose-button')) ?></li>
+<?php $url = url_for('aMedia/select') . '?' . http_build_query(
+  array_merge(
+    $constraints,
+    array(
+    "aMediaId" => $itemId,
+    "type" => $type,
+    "label" => $label,
+    "after" => $after))) ?>
+
+<?php // When we've just added a file slot, mp3 slot or image slot there's nothing to do but ?>
+<?php // select that file, so go do that now. ?>
+<?php if ($now): ?>
+  <script type="text/javascript">
+    window.location.href = apostrophe.injectActualUrlIntoHref(<?php echo json_encode($url) ?>);
+  </script>
+  <li><a href="<?php echo $url ?>" class="<?php echo $class . ' a-inject-actual-url a-js-choose-button' ?>"><span class="icon"></span><?php echo $buttonLabel ?></a></li>
+<?php endif ?>
 <?php aRouteTools::popTargetEnginePage('aMedia') ?>

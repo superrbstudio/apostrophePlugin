@@ -432,6 +432,7 @@ class BaseaMediaActions extends aEngineActions
     
     $this->forward404Unless(aMediaTools::isSelecting());
     $selection = aMediaTools::getSelection();
+    error_log(json_encode($selection));
     $imageInfo = aMediaTools::getAttribute('imageInfo');
     // Get all the items in preparation for possible cropping
     if (count($selection))
@@ -463,6 +464,7 @@ class BaseaMediaActions extends aEngineActions
         $newSelection[] = $nid;
       }
     }
+    error_log(json_encode($newSelection));
     // Ooops best to get this before clearing it huh
     $after = aMediaTools::getAfter();
 
@@ -951,12 +953,30 @@ class BaseaMediaActions extends aEngineActions
         }
       }
       aMediaTools::setSelection($selection);
+      $croppableCount = 0;
       foreach ($kept as $object)
       {
         if ($object->getCroppable())
         {
+          $croppableCount++;
           aMediaTools::setDefaultCropDimensions($object);
         } 
+      }
+      // If the item we kept is not croppable and we're performing a single select,
+      // finish that operation. If it is croppable we potentially need to hang around and
+      // let them crop, don't jump the gun. There's more I could do here 
+
+      // Checking whether the type is limited to images to determine whether it's not OK to 
+      // shortcut select is a hack, but it's the same hack we already use to determine whether 
+      // to show the cropper.
+      $type = aMediaTools::getType();
+      if (count($kept) && ($type !== 'image') && aMediaTools::isSelecting() && (!aMediaTools::isMultiple()))
+      {
+        $after = aMediaTools::getAfter();
+        aMediaTools::clearSelecting();
+        $after = aUrl::addParams($after,
+            array("aMediaId" => $kept[0]['id']));
+        return $this->redirect($after);
       }
       return $this->redirect('aMedia/resume');
     }

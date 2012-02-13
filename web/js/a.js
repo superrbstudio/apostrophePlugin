@@ -2102,19 +2102,25 @@ function aConstructor()
 
 		$(target).find('.a-inject-actual-url').each(function() {
 			var href = $(this).attr('href');
-			var parsed = apostrophe.parseUrl(href);
-			if (parsed.queryData.after !== undefined)
-			{
-				var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
-				afterParsed.queryData.actual_url = window.location.href;
-				afterParsed.query = $.param(afterParsed.queryData);
-				parsed.queryData.after = afterParsed.stem + afterParsed.query;
-				parsed.query = $.param(parsed.queryData);
-				href = parsed.stem + parsed.query;
-				$(this).attr('href', href);
-			}
+      href = apostrophe.injectActualUrlIntoHref(href);
+			$(this).attr('href', href);
 		});
 	};
+
+  this.injectActualUrlIntoHref = function(href)
+  {
+    var parsed = apostrophe.parseUrl(href);
+    if (parsed.queryData.after !== undefined)
+    {
+      var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
+      afterParsed.queryData.actual_url = window.location.href;
+      afterParsed.query = $.param(afterParsed.queryData);
+      parsed.queryData.after = afterParsed.stem + afterParsed.query;
+      parsed.query = $.param(parsed.queryData);
+      href = parsed.stem + parsed.query;
+    }
+    return href;
+  }
 
 	this.aActAsSubmit = function(options) {
 
