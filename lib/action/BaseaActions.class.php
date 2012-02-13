@@ -935,10 +935,12 @@ class BaseaActions extends sfActions
         // stuff there would be less copying of stuff here
         $info = aTools::$searchService->getInfoForResult($value);
         $nvalue = new stdclass();
-        $nvalue->engine_stored = $info['engine_stored'];
-        $nvalue->slug_stored = $info['slug_stored'];
-        $nvalue->title_stored = $info['title_stored'];
-        $nvalue->summary_stored = $info['summary_stored'];
+        // Pull out all the info, including start and end dates for events and
+        // other custom data that may be present
+        foreach ($info as $key => $val)
+        {
+          $nvalue->{$key} = $val;
+        }
       }
       else
       {
