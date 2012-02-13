@@ -144,7 +144,7 @@ function aMultipleSelect(target, options)
 				}
 			}
 			
-      if (id === '')
+      if (id === '' || (options['random_id'] !== undefined && options['random_id']))
       {
       	// We need a unique ID for the element, give it one
       	id = 'a_id_' + Math.floor(Math.random() * 1000000000);
