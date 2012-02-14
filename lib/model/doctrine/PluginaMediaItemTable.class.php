@@ -318,8 +318,8 @@ class PluginaMediaItemTable extends Doctrine_Table
    * You do not need to keep the original if it is a temporary file.
    *
    * By default this method pays close attention to what the user is doing in the context of
-   * the media library (selecting things of certain sizes and types, filtering by type) but this can be 
-   * disabled via options.
+   * the media library (selecting things of certain sizes and types, filtering by type, reusing
+   * existing media) but this can all be overridden via options.
    *
    * Default behavior: if the user's session does not indicate they are in the midst of a selection
    * operation or applying a filter in the media library, any type of downloadable media 
@@ -327,6 +327,8 @@ class PluginaMediaItemTable extends Doctrine_Table
    * session indicates they are in the midst of a selection or filter operation then only media satisfying 
    * the type requirements of that operation will be accepted. If a selection operation has
    * minimum size constraints only media meeting those minimum constraints will be accepted.
+   * app_aMedia_reuse_duplicates is true and an existing media item has the same md5 hash, it
+   * will be returned instead of a new object.
    *
    * The file's basename is used to create a reasonable title for the media item. 
    *
@@ -351,10 +353,15 @@ class PluginaMediaItemTable extends Doctrine_Table
    *
    * If the 'noConstraints' option is explicitly set true, then there will be no minimum width and
    * height, regardless of any constraints that apply to the selection in progress.
+   *
+   * If the 'reuseDuplicates' option is specified, then it is consulted instead of
+   * app_aMedia_reuse_duplicates to determine whether to return existing media files
+   * with the same md5 hash.
    */
 
   public function addFileAsMediaItem($filename, $options = array())
   {
+    $reuseDuplicates = isset($options['reuseDuplicates']) ? $options['reuseDuplicates'] : sfConfig::get('app_aMedia_reuse_duplicates');
     $mimeTypes = aMediaTools::getOption('mime_types');
     // It comes back as a mapping of extensions to types, get the types
     $extensions = array_keys($mimeTypes);
@@ -465,6 +472,14 @@ class PluginaMediaItemTable extends Doctrine_Table
       // this shouldn't happen, but just in case
       return array('status' => 'failed', 'Pre-save operations failed');
     }
+    if ($reuseDuplicates)
+    {
+      $existing = $this->findOneByMd5($item->md5);
+      if ($existing)
+      {
+        return array('status' => 'ok', 'item' => $existing);
+      }
+    }
     $item->save();
     if (!$item->saveFile($vf))
     {
@@ -472,5 +487,45 @@ class PluginaMediaItemTable extends Doctrine_Table
       return array('status' => 'failed', 'Save operation failed (out of space?)');
     }
     return array('status' => 'ok', 'item' => $item);
+  }
+
+  public function findDuplicateWithSameOwner($md5)
+  {
+    if ($md5 !== false)
+    {
+      try
+      {
+        $user_id = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+      } catch (sfException $e)
+      {
+        $user_id = null;
+      }
+      return $this->createQuery('m')->where('m.md5 = ? AND m.owner_id <=> ?', array($md5, $user_id))->fetchOne();
+    }
+    return null;
+  }
+
+  /**
+   * Returns file path to the original. If this is a crop,
+   * the true original's path is returned. Accepts both 
+   * aMediaItem objects and unhydrated arrays with the same info
+   * @param array $info
+   * @param string $format
+   * @return string
+   */
+  public function getOriginalPath($info, $format = false)
+  {
+    if ($format === false)
+    {
+      $format = $info['format'];
+    }
+    $slug = $info['slug'];
+    if (preg_match('/^([^\.]*)\.(.*)$/', $slug, $matches))
+    {
+      $slug = $matches[1];
+    }
+    $path = aMediaItemTable::getDirectory() . 
+      DIRECTORY_SEPARATOR . $slug . ".original.$format";
+    return $path;
   }
 }

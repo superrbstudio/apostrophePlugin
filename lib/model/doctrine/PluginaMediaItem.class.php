@@ -135,18 +135,8 @@ abstract class PluginaMediaItem extends BaseaMediaItem
    */
   public function getOriginalPath($format = false)
   {
-    if ($format === false)
-    {
-      $format = $this->getFormat();
-    }
-    $slug = $this->getSlug();
-    if (preg_match('/^([^\.]*)\.(.*)$/', $slug, $matches))
-    {
-      $slug = $matches[1];
-    }
-    $path = aMediaItemTable::getDirectory() . 
-      DIRECTORY_SEPARATOR . $slug . ".original.$format";
-    return $path;
+    // Migrated to the table class which can also accept an unhydrated array
+    return $this->getTable()->getOriginalPath($this, $format);
   }
 
   /**
@@ -225,6 +215,12 @@ abstract class PluginaMediaItem extends BaseaMediaItem
         $this->format = $info['format'];
       }
       $this->clearImageCache(true);
+    }
+    // Never touch this column if the flag is off, we don't want to force
+    // apostrophe:migrate on folks who are expecting stability
+    if (sfConfig::get('app_aMedia_reuse_duplicates'))
+    {
+      $this->md5 = md5_file($file);
     }
     // Always return true - we store a lot of files now, not just images
     return true;

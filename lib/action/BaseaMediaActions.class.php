@@ -811,7 +811,39 @@ class BaseaMediaActions extends aEngineActions
         if (isset($files["item-$i"]['file']))
         {
           $file = $files["item-$i"]['file'];
-          if (isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
+          /**
+           * Look for a duplicate of this file and silently reuse it - almost silently:
+           * repopulate the form with the previous choices
+           */
+          if (sfConfig::get('app_aMedia_reuse_duplicates'))
+          {
+            $md5 = @md5_file($file['newfile']['tmp_name']);
+            if ($md5 !== false)
+            {
+              $existing = Doctrine::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
+              if ($existing)
+              {
+                /**
+                 * Restore the 'file' key so we don't lose the new upload, which is still our
+                 * guide to whether we're really reusing something come the next pass. Fix the category
+                 * and tags keys directly, toArray doesn't handle those
+                 */
+                $info = $existing->toArray();
+                $itemFile = $items["item-$i"]['file'];
+                $items["item-$i"] = $info;
+                $items["item-$i"]['file'] = $itemFile;
+                foreach ($existing->getCategories() as $category)
+                {
+                  $items["item-$i"]["categories_list"][] = $category->id;
+                }
+                $items["item-$i"]["tags"] = implode(',', $existing->getTags());
+                $good = true;
+                $count++;
+                error_log(json_encode($items["item-$i"]));
+              }
+            }
+          }
+          if ((!isset($items["item-$i"]['title'])) && isset($file['newfile']['tmp_name']) && strlen($file['newfile']['tmp_name']))
           {
             // Humanize the original filename
             $title = aMediaTools::filenameToTitle($file['newfile']['name']);
@@ -905,18 +937,34 @@ class BaseaMediaActions extends aEngineActions
       $added = array();
       foreach ($this->form->getEmbeddedForms() as $key => $itemForm)
       {
+        $file = $values[$key]['file'];
+
+        /**
+         * Look for a duplicate of this file and silently reuse it
+         */
+        if (sfConfig::get('app_aMedia_reuse_duplicates'))
+        {
+          $md5 = @md5_file($file->getTempName());
+          if ($md5 !== false)
+          {
+            $existing = Doctrine::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
+            if ($existing)
+            {
+              $itemForm->setObject($existing);
+            }
+          }
+        }
+
         // Called from doSave in the embedded form, these will never be called here if we don't call them ourselves.
         // Modifies $values[$key] by reference
         $itemForm->updateCategoriesList($values[$key]);
         $itemForm->updateObject($values[$key]);
         
         $object = $itemForm->getObject();
-        if ($object->getId())
+        if ($object->getId() && ($object->getOwnerId() !== $this->getUser()->getGuardUser()->getId()))
         {
-          // We're creating new objects only here, but the embedded form 
-          // supports an id for an existing object, which is useful in
-          // other contexts. Prevent hackers from stuffing in changes
-          // to media items they don't own.
+          // We might be reusing a media item, so we want to preserve the id, but
+          // only if the existing media item belongs to us - a guard against attacks
           $this->forward404();
         }
 
@@ -928,8 +976,6 @@ class BaseaMediaActions extends aEngineActions
 
         // Everything except the actual copy which can't succeed
         // until the slug is cast in stone
-        $file = $values[$key]['file'];
-
         $object->preSaveFile($file);
         $object->save();
         $object->saveFile($file);
@@ -939,17 +985,23 @@ class BaseaMediaActions extends aEngineActions
       $kept = array();
       foreach ($added as $object)
       {
-        if (!aMediaTools::isMultiple())
+        // Listing the same item twice doesn't really work in various places,
+        // so don't tempt fate
+        $id = $object['id'];
+        if (!in_array($id, $selection))
         {
-          // We wind up with the last one, if they upload more than one 
-          // during a single-image select operation (why would they do that?)
-          $selection = array($object['id']);
-          $kept = array($object);
-        }
-        else
-        {
-          $selection[] = $object['id'];
-          $kept[] = $object;
+          if (!aMediaTools::isMultiple())
+          {
+            // We wind up with the last one, if they upload more than one 
+            // during a single-image select operation (why would they do that?)
+            $selection = array($object['id']);
+            $kept = array($object);
+          }
+          else
+          {
+            $selection[] = $object['id'];
+            $kept[] = $object;
+          }
         }
       }
       aMediaTools::setSelection($selection);

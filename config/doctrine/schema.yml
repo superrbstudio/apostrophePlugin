@@ -541,7 +541,13 @@ aMediaItem:
       type: boolean
       notnull: true
       default: false
-      
+    # Used only when app_aMedia_reuse_duplicates is true
+    md5:
+      type: string(32)
+  indexes:
+    md5_index:
+      fields:
+        md5: []
   relations:
     Owner:
       class: sfGuardUser

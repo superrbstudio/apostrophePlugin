@@ -1,9 +1,15 @@
 <?php
 /**
  * A wrapper for simple MySQL-based schema updates. See the apostrophe:migrate task for
- * an example of usage
+ * an example of usage.
  *
- * TODO: merge this functionality into aMysql & make this an empty subclass
+ * TODO: merge this functionality into aMysql & make this a subclass.
+ *
+ * Also contains static methods that carry out specific migrations if needed, such as adding the
+ * MD5 column for media items and calculating any missing MD5 values. These static methods 
+ * accept a $sql object (anything aMysql or aMigrate-derived) and are intended for reuse
+ * by apostropheMigrateTask and various project-specific migrations that don't want to 
+ * rely on that task directly
  *
  * @package    apostrophePlugin
  * @subpackage    toolkit
@@ -284,5 +290,33 @@ class aMigrate
         $this->query("ALTER TABLE $table ADD $constraint");
       }
     }
+  }
+
+  /**
+   * Add md5 column to media items and add any missing md5 values for media items
+   */
+  static public function migrateMediaMd5($sql)
+  {
+    $needed = false;
+    if (!$sql->columnExists('a_media_item', 'md5'))
+    {
+      $sql->sql(array(
+        'ALTER TABLE a_media_item ADD COLUMN md5 VARCHAR(32);',
+        'ALTER TABLE a_media_item ADD INDEX index_md5(md5);',
+      ));
+      $needed = true;
+    }
+    $items = $sql->query('SELECT id, slug, format FROM a_media_item WHERE md5 IS NULL');
+    foreach ($items as $item)
+    {
+      $path = Doctrine::getTable('aMediaItem')->getOriginalPath($item);
+      $md5 = @md5_file($path);
+      if ($md5 !== false)
+      {
+        $sql->query('UPDATE a_media_item SET md5 = :md5 WHERE id = :id', array('id' => $item['id'], 'md5' => $md5));
+        $needed = true;
+      }
+    }
+    return $needed;
   }
 }

@@ -351,7 +351,9 @@ but why take chances with your data?
         $this->migrate->sql(array('ALTER TABLE a_cache_item MODIFY COLUMN value LONGBLOB', 'DELETE FROM a_cache_item'));
       }
     }
-    if ($this->migrate->tableExists('a_cache_item')) 
+
+    aMigrate::migrateMediaMd5($this->migrate);
+
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {
@@ -362,6 +364,18 @@ but why take chances with your data?
       }
     }
     echo("Done!\n");
+  }
+
+  static public function migrateMediaMd5($sql)
+  {
+        if (!$this->migrate->columnExists('a_media_item', 'md5'))
+    {
+      $this->migrate->sql(array(
+        'ALTER TABLE a_media_item ADD COLUMN md5 VARCHAR(32);',
+        'ALTER TABLE a_media_item ADD INDEX index_md5(md5);',
+      ));
+    }
+
   }
 }
 

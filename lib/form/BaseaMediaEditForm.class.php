@@ -6,6 +6,13 @@
  */
 class BaseaMediaEditForm extends aMediaItemForm
 {
+  /**
+   * Substitute another object. Useful when an md5 check finds a duplicate media item
+   */
+  public function setObject($object)
+  {
+    $this->object = $object;
+  }
 
   /**
    * Use this to i18n select choices that SHOULD be i18ned. It never gets called,
