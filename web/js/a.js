@@ -212,7 +212,6 @@ function aConstructor()
 			});
 		});
 		$('form', markup).submit(function(event) {
-			apostrophe.log('form submit handler');
 			event.preventDefault();
 			apostrophe._submitFormForOverrideLinks(this, update);
 		});
@@ -339,7 +338,6 @@ function aConstructor()
 
 	this.unobfuscateEmail = function(aClass, email, label)
 	{
-	  aLog('apostrophe.unobfuscateEmail -- ' + aClass + ', ' + email + ', ' + label);
 		$('.' + aClass).attr('href', unescape(email)).html(unescape(label));
 	};
 
@@ -1089,7 +1087,6 @@ function aConstructor()
   */
   this.mediaSlotEnhancements = function()
   {
-    apostrophe.log('apostorphe.mediaSlotEnhancements');
     var placeholders = $('.a-js-media-placeholder');
     placeholders.die('click.mediaSlotEnhancements').live('click.mediaSlotEnhancements', function(event){
       var $self = $(this),
@@ -1150,7 +1147,6 @@ function aConstructor()
 	{
 		var	$slotForm = $(options['slot-form']),
 				$slot = $slotForm.closest('.a-slot'),
-				$singleton = $slot.closest('.a-area.singleton'),
 				$slotContent = $(options['slot-content']);
 
 		// apostrophe.log('apostrophe.slotEnableForm -- form : ' + options['slot-form']);
@@ -1167,7 +1163,6 @@ function aConstructor()
 					var $area = $slot.closest('.a-area');
 					$area.removeClass('a-editing').addClass('a-normal');
 					$slot.removeClass('a-editing').addClass('a-normal');
-					$singleton.removeClass('a-editing'); // Singletons are an edge case
 				},
 				'html'
 			);
@@ -1179,8 +1174,10 @@ function aConstructor()
 	{
 		// apostrophe.log('apostrophe.slotEnableFormButtons');
 
+    // Don't use .area.singleton, that's not nesting-friendly. Get the closest area
+    // (OUR area) and then ask it if it has the singleton class when appropriate
 		var $slot = $(options['view']),
-				$singleton = $slot.closest('.a-area.singleton'),
+				$area = $slot.closest('.a-area'),
 				$cancelButton = $(options['cancel']),
 				$saveButton = $(options['save']);
 
@@ -1193,7 +1190,6 @@ function aConstructor()
 			$slot.children('.a-controls li.variant').fadeIn();
 			$slot.children('.a-slot-content').children('.a-slot-form').hide();
 			$slot.removeClass('a-editing').addClass('a-normal');
-			$singleton.removeClass('a-editing');
 			
 			var $area = $slot.closest('.a-area');
 			$area.removeClass('a-editing').addClass('a-normal');
@@ -1208,7 +1204,10 @@ function aConstructor()
 		if (options['showEditor'])
 		{
 			$slot.addClass('a-editing').removeClass('a-normal');
-			$singleton.addClass('a-editing').removeClass('a-normal');
+			if ($area.hasClass('singleton'))
+      {
+        $area.addClass('a-editing').removeClass('a-normal');
+      }
 		}
 	};
 
@@ -1245,7 +1244,6 @@ function aConstructor()
 			{
 				return;
 			}
-			apostrophe.log("Cancel select for " + href);
 			// "Why is this synchronous?" So that we can allow the events associated with
 			// this link to execute normally (return true) after we request the cancel,
 			// rather than second-guessing the nature of the link and screwing lots of
@@ -2190,8 +2188,6 @@ function aConstructor()
 	// CODE HERE MUST TOLERATE BEING CALLED SEVERAL TIMES. Use namespaced binds and unbinds.
 	this.smartCSS = function(options)
 	{
-	  apostrophe.log('apostrophe.smartCSS');
-
 	  var aBody = $('body'),
 		    target = 'body';
 
@@ -2996,7 +2992,6 @@ function aConstructor()
                     button.closest('.a-controls').removeClass('aActiveMenu');
                     menu.removeClass(classname);
                     if (overlay) { 
-                      aLog(overlay);
                       overlay.hide(); 
                     };
                     $(document).unbind('click.menuToggleClickHandler'); // Clear out click event
