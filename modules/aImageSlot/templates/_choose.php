@@ -39,6 +39,6 @@
   <script type="text/javascript">
     window.location.href = apostrophe.injectActualUrlIntoHref(<?php echo json_encode($url) ?>);
   </script>
-  <li><a href="<?php echo $url ?>" class="<?php echo $class . ' a-inject-actual-url a-js-choose-button' ?>"><span class="icon"></span><?php echo $buttonLabel ?></a></li>
 <?php endif ?>
+ <li><a href="<?php echo $url ?>" class="<?php echo $class . ' a-inject-actual-url a-js-choose-button' ?>"><span class="icon"></span><?php echo $buttonLabel ?></a></li>
 <?php aRouteTools::popTargetEnginePage('aMedia') ?>
