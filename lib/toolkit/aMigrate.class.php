@@ -293,7 +293,11 @@ class aMigrate
   }
 
   /**
-   * Add md5 column to media items and add any missing md5 values for media items
+   * Add md5 column to media items and add any missing md5 values for media items. Since this can be
+   * quite time consuming the first time on sites with zillions of media files, we always add the column 
+   * (just in case Doctrine decides to touch it somehow) but we don't actually compute MD5s for existing 
+   * files unless the app_aMedia_reuse_duplicates flag is actually on. So note that you have to run 
+   * apostrophe:migrate one additional time after enabling that flag, even if the md5 column is present.
    */
   static public function migrateMediaMd5($sql)
   {
@@ -306,15 +310,18 @@ class aMigrate
       ));
       $needed = true;
     }
-    $items = $sql->query('SELECT id, slug, format FROM a_media_item WHERE md5 IS NULL');
-    foreach ($items as $item)
+    if (sfConfig::get('app_aMedia_reuse_duplicates'))
     {
-      $path = Doctrine::getTable('aMediaItem')->getOriginalPath($item);
-      $md5 = @md5_file($path);
-      if ($md5 !== false)
+      $items = $sql->query('SELECT id, slug, format FROM a_media_item WHERE md5 IS NULL');
+      foreach ($items as $item)
       {
-        $sql->query('UPDATE a_media_item SET md5 = :md5 WHERE id = :id', array('id' => $item['id'], 'md5' => $md5));
-        $needed = true;
+        $path = Doctrine::getTable('aMediaItem')->getOriginalPath($item);
+        $md5 = @md5_file($path);
+        if ($md5 !== false)
+        {
+          $sql->query('UPDATE a_media_item SET md5 = :md5 WHERE id = :id', array('id' => $item['id'], 'md5' => $md5));
+          $needed = true;
+        }
       }
     }
     return $needed;
