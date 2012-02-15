@@ -317,6 +317,27 @@ but why take chances with your data?
   
     // A chance to make plugin- and project-specific additions to the schema before Doctrine queries fail to see them
     sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this->migrate, "a.migrateSchemaAdditions"));
+
+    if (!$this->migrate->tableExists('a_cache_item'))
+    {
+      $this->migrate->sql(array('CREATE TABLE a_cache_item (k VARCHAR(255), value LONGBLOB, timeout BIGINT, last_mod BIGINT, PRIMARY KEY(k)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+    }
+    else
+    {
+      $data = $this->migrate->query("SHOW CREATE TABLE a_cache_item");
+      $desc = $data[0]['Create Table'];
+      // longchar was a big mistake here, it can't store binary data
+      if (strpos($desc, 'longtext') !== false)
+      {
+        $this->migrate->sql(array('ALTER TABLE a_cache_item MODIFY COLUMN value LONGBLOB', 'DELETE FROM a_cache_item'));
+      }
+    }
+
+    // Important to do this BEFORE creating the media engine page, otherwise if the model has already
+    // been built we have an error
+    aMigrate::migrateMediaMd5($this->migrate);
+    
+    // NO COLUMN OR TABLE ADDITIONS BELOW HERE - DOCTRINE API IN USE
     
     $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
     if (!$mediaEnginePage)
@@ -337,23 +358,6 @@ but why take chances with your data?
     }
     echo("Ensured there is an admin media engine\n");
     
-    if (!$this->migrate->tableExists('a_cache_item'))
-    {
-      $this->migrate->sql(array('CREATE TABLE a_cache_item (k VARCHAR(255), value LONGBLOB, timeout BIGINT, last_mod BIGINT, PRIMARY KEY(k)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
-    }
-    else
-    {
-      $data = $this->migrate->query("SHOW CREATE TABLE a_cache_item");
-      $desc = $data[0]['Create Table'];
-      // longchar was a big mistake here, it can't store binary data
-      if (strpos($desc, 'longtext') !== false)
-      {
-        $this->migrate->sql(array('ALTER TABLE a_cache_item MODIFY COLUMN value LONGBLOB', 'DELETE FROM a_cache_item'));
-      }
-    }
-
-    aMigrate::migrateMediaMd5($this->migrate);
-
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {
