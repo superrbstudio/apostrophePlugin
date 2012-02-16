@@ -34,7 +34,9 @@
 		<?php if ($embeddable && !(!$selecting && isset($layout['showSuccess']))): ?>
 			<div class="a-media-select-overlay<?php echo ($selecting) ? ' selecting':'' ?>">
 				<?php if ($selecting): ?>
-					<a class="a-media-select-video" href="<?php echo $linkHref ?>" title="<?php echo a_('Click to select this item.') ?>">
+          <?php // Include $domId so we can support multiple video selections ?>
+          <?php // Use a DOM attribute so replacing this with a span doesn't clobber it ?>
+					<a class="a-media-select-video" id="<?php echo $domId ?>" href="<?php echo $linkHref ?>" title="<?php echo a_('Click to select this item.') ?>">
 						<span class="label">
 							<span class="label-wrapper"><?php echo a_('Select') ?></span>
 						</span>

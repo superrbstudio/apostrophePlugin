@@ -93,7 +93,11 @@ function aConstructor()
 	// <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 	this.setObjectId = function(domId, objectId)
 	{
-		$('#' + domId).data('id', objectId);
+    // I do both of these because we're on jQuery 1.4.3 (no automatic translation
+    // between data attributes and the data method) and we have elements that get
+    // replaced in the DOM, which trashes their data() at least in 1.4.3
+    $('#' + domId).data('id', objectId);
+    $('#' + domId).attr('data-id', objectId);
 	};
 
 	// Utility: Use to select contents of an input on focus
@@ -121,9 +125,10 @@ function aConstructor()
 	// Useful for turning an <a> into a <span>
 	this.clickOnce = function(selector)
 	{
-		el = $(selector);
-		el.unbind('click.aClickOnce').bind('click.aClickOnce', function(){
-			apostrophe.toSpan(el);
+		elements = $(selector);
+		elements.unbind('click.aClickOnce').bind('click.aClickOnce', function(){
+      // Do it to the one item clicked, not every matching item on the page!
+			apostrophe.toSpan($(this));
 		});
 	};
 
@@ -138,6 +143,7 @@ function aConstructor()
 			var $self = $(this);
 
 			// Building a replacement span with the same properties
+
 			var aSpan = $('<span>').attr({
 				'id': $self.attr('id'),
 				'class': $self.attr('class')
@@ -1570,11 +1576,14 @@ function aConstructor()
 
 		// When you're in selecting mode, you can't click through to the showSuccess
 		// So we use the thumbnail AND the title for making your media selection.
-		$('.a-media-thumb-link, .a-media-item-title-link').unbind('click.aMedia').bind('click.aMedia', function(e) {
+		$('.a-media-thumb-link, .a-media-item-title-link, .a-media-select-video').unbind('click.aMedia').bind('click.aMedia', function(e) {
 			e.preventDefault();
-			$.get(options['multipleAddUrl'], { id: $(this).data('id') }, function(data) {
+      var id = $(this).data('id') ? $(this).data('id') : $(this).attr('data-id');
+			$.get(options['multipleAddUrl'], { id: id }, function(data) {
 				$('#a-media-selection-list').html(data);
 				apostrophe.mediaUpdatePreview();
+        // The video selection button is triggering a busy state, in multiple select don't do that
+        $('.a-show-busy').trigger('aHideBusy');
 			});
 			$(this).addClass('a-media-selected');
 			return false;
