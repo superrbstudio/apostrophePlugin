@@ -30,7 +30,13 @@ class BaseaRawHTMLSlotComponents extends aSlotComponents
     if (!isset($this->form))
     {
       $this->form = new aRawHTMLForm($this->id);
-      $this->form->setDefault('value', $this->slot->value);
+      // There was no XSS attack here, because Symfony form fields automatically
+      // escape the major offenders, but they don't re-escape other entities
+      // like &nbsp; so you wind up with a literal nonbreaking space in the
+      // text editor - not technically wrong, but hard to see and work with.
+      // address this by explicitly entity escaping up front. This stuff is
+      // a pain. Thanks to teacurran
+      $this->form->setDefault('value', aHtml::entities($this->slot->value));
     }
   }
 
