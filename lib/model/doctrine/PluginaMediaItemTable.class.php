@@ -357,8 +357,12 @@ class PluginaMediaItemTable extends Doctrine_Table
    * If the 'reuseDuplicates' option is specified, then it is consulted instead of
    * app_aMedia_reuse_duplicates to determine whether to return existing media files
    * with the same md5 hash.
+   *
+   *
+   * @param string $filename
+   * @param array $options
+   * @return array
    */
-
   public function addFileAsMediaItem($filename, $options = array())
   {
     $reuseDuplicates = isset($options['reuseDuplicates']) ? $options['reuseDuplicates'] : sfConfig::get('app_aMedia_reuse_duplicates');
@@ -470,7 +474,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     if (!$item->preSaveFile($vf))
     {
       // this shouldn't happen, but just in case
-      return array('status' => 'failed', 'Pre-save operations failed');
+      return array('status' => 'failed', 'error' => 'Pre-save operations failed');
     }
     if ($reuseDuplicates)
     {
@@ -484,7 +488,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     if (!$item->saveFile($vf))
     {
       $item->delete();
-      return array('status' => 'failed', 'Save operation failed (out of space?)');
+      return array('status' => 'failed', 'error' => 'Save operation failed (out of space?)');
     }
     return array('status' => 'ok', 'item' => $item);
   }
