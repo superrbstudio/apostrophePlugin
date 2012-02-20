@@ -1145,3 +1145,37 @@ margin-left: -12px;
     list-style: none;
   }
 }
+
+// No preview/edit toggle when we are on an admin page
+
+.a-admin, .aMediaAdmin
+{
+  .a-global-toolbar .a-preview
+  {
+    display: none;
+  }
+}
+
+// Hide edit controls when we are in preview mode, unless
+// we are on an admin page
+
+.a-hide-edit-controls
+{
+  .a-ui.a-area-controls,
+  .a-ui.a-slot-controls,
+  .a-page-container .a-btn,
+  #attribution .a-controls
+  {
+    display: none;
+  }
+  &.a-admin,
+  &.aMediaAdmin
+  {
+    .a-area-controls,
+    .a-slot-controls,
+    .a-page-container .a-btn
+    {
+      display: block;
+    }
+  }
+}

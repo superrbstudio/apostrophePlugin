@@ -2812,6 +2812,68 @@ function aConstructor()
 		});
 	};
 
+    /**
+    *
+    * setupPreviewToggle --
+    * Hide and show edit controls, saved in a cookie. 
+    * Jake and Tom had a hand in this. 
+    */
+  this.setupPreviewToggle = function(options)
+  {
+
+    editToggle = $('.a-preview');
+
+    editToggle.click(function(e){
+      e.preventDefault();
+      $(this).toggleClass('a-previewing');
+      refresh();
+    });
+
+    var remember = $.cookie('apostrophe_preview');
+    if (remember === '1') {
+      editToggle.addClass('a-previewing');
+    }
+    else
+    {
+      editToggle.removeClass('a-previewing');
+    }
+    refresh();
+
+    function refresh()
+    {
+      // aLog(options);
+      if (editToggle.hasClass('a-previewing'))
+      {
+        editToggle.removeClass('a-search').addClass('a-edit');
+        editToggle.find('.label').html(options.labels.edit);
+        $.cookie('apostrophe_preview', '1');
+        apostrophe.hideEditControls();
+      }
+      else
+      {
+        editToggle.removeClass('a-edit').addClass('a-search');
+        editToggle.find('.label').html(options.labels.preview);
+        $.cookie('apostrophe_preview', '0');
+        apostrophe.showEditControls();
+      }
+    }
+  };
+
+  /**
+   showEditControls --
+  */
+  this.showEditControls = function() {
+    $('body').removeClass('a-hide-edit-controls').addClass('a-show-edit-controls');
+  };
+
+
+  /**
+   hideEditControls --
+  */
+  this.hideEditControls = function(){
+    apostrophe.log("hiding edit controls");
+    $('body').removeClass('a-show-edit-controls').addClass('a-hide-edit-controls');
+  };
 
 	// Private methods callable only from the above (no this.foo = bar)
 	function slotUpdateMoveButtons(id, name, slot, n, slots, updateAction)
