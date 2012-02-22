@@ -114,6 +114,7 @@ EOF;
     {
       echo("Content loaded.\n");
     }
+    system('./symfony cc --env=' . $options['env']);
     system('./symfony apostrophe:rebuild-search-index', $result);
     if ($result != 0)
     {
