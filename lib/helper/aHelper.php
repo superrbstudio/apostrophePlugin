@@ -44,8 +44,6 @@ function a_slot($name, $type, $options = false)
  * paid in hydrating the whole page, but for cases involving virtual pages there can be huge wins
  * when the same blog post is pulled into many different URLs
  * 
- *
- * ***** HEY! TODO: Marsha is missing because the a_js_calls are not part of the cache. Fix that.
  */
 function a_area_cache_wrapper($name, $options)
 {

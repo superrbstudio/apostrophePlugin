@@ -79,7 +79,7 @@ class aCacheTools
   
   static public function clearAll()
   {
-    $cacheClearList = sfConfig::get('app_a_cache_clear_list', array('feed', 'embed', 'media', 'page', 'folder', 'hint', 'less', 'assetStat'));
+    $cacheClearList = sfConfig::get('app_a_cache_clear_list', array('feed', 'embed', 'media', 'page', 'area', 'folder', 'hint', 'less', 'assetStat'));
     foreach ($cacheClearList as $cacheName)
     {
       $cache = aCacheTools::get($cacheName);
