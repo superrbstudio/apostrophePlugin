@@ -212,7 +212,7 @@ class aVimeo extends aEmbedService
     // Maintain a fully secure page to avoid browser warnings (vimeo just started supporting this)
     $protocol = sfContext::getInstance()->getRequest()->isSecure() ? 'https' : 'http';
     return <<<EOM
-<iframe src="$protocol://player.vimeo.com/video/$id?portrait=0&title=0&byline=0&autoplay=$autoplay" width="$width" height="$height" frameborder="0"></iframe>
+<iframe src="$protocol://player.vimeo.com/video/$id?api=1&player_id=$id&portrait=0&title=0&byline=0&autoplay=$autoplay" id="a-vimeo-video-$id" class="a-vimeo-player-iframe" width="$width" height="$height" frameborder="0"></iframe>
 EOM
 ;
   }
