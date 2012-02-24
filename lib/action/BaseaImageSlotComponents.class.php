@@ -56,6 +56,18 @@ class BaseaImageSlotComponents extends aSlotComponents
         array("width" => $this->options['width'],
           "height" => $this->options['flexHeight'] ? false : $this->options['height'],
           "resizeType" => $this->options['resizeType']));
+      if (($this->options['maxHeight'] !== false) && ($this->dimensions['height'] > $this->options['maxHeight']))
+      {
+        $this->dimensions = aDimensions::constrain(
+          $this->item->width, 
+          $this->item->height,
+          $this->item->format, 
+          array("width" => false,
+            "height" => $this->options['maxHeight'],
+            "resizeType" => $this->options['resizeType']));
+
+      }
+
       $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false);
     }
   }

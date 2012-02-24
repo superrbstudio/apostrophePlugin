@@ -43,6 +43,17 @@ class BaseaButtonSlotComponents extends aSlotComponents
         array("width" => $this->options['width'],
           "height" => $this->options['flexHeight'] ? false : $this->options['height'],
           "resizeType" => $this->options['resizeType']));
+      if (($this->options['maxHeight'] !== false) && ($this->dimensions['height'] > $this->options['maxHeight']))
+      {
+        $this->dimensions = aDimensions::constrain(
+          $this->item->width, 
+          $this->item->height,
+          $this->item->format, 
+          array("width" => false,
+            "height" => $this->options['maxHeight'],
+            "resizeType" => $this->options['resizeType']));
+
+      }
       $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false, 'opaque', false, array('alt' => strlen($this->options['title']) ? $this->options['title'] : ''));
     }
   }
@@ -57,6 +68,7 @@ class BaseaButtonSlotComponents extends aSlotComponents
     $this->options['height'] = $this->getOption('height', false);
     $this->options['resizeType'] = $this->getOption('resizeType', 's');
     $this->options['flexHeight'] = $this->getOption('flexHeight', true);
+    $this->options['maxHeight'] = $this->getOption('maxHeight', false);
     $this->options['title'] = $this->getOption('title', false);
     $this->options['description'] = $this->getOption('description', true);
     $this->options['link'] = $this->getOption('link', false);
