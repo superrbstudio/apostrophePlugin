@@ -3027,7 +3027,9 @@ function aConstructor()
             var clickHandler = function(event){
                 var target = $(event.target);
 
-                if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form').length == 0))
+                // There are at least two cases where this is used for dialogs rather than menus.
+                // TODO: refactor so that these selectors are passed in
+                if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form, .a-blog-admin-new-ajax').length == 0))
                 {
                     menu.trigger('toggleClosed');
                 }
