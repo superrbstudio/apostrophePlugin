@@ -366,6 +366,7 @@ class PluginaMediaItemTable extends Doctrine_Table
   public function addFileAsMediaItem($filename, $options = array())
   {
     $reuseDuplicates = isset($options['reuseDuplicates']) ? $options['reuseDuplicates'] : sfConfig::get('app_aMedia_reuse_duplicates');
+    $title = isset($options['title']) ? $options['title'] : null;
     $mimeTypes = aMediaTools::getOption('mime_types');
     // It comes back as a mapping of extensions to types, get the types
     $extensions = array_keys($mimeTypes);
@@ -463,7 +464,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
 
     $item = new aMediaItem();
-    $item->title = isset($options['title']) ? $options['title'] : aMediaTools::filenameToTitle($pathinfo['basename']);
+    $item->title = is_null($title) ? aMediaTools::filenameToTitle($pathinfo['basename']) : $title;
     if (!strlen($item->title))
     {
       return array('status' => 'failed', 'error' => 'Filename does not have a basename');
