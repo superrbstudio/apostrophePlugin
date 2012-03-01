@@ -2929,6 +2929,27 @@ function aConstructor()
 		}
 	}
 
+	this.supportsFileInput = function()
+	{
+	  // Start with iOS, which honestly reports that its file uploads are disabled,
+	  // so we can gracefully support it someday when they turn them on
+	  var dummy = document.createElement("input");
+      dummy.setAttribute("type", "file");
+      if (dummy.disabled)
+      {
+      	return false;
+      }
+      // Now detect things that lie the hard way. Sadly we'll have to maintain and update this
+      // as they fix their crappy browsers
+      var ua = navigator.userAgent.toLowerCase();
+      var isAndroid = ua.indexOf("android") > -1;
+      if (isAndroid)
+      {
+      	return false;
+      }
+      return true;
+	}
+
 	function slotShowEditViewPreloaded(pageid, name, permid)
 	{
 		var fullId = pageid + '-' + name + '-' + permid;

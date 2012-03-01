@@ -49,6 +49,7 @@
   <?php // This form is never submitted so file upload elements that are ?>
   <?php // in it are never uploaded. ?>
   <form style="display:none;" enctype="multipart/form-data" id="a-media-upload-form-inactive" action="#" ></form>
+  <?php include_partial('aMedia/afterUploadMultiple') ?>
 </div>
 
 <?php a_js_call('apostrophe.mediaEnableUploadMultiple()') ?>

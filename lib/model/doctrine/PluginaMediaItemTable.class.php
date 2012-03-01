@@ -463,7 +463,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
 
     $item = new aMediaItem();
-    $item->title = aMediaTools::filenameToTitle($pathinfo['basename']);
+    $item->title = isset($options['title']) ? $options['title'] : aMediaTools::filenameToTitle($pathinfo['basename']);
     if (!strlen($item->title))
     {
       return array('status' => 'failed', 'error' => 'Filename does not have a basename');
