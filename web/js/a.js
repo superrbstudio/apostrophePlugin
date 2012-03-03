@@ -2092,6 +2092,15 @@ function aConstructor()
 		};
 	};
 
+	/**
+	 * For all elements matched by options['target'], alter the 'href' attribute such
+	 * that if it has an 'after' query string parameter, that 'after' URL has an
+	 * 'actual_url' parameter added to it which points to the URL currently displayed
+	 * in the browser's address bar. This is used to bring users back to the right place
+	 * after actions like media library selections that require them to leave a page. The
+	 * browser knows what page you're really on better than PHP does, so it's best to ask it.
+	 */
+
 	this.aInjectActualUrl = function(options) {
 
 		// Media selection links and similar "go away, get something, come back" links need
@@ -2114,77 +2123,115 @@ function aConstructor()
 		});
 	};
 
+	/**
+	 * This function locates an 'after' query string parameter in the URL passed to it and,
+	 * if there is one, parses that string as a URL in its own right, adds an
+	 * actual_url query string parameter to it, and then replaces the original
+	 * 'after' parameter in the original URL and returns this value. If you just want to
+	 * add actual_url as a parameter of a URL and you don't need the extra step of adding 
+	 * it to yet another URL in a parameter called 'after', then you are probably
+	 * looking for apostrophe.injectActualUrlIntoUrl, below.
+	 */
+
   this.injectActualUrlIntoHref = function(href)
   {
     var parsed = apostrophe.parseUrl(href);
     if (parsed.queryData.after !== undefined)
     {
-      var afterParsed = apostrophe.parseUrl(parsed.queryData.after);
-      afterParsed.queryData.actual_url = window.location.href;
-      afterParsed.query = $.param(afterParsed.queryData);
-      parsed.queryData.after = afterParsed.stem + afterParsed.query;
+      parsed.queryData.after = apostrophe.injectActualUrlIntoUrl(parsed.queryData.after, 'actual_url');
       parsed.query = $.param(parsed.queryData);
-      href = parsed.stem + parsed.query;
+      // Careful, if we're the first to add any query parameters there will be no ? yet
+      q = parsed.stem.indexOf('?');
+      if (q !== -1)
+      {
+      	return parsed.stem + parsed.query;
+      }
+      else
+      {
+	    return parsed.stem + '?' + parsed.query;
+      }
     }
     return href;
   }
 
-	this.aActAsSubmit = function(options) {
+  /**
+   * This function provides a convenient way to place the actual URL of the current
+   * page displayed in the web browser in a specified query string parameter of
+   * an existing URL. 
+   */
+  this.injectActualUrlIntoUrl = function(url, parameterName)
+  {
+      var urlParsed = apostrophe.parseUrl(url);
+      urlParsed.queryData[parameterName] = window.location.href;
+      urlParsed.query = $.param(urlParsed.queryData);
+      // Careful, if we're the first to add any query parameters there will be no ? yet
+      q = urlParsed.stem.indexOf('?');
+      if (q !== -1)
+      {
+      	return urlParsed.stem + urlParsed.query;
+      }
+      else
+      {
+	    return urlParsed.stem + '?' + urlParsed.query;
+      }
+  }
 
-			// apostrophe.log('apostrophe.aActAsSubmit');
+  this.aActAsSubmit = function(options) {
 
-			var target = options['target'];
+		// apostrophe.log('apostrophe.aActAsSubmit');
 
-			// Anchor elements that act as submit buttons. On some older browsers this might not trigger
-			// other submit handlers for the form before native submit, however it seems to work just fine
-			// in modern browsers even if the form is an ajax form
+		var target = options['target'];
 
-			var actAsSubmit = $(target).find('.a-act-as-submit');
-			var actAsSubmitForm = actAsSubmit.closest('form');
-			var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
+		// Anchor elements that act as submit buttons. On some older browsers this might not trigger
+		// other submit handlers for the form before native submit, however it seems to work just fine
+		// in modern browsers even if the form is an ajax form
 
-			actAsSubmit.each(function(){
-				var submit = $(this);
+		var actAsSubmit = $(target).find('.a-act-as-submit');
+		var actAsSubmitForm = actAsSubmit.closest('form');
+		var actAsSubmitFormInputs = actAsSubmitForm.find('input[type="text"]');
 
+		actAsSubmit.each(function(){
+			var submit = $(this);
+
+			var form = submit.closest('form');
+			if (!form.find('input[type="submit"]').length)
+			{
+				var hidden = $('<input type="submit"/>');
+				hidden.attr('value', submit.text());
+				hidden.addClass('a-hidden-submit');
+				submit.after(hidden);
+			}
+
+			submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
 				var form = submit.closest('form');
-				if (!form.find('input[type="submit"]').length)
+
+				// Submit buttons have names used to distinguish them.
+				// Fortunately, anchors have names too. There is NO
+				// default name - and in particular 'submit' breaks
+				// form.submit, so don't use it
+				var name = submit.attr('name');
+				if (name && name.length)
 				{
-					var hidden = $('<input type="submit"/>');
-					hidden.attr('value', submit.text());
-					hidden.addClass('a-hidden-submit');
-					submit.after(hidden);
+					var hidden = $('<input type="hidden"/>');
+					// To correctly simulate what happens when you click a named submit button
+					// we need a hidden element with the same name and the label as the value.
+					// The name is what the server end is really looking for but let's get this
+					// as accurate as possible. Anchor tags don't have a val attribute but they
+					// do have label text, which is what you get as a value with a normal
+					// named submit button
+					hidden.attr('name', name);
+					hidden.val(submit.text());
+					form.append(hidden);
 				}
 
-				submit.unbind('click.aActAsSubmit').bind('click.aActAsSubmit', function(event) {
-					var form = submit.closest('form');
-
-					// Submit buttons have names used to distinguish them.
-					// Fortunately, anchors have names too. There is NO
-					// default name - and in particular 'submit' breaks
-					// form.submit, so don't use it
-					var name = submit.attr('name');
-					if (name && name.length)
-					{
-						var hidden = $('<input type="hidden"/>');
-						// To correctly simulate what happens when you click a named submit button
-						// we need a hidden element with the same name and the label as the value.
-						// The name is what the server end is really looking for but let's get this
-						// as accurate as possible. Anchor tags don't have a val attribute but they
-						// do have label text, which is what you get as a value with a normal
-						// named submit button
-						hidden.attr('name', name);
-						hidden.val(submit.text());
-						form.append(hidden);
-					}
-
-					// If the form being submitted has this event bound to it, it will execute it. Awesome, right?
-					// If it doesn't, jQ just lets it go quietly.
-					form.trigger('aActAsSubmitCallback');
-					form.submit();
-					return false;
-				});
-
+				// If the form being submitted has this event bound to it, it will execute it. Awesome, right?
+				// If it doesn't, jQ just lets it go quietly.
+				form.trigger('aActAsSubmitCallback');
+				form.submit();
+				return false;
 			});
+
+		});
 	}
 
 	// A very small set of things that allow us to write CSS and HTML as if they were
