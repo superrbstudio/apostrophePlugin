@@ -3164,7 +3164,7 @@ function aCall(callback) {
   aLog -- Utility for
 */
 function aLog(output) {
-    if (window.console && console.log && apostrophe.debug === true) {
+    if ((apostrophe.debug === true) && window.console && console.log) {
         console.log(output);
     }
 }
