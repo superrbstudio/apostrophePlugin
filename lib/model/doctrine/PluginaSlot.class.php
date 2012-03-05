@@ -159,6 +159,11 @@ abstract class PluginaSlot extends BaseaSlot
   public function getEffectiveVariant($options)
   {
     $variants = aTools::getVariantsForSlotType($this->type, $options);
+    // Explicit variant choice by the developer always wins
+    if (isset($options['variant']))
+    {
+      return $options['variant'];
+    }
     if (!isset($variants))
     {
       // No variants, no class

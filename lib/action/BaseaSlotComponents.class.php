@@ -105,7 +105,7 @@ class BaseaSlotComponents extends sfComponents
         $this->options = array_merge($this->options, $options);
       }
     }
-  
+
     $this->pageid = $this->page->id;
     $this->id = $this->pageid . '-' . $this->name . '-' . $this->permid;
     // The basic slot types, and some custom slot types, are
