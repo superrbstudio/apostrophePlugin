@@ -132,5 +132,10 @@ class aUrl
     } 
     return $path;
   }
+
+  static public function isAbsolute($url)
+  {
+    return preg_match('/^([a-zA-Z]+:|\/)/', $url);
+  }
 }
 
