@@ -16,7 +16,8 @@
 <?php if (!strlen($value)): ?>
 
   <?php if ($editable): ?>
-    <?php echo __('Click edit to add text.', null, 'apostrophe') ?>
+    <?php // Marked this with a span so it can be hidden in preview mode ?>
+    <span class="a-placeholder-for-editors"><?php echo __('Click edit to add text.', null, 'apostrophe') ?></span>
   <?php endif ?>
 
 <?php else: ?>
