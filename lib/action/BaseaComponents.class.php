@@ -40,7 +40,6 @@ class BaseaComponents extends aSlotComponents
   {
     $this->page = aTools::getCurrentPage();
     $this->pageid = $this->page->id;
-    $this->slots = $this->page->getArea($this->name, $this->addSlot, sfConfig::get('app_a_new_slots_top', true));
     $aOptions = $this->options;
 		$aOptions['arrows'] = $this->getOption('arrows', true); // Option for disabling slot reorder arrows
 		$aOptions['history'] = $this->getOption('history', true); // Option for disabling History on specific areas
@@ -48,6 +47,8 @@ class BaseaComponents extends aSlotComponents
 		$aOptions['areaClass'] = $this->getOption('areaClass', false); // Option for enabling Delete on singleton slots		
 		$aOptions['areaHideWhenEmpty'] = $this->getOption('areaHideWhenEmpty', false); // Option for enabling Delete on singleton slots		
 		$this->options = $aOptions;
+    $this->newSlotsTop = $this->getOption('newSlotsTop', sfConfig::get('app_a_new_slots_top', true));
+    $this->slots = $this->page->getArea($this->name, $this->addSlot, $this->new_slots_top);
     if (!is_null($this->getOption('edit', null)))
     {
       // Editability override, useful for virtual pages where access control depends on something

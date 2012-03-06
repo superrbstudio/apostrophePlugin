@@ -131,7 +131,7 @@ class BaseaSlotActions extends sfActions
     $this->page->newAreaVersion(
       $this->name, 
       $this->newSlot ? 'add' : 'update', 
-      array('permid' => $this->permid, 'slot' => $this->slot,  'top' => sfConfig::get('app_a_new_slots_top', true)));
+      array('permid' => $this->permid, 'slot' => $this->slot,  'top' => $this->getOption('newSlotsTop', sfConfig::get('app_a_new_slots_top', true))));
     // Refetch the page to reflect these changes before we
     // rerender the slot
     if ($refresh)

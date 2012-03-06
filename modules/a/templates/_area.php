@@ -9,6 +9,7 @@
   $preview = isset($preview) ? $sf_data->getRaw('preview') : null;
   $refresh = isset($refresh) ? $sf_data->getRaw('refresh') : null;
   $slots = isset($slots) ? $sf_data->getRaw('slots') : null;
+  $newSlotsTop = isset($newSlotsTop) ? $sf_data->getRaw('newSlotsTop') : null;
 ?>
 
 <?php $firstSlot = reset($slots) // We need this to check singleton slots against the areaHideWhenEmpty flag  ?>
@@ -93,7 +94,7 @@
 	  <?php endif ?>
 
 	 <?php slot("a-slot-content-$pageid-$name-$permid") ?>
-	   <?php a_slot_body($name, $slot->type, $permid, array_merge(array('edit' => $editable, 'preview' => $preview), $slotOptions), array(), $slot->isOpen()) ?>
+	   <?php a_slot_body($name, $slot->type, $permid, array_merge(array('edit' => $editable, 'preview' => $preview, 'newSlotsTop' => $newSlotsTop), $slotOptions), array(), $slot->isOpen()) ?>
 	 <?php end_slot() ?>
 
 		<?php // New data attributes make it much easier to target actions to slots ?>
