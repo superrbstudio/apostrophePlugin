@@ -391,6 +391,8 @@ function aConstructor()
         $('.a-needs-refresh').trigger('a.refresh', extras);
 
 			});
+      // This is the right event to catch if you want to trigger a progress display etc.
+      form.trigger('aSubmitted');
 			return false;
 		});
 	};
