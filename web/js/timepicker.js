@@ -194,6 +194,12 @@ function timepicker2(selector, options_array)
 			timeinput.addClass(optionClass + '-enabled');
 			timeinput.wrapInner('<div class="a-hidden"></div>');
 			timeinput.prepend(picker);
+
+      // Provide an event that can be sent to force it to read from the form again.
+      // Useful if you are updating the time due to other criteria 
+      timeinput.find('select').bind('updatePicker', function() {
+				picker.val(getTimeFromForm());
+			});
 		}
 				
 		function commitToForm(text)

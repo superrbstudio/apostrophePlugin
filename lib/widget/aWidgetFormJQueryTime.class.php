@@ -62,7 +62,7 @@ class aWidgetFormJQueryTime extends sfWidgetFormTime
 
     $attributes['id'] = $this->generateId($name);
     $html = parent::render($name, $value, $attributes, $errors);
-    $wrapperID = $attributes['id'] . rand(0, 10000);
+    $wrapperID = $attributes['id'] . rand(0, 1000000);
     $html = $this->wrapInDiv($html, $wrapperID);
     $html.= "<script type='text/javascript'>$(document).ready(function() { timepicker2('#" . $wrapperID . "', " . json_encode($attributes) . ") });</script>";
     return $html;
