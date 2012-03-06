@@ -48,7 +48,7 @@ class BaseaComponents extends aSlotComponents
 		$aOptions['areaHideWhenEmpty'] = $this->getOption('areaHideWhenEmpty', false); // Option for enabling Delete on singleton slots		
 		$this->options = $aOptions;
     $this->newSlotsTop = $this->getOption('newSlotsTop', sfConfig::get('app_a_new_slots_top', true));
-    $this->slots = $this->page->getArea($this->name, $this->addSlot, $this->new_slots_top);
+    $this->slots = $this->page->getArea($this->name, $this->addSlot, $this->newSlotsTop);
     if (!is_null($this->getOption('edit', null)))
     {
       // Editability override, useful for virtual pages where access control depends on something

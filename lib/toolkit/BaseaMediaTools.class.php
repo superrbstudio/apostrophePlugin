@@ -719,8 +719,8 @@ class BaseaMediaTools
   }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * Gets a nice name for the current type
+   * @return string
    */
   static public function getNiceTypeName()
   {
@@ -728,12 +728,29 @@ class BaseaMediaTools
     // The names of types are meant to be user friendly (in English), except for
     // the metatypes like _downloadable which can't be user friendly and unique at the same time.
     // I can't think of a nicer phrase for "all embeddable things" than "media item"
-    $niceNames = array('_downloadable' => 'file', '_embeddable' => 'media item');
+    $niceNames = array('_downloadable' => 'file', '_embeddable' => 'media item', 'audio' => 'audio file');
     if (isset($niceNames[$type]))
     {
       return $niceNames[$type];
     }
     return $type;
+  }
+
+  /**
+   * Gets a nice name for the current type, prefixed with 'a' or 'an' as appropriate
+   * @return string
+   */
+  static public function getNiceTypeNameWithIndefiniteArticle()
+  {
+    $name = aMediaTools::getNiceTypeName();
+    if (preg_match('/^[aeiou]/', $name))
+    {
+      return 'an ' . $name;
+    }
+    else
+    {
+      return 'a ' . $name;
+    }
   }
 
   /**

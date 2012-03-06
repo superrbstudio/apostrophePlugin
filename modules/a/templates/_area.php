@@ -85,13 +85,13 @@
 
 		<?php if ($infinite): ?>
 			<?php if (isset($options['type_options'][$slot->type])): ?>
-	  	  <?php $slotOptions = $options['type_options'][$slot->type]; ?>
+	  	 		<?php $slotOptions = $options['type_options'][$slot->type]; ?>
+	  		<?php else: ?>
+	  	  		<?php $slotOptions = array() ?>
+	  		<?php endif ?>
 	  	<?php else: ?>
-	  	  <?php $slotOptions = array() ?>
+	  		<?php $slotOptions = $options ?>
 	  	<?php endif ?>
-	  <?php else: ?>
-	  	<?php $slotOptions = $options ?>
-	  <?php endif ?>
 
 	 <?php slot("a-slot-content-$pageid-$name-$permid") ?>
 	   <?php a_slot_body($name, $slot->type, $permid, array_merge(array('edit' => $editable, 'preview' => $preview, 'newSlotsTop' => $newSlotsTop), $slotOptions), array(), $slot->isOpen()) ?>

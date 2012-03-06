@@ -8,7 +8,7 @@
 
 <div class="a-ui a-media-select clearfix">
 
-	<h3><?php echo __('You are selecting a %type%.', array('%type%' => __($type, null, 'apostrophe')), 'apostrophe') ?></h3>
+	<h3><?php echo a_('You are selecting %type%.', array('%type%' => a_(aMediaTools::getNiceTypeNameWithIndefiniteArticle()))) ?></h3>
 
  	<div id="a-media-selection-wrapper" class="a-ui a-media-selection-wrapper">
 	<div class="a-media-selection-help">
