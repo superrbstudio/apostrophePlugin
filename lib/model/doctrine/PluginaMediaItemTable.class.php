@@ -348,7 +348,7 @@ class PluginaMediaItemTable extends Doctrine_Table
    * for a specific type, you can use the _downloadable type (note leading underscore).
    *
    * If the 'constraints' option is specified, then $options['constraints']['minimumWidth'] and
-   * $options['constraints']['minimumHeight'] are respecteds, media not meeting these will
+   * $options['constraints']['minimumHeight'] are respected, media not meeting these will
    * be rejected.
    *
    * If the 'noConstraints' option is explicitly set true, then there will be no minimum width and
