@@ -302,5 +302,9 @@ class BaseaComponents extends aSlotComponents
 	  {
 	    $this->type_options = sfToolkit::arrayDeepMerge($this->type_options, $forceOptions);
 	  }
+    if (isset($this->slotOptions))
+    {
+      $this->type_options = sfToolkit::arrayDeepMerge($this->type_options, $this->slotOptions);
+    }
 	}
 }
