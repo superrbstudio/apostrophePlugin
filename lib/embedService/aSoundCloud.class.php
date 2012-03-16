@@ -71,7 +71,7 @@ class aSoundCloud extends aEmbedService
   {
     /* SoundCloud returns a maximum of 50 items per set. If $perPage > 50,
      * their API will still return only 50 items. */
-    $call = 'tracks';
+    $call = '';
     $offset = ($page-1)*$perPage; // Search doesn't support pages, so we must calculate an offset
     $params = array('q' => $q, 'offset' => $offset, 'limit' => 50, 'order' => 'hotness');
     
@@ -88,7 +88,7 @@ class aSoundCloud extends aEmbedService
   public function browseUser($user, $page=1, $perPage=50)
   {
     $user_id = $this->getIdFromName($user);
-    $call = "users/$user_id/tracks";
+    $call = "$user_id/";
     $offset = ($page-1)*$perPage; // Search by user doesn't support page and items_per_page, so we must calculate an offset
     $params = array('limit' => 50, 'offset' => $offset);
     
@@ -110,14 +110,16 @@ class aSoundCloud extends aEmbedService
     // Height is fixed at 81 pixels because soundcloud has no provision for any other height.
     // wmode is now passed through properly, also width. Thanks to awssmith
 return <<<EOT
-<object height="81" width="$width">
-    <param name="wmode" value="$wmode"></param>
-    <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id"></param>
-    <param name="allowscriptaccess" value="always"></param>
-    <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id" type="application/x-shockwave-flash" width="$width" wmode="$wmode"></embed>
-</object>
+<iframe width="$width" height="$height" scrolling="no" frameborder="no" wmode="$wmode" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2F$id&show_artwork=true"></iframe>
 EOT;
   }
+// Old style embed
+//<object height="81" width="$width">
+//    <param name="wmode" value="$wmode"></param>
+//    <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id"></param>
+//    <param name="allowscriptaccess" value="always"></param>
+//    <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id" type="application/x-shockwave-flash" width="$width" wmode="$wmode"></embed>
+//</object>
 
   /**
    * DOCUMENT ME
@@ -149,7 +151,7 @@ EOT;
   public function getUserInfo($user)
   {
     $user_id = $this->getIdFromName($user);
-    $call = "users/$user_id";
+    $call = "$user_id";
     $data = $this->getData($call);
     
     if (!$data)
@@ -180,6 +182,7 @@ EOT;
       return $id;
     }
     
+    error_log('Inside getIdFromUrl:' . $url);
     if (strpos($url, 'soundcloud.com') !== false)
     {
       $call = 'resolve';
@@ -194,10 +197,29 @@ EOT;
       
       $data = new SimpleXMLElement($data);
       
-      return $data->id;
+      //error_log($data->uri);
+      $id = $this->getIdFromCanonicalUrl($data->uri);
+      return $id;
     }
     
     return false;
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param string $uri
+   * @return string
+   */
+  protected function getIdFromCanonicalUrl($uri)
+  {
+    if (preg_match('/http:\/\/api.soundcloud.com\/((?:playlists|tracks|users)\/\d+)/', $uri, $matches))
+    {
+      return $matches[1];
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
@@ -224,12 +246,9 @@ EOT;
    */
   public function getIdFromEmbed($embed)
   {
-    if (preg_match('/http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F(\d+)/', $embed, $matches))
-    {
-      return $matches[1];
-    }
-    
-    return false;
+    error_log($embed);
+    $id = $this->getIdFromCanonicalUrl($embed);
+    return $id;
   }
 
   /**
@@ -244,8 +263,13 @@ EOT;
     if (isset($trackInfo['thumbnail']) && (strlen($trackInfo['thumbnail']) > 0))
     {
       return (string) $trackInfo['thumbnail'];
+    } 
+    else
+    {
+      
     }
     
+    //var_dump($trackInfo);
     return false;
   }
 
@@ -294,28 +318,43 @@ EOT;
    * @param mixed $browseUser
    * @return mixed
    */
-  private function searchApi($call, $params, $limit, $browseUser=false)
+  private function searchApi($callPrefix, $params, $limit, $browseUser=false)
   {
     $soundTracks = array();
     
-    $data = $this->getData($call, $params);
-    
-    // If our API call fails, return false so we don't error on our foreach() call
-    if (!$data)
+    $singularMap = array(
+              'playlists' => 'playlist',
+              'tracks' => 'track'
+    );
+
+    foreach (array('playlists', 'tracks') as $type)
     {
-      return false;
-    }
+      $call = $callPrefix . $type;
+      $data = $this->getData($call, $params);
+      
+      error_log('Call in searchApi: ' . $call);
+      ob_start();
+      var_dump($data);
+      error_log(ob_get_clean());
+      // If our API call fails, return false so we don't error on our foreach() call
+      if (!$data)
+      {
+        return false;
+      }
+      
+      $data = new SimpleXMLElement($data);
     
-    $data = new SimpleXMLElement($data);
-    
-    foreach ($data->track as $track)
-    {
-      $soundTracks[] = array(
-                   'id' => (int) $track->id,
-                       'url' => (string) $track->{'permalink-url'},
-                       'title' => (string) $track->title,
-                       'description' => (string) $track->description
-                       );
+      $trackProperty = $singularMap[$type];
+
+      foreach ($data->$trackProperty as $track)
+      {
+        $soundTracks[] = array(
+                     'id' => $type . '/' . (int) $track->id,
+                         'url' => (string) $track->{'permalink-url'},
+                         'title' => (string) $track->title,
+                         'description' => (string) $track->description
+                         );
+      }
     }
     
     // Since SoundCloud doesn't provide a total number of search results, we must paginate ourselves
@@ -344,7 +383,8 @@ EOT;
   {
     // Check if we have the media cached before hitting the API
     $cacheKey = "get-trackinfo:$id";
-    $trackInfo = $this->getCached($cacheKey);
+    //$trackInfo = $this->getCached($cacheKey);
+    $trackInfo = null;
     
     if (!is_null($trackInfo))
     {
@@ -362,7 +402,8 @@ EOT;
       return false;
     }
 
-    $call = "tracks/$id";
+    // id should begin with tracks/ or playlists/
+    $call = "$id";
     $data = $this->getData($call);
     
     if (!$data)
@@ -372,6 +413,16 @@ EOT;
     
     $data = new SimpleXMLElement($data);
     
+    if ($data->{'waveform-url'})
+    {
+      $thumbnail = $data->{'waveform-url'};
+    }
+    else
+    {
+      $thumbnail = $data->tracks[0]->track->{'waveform-url'};
+    }
+    
+    //error_log($thumbnail);
     $trackInfo = array(
            'id' => (int) $data->id,
            'url' => (string) $data->{'permalink-url'},
@@ -379,9 +430,10 @@ EOT;
            'description' => (string) $data->description,
            'tags' => str_replace(' ', ',', $data->{'tag-list'}),
            'credit' => (string) $data->user->username,
-           'thumbnail' => (string) $data->{'waveform-url'}
+           'thumbnail' => (string) $thumbnail
          );
     
+    //var_dump($trackInfo);
     // Cache this media for a day to reduce our API hits
     $this->setCached($cacheKey, $trackInfo, aEmbedService::SECONDS_IN_DAY);
     
