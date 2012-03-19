@@ -69,13 +69,19 @@ EOF;
     fwrite($out, <<<EOM
 spawn $cmd
 stty -echo
-expect password:
-send_user -- "Password for $user@$host: "
-expect_user -re "(.*)\\n"
-send_user "\\n"
-stty echo
-set password \$expect_out(1,string)
-send "\$password\\n"
+expect {
+  "Last login:" {
+    # We're already good thanks to an ssh key, no password needed
+  }
+  "password:" {
+    send_user -- "Password for $user@$host: "
+    expect_user -re "(.*)\\n"
+    send_user "\\n"
+    stty echo
+    set password \$expect_out(1,string)
+    send "\$password\\n"
+  }
+}
 expect "\\\\$"
 send "$cd\\n"
 interact 
