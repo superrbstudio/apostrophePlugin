@@ -466,6 +466,10 @@ class BaseaMediaTools
    */
   static public function getOption($name)
   {
+    if (sfConfig::get('app_aMedia_video_and_embed'))
+    {
+      aMediaTools::$options['types']['video']['label'] = 'Video &amp; Embed';
+    }
     if (isset(aMediaTools::$options[$name]))
     {
       $name = preg_replace("/[^\w]/", "", $name);
@@ -729,6 +733,10 @@ class BaseaMediaTools
     // the metatypes like _downloadable which can't be user friendly and unique at the same time.
     // I can't think of a nicer phrase for "all embeddable things" than "media item"
     $niceNames = array('_downloadable' => 'file', '_embeddable' => 'media item', 'audio' => 'audio file');
+    if (sfConfig::get('app_aMedia_video_and_embed'))
+    {
+      $niceNames['video'] = 'video or embed code';
+    }
     if (isset($niceNames[$type]))
     {
       return $niceNames[$type];

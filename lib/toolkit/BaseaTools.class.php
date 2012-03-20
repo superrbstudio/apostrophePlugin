@@ -307,8 +307,7 @@ class BaseaTools
   static public function getSlotTypesInfo($options)
   {
     $instance = sfContext::getInstance();
-    $slotTypes = array_merge(
-      array(
+    $slotTypeDefaults = array(
          'aText' => 'Plain Text',
          'aRichText' => 'Rich Text',
          'aFeed' => 'Twitter &amp; RSS',
@@ -318,7 +317,13 @@ class BaseaTools
          'aAudio' => 'Audio',
          'aVideo' => 'Video',
          'aFile' => 'File',
-         'aRawHTML' => 'Raw HTML'),
+         'aRawHTML' => 'Raw HTML');
+    if (sfConfig::get('app_aMedia_video_and_embed'))
+    {
+      $slotTypeDefaults['aVideo'] = 'Video &amp; Embed Codes';
+    }
+    $slotTypes = array_merge(
+      $slotTypeDefaults,
       sfConfig::get('app_a_slot_types', array()));
     if (isset($options['allowed_types']))
     {
