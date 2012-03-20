@@ -636,6 +636,9 @@ class BaseaMediaActions extends aEngineActions
    */
   public function executeEditVideo(sfWebRequest $request)
   {
+    // Shut off Chrome's poorly designed XSS filtering that clobbers perfectly legitimate iframe embed submissions
+    // http://code.google.com/p/chromium/issues/detail?id=98787
+    $this->getResponse()->setHttpHeader('X-XSS-Protection', '0');
     $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
     $item = null;
     $this->slug = false;

@@ -260,7 +260,13 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   }
 
   /**
-   * DOCUMENT ME
+   * Retrieve an embed code for inserting this media item. Typically used for video.
+   * Consults an embed service if we have a service URL and the media type is embeddable.
+   * If the media type is embeddable and we have no service URL, uses the 'embed'
+   * property of the object, replacing the width and height as specified. 
+   * If the media type is image an img tag is returned. Otherwise non-embeddable
+   * media types throw an exception.
+   *
    * @param mixed $width
    * @param mixed $height
    * @param mixed $resizeType
@@ -348,6 +354,38 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     {
       throw new Exception("Unknown media type in getEmbedCode: " . $this->getType() . " id is " . $this->id . " is new? " . $this->isNew());
     }
+  }
+
+  /**
+   * Returns true if the media item is best embedded or stretched to a 16x9 aspect ratio.
+   * This is used to achieve an appropriate aspect ratio via CSS when the width is 100%
+   * (unlike img tags, iframes and the like don't automatically maintain an aspect ratio).
+   *
+   * This method consults the embed service, if any. If there is no embed service but
+   * the media type is embeddable (a raw embed code), the default assumption is that
+   * stretching to 16x9 is desirable (for backwards compatibility).
+   */
+
+  public function is16x9()
+  {
+    $embeddable = $this->getEmbeddable();
+    $service = null;
+    // A little bit of refactoring to avoid instantiating the service twice.
+    // We need an embed service to handle anything embeddable with a service URL, so
+    // check early
+    if ($embeddable)
+    {
+      if (strlen($this->service_url))
+      {
+        $service = aMediaTools::getEmbedService($this->service_url);
+        if ($service)
+        {
+          return $service->is16x9();
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
   /**

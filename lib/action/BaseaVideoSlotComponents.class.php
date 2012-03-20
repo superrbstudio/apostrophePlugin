@@ -22,6 +22,11 @@ class BaseaVideoSlotComponents extends aSlotComponents
    */
   public function executeNormalView()
   {
+    // Shut off Chrome's poorly designed XSS filtering that clobbers perfectly legitimate iframe embed submissions
+    // http://code.google.com/p/chromium/issues/detail?id=98787
+    // Otherwise you have to refresh the page again to see your video after selecting and saving it
+    $this->getResponse()->setHttpHeader('X-XSS-Protection', '0');
+
     $this->setup();
     $this->options['constraints'] = $this->getOption('constraints', array());
     $this->options['width'] = $this->getOption('width', 320);
@@ -52,6 +57,11 @@ class BaseaVideoSlotComponents extends aSlotComponents
           // Upsampling video is OK (and commonplace)
           'forceScale' => true));
       $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false);
+    }
+    $this->stretch16x9 = false;
+    if ($this->item)
+    {
+      $this->stretch16x9 = $this->item->is16x9();
     }
   }
 }

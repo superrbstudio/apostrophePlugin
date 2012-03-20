@@ -10,6 +10,8 @@ class aSoundCloud extends aEmbedService
   protected $apiUrl = null;
   protected $consumerKey = null;
   protected $showTypes = null;
+  protected $maxPlaylistHeight = 300;
+  protected $maxTrackHeight = 160;
 
   /**
    * Constructor for aSlideShare (obtains API key and shared secret)
@@ -24,6 +26,14 @@ class aSoundCloud extends aEmbedService
     if (isset($settings['consumerKey']))
     {
       $this->consumerKey = $settings['consumerKey'];
+    }
+    if (isset($settings['maxPlaylistHeight']))
+    {
+      $this->maxPlaylistHeight = $settings['maxPlaylistHeight'];
+    }
+    if (isset($settings['maxTrackHeight']))
+    {
+      $this->maxTrackHeight = $settings['maxTrackHeight'];
     }
   }
 
@@ -107,8 +117,24 @@ class aSoundCloud extends aEmbedService
    */
   public function embed($id, $width, $height, $title='', $wmode='opaque', $autoplay=false)
   {
-    // Height is fixed at 81 pixels because soundcloud has no provision for any other height.
-    // wmode is now passed through properly, also width. Thanks to awssmith
+    // Compact treatment when the desired width is small
+    if ($width < 300)
+    {
+      $height = 81;
+    }
+    else
+    {
+      // Newer SoundCloud makes good use of more space, Force suitable heights for
+      // playlists and single tracks
+      if (strpos($id, 'playlist') !== false)
+      {
+        $height = 163 + $this->getTrackCount($id) * 24 + 70;
+      }
+      else
+      {
+        $height = 163;
+      }
+    }
 return <<<EOT
 <iframe width="$width" height="$height" scrolling="no" frameborder="no" wmode="$wmode" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2F$id&show_artwork=true"></iframe>
 EOT;
@@ -120,6 +146,16 @@ EOT;
 //    <param name="allowscriptaccess" value="always"></param>
 //    <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F$id" type="application/x-shockwave-flash" width="$width" wmode="$wmode"></embed>
 //</object>
+
+  public function getTrackCount($id)
+  {
+    $info = $this->getTrackInfo($id);
+    if ($info)
+    {
+      return $info['trackCount'];
+    }
+    return false;
+  }
 
   /**
    * DOCUMENT ME
@@ -182,7 +218,6 @@ EOT;
       return $id;
     }
     
-    error_log('Inside getIdFromUrl:' . $url);
     if (strpos($url, 'soundcloud.com') !== false)
     {
       $call = 'resolve';
@@ -197,7 +232,6 @@ EOT;
       
       $data = new SimpleXMLElement($data);
       
-      //error_log($data->uri);
       $id = $this->getIdFromCanonicalUrl($data->uri);
       return $id;
     }
@@ -210,7 +244,7 @@ EOT;
    * @param string $uri
    * @return string
    */
-  protected function getIdFromCanonicalUrl($uri)
+  protected function getIdFromCanonicalUrl($uri, $pass = 1)
   {
     if (preg_match('/http:\/\/api.soundcloud.com\/((?:playlists|tracks|users)\/\d+)/', $uri, $matches))
     {
@@ -218,6 +252,11 @@ EOT;
     }
     else
     {
+      if ($pass === 1)
+      {
+        // The canonical URL might be urlencoded in an embed string, try again
+        return $this->getIdFromCanonicalUrl(urldecode($uri), $pass + 1);
+      }
       return false;
     }
   }
@@ -246,7 +285,6 @@ EOT;
    */
   public function getIdFromEmbed($embed)
   {
-    error_log($embed);
     $id = $this->getIdFromCanonicalUrl($embed);
     return $id;
   }
@@ -283,18 +321,29 @@ EOT;
   }
 
   /**
-   * This is the only function that actually talks to the SoundCloud API
+   * This is the only function that actually talks to the SoundCloud API.
+   * If we succeed in talking to SoundCloud we cache the response for a day,
+   * regardless of what that response is. This is done to obey SoundCloud's
+   * requirement that we not slam their API. You can set the 'cacheFor' option
+   * to limit the caching time to a shorter number of seconds, as may be
+   * appropriate when browsing content belonging to a user who is actively
+   * uploading new content
+   *
    * @param mixed $call
    * @param mixed $params
    * @return mixed
    */
-  private function getData($call, $params=array())
+  protected function getData($call, $params=array(), $options = array())
   {
+    $params['consumer_key'] = $this->consumerKey;
+    $url = $this->apiUrl . "$call?" . http_build_query($params);
+    $result = $this->getCached($url);
+    if ($result !== null)
+    {
+      return $result;
+    }
     try
     {
-      $params['consumer_key'] = $this->consumerKey;
-      $url = $this->apiUrl . "$call?" . http_build_query($params);
-      
       $result = file_get_contents($url);
     }
     catch (Exception $e)
@@ -304,7 +353,9 @@ EOT;
     
     if ($result)
     {
-      return utf8_encode($result);
+      $result = utf8_encode($result);
+      $this->setCached($url, $result, isset($options['cacheFor']) ? $options['cacheFor'] : aEmbedService::SECONDS_IN_DAY);
+      return $result;
     }
     
     return false;
@@ -318,7 +369,7 @@ EOT;
    * @param mixed $browseUser
    * @return mixed
    */
-  private function searchApi($callPrefix, $params, $limit, $browseUser=false)
+  protected function searchApi($callPrefix, $params, $limit, $browseUser = false)
   {
     $soundTracks = array();
     
@@ -330,12 +381,11 @@ EOT;
     foreach (array('playlists', 'tracks') as $type)
     {
       $call = $callPrefix . $type;
-      $data = $this->getData($call, $params);
+
+      // Cache most searches for 5 minutes, user browsing for just 30 seconds. This is done
+      // to ensure we can see it quickly if the user uploads new stuff to their own account
+      $data = $this->getData($call, $params, array('cacheFor' => $browseUser ? 30 : 300));
       
-      error_log('Call in searchApi: ' . $call);
-      ob_start();
-      var_dump($data);
-      error_log(ob_get_clean());
       // If our API call fails, return false so we don't error on our foreach() call
       if (!$data)
       {
@@ -379,11 +429,8 @@ EOT;
    * @param mixed $id
    * @return mixed
    */
-  private function getTrackInfo($id)
+  protected function getTrackInfo($id)
   {
-    // Check if we have the media cached before hitting the API
-    $cacheKey = "get-trackinfo:$id";
-    //$trackInfo = $this->getCached($cacheKey);
     $trackInfo = null;
     
     if (!is_null($trackInfo))
@@ -419,10 +466,9 @@ EOT;
     }
     else
     {
-      $thumbnail = $data->tracks[0]->track->{'waveform-url'};
+      $thumbnail = $data->tracks->track[0]->{'waveform-url'};
     }
-    
-    //error_log($thumbnail);
+
     $trackInfo = array(
            'id' => (int) $data->id,
            'url' => (string) $data->{'permalink-url'},
@@ -430,16 +476,24 @@ EOT;
            'description' => (string) $data->description,
            'tags' => str_replace(' ', ',', $data->{'tag-list'}),
            'credit' => (string) $data->user->username,
-           'thumbnail' => (string) $thumbnail
+           'thumbnail' => (string) $thumbnail,
+           'trackCount' => count($data->tracks->track)
          );
-    
-    //var_dump($trackInfo);
-    // Cache this media for a day to reduce our API hits
-    $this->setCached($cacheKey, $trackInfo, aEmbedService::SECONDS_IN_DAY);
     
     return $trackInfo;
   }
- 
+
+  /**
+   * Return true if it is best to maintain a 16x9 aspect ratio
+   * when stretching this type of embedded media
+   */
+  public function is16x9()
+  {
+    // For SoundCloud the best height depends on whether it's a 
+    // playlist; for single tracks 160 pixels is about as tall as
+    // you'd ever want to get
+    return false;
+  }
 }
 
 ?>

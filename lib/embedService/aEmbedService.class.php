@@ -218,4 +218,15 @@ abstract class aEmbedService
   {
     return aCacheTools::get('embed');
   }
+
+  /**
+   * Return true if it is best to maintain a 16x9 aspect ratio
+   * when stretching this type of embedded media. This only concerns
+   * those who must stretch things to widths other than their 
+   * attribute width via CSS
+   */
+  public function is16x9()
+  {
+    return true;
+  }
 }

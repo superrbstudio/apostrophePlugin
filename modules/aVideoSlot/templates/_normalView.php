@@ -14,6 +14,8 @@
   $slug = isset($slug) ? $sf_data->getRaw('slug') : null;
   $title = isset($title) ? $sf_data->getRaw('title') : null;
   $embed = isset($embed) ? $sf_data->getRaw('embed') : null;
+  // Defaults true for backwards compatibility
+  $stretch16x9 = isset($stretch16x9) ? $sf_data->getRaw('stretch16x9') : true;
 ?>
 <?php use_helper('a') ?>
 <?php if ($editable): ?>
@@ -46,5 +48,5 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-	<?php include_partial('aVideoSlot/'.$options['itemTemplate'], array('embed' => $embed, 'options' => $options, 'item' => $item)) ?>
+	<?php include_partial('aVideoSlot/'.$options['itemTemplate'], array('embed' => $embed, 'stretch16x9' => $stretch16x9, 'options' => $options, 'item' => $item)) ?>
 <?php endif ?>
