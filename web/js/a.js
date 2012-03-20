@@ -948,6 +948,7 @@ function aConstructor()
 
 	this.areaUpdateMoveButtons = function(updateAction, id, name)
 	{
+		aLog('areaUpdateMoveButtons');
 		var area = $('#a-area-' + id + '-' + name);
 		// Be precise - take care not to hoover up controls related to slots in nested areas, if there are any
 		var slots = area.children('.a-slots').children('.a-slot');
