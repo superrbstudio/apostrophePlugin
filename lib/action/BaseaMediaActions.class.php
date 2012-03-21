@@ -1052,7 +1052,7 @@ class BaseaMediaActions extends aEngineActions
    * DOCUMENT ME
    * @return mixed
    */
-  public function executeDelete()
+  public function executeDelete(sfWebRequest $request)
   {
     $item = $this->getItem();
     if ($item)
@@ -1060,6 +1060,12 @@ class BaseaMediaActions extends aEngineActions
       $this->forward404Unless($item->userHasPrivilege('delete'));
     }
     $item->delete();
+
+    if ($request->isXmlHttpRequest())
+    {
+        return $this->renderText(json_encode(array('status' => 'success')));
+    }
+
     return $this->redirect("aMedia/resumeWithPage");
   }
 
