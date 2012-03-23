@@ -422,7 +422,11 @@
 }
 
 // Hide the logged in message when the screen gets too thin
-@media all and (max-width: 1060px) {
+@media all and (max-width: 1160px) {
+.a-ui.a-global-toolbar .a-login-user span { display: none; }
+}
+
+@media all and (max-width: 1030px) {
 .a-ui.a-global-toolbar .a-login-user { display: none; }
 }
 
@@ -874,13 +878,17 @@ margin-left: -12px;
 
 #a-login-form-container
 {
+  &.a-ui.a-options
+  {
+    @a-border-radius(0 0 0 10px)
+  }
   position: absolute;
   display: none;
   left: auto;
-  top: 5px;
-  right: 5px;
+  top: 0px;
+  right: -5px;
   padding: 0;
-  z-index:999 !important;
+  z-index:995 !important;
   min-width: 0;
   overflow: visible;
   label

@@ -13,7 +13,7 @@
 <?php $addPage = $page && (!(($maxPageLevels && ($page->getLevel() == $maxPageLevels)) || ($maxChildPages && (count($page->getChildren()) == $maxChildPages)) || strlen($page->getEngine()))) && $page->userHasPrivilege('manage') ?>
 
 <?php if ($sf_user->isAuthenticated() || sfConfig::get('app_a_persistent_global_toolbar', true)): ?> 
-	
+
   <div class="a-ui a-global-toolbar clearfix">
   	<ul class="a-ui a-controls">
 

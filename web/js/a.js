@@ -3101,14 +3101,19 @@ function aConstructor()
                 // TODO: refactor so that these selectors are passed in
                 if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form, .a-blog-admin-new-ajax').length == 0))
                 {
-                    menu.trigger('toggleClosed');
+                    // if you are clicking on the menu itself don't close
+                    if (target.closest('#'+menu.attr('id')).length == 0) {
+                      menu.trigger('toggleClosed');
+                    };
                 }
                 else if (overlay && target.closest(overlay.selector).length)
                 {
+                    aLog('second click type')
                     menu.trigger('toggleClosed');
                 }
                 else if (target.closest('.a-cancel').length)
                 {
+                    aLog('third click type')
                     menu.trigger('toggleClosed');
                 }
 

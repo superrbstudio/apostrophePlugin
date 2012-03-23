@@ -1,6 +1,6 @@
 <ul class="a-ui a-controls a-login">
 <?php if ($sf_user->isAuthenticated()): ?>
-	<li class="a-login-user"><?php echo __('You are logged in as', null, 'apostrophe') ?> <span><?php echo $sf_user->getGuardUser()->getUsername() ?></span></li>									
+	<li class="a-login-user"><span><?php echo __('Logged in as', null, 'apostrophe') ?></span> <?php echo $sf_user->getGuardUser()->getUsername() ?></li>									
 	<?php include_partial('a/language') ?>
   <li class="a-login-logout"><?php echo link_to(__('Log Out', null, 'apostrophe'), sfConfig::get('app_a_actions_logout', 'sfGuardAuth/signout'), array('class' => 'a-btn', )) ?></li>
 <?php else: ?>

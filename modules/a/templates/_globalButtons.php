@@ -47,6 +47,14 @@
   <?php endif ?>
 <?php //*/ ?>
 
+<?php // A toggle between near-WYSIWYG editing and (almost) completely WYSIWYG previewing ?>
+<?php if (sfConfig::get('app_a_preview_toggle')): ?>
+  <li>
+  <a href="#" class="a-btn icon no-label a-search a-preview" id="a-preview"><span class="icon"></span><span class="label"></span></a>
+    <?php a_js_call('apostrophe.setupPreviewToggle(?)', array('labels' => array('preview' => a_('Preview Page'), 'edit' => a_('Edit Page')))) ?>
+  </li>
+<?php endif ?>
+
 <?php // The markup of add-page is also specialized and DHTML-based ?>
 
 <?php if ($addPage): ?>
@@ -57,10 +65,4 @@
 	</li>
 <?php endif ?>
 
-<?php // A toggle between near-WYSIWYG editing and (almost) completely WYSIWYG previewing ?>
-<?php if (sfConfig::get('app_a_preview_toggle')): ?>
-  <li>
-  <a href="#" class="a-btn icon a-search a-preview" id="a-preview"><span class="icon"></span><span class="label"></span></a>
-    <?php a_js_call('apostrophe.setupPreviewToggle(?)', array('labels' => array('preview' => a_('Preview Page'), 'edit' => a_('Edit Page')))) ?>
-  </li>
-<?php endif ?>
+
