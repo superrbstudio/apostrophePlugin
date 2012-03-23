@@ -160,13 +160,7 @@ class aSlideShare extends aEmbedService
       $player = $this->showPlayers[$slideInfo['showType']];
 
 return <<<EOT
-<object id="__sse$id" width="$width" height="$height">
-    <param name="movie" value="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" />
-    <param name="allowFullScreen" value="true" />
-    <param name="allowScriptAccess" value="always" />
-    <param name="wmode" value="$wmode"></param>
-    <embed name="__sse$id" src="http://static.slidesharecdn.com/swf/$player?doc={$slideInfo['embedUrl']}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="$width" height="$height" wmode="$wmode"></embed>
-</object>
+<iframe src="http://www.slideshare.net/slideshow/embed_code/$id?rel=0&wmode=$wmode" width="$width" height="$height" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> 
 EOT;
     }
     
@@ -194,7 +188,7 @@ EOT;
     if (strpos($url, 'slideshare.net') !== false)
     {
       /* We must strip the '?from=ss_embed' suffix off the SlideShare URL if it exists (this suffix shows up
-       * when a user gets to the SlideShare page by clicking the 'View on SlideShare' button within a slideshow */
+       * when a user gets to the SlideShare page by clicking the 'View on SlideShare' button within a slideshow) */
       if (strpos($url, '?from=ss_embed') !== false)
       {
         $url = substr($url, 0, strpos($url, '?from=ss_embed'));
@@ -235,6 +229,12 @@ EOT;
    */
   public function getIdFromEmbed($embed)
   {
+    // New style
+    if (preg_match('/slideshare.net.*?\/embed_code\/(\w+)/', $embed, $matches))
+    {
+      return $matches[1];
+    }
+    // Old style
     if (preg_match('/__sse(\d+)/', $embed, $matches))
     {
       return $matches[1];
@@ -286,7 +286,6 @@ EOT;
       $params['ts'] = $timeStamp;
       $params['hash'] = $hash;
       $url = $this->apiUrl . "$call?" . http_build_query($params);
-      
       $result = file_get_contents($url);
     }
     catch (Exception $e)
@@ -370,11 +369,20 @@ EOT;
     }
     
     $data = new SimpleXMLElement($data);
-    
-    // Convert tags into comma-separated list
-    foreach ($data->Tags->Tag as $tag)
+
+    if (!isset($data->ID))
     {
-      $tags .= $tag . ', ';
+      // Probably gone
+      return false;
+    }
+
+    // Convert tags into comma-separated list
+    if (isset($data->Tags->Tag))
+    {
+      foreach ($data->Tags->Tag as $tag)
+      {
+        $tags .= $tag . ', ';
+      }
     }
     
     if (strlen($tags) > 0)

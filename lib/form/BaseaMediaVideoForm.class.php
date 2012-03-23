@@ -151,18 +151,34 @@ class BaseaMediaVideoForm extends aMediaItemForm
     if (strpos($value, '_WIDTH_') === false)
     {
       // If the width or height is not available, we can't process it correctly
-      if ((!preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $value)) || (!preg_match("/height\s*=\s*([\"'])(\d+)\\1/i", $value, $matches)))
+      if ((!preg_match("/width\s*=\s*([\"'])(\d+%?)\\1/i", $value)) || (!preg_match("/height\s*=\s*([\"'])(\d+%?)\\1/i", $value, $matches)))
       {
         $this->classifyEmbedResult = array('ok' => false, 'error' => 'No width and height in embed code');
         return $this->classifyEmbedResult;
       }
-      if (preg_match("/width\s*=\s*([\"'])(\d+)\\1/i", $value, $matches))
+      if (preg_match("/width\s*=\s*([\"'])(\d+%?)\\1/i", $value, $matches))
       {
-        $result['width'] = $matches[2];
+        if (preg_match('/%$/', $matches[2]))
+        {
+          // Don't have a cow if the width is a percentage, we're going to override it later anyway
+          $result['width'] = aMediaTools::getOption('default_embed_width');
+        }
+        else
+        {
+          $result['width'] = $matches[2];
+        }
       }
-      if (preg_match("/height\s*=\s*([\"'])(\d+)\\1/i", $value, $matches))
+      if (preg_match("/height\s*=\s*([\"'])(\d+%?)\\1/i", $value, $matches))
       {
-        $result['height'] = $matches[2];
+        if (preg_match('/%$/', $matches[2]))
+        {
+          // Don't have a cow if the height is a percentage, we're going to override it later anyway
+          $result['height'] = aMediaTools::getOption('default_embed_height');
+        }
+        else
+        {
+          $result['height'] = $matches[2];
+        }
       }
     }
     else

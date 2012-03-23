@@ -312,6 +312,8 @@ class BaseaMediaTools
     "video_account_preview_height" => 170,
     "upload_credential" => "media_upload",
     "admin_credential" => "media_admin",
+    'default_embed_width' => 600,
+    'default_embed_height' => 337,
     "gallery_constraints" => array(
         "width" => 340,
         "height" => false,

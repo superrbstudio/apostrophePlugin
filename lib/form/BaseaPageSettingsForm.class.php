@@ -780,6 +780,11 @@ class BaseaPageSettingsForm extends aPageForm
       $event = new sfEvent($object, 'a.pageAdded', array());
       sfContext::getInstance()->getEventDispatcher()->notify($event);
     }
+    else
+    {
+      $event = new sfEvent($object, 'a.pageEdited', array());
+      sfContext::getInstance()->getEventDispatcher()->notify($event);
+    }
     
     return $object;
   }
