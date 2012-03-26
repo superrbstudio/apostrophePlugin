@@ -687,11 +687,20 @@ class PluginaPageTable extends Doctrine_Table
 
     if (isset(aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']]))
     {
-      return aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
+      $result = aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']];
     }
-    $result = $this->checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username);
-    aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
-    return $result;
+    else
+    {
+      $result = $this->checkUserPrivilegeBody($privilege, $pageOrInfo, $user, $username);
+      aPageTable::$privilegesCache[$username][$privilege][$pageOrInfo['id']] = $result;
+    }
+
+    // Allow the result to be modified by event listeners
+    $event = new sfEvent(null, 'a.pageCheckPrivilege', array('privilege' => $privilege, 'user' => $user, 'pageInfo' => $pageOrInfo, 'user' => $user));
+    sfContext::getInstance()->getEventDispatcher()->filter($event, $result);
+    error_log("Return value for $privilege is " . $event->getReturnValue());
+    return $event->getReturnValue();
+
   }
 
   /**

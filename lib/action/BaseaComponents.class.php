@@ -41,6 +41,7 @@ class BaseaComponents extends aSlotComponents
     $this->page = aTools::getCurrentPage();
     $this->pageid = $this->page->id;
     $aOptions = $this->options;
+
 		$aOptions['arrows'] = $this->getOption('arrows', true); // Option for disabling slot reorder arrows
 		$aOptions['history'] = $this->getOption('history', true); // Option for disabling History on specific areas
 		$aOptions['delete'] = $this->getOption('delete', false); // Option for enabling Delete on singleton slots

@@ -87,6 +87,7 @@ function a_area_cache_wrapper($name, $options)
       $jsCalls = aTools::$jsCalls;
       aTools::$jsCalls = array();
     }
+
     aTools::globalSetup($options);
     include_component("a", "area", 
       array("name" => $name, "options" => $options)); 
@@ -482,6 +483,9 @@ function a_get_js_calls()
     {
       $html .= _a_js_call($call['callable'], $call['args']);
     }
+    // Bind this event to be notified when a_js_calls have all completed.
+    // Note this occurs after various ajax updates as well as the page load
+    $html .= '$("body").trigger("aAfterJsCalls");';
     $html .= '});' . "\r\n";
     $html .= '</script>' . "\r\n";
   }

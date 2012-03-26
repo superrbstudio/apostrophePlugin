@@ -1143,10 +1143,28 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
+   *
+   * This method is the correct way to manipulate the content of a page by adding, updating,
+   * removing, reverting, sorting and syncing slots. Please do not brute-force those things
+   * at the Doctrine level as the results will not be what you expected.
+   *
    * SAVE ANY CHANGES to the actual page object FIRST before you call this method.
-   * @param mixed $name
-   * @param mixed $action
-   * @param mixed $params
+   *
+   * $name is the area name. $action can be 'add', 'update', 'variant', 'delete', 
+   * 'revert', sort' or 'sync'.
+   *
+   * $params varies based on the action; typically $params['slot'] is the slot being modified or
+   * added. For 'add', $params['top'] indicates whether to add at the top (by default we add
+   * at the top). For 'sync', $params['slots'] is the complete array of slots that should be
+   * in this area after the sync. Those slots are copied to facilitate syncing them from
+   * another page. 
+   *
+   * The 'update' action assumes the slot you are passing is a new copy of the
+   * slot to be 'updated', not the old slot object associated with a previous revision. 
+   *
+   * @param string $name
+   * @param string $action
+   * @param array $params
    */
   public function newAreaVersion($name, $action, $params = false)
   {
@@ -1263,6 +1281,24 @@ abstract class PluginaPage extends BaseaPage
       $diff = '[Reverted to older version]';
       # We just want whatever is in the slot cache copied to a new version
     }
+    elseif ($action === 'sync')
+    {
+      // Sync slots from another page (think apostropheWorkflowPlugin).
+      //
+      // We could reference the existing slots from multiple pages but this
+      // will lead to trouble eventually when we get clever with a history
+      // purge function or similar. Copy them for hygiene
+
+      error_log("Implementing sync");
+      $newSlots = array();
+      foreach ($params['slots'] as $permid => $slot)
+      {
+        error_log("Copying a slot");
+        $slot = $slot->copy();
+        $slot->save();
+        $newSlots[$permid] = $slot;
+      }
+    }
     
     $areaVersion->diff = $diff;
     $areaVersion->save();
@@ -1287,6 +1323,29 @@ abstract class PluginaPage extends BaseaPage
     $this->requestSearchUpdate();
     $this->end();
     aTools::unlock();
+  }
+
+  /**
+   * This method replaces the current content of $target with the
+   * contents of $this for the given area name. This will appear
+   * as a new entry in the history.
+   *
+   * The sync occurs for the current culture only.
+   *
+   * Make sure you hydrated $this with retrieveBySlug ensuring it
+   * contains all current slots, and only current slots.
+   *
+   * This method does NOT change metadata of $target not stored as
+   * Apostrophe slots. It CAN be used to sync 'title' because title
+   * is a singleton slot.
+   */
+  public function syncTo($target, $areaName)
+  {
+    $this->populateSlotCache();
+    $target->populateSlotCache();
+    $slots = $this->getSlotsByAreaName($areaName);
+    error_log(count($slots));
+    $target->newAreaVersion($areaName, 'sync', array('slots' => $slots));
   }
 
   /**

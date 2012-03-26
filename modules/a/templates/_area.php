@@ -174,3 +174,11 @@
 
 	<?php endif ?>
 <?php endif ?>
+
+<?php // "Posting an event in a partial? Are you serious?" I am so serious. Posting ?>
+<?php // an event here allows plugins to cleanly add any necessary javascript hooks for ?>
+<?php // each area rendered ?>
+
+<?php $event = new sfEvent(null, 'a.afterAreaComponent', array('page' => $page, 'name' => $name, 'editable' => $editable, 'infinite' => $infinite)) ?>
+<?php sfContext::getInstance()->getEventDispatcher()->notify($event) ?>
+

@@ -203,7 +203,25 @@ class BaseaTools
   }
   
   /**
-   * DOCUMENT ME
+   * Determine and retrieve the correct 'current page' to be associated with
+   * subsequent a_area and a_slot calls, among other things. If the 'global' option
+   * is present, sets the current page to the virtua page with the slug 'global'; this
+   * is useful for sitewide headers and footers but should not be abused for anything
+   * less widely used (use a different virtual page slug via the 'slug' option). 
+   *
+   * If the 'slug' option is present, uses the page or virtual page with that slug
+   * (a slug without a leading / is considered virtual; if that slug starts with
+   * @ or has an internal / it is considered a candidate for search results and used
+   * as a Symfony URL to display itself). 
+   *
+   * If the page does not exist it is created.
+   *
+   * globalShutdown() can be used to pop this page off the stack so that 
+   * subsequent calls see the previously current page.
+   *
+   * This method is normally called as an implementation detail of the 
+   * a_area helper.
+   *
    * @param mixed $options
    */
   static public function globalSetup($options)
@@ -241,6 +259,12 @@ class BaseaTools
       aTools::setCurrentPage($global);
       aTools::$global = true;
     }
+
+    /**
+     * A chance to switch this page for another (think workflow)
+     */
+    $event = new sfEvent(null, 'a.afterGlobalSetup');
+    sfContext::getInstance()->getEventDispatcher()->notify($event);
   }
   
   /**
@@ -282,6 +306,12 @@ class BaseaTools
       aTools::setCurrentPage(array_pop(aTools::$pageStack));
       aTools::$global = (count(aTools::$pageStack));
     }
+    /**
+     * A chance to switch this page for another (think workflow)
+     */
+    $event = new sfEvent(null, 'a.afterGlobalShutdown');
+    sfContext::getInstance()->getEventDispatcher()->notify($event);
+
   }
 
   /**

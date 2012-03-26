@@ -2,9 +2,6 @@
 
 <?php use_helper('a') ?>
 
-<?php // Project level hook. Our default version is empty ?>
-<?php a_js_call('apostrophe.ready()') ?>
-
 <?php // There must be a better time and place for this ?>
 <?php if ($sf_user->isAuthenticated()): ?>
 	<?php a_js_call('apostrophe.areaEnableHistoryButtons()') ?>
@@ -23,6 +20,9 @@
 <?php // Warn the user if they try to leave the page and it has open slot editors on it ?>
 <?php a_js_call('apostrophe.onBeforeUnload()') ?>
 <?php // End of body - time to emit all of the queued JS as one script block ?>
+
+<?php // Project level hook. Our default version is empty ?>
+<?php a_js_call('apostrophe.ready()') ?>
 
 <?php if (sfConfig::get('app_a_js_debug', false)): ?>
 <script type="text/javascript">
