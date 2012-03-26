@@ -31,7 +31,7 @@
 	</span>
 	</span>
 
-	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() + $nb_links) < $nb_pages) ? $pager->getPage() + $nb_links : $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
+	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() + $nb_links) < $pager->getLastPage()) ? $pager->getPage() + $nb_links : $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
   	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-last"><?php echo __('Last Page', null, 'apostrophe') ?></a>
 	
 </div>
