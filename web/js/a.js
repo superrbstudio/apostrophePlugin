@@ -68,15 +68,21 @@ function aConstructor()
   };
 
   // Utility: console.log wrapper prevents JS errors if we leave an apostrophe.log call hanging out in our code someplace
-  this.log = function(output)
-  {
-    aLog(output);
-  };
+  this.setupLogger = function() {
+    if ((this.debug === true) && window.console && console.log) {
+      return console.log;
+    }
+
+    return function() {};
+  }
+  this.log = this.setupLogger();
 
   // apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
   this.setDebug = function(flag)
   {
-    apostrophe.debug = flag;
+    var me = this;
+    me.debug = flag;
+    me.log = me.setupLogger();
   };
 
   this.getDebug = function()
@@ -3177,13 +3183,12 @@ function aCall(callback) {
   };
 }
 
+
+window.apostrophe = new aConstructor();
+
 /**
   aLog -- Utility for
 */
 function aLog(output) {
-    if ((apostrophe.debug === true) && window.console && console.log) {
-        console.log(output);
-    }
+    apostrophe.log(output);
 }
-
-window.apostrophe = new aConstructor();
