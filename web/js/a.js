@@ -71,7 +71,7 @@ function aConstructor()
   this.setupLogger = function() {
     if ((this.debug === true) && window.console && console.log) {
       return function(output) {
-          console.log(output)
+          console.log(output);
       };
     }
 
