@@ -77,6 +77,7 @@ function aConstructor()
 
     return function(output) {};
   }
+  
   this.log = this.setupLogger();
 
   // apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
