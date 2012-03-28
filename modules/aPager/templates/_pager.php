@@ -17,7 +17,7 @@
 <?php if ($pager->haveToPaginate()): ?>
 <div class="a-pager-navigation a-pager-processed a-ui">
 		<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => 1))) ?>" class="a-pager-navigation-image a-pager-navigation-first"><?php echo __('First Page', null, 'apostrophe') ?></a>
-  	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() - $nb_links) > 0) ? $pager->getPage() - $nb_links : 1))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
+  	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() - 1) > 0) ? $pager->getPage() - 1 : 1))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
 
 	<span class="a-pager-navigation-links-container-container">
 	<span class="a-pager-navigation-links-container">
@@ -31,7 +31,7 @@
 	</span>
 	</span>
 
-	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() + $nb_links) < $pager->getLastPage()) ? $pager->getPage() + $nb_links : $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
+	  <a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() + 1) < $pager->getLastPage()) ? $pager->getPage() + 1 : $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-next"><?php echo __('Next Page', null, 'apostrophe') ?></a>
   	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => $pager->getLastPage()))) ?>" class="a-pager-navigation-image a-pager-navigation-last"><?php echo __('Last Page', null, 'apostrophe') ?></a>
 	
 </div>
