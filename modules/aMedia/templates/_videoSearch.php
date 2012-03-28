@@ -22,7 +22,8 @@
   </ul>
   <br class="clear" />
 
-  <div id="a-media-video-search-pagination" class="a-pager-navigation a-ui">
+  <?php // Don't put classes on this div that just duplicate what the pager supplies and/or hide the pager ?>
+  <div id="a-media-video-search-pagination">
     <?php include_partial('aPager/pager', array('pager' => $pager, 'pagerUrl' => $url)) ?>
   </div>
   <br class="clear" />

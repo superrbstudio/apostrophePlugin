@@ -15,6 +15,8 @@
 <?php # as appropriate. ?>
 
 <?php if ($pager->haveToPaginate()): ?>
+<?php // We add a-pager-processed for bc with CSS that hides this if it doesn't have that class. ?>
+<?php // That was done to support some "progressive enhancement" of this pager that proved ill-founded ?>
 <div class="a-pager-navigation a-pager-processed a-ui">
 		<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => 1))) ?>" class="a-pager-navigation-image a-pager-navigation-first"><?php echo __('First Page', null, 'apostrophe') ?></a>
   	<a href="<?php echo url_for(aUrl::addParams($pagerUrl, array('page' => (($pager->getPage() - 1) > 0) ? $pager->getPage() - 1 : 1))) ?>" class="a-pager-navigation-image a-pager-navigation-previous"><?php echo __('Previous Page', null, 'apostrophe') ?></a>
