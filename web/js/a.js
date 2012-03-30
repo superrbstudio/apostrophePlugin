@@ -844,6 +844,12 @@ function aConstructor()
       slideshow.bind('previousItem', function(){ previous(); });
       slideshow.bind('nextItem', function(){ next(); });
 
+      slideshow.bind('aSetPosition', function() {
+        var newPosition = slideshow.data('aNewPosition');
+        showItem(newPosition, position);
+      });
+
+
       slideshow.find('.a-slideshow-image').bind('click.apostrophe', function(event) {
         event.preventDefault();
         intervalEnabled = false;
@@ -869,6 +875,18 @@ function aConstructor()
       });
 
     }
+  };
+
+  /**
+   * apostrophe.slideshowSetPosition({ 'selector': '#a-slideshow-9-body-2', 'position': 1 });
+   *
+   */
+  this.slideshowSetPosition = function(options)
+  {
+    var slideshow = $(options.selector);
+
+    slideshow.data('aNewPosition', options.position);
+    slideshow.trigger('aSetPosition');
   };
 
   // aButtonSlot
