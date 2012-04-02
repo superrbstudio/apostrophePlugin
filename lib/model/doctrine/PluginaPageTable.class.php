@@ -698,7 +698,6 @@ class PluginaPageTable extends Doctrine_Table
     // Allow the result to be modified by event listeners
     $event = new sfEvent(null, 'a.pageCheckPrivilege', array('privilege' => $privilege, 'user' => $user, 'pageInfo' => $pageOrInfo, 'user' => $user));
     sfContext::getInstance()->getEventDispatcher()->filter($event, $result);
-    error_log("Return value for $privilege is " . $event->getReturnValue());
     return $event->getReturnValue();
 
   }

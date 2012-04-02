@@ -20,6 +20,7 @@ class BaseaButtonSlotActions extends aSlotActions
     }
     
     $this->logMessage("====== in aButtonSlotActions::executeImage", "info");
+    
     $this->editSetup();
     $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
     $this->slot->unlink('MediaItems');

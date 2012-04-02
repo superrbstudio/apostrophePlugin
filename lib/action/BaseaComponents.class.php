@@ -55,6 +55,11 @@ class BaseaComponents extends aSlotComponents
       // Editability override, useful for virtual pages where access control depends on something
       // external to the CMS
       $this->editable = $this->getOption('edit');
+      // We still have to feed this through the event filter in case the workflow plugin or 
+      // something similar still wants to veto
+      $event = new sfEvent(null, 'a.pageCheckPrivilege', array('privilege' => 'edit', 'user' => $this->getUser(), 'pageInfo' => $this->page, 'edit' => $this->editable));
+      sfContext::getInstance()->getEventDispatcher()->filter($event, $this->editable);
+      $this->editable = $event->getReturnValue();
     }
     else
     {

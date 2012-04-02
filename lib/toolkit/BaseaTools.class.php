@@ -263,7 +263,7 @@ class BaseaTools
     /**
      * A chance to switch this page for another (think workflow)
      */
-    $event = new sfEvent(null, 'a.afterGlobalSetup');
+    $event = new sfEvent(null, 'a.afterGlobalSetup', array('options' => $options));
     sfContext::getInstance()->getEventDispatcher()->notify($event);
   }
   
