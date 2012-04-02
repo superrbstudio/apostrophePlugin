@@ -142,14 +142,20 @@ class BaseaActions extends sfActions
   }
 
   /**
-   * DOCUMENT ME
+   * Determine whether the given page is non-null and is editable by the
+   * current user. If not, flunk the operation, interrupting the flow
+   * of execution
+   *
    * @param mixed $page
    * @param mixed $privilege
    */
   protected function validAndEditable($page, $privilege = 'edit')
   {
     $this->flunkUnless($page);
-    $this->flunkUnless($page->userHasPrivilege($privilege));
+    $result = $page->userHasPrivilege($privilege);
+    $event = new sfEvent($page, 'a.filterValidAndEditable', array('privilege' => $privilege));
+    $this->dispatcher->filter($event, $result);
+    $this->flunkUnless($event->getReturnValue($event));
   }
 
   /**
