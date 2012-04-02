@@ -2030,19 +2030,47 @@ abstract class PluginaPage extends BaseaPage
         $child->updateParentSlug($slug, $newSlug);
       }
     }
-  }  
-  
-  // We may need this before we're done
-  // protected function str_replace($old, $new, $content)
-  // {
-  //   if (function_exists('mb_strpos'))
-  //   {
-  //     $at = 0;
-  //     while (($at = mb_strpos($content, $old, $at)) !== false)
-  //     {
-  //       $content = mb_substr($content, 0, $at) . $new . mb_substr($content, $at + mb_strlen($old));
-  //       $at = $at + strlen($old);
-  //     }
-  //   }
-  // }
+  }
+  /**
+   * Returns media for a given area name that may exist in this page.
+   * @param string $area
+   * @param string $type Kind of media to select from (image, video, pdf) null for all
+   * @param int $limit
+   * @return Array aMediaItem
+   */
+  public function getMediaForArea($area, $type = 'image', $limit = 5)
+  {
+    return $this->getMediaForAreas(array($area), $type, $limit);
+  }
+
+  /**
+   * Given an array of area names this function returns the mediaItems in those areas.
+   * @param  aArea $areas
+   * @param  $type Set the type of media to return (image, video, pdf, etc...) null for all
+   * @param  $limit Limit the number of mediaItems returned
+   * @return array aMediaItems
+   */
+  public function getMediaForAreas($areas, $type = 'image', $limit = 5)
+  {
+    $aMediaItems = array();
+    foreach($areas as $area)
+    {
+      foreach($this->getArea($area) as $slot)
+      {
+        foreach($slot->getOrderedMediaItems() as $aMediaItem)
+        {
+          if (is_null($type) || $aMediaItem['type'] === $type)
+          {
+            $limit = $limit - 1;
+            $aMediaItems[] = $aMediaItem;
+            if ($limit === 0) 
+            {
+              return $aMediaItems;
+            }
+          }
+        }
+      }
+    }
+    return $aMediaItems;
+  }
 }
