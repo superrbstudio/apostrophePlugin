@@ -892,7 +892,6 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       return $result;
     }
     
-
     // We are only interested if the image is already rendered
     if (isset($options['cachedOnly']) && $options['cachedOnly'])
     {

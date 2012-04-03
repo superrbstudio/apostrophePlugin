@@ -709,19 +709,44 @@ class aHtml
 
   /**
    * 
+   * This method assumes your text is NOT entity escaped yet. See htmlTextToHtml if your text is
+   * already entity escaped.
+   *
    * Just the basics: escape entities, turn URLs into links, and turn newlines into line breaks.
    * Also turn email addresses into links (we don't obfuscate them here as that makes them
    * harder to manipulate some more, but check out aHtml::obfuscateMailto).
+   *
    * This function is now a wrapper around TextHelper, except for the entity escape which is
-   * not included in simple_format_text for some reason
+   * not included in simple_format_text, probably because of automatic entity escaping in Symfony
+   *
    * @param string $text The text you want converted to basic HTML.
    * @param bool $newlines If true, convert newlines to line breaks (call simple_format_text).
    * @return string Text with br tags and anchor tags.
    */
   static public function textToHtml($text, $newlines = true)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
     $text = aHtml::entities($text);
+    return aHtml::htmlTextToHtml($text, $newlines);
+  }
+
+  /**
+   * 
+   * Unlike textToHtml, this method assumes its input is ALREADY entity escaped, and that
+   * you just want newlines and links added to that. This is not an uncommon scenario.
+   *
+   * Just the basics: turn URLs into links, and turn newlines into line breaks.
+   * Also turn email addresses into links (we don't obfuscate them here as that makes them
+   * harder to manipulate some more, but check out aHtml::obfuscateMailto).
+   *
+   * This function is now a wrapper around TextHelper
+   *
+   * @param string $text The text you want converted to basic HTML.
+   * @param bool $newlines If true, convert newlines to line breaks (call simple_format_text).
+   * @return string Text with br tags and anchor tags.
+   */
+  static public function htmlTextToHtml($text, $newlines = true)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Text'));
     if ($newlines)
     {
       $text = simple_format_text($text);
