@@ -3134,9 +3134,10 @@ function aConstructor()
             var clickHandler = function(event){
                 var target = $(event.target);
 
-                // There are at least two cases where this is used for dialogs rather than menus.
-                // TODO: refactor so that these selectors are passed in
-                if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form, .a-blog-admin-new-ajax').length == 0))
+                // Watch out for various special cases where things are not structurally inside the
+                // dialog but should be considered part of it, such as typeahead suggestions.
+                // TODO: refactor so that these selectors are passed in or registered somewhere
+                if ((target.closest(button.selector).length == 0) && (target.closest('.a-page-form, .a-blog-admin-new-ajax, .ui-autocomplete').length == 0))
                 {
                     // if you are clicking on the menu itself don't close
                     if (target.closest('#'+menu.attr('id')).length == 0) {
