@@ -316,6 +316,8 @@ class aImporter
     $n = 1;
     $html = $slot->value->__toString();
     $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/\<a href=\"[^\"]+\"[^\>]*>\s*(?:\<br \/\>|&nbsp;|\s)*\<img.*?src="[^\"]+[^\>]*\>(?:\<br \/\>|&nbsp;|\s)*\<\/a\>/is', '/\<img.*?src="[^\"]+".*?\>/is', '/\<object.*?\>.*?\<\/object\>/is', '/\<iframe.*?\>.*?\<\/iframe\>/is'));
+    // Empty bodies happen
+    $slotInfos = array();
     foreach ($segments as $segment)
     {
       $mediaItem = null;
