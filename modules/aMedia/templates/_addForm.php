@@ -1,7 +1,7 @@
 <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
 	<div id="a-media-add" class="a-ui a-media-select a-media-add clearfix">
     <?php if ($uploadAllowed): ?>
-      <?php include_partial('aMedia/uploadMultiple', array('form' => new aMediaUploadMultipleForm())) ?>    
+      <?php include_partial('aMedia/uploadMultipleWrapper', array('form' => new aMediaUploadMultipleForm())) ?>    
     <?php endif ?>
     <?php if ($uploadAllowed && $embedAllowed): ?>
       <h2 class="a-media-or">OR</h2>

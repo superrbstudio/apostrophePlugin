@@ -14,7 +14,7 @@
 <?php include_component('aMedia', 'browser') ?>
 
 <div class="a-media-toolbar">
-    <?php include_partial('aMedia/uploadMultiple', array('form' => $form)) ?>    
+    <?php include_partial('aMedia/uploadMultipleWrapper', array('form' => $form)) ?>    
 </div>
 
 
