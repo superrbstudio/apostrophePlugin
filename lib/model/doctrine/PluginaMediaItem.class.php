@@ -460,7 +460,18 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   /**
    * Returns a complete URL to the media item. This URL may point to a Symfony action that will
    * generate the image on the fly, or directly to a previously generated image.
+   *
+   * width in pixels
+   * height in pixels (preserves aspect ratio if false)
    * 
+   * absolute - true or false - absolute url
+   *
+   * resizeType - 'c' or 's'
+   *    c) center crop as large as possible while maintaining aspect ratio
+   *    s) is a scale
+   * 
+   *
+   *
    * @param mixed $options
    * @return mixed
    */
@@ -472,7 +483,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
       $options['height'] = floor(($options['width'] * $this->height / $this->width) + 0.5); 
     }
 
-    $absolute = isset($options['absolute']) && $options['absolute'];
+    $absolute = isset($options['absolute']) && $options['absolute']; // absolute URL
 
     $options = aDimensions::constrain($this->getWidth(), $this->getHeight(), $this->getFormat(), $options);
     $params = array("width" => $options['width'], "height" => $options['height'], 
