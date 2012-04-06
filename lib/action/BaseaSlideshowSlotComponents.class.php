@@ -35,6 +35,23 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
       $this->items = $newItems;
     }
 
+    if (!is_null($this->options['limit']))
+    {
+      // array_slice is not safe on a Doctrine collection ):
+      $items = array();
+      $count = count($this->items);
+      for ($i = 0; ($i < $this->options['limit']); $i++)
+      {
+        if ($i >= $count)
+        {
+          break;
+        }
+        $items[] = $this->items[$i];
+      }
+      $this->items = $items;
+      $this->itemIds = aArray::getIds($items);
+    }
+
     if ($this->options['random'] && count($this->items))
     {
       shuffle($this->items);
@@ -76,6 +93,14 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
     $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'slideshowItem');
     $this->options['slideshowTemplate'] = $this->getOption('slideshowTemplate', 'slideshow');
     $this->options['random'] = $this->getOption('random', false);
+    $this->options['firstOnly'] = $this->getOption('firstOnly', false);
+    $this->options['ui'] = $this->getOption('ui', true);
+    $this->options['limit'] = $this->getOption('limit', null);
+    if ($this->options['firstOnly'])
+    {
+      $this->options['limit'] = 1;
+      $this->options['ui'] = false;
+    }
     // Ignore any manual crops by the user. This is useful if you want to use 'c' in an
     // alternative rendering of a slideshow where custom crops are normally welcome
     $this->options['uncropped'] = $this->getOption('uncropped', false);

@@ -40,14 +40,11 @@
 	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>">
 			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('items' => $items, 'item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
 		</li>
-  <?php if (a_get_option($options, 'firstOnly')): ?>
-    <?php break ?>
-  <?php endif ?>
 	<?php $first = false; $n++; endforeach ?>
 	</ul>
 <?php endif ?>
 
-<?php if ($options['arrows'] && (count($items) > 1) && (!a_get_option($options, 'firstOnly'))): ?>
+<?php if ($options['arrows'] && (count($items) > 1) && a_get_option($options, 'ui')): ?>
 <ul id="a-slideshow-controls-<?php echo $id ?>" class="a-slideshow-controls">
 	<li class="a-arrow-btn icon a-arrow-left<?php echo ($options['arrows'] === 'alt') ? ' alt' : '' ?>"><span class="icon"></span><?php echo __('Previous', null, 'apostrophe') ?></li>
 	<?php if ($options['position']): ?>
@@ -59,6 +56,6 @@
 </ul>
 <?php endif ?>
 
-<?php if (!a_get_option($options, 'firstOnly')): ?>
+<?php if (a_get_option($options, 'ui')): ?>
   <?php a_js_call('apostrophe.slideshowSlot(?)', array('debug' => false, 'id' => $id, 'position' => $options['position'], 'interval' => $options['interval'],  'transition' => $options['transition'], 'duration' => $options['duration'], 'title' => $title)) ?>
 <?php endif ?>

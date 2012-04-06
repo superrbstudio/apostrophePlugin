@@ -762,7 +762,7 @@ function aConstructor()
         // Hiding all of the items, showing the first one, setting the position, and starting the timer
         slideshowItems.hide();
         $(slideshowItems[position]).show();
-        setPosition(position);
+        showItem(0, 0);
         interval();
       }
 
@@ -795,10 +795,24 @@ function aConstructor()
           }
           else
           {
+            if (!newItem.find('img')[0].complete)
+            {
+              // Tom: if the height of the image is not really known yet this causes the slideshow's container to
+              // get to a height of 0 (or just the margins, padding, etc. of its contents), which is no good.
+              // This causes seemingly random cases in which the slideshow superimposes on what should be
+              // below it. Try again in a moment
+              aLog("aSlideshowSlot: image not loaded yet, showItem retrying in 100ms");
+              window.setTimeout(function() {
+                showItem(position, currentItem);
+              }, 100);
+              slideshow.data('showItem', 0);
+              return;
+            }
             // Some browsers jump / scroll up if the parent loses height for the split second the oldItem is hidden
             // So we set the height here before changing the slideshow item. This is not a problem when crossfading, because there is always an item visible
             newItemHeight = newItem.height() + 'px';
             slideshow.css('height',newItemHeight);
+            slideshow.closest('.a-slideshow-view').css('height', newItemHeight);
             // Since we are not crossfading, just hide all of the slideshowItems
             slideshowItems.hide();
           };
