@@ -11,4 +11,9 @@ abstract class PluginaButtonSlot extends BaseaButtonSlot
 	protected $editDefault = true;
   // We don't need refreshSlot anymore thanks to ON DELETE CASCADE
   // and the new simplified non-API-driven setup
+
+  public function getText() {
+      $values = $this->getArrayValue();
+      return $values['title'];
+  }
 }
