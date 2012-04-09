@@ -44,11 +44,23 @@ class aCacheTools
       $cache = new $class($options);
     }
     // In the sandbox this is set to aMysqlCache, but we don't retroactively force that
-    // on old projects that won't have the a_cache_item table
+    // on old projects that won't have the a_cache_item table. The use of a default cache class
+    // is now easier thanks to the new globalPrefix option which accommodates multiple sites
+    // in the same apc, memcached, etc. via separate global prefixes
     elseif (sfConfig::get('app_a_cache_default_class', false))
     {
       $class = sfConfig::get('app_a_cache_default_class');
-      $cache = new $class(array('prefix' => $name));
+      $options = sfConfig::get('app_a_cache_default_options');
+      // Allow for a global prefix as well as whatever prefix is desired for this particular cache object
+      $globalPrefix = isset($options['globalPrefix']) ? $options['globalPrefix'] : '';
+      unset($options['globalPrefix']);
+      $prefix = $name;
+      if (strlen($globalPrefix))
+      {
+        $prefix = $globalPrefix . ':' . $prefix;
+      }
+      $options['prefix'] = $prefix;
+      $cache = new $class($options);
     }
     else
     {

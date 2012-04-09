@@ -9,6 +9,15 @@
  * schema.yml file of this plugin so any new Apostrophe site is automatically
  * ready to cache.
  *
+ * Other advantages: this class cleans only keys matching the prefix when clean()
+ * is called, essential when a single backend stores several caches. removePrefix()
+ * and clean() are both efficiently implemented. And it works for multiple sites on
+ * a single server, which is difficult with sfMemcacheCache and sfAPCCache in that
+ * any clearing of the cache clears everybody's cache with those implementations.
+ *
+ * Disadvantages: MySQL still carries a performance price due to SQL parsing etc.
+ * Consider aMongoDBCache as an alternative.
+ *
  * @package apostrophe
  * @subpackage cache
  * @author P'unk Avenue apostrophe@punkave.com
