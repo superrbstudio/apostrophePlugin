@@ -7,7 +7,7 @@
 class BaseaTools
 {
   // ALL static variables must go here
-  
+
   // We need a separate flag so that even a non-CMS page can
   // restore its state (i.e. set the page back to null)
   static protected $global = false;
@@ -22,7 +22,7 @@ class BaseaTools
   static protected $allowSlotEditing = true;
   static protected $realUrl = null;
   static public $jsCalls = array();
-  
+
   static public $searchService = null;
 
   /**
@@ -101,7 +101,7 @@ class BaseaTools
     // sfSimpleCMS found a nice workaround for this
     // By using @a_page we can skip to a shorter URL form
     // and not get tripped up by the default routing rule which could
-    // match first if we wrote a/show 
+    // match first if we wrote a/show
     $routed_url = sfContext::getInstance()->getController()->genUrl('@a_page?slug=-PLACEHOLDER-', $absolute);
     $routed_url = str_replace('-PLACEHOLDER-', $slug, $routed_url);
     // We tend to get double slashes because slugs begin with slashes
@@ -111,7 +111,7 @@ class BaseaTools
     // This is good both for dev controllers and for absolute URLs
     $routed_url = preg_replace('/([^:])\/\//', '$1/', $routed_url);
     // For non-absolute URLs without a controller
-    if (!$absolute) 
+    if (!$absolute)
     {
       $routed_url = preg_replace('/^\/\//', '/', $routed_url);
     }
@@ -148,12 +148,12 @@ class BaseaTools
   }
 
   /**
-   * 
+   *
    * We've fetched a page on our own using aPageTable::queryWithSlots and we want
    * to make Apostrophe aware of it so that areas on the current page that live on
    * that virtual page don't generate a superfluous second query. Can accept an array,
    * a collection or a single page object. Hydrates pages if needed (app_a_fasthydrate).
-   * Returns an array of page objects for convenience in mapping them back to 
+   * Returns an array of page objects for convenience in mapping them back to
    * other objects they are associated with (necessary to leverage app_a_fasthydrate
    * in code like our blog plugin that associates a page with an object).
    *
@@ -177,11 +177,11 @@ class BaseaTools
   }
 
   /**
-   * 
+   *
    * Caches a page for the current request so that other invocations of a_slot, a_area,
    * etc. can efficiently access it without another query. Also hydrates the page if the
    * data passed in is from an array-hydrated query (part of app_a_fasthydrate). Returns the
-   * page object, particularly useful if you need to map it back to an object it is 
+   * page object, particularly useful if you need to map it back to an object it is
    * associated with as part of fast hydration
    */
   static public function cacheVirtualPage($pageInfo)
@@ -201,25 +201,25 @@ class BaseaTools
     aTools::$globalCache[$page['slug']] = $page;
     return $page;
   }
-  
+
   /**
    * Determine and retrieve the correct 'current page' to be associated with
    * subsequent a_area and a_slot calls, among other things. If the 'global' option
    * is present, sets the current page to the virtua page with the slug 'global'; this
    * is useful for sitewide headers and footers but should not be abused for anything
-   * less widely used (use a different virtual page slug via the 'slug' option). 
+   * less widely used (use a different virtual page slug via the 'slug' option).
    *
    * If the 'slug' option is present, uses the page or virtual page with that slug
    * (a slug without a leading / is considered virtual; if that slug starts with
    * @ or has an internal / it is considered a candidate for search results and used
-   * as a Symfony URL to display itself). 
+   * as a Symfony URL to display itself).
    *
    * If the page does not exist it is created.
    *
-   * globalShutdown() can be used to pop this page off the stack so that 
+   * globalShutdown() can be used to pop this page off the stack so that
    * subsequent calls see the previously current page.
    *
-   * This method is normally called as an implementation detail of the 
+   * This method is normally called as an implementation detail of the
    * a_area helper.
    *
    * @param mixed $options
@@ -246,7 +246,7 @@ class BaseaTools
         $global = aTools::$globalCache[$slug];
       }
       else
-      {        
+      {
         $global = aPageTable::retrieveBySlugWithSlots($slug);
         if (!$global)
         {
@@ -266,7 +266,7 @@ class BaseaTools
     $event = new sfEvent(null, 'a.afterGlobalSetup', array('options' => $options));
     sfContext::getInstance()->getEventDispatcher()->notify($event);
   }
-  
+
   /**
    * Access to pages cached with cacheVirtualPages and cacheVirtualPage and
    * implicitly cached by earlier slot insertions for a virtual page
@@ -277,7 +277,7 @@ class BaseaTools
   {
     return isset(aTools::$globalCache[$slug]);
   }
-  
+
   /**
    * Access to pages cached with cacheVirtualPages and cacheVirtualPage and
    * implicitly cached by earlier slot insertions for a virtual page
@@ -368,7 +368,7 @@ class BaseaTools
       $slotTypes = $newSlotTypes;
     }
     $info = array();
-    
+
     foreach ($slotTypes as $type => $label)
     {
       $info[$type]['label'] = $label;
@@ -384,7 +384,7 @@ class BaseaTools
    */
   static public function getSlotTypeOptionsAndClasses($options)
   {
-    
+
   }
 
   /**
@@ -468,7 +468,7 @@ class BaseaTools
       'a' => array(
         'default' => 'Default Page',
         'home' => 'Home Page')));
-    // Provide bc 
+    // Provide bc
     $newTemplates = $templates;
     foreach ($templates as $key => $value)
     {
@@ -549,9 +549,9 @@ class BaseaTools
     }
     if (isset($values[$culture]))
     {
-      return $values[$culture];  
-    } 
-    return $default; 
+      return $values[$culture];
+    }
+    return $default;
   }
 
   /**
@@ -562,17 +562,17 @@ class BaseaTools
   {
     // If we needed a context object we could get it from $event->getSubject(),
     // but this is a simple static thing
-    
+
     // Add the users button only if the user has the admin credential.
     // This is typically only given to admins and superadmins.
     $user = sfContext::getInstance()->getUser();
     if ($user->hasCredential('admin'))
     {
-      $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons', 
+      $extraAdminButtons = sfConfig::get('app_a_extra_admin_buttons',
         array('users' => array('label' => 'Users', 'action' => 'aUserAdmin/index', 'class' => 'a-users'),
           'categories' => array('label' => 'Categories', 'action' => 'aCategoryAdmin/index', 'class' => 'a-categories'),
           'tags' => array('label' => 'Tags', 'action' => 'aTagAdmin/index', 'class' => 'a-tags'),
-          'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')        
+          'reorganize' => array('label' => 'Reorganize', 'action' => 'a/reorganize', 'class' => 'a-reorganize')
         ));
       if (is_array($extraAdminButtons))
       {
@@ -624,7 +624,7 @@ class BaseaTools
         }
       }
     }
-    
+
     return $orderedButtons;
   }
 
@@ -641,7 +641,7 @@ class BaseaTools
     if (aTools::$globalButtons === false)
     {
       aTools::$globalButtons = array();
-      // We could pass parameters here but it's a simple static thing in this case 
+      // We could pass parameters here but it's a simple static thing in this case
       // so the recipients just call back to addGlobalButtons
       sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent(null, 'a.getGlobalButtons', array()));
     }
@@ -738,7 +738,7 @@ class BaseaTools
     if ($page->archived && (!$page->userHasPrivilege('edit')))
     {
       $action->forward404();
-    }    
+    }
   }
 
   /**
@@ -767,7 +767,7 @@ class BaseaTools
 
     // Loading the a helper at this point guarantees not only
     // helper functions but also necessary JavaScript and CSS
-    sfContext::getInstance()->getConfiguration()->loadHelpers('a');     
+    sfContext::getInstance()->getConfiguration()->loadHelpers('a');
   }
 
   /**
@@ -807,19 +807,19 @@ class BaseaTools
 
     // The editor permission, which (like the editor group) makes you a candidate to edit
     // if actually granted that privilege somewhere in the tree (via membership in a group
-    // that has the editor permission), is generally received from a group. In older installs the 
-    // editor group itself won't have it, so we still check by other means (see below). 
+    // that has the editor permission), is generally received from a group. In older installs the
+    // editor group itself won't have it, so we still check by other means (see below).
     if ($user->isAuthenticated() && $user->hasCredential(sfConfig::get('app_a_group_editor_permission', 'editor')))
     {
       return true;
     }
-    
+
     $sufficientCredentials = sfConfig::get("app_a_edit_sufficient_credentials", false);
     $sufficientGroup = sfConfig::get("app_a_edit_sufficient_group", false);
     $candidateGroup = sfConfig::get("app_a_edit_candidate_group", false);
     // By default users must log in to do anything except view
     $loginRequired = sfConfig::get("app_a_edit_login_required", true);
-    
+
     if ($loginRequired)
     {
       if (!$user->isAuthenticated())
@@ -827,29 +827,29 @@ class BaseaTools
         return false;
       }
       // Rule 3: if there are no sufficient credentials and there is no
-      // required or sufficient group, then login alone is sufficient. Common 
+      // required or sufficient group, then login alone is sufficient. Common
       // on sites with one admin
       if (($sufficientCredentials === false) && ($candidateGroup === false) && ($sufficientGroup === false))
       {
         // Logging in is the only requirement
-        return true; 
+        return true;
       }
       // Rule 4: if the user has sufficient credentials... that's sufficient!
       // Many sites will want to simply say 'editors can edit everything' etc
-      if ($sufficientCredentials && 
+      if ($sufficientCredentials &&
         ($user->hasCredential($sufficientCredentials)))
       {
-        
+
         return true;
       }
-      if ($sufficientGroup && 
+      if ($sufficientGroup &&
         ($user->hasGroup($sufficientGroup)))
       {
         return true;
       }
 
       // Rule 5: if there is a candidate group, make sure the user is a member
-      if ($candidateGroup && 
+      if ($candidateGroup &&
         (!$user->hasGroup($candidateGroup)))
       {
         return false;
@@ -860,7 +860,7 @@ class BaseaTools
     {
       // No login required
       return true;
-    }      
+    }
   }
 
   /**
@@ -877,8 +877,8 @@ class BaseaTools
     // 3. If app_a_allowed_variants is set and a specific list is not present for this slot type,
     // no variants are allowed for this slot type.
     // 4. An allowed_variants option in an a_slot or a_area call overrides all of the above.
-    
-    // This makes it easy to define lots of variants, then disable them by default for 
+
+    // This makes it easy to define lots of variants, then disable them by default for
     // templates that don't explicitly enable them. This is useful because variants are often
     // specific to the dimensions or other particulars of a particular template
 
@@ -895,7 +895,7 @@ class BaseaTools
     {
       $allowedVariants = $options['allowed_variants'];
     }
-    
+
     $variants = sfConfig::get('app_a_slot_variants');
     if (!is_array($variants))
     {
@@ -943,7 +943,7 @@ class BaseaTools
     __('Button', null, 'apostrophe');
     __('Video', null, 'apostrophe');
     __('PDF', null, 'apostrophe');
-    __('Raw HTML', null, 'apostrophe');    
+    __('Raw HTML', null, 'apostrophe');
     __('Template-Based', null, 'apostrophe');
     __('Users', null, 'apostrophe');
     __('Reorganize', null, 'apostrophe');
@@ -982,7 +982,7 @@ class BaseaTools
   static public function getSlugRegexpFragment($allowSlashes = false)
   {
     // Looks like the 'u' modifier is purely for allowing UTF8 in the pattern *itself*. So we
-    // shouldn't need it to achieve 
+    // shouldn't need it to achieve
     if (function_exists('mb_strtolower'))
     {
       // UTF-8 capable replacement for \W. Works fine for English and also for Greek, etc.
@@ -1039,7 +1039,7 @@ class BaseaTools
     }
     // Removing - here expands flexibility and shouldn't hurt because it's the replacement anyway
     $regexp = "/[^$alnum]+/$modifier";
-    $path = aString::strtolower(preg_replace($regexp, $betweenWords, $path));  
+    $path = aString::strtolower(preg_replace($regexp, $betweenWords, $path));
     if ($allowSlashes)
     {
       // No multiple consecutive /
@@ -1054,7 +1054,7 @@ class BaseaTools
     $path = preg_replace("/$betweenWords+/$modifier", $betweenWords, $path);
     // Leading and trailing dashes are silly. This has the effect of trim()
     // among other sensible things
-    $path = preg_replace("/^-*(.*?)-*$/$modifier", '$1', $path);     
+    $path = preg_replace("/^-*(.*?)-*$/$modifier", '$1', $path);
     return $path;
   }
 
@@ -1112,7 +1112,7 @@ class BaseaTools
       }
     }
   }
-  
+
   // MUST BE KEPT UP TO DATE
   static protected $jsByName = array(
     'jquery' => '/apostrophePlugin/js/jquery-1.4.3.min.js',
@@ -1121,9 +1121,9 @@ class BaseaTools
     'json2' => '/apostrophePlugin/js/json2.js',
     'jquery-autogrow' => '/apostrophePlugin/js/plugins/jquery.simpleautogrow.js',
     'jquery-hover-intent' => '/apostrophePlugin/js/plugins/jquery.hoverIntent.js',
-    'jquery-scrollto' => '/apostrophePlugin/js/plugins/jquery.scrollTo-1.4.2-min.js', 
+    'jquery-scrollto' => '/apostrophePlugin/js/plugins/jquery.scrollTo-1.4.2-min.js',
     'jquery-ui' => '/apostrophePlugin/js/plugins/jquery-ui-1.8.11.custom.min.js',
-    'jquery-jplayer' => '/apostrophePlugin/js/plugins/jquery.jplayer.js', 
+    'jquery-jplayer' => '/apostrophePlugin/js/plugins/jquery.jplayer.js',
     'tagahead' => '/sfDoctrineActAsTaggablePlugin/js/pkTagahead.js'
   );
 
@@ -1173,7 +1173,7 @@ class BaseaTools
       }
     }
   }
-  
+
   static protected $lockService = null;
 
   /**
@@ -1188,7 +1188,7 @@ class BaseaTools
    * wish to use an alternative implementation, set app_a_lock_class to
    * the name of any implementation of our aLock interface, and set
    * app_a_lock_options to contain any necessary options to initialize it.
-   * 
+   *
    * @param string $name
    * @param bool $wait
    */
@@ -1218,14 +1218,14 @@ class BaseaTools
     }
     aTools::$lockService->unlock();
   }
-  
+
   static public function standardAreaSlots()
   {
     // The plaintext slot is deeply unexciting, do not offer it by default in a standard area.
     // Raw HTML is problematic but generally obligatory in practice
     return sfConfig::get('app_a_standard_area_slots', array('aRichText', 'aVideo', 'aSlideshow', 'aSmartSlideshow', 'aFile', 'aAudio', 'aFeed', 'aButton', 'aBlog', 'aEvent', 'aRawHTML'));
   }
-  
+
   static public function standardAreaSlotOptions()
   {
     $standardOptions = sfConfig::get('app_a_standard_area_slot_options', array(
@@ -1264,7 +1264,6 @@ class BaseaTools
   			'credit' => false,
   			'position' => false,
   			'itemTemplate' => 'slideshowItem',
-  			'allowed_variants' => array('normal','autoplay'), 
   		),
   		'aSmartSlideshow' => array(
   			'width' => 480,
@@ -1309,18 +1308,18 @@ class BaseaTools
   			'description' => false
   		),
   		'aBlog' => array(
-  			// 'excerptLength' => 100, 
+  			// 'excerptLength' => 100,
   			// 'aBlogMeta' => true,
-  			// 'maxImages' => 1, 
+  			// 'maxImages' => 1,
   			'slideshowOptions' => array(
   				'width' => 480,
   				'height' => false
   			),
   		),
   		'aEvent' => array(
-  			// 'excerptLength' => 100, 
+  			// 'excerptLength' => 100,
   			// 'aBlogMeta' => true,
-  			// 'maxImages' => 1, 
+  			// 'maxImages' => 1,
   			'slideshowOptions' => array(
   				'width' => 480,
   				'height' => false
