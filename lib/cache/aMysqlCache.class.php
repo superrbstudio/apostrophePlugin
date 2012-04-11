@@ -162,7 +162,9 @@ class aMysqlCache extends sfCache
   public function clean($mode = sfCache::ALL)
   {
     // Even clean() should respect the prefix
-    $this->sql->query('DELETE FROM a_cache_item WHERE k REGEXP :pattern' . (sfCache::OLD == $mode ? ' AND timeout < :time ' : ''), array('pattern' => preg_quote($this->getOption('prefix'), '/') . '.*$', 'time' => time()));
+    // Don't forget ^
+    // Don't add gratuitous trailing .*$, it just makes it slower 
+    $this->sql->query('DELETE FROM a_cache_item WHERE k REGEXP :pattern' . (sfCache::OLD == $mode ? ' AND timeout < :time ' : ''), array('pattern' => '^' . preg_quote($this->getOption('prefix'), '/'), 'time' => time()));
     return !!$this->sql->getRowsAffected();
   }
 

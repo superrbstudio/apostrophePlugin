@@ -195,7 +195,10 @@ class aMongoDBCache extends sfCache
     $criteria = array();
     if ($respectPrefix)
     {
-      $criteria['key'] = array('$regex' => preg_quote($this->getOption('prefix'), '/') . '.*$');
+      // Don't forget ^
+      // Careful, no delimiter with mongo's $regex
+      // Don't add gratuitous trailing .*$, it just makes it slower according to the mongo docs
+      $criteria['key'] = array('$regex' => '^' . preg_quote($this->getOption('prefix')));
     }
     if ($mode === sfCache::OLD)
     {
