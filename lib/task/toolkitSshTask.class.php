@@ -18,6 +18,7 @@ class toolkitSsh extends sfBaseTask
     // ));
 
     $this->addArgument('server', sfCommandArgument::REQUIRED, 'A server name as listed in properties.ini (examples: staging, production)');
+    $this->addOption('root', null, sfCommandOption::PARAMETER_NONE, 'Connect as root rather than the user in properties.ini', null);
 
     $this->namespace        = 'apostrophe';
     $this->name             = 'ssh';
@@ -56,9 +57,16 @@ EOF;
     {
       $cmd .= "-p " . $data['port'];
     }
-    if (isset($data['user']))
+    if ($options['root'])
     {
-      $cmd .= " -l " . $data['user'];
+      $cmd .= " -l root";
+    }
+    else
+    {
+      if (isset($data['user']))
+      {
+        $cmd .= " -l " . $data['user'];
+      }
     }
     $cmd .= " " . $data['host'];
     $dir = $data['dir'];
@@ -82,7 +90,7 @@ expect {
     send "\$password\\n"
   }
 }
-expect "\\\\$"
+expect -re "(\$|#)"
 send "$cd\\n"
 interact 
 EOM
