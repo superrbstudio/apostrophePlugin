@@ -1206,7 +1206,11 @@ abstract class PluginaPage extends BaseaPage
     }
     $areaVersion = new aAreaVersion();
     $areaVersion->area_id = $area->id;
-    $areaVersion->version = $area->latest_version + 1;
+
+    $event = new sfEvent(null, 'a.filterNextVersion', array('area' => $area));
+    sfContext::getInstance()->getEventDispatcher()->filter($event, $area->latest_version + 1);
+    $areaVersion->version = $event->getReturnValue();
+
     // Don't crash on an anon edit, such as an edit made by a task
     if (sfContext::hasInstance() && sfContext::getInstance()->getUser()->getGuardUser())
     {
@@ -1318,7 +1322,21 @@ abstract class PluginaPage extends BaseaPage
       $areaVersionSlot->rank = $rank++;
       $areaVersionSlot->save();
     }
-    $area->latest_version++;
+
+    /**
+     * Catch this event and return true if you have set the 
+     */
+    $event = new sfEvent(null, 'a.filterSetLatestVersion', array('area' => $area, 'version' => $areaVersion->version));
+    sfContext::getInstance()->getEventDispatcher()->filter($event, false);
+    if ($event->getReturnValue())
+    {
+      // An event handler set the version for us
+    }
+    else
+    {
+      $area->latest_version = $areaVersion->version;
+    }
+
     $area->save();
     $this->requestSearchUpdate();
     $this->end();

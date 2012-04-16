@@ -85,9 +85,9 @@ class PluginaPageTable extends Doctrine_Table
         $page = new aPage();
         $page->hydrate($pageInfo);
         if (isset($pageInfo['id']))
- 		    {
+        {
           $page->assignIdentifier($pageInfo['id']);
- 		    }
+        }
       }
       else
       {
@@ -228,20 +228,34 @@ class PluginaPageTable extends Doctrine_Table
       $areaJoin .= ' WITH a.culture = ?';
       $areaJoinArgs[] = $culture;
     }
-    $versionJoinArgs = array();
-    $versionJoin = 'a.AreaVersions v';
+
+    $versionJoin = array();
+    $versionJoin['args'] = array();
+    $versionJoin['clauses'] = array();
+    $versionJoin['clauses'][] = 'a.AreaVersions v';
     if ($version === false)
     {
-      $versionJoin .= ' WITH a.latest_version = v.version';
+      $versionJoin['clauses'][] = 'WITH a.latest_version = v.version';
     } else
     {
-      $versionJoin .= ' WITH v.version = ?';
-      $versionJoinArgs[] = $version;
+      $versionJoin['clauses'][] = 'WITH v.version = ?';
+      $versionJoin['args'][] = $version;
     }
+
+    // Allow the version join to be modified by event listeners.
+    // Your event receives the $versionJoin array, which has
+    // 'clauses' and 'args' keys you can add to or replace outright.
+    // A 'version' parameter is available and will be set to false if
+    // we are not seeking a specific version (we usually aren't - we usually
+    // want the latest version, a concept you might want to redefine as we do
+    // in our workflow plugin) 
+    $event = new sfEvent(null, 'a.filterVersionJoin', array('version' => $version));
+    sfContext::getInstance()->getEventDispatcher()->filter($event, $versionJoin);
+    $versionJoin = $event->getReturnValue();
     
     $query->
       leftJoin($areaJoin, $areaJoinArgs)->
-      leftJoin($versionJoin, $versionJoinArgs)->
+      leftJoin(implode(' ', $versionJoin['clauses']), $versionJoin['args'])->
       leftJoin('v.AreaVersionSlots avs')->
       leftJoin('avs.Slot s')->
       leftJoin('s.MediaItems m')->

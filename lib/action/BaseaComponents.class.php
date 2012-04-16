@@ -50,21 +50,27 @@ class BaseaComponents extends aSlotComponents
 		$this->options = $aOptions;
     $this->newSlotsTop = $this->getOption('newSlotsTop', sfConfig::get('app_a_new_slots_top', true));
     $this->slots = $this->page->getArea($this->name, $this->addSlot, $this->newSlotsTop);
+
+
     if (!is_null($this->getOption('edit', null)))
     {
       // Editability override, useful for virtual pages where access control depends on something
       // external to the CMS
       $this->editable = $this->getOption('edit');
-      // We still have to feed this through the event filter in case the workflow plugin or 
-      // something similar still wants to veto
-      $event = new sfEvent(null, 'a.pageCheckPrivilege', array('privilege' => 'edit', 'user' => $this->getUser(), 'pageInfo' => $this->page, 'edit' => $this->editable));
-      sfContext::getInstance()->getEventDispatcher()->filter($event, $this->editable);
-      $this->editable = $event->getReturnValue();
     }
     else
     {
       $this->editable = $this->page->userHasPrivilege('edit');
     }
+
+    // A simple filter event for overriding $this->editable, usually to shut it off in 
+    // 'applied' mode in the workflow plugin. 'editOption' lets you distinguish an explicit 'edit'
+    // flag from the natural edit privilege of the user, if you care (if it is not null then the
+    // privilege was assigned on the basis of an explicit edit option passed to the slot)
+    $event = new sfEvent(null, 'a.filterAreaEditable', array('page' => $this->page, 'name' => $this->name, 'editOption' => $this->getOption('edit')));
+    sfContext::getInstance()->getEventDispatcher()->filter($event, $this->editable);
+    $this->editable = $event->getReturnValue();
+
     $user = $this->getUser();
     // Clean this up for nicer templates
     $this->refresh = (isset($this->refresh) && $this->refresh);
