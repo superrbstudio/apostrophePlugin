@@ -130,7 +130,8 @@ class BaseaMediaVideoForm extends aMediaItemForm
       return $this->classifyEmbedResult;
     }
     // Don't let this become a way to embed arbitrary HTML
-    $value = trim(strip_tags($value, "<embed><object><param><applet><iframe>"));
+    // Do allow HTML5 media tags
+    $value = trim(strip_tags($value, "<embed><object><param><applet><iframe><video><source><audio>"));
     // Kill any text outside of tags
     if (preg_match_all("/<.*?>/", $value, $matches))
     {
