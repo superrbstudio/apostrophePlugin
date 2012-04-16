@@ -257,6 +257,12 @@ abstract class PluginaPage extends BaseaPage
       // fetched the page in the first place
       foreach ($areaInfos as $areaInfo)
       {
+        if (!count($areaInfo['AreaVersions']))
+        {
+          // This is possible now that we have the workflow plugin.
+          // It happens if we have drafts but no applied versions
+          continue;
+        }
         $areaVersionInfo = $areaInfo['AreaVersions'][0];
         foreach ($areaVersionInfo['AreaVersionSlots'] as $areaVersionSlotInfo)
         {

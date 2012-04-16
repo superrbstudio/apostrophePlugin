@@ -79,17 +79,20 @@
         </div>
       </div>
     <?php else: ?>
-			<div class="a-form-row status">
-			  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
-		  	<div class="<?php echo $stem ?>-status">
-					<?php echo $form['archived'] ?>
-					<?php if(isset($form['cascade_archived'])): ?>
-						<div class="cascade-checkbox a-cascade-option">
-							<?php echo $form['cascade_archived'] ?> <?php echo __('apply to subpages', null, 'apostrophe') ?>
-						</div>
-					<?php endif ?> 
+    	<?php // It's nice to be able to shut this off in custom permissions ?>
+    	<?php if (isset($form['archived'])): ?>
+				<div class="a-form-row status">
+				  <h4><label><?php echo __('Published', null, 'apostrophe') ?></label></h4>
+			  	<div class="<?php echo $stem ?>-status">
+						<?php echo $form['archived'] ?>
+						<?php if(isset($form['cascade_archived'])): ?>
+							<div class="cascade-checkbox a-cascade-option">
+								<?php echo $form['cascade_archived'] ?> <?php echo __('apply to subpages', null, 'apostrophe') ?>
+							</div>
+						<?php endif ?> 
+					</div>
 				</div>
-			</div>
+			<?php endif ?>
     <?php endif ?>
 	</div>
 	

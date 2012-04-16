@@ -686,17 +686,20 @@ class BaseaPageSettingsForm extends aPageForm
     }
     else
     {
-      $jvalues = json_decode($this->getValue('view_groups'), true);
-      // Most custom permissions are saved in separate methods called from save()
-      // after the object exists. However the "Editors + Guests" group is a special
-      // case which really maps to everyone who has the 'view_locked' permission, so
-      // we have to scan for it in the list of groups
-      foreach ($jvalues as $value)
+      $jvalues = @json_decode($this->getValue('view_groups'), true);
+      if (is_array($jvalues))
       {
-        if ($value['id'] === 'editors_and_guests')
+        // Most custom permissions are saved in separate methods called from save()
+        // after the object exists. However the "Editors + Guests" group is a special
+        // case which really maps to everyone who has the 'view_locked' permission, so
+        // we have to scan for it in the list of groups
+        foreach ($jvalues as $value)
         {
-          // Editors + Guests special case
-          $object->view_guest = $value['selected'] && ($value['selected'] !== 'remove');
+          if ($value['id'] === 'editors_and_guests')
+          {
+            // Editors + Guests special case
+            $object->view_guest = $value['selected'] && ($value['selected'] !== 'remove');
+          }
         }
       }
     
@@ -710,39 +713,44 @@ class BaseaPageSettingsForm extends aPageForm
         $q->execute();
       }
     
-      if ($values['view_options'] === 'public')
+      if (isset($values['view_options']))
       {
-        $object->view_admin_lock = false;
-        $object->view_is_secure = false;
-      }
-      elseif ($values['view_options'] === 'login')
-      {
-        $object->view_admin_lock = false;
-        $object->view_is_secure = true;
-      }
-      elseif ($values['view_options'] === 'admin')
-      {
-        $object->view_admin_lock = true;
-        $object->view_is_secure = true;
-      }
-    
-      if ($this->getValue('view_options_apply_to_subpages'))
-      {
-        $q = Doctrine::getTable('aPage')->createQuery()
-          ->update()
-          ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
-        $q->set('view_admin_lock', '?', $object->view_admin_lock);
-        $q->set('view_is_secure', '?', $object->view_is_secure);
-        $q->set('view_guest', '?', $object->view_guest);
-        $q->execute();
+        if ($values['view_options'] === 'public')
+        {
+          $object->view_admin_lock = false;
+          $object->view_is_secure = false;
+        }
+        elseif ($values['view_options'] === 'login')
+        {
+          $object->view_admin_lock = false;
+          $object->view_is_secure = true;
+        }
+        elseif ($values['view_options'] === 'admin')
+        {
+          $object->view_admin_lock = true;
+          $object->view_is_secure = true;
+        }
+        if ($this->getValue('view_options_apply_to_subpages'))
+        {
+          $q = Doctrine::getTable('aPage')->createQuery()
+            ->update()
+            ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
+          $q->set('view_admin_lock', '?', $object->view_admin_lock);
+          $q->set('view_is_secure', '?', $object->view_is_secure);
+          $q->set('view_guest', '?', $object->view_guest);
+          $q->execute();
+        }
       }
     }
     
     // We have no UI for scheduling publication yet, so make sure
     // we set the publication date when we save with archived false
-    if ((!isset($values['archived'])) || (!$values['archived']))
+    if (isset($this['archived']))
     {
-      $object->setPublishedAt(aDate::mysql());
+      if ((!isset($values['archived'])) || (!$values['archived']))
+      {
+        $object->setPublishedAt(aDate::mysql());
+      }
     }
     
     // Has to be done on shutdown so it comes after the in-memory cache of
