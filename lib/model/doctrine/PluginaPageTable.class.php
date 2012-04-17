@@ -250,8 +250,19 @@ class PluginaPageTable extends Doctrine_Table
     // want the latest version, a concept you might want to redefine as we do
     // in our workflow plugin) 
     $event = new sfEvent(null, 'a.filterVersionJoin', array('version' => $version));
-    sfContext::getInstance()->getEventDispatcher()->filter($event, $versionJoin);
-    $versionJoin = $event->getReturnValue();
+    $instance = null;
+    try
+    {
+      $instance = sfContext::getInstance();
+    } catch (Exception $e)
+    {
+      // Many tasks have no context. ): Don't crash over it.
+    }
+    if ($instance)
+    {
+      $instance->getEventDispatcher()->filter($event, $versionJoin);
+      $versionJoin = $event->getReturnValue();
+    }
     
     $query->
       leftJoin($areaJoin, $areaJoinArgs)->
