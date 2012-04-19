@@ -74,6 +74,12 @@ class aSql extends aMysql
       $info['rgt'] = $rgt + 1;
       $info['level'] = $level + 1;
     }
+    else
+    {
+      $info['lft'] = null;
+      $info['rgt'] = null;
+      $info['level'] = null;
+    }
     if (!isset($info['view_is_secure']))
     {
       $info['view_is_secure'] = false;
