@@ -662,13 +662,17 @@ abstract class PluginaPage extends BaseaPage
    * the value will be an array of child pages, which may have children of their own. If a page has
    * no children there will not be a 'children' key (you may test isset($info['children'])).
    * To generate a URL for a page use: aTools::urlForPage($info['slug'])
+   *
+   * If you must have results for pages you don't have permission to see, pass 'ignorePermissions' => true
+   *
    * @param mixed $includeSelf
    * @param mixed $livingOnly
    * @return mixed
    */
   public function getAncestorsInfo($includeSelf = false, $livingOnly = false)
   {
-    return aPageTable::getAncestorsInfo(array('info' => $this->getInfo(), 'includeSelf' => $includeSelf, 'livingOnly' => $livingOnly));
+    $result = aPageTable::getAncestorsInfo(array('info' => $this->getInfo(), 'includeSelf' => $includeSelf, 'livingOnly' => $livingOnly));
+    return $result;
   }
 
   // Careful, the cache must hold the entire path including the item itself, we lop off the last element

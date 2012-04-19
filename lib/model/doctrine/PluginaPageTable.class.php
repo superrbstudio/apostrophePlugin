@@ -1019,6 +1019,8 @@ class PluginaPageTable extends Doctrine_Table
   {
     $id = $options['info']['id'];
     $includeSelf = isset($options['includeSelf']) ? $options['includeSelf'] : false;
+    // Don't double cache for this 
+    unset($options['includeSelf']);
     // We cache the results of one simple query that gets the whole lineage, and permute that a little
     // for the includeSelf case
     $key = serialize($options);
@@ -1033,6 +1035,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       array_pop($ancestorsInfo);
     }
+
     return $ancestorsInfo;
   }
 
@@ -1184,8 +1187,8 @@ class PluginaPageTable extends Doctrine_Table
   /**
    * Accepts array('where' => [where clause]) or array('ids' => array(1, 5, 17...))
    * 
-   * Returns results the current user is permitted to see. You can override this if you specify the
-   * following options (must specify all or none):
+   * Returns results the current user is permitted to see. You can override this by passing the
+   * 'ignorePermissions' => true option, or by specifying ALL of the following:
    * 'user_id', 'has_view_locked_permission', 'group_ids', 'has_cms_admin_permission'
    * 
    * You can override the user's culture by specifying 'culture'
@@ -1271,11 +1274,6 @@ class PluginaPageTable extends Doctrine_Table
       $group_ids = array(0);
     }
     $joins .= 'LEFT JOIN a_group_access ga ON ga.page_id = p.id AND ga.group_id IN (' . implode(',', $group_ids) . ') ';
-    $viewLockedClause = '';
-    if ($hasViewLockedPermission)
-    {
-      $viewLockedClause = 'OR p.view_guest IS TRUE ';
-    }
     // CMS admin can always view
     if (!$hasCmsAdmin && (!$ignorePermissions))
     {

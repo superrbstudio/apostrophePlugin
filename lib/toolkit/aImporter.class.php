@@ -321,7 +321,7 @@ class aImporter
     foreach ($segments as $segment)
     {
       $mediaItem = null;
-      if (preg_match('/\<object.*?\>.*?\<\/object\>|\<iframe.*?\>.*?\<\/iframe\>/is', $segment))
+      if (preg_match('/\<audio.*?\>.*?\<\/audio\>|\<video.*?\>.*?\<\/video\>|\<script.*?\>.*?\<\/script\>|\<object.*?\>.*?\<\/object\>|\<iframe.*?\>.*?\<\/iframe\>/is', $segment))
       {
         $form = new aMediaVideoForm();
         $result = $form->classifyEmbed($segment);
