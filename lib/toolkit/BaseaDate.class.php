@@ -20,6 +20,12 @@ class BaseaDate
   static public function pretty($date)
   {
     $date = aDate::normalize($date);
+    // Sometimes the client requests something that can be done with date() alone
+    $format = sfConfig::get('app_a_dateFormat', null);
+    if (!is_null($format))
+    {
+      return date($format, $date);
+    }
     if (!sfConfig::get('app_a_pretty_english_dates', false))
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
