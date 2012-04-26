@@ -6,7 +6,9 @@
   $options = isset($options) ? $sf_data->getRaw('options') : null;
 ?>
 <?php use_helper('a') ?>
-<ul>
+<?php // Please do not remove this class as the idea is to make it easy to get the slug for the wrapper of any media item ?>
+<?php // rendered by a slot. Thanks. -Tom ?>
+<ul class="a-media-container" data-slug="<?php echo $item->slug ?>">
   <?php $height = ($options['height']) ? 'height:' . $options['height'] . 'px;' : '' ?>
   <li class="a-slideshow-image" style="<?php echo $height ?><?php echo ($n==0)? 'display:block':'' ?>"><?php echo $embed ?></li>
   <?php if ($options['title'] && strlen($item->title)): ?>

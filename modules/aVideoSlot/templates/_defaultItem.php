@@ -7,7 +7,10 @@
   $stretch16x9 = isset($stretch16x9) ? $sf_data->getRaw('stretch16x9') : true;
 ?>
 
-<ul class="a-media-video">
+<?php // Please do not remove a-media-container as the idea is to make it easy to get the slug for the wrapper of any media item ?>
+<?php // rendered by a slot. Thanks. -Tom ?>
+
+<ul class="a-media-container a-media-video" data-slug="<?php echo $item->slug ?>">
 	<li class="a-media-video-embed <?php echo $stretch16x9 ? 'a-stretch-16x9' : '' ?>">
 		<?php echo $embed ?>
 	</li>
