@@ -36,6 +36,7 @@ class BaseaVideoSlotComponents extends aSlotComponents
     $this->options['title'] = $this->getOption('title', false);
     $this->options['description'] = $this->getOption('description', false);
     $this->options['itemTemplate'] = $this->getOption('itemTemplate', 'defaultItem');
+    $this->options['autoplay'] = $this->getOption('autoplay', false);
 
     // Behave well if it's not set yet!
     if (!count($this->slot->MediaItems))
@@ -62,7 +63,7 @@ class BaseaVideoSlotComponents extends aSlotComponents
       }
       else
       {
-        $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false);
+        $this->embed = $this->item->getEmbedCode($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false, 'opaque', $this->options['autoplay']);
       }
     }
     $this->stretch16x9 = false;
