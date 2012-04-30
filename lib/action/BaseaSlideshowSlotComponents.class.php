@@ -35,6 +35,10 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
       $this->items = $newItems;
     }
 
+    // Careful: the normal view needs the full set of items so it can implement
+    // the choose button. Assemble the limited set separately
+
+    $this->limitedItems = $this->items;
     if (!is_null($this->options['limit']))
     {
       // array_slice is not safe on a Doctrine collection ):
@@ -48,14 +52,18 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
         }
         $items[] = $this->items[$i];
       }
-      $this->items = $items;
-      $this->itemIds = aArray::getIds($items);
+      $this->limitedItems = $items;
+      error_log("limit applied count is " . count($this->limitedItems));
     }
+    $this->itemIds = aArray::getIds($this->items);
+    $this->limitedItemIds = aArray::getIds($this->limitedItems);
 
     if ($this->options['random'] && count($this->items))
     {
       shuffle($this->items);
+      shuffle($this->limitedItems);
     }
+    error_log("final count is " . count($this->limitedItems));
   }
 
   /**

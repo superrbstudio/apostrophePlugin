@@ -4,6 +4,8 @@
   $id = isset($id) ? $sf_data->getRaw('id') : null;
   $itemIds = isset($itemIds) ? $sf_data->getRaw('itemIds') : null;
   $items = isset($items) ? $sf_data->getRaw('items') : null;
+  $limitedItemIds = isset($limitedItemIds) ? $sf_data->getRaw('limitedItemIds') : null;
+  $limitedItems = isset($limitedItems) ? $sf_data->getRaw('limitedItems') : null;
   $name = isset($name) ? $sf_data->getRaw('name') : null;
   $options = isset($options) ? $sf_data->getRaw('options') : null;
   $pageid = isset($pageid) ? $sf_data->getRaw('pageid') : null;
@@ -55,8 +57,8 @@
 
 <?php endif ?>
 
-<?php if (count($items)): ?>
-	<?php include_component('aSlideshowSlot', $options['slideshowTemplate'], array('items' => $items, 'id' => $id, 'options' => $options)) ?>
+<?php if (count($limitedItems)): ?>
+	<?php include_component('aSlideshowSlot', $options['slideshowTemplate'], array('items' => $limitedItems, 'id' => $id, 'options' => $options)) ?>
 <?php else: ?>
 	<?php include_partial('aImageSlot/placeholder', array('placeholderText' => a_("Choose Photos"), 'options' => $options)) ?>
 <?php endif ?>
