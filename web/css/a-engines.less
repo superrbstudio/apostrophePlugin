@@ -308,46 +308,25 @@
         }
       } // [ &.event-date ]
 
+
       &.comments
       {
-        label,
-        input
-        {
-          line-height: 20px;
-          float: right;
-        }
-        h4
-        {
-          float: left; width: 100%; clear: both;
-        }
-
-        .allow_comments_toggle
-        {
-          float: left;
-          width: 100%;
+        h4 {
+          float: none; 
+          width: 100%; 
           clear: both;
-          span
+          input
           {
-            color: inherit;
-            display: none;
-          }
-          &.enabled
-          {
-            span.enabled
-            {
-              display: inline;
-            }
-          }
-          &.disabled
-          {
-            span.disabled
-            {
-              display: inline;
-              color: #600;
-            }
+            line-height: 1;
+            float: none;
           }
         }
-      } // [ &.comments ]
+        .a-allow-comments-label
+        {
+          padding-right: 20px;
+        }
+      }
+
 
       &.delete
       {
