@@ -223,15 +223,9 @@ width: 104px
 .a-admin-sidebar .section.author select,
 .a-admin-sidebar .section.template select { max-width: 94px; float: right; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 2px; }
 
-.a-admin-sidebar .section.comments label,
-.a-admin-sidebar .section.comments input { line-height: 20px; float: right; }
-
-.a-admin-sidebar .section.comments h4,
-.a-admin-sidebar .section.comments .allow_comments_toggle { float: left; width: 100%; clear: both; }
-.a-admin-sidebar .section.comments .allow_comments_toggle span { color: inherit; display: none; }
-.a-admin-sidebar .section.comments .allow_comments_toggle.enabled span.enabled,
-.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled { display: inline; }
-.a-admin-sidebar .section.comments .allow_comments_toggle.disabled span.disabled { color: #600; }
+.a-admin-sidebar .section.comments h4 { float: none; width: 100%; clear: both; }
+.a-admin-sidebar .section.comments .a-allow-comments-label { padding-right: 20px; }
+.a-admin-sidebar .section.comments h4 input { line-height: 1; float: none; }
 
 .a-admin-sidebar .section.delete a.a-btn { font-size: 11px !important; line-height: 20px; }
 
