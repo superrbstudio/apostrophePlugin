@@ -516,7 +516,7 @@ class BaseaMediaActions extends aEngineActions
   }
 
   /**
-   * DOCUMENT ME
+   * Edit any existing media item
    * @param sfWebRequest $request
    * @return mixed
    */
@@ -541,10 +541,8 @@ class BaseaMediaActions extends aEngineActions
       $item = $this->getItem();
       $this->slug = $item->getSlug();
     }
-    if ($item)
-    {
-      $this->forward404Unless($item->userHasPrivilege('edit'));
-    }
+    $this->forward404Unless($item);
+    $this->forward404Unless($item->userHasPrivilege('edit'));
     $this->item = $item;
     if ($this->item->getEmbeddable())
     {
@@ -584,10 +582,22 @@ class BaseaMediaActions extends aEngineActions
       }  
       $parameters = $value;
       
+      $result = null;
       if (isset($parameters['embed']))
       {
         // We need to do some prevalidation of the embed code so we can prestuff fields
         $result = $this->form->classifyEmbed($parameters['embed']);
+        error_log(json_encode($result));
+      }
+
+      // If there is no thumbnail already stored for this media item,
+      // and we are able to obtain one from the service, do so. If there is
+      // already a thumbnail leave it alone as it might be a deliberate
+      // replacement (TODO: it would be nice to always do it if the embed
+      // code is definitely new)
+      if (isset($result['thumbnail']) && (!$item->getImageAvailable()))
+      {
+        $this->convertServiceThumbnailToFileUpload($result['thumbnail'], $parameters);
       }
       
       $this->form->bind($parameters, $files);
@@ -630,7 +640,8 @@ class BaseaMediaActions extends aEngineActions
   }
 
   /**
-   * DOCUMENT ME
+   * Despite the name, the editVideo action is used for new videos. It is not currently used
+   * for editing existing videos, the edit action is used for all media types.
    * @param sfWebRequest $request
    * @return mixed
    */
@@ -694,30 +705,7 @@ class BaseaMediaActions extends aEngineActions
       // (Moving this after the bind is necessary to keep it from being overwritten) 
       if (isset($thumbnail))
       {
-        // OMG file widgets can't have defaults! Ah, but our persistent file widget can
-        $tmpFile = aFiles::getTemporaryFilename();
-        file_put_contents($tmpFile, file_get_contents($thumbnail));
-
-        $mimeTypes = aMediaTools::getOption('mime_types');
-        // It comes back as a mapping of extensions to types, get the types
-        $extensions = array_keys($mimeTypes);
-        $mimeTypes = array_values($mimeTypes);
-        
-        $vfp = new aValidatorFilePersistent(
-          array('mime_types' => $mimeTypes,
-            'validated_file_class' => 'aValidatedFile',
-            'required' => false),
-          array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
-
-        $guid = aGuid::generate();
-        $vfp->clean(
-          array(
-            'newfile' => 
-              array('tmp_name' => $tmpFile), 
-            'persistid' => $guid));
-        // You can't mess about with widget defaults after a bind, but you
-        // *can* tweak the array you're about to bind with
-        $parameters['file']['persistid'] = $guid;
+        $this->convertServiceThumbnailToFileUpload($thumbnail, $parameters);
       }
       
       $this->form->bind($parameters, $files);
@@ -761,6 +749,34 @@ class BaseaMediaActions extends aEngineActions
         return $this->redirect("aMedia/resumeWithPage");
       } while (false);
     }
+  }
+
+  protected function convertServiceThumbnailToFileUpload($thumbnail, &$parameters)
+  {
+    // OMG file widgets can't have defaults! Ah, but our persistent file widget can
+    $tmpFile = aFiles::getTemporaryFilename();
+    file_put_contents($tmpFile, file_get_contents($thumbnail));
+
+    $mimeTypes = aMediaTools::getOption('mime_types');
+    // It comes back as a mapping of extensions to types, get the types
+    $extensions = array_keys($mimeTypes);
+    $mimeTypes = array_values($mimeTypes);
+    
+    $vfp = new aValidatorFilePersistent(
+      array('mime_types' => $mimeTypes,
+        'validated_file_class' => 'aValidatedFile',
+        'required' => false),
+      array('mime_types' => 'The following file types are accepted: ' . implode(', ', $extensions)));
+
+    $guid = aGuid::generate();
+    $vfp->clean(
+      array(
+        'newfile' => 
+          array('tmp_name' => $tmpFile), 
+        'persistid' => $guid));
+    // You can't mess about with widget defaults after a bind, but you
+    // *can* tweak the array you're about to bind with
+    $parameters['file']['persistid'] = $guid;
   }
 
   /**

@@ -53,7 +53,6 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
         $items[] = $this->items[$i];
       }
       $this->limitedItems = $items;
-      error_log("limit applied count is " . count($this->limitedItems));
     }
     $this->itemIds = aArray::getIds($this->items);
     $this->limitedItemIds = aArray::getIds($this->limitedItems);
@@ -63,7 +62,6 @@ class BaseaSlideshowSlotComponents extends aSlotComponents
       shuffle($this->items);
       shuffle($this->limitedItems);
     }
-    error_log("final count is " . count($this->limitedItems));
   }
 
   /**

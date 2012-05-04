@@ -59,7 +59,14 @@ class BaseaVideoSlotComponents extends aSlotComponents
           'forceScale' => true));
       if ($this->getOption('thumbnailOnly'))
       {
-        $this->embed = '<img src="' . aHtml::entities($this->item->getImgSrcUrl($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false)) . '" />';
+        if ($this->item->getImageAvailable())
+        {
+          $this->embed = '<img src="' . aHtml::entities($this->item->getImgSrcUrl($this->dimensions['width'], $this->dimensions['height'], $this->dimensions['resizeType'], $this->dimensions['format'], false)) . '" />';
+        }
+        else
+        {
+          $this->embed = '<div class="a-video-slot-missing-thumbnail">No Thumbnail</div>';
+        }
       }
       else
       {
