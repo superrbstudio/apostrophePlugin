@@ -6,7 +6,6 @@
  */
 class BaseaMediaActions extends aEngineActions
 {
-
   /**
    * DOCUMENT ME
    */
@@ -232,7 +231,7 @@ class BaseaMediaActions extends aEngineActions
     $this->layout = aMediaTools::getLayout($this->getUser()->getAttribute('layout', 'two-up', 'apostrophe_media_prefs'));
     $this->enabled_layouts = aMediaTools::getEnabledLayouts();
 
-    return $this->pageTemplate;
+    return $this->renderTemplate($this->pageTemplate);
   }
 
   /**
@@ -312,6 +311,7 @@ class BaseaMediaActions extends aEngineActions
     $imageInfo[$id]['width'] = $width;
     $imageInfo[$id]['height'] = $height;
     aMediaTools::setAttribute('imageInfo', $imageInfo);
+    return $this->renderTemplate();
   }
 
   /**
@@ -358,6 +358,7 @@ class BaseaMediaActions extends aEngineActions
     {
       return $this->redirect('aMedia/selected');
     }
+    return $this->renderTemplate();
   }
 
   /**
@@ -378,6 +379,7 @@ class BaseaMediaActions extends aEngineActions
       array_splice($selection, $index, 1);
     }
     aMediaTools::setSelection($selection);
+    return $this->renderTemplate();
   }
 
   /**
@@ -387,7 +389,7 @@ class BaseaMediaActions extends aEngineActions
   public function executeUpdateMultiplePreview(sfWebRequest $request)
   {
     $this->hasPermissionsForSelect();
-    
+    return $this->renderTemplate();
   }
 
   /**
@@ -635,8 +637,9 @@ class BaseaMediaActions extends aEngineActions
     }
     if ($request->isXmlHttpRequest())
     {
-      return 'Ajax';
+      return $this->renderTemplate('Ajax');
     }
+    return $this->renderTemplate();
   }
 
   /**
@@ -749,6 +752,7 @@ class BaseaMediaActions extends aEngineActions
         return $this->redirect("aMedia/resumeWithPage");
       } while (false);
     }
+    return $this->renderTemplate();
   }
 
   protected function convertServiceThumbnailToFileUpload($thumbnail, &$parameters)
@@ -1051,6 +1055,7 @@ class BaseaMediaActions extends aEngineActions
       }
       return $this->redirect('aMedia/resume');
     }
+    return $this->renderTemplate();
   }
 
   /**
@@ -1061,7 +1066,7 @@ class BaseaMediaActions extends aEngineActions
     $this->embedAllowed = aMediaTools::getEmbedAllowed();
     $this->uploadAllowed = aMediaTools::getUploadAllowed();  
 
-    // It's a really simple form
+    return $this->renderTemplate();
   }
 
   /**
@@ -1100,7 +1105,7 @@ class BaseaMediaActions extends aEngineActions
     $this->layout['showSuccess'] = true;
     $this->layout['gallery_constraints'] = $this->layout['show_constraints'];
 
-    return $this->pageTemplate;
+    return $this->renderTemplate($this->pageTemplate);
   }
 
   /**
@@ -1167,6 +1172,7 @@ class BaseaMediaActions extends aEngineActions
         }
       }
     }
+    return $this->renderTemplate();
   }
 
   /**
@@ -1187,6 +1193,7 @@ class BaseaMediaActions extends aEngineActions
     
     $this->videoSearchForm = new aMediaSearchServicesForm();
     $this->service = aMediaTools::getEmbedService($request->getParameter('service'));
+    return $this->renderTemplate();
   }
 
   /**
@@ -1213,6 +1220,7 @@ class BaseaMediaActions extends aEngineActions
     $this->forward404Unless($this->isAdmin());
     $this->form = new aEmbedMediaAccountForm();
     $this->accounts = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
+    return $this->renderTemplate();
   }
 
   /**
@@ -1271,12 +1279,13 @@ class BaseaMediaActions extends aEngineActions
     $info = $this->service->getUserInfo($this->username);
     if (!$info)
     {
-      return 'Error';
+      return $this->renderTemplate('Error');
     }
     $this->name = $info['name'];
     $this->description = $info['description'];
     // Grab their three newest videos
     $this->results = $this->service->browseUser($this->username, 1, 3);
+    return $this->renderTemplate();
   }
 
   /**
