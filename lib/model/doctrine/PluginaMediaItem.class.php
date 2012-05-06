@@ -503,6 +503,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     // an unnecessary redirect
     
     $result = $this->render(array_merge($params, array('cachedOnly' => true, 'authorize' => true)));
+    //error_log($result);
     if (is_array($result))
     {
       return $result['url'];
