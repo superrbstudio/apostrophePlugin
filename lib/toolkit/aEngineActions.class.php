@@ -53,7 +53,7 @@ class aEngineActions extends sfActions
       $template = $this->getActionName();
     }
     $overrides = sfConfig::get('app_' . $module . '_templateOverrides', array());
-    $key = $template . '_' . lcfirst($suffix) . '_partial';
+    $key = $template . '_' . $this->lcfirst($suffix) . '_partial';
     if (isset($overrides[$key]))
     {
       $partial = $overrides[$key];
@@ -62,7 +62,7 @@ class aEngineActions extends sfActions
     {
       return $this->renderPartial($partial, $this->getVarHolder()->getAll());
     }
-    $key = $template . '_' . lcfirst($suffix) . '_component';
+    $key = $template . '_' . $this->lcfirst($suffix) . '_component';
     if (isset($overrides[$key]))
     {
       $component = $overrides[$key];
@@ -74,5 +74,13 @@ class aEngineActions extends sfActions
     }
     // Not overridden
     return $suffix;
+  }
+
+  /**
+   * Careful, 5.2.x does not have a native lcfirst, we have to supply one sigh
+   */
+  protected function lcfirst($s)
+  {
+    return strtolower(substr($s, 0, 1)) . substr($s, 1);
   }
 }
