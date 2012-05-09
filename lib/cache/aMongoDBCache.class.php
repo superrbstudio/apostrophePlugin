@@ -49,7 +49,6 @@ class aMongoDBCache extends sfCache
   public function initialize($options = array())
   {
     $database = isset($options['database']) ? $options['database'] : 'aMongoDBCache';
-    $collection = isset($options['collection']) ? $options['collection'] : 'aMongoDBCache';
     if (isset($options['connection']))
     {
       $this->mongo = $options['connection'];
@@ -66,10 +65,16 @@ class aMongoDBCache extends sfCache
       $this->mongo = new Mongo($uri);
     }
     $this->db = $this->mongo->{$database};
+    $this->createCollection();
+    parent::initialize($options);
+  }
+
+  protected function createCollection()
+  {
+    $collection = isset($this->options['collection']) ? $this->options['collection'] : 'aMongoDBCache';
     $this->collection = $this->db->{$collection};
     $this->collection->ensureIndex(array('key' => 1, 'unique' => true));
     $this->collection->ensureIndex(array('timeout' => 1));
-    parent::initialize($options);
   }
 
   /**
@@ -204,7 +209,16 @@ class aMongoDBCache extends sfCache
     {
       $criteria['timeout'] = array('$lt', time());
     }
-    $result = $this->collection->remove($criteria, array('safe' => true));
+    if ((!isset($criteria['key'])) && (!isset($criteria['timeout'])))
+    {
+      error_log("Dropping and recreating since we are respecting neither a prefix nor a timeout");
+      $result = $this->collection->drop();
+      $this->createCollection();
+    }
+    else
+    {
+      $result = $this->collection->remove($criteria, array('safe' => true));
+    }
     return !!$result['ok'];
   }
 
