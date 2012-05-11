@@ -19,7 +19,7 @@ class aEngineActions extends sfActions
    * Return the result of calling this instead of just returning (including returning by default at the end) or
    * returning a template name. This allows the template to be overridden by a partial or
    * component anywhere via app.yml. Do NOT call this if you are redirecting, calling
-   * renderPartial or renderComponen, or calling renderText.
+   * renderPartial or renderComponent, or calling renderText.
    *
    * It's just for "normal" returns of a template, with or without an alternate suffix.
    * If setTemplate is used then the app.yml key is different accordingly.
@@ -40,6 +40,18 @@ class aEngineActions extends sfActions
    *
    * Please don't ask me why Symfony calls partials and components differently, it just does (:
    *
+   * IMPORTANT: for this to work you must have a renderTemplateViaPartial template and a
+   * renderTemplateViaComponent template in your module. These should
+   * execute:
+   *
+   * <?php include_partial($partial, $args) ?>
+   *
+   * And:
+   *
+   * <?php include_component($component[0], $component[1], $args) ?>
+   *
+   * Respectively.
+   *
    * If you don't utilize this, nothing terrible will happen. You just won't be able to
    * override templates via app.yml.
    */
@@ -56,21 +68,30 @@ class aEngineActions extends sfActions
     $key = $template . '_' . $this->lcfirst($suffix) . '_partial';
     if (isset($overrides[$key]))
     {
-      $partial = $overrides[$key];
+      $this->args = $this->getVarHolder()->getAll();
+      $this->partial = $overrides[$key];
     }
     if (isset($partial))
     {
+      $this->args = $this->getVarHolder()->getAll();
       return $this->renderPartial($partial, $this->getVarHolder()->getAll());
     }
     $key = $template . '_' . $this->lcfirst($suffix) . '_component';
     if (isset($overrides[$key]))
     {
-      $component = $overrides[$key];
+      $this->component = $overrides[$key];
     }
-    if (isset($component))
+    if (isset($this->partial) || isset($this->component))
     {
-      // Don't ask me why components don't have the same syntax, but they don't
-      return $this->renderComponent($component[0], $component[1], $this->getVarHolder()->getAll());
+      $this->setTemplate('renderTemplateVia');
+      if (isset($this->partial))
+      {
+        return 'Partial';
+      }
+      else
+      {
+        return 'Component';
+      }
     }
     // Not overridden
     return $suffix;
