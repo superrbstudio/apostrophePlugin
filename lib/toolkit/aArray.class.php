@@ -329,6 +329,26 @@ class aArray
     return $hash;
   }
 
+  public static function listToHashByKey($array, $key = "id")
+  {
+    $hash = array();
+
+    foreach ($array as $item)
+    {
+      if (is_array($item))
+      {
+        $hash[$item[$key]] = $item;
+      }
+      else
+      {
+        $method = "get" . ucfirst($key);
+        $hash[$item->$method()] = $item;
+      }
+    }
+
+    return $hash;
+  }
+
   /**
    * Hashes 'id' to 'name', useful in select elements
    * @param mixed $array
