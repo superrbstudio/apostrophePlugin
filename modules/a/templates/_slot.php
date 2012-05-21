@@ -19,6 +19,13 @@
 
 <?php use_helper('a') ?>
 
+<?php // Many slots take a width parameter to determine the size of images. ?>
+<?php // It is helpful in JavaScript code to have this information available as a data-width ?>
+<?php // attribute on the outer a-slot div. Pass it up via a slot ?>
+<?php $width = isset($options['width']) ? $options['width'] : null ?>
+<?php $widthAttribute = (!is_null($width)) ? 'data-width="' . $width . '" ' : '' ?>
+<?php slot("a-slot-content-width-$pageid-$name-$permid", $widthAttribute) ?>
+
 <?php // We now render the edit view only when it is AJAXed into place on demand. This saves us the ?>
 <?php // considerable overhead of loading many instances of FCK we won't use ?>
 
