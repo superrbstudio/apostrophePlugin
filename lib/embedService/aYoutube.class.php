@@ -185,7 +185,7 @@ class aYoutube extends aEmbedService
     $protocol = sfContext::getInstance()->getRequest()->isSecure() ? 'https' : 'http';
     // wmode seems to have to be in the URL to do any good at least in Chrome
     // http://stackoverflow.com/questions/4050999/youtube-iframe-wmode-issue
-    $url = "$protocol://www.youtube.com/embed/$id?" . http_build_query(array('wmode' => $wmode, 'autoplay' => $autoplay));
+    $url = "$protocol://www.youtube.com/embed/$id?" . http_build_query(array('wmode' => $wmode, 'enablejsapi' => 1, 'playerapiid' => $id,'autoplay' => $autoplay));
 return <<<EOM
 <iframe title="$title" width="$width" height="$height" src="$url" frameborder="0" allowfullscreen wmode="$wmode"></iframe>
 EOM
