@@ -3,7 +3,7 @@
 
 [?php slot('a-page-header')?]
 <div class="a-ui a-admin-header">
-	<h3 class="a-admin-title">[?php echo __('<?php echo $this->configuration->getValue('list.title') ?>', array(), 'apostrophe') ?]</h3>
+	<h3 class="a-admin-title">[?php echo __($configuration->getValue('list.title'), array(), 'apostrophe') ?]</h3>
 	<ul class="a-ui a-controls a-admin-controls">
     [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]   
   </ul>

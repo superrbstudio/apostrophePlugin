@@ -4,13 +4,16 @@
 [?php slot('a-subnav') ?]
 <div class="a-ui a-subnav-wrapper admin">
 	<div class="a-subnav-inner">
-	[?php include_partial('<?php echo $this->getModuleName() ?>/form_header', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'form' => $form, 'configuration' => $configuration)) ?]
+	[?php include_partial('<?php echo $this->getModuleName() ?>/form_header', 
+		array('<?php echo $this->getSingularName() ?>' => 
+			$<?php echo $this->getSingularName() ?>, 'form' => $form, 'configuration' => $configuration)) ?]
 	</div>
 </div>
 [?php end_slot() ?]
 
 <div class="a-ui a-admin-container [?php echo $sf_params->get('module') ?]">
-  [?php include_partial('<?php echo $this->getModuleName() ?>/form_bar', array('title' => <?php echo $this->getI18NString('new.title') ?>)) ?]
+  [?php include_partial('<?php echo $this->getModuleName() ?>/form_bar', 
+  	array('title' => a_($configuration->getValue('new.title')))) ?]
 
 	<div class="a-admin-content main">
 	  [?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]

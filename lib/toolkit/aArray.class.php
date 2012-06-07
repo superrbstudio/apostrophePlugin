@@ -521,6 +521,21 @@ class aArray
     }
     return true;
   }
+
+  /**
+   * Wrap each key in $array by prefixing and suffixing it.
+   * Useful to wrap 'username' as '%%username%%' etc. 
+   * For wrapping associative array keys, not their values.
+   */
+  static public function wrapKeys($array, $prefix, $suffix)
+  {
+    $result = array();
+    foreach ($array as $key => $value)
+    {
+      $result[$prefix . $key . $suffix] = $value;
+    }
+    return $result;
+  }
 }
 
 
