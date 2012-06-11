@@ -8,6 +8,15 @@
  */
 class aEngineCategoriesForm extends aPageForm
 {
+  /**
+   * Override me to make sure the useFields call in setup() below doesn't
+   * clobber your additional project level fields that are desirable here
+   */
+
+  public function getUseFields()
+  {
+    return array('categories_list');
+  }
 
   /**
    * DOCUMENT ME
@@ -16,7 +25,7 @@ class aEngineCategoriesForm extends aPageForm
   {
     parent::setup();
 
-    $this->useFields(array('categories_list'));
+    $this->useFields($this->getUseFields());
     $this->getWidget('categories_list')->setOption('query', Doctrine::getTable('aCategory')->createQuery()->orderBy('aCategory.name asc'));
     if (sfContext::getInstance()->getUser()->hasCredential('admin'))
     {

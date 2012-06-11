@@ -13,4 +13,4 @@
 <?php if ($sf_user->hasCredential('admin')): ?>
   <?php $options['add'] = a_('+ Add New Category') ?>
 <?php endif ?>
-<?php a_js_call('aMultipleSelect(?, ?)', '.a-engine-page-settings', $options) ?>
+<?php a_js_call('aMultipleSelect(?, ?)', '.enginesettings_categories_list', $options) ?>
