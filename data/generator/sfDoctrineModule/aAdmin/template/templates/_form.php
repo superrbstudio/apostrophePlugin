@@ -2,7 +2,7 @@
 [?php include_javascripts_for_form($form) ?]
 
 <div class="a-admin-form-container">
-  [?php echo form_tag_for($form, '@<?php echo $this->params['route_prefix'] ?>', array('id'=>'a-admin-form')) ?]
+  [?php echo form_tag_for($form, '@<?php echo $this->params['route_prefix'] ?>', array('id'=>'a-admin-form', 'class'=>$sf_request->getParameter('class', ''))) ?]
     [?php echo $form->renderHiddenFields() ?]
 
     [?php if ($form->hasGlobalErrors()): ?]

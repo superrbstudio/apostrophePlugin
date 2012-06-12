@@ -23,7 +23,7 @@
 </div>
 [?php end_slot() ?]
 
-<div class="a-ui a-admin-container [?php echo $sf_params->get('module') ?]">
+<div class="a-ui a-admin-container [?php echo $sf_params->get('module') ?] [?php echo $sf_request->getParameter('class') ?]">
 
 	<div class="a-admin-content main">
 		
@@ -39,7 +39,7 @@
 		
 		[?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'sort' => $sort, 'helper' => $helper)) ?]
 
-		<ul class="a-ui a-admin-actions">
+		<ul class="a-ui a-admin-actions" >
       [?php include_partial('<?php echo $this->getModuleName() ?>/list_batch_actions', array('helper' => $helper)) ?]
     </ul>
 
