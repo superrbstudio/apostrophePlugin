@@ -24,10 +24,10 @@
 
 function aMultipleSelectAll(options)
 {
-	if (options === undefined)
-	{
-		options = {};
-	}
+  if (options === undefined)
+  {
+    options = {};
+  }
   $(document).ready(
     function() {
       aMultipleSelect('body', options);
@@ -80,11 +80,11 @@ function aMultipleSelectAll(options)
 
 function aMultipleSelect(target, options)
 {
-	if (options === undefined)
-	{
-		options = {};
-	}
-	
+  if (options === undefined)
+  {
+    options = {};
+  }
+
   $(target).find('select[multiple]').each(
     function(i) {
       var name = $(this).attr('name');
@@ -93,24 +93,24 @@ function aMultipleSelect(target, options)
       var labels = [];
       var selected = [];
       var j;
-			var autocomplete = false;
-			if (options['autocomplete'] !== undefined)
-			{
-				autocomplete = options['autocomplete'];
-			}
+      var autocomplete = false;
+      if (options['autocomplete'] !== undefined)
+      {
+        autocomplete = options['autocomplete'];
+      }
 
-			// By default the first option is assumed to be a "choose one" label and cannot actually
-			// be chosen. If you are upgrading multiple select elements that weren't designed expressly
-			// for this purpose, this is not great. However, if you specify an explicit 'choose-one'
-			// text, a custom first option will be inserted with that text. Recommended for 
-			// true progressive enhancement scenarios.
-			if (options['choose-one'])
-			{
-				values.push('');
-				labels.push(options['choose-one']);
-				selected.push(false);
-			}
-			
+      // By default the first option is assumed to be a "choose one" label and cannot actually
+      // be chosen. If you are upgrading multiple select elements that weren't designed expressly
+      // for this purpose, this is not great. However, if you specify an explicit 'choose-one'
+      // text, a custom first option will be inserted with that text. Recommended for 
+      // true progressive enhancement scenarios.
+      if (options['choose-one'])
+      {
+        values.push('');
+        labels.push(options['choose-one']);
+        selected.push(false);
+      }
+      
       for (j = 0; (j < this.options.length); j++)
       {
         var option = this.options[j];
@@ -121,72 +121,72 @@ function aMultipleSelect(target, options)
         selected.push(option.getAttribute('selected') || option.selected);
       }
 
-			var length = values.length;
-			
-			var addIndex = undefined;
-			if (options['add']) {
-				var addIndex = values.length;
-				values.push('_new');
-				labels.push(options['add']);
-				selected.push(false);
-				var addName = name + '_add';
-				if (name.substr(name.length - 3) === '][]')
-				{
-					addName = name.substr(0, name.length - 3) + '_add][]';
-				}
-				else if (name.substr(name.length - 2) === '[]')
-				{
-					addName = name.substr(0, name.length - 2) + '_add[]';
-				}
-				else if (name.substr(name.length - 1) === ']')
-				{
-					addName = name.substr(0, name.length - 1) + '_add]';
-				}
-			}
-			
+      var length = values.length;
+      
+      var addIndex = undefined;
+      if (options['add']) {
+        var addIndex = values.length;
+        values.push('_new');
+        labels.push(options['add']);
+        selected.push(false);
+        var addName = name + '_add';
+        if (name.substr(name.length - 3) === '][]')
+        {
+          addName = name.substr(0, name.length - 3) + '_add][]';
+        }
+        else if (name.substr(name.length - 2) === '[]')
+        {
+          addName = name.substr(0, name.length - 2) + '_add[]';
+        }
+        else if (name.substr(name.length - 1) === ']')
+        {
+          addName = name.substr(0, name.length - 1) + '_add]';
+        }
+      }
+      
       if (id === '' || (options['random_id'] !== undefined && options['random_id']))
       {
-      	// We need a unique ID for the element, give it one
-      	id = 'a_id_' + Math.floor(Math.random() * 1000000000);
+        // We need a unique ID for the element, give it one
+        id = 'a_id_' + Math.floor(Math.random() * 1000000000);
       }
       var html = "<div class='a-multiple-select' id='" + id + "'>";
 
-			if (options['add-add-label'] === undefined)
-			{
-				options['add-add-label'] = 'Add';
-			}
-			
-			if (autocomplete)
-			{
-				html += '<div class="a-autocomplete">\n';
-				html += "<input type='text' />";
-// 				html += '<a href="#add" onclick="return false;" class="autocomplete-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
-				html += '</div>\n';
-			}
-			else
-			{
-	      html += "<select class='a-multiple-select-input' ";
-				html += "name='select-" + name + "'></select>\n";
-			}
-			if (addIndex !== undefined)
-			{
-				if (options['add-cancel-label'] === undefined)
-				{
-					options['add-cancel-label'] = 'Cancel';
-				}
-				html += '<div class="add" style="display: none">\n';
-				html += '<input name="add-text" class="add-text" type="text">\n';
-				html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
-				html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel alt add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
-				html += '</div>\n';
-			}
+      if (options['add-add-label'] === undefined)
+      {
+        options['add-add-label'] = 'Add';
+      }
+      
+      if (autocomplete)
+      {
+        html += '<div class="a-autocomplete">\n';
+        html += "<input type='text' />";
+//        html += '<a href="#add" onclick="return false;" class="autocomplete-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
+        html += '</div>\n';
+      }
+      else
+      {
+        html += "<select class='a-multiple-select-input' ";
+        html += "name='select-" + name + "'></select>\n";
+      }
+      if (addIndex !== undefined)
+      {
+        if (options['add-cancel-label'] === undefined)
+        {
+          options['add-cancel-label'] = 'Cancel';
+        }
+        html += '<div class="add" style="display: none">\n';
+        html += '<input name="add-text" class="add-text" type="text">\n';
+        html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
+        html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel alt add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
+        html += '</div>\n';
+      }
       for (j = 0; (j < length); j++)
       {
         html += "<input type='checkbox' name='" + name + "'";
 
         if (options['class-name'] !== undefined)
         {
-        	html += "class='" + options['class-name'] + "'";
+          html += "class='" + options['class-name'] + "'";
         }
 
         if (selected[j])
@@ -197,8 +197,8 @@ function aMultipleSelect(target, options)
           "\" style='display: none'/>";
       }
 
-			// Generate remover links
-			
+      // Generate remover links
+      
       html += "<ul class='a-ui a-multiple-select-list'>";
       if (!options['remove'])
       {
@@ -214,46 +214,46 @@ function aMultipleSelect(target, options)
       html += "<div class='a-multiple-select-after'></div>\n";
       html += "</div>\n";
       $(this).replaceWith(html);
-			var container = $('#' + id);
-			container.find('.add-cancel').click(function() {
-				container.find('.add').hide();
-				return false;
-			});
-			container.find('.add-add').click(function() {
-				doSaveAdd();
-			});
-			container.find('.add-text').keypress(function(event){
-				if (event.keyCode == '13') {
-					event.preventDefault(); 									
-					doSaveAdd();					
-				};
-			});
-			function doSaveAdd()
-			{
-				container.find('.add').hide();
-				var addText = container.find('.add-text');
-				var v = addText.val();
-				addText.val('');
-				var ev = aHtmlEscape(v);
-				if (v.length && (!containsLabel(v)))
-				{
-					container.append("<input type='checkbox' name='" + addName + "' value='" + ev + "' style='display: none' checked />"); 
-					var remover = $(liHtml(v, options));
-					remover.click(function() {
-						// Must use filter, can't have nasty characters in a selector
-						container.find('input[type=checkbox]').filter(function() { return $(this).val() === ev }).remove();
-						$(this).remove();
-						onChange();
-						return false;
-					});
-					container.find('ul').append(remover);
-					remover.show();
-					onChange();
-				}
-				return false;				
-			}
+      var container = $('#' + id);
+      container.find('.add-cancel').click(function() {
+        container.find('.add').hide();
+        return false;
+      });
+      container.find('.add-add').click(function() {
+        doSaveAdd();
+      });
+      container.find('.add-text').keypress(function(event){
+        if (event.keyCode == '13') {
+          event.preventDefault();                   
+          doSaveAdd();          
+        };
+      });
+      function doSaveAdd()
+      {
+        container.find('.add').hide();
+        var addText = container.find('.add-text');
+        var v = addText.val();
+        addText.val('');
+        var ev = aHtmlEscape(v);
+        if (v.length && (!containsLabel(v)))
+        {
+          container.append("<input type='checkbox' name='" + addName + "' value='" + ev + "' style='display: none' checked />"); 
+          var remover = $(liHtml(v, options));
+          remover.click(function() {
+            // Must use filter, can't have nasty characters in a selector
+            container.find('input[type=checkbox]').filter(function() { return $(this).val() === ev }).remove();
+            $(this).remove();
+            onChange();
+            return false;
+          });
+          container.find('ul').append(remover);
+          remover.show();
+          onChange();
+        }
+        return false;       
+      }
 
-			// Activate remover links
+      // Activate remover links
       var select = $("#" + id + " select");
       var k;
       var items = $('#' + id + ' ul li');
@@ -263,93 +263,93 @@ function aMultipleSelect(target, options)
         $(items[k]).click(function() { update($(this).data("boxid"), false); return false; });
       }
       
-			// Autocomplete theory of operation: quietly add another hidden checkbox 
-			// and another remove link for each item added via autocomplete. Reuse them
-			// if the item was added previously
-			
+      // Autocomplete theory of operation: quietly add another hidden checkbox 
+      // and another remove link for each item added via autocomplete. Reuse them
+      // if the item was added previously
+      
       var autocompleteText = container.find('.a-autocomplete').find('input[type=text]');
-			autocompleteText.autocomplete({
-				source: autocomplete,
-				focus: function( event, ui ) {
-					autocompleteText.val(ui.item.label);
-					return false;
-				},
-				select: function( event, ui ) {
-					apostrophe.log('select');
-					autocompleteText.val('');
-					// Must use filter, can't have nasty characters in a selector
-					if (!container.find('input[type=checkbox]').filter(function() { return $(this).val() === String(ui.item.value) }).length)
-					{
-						// TODO: this could share more code with the creation of the other checkboxes
-						var newBox = $('<input type="checkbox" />');
-						newBox[0].style.display = 'none';
-						newBox.attr('name', name);
-						newBox.val(ui.item.value);
-						container.append(newBox);
-						var li = $(liHtml(ui.item.label, options));
-						li.data("boxid", String(ui.item.value));
-		        li.click(function() { update($(this).data("boxid"), false); return false; });
-		        container.find('ul').append(li);
-					}
-					update(false, false, String(ui.item.value));
-					return false;
-				}
-			});
-			
+      autocompleteText.autocomplete({
+        source: autocomplete,
+        focus: function( event, ui ) {
+          autocompleteText.val(ui.item.label);
+          return false;
+        },
+        select: function( event, ui ) {
+          apostrophe.log('select');
+          autocompleteText.val('');
+          // Must use filter, can't have nasty characters in a selector
+          if (!container.find('input[type=checkbox]').filter(function() { return $(this).val() === String(ui.item.value) }).length)
+          {
+            // TODO: this could share more code with the creation of the other checkboxes
+            var newBox = $('<input type="checkbox" />');
+            newBox[0].style.display = 'none';
+            newBox.attr('name', name);
+            newBox.val(ui.item.value);
+            container.append(newBox);
+            var li = $(liHtml(ui.item.label, options));
+            li.data("boxid", String(ui.item.value));
+            li.click(function() { update($(this).data("boxid"), false); return false; });
+            container.find('ul').append(li);
+          }
+          update(false, false, String(ui.item.value));
+          return false;
+        }
+      });
+      
       function update(remove, initial, add)
       {
-				var value = false;
-				if (add !== undefined)
-				{
-					value = add;
-				}
+        var value = false;
+        if (add !== undefined)
+        {
+          value = add;
+        }
         var ul = $("#" + id + " ul");
-				if (!autocomplete)
-				{
-	        var select = $("#" + id + " select")[0];
-	        var index = select.selectedIndex;
-				}
-				if (!autocomplete)
-				{
-	        if (index > 0)
-	        {
-						if ((index === select.length - 1) && options['add'])
-						{
-							select.selectedIndex = 0;
-							$("#" + id + " .add").fadeIn().children('input').focus();
-							return;
-						}
-	          value = select.options[index].value;
-	        }
+        if (!autocomplete)
+        {
+          var select = $("#" + id + " select")[0];
+          var index = select.selectedIndex;
+        }
+        if (!autocomplete)
+        {
+          if (index > 0)
+          {
+            if ((index === select.length - 1) && options['add'])
+            {
+              select.selectedIndex = 0;
+              $("#" + id + " .add").fadeIn().children('input').focus();
+              return;
+            }
+            value = select.options[index].value;
+          }
         }
 
         var boxes = $('#' + id + " input[type=checkbox]");
         
         boxes.each(function()
-      	{
-      		if ($(this).val() === remove)
-      		{
-						$(this).attr('checked', false);
-      		}
-      		else if ($(this).val() === value)
-      		{
-      			$(this).attr('checked', true);
-      		}
-      	});
+        {
+          if ($(this).val() === remove)
+          {
+            $(this).attr('checked', false);
+          }
+          else if ($(this).val() === value)
+          {
+            $(this).attr('checked', true);
+          }
+        });
         
         var items = $('#' + id + ' ul li');
         var k;
         var html;
 
-				if (autocomplete)
-				{
-					// The length is now variable 
-					length = items.length;
-				}
-				
+        if (autocomplete)
+        {
+          // The length is now variable 
+          length = items.length;
+        }
+        
         for (k = 0; (k < length); k++)
         {
-					// apostrophe.log("Looking at box " + k);
+          // apostrophe.log("Looking at box " + k);
           if ($(boxes[k]).is(':checked'))
           {
             $(items[k]).show();
@@ -357,46 +357,46 @@ function aMultipleSelect(target, options)
           else
           {
             $(items[k]).hide();
-						if (!autocomplete)
-						{
-		           html += "<option ";
-		           if (k == 0)
-		           {
-		             // First option is "pick one" message
-		             html += " selected ";
-		           }
-		           html += "value=\"" + aHtmlEscape(values[k]) + "\">" +
-		             labels[k] + "</option>";
-						}
+            if (!autocomplete)
+            {
+               html += "<option ";
+               if (k == 0)
+               {
+                 // First option is "pick one" message
+                 html += " selected ";
+               }
+               html += "value=\"" + aHtmlEscape(values[k]) + "\">" +
+                 labels[k] + "</option>";
+            }
           }
         }
-				if (addIndex !== undefined)
-				{
-					html += "<option value=\"_new\">" + labels[addIndex] + "</option>";
-				}
-				if (!autocomplete)
-				{
-	        // Necessary in IE
-	        $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
-	        $("#" + id + " select").change(function() { update(false, false); });
-				}
-				if (!initial)
-				{
-					onChange();
-				}
+        if (addIndex !== undefined)
+        {
+          html += "<option value=\"_new\">" + labels[addIndex] + "</option>";
+        }
+        if (!autocomplete)
+        {
+          // Necessary in IE
+          $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
+          $("#" + id + " select").change(function() { update(false, false); });
+        }
+        if (!initial)
+        {
+          onChange();
+        }
       }
-			
-			function onChange()
-			{
-				if (options['onChange'])
-				{
-					// Receives the outermost element of the enhanced control.
-					// To use this to implement autosubmit you might write:
-					// onChange: function(multi) { $(multi).parents('form').submit(); }
-					var div = $('#' + id);
-					options['onChange'](div, div.parents('form'));
-				}
-			}
+      
+      function onChange()
+      {
+        if (options['onChange'])
+        {
+          // Receives the outermost element of the enhanced control.
+          // To use this to implement autosubmit you might write:
+          // onChange: function(multi) { $(multi).parents('form').submit(); }
+          var div = $('#' + id);
+          options['onChange'](div, div.parents('form'));
+        }
+      }
       function aHtmlEscape(html)
       {
         html = html.replace('&', '&amp;'); 
@@ -407,26 +407,26 @@ function aMultipleSelect(target, options)
         return html;
       }  
       function liHtml(label, options)
-			{
-				return '<li class="a-multiple-select-item" style="display: none;"><a href="#" class="a-link icon icon-right a-close-small alt" title="Remove '+label+'"><span class="label">'+label+'</span><span class="icon">'+ options['remove'] + '</span></a></li>\n';	
-			}
-			// We need this because you can't have nasty characters in a selector 
-			function containsLabel(v)
-			{
-				var container = $('#' + id);
-				if ($.inArray(v, labels) !== -1)
-				{
-					return true;
-				}
-				var found = false;
-				$(container).find('input[type=checkbox]').each(function() {
-					if ($(this).val() === v)
-					{
-						found = true;
-					}
-				});
-				return found;
-			}
+      {
+        return '<li class="a-multiple-select-item" style="display: none;"><a href="#" class="a-link icon icon-right a-close-small alt" title="Remove '+label+'"><span class="label">'+label+'</span><span class="icon">'+ options['remove'] + '</span></a></li>\n'; 
+      }
+      // We need this because you can't have nasty characters in a selector 
+      function containsLabel(v)
+      {
+        var container = $('#' + id);
+        if ($.inArray(v, labels) !== -1)
+        {
+          return true;
+        }
+        var found = false;
+        $(container).find('input[type=checkbox]').each(function() {
+          if ($(this).val() === v)
+          {
+            found = true;
+          }
+        });
+        return found;
+      }
       update(false, true);
     }
   );
@@ -452,17 +452,17 @@ function aRadioSelect(target, options)
 {
   $(target).each(
     function(i) {
-			// Don't do it twice to the same element
-			if ($(this).data('a-radio-select-applied'))
-			{
-				return;
-			}
+      // Don't do it twice to the same element
+      if ($(this).data('a-radio-select-applied'))
+      {
+        return;
+      }
       $(this).hide();
-			$(this).data('a-radio-select-applied', 1);
+      $(this).data('a-radio-select-applied', 1);
       var html = "";
       var links = "";
       var j;
-			var total = this.options.length;
+      var total = this.options.length;
       linkTemplate = getOption("linkTemplate",
         "<a href='#'>_LABEL_</a>");
       spanTemplate = getOption("spanTemplate",
@@ -486,17 +486,17 @@ function aRadioSelect(target, options)
         function (j)
         {
           $(this).data("aIndex", j);
-					$(this).addClass('option-'+j);
-					
-					if (j == 0)
-					{
-						$(this).addClass('first');
-					}
-					
-					if (j == total-1)
-					{
-						$(this).addClass('last');						
-					}
+          $(this).addClass('option-'+j);
+          
+          if (j == 0)
+          {
+            $(this).addClass('first');
+          }
+          
+          if (j == total-1)
+          {
+            $(this).addClass('last');           
+          }
           $(this).click(
             function (e)
             {
@@ -641,7 +641,7 @@ function aSelectToList(selector, options)
         {
           sorted = sorted.sort(sortItemsAlpha);
         }
-				var lclass = options['listAllClass'];
+        var lclass = options['listAllClass'];
         var allList = appendList(sorted, lclass);
         if (!options['allVisible'])
         {
@@ -745,64 +745,64 @@ function aSelectToList(selector, options)
 
 function aInputSelfLabel(selector, label, select, focus, persistentLabel)
 {
-	var aInput = $(selector);
-		
-	aInput.each(function() {
-		setLabelIfNeeded(this);
-		$(this).addClass('a-default-value');
-	});
-	
-	if (focus)
-	{	
-		aInput.focus();
-	};
-	
-	aInput.focus(function(){
-		var v = $(this).val();
-		if (v === label) 
-		{			
-			if (select) 
-			{ 		
-				aInput.select();
-			}
-			else
-			{
-				if (persistentLabel)
-				{
-					aInput.aSetCursorPosition(0);
-				}
-				else
-				{
-					clearLabelIfNeeded(this);							
-				};				
-			}
-		};
-	});
+  var aInput = $(selector);
+    
+  aInput.each(function() {
+    setLabelIfNeeded(this);
+    $(this).addClass('a-default-value');
+  });
+  
+  if (focus)
+  { 
+    aInput.focus();
+  };
+  
+  aInput.focus(function(){
+    var v = $(this).val();
+    if (v === label) 
+    {     
+      if (select) 
+      {     
+        aInput.select();
+      }
+      else
+      {
+        if (persistentLabel)
+        {
+          aInput.aSetCursorPosition(0);
+        }
+        else
+        {
+          clearLabelIfNeeded(this);             
+        };        
+      }
+    };
+  });
 
-	aInput.keydown(function() {
-		clearLabelIfNeeded(this);
-	});
+  aInput.keydown(function() {
+    clearLabelIfNeeded(this);
+  });
 
-	aInput.blur(function() {
-		setLabelIfNeeded(this);
-	});
-	
-	function setLabelIfNeeded(e)
-	{
-		var v = $(e).val();
-		if (v === '')
-		{
-			$(e).val(label).addClass('a-default-value');			
-		}
-	}
-	function clearLabelIfNeeded(e)
-	{
-		var v = $(e).val();
-		if (v === label)
-		{
-			$(e).val('').removeClass('a-default-value');
-		}
-	}
+  aInput.blur(function() {
+    setLabelIfNeeded(this);
+  });
+  
+  function setLabelIfNeeded(e)
+  {
+    var v = $(e).val();
+    if (v === '')
+    {
+      $(e).val(label).addClass('a-default-value');      
+    }
+  }
+  function clearLabelIfNeeded(e)
+  {
+    var v = $(e).val();
+    if (v === label)
+    {
+      $(e).val('').removeClass('a-default-value');
+    }
+  }
 }
 
 // Got a checkbox and a set of related controls that should only be enabled
@@ -827,89 +827,89 @@ function aInputSelfLabel(selector, label, select, focus, persistentLabel)
 
 function aCheckboxEnables(boxSelector, enablesItemsSelector, showsItemsSelector, disablesItemsSelector, hidesItemsSelector)
 {
-	$(boxSelector).data('aCheckboxEnablesSelectors',
-		[ enablesItemsSelector, showsItemsSelector, disablesItemsSelector, hidesItemsSelector ]);
-	
-	$(boxSelector).click(function() 
-	{
-		update(this);
-	});
+  $(boxSelector).data('aCheckboxEnablesSelectors',
+    [ enablesItemsSelector, showsItemsSelector, disablesItemsSelector, hidesItemsSelector ]);
+  
+  $(boxSelector).click(function() 
+  {
+    update(this);
+  });
 
-	function bumpEnabled(selector, show)
-	{
-		if (selector === undefined)
-		{
-			return;
-		}
-		$(selector).each(function() { 
-			var counter = $(this).data('aCheckboxEnablesEnableCounter');
-			if (counter < 0)
-			{
-				counter++;
-				$(this).data('aCheckboxEnablesEnableCounter', counter);
-			}
-			if (counter >= 0)
-			{
-				if (show)
-				{
-					$(this).show();
-				}
-				else
-				{
-					$(this).removeAttr('disabled');
-				}
-			}
-		});
-	}
+  function bumpEnabled(selector, show)
+  {
+    if (selector === undefined)
+    {
+      return;
+    }
+    $(selector).each(function() { 
+      var counter = $(this).data('aCheckboxEnablesEnableCounter');
+      if (counter < 0)
+      {
+        counter++;
+        $(this).data('aCheckboxEnablesEnableCounter', counter);
+      }
+      if (counter >= 0)
+      {
+        if (show)
+        {
+          $(this).show();
+        }
+        else
+        {
+          $(this).removeAttr('disabled');
+        }
+      }
+    });
+  }
 
-	function bumpDisabled(selector, hide)
-	{
-		if (selector === undefined)
-		{
-			return;
-		}
-		$(selector).each(function() { 
-			var counter = $(this).data('aCheckboxEnablesEnableCounter');
-			if (counter === undefined)
-			{
-				counter = 0;
-			}	
-			counter--;
-			$(this).data('aCheckboxEnablesEnableCounter', counter);
-			if (hide)
-			{
-				$(this).hide();
-			}
-			else
-			{
-				$(this).attr('disabled', 'disabled');
-			}
-		});
-	}
-	
-	function update(checkbox)
-	{
-		var selectors = $(checkbox).data('aCheckboxEnablesSelectors');
-		var checked = $(checkbox).attr('checked');
-		if (checked)
-		{
-			bumpEnabled(selectors[0], false);
-			bumpEnabled(selectors[1], true);
-			bumpDisabled(selectors[2], false);
-			bumpDisabled(selectors[3], true);
-		}
-		else
-		{
-			bumpDisabled(selectors[0], false);
-			bumpDisabled(selectors[1], true);
-			bumpEnabled(selectors[2], false);
-			bumpEnabled(selectors[3], true);
-		}
-	}
-	// At DOMready so we can affect controls created by js widgets in the form
-	$(function() {
-		$(boxSelector).each(function() { update(this) });
-	});
+  function bumpDisabled(selector, hide)
+  {
+    if (selector === undefined)
+    {
+      return;
+    }
+    $(selector).each(function() { 
+      var counter = $(this).data('aCheckboxEnablesEnableCounter');
+      if (counter === undefined)
+      {
+        counter = 0;
+      } 
+      counter--;
+      $(this).data('aCheckboxEnablesEnableCounter', counter);
+      if (hide)
+      {
+        $(this).hide();
+      }
+      else
+      {
+        $(this).attr('disabled', 'disabled');
+      }
+    });
+  }
+  
+  function update(checkbox)
+  {
+    var selectors = $(checkbox).data('aCheckboxEnablesSelectors');
+    var checked = $(checkbox).attr('checked');
+    if (checked)
+    {
+      bumpEnabled(selectors[0], false);
+      bumpEnabled(selectors[1], true);
+      bumpDisabled(selectors[2], false);
+      bumpDisabled(selectors[3], true);
+    }
+    else
+    {
+      bumpDisabled(selectors[0], false);
+      bumpDisabled(selectors[1], true);
+      bumpEnabled(selectors[2], false);
+      bumpEnabled(selectors[3], true);
+    }
+  }
+  // At DOMready so we can affect controls created by js widgets in the form
+  $(function() {
+    $(boxSelector).each(function() { update(this) });
+  });
 }
 
 // Similar to the above, but for select options. itemsSelectors is a hash
@@ -926,60 +926,60 @@ function aCheckboxEnables(boxSelector, enablesItemsSelector, showsItemsSelector,
 
 function aSelectEnables(selectSelector, itemsSelectors, hideItemsSelectors)
 {
-	$(selectSelector).data('aSelectEnablesItemsSelectors', itemsSelectors);
-	$(selectSelector).data('aSelectEnablesHideItemsSelectors', hideItemsSelectors);
-	$(selectSelector).change(function() {
-		update(this);
-	});
+  $(selectSelector).data('aSelectEnablesItemsSelectors', itemsSelectors);
+  $(selectSelector).data('aSelectEnablesHideItemsSelectors', hideItemsSelectors);
+  $(selectSelector).change(function() {
+    update(this);
+  });
 
-	function update(select)
-	{
-		var itemsSelectors = $(select).data('aSelectEnablesItemsSelectors');
-		var hideItemsSelectors = $(select).data('aSelectEnablesHideItemsSelectors');
-		if (itemsSelectors !== undefined)
-		{
-			for (var option in itemsSelectors)
-			{
-				$(itemsSelectors[option]).attr('disabled', 'disabled');
-			}
-			var option = select.value;
-			if (itemsSelectors[option])
-			{
-				$(itemsSelectors[option]).removeAttr('disabled');
-			}
-		}
-		if (hideItemsSelectors !== undefined)
-		{
-			for (var option in hideItemsSelectors)
-			{
-				$(hideItemsSelectors[option]).hide();
-			}
-			var option = select.value;
-			if (hideItemsSelectors[option])
-			{
-				$(hideItemsSelectors[option]).show();
-			}
-		}
-	}
-	$(function() {
-		$(selectSelector).each(function() { update(this) });
-	});
+  function update(select)
+  {
+    var itemsSelectors = $(select).data('aSelectEnablesItemsSelectors');
+    var hideItemsSelectors = $(select).data('aSelectEnablesHideItemsSelectors');
+    if (itemsSelectors !== undefined)
+    {
+      for (var option in itemsSelectors)
+      {
+        $(itemsSelectors[option]).attr('disabled', 'disabled');
+      }
+      var option = select.value;
+      if (itemsSelectors[option])
+      {
+        $(itemsSelectors[option]).removeAttr('disabled');
+      }
+    }
+    if (hideItemsSelectors !== undefined)
+    {
+      for (var option in hideItemsSelectors)
+      {
+        $(hideItemsSelectors[option]).hide();
+      }
+      var option = select.value;
+      if (hideItemsSelectors[option])
+      {
+        $(hideItemsSelectors[option]).show();
+      }
+    }
+  }
+  $(function() {
+    $(selectSelector).each(function() { update(this) });
+  });
 }
 
 
 function aBusy(selector)
 {
-	$(selector).each(function() {
-		$(this).data('a-busy-html', $(this).html());
-		$(this).html("<img src=\"/apostrophePlugin/images/a-icon-loader-2.gif\"/>");
-	});
+  $(selector).each(function() {
+    $(this).data('a-busy-html', $(this).html());
+    $(this).html("<img src=\"/apostrophePlugin/images/a-icon-loader-2.gif\"/>");
+  });
 }
 
 function aReady(selector)
 {
-	$(selector).each(function() {
-		$(this).html($(this).data('a-busy-html'));
-	});
+  $(selector).each(function() {
+    $(this).html($(this).data('a-busy-html'));
+  });
 }
 
 // Select elements with only one preselected <option> are better presented as static content.
@@ -990,53 +990,53 @@ function aReady(selector)
 
 function aSelectToStatic(selector)
 {
-	$(selector).find('select').each(function() {
-		if ((this.options.length == 1) && (this.options[0].selected))
-		{
-			$(this).after('<span class="a-static-select">' + this.options[0].innerHTML + '</span>');
-			$(this).hide();
-		}
-	});
+  $(selector).find('select').each(function() {
+    if ((this.options.length == 1) && (this.options[0].selected))
+    {
+      $(this).after('<span class="a-static-select">' + this.options[0].innerHTML + '</span>');
+      $(this).hide();
+    }
+  });
 }
 
 new function($) {
-	$.fn.aSetCursorPosition = function(pos) {
-		var $this = $(this).get(0);
-		if ($this.setSelectionRange) {
-			$this.setSelectionRange(pos, pos);
-		} else if ($this.createTextRange) {
-			var range = $this.createTextRange();
-			range.collapse(true);
-			range.moveEnd('character', pos);
-			range.moveStart('character', pos);
-			range.select();
-		}
-	}
+  $.fn.aSetCursorPosition = function(pos) {
+    var $this = $(this).get(0);
+    if ($this.setSelectionRange) {
+      $this.setSelectionRange(pos, pos);
+    } else if ($this.createTextRange) {
+      var range = $this.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
+  }
 }(jQuery);
 
 new function($) {
-	$.fn.aRemoteSubmit = function(update) {
-		var rBtn = $(this);
-		rBtn.click(function(event){
-			event.preventDefault();
-			var rForm = rBtn.closest('form');
-			var rFormURL = rForm.attr('action');
-			$.ajax({
-				type: 'POST',
-				url: rFormURL,
-				dataType: 'html',
-				data: rForm.serialize(),
-				success: function(data){
-					$(update).html(data);
-				}
-			});
-		});
-	};
+  $.fn.aRemoteSubmit = function(update) {
+    var rBtn = $(this);
+    rBtn.click(function(event){
+      event.preventDefault();
+      var rForm = rBtn.closest('form');
+      var rFormURL = rForm.attr('action');
+      $.ajax({
+        type: 'POST',
+        url: rFormURL,
+        dataType: 'html',
+        data: rForm.serialize(),
+        success: function(data){
+          $(update).html(data);
+        }
+      });
+    });
+  };
 }(jQuery);
 
 new function($)
 {
-	$.fn.isChildOf = function(b){
-		return (this.parents(b).length > 0);
-	};		
+  $.fn.isChildOf = function(b){
+    return (this.parents(b).length > 0);
+  };    
 }(jQuery);
