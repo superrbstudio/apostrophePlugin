@@ -19,7 +19,7 @@ class aGenerateSlotTypeTask extends sfBaseTask
 
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', null),
-      new sfCommandOption('plugin', null, sfCommandOption::PARAMETER_REQUIRED, 'The plugin name'),
+      new sfCommandOption('plugin', null, sfCommandOption::PARAMETER_REQUIRED, 'The plugin name, must end in "Plugin"'),
       new sfCommandOption('type', null, sfCommandOption::PARAMETER_REQUIRED, 'The slot type name')
       // add your own options here
     ));
@@ -80,6 +80,13 @@ EOF;
     {
       throw new sfException('Specify only one of --application and --plugin');
     }
+
+    // Thanks to Robert Speer for this check
+    if ($options['plugin'] AND ($endswith = substr($options['plugin'], -6)) !== 'Plugin')
+    {
+      throw new sfException('Plugin names must end in "Plugin". "'.$endswith.'" was found');
+    }
+    
     if (!$options['type'])
     {
       throw new sfException("You must specify the --type option.");
