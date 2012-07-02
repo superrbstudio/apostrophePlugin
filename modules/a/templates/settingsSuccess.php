@@ -8,6 +8,7 @@
   $page = isset($page) ? $sf_data->getRaw('page') : null;
   $parent = isset($parent) ? $sf_data->getRaw('parent') : null;
   $slugStem = isset($slugStem) ? $sf_data->getRaw('slugStem') : null;
+  $hasSubpages = $page->hasChildren(false);
 ?>
 <?php use_helper('a') ?>
 <?php $create = $page->isNew() ?>
@@ -126,7 +127,6 @@
   <?php if (!sfConfig::get('app_a_simple_permissions')): ?>
     <?php if ($manage): ?>
       <hr/>
-      <?php $hasSubpages = $page->hasChildren(false) ?>
       <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>
     <?php endif ?>
   <?php endif ?>
