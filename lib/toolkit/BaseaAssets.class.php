@@ -177,7 +177,14 @@ class BaseaAssets
     // buggy to grab the file content.
     // I tried just using $groupFilename as is (after stripping dangerous stuff) 
     // but it's too long for the OS if you include enough to make it unique
-    return md5(implode('', $files));    
+    $name = '';
+    $generation = sfConfig::get('app_a_asset_generation', null);
+    if (!is_null($generation))
+    {
+      $name .= $generation . '-';
+    }
+    $name .= md5(implode('', $files));    
+    return $name;
   }
   
   public static function clearAssetCache(sfFilesystem $fileSystem)

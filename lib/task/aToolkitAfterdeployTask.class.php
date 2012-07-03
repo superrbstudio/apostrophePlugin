@@ -18,10 +18,10 @@ class apostropheAfterdeployTask extends sfBaseTask
         'The remote environment ("staging")')
     ));
 
-  $this->addOptions(array(
-    new sfCommandOption('skip-migrate', 
-      sfCommandOption::PARAMETER_NONE)
-  ));
+    $this->addOptions(array(
+      new sfCommandOption('skip-migrate', 
+        sfCommandOption::PARAMETER_NONE)
+    ));
     $this->namespace        = 'apostrophe';
     $this->name             = 'after-deploy';
     $this->briefDescription = 'Remote end of apostrophe:deploy';
@@ -32,6 +32,7 @@ apostrophe:deploy.
 
 It currently invokes:
 
+./symfony apostrophe:bump-asset-generation --env=envname
 ./symfony cc --env=envname
 ./symfony doctrine:migrate --env=envname
 ./symfony apostrophe:migrate --env=envname
@@ -53,14 +54,17 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
+    $this->attemptTask('apostrophe:bump-asset-generation', array(), array('env' => $arguments['env'])); 
     $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     if (!$options['skip-migrate'])
     {
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
       $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
     }
-    // This should not be necessary but we've seen with our own eyes that it is
-    // necessary on FM - deploys are unpredictable without it.
+    // This is a lame workaround for not properly suspending the website, which we
+    // should do. We should do it by a mechanism that doesn't involve a performance
+    // hit the way project:disable does (something that modifies a file loaded from
+    // app.yml could be good)
     echo("Pausing before second cc\n");
     sleep(5);
     $this->attemptTask('cc', array(), array('env' => $arguments['env']));
