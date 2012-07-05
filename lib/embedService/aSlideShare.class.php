@@ -251,10 +251,9 @@ EOT;
   public function getThumbnail($id)
   {
     $slideInfo = $this->getSlideInfo($id);
-    
     if (isset($slideInfo['thumbnail']) && (strlen($slideInfo['thumbnail']) > 0))
     {
-      return $slideInfo['thumbnail'];
+      return $this->addProtocol($slideInfo['thumbnail']);
     }
     
     return false;
@@ -275,7 +274,7 @@ EOT;
    * @param mixed $params
    * @return mixed
    */
-  private function getData($call, $params=array())
+  protected function getData($call, $params=array())
   {
     $timeStamp = time();
     $hash = sha1($this->sharedSecret.$timeStamp);
@@ -302,13 +301,27 @@ EOT;
   }
 
   /**
+   * #1238 Slideshare recently stopped specifying http or https in an effort to
+   * give you a choice, of course this is a bc break in a live API which was
+   * a silly thing for them to do
+   */
+  protected function addProtocol($url)
+  {
+    if (!preg_match('/^https?:/', $url))
+    {
+      $url = 'http:' . $url;
+    }
+    return $url;
+  }
+
+  /**
    * DOCUMENT ME
    * @param mixed $call
    * @param mixed $params
    * @param mixed $browseUser
    * @return mixed
    */
-  private function searchApi($call, $params, $browseUser=false)
+  protected function searchApi($call, $params, $browseUser=false)
   {
     $slideshowInfo = array();
     
@@ -345,7 +358,7 @@ EOT;
    * @param mixed $id
    * @return mixed
    */
-  private function getSlideInfo($id)
+  protected function getSlideInfo($id)
   {
     // Check if we have the media cached before hitting the API
     $cacheKey = "get-slideinfo:$id";
