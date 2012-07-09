@@ -795,7 +795,7 @@ function aConstructor()
           }
           else
           {
-            if (!newItem.find('img')[0].complete)
+            if (newItem.find('img').length && !newItem.find('img')[0].complete)
             {
               // Tom: if the height of the image is not really known yet this causes the slideshow's container to
               // get to a height of 0 (or just the margins, padding, etc. of its contents), which is no good.
