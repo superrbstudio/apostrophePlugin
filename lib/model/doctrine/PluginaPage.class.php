@@ -483,7 +483,36 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * DOCUMENT ME
+   * Fetch text of meta title. Returns navigation title if the meta title
+   * is blank or the feature is not enabled via app_a_metaTitle. The page must
+   * be saved once before this method can be used. If $defaultToNavTitle is
+   * explicitly set to false an empty string is returned when no explicit
+   * meta title is present.
+   * @return mixed
+   */
+  public function getMetaTitle($defaultToNavTitle = true)
+  {
+    if (sfConfig::get('app_a_metaTitle'))
+    {
+      $metaTitleSlot = $this->getSlot('metaTitle');
+      
+      $result = '';
+      if ($metaTitleSlot)
+      {
+        $result = $metaTitleSlot->value;
+      }
+      $result = trim($result);
+      if ((!$defaultToNavTitle) || (strlen($result)))
+      {
+        return $result;
+      }
+    }
+    return $this->getTitle();
+  }
+
+  /**
+   * Fetch text of meta description. Not possible until page object has been saved
+   * for the first time
    * @return mixed
    */
   public function getMetaDescription()
@@ -1136,7 +1165,23 @@ abstract class PluginaPage extends BaseaPage
   }
 
   /**
-   * DOCUMENT ME
+   * Slot used to store the title tag rendered in the head element
+   * @param mixed $description
+   */
+  public function setMetaTitle($title)
+  {
+    $slot = $this->createSlot('aText');
+    $slot->value = $title;
+    $slot->save();
+    
+    $this->newAreaVersion('metaTitle', 'update',
+      array(
+        'permid' => 1,
+        'slot' => $slot));
+  }
+
+  /**
+   * Slot used to store a meta description tag rendered in the head element
    * @param mixed $description
    */
   public function setMetaDescription($description)
@@ -1149,7 +1194,6 @@ abstract class PluginaPage extends BaseaPage
       array(
         'permid' => 1,
         'slot' => $slot));
-    
   }
 
   /**

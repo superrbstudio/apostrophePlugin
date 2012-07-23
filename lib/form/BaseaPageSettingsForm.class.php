@@ -240,6 +240,17 @@ class BaseaPageSettingsForm extends aPageForm
     $this->setWidget('tags', new pkWidgetFormJQueryTaggable($options, array('class' => 'tags-input')));
     $this->setValidator('tags', new sfValidatorString(array('required' => false)));
 
+    if (sfConfig::get('app_a_metaTitle'))
+    {
+      // Meta Title
+      // Call the widget real_meta_title to avoid conflicts with the automatic behavior
+      // of Doctrine forms (which will call setMetaTitle before the page is saved, something
+      // that newAreaVersion does not support)
+      $metaTitle = $this->getObject()->getMetaTitle(false);
+      $this->setWidget('real_meta_title', new sfWidgetFormInputText(array('default' => html_entity_decode($metaTitle, ENT_COMPAT, 'UTF-8'))));
+      $this->setValidator('real_meta_title', new sfValidatorString(array('required' => false)));
+    }
+
     // Meta Description
     // Call the widget real_meta_description to avoid conflicts with the automatic behavior
     // of Doctrine forms (which will call setMetaDescription before the page is saved, something
@@ -775,12 +786,15 @@ class BaseaPageSettingsForm extends aPageForm
       $this->saveIndividualEditPrivileges($object);
       $this->saveGroupEditPrivileges($object);
     }
+    if (sfConfig::get('app_a_metaTitle'))
+    {
+      // Update meta-title on Page
+      // This involves creating a slot so it has to happen last
+      $object->setMetaTitle(aHtml::entities($this->getValue('real_meta_title')));
+    }
     // Update meta-description on Page
     // This involves creating a slot so it has to happen last
-    if ($this->getValue('real_meta_description') != '')
-    {
-      $object->setMetaDescription(htmlentities($this->getValue('real_meta_description'), ENT_COMPAT, 'UTF-8'));
-    }
+    $object->setMetaDescription(aHtml::entities($this->getValue('real_meta_description')));
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
     
     if ($this->new)

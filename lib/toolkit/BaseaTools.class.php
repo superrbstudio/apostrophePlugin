@@ -753,7 +753,7 @@ class BaseaTools
     // Title is pre-escaped as valid HTML
     $prefix = aTools::getOptionI18n('title_prefix');
     $suffix = aTools::getOptionI18n('title_suffix');
-    $action->getResponse()->setTitle($prefix . $page->getTitle() . $suffix, false);
+    $action->getResponse()->setTitle($prefix . $page->getMetaTitle() . $suffix, false);
     // Necessary to allow the use of
     // aTools::getCurrentPage() in the layout.
     // In Symfony 1.1+, you can't see $action->page from
