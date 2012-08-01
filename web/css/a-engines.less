@@ -312,8 +312,8 @@
       &.comments
       {
         h4 {
-          float: none; 
-          width: 100%; 
+          float: none;
+          width: 100%;
           clear: both;
           input
           {
@@ -2098,8 +2098,22 @@ padding: 0 0 0 5px;
 
 a.a-sidebar-toggle.open { text-decoration: underline; }
 
-.a-admin-action-controls { float: left; width: 100%; }
-.a-admin-action-controls li { float: left; margin: 0 10px 0 0; }
+.a-admin-action-controls { float: none; display: block; width: 100%; }
+
+.a-ui.a-admin-action-controls .a-admin-action-controls-item,
+.a-admin-action-controls .a-admin-action-controls-item {
+  @clearfix;
+  display: block;
+  clear: both;
+  float: none !important;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  // border-bottom: 1px solid #efefef;
+  .a-add
+  {
+    margin-left: 2px;
+  }
+}
 
 .a-area-blog-post-body input { border: 0; font-size: 12px; }
 
