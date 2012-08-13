@@ -64,22 +64,8 @@ class BaseaMediaEditForm extends aMediaItemForm
     $extensions = array_keys($mimeTypes);
     $mimeTypes = array_values($mimeTypes);
     
-    $type = false;
-    if (!$this->getObject()->isNew()) {
-      // You can't change the major type of an existing media object as
-      // this would break slots (a .doc where a .gif should be...)
-      $type = $this->getObject()->type;
-    }
-    // What we are selecting to add to a page
-    if (!$type)
-    {
-      $type = aMediaTools::getType();
-    }
-    if (!$type)
-    {
-      // What we are filtering for 
-      $type = aMediaTools::getSearchParameter('type');
-    }
+    $type = $this->getType();
+
     if ($type)
     {
       // This supports composite types like _downloadable
@@ -145,6 +131,33 @@ class BaseaMediaEditForm extends aMediaItemForm
     // ... But we do it in the action which knows when that matters
     // $this->widgetSchema->setNameFormat('a_media_item_'.$this->getObject()->getId().'_%s');
     // $this->widgetSchema->setFormFormatterName('aAdmin');
+  }
+
+  /**
+   * Determine the expected type of media item. Sometimes, as when clicking
+   * "add media" while not selecting anything, there is no assumption and
+   * false is returned. This is a convenient override point for things like
+   * the user submitted media plugin
+   */
+  public function getType()
+  {
+    $type = false;
+    if (!$this->getObject()->isNew()) {
+      // You can't change the major type of an existing media object as
+      // this would break slots (a .doc where a .gif should be...)
+      $type = $this->getObject()->type;
+    }
+    // What we are selecting to add to a page
+    if (!$type)
+    {
+      $type = aMediaTools::getType();
+    }
+    if (!$type)
+    {
+      // What we are filtering for 
+      $type = aMediaTools::getSearchParameter('type');
+    }
+    return $type;
   }
 
   /**

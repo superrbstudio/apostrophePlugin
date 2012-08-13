@@ -20,6 +20,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     unset($this['updated_at']);
     unset($this['owner_id']);
     unset($this['lucene_dirty']);
+
     $this->setWidget('tags', new sfWidgetFormInput(array("default" => implode(", ", $this->getObject()->getTags())), array("class" => "tag-input", "autocomplete" => "off")));
     $this->setValidator('tags', new sfValidatorPass());
     $this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
@@ -69,6 +70,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $this->validatorSchema->setPostValidator(
       new sfValidatorCallback(array('callback' => array($this, 'postValidator')))
     );
+    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'a.mediaItemFormAfterSetup'));
   }
   
   /**
@@ -175,6 +177,10 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
    */
   public function updateCategoriesList(&$values)
   {
+    if (!isset($this['categories_list']))
+    {
+      return array();
+    }
     $cvalues = isset($values['categories_list_add']) ? $values['categories_list_add'] : array();
     $link = array();
     if(!is_array($cvalues))
@@ -196,7 +202,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
       $aCategory->save();
       $link[] = $aCategory['id'];
     }
-    if(!is_array($values['categories_list']))
+    if (!is_array($values['categories_list']))
     {
       $values['categories_list'] = array();
     }

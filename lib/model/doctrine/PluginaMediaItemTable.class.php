@@ -246,6 +246,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     $query->andWhere("aMediaItem.slug NOT LIKE '%.%'");
     $query->leftJoin("aMediaItem.Categories c");
     
+    sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($query, 'a.mediaGetBrowseQuery', array('params' => $params)));
     return $query;
   }
 
