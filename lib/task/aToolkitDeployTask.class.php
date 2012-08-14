@@ -23,7 +23,7 @@ class apostropheDeployTask extends sfBaseTask
         'The remote server nickname. The server nickname must be defined in properties.ini'),
       new sfCommandArgument('env', 
         sfCommandArgument::REQUIRED, 
-        'The remote environment ("staging")')
+        'The remote environment ("staging")'),
     ));
 
     $this->addOptions(array(
@@ -167,8 +167,11 @@ EOF;
     
     // --no-t: Don't preserve timestamp. That way we don't have to clear the APC cache after every sync, because APC
     // can tell our code is new
-    
-    $cmd = "./symfony project:deploy --rsync-options=\"-azvCcI --no-t --force --delete --progress --exclude-from=config/rsync_exclude.txt\" --go $eserver";
+
+    $rsyncOptions = isset($data['rsync_options']) ? $data['rsync_options'] : '-azvCcI --no-t --force --delete --progress';
+    $extraRsyncOptions = isset($data['extra_rsync_options']) ? $data['extra_rsync_options'] : '';
+    $rsyncOptions .= ' ' . $extraRsyncOptions;
+    $cmd = "./symfony project:deploy --rsync-options=" . escapeshellarg($rsyncOptions . " --exclude-from=config/rsync_exclude.txt") . " --go $eserver";
     system($cmd, $result);
     if ($result != 0)
     {
