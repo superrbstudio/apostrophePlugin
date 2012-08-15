@@ -61,13 +61,8 @@ EOF;
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
       $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
     }
-    // This is a lame workaround for not properly suspending the website, which we
-    // should do. We should do it by a mechanism that doesn't involve a performance
-    // hit the way project:disable does (something that modifies a file loaded from
-    // app.yml could be good)
-    echo("Pausing before second cc\n");
-    sleep(5);
     $this->attemptTask('cc', array(), array('env' => $arguments['env']));
+    $this->attemptTask('apostrophe:live', array(), array());
   }
 
   /**

@@ -146,20 +146,40 @@ EOF;
       $uristem = 'http://' . $data['host'];
     }
 
-    $eserver = escapeshellarg($server);
     $eenv = escapeshellarg($env);
-    $eauth = escapeshellarg($data['user'] . '@' . $data['host']);
-    $eport = '';
+
+    $eserver = escapeshellarg($server);
+
+    // Properties so $this->run can find them
+    $this->eauth = escapeshellarg($data['user'] . '@' . $data['host']);
+    $this->eport = '';
+    $this->epath = escapeshellarg($data['dir']);
+
     if (isset($data['port']))
     {
-      $eport .= ' -p' . ($data['port'] + 0);
+      $this->eport .= ' -p ' . ($data['port'] + 0);
     }
+
     system('./symfony project:permissions', $result);
     if ($result != 0)
     {
-      throw new sfException('Problem executing project:permissions task.');
+      throw new sfException('Problem executing project:permissions task locally.');
     }
-    
+
+    $this->runRemote('./symfony apostrophe:standby', "apostrophe:standby failed. That's OK if this is your\nfirst deploy since the task became available.");
+
+    // .htaccess is deployed, so we have to make sure the version we
+    // deploy is on standby, otherwise the rsync makes the site live too soon
+
+    echo("Putting local site on standby too so the deploy does not prematurely\n" .
+      "make the remote site live...\n\n");
+    system('./symfony apostrophe:standby', $result);
+    if ($result != 0)
+    {
+      throw new sfException('Problem executing apostrophe:standby task locally.');
+    }
+    echo("\n");
+
     // -cI: Use checksum rather than timestamp/size. The timestamp check is only good if the same developer always
     // does the rsync, otherwise everything always appears to be new in lib/vendor, which is disastrous. The
     // checksum is "slow" because it md5's every file, however in practice it's not very slow at all because
@@ -177,17 +197,36 @@ EOF;
     {
       throw new sfException('Problem executing project:deploy task.');
     }
+
+    // It's safe to make the local version live again after the rsync
+    system('./symfony apostrophe:live', $result);
+    if ($result != 0)
+    {
+      throw new sfException('Problem executing apostrophe:live task locally.');
+    }
+
     $extra = '';
     if ($options['skip-migrate'])
     {
       $extra .= ' --skip-migrate';
     }
-    $epath = escapeshellarg($data['dir']);
-    $cmd = "ssh $eport $eauth " . escapeshellarg("(cd $epath; ./symfony apostrophe:after-deploy $extra $eenv)");
+    // Implicitly runs apostrophe:live
+    $this->runRemote("./symfony apostrophe:after-deploy $extra $eenv");
+  }
+
+  public function runRemote($cmd, $failWarning = false)
+  {
+    list($eport, $eauth, $epath) = array($this->eport, $this->eauth, $this->epath);
+    $cmd = "ssh $eport $eauth " . escapeshellarg("(cd $epath; $cmd)");
     echo("$cmd\n");
     system($cmd, $result);
     if ($result != 0)
     {
+      if ($failWarning)
+      {
+        echo("$failWarning\n");
+        return;
+      }
       throw new sfException("The remote task returned an error code: $result");
     }
   }
