@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * a actions.
  * @package    apostrophe
  * @subpackage a
@@ -11,7 +11,7 @@ class BaseaActions extends sfActions
 {
 
   /**
-   * 
+   *
    * Executes index action
    * @param sfWebRequest $request A request object
    */
@@ -28,20 +28,20 @@ class BaseaActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $slug = $this->getRequestParameter('slug');
-    
+
     // remove trailing slashes from $slug
     $pattern = '/\/$/';
     if (preg_match($pattern, $slug) && ($slug != '/'))
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
-      
+
       $new_slug = preg_replace($pattern, '', $slug);
       $slug = addcslashes($slug, '/');
       $new_uri = preg_replace( '/' . $slug . '/' , $new_slug, $request->getUri());
-    
+
       $this->redirect($new_uri);
     }
-    
+
     if (substr($slug, 0, 1) !== '/')
     {
       $slug = "/$slug";
@@ -53,7 +53,7 @@ class BaseaActions extends sfActions
       $redirect = Doctrine::getTable('aRedirect')->findOneBySlug($slug);
       if ($redirect)
       {
-        $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);        
+        $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);
         return $this->redirect($page->getUrl(), 301);
       }
     }
@@ -81,7 +81,7 @@ class BaseaActions extends sfActions
    */
   public function executeError404(sfWebRequest $request)
   {
-    // Apostrophe Bundled 404 
+    // Apostrophe Bundled 404
   }
 
   /**
@@ -229,7 +229,7 @@ class BaseaActions extends sfActions
     {
       $page = aPageTable::retrieveBySlugWithSlots($slug);
       $this->validAndEditable($page, 'edit');
-    } 
+    }
     else
     {
       $page = $this->retrievePageForEditingByIdParameter('page');
@@ -255,11 +255,11 @@ class BaseaActions extends sfActions
   {
     // Lock the tree against race conditions
     $this->lockTree();
-    
+
     // ACHTUNG: I've made attempts to rewrite this more efficiently. They resulted in
     // corrupted nested sets. Corrupted nested sets equal corrupted site page hierarchies
     // equal VERY BAD. I suggest leaving this rarely invoked function the way it is.
-    
+
     foreach ($order as $id)
     {
       $child = Doctrine::getTable('aPage')->find($id);
@@ -291,7 +291,7 @@ class BaseaActions extends sfActions
   {
     $page = $this->retrievePageForEditingByIdParameter();
     $this->flunkUnless($page);
-    $this->flunkUnless($page->userHasPrivilege('edit'));    
+    $this->flunkUnless($page->userHasPrivilege('edit'));
     $form = new aRenameForm($page);
     $form->bind($request->getParameter('aRenameForm'));
     if ($form->isValid())
@@ -353,7 +353,7 @@ class BaseaActions extends sfActions
     $this->type = $this->getRequestParameter('type');
     $this->options = aTools::getAreaOptions($page->id, $this->name);
     aTools::setRealUrl($request->getParameter('actual_url'));
-    
+
     if (!in_array($this->type, array_keys(aTools::getSlotTypesInfo($this->options))))
     {
       $this->forward404();
@@ -390,7 +390,7 @@ class BaseaActions extends sfActions
         $t = $permids[$index + $difference];
         $permids[$index + $difference] = $permid;
         $permids[$index] = $t;
-        $page->newAreaVersion($this->name, 'sort', 
+        $page->newAreaVersion($this->name, 'sort',
           array('permids' => $permids));
         $page = aPageTable::retrieveByIdWithSlots(
           $request->getParameter('id'));
@@ -410,7 +410,7 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
     $this->name = $this->getRequestParameter('name');
     $this->options = aTools::getAreaOptions($page->id, $this->name);
-    $page->newAreaVersion($this->name, 'delete', 
+    $page->newAreaVersion($this->name, 'delete',
       array('permid' => $this->getRequestParameter('permid')));
     $page = aPageTable::retrieveByIdWithSlots(
       $request->getParameter('id'));
@@ -429,16 +429,16 @@ class BaseaActions extends sfActions
     aTools::setCurrentPage($page);
     $this->permid = $this->getRequestParameter('permid');
     $variant = $this->getRequestParameter('variant');
-    $page->newAreaVersion($this->name, 'variant', 
+    $page->newAreaVersion($this->name, 'variant',
       array('permid' => $this->permid, 'variant' => $variant));
-    
+
     // Borrowed from aSlotActions::executeEdit
     // Refetch the page to reflect these changes before we
     // rerender the slot
     aTools::setCurrentPage(
       aPageTable::retrieveByIdWithSlots($page->id));
     $slot = $page->getSlot($this->name, $this->permid);
-    
+
     // This was stored when the slot's editing view was rendered. If it
     // isn't present we must refuse to play for security reasons.
     $user = $this->getUser();
@@ -449,12 +449,12 @@ class BaseaActions extends sfActions
     // Must be consistent about not using namespaces!
     $this->options = $user->getAttribute($lookingFor, false, 'apostrophe');
     $this->forward404Unless($this->options !== false);
-    
+
     return $this->renderPartial('a/ajaxUpdateSlot',
-      array('name' => $this->name, 
+      array('name' => $this->name,
         'pageid' => $page->id,
-        'type' => $slot->type, 
-        'permid' => $this->permid, 
+        'type' => $slot->type,
+        'permid' => $this->permid,
         'options' => $this->options,
         'editorOpen' => false,
         'variant' => $variant,
@@ -546,7 +546,7 @@ class BaseaActions extends sfActions
     if ($new)
     {
       $this->page = new aPage();
-      
+
       $this->parent = $this->retrievePageForEditingBySlugParameter('parent', 'manage');
       $event = new sfEvent($this->parent, 'a.filterNewPage', array());
       $this->dispatcher->filter($event, $this->page);
@@ -564,16 +564,16 @@ class BaseaActions extends sfActions
         $this->page = $this->retrievePageForEditingByIdParameter();
       }
     }
-    
+
     // get the form and page tags
     $this->stem = $this->page->isNew() ? 'a-create-page' : 'a-page-settings';
     $this->form = new aPageSettingsForm($this->page, $this->parent);
-    
+
     $event = new sfEvent($this->page, 'a.filterPageSettingsForm', array('parent' => $this->parent));
     $this->dispatcher->filter($event, $this->form);
     $this->form = $event->getReturnValue();
     $mainFormValid = false;
-    
+
     $engine = $this->page->engine;
 
     if ($request->hasParameter('settings'))
@@ -611,10 +611,9 @@ class BaseaActions extends sfActions
     if ($mainFormValid && (!isset($this->engineForm)))
     {
       $this->form->save();
-      $this->page->requestSearchUpdate();        
 
       // $pathComponent = aTools::slugify($this->form->getValue('title'), false);
-      // 
+      //
       // $base = $parent->getSlug();
       // if ($base === '/')
       // {
@@ -624,16 +623,16 @@ class BaseaActions extends sfActions
 
       // $page = new aPage();
       // // Allow both the old pkContextCMS name and a more intuitive name for this option
-      // 
+      //
       // $page->setSlug($slug);
       // $existingPage = aPageTable::retrieveBySlug($slug);
-      
-      $this->unlockTree();  
-      
+
+      $this->unlockTree();
+
       return 'Redirect';
     }
-    
-    
+
+
     if ($request->hasParameter('enginesettings') && isset($this->engineForm))
     {
       // If it's a new page we need the page id so we can save the engine's setting
@@ -647,22 +646,21 @@ class BaseaActions extends sfActions
           // embedded forms are an unreliable alternative with many issues and
           // no proper documentation as yet
           $this->form->save();
-          
+
           if ($new)
           {
             // If the page was new, we won't be able to save the
             // engine form if it's a conventional subclass of aPageForm;
-            // they don't like being saved consecutively for the 
+            // they don't like being saved consecutively for the
             // same new object. Make a new form and bind it to exactly
             // the same data
             $this->engineForm = new $engineFormClass($this->page);
             $this->engineForm->bind($request->getParameter("enginesettings"));
             $this->forward404Unless($this->engineForm->isValid());
           }
-          
+
           $this->engineForm->save();
-          $this->page->requestSearchUpdate();          
-          $this->unlockTree();  
+          $this->unlockTree();
           return 'Redirect';
         }
       }
@@ -684,7 +682,7 @@ class BaseaActions extends sfActions
         $this->slugStem = $this->page->slug;
       }
     }
-    $this->unlockTree();  
+    $this->unlockTree();
   }
 
   /**
@@ -704,7 +702,7 @@ class BaseaActions extends sfActions
     {
       $this->page = $this->retrievePageForEditingByIdParameter();
     }
-    
+
     // Output the form for a different engine in response to an AJAX call. This allows
     // the user to see an immediate change in that form when the engine dropdown is changed
     // to a different setting. Note that this means your engine forms must tolerate situations
@@ -712,7 +710,7 @@ class BaseaActions extends sfActions
     // actually do anything until they are actually saved. Also they must cooperate if the
     // page is a new page and not make abt assumptions about where the new page will be
     // or what it will be called
-    
+
     $engine = $request->getParameter('engine');
     // Don't let them inspect for the existence of weird class names that might make the
     // autoloader do unsafe things
@@ -726,7 +724,7 @@ class BaseaActions extends sfActions
         $this->form = $form;
         $this->partial = $engine . '/settings';
       }
-    }    
+    }
   }
 
   /**
@@ -748,9 +746,9 @@ class BaseaActions extends sfActions
     // node or we'll corrupt the tree. Nasty detail, that.
     // Note that this implicitly calls $page->delete()
     // (but the reverse was not true and led to problems).
-    $page->getNode()->delete(); 
+    $page->getNode()->delete();
     $this->unlockTree();
-    
+
     return $this->redirect($parent->getUrl());
   }
 
@@ -762,17 +760,17 @@ class BaseaActions extends sfActions
   public function executeSearch(sfWebRequest $request)
   {
     $now = date('YmdHis');
-    
+
     // create the array of pages matching the query
     $q = $request->getParameter('q');
-    
+
     if ($request->hasParameter('x'))
     {
       // We sometimes like to use input type="image" for presentation reasons, but it generates
       // ugly x and y parameters with click coordinates. Get rid of those and come back.
       return $this->redirect(sfContext::getInstance()->getController()->genUrl('a/search', true) . '?' . http_build_query(array("q" => $q)));
     }
-    
+
     $key = strtolower(trim($q));
     $key = preg_replace('/\s+/', ' ', $key);
     $replacements = sfConfig::get('app_a_search_refinements', array());
@@ -785,21 +783,21 @@ class BaseaActions extends sfActions
     {
       // Search services are incompatible with addSearchResults. Achieving compatibility
       // with addSearchResults would require that we discard the benefits of a simple
-      // query and start hydrating everything out to the 1000th result in order to merge, 
+      // query and start hydrating everything out to the 1000th result in order to merge,
       // and merging results from unrelated types usually does not work that well anyway.
       // There is a simple alternative: see the a/searchAfter and a/searchBefore partials
       // for a great place to override and add sidebars to your page search that search
-      // for other types of information and provide teaser links to get more results. 
+      // for other types of information and provide teaser links to get more results.
       //
       // Another solution: mirror (or store) your content in an Apostrophe virtual page whose
-      // slug is a valid Symfony URL: @mymodule_search_redirect?id=52 
-      // 
+      // slug is a valid Symfony URL: @mymodule_search_redirect?id=52
+      //
       // If the slug is a valid Symfony URL it will be included in search results and
       // linked to that URL with link_to().
       //
       // This is how blog posts and events get merged into search results - their content
       // lives in pages to begin with.
-      
+
       $table = Doctrine::getTable('aPage');
       $query = $table->createQuery('p')->select('p.*');
       // Restrict page visibility as appropriate
@@ -809,9 +807,9 @@ class BaseaActions extends sfActions
       // We're interested in regular pages (start with /) and virtual pages
       // whose slugs are valid Symfony URLs (contain / or start with @)
       $query->addWhere('p.slug LIKE "%/%" OR p.slug LIKE "@%"');
-      
+
       // Now add pagination (notice we're still building one query)
-      $this->pager = new sfDoctrinePager('aPage', sfConfig::get('app_a_search_results_per_page', 10));    
+      $this->pager = new sfDoctrinePager('aPage', sfConfig::get('app_a_search_results_per_page', 10));
       $this->pager->setQuery($query);
       $this->pager->setPage($request->getParameter('page', 1));
       $this->pager->init();
@@ -830,13 +828,13 @@ class BaseaActions extends sfActions
       // The truth is that Zend cannot do all of our filtering for us, especially
       // permissions-based. So we can do some other filtering as well, although it
       // would be bad not to have Zend take care of the really big cuts (if 99% are
-      // not being prefiltered by Zend, and we have a Zend max results of 1000, then 
+      // not being prefiltered by Zend, and we have a Zend max results of 1000, then
       // we are reduced to working with a maximum of 10 real results).
-    
+
       $nvalues = array();
 
       $index = Doctrine::getTable('aPage')->getLuceneIndex();
-    
+
       foreach ($values as $value)
       {
         $document = $index->getDocument($value->id);
@@ -852,12 +850,12 @@ class BaseaActions extends sfActions
         // 1.5: the names under which we store columns in Zend Lucene have changed to
         // avoid conflict with also indexing them
         $info = unserialize($document->getFieldValue('info_stored'));
-      
+
         if (!aPageTable::checkPrivilege('view', $info))
         {
           continue;
         }
-      
+
         $slug = $document->getFieldValue('slug_stored');
         if ((substr($slug, 0, 1) !== '@') && (strpos($slug, '/') === false))
         {
@@ -915,15 +913,15 @@ class BaseaActions extends sfActions
         // $value->summary = $summary;
         // $value->class = 'Article';
         // $values[] = $value;
-      
+
         usort($values, "aActions::compareScores");
       }
-      $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));    
+      $this->pager = new aArrayPager(null, sfConfig::get('app_a_search_results_per_page', 10));
       $this->pager->setResultArray($values);
       $this->pager->setPage($request->getParameter('page', 1));
       $this->pager->init();
     }
-  
+
     $this->pagerUrl = "a/search?" . http_build_query(array("q" => $q));
     // setTitle takes care of escaping things
     $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Search for ' . $q . aTools::getOptionI18n('title_suffix'));
@@ -969,7 +967,7 @@ class BaseaActions extends sfActions
           $nvalue->partial = $searchHelper->getPartial();
         }
       }
-      
+
       if (!isset($nvalue->url))
       {
         if (substr($nvalue->slug, 0, 1) === '@')
@@ -1016,7 +1014,7 @@ class BaseaActions extends sfActions
     // $q is the Zend query the user typed.
     //
     // Override me! Add more items to the $values array here (note that it was passed by reference).
-    
+
     // $value = new stdClass();
     // $value->url = $url;
     // $value->title = $article->getTitle();
@@ -1025,8 +1023,8 @@ class BaseaActions extends sfActions
     // $value->class = 'HandbookArticle';
     // $values[] = $value;
     // $changed = true;
-    
-    // Example: 
+
+    // Example:
     //
     // $value = new stdClass();
     // $value->url = $url;
@@ -1057,7 +1055,7 @@ class BaseaActions extends sfActions
     if ($i2->score < $i1->score)
     {
       return -1;
-    } 
+    }
     elseif ($i2->score > $i1->score)
     {
       return 1;
@@ -1074,14 +1072,14 @@ class BaseaActions extends sfActions
    */
   public function executeReorganize(sfWebRequest $request)
   {
-    
+
     // Reorganizing the tree = escaping your page-specific security limitations.
     // So only full CMS admins can do it.
     $this->flunkUnless($this->getUser()->hasCredential('cms_admin'));
-    
+
     $root = aPageTable::retrieveBySlug('/');
     $this->forward404Unless($root);
-    
+
     $this->treeData = $root->getTreeJSONReady(false);
     // setTitle takes care of escaping things
     $this->getResponse()->setTitle(aTools::getOptionI18n('title_prefix') . 'Reorganize' . aTools::getOptionI18n('title_suffix'));
@@ -1100,7 +1098,7 @@ class BaseaActions extends sfActions
     {
       $page = $this->retrievePageForEditingByIdParameter('id', 'manage');
       $refPage = $this->retrievePageForEditingByIdParameter('refId', 'manage');
-      
+
       $type = $request->getParameter('type');
       if ($refPage->slug === '/')
       {
@@ -1110,7 +1108,7 @@ class BaseaActions extends sfActions
           throw new sfException('root must not have peers');
         }
       }
-    
+
       // Refuse to move a page relative to one of its own descendants.
       // Doctrine's NestedSet implementation produces an
       // inconsistent tree in the 'inside' case and we're not too sure about
@@ -1168,7 +1166,7 @@ class BaseaActions extends sfActions
     echo("ok");
     exit(0);
   }
-  
+
   /**
    * Delete the page with the id specified by 'id' and return an AJAX response
    * compatible with the reorganize feature's jstree implementation
@@ -1190,7 +1188,7 @@ class BaseaActions extends sfActions
       // node or we'll corrupt the tree. Nasty detail, that.
       // Note that this implicitly calls $page->delete()
       // (but the reverse was not true and led to problems).
-      $page->getNode()->delete(); 
+      $page->getNode()->delete();
     } catch (Exception $e)
     {
       $this->unlockTree();
@@ -1313,13 +1311,13 @@ class BaseaActions extends sfActions
     // the form is not valid (can't happen... but you never know)
     return $this->redirect('@homepage');
   }
-  
-  // There are potential race conditions in the Doctrine nested set code, and also 
+
+  // There are potential race conditions in the Doctrine nested set code, and also
   // in our own code that decides when it's safe to call it. So we need an
   // application-level lock for reorg functions. Dan says there are transactions in
   // Doctrine that should make adding and deleting pages safe, so we don't lock
   // those actions for now, but this code is available for that purpose too if need be
-  
+
   protected $lockfp;
 
   /**
