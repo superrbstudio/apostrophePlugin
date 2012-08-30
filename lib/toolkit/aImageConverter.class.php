@@ -1,14 +1,14 @@
 <?php
 /**
- * 
+ *
  * Efficient image conversions using netpbm or (if netpbm is not available) gd.
  * For more information see the README file.
- * 
+ *
  * @package    apostrophePlugin
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class aImageConverter 
+class aImageConverter
 {
 
   /**
@@ -28,7 +28,7 @@ class aImageConverter
     $width = ceil($width);
     $height = ceil($height);
     $quality = ceil($quality);
-    list($iwidth, $iheight) = @getimagesize($fileIn); 
+    list($iwidth, $iheight) = @getimagesize($fileIn);
     if (!$iwidth) {
       return false;
     }
@@ -72,11 +72,11 @@ class aImageConverter
    * @param mixed $quality
    * @return mixed
    */
-  static public function scaleByFactor($fileIn, $fileOut, $factor, 
+  static public function scaleByFactor($fileIn, $fileOut, $factor,
     $quality = 75)
   {
     $quality = ceil($quality);
-    $scaleParameters = array('scale' => $factor + 0);  
+    $scaleParameters = array('scale' => $factor + 0);
     return self::scaleBody($fileIn, $fileOut, $scaleParameters, array(), $quality);
   }
 
@@ -109,14 +109,14 @@ class aImageConverter
     $height = ceil($height);
     $quality = ceil($quality);
     // Make sure we use a method that understands about JPEG orientation
-    $info = aImageConverter::getInfo($fileIn); 
+    $info = aImageConverter::getInfo($fileIn);
     if (!$info)
     {
       return false;
     }
     $iwidth = $info['width'];
     $iheight = $info['height'];
-    
+
     $iratio = $iwidth / $iheight;
     $ratio = $width / $height;
 
@@ -127,7 +127,7 @@ class aImageConverter
        $cropLeft = ceil($cropLeft + 0);
        $cropWidth = ceil($cropWidth + 0);
        $cropHeight = ceil($cropHeight + 0);
-       
+
        $scale = array('xysize' => array($width + 0, $height + 0));
        $crop = array('left' => $cropLeft, 'top' => $cropTop, 'width' => $cropWidth, 'height' => $cropHeight);
        return self::scaleBody($fileIn, $fileOut, $scale, $crop, $quality);
@@ -173,12 +173,12 @@ class aImageConverter
    * of scaleBody
    */
   static public $localPathCache = array();
-  
+
   /**
    * Scale and crop $fileIn to $fileOut, potentially converting the format as well
    */
-  static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75) 
-  {    
+  static private function scaleBody($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
+  {
     if (!isset(aImageConverter::$localPathCache[$fileIn]))
     {
       if (preg_match('/^\w+:\/\//', $fileIn))
@@ -218,8 +218,8 @@ class aImageConverter
       {
         $bytes = $info[0] * $info[1] * 4;
       }
-      // If we got valid image info, the image requires less than 4MB to fully unpack in RAM (load in gd), , gd is enabled, 
-      // and gd supports the image type... *then* we skip to gd.
+      // If we got valid image info, the image requires less than 4MB to fully unpack in RAM (load in gd),
+      // gd is enabled, and gd supports the image type... *then* we skip to gd.
       if (($info !== false) && ($bytes <= 4 * 1024 * 1024) && function_exists('imagetypes') && isset($mapTypes[$info[2]]) && (imagetypes() & $mapTypes[$info[2]]))
       {
         return self::scaleGd($fileIn, $fileOut, $scaleParameters, $cropParameters, $quality);
@@ -325,18 +325,18 @@ class aImageConverter
         $path .= "/";
       }
     }
-        
+
     // AUGH: some versions of anytopnm don't have
     // the brains to look at the file signature. We need
     // to be compatible with this brain damage, so pick
     // the right filter based on the results of getimagesize()
     // and punt to anytopnm only if we can't figure it out.
-    
+
     // While we're at it: detect PDF by magic number too,
     // not by extension, that's tacky
 
     $input = 'anytopnm';
-    
+
     $in = fopen($fileIn, 'r');
     $bytes = fread($in, 4);
     if ($bytes === '%PDF')
@@ -345,7 +345,7 @@ class aImageConverter
         ' -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q -';
     }
     fclose($in);
-    
+
     $info = @getimagesize($fileIn);
     if ($info !== false)
     {
@@ -353,7 +353,7 @@ class aImageConverter
       if ($type === IMAGETYPE_GIF)
       {
         $input = 'giftopnm';
-      } 
+      }
       elseif ($type === IMAGETYPE_PNG)
       {
         $input = 'pngtopnm';
@@ -363,9 +363,9 @@ class aImageConverter
         $input = 'jpegtopnm';
       }
     }
-    
+
     $rotate = '';
-    
+
     $rotation = aImageConverter::getRotation($fileIn, $info);
     switch ($rotation)
     {
@@ -401,8 +401,8 @@ class aImageConverter
         $rotate = '| pnmflip -ccw ';
         break;
     }
-    
-  
+
+
     $scaleString = '';
     $extraInputFilters = '';
     foreach ($scaleParameters as $key => $values)
@@ -431,13 +431,13 @@ class aImageConverter
         $extraInputFilters .= " -$ckey $cvalue";
       }
     }
-    
+
     $cmd = "(PATH=$path:\$PATH; export PATH; $input < " . escapeshellarg($fileIn) . ' ' . $rotate . ' ' . ($extraInputFilters ? "| $extraInputFilters" : "") . " " . ($scaleParameters ? "| pnmscale $scaleString " : "") . "| $filter " .
       "> " . escapeshellarg($fileOut) . " " .
       ") 2> /dev/null";
     // sfContext::getInstance()->getLogger()->info("$cmd");
     system($cmd, $result);
-    if ($result != 0) 
+    if ($result != 0)
     {
       return false;
     }
@@ -455,21 +455,21 @@ class aImageConverter
    */
   static private function scaleGd($fileIn, $fileOut, $scaleParameters = array(), $cropParameters = array(), $quality = 75)
   {
-    
+
     // gd version for those who can't install netpbm, poor buggers
     // "handles" PDF by rendering a blank white image. We already superimpose a PDF icon,
-    // so this should work well 
-    
+    // so this should work well
+
     // (if you can install ghostview, you can install netpbm too, so there's no middle case)
-    
-    // Special case to emit the original. This preserves transparency in GIFs and is faster for everything. (PNGs can always preserve 
+
+    // Special case to emit the original. This preserves transparency in GIFs and is faster for everything. (PNGs can always preserve
     // alpha channel in anything under 1024x768 or when gd is the only backend enabled.) WARNING: keep this up to date if new
     // capabilities are added - we need to make sure they are not active etc. before using this trick. TODO: check for this in
-    // netpbm land too, right now in a typical configuration it's not checked over 1024x768    
-    
+    // netpbm land too, right now in a typical configuration it's not checked over 1024x768
+
     // Default to normal orientation
     $orientation = 1;
-    
+
     $imageInfo = @getimagesize($fileIn);
     // Don't panic on a PDF, fall through to the fake handler for that.
     if ($imageInfo)
@@ -492,10 +492,10 @@ class aImageConverter
           break;
         }
       }
-      
-      $infoIn = pathinfo($fileIn);    
-      $infoOut = pathinfo($fileOut);    
-      
+
+      $infoIn = pathinfo($fileIn);
+      $infoOut = pathinfo($fileOut);
+
       // Try not to do any work if we are not changing anything
       if ($orientation == 1)
       {
@@ -506,19 +506,19 @@ class aImageConverter
         }
       }
     }
-    
+
     if (preg_match('/\.pdf$/i', $fileIn))
     {
       $in = self::createTrueColorAlpha(100, 100);
       imagefilledrectangle($in, 0, 0, 100, 100, imagecolorallocate($in, 255, 255, 255));
-    } 
+    }
     else
     {
       $in = self::imagecreatefromany($fileIn);
       if ($orientation != 1)
       {
         // Note that gd rotation is CCL
-        
+
         switch ($orientation)
         {
           case 2: // horizontal flip
@@ -563,12 +563,12 @@ class aImageConverter
         }
       }
     }
-    
+
     if (!$in)
     {
       return false;
     }
-    
+
     if (preg_match("/\.(\w+)$/i", $fileOut, $matches))
     {
       $extension = $matches[1];
@@ -579,7 +579,7 @@ class aImageConverter
       imagedestroy($in);
       return false;
     }
-    
+
     $top = 0;
     $left = 0;
     $width = imagesx($in);
@@ -615,7 +615,7 @@ class aImageConverter
       $cropped = $in;
       $in = null;
     }
-  
+
     if (count($scaleParameters))
     {
       $width = imagesx($cropped);
@@ -678,7 +678,7 @@ class aImageConverter
       $out = $cropped;
       $cropped = null;
     }
-    
+
     $extension = strtolower($infoOut['extension']);
     if ($extension === 'gif')
     {
@@ -696,7 +696,7 @@ class aImageConverter
     {
       return false;
     }
-      
+
     imagedestroy($out);
     $out = null;
     return true;
@@ -735,7 +735,7 @@ class aImageConverter
       imagejpeg($im, $file, $quality);
     }
   }
-  
+
   /**
    * Stream wrapper safe versions
    */
@@ -752,7 +752,7 @@ class aImageConverter
       imagepng($im, $file);
     }
   }
-  
+
   /**
    * Flips the image in place
    * @param mixed $in
@@ -823,11 +823,11 @@ class aImageConverter
     $in = fopen($file, "rb");
     $data = fread($in, 4);
     fclose($in);
-    
-    
+
+
     if ($data === '%PDF')
     {
-      // format-only 
+      // format-only
       if ($formatOnly || (!aImageConverter::supportsInput('pdf')) || ($noPdfSize))
       {
         // All we can do is confirm the format and allow
@@ -847,17 +847,17 @@ class aImageConverter
       // PDFs that just barely work in Adobe but are noncompliant and hang ghostscript.
       // Read the output one line at a time so we can catch the happy
       // bounding box message without hanging
-      
+
       // Problem: this doesn't work. We regain control but the process won't die for some reason. It helps
       // with import but for now go with the simpler standard invocation and hope they fix gs
 
       // $cmd = "(PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit ) 2>&1";
-      
+
       $cmd = "( PATH=$path:\$PATH; export PATH; gs -sDEVICE=bbox -dNOPAUSE -dFirstPage=1 -dLastPage=1 -r100 -q " . escapeshellarg($file) . " -c quit & GS=$!; ( sleep 5; kill \$GS ) & TIMEOUT=\$!; wait \$GS; kill \$TIMEOUT ) 2>&1";
 
       // For some reason system() does not get the same result when killing subshells as I get when executing
       // $cmd directly. I don't know why this is this the case but it's easily reproduced
-      
+
       $script = aFiles::getTemporaryFilename() . '.sh';
       file_put_contents($script, $cmd);
       $cmd = "/bin/sh " . escapeshellarg($script);
@@ -925,7 +925,7 @@ class aImageConverter
    * @param string $filename
    * @return gdImage resource
    */
-  static private function imagecreatefromany($filename) 
+  static private function imagecreatefromany($filename)
   {
     // For decent performance, determine the type up front, don't
     // open the file in three different ways until something works
@@ -936,7 +936,7 @@ class aImageConverter
       if ($type === IMAGETYPE_GIF)
       {
         $func = 'imagecreatefromgif';
-      } 
+      }
       elseif ($type === IMAGETYPE_PNG)
       {
         $func = 'imagecreatefrompng';
@@ -950,12 +950,12 @@ class aImageConverter
     {
       return @call_user_func($func, $filename);
     }
-    
+
     // Fallback: types not enumerated. This is slower of course
-    foreach (array('bmp', 'ico') as $type) 
+    foreach (array('bmp', 'ico') as $type)
     {
       $func = 'imagecreatefrom' . $type;
-      if (is_callable($func)) 
+      if (is_callable($func))
       {
         $image = @call_user_func($func, $filename);
         if ($image) return $image;
@@ -980,7 +980,7 @@ class aImageConverter
     {
       return $hint;
     }
-    
+
     $result = false;
     if (sfConfig::get('app_aimageconverter_netpbm', true))
     {
