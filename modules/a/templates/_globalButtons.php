@@ -48,7 +48,9 @@
 <?php //*/ ?>
 
 <?php // A toggle between near-WYSIWYG editing and (almost) completely WYSIWYG previewing ?>
-<?php if (sfConfig::get('app_a_preview_toggle')): ?>
+<?php // Check whether the user is a potential editor. We might be here only to display buttons ?>
+<?php // relating to app-specific stuff other than content editing ?>
+<?php if (sfConfig::get('app_a_preview_toggle') && aTools::isPotentialEditor()): ?>
   <li>
   <a href="#" class="a-btn icon no-label a-search a-preview" id="a-preview"><span class="icon"></span><span class="label"></span></a>
     <?php a_js_call('apostrophe.setupPreviewToggle(?)', array('labels' => array('preview' => a_('Preview Page'), 'edit' => a_('Edit Page')))) ?>
