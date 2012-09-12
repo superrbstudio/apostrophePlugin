@@ -138,6 +138,10 @@ class aImporter
               $slotInfos = array_merge($slotInfos, $slotImport);
             }
           }
+          else
+          {
+            echo("I don't recognize $type, there is no $method\n");
+          }
         }
         if($slotInfos)
         {
@@ -246,6 +250,22 @@ class aImporter
     }
     $value['order'] = $order;
     $info = array('type' => 'aSlideshow', 'value' => $value);
+    return array($info);
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param SimpleXMLElement $slot
+   * @return mixed
+   */
+  protected function parseSlotAFile(SimpleXMLElement $slot, $title = null, &$counters = null)
+  {
+    $ids = $this->getMediaItems($slot);
+    $info = array('type' => 'aFile');
+    if(count($ids))
+    {
+      $info['mediaId'] = $ids[0];
+    }
     return array($info);
   }
 

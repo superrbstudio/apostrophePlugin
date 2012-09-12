@@ -148,7 +148,7 @@ class aSql extends aMysql
           $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $mediaId, 'slot_id' => $slotId));
         }
       }
-      if ((($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') || ($slotInfo['type'] === 'aVideo')) && isset($slotInfo['mediaId']))
+      if ((($slotInfo['type'] === 'aImage') || ($slotInfo['type'] === 'aButton') || ($slotInfo['type'] === 'aVideo') || ($slotInfo['type'] === 'aFile')) && isset($slotInfo['mediaId']))
       {
         $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $slotInfo['mediaId'], 'slot_id' => $slotId));
       }
