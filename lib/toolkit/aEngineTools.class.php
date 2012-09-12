@@ -81,7 +81,7 @@ class aEngineTools
   protected static $engineCategoryCache = array();
 
   /**
-   * Returns the names of all categories currently assigned to
+   * Returns the NAMES of all categories currently assigned to
    * public engine pages with the specified engine module name.
    * Useful to find candidate engine pages to direct a link to
    * @param mixed $engineName
@@ -131,11 +131,40 @@ class aEngineTools
       // algorithm to fail
       $categories[] = $category['name'];
     }
+    list($engineSlug, $engineCategories) = aEngineTools::getBestEngineForCategories($object->getTable(), $categories);
+    return $engineSlug;
+  }
+
+  /**
+   * Finds the engine page that best matches the array of category names
+   * passed. Returns an array with two elements: the slug of that engine
+   * page, and an array of the category names explicitly associated with
+   * that engine page. The latter is useful when you want to know if it is
+   * a single-category engine page or not.
+   * 
+   * The least awful choice is made as follows: a catch-all engine page
+   * with no categories (displays all) gets one point. Engine pages get 
+   * two points for every category name in $categories that they explicitly
+   * link to. Engine pages (including catch-all pages) lose one point for
+   * every category name they do not explicitly have in common with
+   * $categories (whether because they lack it or because they have a
+   * category name not requested). This strongly biases the algorithm
+   * toward an exact match.
+   *
+   * If $options['mustMatch'] is true, then if there are no catch-all
+   * engine pages or pages that explicitly cover all categories requested,
+   * array(null, null) is returned. Otherwise null will never be returned
+   * unless there are no engine pages at all for this engine.
+   */
+  static public function getBestEngineForCategories($table, $categories, $options = array())
+  {
+    $mustMatch = isset($options['mustMatch']) ? $options['mustMatch'] : null;
     // This method is usually a one-line wrapper around aEngineTools::getEngineCategories() that specifies
     // the right engine name. The engine name and the model class name are often not the same
     // (example: aPerson versus aPeople)
-    $engines = $object->getTable()->getEngineCategories();
+    $engines = $table->getEngineCategories();
     $best = array('', -99);
+    $bestCategories = array();
     foreach($engines as $engineSlug => $engineCategories)
     {
       $score = 0;
@@ -143,12 +172,22 @@ class aEngineTools
       {
         $score = 1;
       }
-      $score = $score + count(array_intersect($categories, $engineCategories)) * 2 - count(array_diff($categories, $engineCategories));
-      if($score > $best[1])
+      $intersect = count(array_intersect($categories, $engineCategories));
+      if ($mustMatch && count($engineCategories) && ($intersect !== count($categories)))
+      {
+        continue;
+      }
+      $score = $score + $intersect * 2 - count(array_diff($categories, $engineCategories));
+      if ($score > $best[1])
       {
         $best = array($engineSlug, $score);
+        $bestCategories = $engineCategories;
       }
     }
-    return $best[0];
+    if ($best[0] === '')
+    {
+      return array(null, null);
+    }
+    return array($best[0], $bestCategories);
   }
 }
