@@ -48,6 +48,7 @@ class aMongoDBCache extends sfCache
    */
   public function initialize($options = array())
   {
+    $this->options = $options;
     $database = isset($options['database']) ? $options['database'] : 'aMongoDBCache';
     if (isset($options['connection']))
     {
@@ -160,16 +161,17 @@ class aMongoDBCache extends sfCache
    */
   protected function patternToRegexp($pattern)
   {
-    $regexp = str_replace(
+    $regex = str_replace(
       array('\\*\\*', '\\*'),
       array('.+?',    '[^'.preg_quote(sfCache::SEPARATOR, '#').']+'),
       preg_quote($pattern)
     );
 
-    $regex = '^'.$regexp.'$';
+    $regex = '^' . $regex . '$';
     // Remove trailing .*$ from the regex as Mongo processes it more slowly and it is redundant
     // http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-RegularExpressions
-    $regex = preg_replace('/\.\*\$$/', $regex, '');
+    $regex = preg_replace('/\.\*\$$/', '', $regex);
+    return $regex;
   }
 
   /**
@@ -177,7 +179,7 @@ class aMongoDBCache extends sfCache
    */
   public function removePattern($pattern)
   {
-    $pattern = $this->getOption('prefix') . $pattern;
+    $pattern = $this->patternToRegexp($this->getOption('prefix') . $pattern);
     $result = $this->collection->remove(array('key' => array('$regex' => $pattern)), array('safe' => true));
     return !!$result['ok'];
   }
