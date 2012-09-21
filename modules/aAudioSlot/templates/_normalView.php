@@ -24,10 +24,9 @@
 
 <?php slot("a-slot-controls-$pageid-$name-$permid") ?>
 	<li class="a-ui a-controls-item choose-audio">
-    <?php echo $slot->isNew() ? 'new' : 'old' ?>
 	  <?php include_partial('aImageSlot/choose', array('action' => 'aAudioSlot/edit', 'buttonLabel' => a_get_option($options, 'chooseLabel', a_('Choose Audio File')), 'label' => a_get_option($options, 'browseLabel', a_('Select an Audio File')), 'class' => 'a-btn icon a-audio', 'type' => 'audio', 'itemId' => $itemId, 'name' => $name, 'slug' => $slug, 'permid' => $permid, 'now' => false)) ?>
 	</li>
-		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>	
+		<?php include_partial('a/variant', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 <?php end_slot() ?>
 <?php endif ?>
 
@@ -38,5 +37,5 @@
 <?php endif ?>
 
 <?php if ($item): ?>
-	<?php include_partial('aAudioSlot/'.$options['playerTemplate'].'Player', array('item' => $item, 'uniqueID' => $uniqueID, 'options' => $options)) ?>		
+	<?php include_partial('aAudioSlot/'.$options['playerTemplate'].'Player', array('item' => $item, 'uniqueID' => $uniqueID, 'options' => $options)) ?>
 <?php endif ?>
