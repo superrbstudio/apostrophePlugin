@@ -43,13 +43,25 @@ abstract class PluginaRawHTMLSlot extends BaseaRawHTMLSlot
    * This function returns a basic HTML representation of your slot's comments
    * (passing the default settings of aHtml::simplify, for instance). Used for
    * Google Calendar buttons, RSS feeds and similar. For raw HTML slots
-   * we need to be careful not to return the source code of script tags, but
-   * we should return the contents of the 'noscript' tag if one is inside
+   * we can return the noscript tag for any script tag, return nothing for
+   * any script tag, or ignore the raw HTML slot entirely. The default is
+   * to return the noscript tag, because it is closest to the old behavior of
+   * rendering all of the text (which had the bug that it would render
+   * source code as text, because script source code appears between tags)
    * @return string
    */
   public function getBasicHtml()
   {
-    $this->value = preg_replace_callback('/\<script.*?>.*?\<\/script\>/s', array($this, 'getNoscript'), $this->value);
+    switch (sfConfig::get('app_a_raw_html_summary', 'noscriptInScriptTags')) {
+      case 'noscriptInScriptTags':
+      $this->value = preg_replace_callback('/\<script.*?>.*?\<\/script\>/s', array($this, 'getNoscript'), $this->value);
+      break;
+      case 'ignoreScriptTags':
+      $this->value = preg_replace('/\<script.*?>.*?\<\/script\>/s', '', $this->value);
+      break;
+      case 'ignore':
+      return '';
+    }
     return aHtml::simplify($this->value);
   }
 
