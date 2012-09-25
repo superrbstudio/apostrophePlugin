@@ -41,12 +41,28 @@ abstract class PluginaRawHTMLSlot extends BaseaRawHTMLSlot
   /**
    * 
    * This function returns a basic HTML representation of your slot's comments
-   * (passing the default settings of aHtml::simplify, for instance). Used for Google Calendar
-   * buttons, RSS feeds and similar
+   * (passing the default settings of aHtml::simplify, for instance). Used for
+   * Google Calendar buttons, RSS feeds and similar. For raw HTML slots
+   * we need to be careful not to return the source code of script tags, but
+   * we should return the contents of the 'noscript' tag if one is inside
    * @return string
    */
   public function getBasicHtml()
   {
+    $this->value = preg_replace_callback('/\<script.*?>.*?\<\/script\>/s', array($this, 'getNoscript'), $this->value);
     return aHtml::simplify($this->value);
+  }
+
+  public function getNoscript($a)
+  {
+    $s = $a[0];
+    if (preg_match('/\<noscript.*?>(.*?)\<\/noscript\>/s', $s, $matches))
+    {
+      return $matches[1];
+    }
+    else
+    {
+      return '';
+    }
   }
 }
