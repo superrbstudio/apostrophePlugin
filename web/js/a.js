@@ -762,7 +762,8 @@ function aConstructor()
         // Hiding all of the items, showing the first one, setting the position, and starting the timer
         slideshowItems.hide();
         $(slideshowItems[position]).show();
-        showItem(0, 0);
+        // This is redundant for the first image & leads to flicker
+        // showItem(0, 0);
         interval();
       }
 
