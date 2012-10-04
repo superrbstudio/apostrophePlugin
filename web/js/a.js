@@ -77,7 +77,7 @@ function aConstructor()
 
     return function(output) {};
   }
-  
+
   this.log = this.setupLogger();
 
   // apostrophe.debug() -- displays any debug messages stored in the debugBuffer and empties the buffer
@@ -365,7 +365,7 @@ function aConstructor()
   */
   this.unobfuscateEmailInline = function() {
     var links = $('.a-obs-email');
-    if (links.length) 
+    if (links.length)
     {
       links.each(function(){
         $self = $(this);
@@ -927,7 +927,7 @@ function aConstructor()
       apostrophe.log('apostrophe.buttonSlot -- no button found');
     }
   };
-  
+
   this.afterAddingSlot = function(name)
   {
     $('#a-add-slot-form-' + name).hide();
@@ -1146,7 +1146,7 @@ function aConstructor()
       return false;
     });
   };
-  
+
 
   /**
     slotShowEditView
@@ -1240,7 +1240,7 @@ function aConstructor()
       $slot.children('.a-controls li.variant').fadeIn();
       $slot.children('.a-slot-content').children('.a-slot-form').hide();
       $slot.removeClass('a-editing').addClass('a-normal');
-      
+
       var $area = $slot.closest('.a-area');
       $area.removeClass('a-editing').addClass('a-normal');
     });
@@ -1725,7 +1725,7 @@ function aConstructor()
             if (overlay)
             {
               // You can specify a particular overlay, but if you don't
-              // make an explicit choice .a-page-overlay is used 
+              // make an explicit choice .a-page-overlay is used
               if (overlay === true)
               {
                 overlay = '.a-page-overlay';
@@ -2172,7 +2172,7 @@ function aConstructor()
    * if there is one, parses that string as a URL in its own right, adds an
    * actual_url query string parameter to it, and then replaces the original
    * 'after' parameter in the original URL and returns this value. If you just want to
-   * add actual_url as a parameter of a URL and you don't need the extra step of adding 
+   * add actual_url as a parameter of a URL and you don't need the extra step of adding
    * it to yet another URL in a parameter called 'after', then you are probably
    * looking for apostrophe.injectActualUrlIntoUrl, below.
    */
@@ -2201,7 +2201,7 @@ function aConstructor()
   /**
    * This function provides a convenient way to place the actual URL of the current
    * page displayed in the web browser in a specified query string parameter of
-   * an existing URL. 
+   * an existing URL.
    */
   this.injectActualUrlIntoUrl = function(url, parameterName)
   {
@@ -2383,7 +2383,7 @@ function aConstructor()
       }
     });
   }
-  
+
   // Breaks the url into a stem (everything before the query, inclusive of the ?), a query
   // (the encoded query string), and queryData (the query string parsed into an object)
   this.parseUrl = function(url)
@@ -2440,7 +2440,7 @@ function aConstructor()
       var aAudioPlayer = aAudioContainer.find('.a-audio-player');
       var aAudioInterface = aAudioContainer.find('.a-audio-player-interface');
 
-      // It's unfortunate, but the jquery ui playback works a lot better if it has a pixel value applied to the parent container. 
+      // It's unfortunate, but the jquery ui playback works a lot better if it has a pixel value applied to the parent container.
       // We don't need this for the player to look right, it just helps the playback feel better.
       aAudioContainer.unbind('setSize.audioPlayer').bind('setSize.audioPlayer', function(){
         var loader = aAudioContainer.find('.a-audio-loader'),
@@ -2916,8 +2916,8 @@ function aConstructor()
     /**
     *
     * setupPreviewToggle --
-    * Hide and show edit controls, saved in a cookie. 
-    * Jake and Tom had a hand in this. 
+    * Hide and show edit controls, saved in a cookie.
+    * Jake and Tom had a hand in this.
     */
   this.setupPreviewToggle = function(options)
   {
@@ -3192,8 +3192,8 @@ function aConstructor()
                     menu.parents().removeClass('ie-z-index-fix');
                     button.closest('.a-controls').removeClass('aActiveMenu');
                     menu.removeClass(classname);
-                    if (overlay) { 
-                      overlay.hide(); 
+                    if (overlay) {
+                      overlay.hide();
                     };
                     $(document).unbind('click.menuToggleClickHandler'); // Clear out click event
                     menu.trigger('afterClosed');
