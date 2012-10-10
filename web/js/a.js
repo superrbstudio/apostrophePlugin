@@ -2216,7 +2216,17 @@ function aConstructor()
   this.addParameterToUrl = function(url, name, value)
   {
     var urlParsed = apostrophe.parseUrl(url);
-    urlParsed.queryData[name] = value;
+    if (value.length) {
+      urlParsed.queryData[name] = value;
+    }
+    else
+    {
+      // Remove the parameter if the new value is blank
+      try {
+        delete urlParsed.queryData[name];
+      } catch (e) {
+      }
+    }
     urlParsed.query = $.param(urlParsed.queryData);
     // Careful, if we're the first to add any query parameters there will be no ? yet
     q = urlParsed.stem.indexOf('?');
