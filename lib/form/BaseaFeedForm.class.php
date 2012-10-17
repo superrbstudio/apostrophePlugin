@@ -57,11 +57,9 @@ class BaseaFeedForm extends BaseForm
     if (preg_match('/^@(\w+)$/', $value, $matches))
     {
       $handle = $matches[1];
-      $info = json_decode(file_get_contents('http://api.twitter.com/1/users/show.json?' . http_build_query(array('screen_name' => $handle))), true);
-      if (isset($info['id']))
-      {
-        return 'http://twitter.com/statuses/user_timeline/' . $info['id'] . '.rss';
-      }
+      // Twitter changed their feed URLs to use screen names
+      // rather than IDs
+      return 'http://api.twitter.com/1/statuses/user_timeline.rss?' . http_build_query(array('screen_name' => $handle));
     }
     return $value;
   }
