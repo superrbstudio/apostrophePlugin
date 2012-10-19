@@ -2114,6 +2114,18 @@ function aConstructor()
     });
   };
 
+  this.enableFilterDropdown = function(options)
+  {    
+    var id = options.id;
+    $('#' + id).change(function() {
+      // Drop any page number when switching filters
+      document.location.href = apostrophe.addParameterToUrl(
+        apostrophe.addParameterToUrl(
+          document.location.href, options.name, $(this).val()),
+        'page', '');
+    });
+  };
+
   // Hide / Show the page overlay. Accepts true or false, and an optional call back
   // apostrophe.togglePageOverlay({ toggle: true | false , callback : f() });
   this.togglePageOverlay = function(options)

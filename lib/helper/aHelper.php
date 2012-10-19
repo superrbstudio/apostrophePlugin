@@ -1076,3 +1076,64 @@ function a_compute_public_path($source, $dir, $ext, $absolute = false, $options 
   return $source.$query_string;
 }
 
+/**
+ * Displays a filter dropdown. This is a select menu that refreshes
+ * the page when the user's selection changes. The value of the user's
+ * selection becomes a query string parameter with the specified $name.
+ *
+ * Any 'page' parameter is removed from the query string, because
+ * the number and significance of pages can be radically different 
+ * when filters change.
+ *
+ * See also apostrophe.enableFilterDropdown in a.js.
+ *
+ * Specifying Simple Choices
+ *
+ * The choices are taken from $options['choices'], which is assumed to
+ * be an associative array in which the keys are what is submitted to
+ * the server and the values are the labels. 
+ *
+ * Using Doctrine Objects Or Associative Arrays As Choices
+ *
+ * If you set the 'valueColumn' and 'labelColumn' options, the helper 
+ * will treat 'choices' as a flat array of items and look at, for 
+ * instance, $item['slug'] and $item['name'] if you specify 
+ * 'valueColumn' -> 'slug' and 'labelColumn' => 'name'.
+ */
+
+function a_filter_dropdown($name, $options)
+{
+  $current = isset($options['current']) ? $options['current'] : sfContext::getInstance()->getRequest()->getParameter($name);
+  $s = '<select id="filter-dropdown-' . $name . '" name="' . $name . '">';
+  $chooseOne = isset($options['chooseOne']) ? $options['chooseOne'] : null;
+  $revertToAll = isset($options['revertToAll']) ? $options['revertToAll'] : null;
+  $valueColumn = isset($options['valueColumn']) ? $options['valueColumn'] : null;
+  $labelColumn = isset($options['labelColumn']) ? $options['labelColumn'] : null;
+  $all = (!strlen($current));
+  if ($chooseOne && ($all || (!$revertToAll))) 
+  {
+    $s .= '<option ' . ($all ? 'selected' : '') . ' value="">' . aHtml::entities($chooseOne) . '</option>';
+  }
+  elseif ($revertToAll && (!$all))
+  {
+    $s .= '<option value="">' . aHtml::entities($revertToAll) . '</option>';
+  }
+  foreach ($options['choices'] as $k => $v) 
+  {
+    if ($valueColumn) 
+    {
+      $value = $v[$valueColumn];
+      $label = $v[$labelColumn];
+    }
+    else
+    {
+      $value = $k;
+      $label = $v;
+    }
+    $s .= '<option ' . (($current === $value) ? 'selected ' : '');
+    $s .= ' value="' . aHtml::entities($value) . '">' . aHtml::entities($label) . '</option>';
+  }
+  $s .= '</select>';
+  a_js_call('apostrophe.enableFilterDropdown(?)', array('id' => 'filter-dropdown-' . $name, 'name' => $name));
+  return $s;
+}
