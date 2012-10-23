@@ -296,6 +296,22 @@ class aString
    * @param mixed $s
    * @return mixed
    */
+  static public function firstNonemptyLine($s)
+  {
+    $s = trim($s);
+    $ln = strpos($s, "\n");
+    if ($ln === false)
+    {
+      return $s;
+    }
+    return substr($s, 0, $ln);
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param mixed $s
+   * @return mixed
+   */
   static public function toVcal($s)
   {
     // vcal is fairly picky. Avoid a lot of problems by
