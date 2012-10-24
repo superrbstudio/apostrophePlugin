@@ -1566,6 +1566,10 @@ function aConstructor()
 
   this.mediaUpdatePreview = function()
   {
+    // Trigger a change event on the media selection list
+    var selectionList = $('#a-media-selection-list');
+    selectionList.trigger('change.aMedia');
+
     $('#a-media-selection-preview').load(apostrophe.selectOptions.updateMultiplePreviewUrl, function(){
       // the preview images are by default set to display:none
       $('#a-media-selection-preview li:first').addClass('current');
@@ -1594,6 +1598,7 @@ function aConstructor()
   this.mediaEnableSelect = function(options)
   {
     apostrophe.selectOptions = options;
+    var selectionList = $('#a-media-selection-list');
     // Binding it this way avoids a cascade of two click events when someone
     // clicks on one of the buttons hovering on this
 
@@ -1602,7 +1607,7 @@ function aConstructor()
       var p = $(this).parents('.a-media-selection-list-item');
       var id = p.data('id');
       $.get(options['removeUrl'], { id: id }, function(data) {
-        $('#a-media-selection-list').html(data);
+        selectionList.html(data);
         apostrophe.mediaDeselectItem(id);
         apostrophe.mediaUpdatePreview();
       });
@@ -1611,8 +1616,9 @@ function aConstructor()
 
     apostrophe.mediaItemsIndicateSelected(options);
 
-    $('.a-media-selected-item-overlay').fadeTo(0,.35); //cross-browser opacity for overlay
-    $('.a-media-selection-list-item').hover(function(){
+    selectionList.find('.a-media-selected-item-overlay').fadeTo(0,0.35); //cross-browser opacity for overlay
+
+    selectionList.find('.a-media-selection-list-item').hover(function(){
       $(this).addClass('over');
     },function(){
       $(this).removeClass('over');
@@ -2115,7 +2121,7 @@ function aConstructor()
   };
 
   this.enableFilterDropdown = function(options)
-  {    
+  {
     var id = options.id;
     $('#' + id).change(function() {
       // Drop any page number when switching filters
@@ -2382,7 +2388,7 @@ function aConstructor()
   // toggle display of the selector specified by its
   // data-toggle attribute. Also toggles the 'open' class,
   // which in our standard CSS toggles between a right arrow
-  // and a downward-pointing arrow to indicate the 
+  // and a downward-pointing arrow to indicate the
   // toggle is open. This was refactored from aBlog.js
 
   this.enableSlideToggle = function(target)
