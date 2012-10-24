@@ -2374,7 +2374,26 @@ function aConstructor()
     // Valid way to have links open up in a new browser window
     // Example: <a href="..." rel="external">Click Meh</a>
     $(target).find('a[rel="external"]').attr('target','_blank');
+
+    apostrophe.enableSlideToggle(target);
   };
+
+  // When a label with the a-slide-toggle class is clicked,
+  // toggle display of the selector specified by its
+  // data-toggle attribute. Also toggles the 'open' class,
+  // which in our standard CSS toggles between a right arrow
+  // and a downward-pointing arrow to indicate the 
+  // toggle is open. This was refactored from aBlog.js
+
+  this.enableSlideToggle = function(target)
+  {
+    $(target).find('.a-slide-toggle').unbind('click.aSlideToggle').bind('click.aSlideToggle', function() {
+      var toggles = $($(this).attr('data-toggles'));
+      toggles.slideToggle();
+      $(this).toggleClass('open');
+      return false;
+    });
+  }
 
   this.onBeforeUnload = function()
   {

@@ -137,3 +137,28 @@ input.a-hidden-submit
 {
   margin-right: 2px;
 }
+
+// See apostrophe.enableSlideToggle, which is part of 
+// apostrophe.smartCSS 
+
+.a-slide-toggle
+{
+  position: relative;
+  clear: both;
+  cursor: pointer;
+  margin: 0 0 5px 0;
+  width: 100%;
+  background: url(/apostrophePlugin/images/a-icon-arrow-toggle.png) -6px -40px no-repeat;
+  text-indent: 16px;
+  line-height: 20px;
+}
+
+.a-slide-toggled
+{
+  display: none;
+}
+
+.a-slide-toggle.open
+{
+  background-position: -6px -20px; 
+}
