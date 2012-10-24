@@ -395,5 +395,17 @@ class aString
     }
     return $result;
   }
+
+  static public function indefiniteArticle($s)
+  {
+    if (preg_match('/^[aeiou]/', $s))
+    {
+      return 'an';
+    }
+    else
+    {
+      return 'a';
+    }
+  }
 }
 
