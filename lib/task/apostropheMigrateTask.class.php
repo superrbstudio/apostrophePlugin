@@ -51,16 +51,16 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
     $postTasks = array();
-    
+
     echo("
 Apostrophe Database Migration Task
-  
-This task will make any necessary database schema changes to bring your 
+
+This task will make any necessary database schema changes to bring your
 MySQL database up to date with the current release of Apostrophe and any additional
-Apostrophe plugins that you have installed. For other databases see the source code 
+Apostrophe plugins that you have installed. For other databases see the source code
 or run './symfony doctrine:build-sql' to obtain the SQL commands you may need.
-  
-BACK UP YOUR DATABASE BEFORE YOU RUN THIS TASK. It works fine in our tests, 
+
+BACK UP YOUR DATABASE BEFORE YOU RUN THIS TASK. It works fine in our tests,
 but why take chances with your data?
 
 ");
@@ -84,9 +84,9 @@ but why take chances with your data?
     // $createTable = $data[0]['Create Table'];
     // if (!preg_match('/CONSTRAINT `a_redirect_page_id_a_page_id`/', $createTable))
     // {
-    //   
+    //
     // }
-    
+
     if (!$this->migrate->tableExists('a_redirect'))
     {
       $this->migrate->sql(array(
@@ -106,7 +106,7 @@ but why take chances with your data?
     {
       echo($this->migrate->getCommandsRun() . " SQL commands were run.\n\n");
     }
-    
+
     if (!$this->migrate->tableExists('a_group_access'))
     {
       // They don't have a group access table yet. In theory, they don't have an editor permission
@@ -197,7 +197,7 @@ but why take chances with your data?
         $nc[$newCategory['slug']] = $newCategory;
       }
       $oldIdToNewId = array();
-      
+
       echo("Migrating media categories to Apostrophe categories...\n");
       foreach ($oldCategories as $category)
       {
@@ -212,7 +212,7 @@ but why take chances with your data?
         }
       }
       echo("Migrating from aMediaItemCategory to aMediaItemToCategory...\n");
-      
+
       $oldMappings = $this->migrate->query('SELECT * FROM a_media_item_category');
       foreach ($oldMappings as $info)
       {
@@ -242,29 +242,29 @@ but why take chances with your data?
       $options = array('application' => $options['application'], 'env' => $options['env'], 'connection' => $options['connection']);
       $postTasks[] = array('task' => new apostropheCascadeEditPermissionsTask($this->dispatcher, $this->formatter), 'arguments' => array(), 'options' => $options);
     }
-    
+
     // Migrate all IDs to BIGINT (the default in Doctrine 1.2) for compatibility with the
     // new version of sfDoctrineGuardPlugin. NOTE: we continue to use INT in create table
     // statements BEFORE this point because we need to set up relations with what they already
     // have - this call will clean that up
-    
+
     $this->migrate->upgradeIds();
-    
+
     // Upgrade all charsets to UTF-8 otherwise we can't store a lot of what comes back from embed services
     $this->migrate->upgradeCharsets();
-    
-    
+
+
     // We can add these constraints now that we have IDs of the right size
     if (!$this->migrate->constraintExists('a_media_item_to_category', 'a_media_item_to_category_category_id_a_category_id'))
     {
       $this->migrate->sql(array(
         // IDs of a_media_item_to_category might still be too small because we forgot the constraints at first
-        'ALTER TABLE a_media_item_to_category MODIFY COLUMN category_id BIGINT',          
+        'ALTER TABLE a_media_item_to_category MODIFY COLUMN category_id BIGINT',
         'ALTER TABLE a_media_item_to_category MODIFY COLUMN media_item_id BIGINT',
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_category_id_a_category_id` FOREIGN KEY (`category_id`) REFERENCES `a_category` (`id`) ON DELETE CASCADE",
         "ALTER TABLE a_media_item_to_category ADD CONSTRAINT `a_media_item_to_category_media_item_id_a_media_item_id` FOREIGN KEY (`media_item_id`) REFERENCES `a_media_item` (`id`) ON DELETE CASCADE"));
     }
-    
+
     // sfDoctrineGuardPlugin 5.0.x requires this
     if (!$this->migrate->columnExists('sf_guard_user', 'email_address'))
     {
@@ -274,7 +274,7 @@ but why take chances with your data?
         'ALTER TABLE sf_guard_user ADD COLUMN email_address varchar(255) DEFAULT \'\''
       ));
       // Email addresses are mandatory and can't be null. We can't start guessing whether
-      // you have them in some other table or not. So the best we can do is stub in 
+      // you have them in some other table or not. So the best we can do is stub in
       // the username for uniqueness for now
       $this->migrate->sql(array(
         'UPDATE sf_guard_user SET email_address = concat(username, \'@notavalidaddress\')',
@@ -296,11 +296,11 @@ but why take chances with your data?
           CONSTRAINT `sf_guard_forgot_password_user_id_sf_guard_user_id` FOREIGN KEY (`user_id`) REFERENCES `sf_guard_user` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8'));
     }
-    
+
     if (!$this->migrate->columnExists('a_page', 'published_at'))
     {
       $this->migrate->sql(array(
-        'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL', 
+        'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL',
         'UPDATE a_page SET published_at = created_at WHERE published_at IS NULL'));
     }
 
@@ -309,12 +309,12 @@ but why take chances with your data?
     $this->migrate->sql(array(
       'DELETE FROM a_media_item WHERE type="video" AND embed IS NULL AND service_url IS NULL'
     ));
-    
+
     // Rename any tags with slashes in them to avoid breaking routes in Symfony
     $this->migrate->sql(array(
       'UPDATE tag SET name = replace(name, "/", "-")'
     ));
-  
+
     // A chance to make plugin- and project-specific additions to the schema before Doctrine queries fail to see them
     sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this->migrate, "a.migrateSchemaAdditions"));
 
@@ -336,9 +336,28 @@ but why take chances with your data?
     // Important to do this BEFORE creating the media engine page, otherwise if the model has already
     // been built we have an error
     aMigrate::migrateMediaMd5($this->migrate);
-    
+
     // NO COLUMN OR TABLE ADDITIONS BELOW HERE - DOCTRINE API IN USE
-    
+
+    $adminEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aAdmin"')->fetchOne();
+    if (!$adminEnginePage)
+    {
+      $adminEnginePage = new aPage();
+      $root = aPageTable::retrieveBySlug('/');
+      $adminEnginePage->getNode()->insertAsFirstChildOf($root);
+    }
+    $adminEnginePage->slug = '/admin';
+    $adminEnginePage->engine = 'aAdmin';
+    $adminEnginePage->setAdmin(true);
+    $adminEnginePage->setPublishedAt(aDate::mysql());
+    $new = $adminEnginePage->isNew();
+    $adminEnginePage->save();
+    if ($new)
+    {
+      $adminEnginePage->setTitle('admin');
+    }
+    echo("Ensured there is an admin engine\n");
+
     $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
     if (!$mediaEnginePage)
     {
@@ -357,7 +376,7 @@ but why take chances with your data?
       $mediaEnginePage->setTitle('Media');
     }
     echo("Ensured there is an admin media engine\n");
-    
+
     echo("Finished updating tables.\n");
     if (count($postTasks))
     {
