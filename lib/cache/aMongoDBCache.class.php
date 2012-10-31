@@ -127,7 +127,7 @@ class aMongoDBCache extends sfCache
     // http://www.mongodb.org/display/DOCS/Updating
     $result = $this->collection->update(array('key' => $key), 
       array('key' => $key, 'value' => $value, 'timeout' => time() + $this->getLifetime($lifetime), 'last_mod' => time()), 
-      true);
+      array('safe' => true));
     return !!$result['ok'];
   }
 
