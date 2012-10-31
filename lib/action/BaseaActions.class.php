@@ -610,22 +610,10 @@ class BaseaActions extends sfActions
 
     if ($mainFormValid && (!isset($this->engineForm)))
     {
+      // Avoid multiple updates of search index for performance
+      $this->form->getObject()->blockSearchUpdates();
       $this->form->save();
-
-      // $pathComponent = aTools::slugify($this->form->getValue('title'), false);
-      //
-      // $base = $parent->getSlug();
-      // if ($base === '/')
-      // {
-      //   $base = '';
-      // }
-      // $slug = "$base/$pathComponent";
-
-      // $page = new aPage();
-      // // Allow both the old pkContextCMS name and a more intuitive name for this option
-      //
-      // $page->setSlug($slug);
-      // $existingPage = aPageTable::retrieveBySlug($slug);
+      $this->form->getObject()->flushSearchUpdates();
 
       $this->unlockTree();
 
@@ -642,9 +630,12 @@ class BaseaActions extends sfActions
       {
         if ($mainFormValid)
         {
-          // Yes, this does save the same object twice in some cases, but Symfony
-          // embedded forms are an unreliable alternative with many issues and
-          // no proper documentation as yet
+          // Avoid multiple updates of search index for performance
+          $this->form->getObject()->blockSearchUpdates();
+          // Yes, this does save the same object twice in some cases, but
+          // Symfony 1.4 embedded forms are an unreliable alternative with
+          // many issues and no proper documentation
+
           $this->form->save();
 
           if ($new)
@@ -660,6 +651,7 @@ class BaseaActions extends sfActions
           }
 
           $this->engineForm->save();
+          $this->form->getObject()->flushSearchUpdates();
           $this->unlockTree();
           return 'Redirect';
         }

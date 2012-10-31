@@ -1347,11 +1347,9 @@ abstract class PluginaPage extends BaseaPage
       // will lead to trouble eventually when we get clever with a history
       // purge function or similar. Copy them for hygiene
 
-      error_log("Implementing sync");
       $newSlots = array();
       foreach ($params['slots'] as $permid => $slot)
       {
-        error_log("Copying a slot");
         $slot = $slot->copy();
         $slot->save();
         $newSlots[$permid] = $slot;
@@ -1416,9 +1414,12 @@ abstract class PluginaPage extends BaseaPage
     $this->populateSlotCache();
     $target->populateSlotCache();
     $slots = $this->getSlotsByAreaName($areaName);
-    error_log(count($slots));
     $target->newAreaVersion($areaName, 'sync', array('slots' => $slots));
   }
+
+  protected $searchUpdatesBlocks = 0;
+  protected $searchUpdatesCount = 0;
+  protected $searchUpdatesAllCultures = false;
 
   /**
    * DOCUMENT ME
@@ -1426,6 +1427,16 @@ abstract class PluginaPage extends BaseaPage
    */
   public function requestSearchUpdate($allcultures = false)
   {
+    if ($this->searchUpdatesBlocks)
+    {
+      // Defer until $this->flushSearchUpdates() is called.
+      // Saves major performance hits when a post object is saved
+      // several times in succession
+      $this->searchUpdatesCount++;
+      $this->searchUpdatesAllCultures |= $allcultures;
+      return;
+    }
+
     // we want to build an array so we can map the Lucene update across all elements
     $aPages = array($this);
     if ($allcultures)
@@ -1452,7 +1463,7 @@ abstract class PluginaPage extends BaseaPage
         $aPages[] = aPageTable::retrieveByIdWithSlots($this->id, $culture);
       }
     }
-    
+
     // save a variable for the update function
     if (sfConfig::get('app_a_defer_search_updates', false))
     {
@@ -1479,6 +1490,40 @@ abstract class PluginaPage extends BaseaPage
       }
     }
   }
+
+  /**
+   * Defer search updates until flushSearchUpdates is
+   * called. If this is called several times several
+   * calls to flushSearchUpdates are needed to release 
+   * the block. Aids performance when a post object
+   * is saved several times as part of a larger
+   * operation.
+   */
+  public function blockSearchUpdates()
+  {
+    $this->searchUpdatesBlocks++;
+    $this->searchUpdatesCount++;
+  }
+
+  /**
+   * If any search updates have been deferred, carry out
+   * one search update now.
+   */
+  public function flushSearchUpdates()
+  {
+    $this->searchUpdatesBlocks--;
+    if ($this->searchUpdatesBlocks)
+    {
+      return;
+    }
+    if ($this->searchUpdatesCount)
+    {
+      $this->requestSearchUpdate($this->searchUpdatesAllCultures);
+      $this->searchUpdatesCount = 0;
+      $this->searchUpdatesAllCultures = false;
+    }
+  }
+  
 
   /**
    * DOCUMENT ME
