@@ -346,17 +346,23 @@ but why take chances with your data?
       $root = aPageTable::retrieveBySlug('/');
       $adminEnginePage->getNode()->insertAsFirstChildOf($root);
     }
-    $adminEnginePage->slug = '/admin';
-    $adminEnginePage->engine = 'aAdmin';
-    $adminEnginePage->setAdmin(true);
-    $adminEnginePage->setPublishedAt(aDate::mysql());
-    $new = $adminEnginePage->isNew();
-    $adminEnginePage->save();
-    if ($new)
+    // Don't crash if the site already has a mysterious /admin page,
+    // just do without this check
+    $exists = Doctrine::getTable('aPage')->findOneBySlug('/admin');
+    if (!$exists) 
     {
-      $adminEnginePage->setTitle('admin');
+      $adminEnginePage->slug = '/admin';
+      $adminEnginePage->engine = 'aAdmin';
+      $adminEnginePage->setAdmin(true);
+      $adminEnginePage->setPublishedAt(aDate::mysql());
+      $new = $adminEnginePage->isNew();
+      $adminEnginePage->save();
+      if ($new)
+      {
+        $adminEnginePage->setTitle('admin');
+      }
+      echo("Ensured there is an admin engine\n");
     }
-    echo("Ensured there is an admin engine\n");
 
     $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
     if (!$mediaEnginePage)
