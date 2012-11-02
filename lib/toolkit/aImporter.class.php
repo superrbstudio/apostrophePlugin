@@ -55,7 +55,7 @@ class aImporter
     }
     //Add admin pages
     $root = current($this->sql->query('SELECT * FROM a_page where slug = :slug', array('slug' => '/')));
-    $admin = array('slug' => '/admin', 'admin' => '1');
+    $admin = array('slug' => '/admin', 'admin' => '1', 'engine' => 'aAdmin');
     $this->sql->insertPage($admin, 'Admin', $root['id']);
     $adminMedia = array('slug' => '/admin/media', 'admin' => '1', 'engine' => 'aMedia');
     $this->sql->insertPage($adminMedia, 'Media', $admin['id']);
