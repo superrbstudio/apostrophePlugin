@@ -143,8 +143,16 @@ class aSql extends aMysql
       $slotIds[] = $slotId;
       if ($slotInfo['type'] === 'aSlideshow')
       {
+        // Stomp any duplicates. Helps to prevent crashes
+        // in long-running imports from questionable sources
+        $seen = array();
         foreach ($slotInfo['value']['order'] as $mediaId)
         {
+          if (isset($seen[$mediaId]))
+          {
+            continue;
+          }
+          $seen[$mediaId] = true;
           $this->query('INSERT INTO a_slot_media_item (media_item_id, slot_id) VALUES (:media_item_id, :slot_id)', array('media_item_id' => $mediaId, 'slot_id' => $slotId));
         }
       }
