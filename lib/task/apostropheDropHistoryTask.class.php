@@ -55,7 +55,13 @@ EOF;
         'SET A.latest_version = 1, A_V.version = 1'
       );
       $iAreas = $sql->getRowsAffected();
-      echo "Deleted $iDelAreaVersions historical versions of $iAreas areas.\n";
+      $sql->query(
+        'DELETE FROM a_slot '.
+        'WHERE id NOT IN (SELECT slot_id FROM a_area_version_slot)'
+      );
+      $iSlots = $sql->getRowsAffected();
+
+      $this->log(sprintf('Deleted %d slots and %d historical versions of %d areas.', $iSlots, $iDelAreaVersions, $iAreas));      
       $sql->commit();
     }
     catch(Exception $oE)
