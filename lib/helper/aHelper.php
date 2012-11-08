@@ -1042,7 +1042,7 @@ function a_compute_public_path($source, $dir, $ext, $absolute = false, $options 
     $stem = sfConfig::get('app_a_static_url', $request->getRelativeUrlRoot());
   }
   
-  if (0 !== strpos($source, '/'))
+  if (!preg_match('/^(\/|[a-zA-Z]:)/', $source))
   {
     $source = $stem.'/'.$dir.'/'.$source;
   }
