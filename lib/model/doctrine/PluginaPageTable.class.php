@@ -1416,7 +1416,12 @@ class PluginaPageTable extends Doctrine_Table
       $page = new aPage();
       $page->setSlug($url);
       $page->setEngine(get_class($object));
+      $page->blockSearchUpdates();
       $page->save();
+    }
+    else
+    {
+      $page->blockSearchUpdates();
     }
     $page->setTitle($object->getSearchTitle());
     $slot = $page->createSlot('aText');
@@ -1426,6 +1431,7 @@ class PluginaPageTable extends Doctrine_Table
       array(
         'permid' => 1, 
         'slot' => $slot));
+    $page->flushSearchUpdates();
   }
 
   /**
