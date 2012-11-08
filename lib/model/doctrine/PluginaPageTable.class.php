@@ -1365,4 +1365,89 @@ class PluginaPageTable extends Doctrine_Table
     }
     return $results;
   }
+
+  /**
+   * Mirrors the specified object to a virtual page for
+   * the purpose of including it in search results. For
+   * best results call this from your object's postSave() event
+   * handler. Calls your object's getSearchUrl() method to get
+   * a Symfony URL to link search results to; if the result is
+   * null, the object is not mirrored for search. The returned
+   * URL should not rely on editable slugs or any other
+   * properties that change. It must stay the same for this
+   * object forever. If you want nice URLs, point to an action
+   * that redirects to a nicer URL.
+   *
+   * Call your object's getSearchTitle() and getSearchText() methods
+   * to get the title and summary text to be included in the
+   * search index and displayed in the search results.
+   *
+   * The summary is automatically abbreviated in results exactly
+   * as it would be for any normal page, so you can include
+   * more indexable text here than would be reasonable for a summary.
+   * Just lead with a reasonable choice for a summary.
+   *
+   * The virtual page's engine property will be set to the
+   * PHP class name of your object, which allows you to
+   * implement a myClassNameSearchHelper class if you wish. See
+   * BaseaEventSearchHelper for an example of what you can
+   * accomplish with that, including custom partials for
+   * rendering search results.
+   *
+   * If your needs are more complex you can implement your 
+   * own mirroring.
+   *
+   * You must also call deleteSearchMirror($object) from
+   * your preDelete() event handler.
+   */
+  public function mirrorForSearch($object)
+  {
+    $url = $object->getSearchUrl();
+    if (!$url)
+    {
+      return;
+    }
+
+    $page = $this->retrieveBySlug($url);
+    $new = false;
+    if (!$page) 
+    {
+      $new = true;
+      $page = new aPage();
+      $page->setSlug($url);
+      $page->setEngine(get_class($object));
+      $page->save();
+    }
+    $page->setTitle($object->getSearchTitle());
+    $slot = $page->createSlot('aText');
+    $slot->value = $object->getSearchText();
+    $slot->save();
+    $page->newAreaVersion('body', 'update', 
+      array(
+        'permid' => 1, 
+        'slot' => $slot));
+  }
+
+  /**
+   * Remove the virtual page corresponding to $object.
+   * The slug of that page is determined by calling the
+   * getSearchUrl method of $object. If getSearchUrl returns
+   * null, nothing is done. If there is no virtual page,
+   * nothing is done. Call this from your preDelete() handler.
+   * See also mirrorForSearch().
+   */
+  public function deleteSearchMirror($object)
+  {
+    $route = $object->getSearchUrl();
+    if (!$route)
+    {
+      return;
+    }
+    $page = $this->retrieveBySlug($route);
+    if (!$page)
+    {
+      return;
+    }
+    $page->delete();
+  }
 }
