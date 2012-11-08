@@ -50,11 +50,10 @@ class BaseaActions extends sfActions
     $page = aPageTable::retrieveBySlugWithSlots($slug);
     if (!$page)
     {
-      $redirect = Doctrine::getTable('aRedirect')->findOneBySlug($slug);
+      $redirect = $this->findRedirect($slug);
       if ($redirect)
       {
-        $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);
-        return $this->redirect($page->getUrl(), 301);
+        return $this->redirect($redirect, 301);
       }
     }
     aTools::validatePageAccess($this, $page);
@@ -75,6 +74,17 @@ class BaseaActions extends sfActions
     return 'Template';
   }
 
+  public function findRedirect($slug)
+  {
+    $redirect = Doctrine::getTable('aRedirect')->findOneBySlug($slug);
+    if ($redirect)
+    {
+      $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);
+      return $page->getUrl();
+    }
+    return null;
+  }
+  
   /**
    * DOCUMENT ME
    * @param sfWebRequest $request
