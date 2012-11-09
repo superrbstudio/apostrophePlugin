@@ -350,19 +350,26 @@ class aImporter
   {
     $n = 1;
     $html = $slot->value->__toString();
-    $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/\<a href=\"[^\"]+\"[^\>]*>\s*(?:\<br \/\>|&nbsp;|\s)*\<img.*?src="[^\"]+[^\>]*\>(?:\<br \/\>|&nbsp;|\s)*\<\/a\>/is', '/\<img.*?src="[^\"]+".*?\>/is', '/\<object.*?\>.*?\<\/object\>/is', '/\<iframe.*?\>.*?\<\/iframe\>/is'));
+    // Cases: wordpress 'caption' element (typically enclosing an image),
+    // link to an image, plain ol' image, and object and iframe embeds
+    $segments = aString::splitAndCaptureAtEarliestMatch($html, array('/\[caption.*?\].*?\[\/caption\]/', '/\<a href=\"[^\"]+\"[^\>]*>\s*(?:\<br \/\>|&nbsp;|\s)*\<img.*?src="[^\"]+[^\>]*\>(?:\<br \/\>|&nbsp;|\s)*\<\/a\>/is', '/\<img.*?src="[^\"]+".*?\>/is', '/\<object.*?\>.*?\<\/object\>/is', '/\<iframe.*?\>.*?\<\/iframe\>/is'));
     // Empty bodies happen
     $slotInfos = array();
     foreach ($segments as $segment)
     {
       $mediaItem = null;
+      $caption = false;
+      if (preg_match('/caption="(.*?)"/', $segment, $matches))
+      {
+        $caption = aHtml::toPlaintext($matches[1]);
+      }
       if (preg_match('/\<audio.*?\>.*?\<\/audio\>|\<video.*?\>.*?\<\/video\>|\<script.*?\>.*?\<\/script\>|\<object.*?\>.*?\<\/object\>|\<iframe.*?\>.*?\<\/iframe\>/is', $segment))
       {
         $form = new aMediaVideoForm();
         $result = $form->classifyEmbed($segment);
         if ($result['ok'])
         {
-          $info = array('title' => isset($result['serviceInfo']['title']) ? $result['serviceInfo']['title'] : $title . ' video ' . $n,
+          $info = array('title' => $caption ? $caption : (isset($result['serviceInfo']['title']) ? $result['serviceInfo']['title'] : $title . ' video ' . $n),
             'embed' => $result['embed'],
             'width' => isset($result['width']) ? $result['width'] : null,
             'height' => isset($result['height']) ? $result['height'] : null,
@@ -379,18 +386,26 @@ class aImporter
         $src = $matches[1];
         // &amp; won't work if we don't decode it to & before passing it to the server
         $src = html_entity_decode($src);
-        $mediaId = $this->findOrAddMediaItem($src, 'id');
+        // A link means we should make a button slot - unless the link
+        // is to an image (typically a higher quality version of the
+        // same thing). If the link is to an image, use it as the
+        // src and don't make a button slot.
         if (preg_match('/href="(.*?)"/', $segment, $matches))
         {
           $url = $matches[1];
+          if (preg_match('/\.(jpeg|jpg|gif|png)$/i', $url))
+          {
+            $src = $url;
+            $url = null;
+          }
         }
-        // $mediaItem->save();
+        $mediaId = $this->findOrAddMediaItem($src, 'id', true, array('title' => isset($caption) ? $caption : null));
         if (!is_null($mediaId))
         {
           $slotInfo = array('type' => 'aImage', 'mediaId' => $mediaId, 'value' => array());
           if (isset($url))
           {
-            $slotInfo = array('type' => 'aButton', 'value' => array('url' => $url, 'title' => ''), 'mediaId' => $mediaId);
+            $slotInfo = array('type' => 'aButton', 'value' => array('url' => $url, 'title' => $caption ? $caption : ''), 'mediaId' => $mediaId);
           }
           $slotInfos[] = $slotInfo;
         }
