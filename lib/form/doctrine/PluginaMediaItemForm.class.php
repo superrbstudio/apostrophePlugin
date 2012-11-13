@@ -95,8 +95,8 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     $object = parent::updateObject($values);
     // Do some postvalidation of what parent::updateObject did
     // (it would be nice to turn this into an sfValidator subclass)
-    $object->setDescription(aHtml::simplify($object->getDescription(),
-      "<p><br><b><i><strong><em><ul><li><ol><a>"));
+    $allowedTags = sfConfig::get('app_aMedia_description_allowed_tags', "<p><br><b><i><strong><em><ul><li><ol><a>");
+    $object->setDescription(aHtml::simplify($object->getDescription(), $allowedTags));
     // The tags field is not a native Doctrine field 
     // so we can't rely on parent::updateObject to sort out
     // whether to use $values or $this->getValue. So we need
