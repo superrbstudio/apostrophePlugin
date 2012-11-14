@@ -11,15 +11,15 @@ class apostropheDeployTask extends sfBaseTask
 
     $this->addArguments(array(
       new sfCommandArgument('server',
-        sfCommandArgument::REQUIRED, 
+        sfCommandArgument::REQUIRED,
         'The remote server nickname. The server nickname must be defined in properties.ini'),
-      new sfCommandArgument('env', 
-        sfCommandArgument::REQUIRED, 
+      new sfCommandArgument('env',
+        sfCommandArgument::REQUIRED,
         'The remote environment ("staging")')
     ));
 
     $this->addOptions(array(
-      new sfCommandOption('skip-migrate', 
+      new sfCommandOption('skip-migrate',
         sfCommandOption::PARAMETER_NONE)
     ));
 
@@ -50,39 +50,39 @@ Call it with:
 
 You can skip the migration step by adding the --skip-migrate option. This is necessary
 if the remote database has just been created or does not exist yet.
-  
+
 Note that you must specify both the server nickname and the remote environment name.
 EOF;
   }
 
-  // properties.ini 
+  // properties.ini
   protected $properties;
-  
+
   protected function execute($arguments = array(), $options = array())
   {
     $this->properties = parse_ini_file("config/properties.ini", true);
-    
+
     if ($this->properties === false)
     {
       throw new sfException("You must be in a symfony project directory");
     }
-    
-    
+
+
     $server = $arguments['server'];
     $env = $arguments['env'];
 
-    // Why did I think properties.ini wouldn't load as a hash of hashes? 
+    // Why did I think properties.ini wouldn't load as a hash of hashes?
     // Sigh this is much simpler
     if (!isset($this->properties[$server]))
-    {      
+    {
       throw new sfException("First argument must be a server nickname as found in properties.ini (for instance: staging or production)");
     }
 
     // Sometimes the ssh host and the actual site URL differ. Sometimes
     // the actual site URL involves https://. Etc.
-    
+
     // NO TRAILING SLASH on this properties.ini setting please
-    
+
     $data = $this->properties[$server];
     if (isset($data['uristem']))
     {
@@ -106,12 +106,13 @@ EOF;
     {
       throw new sfException('Problem executing project:permissions task.');
     }
-    
+
     system("./symfony project:deploy --go $eserver", $result);
     if ($result != 0)
     {
       throw new sfException('Problem executing project:deploy task.');
     }
+    $extra = '';
     if ($options['skip-migrate'])
     {
       $extra .= ' --skip-migrate';
@@ -126,7 +127,7 @@ EOF;
     }
     $this->clearAPCCache($uristem);
   }
-  
+
   protected function getSyncProperty($property, $default = null)
   {
     if (!isset($this->properties['sync'][$property]))
@@ -135,20 +136,20 @@ EOF;
     }
     return $this->properties['sync'][$property];
   }
-  
+
   public function clearAPCCache($uristem)
   {
     if (!isset($this->properties['sync']))
     {
       echo("\n\nWARNING: [sync] properties are not set in properties.ini\n\n");
-      echo("You will have to reset Apache manually to clear the APC cache.\n\n");  
+      echo("You will have to reset Apache manually to clear the APC cache.\n\n");
     }
-    
+
     if (!$this->getSyncProperty('clear_apc_cache', true))
     {
       return;
     }
-    
+
     $syncPassword = $this->getSyncProperty('password');
     if (!$syncPassword)
     {
