@@ -1331,4 +1331,15 @@ class BaseaTools
   	$standardOptions = array_merge($standardOptions, $extraOptions);
   	return $standardOptions;
   }
+
+  /**
+   * Return a name unique enough for a select dropdown.
+   * This really belongs in PluginsfGuardUserTable, but
+   * we don't own that. Putting this in a static method
+   * allows us to avoid the performance hit of hydration.
+   */
+  static public function getUniqueName($user)
+  {
+    return $user['first_name'] . ' ' . $user['last_name'] . ' (' . $user['username'] . ')';
+  }
 }
