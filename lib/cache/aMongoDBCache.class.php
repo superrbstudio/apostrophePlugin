@@ -125,9 +125,10 @@ class aMongoDBCache extends sfCache
     // unaware of continuously ongoing failures. Removing 'safe' might make this a bit faster, in which case you would need
     // to always return true. Use an 'upsert' operation which can insert if the record does not already exist:
     // http://www.mongodb.org/display/DOCS/Updating
+    // Whoops, the 'upsert' was missing, a do-nothing cache isn't very useful!
     $result = $this->collection->update(array('key' => $key), 
       array('key' => $key, 'value' => $value, 'timeout' => time() + $this->getLifetime($lifetime), 'last_mod' => time()), 
-      array('safe' => true));
+      array('safe' => true, 'upsert' => true));
     return !!$result['ok'];
   }
 
