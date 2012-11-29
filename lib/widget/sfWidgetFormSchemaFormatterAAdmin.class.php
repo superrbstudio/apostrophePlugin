@@ -59,6 +59,8 @@ class sfWidgetFormSchemaFormatterAAdmin extends sfWidgetFormSchemaFormatter
       $widgetSchema = $this->getWidgetSchema();
       $widget = $widgetSchema[$this->lastWidgetName];
       $cssClass = ' ' .$widgetSchema->generateId($this->widgetSchema->generateName($this->lastWidgetName));
+      $class = get_class($this->widgetSchema[$this->lastWidgetName]);
+      $cssClass .= ' ' . $class;
     }
     
     return $this->aRowClassName . $cssClass;
