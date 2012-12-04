@@ -82,10 +82,16 @@ class aImageConverter
 
   /**
    * $width and $height are the dimensions of the final rendered image. $quality is the JPEG quality setting (where needed).
+   *
    * The $crop parameters, when not null (all four must be null or not null), are used to crop the original before scaling/distorting
    * to the specified width and height and are always in the original image's coordinates.
+   *
    * If cropping coordinates are not specified, the largest possible portion of the center of the original image is scaled to fit into the
-   * destination image without distortion
+   * destination image without distortion.
+   *
+   * If 'width' is false it is scaled relative to the width, and
+   * vice versa. Both cannot be false.
+   *
    * @param mixed $fileIn
    * @param mixed $fileOut
    * @param mixed $width
@@ -105,9 +111,6 @@ class aImageConverter
     {
       $quality = 75;
     }
-    $width = ceil($width);
-    $height = ceil($height);
-    $quality = ceil($quality);
     // Make sure we use a method that understands about JPEG orientation
     $info = aImageConverter::getInfo($fileIn);
     if (!$info)
@@ -116,6 +119,17 @@ class aImageConverter
     }
     $iwidth = $info['width'];
     $iheight = $info['height'];
+    if ($width === false)
+    {
+      $width = ceil($height * $iwidth / $iheight);
+    }
+    elseif ($height === false)
+    {
+      $height = ceil($width * $iheight / $iwidth);
+    }
+    $width = ceil($width);
+    $height = ceil($height);
+    $quality = ceil($quality);
 
     $iratio = $iwidth / $iheight;
     $ratio = $width / $height;
