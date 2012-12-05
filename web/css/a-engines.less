@@ -2379,60 +2379,51 @@ border-radius: 4px;
 {
   position: relative;
   width: 100%;
-}
-
-.a-calendar th,
-.a-calendar td
-{
-  position: relative;
-  cursor: default;
-  padding: 2px;
-}
-
-.a-calendar .title
-{
-float: left;
-width: auto;
-width: 100%;
-text-align: center;
-z-index: 1;
-clear: none;
-}
-
-.a-calendar .previous-month
-{
-  position: relative;
-  margin-right: -20px;
-  z-index: 2;
-}
-
-.a-calendar .next-month
-{
-  position: relative;
-  margin-left: -20px;
-  z-index: 2;
-}
-
-.a-calendar .day
-{
-  vertical-align: middle;
-  text-align: center;
-}
-
-.a-calendar .day a,
-.a-calendar .day span
-{
-  display: block;
-  height: 100%;
-}
-
-.a-calendar .a-calendar-today
-{
-  float: right;
-  line-height: 18px;
-  font-size: 11px;
-  text-decoration: none;
-  padding-right: 4px;
+  th,td
+  {
+    position: relative;
+    cursor: default;
+    padding: 2px;
+  }
+  .title
+  {
+    float: left;
+    width: auto;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    clear: none;
+  }
+  .previous-month
+  {
+    position: relative;
+    margin-right: -20px;
+    z-index: 2;
+  }
+  .next-month
+  {
+    position: relative;
+    margin-left: -20px;
+    z-index: 2;
+  }
+  .day
+  {
+    vertical-align: middle;
+    text-align: center;
+    a,span
+    {
+    display: block;
+    height: 100%;
+    }
+  }
+  .a-calendar-today
+  {
+    float: right;
+    line-height: 18px;
+    font-size: 11px;
+    text-decoration: none;
+    padding-right: 4px;
+  }
 }
 
 // This fixes a bug where the area div covers the elements above it causing edit buttons to be not clickable
