@@ -202,6 +202,16 @@ class BaseaMediaVideoForm extends aMediaItemForm
     
     $result['ok'] = true;
     $result['embed'] = $value;
+
+    $tags = array('embed', 'object', 'param', 'applet', 'iframe', 'video', 'source', 'audio');
+    $embed = strtolower($result['embed']);
+    foreach ($tags as $tag)
+    {
+      if (substr_count($embed, '<' . $tag) !== substr_count($embed, '</' . $tag))
+      {
+        $this->classifyEmbedResult = array('ok' => false, 'error' => 'Tags are not balanced. Did you paste the whole thing?');
+      }
+    }
     $this->classifyEmbedResult = $result;
     return $this->classifyEmbedResult;
   }

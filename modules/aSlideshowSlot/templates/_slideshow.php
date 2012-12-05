@@ -1,14 +1,14 @@
+<?php use_helper('a') ?>
 <?php
   // Compatible with sf_escaping_strategy: true
-  $id = isset($id) ? $sf_data->getRaw('id') : null;
+  // 'items', $options['width'], $options['height'] and $options['resizeType'] are
+  // mandatory parameters. Height can be false for flex height
+  $id = isset($id) ? $sf_data->getRaw('id') : 's-' . floor(mt_rand(0, 1000000000));
   $items = isset($items) ? $sf_data->getRaw('items') : null;
-  $n = isset($n) ? $sf_data->getRaw('n') : null;
-  $options = isset($options) ? $sf_data->getRaw('options') : null;
-
+  $options = isset($options) ? $sf_data->getRaw('options') : array();
   $title = count($items) > 1 ? __('Click For Next Image', null, 'apostrophe') : false;
 	$id = ($options['idSuffix']) ? $id.'-'.$options['idSuffix']:$id;
 ?>
-<?php use_helper('a') ?>
 
 <?php if (count($items)): ?>
   <?php // Crossfade doesn't work well without a height unless you do special gymnastics. The simple ?>

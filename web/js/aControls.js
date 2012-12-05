@@ -52,6 +52,13 @@ function aMultipleSelectAll(options)
 // original name is thingy[myselect], the add checkbox array will be
 // named thingy[myselect_add][].
 //
+// Sometimes a multiple select element is conceptually correct but there
+// is no larger pool of existing options to choose from, so the "CHOOSE ONE"
+// prompt has no meaning - the only sensible actions are adding a new option
+// or removing a selection. You can hide the dropdown and keep the 
+// "Add" prompt displayed at all times (if 'add' is present) by setting the 
+// 'no-dropdown' option to true.
+//
 // You can relabel the Add and Cancel buttons with the add-add-label and
 // add-cancel-label options.
 //
@@ -98,6 +105,7 @@ function aMultipleSelect(target, options)
       {
         autocomplete = options['autocomplete'];
       }
+      var noDropdown = options['no-dropdown'];
 
       // By default the first option is assumed to be a "choose one" label and cannot actually
       // be chosen. If you are upgrading multiple select elements that weren't designed expressly
@@ -165,7 +173,15 @@ function aMultipleSelect(target, options)
       }
       else
       {
-        html += "<select class='a-multiple-select-input' ";
+        html += "<select ";
+        if (noDropdown) 
+        {
+          html += "style='display: none' ";
+        }
+        else
+        {
+          html += "class='a-multiple-select-input' ";
+        }
         html += "name='select-" + name + "'></select>\n";
       }
       if (addIndex !== undefined)
@@ -174,10 +190,13 @@ function aMultipleSelect(target, options)
         {
           options['add-cancel-label'] = 'Cancel';
         }
-        html += '<div class="add" style="display: none">\n';
+        html += '<div class="add" style="' + (noDropdown ? '' : 'display: none') + '">';
         html += '<input name="add-text" class="add-text" type="text">\n';
         html += '<a href="#add" onclick="return false;" class="add-add a-btn icon a-add"><span class="icon"></span>' + options['add-add-label'] + '</a>\n';
-        html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel alt add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
+        if (!noDropdown)
+        {
+          html += '<a href="#cancel" onclick="return false;" class="a-btn icon a-cancel alt add-cancel no-label"><span class="icon"></span>' + options['add-cancel-label'] + '</a>\n';
+        }
         html += '</div>\n';
       }
       for (j = 0; (j < length); j++)
@@ -230,7 +249,10 @@ function aMultipleSelect(target, options)
       });
       function doSaveAdd()
       {
-        container.find('.add').hide();
+        if (!noDropdown)
+        {
+          container.find('.add').hide();
+        }
         var addText = container.find('.add-text');
         var v = addText.val();
         addText.val('');
@@ -377,7 +399,13 @@ function aMultipleSelect(target, options)
         if (!autocomplete)
         {
           // Necessary in IE
-          $(select).replaceWith("<select class='a-multiple-select-input' name='select-" + name + "'>" + html + "</select>");
+          var code = "<select class='a-multiple-select-input' ";
+          if (noDropdown)
+          {
+            code += "style='display: none' ";
+          }
+          code += "name='select-" + name + "'>" + html + "</select>"
+          $(select).replaceWith(code);
           $("#" + id + " select").change(function() { update(false, false); });
         }
         if (!initial)
