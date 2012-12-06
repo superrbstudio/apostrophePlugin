@@ -26,10 +26,10 @@ class BaseaPageSettingsForm extends aPageForm
     __('Media', null, 'apostrophe');
     __('Published', null, 'apostrophe');
     __('Unpublished', null, 'apostrophe');
-    __('results', null, 'apostrophe');    
+    __('results', null, 'apostrophe');
     __('Login Required', null, 'apostrophe');
   }
-  
+
   protected $new = false;
   protected $parent = null;
 
@@ -74,13 +74,13 @@ class BaseaPageSettingsForm extends aPageForm
    */
   public function configure()
   {
-    parent::configure();    
+    parent::configure();
     $manage = $this->getObject()->isNew() ? true : $this->getObject()->userHasPrivilege('manage');
-   
+
     $user = sfContext::getInstance()->getUser();
-    
+
     // $page->setArchived(!sfConfig::get('app_a_default_published', sfConfig::get('app_a_default_on', true)));
-    
+
     // We must explicitly limit the fields because otherwise tables with foreign key relationships
     // to the pages table will extend the form whether it's appropriate or not. If you want to do
     // those things on behalf of an engine used in some pages, define a form class called
@@ -90,10 +90,10 @@ class BaseaPageSettingsForm extends aPageForm
     // saved consecutively after the main page settings form. The form will be rendered via
     // the _renderPageSettingsForm partial in your engine module, which must exist, although it
     // can be as simple as echo $form. (Your form is passed to the partial as $form.)
-    // 
+    //
     // We would use embedded forms if we could. Unfortunately Symfony has unresolved bugs relating
     // to one-to-many relations in embedded forms.
-    
+
     $fields = array('slug', 'archived');
     if ($user->hasCredential('cms_admin'))
     {
@@ -102,35 +102,35 @@ class BaseaPageSettingsForm extends aPageForm
     $this->useFields($fields);
 
     $object = $this->getObject();
-    
+
     // The states we really have now are:
     // Public
     // Login required, with various settings plus a boolean for "guest" access
     // Admin only (for which we have added view_admin_lock)
-    
+
     // The problem is that right now, public and "guest" are distinguished by a single boolean.
-    // It's a pain to turn that into an enumeration. 
-    
+    // It's a pain to turn that into an enumeration.
+
     // So we need an additional "view_guest" boolean consulted when "view_is_secure" is true, and
     // that new boolean should default to true.
-    
+
     // In 2.0 we'll probably clean these flags up a bit.
-    
+
     $choices = array('public' => 'Public', 'login' => 'Login Required', 'admin' => 'Admins Only');
-    
+
     if (!$user->hasCredential('cms_admin'))
     {
       // You can't stop yourself and your peers from viewing a page
       unset($choices['admin']);
     }
-    
+
     if (sfConfig::get('app_a_simple_permissions'))
     {
       unset($this['archived']);
       unset($this['view_is_secure']);
       unset($this['view_admin_lock']);
       $choices = array('everyone' => 'Everyone', 'guests' => 'Guests', 'editors' => 'Editors');
-      
+
       if ($object['view_is_secure'])
       {
         if ($object['view_guest'])
@@ -141,12 +141,12 @@ class BaseaPageSettingsForm extends aPageForm
         {
           $value = 'editors';
         }
-      } 
-      else 
+      }
+      else
       {
         $value = 'everyone';
       }
-      
+
       $this->setWidget('simple_status', new sfWidgetFormChoice(array('choices' => $choices, 'default' => $value)));
       $this->setValidator('simple_status', new sfValidatorChoice(array('choices' => array_keys($choices))));
     }
@@ -163,7 +163,7 @@ class BaseaPageSettingsForm extends aPageForm
         {
           $default = 'login';
         }
-        
+
         $this->setWidget('view_options', new sfWidgetFormChoice(array('choices' => $choices, 'expanded' => true, 'default' => $default)));
         $this->setValidator('view_options', new sfValidatorChoice(array('choices' => array_keys($choices), 'required' => true)));
         if ($this->getObject()->hasChildren(false))
@@ -180,9 +180,9 @@ class BaseaPageSettingsForm extends aPageForm
         $this->setValidator('view_groups', new sfValidatorCallback(array('callback' => array($this, 'validateViewGroups'), 'required' => true)));
       }
     }
-    
+
     // Changed the name so Doctrine doesn't get uppity
-    
+
     $engine = $object->engine;
     $template = $object->template;
     if (!strlen($object->template))
@@ -264,7 +264,7 @@ class BaseaPageSettingsForm extends aPageForm
     {
       $privilegePage = $this->parent;
     }
-    
+
     if ($user->hasCredential('cms_admin'))
     {
       $this->setWidget('edit_individuals', new sfWidgetFormInputHidden(array('default' => $this->getEditIndividualsJSON())));
@@ -272,7 +272,7 @@ class BaseaPageSettingsForm extends aPageForm
       $this->setWidget('edit_groups', new sfWidgetFormInputHidden(array('default' => $this->getEditGroupsJSON())));
       $this->setValidator('edit_groups', new sfValidatorCallback(array('callback' => array($this, 'validateEditGroups'), 'required' => true)));
     }
-    
+
     // If you can delete the page, you can change the slug
     if ($manage)
     {
@@ -283,14 +283,14 @@ class BaseaPageSettingsForm extends aPageForm
 
     // Named 'realtitle' to avoid excessively magic Doctrine form behavior.
     // Specifically, updateObject() will automatically call setTitle() if there
-    // is such a method and a widget named 'title', and we don't want that to 
+    // is such a method and a widget named 'title', and we don't want that to
     // happen until after the page is saved so we can store it in a slot
-    
+
     $this->setValidator('realtitle', new sfValidatorString(array('required' => true), array('required' => 'The title cannot be empty.')));
 
     $title = $this->getObject()->getTitle();
     $this->setWidget('realtitle', new sfWidgetFormInputText(array('default' => aHtml::toPlaintext($this->getObject()->getTitle(), ENT_COMPAT, 'UTF-8'))));
-    
+
     // The slug of the home page cannot change (chicken and egg problems)
     if ($this->getObject()->getSlug() === '/')
     {
@@ -303,12 +303,12 @@ class BaseaPageSettingsForm extends aPageForm
         'column' => 'slug'
       ), array('invalid' => 'There is already a page with that slug.')));
     }
-    
+
     $this->widgetSchema->setIdFormat('a_settings_%s');
     $this->widgetSchema->setNameFormat('settings[%s]');
     $this->widgetSchema->setFormFormatterName('list');
 
-    // We changed the form formatter name, so we have to reset the translation catalogue too 
+    // We changed the form formatter name, so we have to reset the translation catalogue too
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
 
@@ -614,9 +614,9 @@ class BaseaPageSettingsForm extends aPageForm
       }
       $this->getObject()->slug = $values['slug'];
     }
-    
+
     // Slashes break routes in most server configs. Do NOT force case of tags.
-    
+
     $values['tags'] = str_replace('/', '-', isset($values['tags']) ? $values['tags'] : '');
 
     $object = parent::updateObject($values);
@@ -649,7 +649,7 @@ class BaseaPageSettingsForm extends aPageForm
       }
       $object->template = $etemplate;
     }
-    
+
     // On manual change of slug, set up a redirect from the old slug,
     // and notify child pages so they can update their slugs if they are
     // not already deliberately different
@@ -662,19 +662,19 @@ class BaseaPageSettingsForm extends aPageForm
         $child->updateParentSlug($oldSlug, $object->slug);
       }
     }
-    
+
     if (isset($object->engine) && (!strlen($object->engine)))
     {
       // Store it as null for plain ol' executeShow page templating
       $object->engine = null;
     }
-    
+
     // A new page must be added as a child of its parent
     if ($this->parent)
     {
       $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
     }
-    
+
     if (sfConfig::get('app_a_simple_permissions'))
     {
       $object['view_admin_lock'] = false;
@@ -713,7 +713,7 @@ class BaseaPageSettingsForm extends aPageForm
           }
         }
       }
-    
+
       // Check for cascading operations
       if ($this->getValue('cascade_archived'))
       {
@@ -723,7 +723,7 @@ class BaseaPageSettingsForm extends aPageForm
         $q->set('archived', '?', $object->getArchived());
         $q->execute();
       }
-    
+
       if (isset($values['view_options']))
       {
         if ($values['view_options'] === 'public')
@@ -753,7 +753,7 @@ class BaseaPageSettingsForm extends aPageForm
         }
       }
     }
-    
+
     // We have no UI for scheduling publication yet, so make sure
     // we set the publication date when we save with archived false
     if (isset($this['archived']))
@@ -763,11 +763,13 @@ class BaseaPageSettingsForm extends aPageForm
         $object->setPublishedAt(aDate::mysql());
       }
     }
-    
+
     // Has to be done on shutdown so it comes after the in-memory cache of
     // sfFileCache copies itself back to disk, which otherwise overwrites
     // our attempt to invalidate the routing cache [groan]
     register_shutdown_function(array($this, 'invalidateRoutingCache'));
+
+    return $object;
   }
 
   /**
@@ -796,7 +798,7 @@ class BaseaPageSettingsForm extends aPageForm
     // This involves creating a slot so it has to happen last
     $object->setMetaDescription(aHtml::entities($this->getValue('real_meta_description')));
     $this->getObject()->setTitle(htmlentities($this->getValue('realtitle'), ENT_COMPAT, 'UTF-8'));
-    
+
     if ($this->new)
     {
       $event = new sfEvent($object, 'a.pageAdded', array());
@@ -807,7 +809,7 @@ class BaseaPageSettingsForm extends aPageForm
       $event = new sfEvent($object, 'a.pageEdited', array());
       sfContext::getInstance()->getEventDispatcher()->notify($event);
     }
-    
+
     return $object;
   }
 
@@ -853,7 +855,7 @@ class BaseaPageSettingsForm extends aPageForm
       return;
     }
     $values = json_decode($value, true);
-    
+
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
@@ -892,7 +894,7 @@ class BaseaPageSettingsForm extends aPageForm
       return;
     }
     $values = json_decode($value, true);
-    
+
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
@@ -948,9 +950,9 @@ class BaseaPageSettingsForm extends aPageForm
     {
       return;
     }
-    
+
     $values = json_decode($value, true);
-    
+
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
@@ -993,9 +995,9 @@ class BaseaPageSettingsForm extends aPageForm
     {
       return;
     }
-    
+
     $values = json_decode($value, true);
-    
+
     $t = Doctrine::getTable('aPage');
     if ($object->id)
     {
@@ -1100,5 +1102,5 @@ class BaseaPageSettingsForm extends aPageForm
       Doctrine_Query::create()->delete('aGroupAccess a')->andWhereIn('a.page_id', $ids)->andWhere('a.group_id = ?', $groupId)->andWhere('a.privilege = ?', $privilege)->execute();
     }
   }
-  
+
 }

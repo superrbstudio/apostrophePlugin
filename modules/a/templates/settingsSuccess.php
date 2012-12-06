@@ -31,8 +31,8 @@
   		<h3><?php echo __('Title', array(), 'apostrophe') ?></h3>
 
   		<div class="a-form-row a-page-title">
-  		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine. 
-  		 				// There is another way but I think it might still try to initialize the field 
+  		  <?php // "Why realtitle?" To avoid excessively magic features of sfFormDoctrine.
+  		 				// There is another way but I think it might still try to initialize the field
   						// in an unwanted fashion even if it allows them to be saved right ?>
   			<div class="a-form-field">
   				<?php echo $form['realtitle']->render(array('id' => 'a-edit-page-title', 'class' => 'a-page-title-field')) ?>
@@ -63,6 +63,8 @@
 			</div>
 		<?php endif ?>
 
+    <?php include_partial('a/extraSettings', array('form' => $form, 'page' => $page, 'parent' => $parent, 'admin' => $admin)) ?>
+
 	   <?php // This outer div is an AJAX target, it has to be here all the time ?>
 	   <?php // in case the user selects an engine ?>
 		<div class="a-engine-page-settings">
@@ -89,24 +91,24 @@
 							<div class="cascade-checkbox a-cascade-option">
 								<?php echo $form['cascade_archived'] ?> <?php echo __('apply to subpages', null, 'apostrophe') ?>
 							</div>
-						<?php endif ?> 
+						<?php endif ?>
 					</div>
 				</div>
 			<?php endif ?>
     <?php endif ?>
 	</div>
-	
-	
+
+
 	<?php if ($create): ?>
 	<a href="/#more-options" onclick="return false;" class="a-btn lite mini a-more-options-btn">More Options...</a>
 	<div class="a-options-more a-hidden">
 	<?php endif ?>
 
 	<hr/>
-	
+
 	<div class="a-options-section tags-metadata a-accordion clearfix">
 		<h3>Tags &amp; Metadata</h3>
-		<div class="a-accordion-content">			
+		<div class="a-accordion-content">
 			<div class="a-form-row keywords">
 				<div class="a-form-field">
 					<?php echo $form['tags']->render() ?>
@@ -140,7 +142,7 @@
       <?php include_partial('a/allPrivileges', array('form' => $form, 'inherited' => $inherited, 'admin' => $admin, 'hasSubpages' => $hasSubpages)) ?>
     <?php endif ?>
   <?php endif ?>
-  
+
 	<?php if ($create): ?>
 		</div>
 	<?php endif ?>
@@ -148,7 +150,7 @@
 	<hr/>
 
 	<div class="a-options-section submit-settings clearfix">
-		<ul class="a-ui a-controls">		
+		<ul class="a-ui a-controls">
 		  <li><?php echo a_anchor_submit_button(htmlspecialchars(__($page->isNew() ? 'Create Page' : 'Save Changes', null, 'apostrophe')), array('big','a-show-busy'), $stem.'-submit', $stem.'-submit') ?></li>
 			<li><?php echo a_js_button(a_('Cancel'), array('icon', 'a-cancel', 'alt', 'a-options-button', 'big')) ?></li>
 			<?php if ((!$page->isNew()) && $page->userHasPrivilege('delete')): ?>
@@ -158,7 +160,7 @@
 			<?php endif ?>
 		</ul>
 	</div>
-		
+
 </form>
 
 <?php a_js_call('apostrophe.enablePageSettings(?)', array('id' => $stem, 'pageId' => $page->id, 'new' => $page->isNew(), 'slugStem' => $slugStem,  'url' => a_url('a', 'settings') . '?' . http_build_query($page->isNew() ? array('new' => 1, 'parent' => $parent->slug) : array('id' => $page->id)), 'slugifyUrl' => a_url('a', 'slugify'), 'engineUrl' => a_url('a', 'engineSettings'))) ?>
