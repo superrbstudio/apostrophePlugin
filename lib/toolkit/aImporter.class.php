@@ -606,9 +606,13 @@ class aImporter
       }
       $mediaItem->setSlug($slug);
       $mediaItem->setType('video');
+      $service = null;
       if ($mediaItem->service_url)
       {
         $service = aMediaTools::getEmbedService($mediaItem->service_url);
+      }
+      if ($service)
+      {
         $id = $service->getIdFromUrl($mediaItem->service_url);
         if ($service->supports('thumbnail'))
         {
