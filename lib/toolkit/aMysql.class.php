@@ -163,6 +163,22 @@ class aMysql
   }
 
   /**
+   * A rare but useful special case: ORDER BY FIELD (p.id, 1, 5, 7, 12, 13...)
+   * This clause is a pain to build by hand, so pass a field name and an array
+   * of values to this method to get back a string ready to append to your SQL.
+   * (Wondering why this is useful? I bet you think WHERE IN returns results
+   * in order. Guess what: not so much.)
+   */
+  public function orderByField($field, $values)
+  {
+    if (!count($values))
+    {
+      return '';
+    }
+    return ' ORDER BY FIELD (' . $field . ', ' . implode(',', array_map(array($this, 'quote'), $values)) . ') ';
+  }
+
+  /**
    * Why are you using this? Go read about the params argument to query() again
    * @param mixed $item
    * @return mixed
