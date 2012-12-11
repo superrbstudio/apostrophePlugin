@@ -2334,6 +2334,16 @@ function aConstructor()
       target = options['target'];
     };
 
+    // a-noclick is a class that removes the href attribute from
+    // a link via javascript. This is done so that non-javascript
+    // browsers that matter - like Google's search engine spider
+    // (think SEO) - still see the links. We don't bind a click
+    // handler here because we don't want to interfere with
+    // the click handlers that are very probably being intentionally
+    // installed to turn this into a dropdown menu or whatever the
+    // excuse for not using a normal link is
+    $(target).find('.a-noclick').attr('href', 'javascript:void(0)');
+
     // Enhancements that we only need to execute these enhancements when we are logged in
     if (aBody.hasClass('logged-in'))
     {

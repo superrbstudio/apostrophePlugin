@@ -1173,6 +1173,13 @@ function a_filter_dropdown($name, $options)
  * The 'link' option, when present, contains attributes to be passed
  * to the 'a' element inside the 'li' element.
  *
+ * The 'noclick' option, when true, adds the a-noclick class to the
+ * link, which in turn causes javascript to change the href attribute
+ * to javascript:void(0) (see a.js). This is useful when you intend
+ * to add javascript click handlers for regular browsers but still
+ * want the normal href for non-javascript browsers (like Google's
+ * search engine index spider).
+ *
  * Note that overrides of 'class' for either the <li> or the <a> will
  * always be preceded by the standard classes for our tabs.
  *
@@ -1213,6 +1220,11 @@ function a_tab($label, $url, $options = array())
   $open = isset($options['open']) ? $options['open'] : false;
   $linkClass = isset($options['link']['class']) ? $options['link']['class'] : '';
   $linkClass = 'a-nav-link a-nav-link-0 ' . $linkClass;
+  $noclick = isset($options['noclick']) ? $options['noclick'] : null;
+  if ($noclick)
+  {
+    $linkClass .= ' a-noclick';
+  }
   $link = isset($options['link']) ? $options['link'] : array();
   $link['class'] = $linkClass;
   $link['href'] = $url;
