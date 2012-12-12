@@ -166,7 +166,6 @@ class Viddler_V2 {
     
     if (!$response) {
       $response = $error = curl_error($ch);
-      
       return $response;
     }
     else {

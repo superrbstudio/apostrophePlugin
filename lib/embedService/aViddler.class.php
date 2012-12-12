@@ -1,6 +1,8 @@
 <?php
 
-require dirname(__FILE__) . '/phpviddler/phpviddler.php';/**
+require dirname(__FILE__) . '/phpviddler/phpviddler.php';
+
+/**
  * @package    apostrophePlugin
  * @subpackage    embedService
  * @author     P'unk Avenue <apostrophe@punkave.com>

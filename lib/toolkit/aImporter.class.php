@@ -484,12 +484,34 @@ class aImporter
     {
       $mediaItem = new aMediaItem();
       $mediaItem->setSlug($slug);
-      if ($extension === 'pdf')
+
+      // Locate the appropriate type for this file extension.
+      // This is much more thorough than it was, although ideally
+      // we'd demand the mime type from the source server or
+      // look at an apache mime.types file here
+      $types = aMediaTools::getOption('types');
+      $found = false;
+      $testExtension = strtolower($extension);
+      // In principle there could be a lot of formats that have two
+      // extensions, but this is the only one we tend to care about
+      if ($testExtension === 'jpeg')
       {
-        $mediaItem->setType('pdf');
-      } else
+        $testExtension = 'jpg';
+      }
+      foreach ($types as $type => $info)
       {
-        $mediaItem->setType('image');
+        if (in_array($testExtension, $info['extensions']))
+        {
+          $mediaItem->setType($type);
+          $mediaItem->setFormat($testExtension);
+          $found = true;
+          break;
+        }
+      }
+      if (!$found)
+      {
+        echo("WARNING: unrecognized extension for $src cannot import\n");
+        return false;
       }
       
       // handles options
