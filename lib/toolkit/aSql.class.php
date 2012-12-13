@@ -174,14 +174,35 @@ class aSql extends aMysql
     }
   }
 
+  protected $creditUrlExists = null;
+
   /**
    * DOCUMENT ME
    * @param mixed $a
    */
   public function fastSaveMediaItem($a)
   {
+    // Present in some projects
+    if (!isset($this->creditUrlExists))
+    {
+      echo("Setting\n");
+      $this->creditUrlExists = $this->columnExists('a_media_item', 'credit_url');
+      echo("Set to " . $this->creditUrlExists . "\n");
+    }
     $data = $a->toArray();
-    $this->query('INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure, service_url) VALUES (NOW(), NOW(), :slug, :type, :format, :width, :height, :embed, :title, :description, :credit, :view_is_secure, :service_url)', $data);
+    $sql = 'INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure, service_url ';
+    if ($this->creditUrlExists)
+    {
+      $sql .= ', credit_url ';
+    }
+
+    $sql .= ') VALUES (NOW(), NOW(), :slug, :type, :format, :width, :height, :embed, :title, :description, :credit, :view_is_secure, :service_url ';
+    if ($this->creditUrlExists)
+    {
+      $sql .= ', :credit_url ';
+    }
+    $sql .= ')';
+    $this->query($sql, $data);
     $a->id = $this->lastInsertId();
   }
 
