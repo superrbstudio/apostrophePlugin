@@ -294,7 +294,10 @@ class aImporter
           'tags' => isset($result['serviceInfo']['tags']) ? preg_split('/\s*,\s*/', $result['serviceInfo']['tags']) : array(),
           'service_url' => isset($result['serviceInfo']['url']) ? $result['serviceInfo']['url'] : null);
           $mediaId = $this->findOrAddVideo($info);
-          $results[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+          if ($mediaId)
+          {
+            $results[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+          }
         $n++;
         $counters['aVideo']['n'] = $n;
       }
@@ -332,7 +335,7 @@ class aImporter
       }
       
       $id = $this->findOrAddMediaItem($item['src'], 'id', true, $options);
-      if($id) 
+      if ($id) 
       {
         $ids[] = $id;
       }
@@ -383,7 +386,10 @@ class aImporter
             'tags' => isset($result['serviceInfo']['tags']) ? preg_split('/\s*,\s*/', $result['serviceInfo']['tags']) : array(),
             'service_url' => isset($result['serviceInfo']['url']) ? $result['serviceInfo']['url'] : null);
             $mediaId = $this->findOrAddVideo($info);
-            $slotInfos[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+            if ($mediaId)
+            {
+              $slotInfos[] = array('type' => 'aVideo', 'mediaId' => $mediaId);
+            }
           $n++;
         }
       } elseif (preg_match('/<img.*?src="(.*?)".*?>/is', $segment, $matches))
@@ -411,7 +417,7 @@ class aImporter
         // importing their legacy blogs, we can't be too careful. Import it as
         // both title and credit. -Tom
         $mediaId = $this->findOrAddMediaItem($src, 'id', true, array('title' => isset($caption) ? $caption : null, 'credit' => $caption ? $caption : '', 'credit_url' => $creditUrl ? $creditUrl : null));
-        if (!is_null($mediaId))
+        if ($mediaId)
         {
           $slotInfo = array('type' => 'aImage', 'mediaId' => $mediaId, 'value' => array());
           if (isset($url))
@@ -604,7 +610,8 @@ class aImporter
     if ($returnType === 'path')
     {
       return $path;
-    } else
+    } 
+    else
     {
       return $mediaId;
     }
