@@ -185,9 +185,7 @@ class aSql extends aMysql
     // Present in some projects
     if (!isset($this->creditUrlExists))
     {
-      echo("Setting\n");
       $this->creditUrlExists = $this->columnExists('a_media_item', 'credit_url');
-      echo("Set to " . $this->creditUrlExists . "\n");
     }
     $data = $a->toArray();
     $sql = 'INSERT INTO a_media_item (created_at, updated_at, slug, type, format, width, height, embed, title, description, credit, view_is_secure, service_url ';
