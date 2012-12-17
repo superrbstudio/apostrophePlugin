@@ -1853,7 +1853,10 @@ abstract class PluginaPage extends BaseaPage
         // Nulls don't store well in Lucene
         'engine_stored' => strlen($engine) ? $engine : '',
         'info_stored' => serialize($info)),
-      'boosts' => array('tags' => 2.0, 'metadescription' => 1.2, 'title' => 3.0),
+      // We've learned over time that titles are terrifically important and
+      // in a corpus of many very long articles their weight tends to be lost.
+      // Give tags and handwritten meta descriptions a bigger boost too
+      'boosts' => array('tags' => 20.0, 'metadescription' => 10.0, 'title' => 100.0),
       'keywords' => array(
         // We index the publication timestamp as a string consisting solely of digits. That allows
         // us to use Zend Lucene's TO construct to look at items published from now until eternity
