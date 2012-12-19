@@ -2158,9 +2158,9 @@ abstract class PluginaPage extends BaseaPage
    * @param int $limit
    * @return Array aMediaItem
    */
-  public function getMediaForArea($area, $type = 'image', $limit = 5)
+  public function getMediaForArea($area, $type = 'image', $limit = 5, $options = array())
   {
-    return $this->getMediaForAreas(array($area), $type, $limit);
+    return $this->getMediaForAreas(array($area), $type, $limit, $options);
   }
 
   /**
@@ -2170,9 +2170,10 @@ abstract class PluginaPage extends BaseaPage
    * @param  $limit Limit the number of mediaItems returned
    * @return array aMediaItems
    */
-  public function getMediaForAreas($areas, $type = 'image', $limit = 5)
+  public function getMediaForAreas($areas, $type = 'image', $limit = 5, $options = array())
   {
     $aMediaItems = array();
+    areas:
     foreach($areas as $area)
     {
       foreach($this->getArea($area) as $slot)
@@ -2185,11 +2186,19 @@ abstract class PluginaPage extends BaseaPage
             $aMediaItems[] = $aMediaItem;
             if ($limit === 0) 
             {
-              return $aMediaItems;
+              // PHP doesn't have named break, this is less horrible
+              // than break with a number of loops (!!)
+              goto afterSearch;
             }
           }
         }
       }
+    }
+afterSearch:
+    $uncropped = isset($options['uncropped']) ? $options['uncropped'] : null;
+    if ($uncropped)
+    {
+      $aMediaItems = Doctrine::getTable('aMediaItem')->getCropOriginals($aMediaItems);
     }
     return $aMediaItems;
   }

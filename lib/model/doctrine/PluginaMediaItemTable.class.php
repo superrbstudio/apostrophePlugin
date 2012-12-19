@@ -534,4 +534,18 @@ class PluginaMediaItemTable extends Doctrine_Table
       DIRECTORY_SEPARATOR . $slug . ".original.$format";
     return $path;
   }
+
+  /**
+   * Convenience to get the uncropped originals of multiple items,
+   * for instance before calling the slideshow partial directly
+   */
+  public function getCropOriginals($mediaItems)
+  {
+    $result = array();
+    foreach ($mediaItems as $mediaItem)
+    {
+      $result[] = $mediaItem->getCropOriginal();
+    }
+    return $result;
+  }
 }
