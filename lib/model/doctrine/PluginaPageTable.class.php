@@ -1499,14 +1499,18 @@ class PluginaPageTable extends Doctrine_Table
     // Copy more permissions from the parent
     foreach ($parent->getAccesses() as $parentAccess) 
     {
-      $access = new aAccess($parentAccess->toArray());
+      $access = new aAccess();
       $access->setPageId($page->getId());
+      $access->setPrivilege($parentAccess->getPrivilege());
+      $access->setUserId($parentAccess->getUserId());
       $access->save();
     }
     foreach ($parent->getGroupAccesses() as $parentGroupAccess) 
     {
-      $access = new aGroupAccess($parentGroupAccess->toArray());
+      $access = new aGroupAccess();
       $access->setPageId($page->getId());
+      $access->setPrivilege($parentGroupAccess->getPrivilege());
+      $access->setGroupId($parentGroupAccess->getGroupId());
       $access->save();
     }
     $page->setTitle(aHtml::entities($title));
