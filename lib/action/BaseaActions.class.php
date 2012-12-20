@@ -810,6 +810,13 @@ class BaseaActions extends sfActions
       // whose slugs are valid Symfony URLs (contain / or start with @)
       $query->addWhere('p.slug LIKE "%/%" OR p.slug LIKE "@%"');
 
+      if ($request->hasParameter('folder')) 
+      {
+        $folder = aTools::slugify($request->getParameter('folder'), true);
+        $folder = preg_replace('/\/$/', '', $folder);
+        $query->addWhere('p.slug LIKE ? OR p.slug LIKE ?', array($folder, $folder . '/%'));
+      }
+
       // Now add pagination (notice we're still building one query)
       $this->pager = new sfDoctrinePager('aPage', sfConfig::get('app_a_search_results_per_page', 10));
       $this->pager->setQuery($query);
