@@ -1456,4 +1456,60 @@ class PluginaPageTable extends Doctrine_Table
     }
     $page->delete();
   }
+
+  /**
+   * Add a new page, copying permissions from the parent as you would expect.
+   * The template can be set as an option. Returns a page object. You can then
+   * call newAreaVersion or whatever you'd like on it.
+   *
+   * IT IS YOUR RESPONSIBILITY to call aTools::lock('tree') at the start of your
+   * ENTIRE action and aTools::unlock() at the end. OTHERWISE THE ENTIRE PAGE TREE
+   * CAN BE LOST if a race condition occurs. I can't do it for you here because
+   * you need to do it before you retrieve the parent page.
+   *
+   * THE TITLE IS ASSUMED TO BE PLAINTEXT, so this method entity-escapes it for you.
+   *
+   * Currently you can override the following options:
+   * 
+   * template, slug
+   */
+  public function addPage($parent, $title, $options)
+  {
+    $page = new aPage();
+    $event = new sfEvent($parent, 'a.filterNewPage', array());
+    sfContext::getInstance()->getEventDispatcher()->filter($event, $page);
+    $page = $event->getReturnValue();
+    $slug = isset($options['slug']) ? $options['slug'] : ($parent->getSlug() . '/' . aTools::slugify($title));
+    $slug = str_replace('//', '/', $slug);
+    $template = isset($options['template']) ? $options['template'] : 'default';
+    $page->setTemplate($template);
+    // A new page must be added as a child of its parent
+    $page->getNode()->insertAsFirstChildOf($parent);
+    // Copy permissions of the parent
+    $page->setViewIsSecure($parent->getViewIsSecure());
+    $page->setArchived($parent->getArchived());
+    $page->setEditAdminLock($parent->getEditAdminLock());
+    $page->setViewAdminLock($parent->getViewAdminLock());
+    $page->setPublishedAt(aDate::mysql());
+    $page->setSlug($slug);
+
+    // Needs to exist for the rest to work
+    $page->save();
+    
+    // Copy more permissions from the parent
+    foreach ($parent->getAccesses() as $parentAccess) 
+    {
+      $access = new aAccess($parentAccess->toArray());
+      $access->setPageId($page->getId());
+      $access->save();
+    }
+    foreach ($parent->getGroupAccesses() as $parentGroupAccess) 
+    {
+      $access = new aGroupAccess($parentGroupAccess->toArray());
+      $access->setPageId($page->getId());
+      $access->save();
+    }
+    $page->setTitle(aHtml::entities($title));
+    return $page;
+  }
 }
