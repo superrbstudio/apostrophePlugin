@@ -2173,7 +2173,6 @@ abstract class PluginaPage extends BaseaPage
   public function getMediaForAreas($areas, $type = 'image', $limit = 5, $options = array())
   {
     $aMediaItems = array();
-    areas:
     foreach($areas as $area)
     {
       foreach($this->getArea($area) as $slot)
@@ -2186,15 +2185,17 @@ abstract class PluginaPage extends BaseaPage
             $aMediaItems[] = $aMediaItem;
             if ($limit === 0) 
             {
-              // PHP doesn't have named break, this is less horrible
-              // than break with a number of loops (!!)
-              goto afterSearch;
+              return $this->afterGetMediaForAreas($aMediaItems, $options);
             }
           }
         }
       }
     }
-afterSearch:
+    return $this->afterGetMediaForAreas($aMediaItems, $options);
+  }
+
+  public function afterGetMediaForAreas($aMediaItems, $options)
+  {
     $uncropped = isset($options['uncropped']) ? $options['uncropped'] : null;
     if ($uncropped)
     {
