@@ -47,18 +47,29 @@ class aImporter
    */
   public function import()
   {
-    $this->sql->query('DELETE FROM a_page where slug <> "global"');
-    $this->sql->query('DELETE FROM a_media_item');
+    $name = $this->root->getName();
+    if (!in_array($name, array('site', 'subset')))
+    {
+      throw new Exception("Top level element must be site (replaces entire site) or subset (hint: use the parent attribute to specify existing parent page slugs)");
+    }
+    if ($name === 'site')
+    {
+      $this->sql->query('DELETE FROM a_page where slug <> "global"');
+      $this->sql->query('DELETE FROM a_media_item');
+    }
     foreach ($this->root->Page as $page)
     {
       $this->parsePage($page);
     }
-    //Add admin pages
-    $root = current($this->sql->query('SELECT * FROM a_page where slug = :slug', array('slug' => '/')));
-    $admin = array('slug' => '/admin', 'admin' => '1', 'engine' => 'aAdmin');
-    $this->sql->insertPage($admin, 'Admin', $root['id']);
-    $adminMedia = array('slug' => '/admin/media', 'admin' => '1', 'engine' => 'aMedia');
-    $this->sql->insertPage($adminMedia, 'Media', $admin['id']);
+    if ($name === 'site')
+    {
+      //Add admin pages
+      $root = current($this->sql->query('SELECT * FROM a_page where slug = :slug', array('slug' => '/')));
+      $admin = array('slug' => '/admin', 'admin' => '1', 'engine' => 'aAdmin');
+      $this->sql->insertPage($admin, 'Admin', $root['id']);
+      $adminMedia = array('slug' => '/admin/media', 'admin' => '1', 'engine' => 'aMedia');
+      $this->sql->insertPage($adminMedia, 'Media', $admin['id']);
+    }
 
     foreach ($this->pageFiles as $id => $info)
     {
@@ -87,6 +98,10 @@ class aImporter
     if (isset($root['engine']))
     {
       $info['engine'] = $root['engine']->__toString();
+    }
+    if (isset($root['parent']))
+    {
+      $info['parent'] = $root['parent']->__toString();
     }
     $info['template'] = isset($root['template']) ? $root['template']->__toString() : 'default';
     $title = $root['title']->__toString();  

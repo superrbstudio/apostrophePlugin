@@ -21,6 +21,7 @@ class aImportSiteTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('file', null, sfCommandOption::PARAMETER_REQUIRED, 'Your XML file of page data', null),
+      new sfCommandOption('images', null, sfCommandOption::PARAMETER_REQUIRED, 'Base URL for importing image URLs without a hostname', null),
       new sfCommandOption('pages', null, sfCommandOption::PARAMETER_REQUIRED, 'Directory of page xml files', null)
       // add your own options here
     ));
@@ -54,18 +55,22 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getDoctrineConnection();
     
-    if(!$this->askConfirmation("Importing any content will erase any existing content, are you sure? [y/N]", 'QUESTION_LARGE', false))
+    if(!$this->askConfirmation("If your file's outermost tag is <site>, importing any content will erase any existing content. Are you sure? [y/N]", 'QUESTION_LARGE', false))
     {
       die("Import CANCELLED.  No changes made.\n");
-     }
+    }
 
     if (is_null($options['file']))
     {
       $rootDir = $this->configuration->getRootDir();
-      $dataDir = $rootDir.'/data/a';
-      $options['file'] = $dataDir.'/site.xml';
-      $options['pages'] = $dataDir.'/pages';
-      $options['images'] = $dataDir.'/images';
+      $dataDir = $rootDir . '/data/a';
+      $options['file'] = $dataDir . '/site.xml';
+      $options['images'] = $dataDir . '/images';
+    }
+
+    if (is_null($options['images']))
+    {
+      $options['images'] = $dataDir . '/images';
     }
     
     $importer = new aImporter($connection, array(

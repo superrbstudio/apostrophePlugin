@@ -52,9 +52,18 @@ class aSql extends aMysql
     }
     else
     {
-      // This page needs to be the last child of its parent
-      if(is_null($parentId))
+      if (isset($info['parent']))
       {
+        $parentId = $this->queryOneScalar('SELECT id FROM a_page WHERE slug = :slug', array('slug' => $info['parent']));
+        if (!$parentId)
+        {
+          throw new Exception("Parent page slug not found: " . $info['parent'] . " for page slug: " . $info['slug']);
+        }
+      }
+      // This page needs to be the last child of its parent
+      if (is_null($parentId))
+      {
+        // Creating the homepage
         list($lft, $rgt, $level) = array(0,1,-1);
       }
       else
