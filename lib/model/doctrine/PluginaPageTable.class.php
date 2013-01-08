@@ -1417,6 +1417,7 @@ class PluginaPageTable extends Doctrine_Table
       $page->setSlug($url);
       $page->setEngine(get_class($object));
       $page->blockSearchUpdates();
+      $page->setPublishedAt(date('Y-m-d'));
       $page->save();
     }
     else
