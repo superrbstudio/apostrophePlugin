@@ -724,6 +724,11 @@ function aConstructor()
     var itemCount = slideshowItems.length;
     var positionSelector = (options['positionSelector']) ? options['positionSelector'] : '.a-slideshow-position-head';
     var positionHead = slideshowControls.find(positionSelector);
+    // If the user clicks on the image itself, navigate to the href of
+    // this element found within the same slideshow item, rather than
+    // advancing to the next image
+    var linkSelector = options['linkSelector'];
+
     var intervalTimeout = null;
     var currentItem;
     var newItem;
@@ -867,6 +872,10 @@ function aConstructor()
 
       slideshow.find('.a-slideshow-image').bind('click.apostrophe', function(event) {
         event.preventDefault();
+        if (linkSelector) {
+          window.location.href = $(slideshowItems[position]).find(linkSelector).attr('href');
+          return;
+        }
         intervalEnabled = false;
         next();
       });
