@@ -58,11 +58,18 @@ class aMysqlCache extends sfCache
     }
     else
     {
-      $this->sql = new aMysql();
+      // Make sure the cache table is loaded in Doctrine
+      Doctrine::getTable('aCacheItem');
+
+      // Get the connection object from the table name
+      $pdo = Doctrine_Core::getConnectionByTableName('a_cache_item')->getDbh();
+
+      // Initialize aMysql with the new connection
+      $this->sql = new aMysql($pdo);
     }
 
     parent::initialize($options);
-  }
+  }  
 
   /**
    * @see sfCache
