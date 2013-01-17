@@ -20,7 +20,7 @@ class aSlideShare extends aEmbedService
     $settings = sfConfig::get('app_a_slideshare');
     
     $this->features = array('thumbnail', 'search', 'browseUser');
-    $this->apiUrl = 'http://www.slideshare.net/api/2/';
+    $this->apiUrl = 'https://www.slideshare.net/api/2/';
     
     /* The following SlideShare show types correspond to the given numbers (which are pulled from their API):
      *    Presentation => 0
@@ -160,7 +160,7 @@ class aSlideShare extends aEmbedService
       $player = $this->showPlayers[$slideInfo['showType']];
 
 return <<<EOT
-<iframe src="http://www.slideshare.net/slideshow/embed_code/$id?rel=0&wmode=$wmode" width="$width" height="$height" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> 
+<iframe src="https://www.slideshare.net/slideshow/embed_code/$id?rel=0&wmode=$wmode" width="$width" height="$height" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> 
 EOT;
     }
     
@@ -309,7 +309,7 @@ EOT;
   {
     if (!preg_match('/^https?:/', $url))
     {
-      $url = 'http:' . $url;
+      $url = 'https:' . $url;
     }
     return $url;
   }
