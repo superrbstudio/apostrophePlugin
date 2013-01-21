@@ -672,7 +672,14 @@ class BaseaPageSettingsForm extends aPageForm
     // A new page must be added as a child of its parent
     if ($this->parent)
     {
-      $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
+      if (sfConfig::get('app_a_new_pages_top', true))
+      {
+        $this->getObject()->getNode()->insertAsFirstChildOf($this->parent);
+      }
+      else
+      {
+        $this->getObject()->getNode()->insertAsLastChildOf($this->parent);
+      }
     }
 
     if (sfConfig::get('app_a_simple_permissions'))
