@@ -302,15 +302,15 @@ but why take chances with your data?
      * even though the page is not archived. This shouldn't happen, 
      * but we've come across a case. Don't mess with virtual pages.
      */
-    $this->migrate->sql(array(
-      'UPDATE a_page SET published_at = updated_at WHERE published_at IS NULL AND (archived IS FALSE OR archived IS NULL) AND slug LIKE "/%"'));
-
     if (!$this->migrate->columnExists('a_page', 'published_at'))
     {
       $this->migrate->sql(array(
         'ALTER TABLE a_page ADD COLUMN published_at DATETIME DEFAULT NULL',
         'UPDATE a_page SET published_at = created_at WHERE published_at IS NULL'));
     }
+    
+    $this->migrate->sql(array(
+      'UPDATE a_page SET published_at = updated_at WHERE published_at IS NULL AND (archived IS FALSE OR archived IS NULL) AND slug LIKE "/%"'));
 
     // Remove any orphaned media items created by insufficiently carefully written embed services,
     // these can break the media repository
