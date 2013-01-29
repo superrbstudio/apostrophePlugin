@@ -114,8 +114,16 @@ EOF;
     {
       echo("Content loaded.\n");
     }
-    system('./symfony cc --env=' . $options['env']);
-    system('./symfony apostrophe:rebuild-search-index', $result);
+	//unix prefix path
+	$prefixPath = './';
+		
+	//we're running on windows OS?
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	  $prefixPath = '';
+	}
+		
+	system($prefixPath.'symfony cc --env=' . $options['env']);
+	system($prefixPath.'symfony apostrophe:rebuild-search-index', $result);
     if ($result != 0)
     {
       throw new sfException('Problem executing apostrophe:rebuild-search-index task.');
@@ -139,7 +147,15 @@ EOF;
     {
       $zipOptions .= '-q ';
     }
-    system("(cd " . escapeshellarg($dir) . "; unzip $zipOptions " . escapeshellarg($file) . " )", $result);
+	//unix command
+	$command = "(cd " . escapeshellarg($dir) . "; unzip $zipOptions " . escapeshellarg($file) . " )";
+		
+	//we're running on windows OS?
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	  $command = "cd " . escapeshellarg($dir) . " && unzip $zipOptions " . escapeshellarg($file);
+	}
+	
+	system($command, $result);
     if ($result != 0)
     {
       throw new sfException("unzip of $file to $dir failed. Maybe you don't have unzip in your PATH");
