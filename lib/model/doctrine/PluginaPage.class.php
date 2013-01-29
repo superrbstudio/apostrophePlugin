@@ -2203,4 +2203,47 @@ abstract class PluginaPage extends BaseaPage
     }
     return $aMediaItems;
   }
+
+  /**
+   * Prepends the specified rich text to the named area. This is not
+   * a permanent change in the database, unless you actually save
+   * the affected slot object. This is very useful if a client asks
+   * you to prepend something to each press release, for instance.
+   * 
+   * This method accepts pre-escaped HTML, not plaintext. This allows
+   * the inclusion of simple tags in the prepended text.
+   *
+   * If there are no aRichText slots in the area this method does
+   * nothing.
+   *
+   * The text is prepended to the first aRichText slot found.
+   *
+   * If the slot begins with an HTML tag, the text is appended
+   * immediately after that opening tag. This is desirable behavior
+   * for slots created with the rich text editor, which typically
+   * begin with a container tag like <div>. Otherwise the prepended
+   * text would appear on a separate line.
+   */
+  public function prependRichTextToArea($areaName, $text)
+  {
+    $slots = $this->getSlotsByAreaName($areaName);
+    foreach ($slots as $slot) 
+    {
+      if ($slot->getType() === 'aRichText')
+      {
+        // Find that outermost container tag and make sure we prepend
+        // the text inside it
+        if (preg_match('/^(\<\w+.*?\>)(.*)$/s', $slot->value, $matches))
+        {
+          $slot->value = $matches[1] . $text . $matches[2];
+        } 
+        else
+        {
+          // Doesn't start with a tag, so punt and just prepend directly
+          $slot->value = aHtml::entities($text) . $slot->value;
+        }
+        break;
+      }
+    }
+  }
 }
