@@ -2232,15 +2232,15 @@ abstract class PluginaPage extends BaseaPage
       if ($slot->getType() === 'aRichText')
       {
         // Find that outermost container tag and make sure we prepend
-        // the text inside it
-        if (preg_match('/^(\<\w+.*?\>)(.*)$/s', $slot->value, $matches))
+        // the text inside it. Cope with leading whitespace
+        if (preg_match('/^\s*(\<\w+.*?\>)(.*)$/s', $slot->value, $matches))
         {
           $slot->value = $matches[1] . $text . $matches[2];
         } 
         else
         {
           // Doesn't start with a tag, so punt and just prepend directly
-          $slot->value = aHtml::entities($text) . $slot->value;
+          $slot->value = $text . $slot->value;
         }
         break;
       }
