@@ -6,7 +6,7 @@
 
 <?php use_helper('a') ?>
 
-<h4 class="a-slot-edit-title"><?php echo a_('HTML Slot') ?></h4>
+<h4 class="a-slot-edit-title"><?php echo a_('Raw HTML') ?></h4>
 
 <div class="a-form-row a-hidden">
 	<?php echo $form->renderHiddenFields() ?>
