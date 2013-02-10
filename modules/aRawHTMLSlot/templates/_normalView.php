@@ -18,7 +18,11 @@
   <?php endif ?>
 <?php else: ?>
   <?php if ($sf_params->get('safemode')): ?>
-    <?php echo htmlspecialchars($value) ?>
+    <p class="a-raw-html-preview">Safe Mode: showing source code for raw HTML.</p>
+    <pre class="a-raw-html-preview"><?php echo htmlspecialchars($value) ?></pre>
+  <?php elseif ($sf_request->isXmlHttpRequest() && sfConfig::get('app_a_rawHtmlPreviewsAsSource')): ?>
+    <p class="a-raw-html-preview">Your raw HTML edits will take effect when you <a href="javascript:window.location.reload()">refresh the page in your browser</a>.</p>
+    <pre class="a-raw-html-preview"><?php echo htmlspecialchars($value) ?></pre>
   <?php else: ?>
     <?php echo $value ?>
   <?php endif ?>
