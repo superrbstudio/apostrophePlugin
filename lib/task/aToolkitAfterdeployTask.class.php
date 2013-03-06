@@ -55,13 +55,15 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     $this->attemptTask('apostrophe:bump-asset-generation', array(), array('env' => $arguments['env'])); 
+    echo("Removing cache files to avoid sfSimpleAutoload errors\n");
+    system("rm -rf cache/*");
     $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     if (!$options['skip-migrate'])
     {
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
       $this->attemptTask('apostrophe:migrate', array(), array('force' => false, 'env' => $arguments['env']));
+      $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     }
-    $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     $this->attemptTask('apostrophe:live', array(), array());
   }
 

@@ -211,6 +211,7 @@ EOF;
       $extra .= ' --skip-migrate';
     }
     // Implicitly runs apostrophe:live
+    echo("Running remote after-deploy task\n");
     $this->runRemote("./symfony apostrophe:after-deploy $extra $eenv");
   }
 
