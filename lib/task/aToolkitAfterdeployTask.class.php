@@ -40,6 +40,8 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    echo("Removing cache files\n");
+    system("rm -rf cache/*");
     $this->attemptTask('cc');
     if (!$options['skip-migrate'])
     {
