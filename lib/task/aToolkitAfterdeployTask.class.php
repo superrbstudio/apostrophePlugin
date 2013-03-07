@@ -41,8 +41,8 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     echo("Removing cache files\n");
-    system("rm -rf cache/*");
-    $this->attemptTask('cc');
+    system("rm cache/project_autoload.cache");
+    $this->attemptTask('cc', array(), array('env' => $arguments['env']));
     if (!$options['skip-migrate'])
     {
       $this->attemptTask('doctrine:migrate', array(), array('env' => $arguments['env']));
