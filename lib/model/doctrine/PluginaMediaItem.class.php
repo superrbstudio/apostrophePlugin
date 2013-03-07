@@ -248,6 +248,14 @@ abstract class PluginaMediaItem extends BaseaMediaItem
     }
     
     $path = $this->getOriginalPath($this->getFormat());
+    // Unlink the existing file if found. This ensures that if we were
+    // using a symbolic link to a shared file, we remove the link and
+    // create a file specific to us, rather than removing the shared
+    // file entirely.
+    if (file_exists($path)) {
+      unlink($path);
+    }
+    
     $result = copy($file, $path);
     // What to do about crops of the old image? We used to delete them, but this 
     // causes user confusion. A better idea is to autocrop the center of the new 
