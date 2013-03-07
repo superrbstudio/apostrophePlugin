@@ -116,13 +116,17 @@ EOF;
     {
       throw new sfException('Problem executing project:deploy task.');
     }
+
     $extra = '';
     if ($options['skip-migrate'])
     {
       $extra .= ' --skip-migrate';
     }
     $epath = escapeshellarg($data['dir']);
-    $cmd = "ssh $eport $eauth " . escapeshellarg("(cd $epath; ./symfony apostrophe:after-deploy $extra $eenv)");
+
+    echo("Running remote tasks\n");
+    // Remove project_autoload.cache before running any remote tasks to avoid sfSimpleAutoload errors
+    $cmd = "ssh $eport $eauth " . escapeshellarg("(cd $epath; rm -fv cache/project_autoload.cache; ./symfony apostrophe:after-deploy $extra $eenv)");
     echo("$cmd\n");
     system($cmd, $result);
     if ($result != 0)
