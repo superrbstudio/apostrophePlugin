@@ -214,7 +214,7 @@ EOF;
     echo("Running remote tasks\n");
     // Remove project_autoload.cache before running any remote tasks to avoid sfSimpleAutoload errors
     // Implicitly runs apostrophe:live
-    $this->runRemote("rm -fv cache/project_autoload.cache && ./symfony apostrophe:after-deploy $extra $eenv");
+    $this->runRemote("rm -fv cache/project_autoload.cache; ./symfony apostrophe:after-deploy $extra $eenv");
   }
 
   public function runRemote($cmd, $failWarning = false)
