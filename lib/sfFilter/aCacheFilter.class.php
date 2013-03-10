@@ -1,13 +1,47 @@
 <?php
 
 /**
+ *
+ * THE EASY PART (just requires app.yml and filters.yml settings):
+ *
  * Cache all actions for 5 minutes provided that:
  * 1. app_a_page_cache_enabled is set to true (defaults false)
  * 2. The user is not logged in
  * 3. The request is not a POST request
  * 4. The response does not contain _csrf_token
  * 5. The programmer has not explicitly set aCacheInvalid as a flash or regular user attribute
- * This has the right semantics to work with most Apostrophe sites 
+ * This has the right semantics to work with most Apostrophe sites.
+ *
+ * Non-success responses are never cached.
+ *
+ * THE HARD BUT AWESOME PART: CACHE HEADERS (CDN friendly, but requires bigger changes):
+ *
+ * If app_a_page_cache_set_headers is true then in addition to the local cache on the server,
+ * cache headers are set requesting the same caching behavior from browsers, reverse
+ * proxies, CDNs, etc. This is great (you *may* even withstand the Oprah effect if you
+ * work with CloudFlare or a similar service), but it can prevent users from logging in
+ * because their browser is caching the home page. To fix that, we never cache traffic 
+ * to the host specified by app_a_login_host. You must educate your editors to log in to
+ * that special subdomain and/or override the login action to redirect there. You 
+ * must also configure Apache to accept the app_a_login_host name as a
+ * ServerAlias.
+ *
+ * When using app_a_page_cache_set_headers, sessions are NOT available at all
+ * for logged-out users. They are enabled only on the editing host. This restriction
+ * does not apply if you're not using the headers feature.
+ *
+ * To properly prevent unwanted Pragma: no-cache headers on the public host but
+ * keep them on the editing host, you must also switch session storage classes
+ * in factories.yml:
+ *
+ *
+ * all:
+ *
+ *   storage:
+ *     class: aSessionStorageIfEditingHost
+ *     param:
+ *       session_name: symfony
+ *       auto_start: true
  */
 class aCacheFilter extends sfFilter
 {
@@ -18,7 +52,10 @@ class aCacheFilter extends sfFilter
    */
   public function execute($filterChain)
   {
-    if (!sfConfig::get('app_a_page_cache_enabled', false))
+    $enabled = sfConfig::get('app_a_page_cache_enabled', false);
+    $editingHost = ($this->context->getRequest()->getHost() === sfConfig::get('app_a_page_cache_editing_host', 'none'));
+
+    if ((!$enabled) || $editingHost)
     {
       $filterChain->execute();
       return;
@@ -34,8 +71,23 @@ class aCacheFilter extends sfFilter
 
     $cache = aCacheFilter::getCache();
     $content = $cache->get($uri, null);
+
+    $lifetime = sfConfig::get('app_a_page_cache_lifetime', 300);
+    
     if (!is_null($content))
     {
+      // TODO: this potentially doubles the effective cache lifetime because
+      // we're not paying attention to how much of it has already passed by.
+      // Fixing that requires adding a new method to aMysqlCache and aMongoDBCache
+      // which is used, if available, to get the item *and* the remaining seconds
+      // in its cache lifetime. But this is considerably more work, and a slightly longer
+      // cache lifetime is not a big problem in practice, especially if all the traffic
+      // is from a well-run reverse proxy anyway in which case this shouldn't
+      // even come up.
+      if (sfConfig::get('app_a_page_cache_set_headers', false)) 
+      {
+        $this->context->getResponse()->addCacheControlHttpHeader('max_age=' . $lifetime);
+      }
       $this->context->getResponse()->setContent($content);
     }
     else
@@ -67,7 +119,14 @@ class aCacheFilter extends sfFilter
       {
         return;
       }
-      $cache->set($uri, $this->context->getResponse()->getContent(), sfConfig::get('app_a_page_cache_lifetime', 300));
+      $cache->set($uri, $this->context->getResponse()->getContent(), $lifetime);
+      // Optionally also set cache headers so that browsers and servers
+      // (such as reverse proxies and CDNs like cloudflare) can cache the content
+      // for us, reducing the overhead to zero for cache hits. 
+      if (sfConfig::get('app_a_page_cache_set_headers', false)) 
+      {
+        $this->context->getResponse()->addCacheControlHttpHeader('max_age=' . $lifetime);
+      }
     }
   }
   
