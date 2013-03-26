@@ -5,7 +5,7 @@ class aTwitterPassthroughAdapter extends sfFopenAdapter
   public function call($browser, $uri, $method = 'GET', $parameters = array(), $headers = array())
   {
     // https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=bigredtim
-    if (preg_match('/api.twitter.com\/1\/.*?rss/', $uri))
+    if (preg_match('/api.twitter.com\/1\/.*?rss/', $uri) || preg_match('#twitter\.com/statuses/user_timeline/(\d+)\.rss#', $uri))
     {
       $legacyConverter = new aTwitterLegacyConverter($this->options['consumer_key'], $this->options['consumer_secret'], $this->options['user_agent']);
 

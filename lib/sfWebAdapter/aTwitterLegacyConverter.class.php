@@ -74,6 +74,19 @@ class aTwitterLegacyConverter {
       return $this->twitterRssFromJson($decoded_tweets, $user);
     }
 
+    // is it an old-old-school user-id link?
+    else if(preg_match('#twitter\.com/statuses/user_timeline/(\d+)\.rss#', $url, $matches)){
+      // isolate the user_id
+      $user_id = $matches[1];
+      // make the call to twitter using the user_id
+      $twitter_response = $this->getUserTimelineFromUserId($user_id);
+      // json_decode so we can access the data
+      $decoded_tweets = json_decode($twitter_response, true);
+      // we'll need to get the user name to pass to twitterRssFromJson
+      $user = $decoded_tweets[0]['user']['screen_name'];
+      return $this->twitterRssFromJson($decoded_tweets, $user);
+    }
+
     // what do we do if the url doesn't validate?
     else {
       return null;
@@ -188,6 +201,12 @@ class aTwitterLegacyConverter {
     return $this->twitterCurlRequest($get_url, $url);
   }
 
+  protected function getUserTimelineFromUserId($user_id)
+  {
+    $get_url = "/1.1/statuses/user_timeline.json?user_id=".$user_id."";
+    $url = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=".$user_id."";
+    return $this->twitterCurlRequest($get_url, $url);
+  }
 
   protected function twitterRssFromJson($json, $user)
   {
