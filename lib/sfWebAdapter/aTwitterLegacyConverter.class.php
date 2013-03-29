@@ -217,6 +217,7 @@ class aTwitterLegacyConverter {
     }
 
     $user = htmlspecialchars($user);
+    $full_name = htmlspecialchars($full_name);
 
     // build the RSS feed
     $output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -244,7 +245,7 @@ class aTwitterLegacyConverter {
       <pubDate>".date(DATE_RFC1123, strtotime($json[$i]['created_at']))."</pubDate>
       <guid>http://twitter.com/".$user."/statuses/".$json[$i]['id']."</guid>
       <link>http://twitter.com/".$user."/statuses/".$json[$i]['id']."</link>
-      <twitter:source>".htmlentities($json[$i]['source'])."</twitter:source>
+      <twitter:source>".htmlspecialchars($json[$i]['source'])."</twitter:source>
       ".$place_data."
     </item>
     ";
