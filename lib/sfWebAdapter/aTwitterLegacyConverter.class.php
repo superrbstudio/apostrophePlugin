@@ -41,6 +41,10 @@ class aTwitterLegacyConverter {
       }
       // json_decode the response so we can mess with it
       $decoded_tweets = json_decode($twitter_response, true);
+      if(isset($decoded_tweets['errors']))
+      {
+        return null;
+      }
       // create a valid RSS feed and return it
       return $this->twitterRssFromJson($decoded_tweets, $parameters['screen_name']);
     }
@@ -55,6 +59,10 @@ class aTwitterLegacyConverter {
       }
       // make an array out of the json object
       $decoded_tweets = json_decode($twitter_response, true);
+      if(isset($decoded_tweets['errors']))
+      {
+        return null;
+      }
       // create a valid RSS feed and return it
       return $this->twitterRssFromJson($decoded_tweets, $user);
     }
@@ -70,6 +78,10 @@ class aTwitterLegacyConverter {
       }
       // json_decode so we can access the data
       $decoded_tweets = json_decode($twitter_response, true);
+      if(isset($decoded_tweets['errors']))
+      {
+        return null;
+      }
       // return the RSS feed
       return $this->twitterRssFromJson($decoded_tweets, $user);
     }
@@ -82,6 +94,10 @@ class aTwitterLegacyConverter {
       $twitter_response = $this->getUserTimelineFromUserId($user_id);
       // json_decode so we can access the data
       $decoded_tweets = json_decode($twitter_response, true);
+      if(isset($decoded_tweets['errors']))
+      {
+        return null;
+      }
       // we'll need to get the user name to pass to twitterRssFromJson
       $user = $decoded_tweets[0]['user']['screen_name'];
       return $this->twitterRssFromJson($decoded_tweets, $user);
