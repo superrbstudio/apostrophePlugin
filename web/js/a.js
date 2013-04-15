@@ -858,7 +858,6 @@ function aConstructor()
 
       // 1. Initialize the slideshow
       init();
-
       // 2. Bind events
       slideshow.bind('showItem', function(e,p){ showItem(p); });
       slideshow.bind('previousItem', function(){ previous(); });
@@ -868,7 +867,6 @@ function aConstructor()
         var newPosition = slideshow.data('aNewPosition');
         showItem(newPosition, position);
       });
-
 
       slideshow.find('.a-slideshow-image').bind('click.apostrophe', function(event) {
         event.preventDefault();
