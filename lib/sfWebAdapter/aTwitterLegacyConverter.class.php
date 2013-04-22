@@ -109,6 +109,13 @@ class aTwitterLegacyConverter {
     }
   }
 
+  // this is a way to bypass the RSS feed generation and grab the full JSON response.
+  // it assumes a well-formed URL has been passed in.
+  public function getRawJsonResponse($url)
+  {
+    return $this->getUserTimelineFromValidUrl($url);
+  }
+
   protected function makeBearerToken()
   {
     // the twitter docs say to encode these, even though at present
