@@ -1751,17 +1751,34 @@ abstract class PluginaPage extends BaseaPage
   /**
    * The parent object comes back with a populated title slot.
    * The other slots are NOT populated for performance reasons
-   * (is there a scenario where this would be a problem?)
+   * If $with is explicitly set to true, all slots are populated
+   * If $with is set to an area name, that area's slots are populated
+   * HOWEVER: note that there is only one cached response available so
+   * you must be consistent or you will get unexpected results.
+   * If you need both the title and something else in calls to
+   * getParent you are better off setting app_a_getParentWithSlot
+   * to true so that all slots on the parent page are fetched.
    * @param mixed $with
    * @return mixed
    */
-  public function getParent($with = false)
+  public function getParent($with = null)
   {
+    if (is_null($with)) {
+      $with = sfConfig::get('app_a_getParentWithSlot', 'title');
+    }
     if ($this->parentCache === false)
     {
-      aPageTable::treeTitlesOn();
+      if ($with === true) {
+        aPageTable::treeSlotsOn();
+      } else {
+        aPageTable::treeSlotOn($with);
+      }
       $this->parentCache = $this->getNode()->getParent();
-      aPageTable::treeTitlesOff();
+      if ($with === true) {
+        aPageTable::treeSlotsOff();
+      } else {
+        aPageTable::treeSlotOff($with);
+      }
     }
     return $this->parentCache;
   }

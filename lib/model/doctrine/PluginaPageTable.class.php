@@ -323,6 +323,28 @@ class PluginaPageTable extends Doctrine_Table
   }
 
   /**
+   * Prep to get all slots of a page fetched via getParent or getChildren
+   * @param mixed $slot
+   */
+  static public function treeSlotsOn()
+  {
+    $query = aPageTable::queryWithSlots();
+    aPageTable::$treeObject = Doctrine::getTable('aPage')->getTree();
+    // I'm not crazy about how I have to set the base query and then
+    // reset it, instead of simply passing it to getChildren. A
+    // Doctrine oddity
+    aPageTable::$treeObject->setBaseQuery($query);
+  }
+
+  /**
+   * DOCUMENT ME
+   */
+  static public function treeSlotsOff()
+  {
+    aPageTable::$treeObject->resetBaseQuery();
+  }
+
+  /**
    * DOCUMENT ME
    * @return mixed
    */
