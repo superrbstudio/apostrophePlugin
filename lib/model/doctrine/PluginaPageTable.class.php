@@ -1116,7 +1116,7 @@ class PluginaPageTable extends Doctrine_Table
     $id = (int) $options['id'];
     if (!isset(aPageTable::$pagesInfo[$id]))
     {
-      aPageTable::$pagesInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(id = ' . $id . ')')));
+      aPageTable::$pagesInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(p.id = ' . $id . ')')));
     }
     if (count(aPageTable::$pagesInfo[$id]))
     {
