@@ -6,7 +6,7 @@ class aTwitterLegacyConverter {
   protected $consumer_secret;
   protected $user_agent;
   protected $access_token;
-  
+
   public function __construct($key, $secret, $agent)
   {
     $this->consumer_key = $key;
@@ -20,6 +20,7 @@ class aTwitterLegacyConverter {
   // return true if this URL has anything to do with twitter or twitter handles
   public function isURLValid($url)
   {
+    error_log('asking for validate feed bb');
     if(preg_match("#api.twitter.com#", $url) || preg_match("/^@(\w+)$/", $url)){
       return true;
     } else {
@@ -30,6 +31,7 @@ class aTwitterLegacyConverter {
   // get the feed!
   public function getRSSFeedFromURL($url)
   {
+
     // if the URL matches a v1 API
     if(preg_match("#api.twitter.com/1/#", $url)){
       // get an array of queries
@@ -50,7 +52,7 @@ class aTwitterLegacyConverter {
     }
 
     // if the URL is already a v1.1 API call
-    else if(preg_match("#api.twitter.com/1.1/#", $url)){
+    else if(preg_match("#api.twitter.com/1.1/statuses/#", $url)){
       $user = $this->getUsernameFromTwitterUrl($url);
       // make the call to twitter using the URL directly
       $twitter_response = $this->getUserTimelineFromValidUrl($url);
@@ -64,6 +66,28 @@ class aTwitterLegacyConverter {
         return null;
       }
       // create a valid RSS feed and return it
+      return $this->twitterRssFromJson($decoded_tweets, $user);
+    }
+
+    else if(preg_match("#api.twitter.com/1.1/lists/#", $url, $matches)){
+      // match a username followed by a / followed by a list name, e.g. @username/list
+
+      $user = $this->getUsernameFromListUrl($url);
+      $list = $this->getListNameFromListUrl($url);
+
+      // extract the shit
+
+      $twitter_response = $this->getTweetsFromUsernameAndList($user, $list);
+      if(!$twitter_response) {
+        return null;
+      }
+
+      $decoded_tweets = json_decode($twitter_response, true);
+      if(isset($decoded_tweets['errors']))
+      {
+        return null;
+      }
+      // return the RSS feed
       return $this->twitterRssFromJson($decoded_tweets, $user);
     }
 
@@ -149,6 +173,28 @@ class aTwitterLegacyConverter {
     return $user;
   }
 
+  protected function getUsernameFromListUrl($url)
+  {
+    $parsed_url = parse_url($url);
+    $query = $parsed_url['query'];
+    // ...but in case there are multiple queries in this URL, separate them...
+    parse_str($query, $array_of_queries);
+    // and get just the screen_name portion.
+    $user = $array_of_queries['owner_screen_name'];
+    return $user;
+  }
+
+  protected function getListNameFromListUrl($url)
+  {
+    $parsed_url = parse_url($url);
+    $query = $parsed_url['query'];
+    // ...but in case there are multiple queries in this URL, separate them...
+    parse_str($query, $array_of_queries);
+    // and get just the screen_name portion.
+    $list = $array_of_queries['slug'];
+    return $list;
+  }
+
   protected function getAccessToken()
   {
     // get the base64 encoded bearer token
@@ -156,12 +202,12 @@ class aTwitterLegacyConverter {
     // url for authentication
     $url = "https://api.twitter.com/oauth2/token";
     // authentication headers
-    $headers = array( 
-      "POST /oauth2/token HTTP/1.1", 
-      "Host: api.twitter.com", 
+    $headers = array(
+      "POST /oauth2/token HTTP/1.1",
+      "Host: api.twitter.com",
       "User-Agent: ".$this->user_agent,
       "Authorization: Basic ".$bearer_token."",
-      "Content-Type: application/x-www-form-urlencoded;charset=UTF-8", 
+      "Content-Type: application/x-www-form-urlencoded;charset=UTF-8",
       "Content-Length: 29",
       "grant_type=client_credentials"
     );
@@ -182,7 +228,7 @@ class aTwitterLegacyConverter {
   protected function twitterCurlRequest($get_url, $url)
   {
     $headers = array(
-      "GET ".$get_url." HTTP/1.1", 
+      "GET ".$get_url." HTTP/1.1",
       "Host: api.twitter.com",
       "User-Agent: ".$this->user_agent,
       "Authorization: Bearer ".$this->access_token.""
@@ -231,8 +277,16 @@ class aTwitterLegacyConverter {
     return $this->twitterCurlRequest($get_url, $url);
   }
 
+  protected function getTweetsFromUsernameAndList($user, $list)
+  {
+    $get_url = "/1.1/lists/statuses.json?owner_screen_name=".$user."&slug=".$list."";
+    $url = "https://api.twitter.com/1.1/lists/statuses.json?owner_screen_name=".$user."&slug=".$list."";
+    return $this->twitterCurlRequest($get_url, $url);
+  }
+
   protected function twitterRssFromJson($json, $user)
   {
+    // error_log(print_r($json));
     $full_name = $user;
     // sanity check so we don't get an error trying to access the name
     if(count($json) > 0){
@@ -263,8 +317,8 @@ class aTwitterLegacyConverter {
       <twitter:place />";
       }
       $output .= "<item>
-      <title>".$user.": ".$text."</title>
-      <description>".$user.": ".$text."</description>
+      <title>".$json[$i]['user']['screen_name'].": ".$text."</title>
+      <description>".$json[$i]['user']['screen_name'].": ".$text."</description>
       <pubDate>".date(DATE_RFC1123, strtotime($json[$i]['created_at']))."</pubDate>
       <guid>http://twitter.com/".$user."/statuses/".$json[$i]['id']."</guid>
       <link>http://twitter.com/".$user."/statuses/".$json[$i]['id']."</link>

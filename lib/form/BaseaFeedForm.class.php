@@ -26,24 +26,24 @@ class BaseaFeedForm extends BaseForm
   public function configure()
   {
     $this->setWidgets(array('url' => new sfWidgetFormInputText(array('label' => 'RSS Feed URL'))));
-  
+
     // "And" is correct, these are really progressive filters improving the URL
-    
+
     $this->setValidators(array('url' => new sfValidatorAnd(array(
       // @foo => correct twitter RSS feed URL for that person (requires querying Twitter API)
-      new sfValidatorCallback(array('callback' => array($this, 'validateTwitterHandle'))), 
+      new sfValidatorCallback(array('callback' => array($this, 'validateTwitterHandle'))),
       // www.foo.bar => http://www.foo.bar
-      new sfValidatorCallback(array('callback' => array($this, 'validateLazyUrl'))), 
+      new sfValidatorCallback(array('callback' => array($this, 'validateLazyUrl'))),
       // Must be a valid URL to go past this stage
-      new sfValidatorUrl(array('required' => true, 'max_length' => 1024)), 
+      new sfValidatorUrl(array('required' => true, 'max_length' => 1024)),
       // If the URL is a plain old page get the first RSS feed 'link'ed in it
       new sfValidatorCallback(array('callback' => array($this, 'validateFeed')))))));
-    
+
     // Ensures unique IDs throughout the page
     $this->widgetSchema->setNameFormat('slot-form-' . $this->id . '[%s]');
     $this->widgetSchema->setFormFormatterName('aAdmin');
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-    
+
   }
 
   /**
@@ -54,7 +54,16 @@ class BaseaFeedForm extends BaseForm
    */
   public function validateTwitterHandle($validator, $value)
   {
-    if (preg_match('/^@(\w+)$/', $value, $matches))
+    // if the URL is a twitter feed with a /list after it, e.g. @username/listname
+    if (preg_match('#^@(\w+)/([^/]*)$#', $value, $matches))
+    {
+      $user = $matches[1];
+      $list = $matches[2];
+
+      return 'api.twitter.com/1.1/lists/statuses.json?' . http_build_query(array('owner_screen_name' => $user, 'slug' => $list));
+    }
+    // otherwise, check for a @handle
+    else if (preg_match('/^@(\w+)$/', $value, $matches))
     {
       $handle = $matches[1];
       // Twitter changed their feed URLs to use screen names
