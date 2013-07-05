@@ -13,9 +13,9 @@ class aSlotUsageReportTask extends sfBaseTask
   protected function configure()
   {
     // // add your own arguments here
-    // $this->addArguments(array(
-    //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
-    // ));
+    $this->addArguments(array(
+      new sfCommandArgument('type', sfCommandArgument::OPTIONAL, 'Specific slot type; results in report that lists each page featuring the slot type'),
+    ));
 
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
@@ -47,6 +47,19 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
     $sql = new aMysql();
+
+    if ($arguments['type'])
+    {
+      $data = $sql->query('SELECT p.slug AS slug, COUNT(s.id) AS slot_count FROM a_page p INNER JOIN a_area a ON a.page_id = p.id INNER JOIN a_area_version av ON a.id = av.area_id AND a.latest_version = av.version INNER JOIN a_area_version_slot avs ON avs.area_version_id = av.id INNER JOIN a_slot s ON avs.slot_id = s.id WHERE s.type = :type GROUP BY p.id ORDER BY p.slug ASC;', array('type' => $arguments['type']));
+      foreach ($data as $row)
+      {
+        echo($row['slug'] . ',' . $row['slot_count'] . "\n");
+      }
+      echo("\n(The number of pages will not match the number of instances\n");
+      echo("because a page may contain more than one.)\n");
+      return;
+    }
+
     $data = $sql->query('SELECT s.type AS type, COUNT(s.type) AS type_count FROM a_area a INNER JOIN a_area_version av ON a.id = av.area_id AND a.latest_version = av.version INNER JOIN a_area_version_slot avs ON avs.area_version_id = av.id INNER JOIN a_slot s ON avs.slot_id = s.id GROUP BY s.type ORDER BY COUNT(s.type) DESC;');
     foreach ($data as $row)
     {
