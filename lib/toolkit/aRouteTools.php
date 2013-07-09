@@ -7,6 +7,18 @@
 
 class aRouteTools
 {
+  public static $disabled = false;
+
+  /**
+   * Setter to disable the modificaiton of the URL by aRoute
+   *
+   * Particularly useful for commandline tasks
+   */
+  public static function disable()
+  {
+    self::$disabled = true;
+  }
+
   /**
    * Returns the portion of the URL after the engine page slug, or false if there
    * is no engine page matching the URL. As a special case, if the URL exactly matches the slug,
@@ -18,6 +30,11 @@ class aRouteTools
    */
   static public function removePageFromUrl(sfRoute $route, $url)
   {
+    if (self::$disabled)
+    {
+      return false;
+    }
+
     $remainder = false;
     try
     {
@@ -183,6 +200,11 @@ class aRouteTools
   
   static public function addPageToUrl(sfRoute $route, $url, $absolute)
   {
+    if (self::$disabled)
+    {
+      return false;
+    }
+
     $slug = aRouteTools::getContextEngineSlug($route);
     if (!$slug)
     {
