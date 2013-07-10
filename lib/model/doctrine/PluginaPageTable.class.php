@@ -1210,7 +1210,7 @@ class PluginaPageTable extends Doctrine_Table
    * Accepts array('where' => [where clause]) or array('ids' => array(1, 5, 17...))
    * 
    * Returns results the current user is permitted to see. You can override this by passing the
-   * 'ignorePermissions' => true option, or by specifying ALL of the following:
+   * 'ignore_permissions' => true option, or by specifying ALL of the following:
    * 'user_id', 'has_view_locked_permission', 'group_ids', 'has_cms_admin_permission'
    * 
    * You can override the user's culture by specifying 'culture'
