@@ -8,8 +8,9 @@
  * 1. app_a_page_cache_enabled is set to true (defaults false)
  * 2. The user is not logged in
  * 3. The request is not a POST request
- * 4. The response does not contain _csrf_token
- * 5. The programmer has not explicitly set aCacheInvalid as a flash or regular user attribute
+ * 4. The request is not an AJAX request (pages are rendered without layout on AJAX)
+ * 5. The response does not contain _csrf_token
+ * 6. The programmer has not explicitly set aCacheInvalid as a flash or regular user attribute
  * This has the right semantics to work with most Apostrophe sites.
  *
  * Non-success responses are never cached.
@@ -61,9 +62,10 @@ class aCacheFilter extends sfFilter
       return;
     }
     $sfUser = $this->context->getUser();
-    $uri = $this->context->getRequest()->getUri();
+    $request = $this->context->getRequest();
+    $uri = $request->getUri();
     // Check for the aCacheInvalid override both before and after content gets generated
-    if ($sfUser->isAuthenticated() || ($this->context->getRequest()->getMethod() !== 'GET') || ($sfUser->getFlash('aCacheInvalid', false)) || ($sfUser->getAttribute('aCacheInvalid', false)))
+    if ($sfUser->isAuthenticated() || ($request->getMethod() !== 'GET') || $request->isXmlHttpRequest() || ($sfUser->getFlash('aCacheInvalid', false)) || ($sfUser->getAttribute('aCacheInvalid', false)))
     {
       $filterChain->execute();
       return;
