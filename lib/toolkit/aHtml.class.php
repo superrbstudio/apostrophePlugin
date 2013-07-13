@@ -851,7 +851,7 @@ class aHtml
 
   /**
    * Converts input string to true plaintext (BE CAREFUL: use aHtml::entities() if you display
-   * it later). Nonbreaking spaces become vanilla spaces, tags re removed and entities are
+   * it later). Nonbreaking spaces become vanilla spaces, tags are removed and entities are
    * decoded according to UTF-8
    * @param string $html
    * @return string
