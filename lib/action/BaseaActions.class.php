@@ -781,6 +781,10 @@ class BaseaActions extends sfActions
       $q = $replacements[$key];
     }
 
+    $event = new sfEvent(null, 'a.filterSearchQuery');
+    $this->dispatcher->filter($event, $q);
+    $q = $event->getReturnValue();
+
     if (aTools::$searchService)
     {
       // Search services are incompatible with addSearchResults. Achieving compatibility
