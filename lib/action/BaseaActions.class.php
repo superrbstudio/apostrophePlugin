@@ -821,6 +821,11 @@ class BaseaActions extends sfActions
         $query->addWhere('p.slug LIKE ? OR p.slug LIKE ?', array($folder, $folder . '/%'));
       }
 
+      $event = new sfEvent(null, 'a.filterSearchDoctrineQuery');
+      $event['request'] = $request;
+      $this->dispatcher->filter($event, $query);
+      $query = $event->getReturnValue();
+
       // Now add pagination (notice we're still building one query)
       $this->pager = new sfDoctrinePager('aPage', sfConfig::get('app_a_search_results_per_page', 10));
       $this->pager->setQuery($query);

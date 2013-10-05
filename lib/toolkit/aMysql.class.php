@@ -42,12 +42,12 @@ class aMysql
   }
 
   /**
-   * DOCUMENT ME
-   * @return mixed
+   * Returns the PDO handle.
+   * @return PDO a handle
    */
-  protected function getPDO()
+  public function getConn()
   {
-    return $this->pdo;
+    return $this->conn;
   }
 
   /**
@@ -278,6 +278,32 @@ class aMysql
     $this->query('INSERT INTO ' . $table . ' (' . implode(',', $columns) . ') VALUES (' . implode(',', array_map(array($this, 'colonPrefix'), $columns)) . ')', $params);
     return $this->lastInsertId();
   }
+
+  /**
+   * Useful for bulk inserts. $rows should be a flat array containing an
+   * associative array with the values for each column of each row. The ids of the items
+   * inserted are not available. All rows must access the same columns as the first row.
+   * @param  [type] $table [description]
+   * @param  array  $rows  [description]
+   * @return [type] none   [description]
+   */
+
+  // INCOMPLETE
+  // public function bulkInsert($table, $rows = array())
+  // {
+  //   if (!count($rows))
+  //   {
+  //     return;
+  //   }
+  //   $columns = array_keys($rows[0]);
+  //   $q = 'INSERT INTO ' . $table . ' (' . implode(',', $columns) . ') VALUES ';
+  //   foreach ($rows as $row) {
+
+  //   }
+  //   $this->query('INSERT INTO ' . $table . ' (' . implode(',', $columns) . ') VALUES (' . implode(',', array_map(array($this, 'colonPrefix'), $columns)) . ')', $params);
+  //   return $this->lastInsertId();
+
+  // }
 
   /**
    * Insert a new row, or update instead if a duplicate key error occurs. If a new row is added,

@@ -56,6 +56,7 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
+    error_log('update task');
     $context = sfContext::createInstance($this->configuration);
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
@@ -86,6 +87,7 @@ EOF;
         // Careful, pages die
         if ($page)
         {
+          error_log('Processing page ' . $page['slug']);
           $page->updateLuceneIndex();
         }
         $update->delete();

@@ -47,6 +47,7 @@ EOF;
    */
   protected function execute($arguments = array(), $options = array())
   {
+    error_log("started");
     // We've come a long way in reducing memory usage here, but it's still an expensive job
     
     ini_set('memory_limit', '256M');
@@ -72,17 +73,28 @@ EOF;
       $indexes = sfConfig::get('app_aToolkit_indexes', array());
     }
     $count = 0;
+    $this->logSection('toolkit', "Deleting old search data efficiently up front");
+    $this->query('DELETE FROM a_search_usage');
+    $this->logSection('toolkit', "After usages");
+    $this->query('DELETE FROM a_search_word');
+    $this->logSection('toolkit', "After words");
+    $this->query('DELETE FROM a_search_document');
+    $this->logSection('toolkit', "After documents");
     foreach ($indexes as $index)
     {
       $table = Doctrine::getTable($index);
       if ($index === 'aPage')
       {
+        $this->logSection('toolkit', "Purging pages");
         aZendSearch::purgeLuceneIndex($table);
+        $this->logSection('toolkit', "Clearing a_lucene_update");
         // We're about to request updates of all page/culture combinations. Don't
         // add that to an existing workload which could result in a huge pileup of
         // repeat requests if someone starts interrupting this task and trying again, etc.
         $this->query('DELETE FROM a_lucene_update');
+        $this->logSection('toolkit', "Rebuilding a_lucene_update");
         $pages = Doctrine::getTable('aPage')->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $this->logSection('toolkit', "Page metadata fetched, inserting into a_lucene_update");
         foreach ($pages as $page)
         {
           $cultures = array();
@@ -217,9 +229,9 @@ EOF;
     }
     catch (Exception $e)
     {
-      echo($e);
-      echo("Statement: $s\n");
-      echo("Parameters:\n");
+      $this->logSection('toolkit', $e);
+      $this->logSection('toolkit', "Statement: $s");
+      $this->logSection('toolkit', "Parameters:");
       var_dump($params);
       exit(1);
     }
