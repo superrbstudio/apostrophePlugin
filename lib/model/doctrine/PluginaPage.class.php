@@ -1027,7 +1027,7 @@ abstract class PluginaPage extends BaseaPage
       }
       else
       {
-        $item['state'] = ($level < 2) ? "open" : "closed";
+        $item['state'] = ($level < (sfConfig::get('app_a_reorganizeOpenLevel', 1) + 1)) ? "open" : "closed";
       }
       if ($livingOnly && isset($info['archived']) && $info['archived'])
       {

@@ -744,11 +744,23 @@ class BaseaActions extends sfActions
       // You can't delete the home page, I don't care who you are; creates a chicken and egg problem
       return $this->redirect('@homepage');
     }
-    // tom@punkave.com: we must delete via the nested set
-    // node or we'll corrupt the tree. Nasty detail, that.
-    // Note that this implicitly calls $page->delete()
-    // (but the reverse was not true and led to problems).
-    $page->getNode()->delete();
+
+    // You can catch this event and return false to prevent the
+    // delete operation from going through.
+
+    $event = new sfEvent($page, 'a.beforeDeletePage');
+    $this->dispatcher->filter($event, true);
+    $delete = $event->getReturnValue();
+
+    if ($delete)
+    {
+      // tom@punkave.com: we must delete via the nested set
+      // node or we'll corrupt the tree. Nasty detail, that.
+      // Note that this implicitly calls $page->delete()
+      // (but the reverse was not true and led to problems).
+      $page->getNode()->delete();
+    }
+
     $this->unlockTree();
 
     return $this->redirect($parent->getUrl());
@@ -1202,11 +1214,22 @@ class BaseaActions extends sfActions
         // Refuse to delete root, non-tree pages, etc.
         throw new Exception('Attempt to delete root or non-tree page');
       }
-      // tom@punkave.com: we must delete via the nested set
-      // node or we'll corrupt the tree. Nasty detail, that.
-      // Note that this implicitly calls $page->delete()
-      // (but the reverse was not true and led to problems).
-      $page->getNode()->delete();
+
+      $event = new sfEvent($page, 'a.beforeDeletePage');
+      // In case they want to distinguish reorganize's trash button
+      // from the regular trash button
+      $event['reorganize'] = true;
+      $this->dispatcher->filter($event, true);
+      $delete = $event->getReturnValue();
+
+      if ($delete)
+      {
+        // tom@punkave.com: we must delete via the nested set
+        // node or we'll corrupt the tree. Nasty detail, that.
+        // Note that this implicitly calls $page->delete()
+        // (but the reverse was not true and led to problems).
+        $page->getNode()->delete();
+      }
     } catch (Exception $e)
     {
       $this->unlockTree();
