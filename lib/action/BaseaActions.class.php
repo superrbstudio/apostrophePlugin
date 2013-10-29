@@ -1130,61 +1130,82 @@ class BaseaActions extends sfActions
       $refPage = $this->retrievePageForEditingByIdParameter('refId', 'manage');
 
       $type = $request->getParameter('type');
-      if ($refPage->slug === '/')
-      {
-        // Root must not have peers
-        if ($type !== 'inside')
-        {
-          throw new sfException('root must not have peers');
-        }
-      }
 
-      // Refuse to move a page relative to one of its own descendants.
-      // Doctrine's NestedSet implementation produces an
-      // inconsistent tree in the 'inside' case and we're not too sure about
-      // the peer cases either. The javascript tree component we are using does not allow it
-      // anyway, but it can be fooled if you have two reorg tabs open
-      // or another user is using it at the same time etc. -Tom and Dan
-      // http://www.doctrine-project.org/jira/browse/DC-384
-      $ancestorsInfo = $refPage->getAncestorsInfo();
-      foreach ($ancestorsInfo as $info)
+      $event = new sfEvent($page, 'a.beforeTreeMove');
+      $event['refPage'] = $refPage;
+      $event['type'] = $type;
+      $this->dispatcher->filter($event, true);
+      $move = $event->getReturnValue();
+
+      if ($move)
       {
-        if ($info['id'] === $page->id)
+        if ($refPage->slug === '/')
         {
-          throw new sfException('page is ancestor of ref page');
+          // Root must not have peers
+          if ($type !== 'inside')
+          {
+            throw new sfException('root must not have peers');
+          }
+        }
+
+        // Refuse to move a page relative to one of its own descendants.
+        // Doctrine's NestedSet implementation produces an
+        // inconsistent tree in the 'inside' case and we're not too sure about
+        // the peer cases either. The javascript tree component we are using does not allow it
+        // anyway, but it can be fooled if you have two reorg tabs open
+        // or another user is using it at the same time etc. -Tom and Dan
+        // http://www.doctrine-project.org/jira/browse/DC-384
+        $ancestorsInfo = $refPage->getAncestorsInfo();
+        foreach ($ancestorsInfo as $info)
+        {
+          if ($info['id'] === $page->id)
+          {
+            throw new sfException('page is ancestor of ref page');
+          }
+        }
+        if ($type === 'after')
+        {
+          $page->getNode()->moveAsNextSiblingOf($refPage);
+          $page->forceSlugFromParent();
+          $moved = true;
+        }
+        elseif ($type === 'before')
+        {
+          $page->getNode()->moveAsPrevSiblingOf($refPage);
+          $page->forceSlugFromParent();
+          $moved = true;
+        }
+        elseif ($type === 'inside')
+        {
+          if (strlen($refPage->engine))
+          {
+            throw new sfException('Attempt to make a page a child of an engine page');
+          }
+          $page->getNode()->moveAsLastChildOf($refPage);
+          $page->forceSlugFromParent();
+          $moved = true;
+        }
+        else
+        {
+          throw new sfException('Type parameter is bogus');
         }
       }
-      if ($type === 'after')
+      else if ($move === false)
       {
-        $page->getNode()->moveAsNextSiblingOf($refPage);
-        $page->forceSlugFromParent();
+        // Means we did a good enough job in an event handler
         $moved = true;
       }
-      elseif ($type === 'before')
+      else if ($move === null)
       {
-        $page->getNode()->moveAsPrevSiblingOf($refPage);
-        $page->forceSlugFromParent();
-        $moved = true;
-      }
-      elseif ($type === 'inside')
-      {
-        if (strlen($refPage->engine))
-        {
-          throw new sfException('Attempt to make a page a child of an engine page');
-        }
-        $page->getNode()->moveAsLastChildOf($refPage);
-        $page->forceSlugFromParent();
-        $moved = true;
-      }
-      else
-      {
-        throw new sfException('Type parameter is bogus');
+        // Means we rejected it as an error in an event handler
+        throw new sfException("Event handler rejected move");
       }
     } catch (Exception $e)
     {
       $this->unlockTree();
       $this->forward404();
     }
+
     // Notify an event before we unlock, gives project level code a chance
     // to safely do anything specialized
     if ($moved)
@@ -1193,6 +1214,9 @@ class BaseaActions extends sfActions
       $this->dispatcher->notify($event);
     }
     $this->unlockTree();
+    // Note explicit check for null. This means you can quietly reject or
+    // differently implement a move operation if your event handler returns
+    // false instead of null.
     echo("ok");
     exit(0);
   }
