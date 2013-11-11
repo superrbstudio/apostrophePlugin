@@ -48,7 +48,7 @@ class BaseaPageSettingsForm extends aPageForm
       $page = new aPage();
       if (!$parent)
       {
-        echo("Creating parent object, this does not make sense unless you are running ai18nupdate\n");
+        error_log("Creating parent object, this does not make sense unless you are running ai18nupdate\n");
         $parent = new aPage();
       }
     }
@@ -769,6 +769,10 @@ class BaseaPageSettingsForm extends aPageForm
       {
         $object->setPublishedAt(aDate::mysql());
       }
+    }
+    else
+    {
+      $object->setPublishedAt(aDate::mysql());
     }
 
     // Has to be done on shutdown so it comes after the in-memory cache of

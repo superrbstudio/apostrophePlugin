@@ -1098,9 +1098,11 @@ class PluginaPageTable extends Doctrine_Table
         $lft = $parentInfo['lft'];
         $rgt = $parentInfo['rgt'];
         $level = $parentInfo['level'] + 1;
-        aPageTable::$peersInfo[$id] = aPageTable::getPagesInfo(array_merge($options, array('where' => '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))')));        
-      }       
-    }   
+        $q = array_merge($options, array('where' => '(( p.lft > ' . $lft . ' AND p.rgt < ' . $rgt . ' ) AND (level = ' . $level . '))'));
+        $result =  aPageTable::getPagesInfo($q);
+        aPageTable::$peersInfo[$id] = $result;
+      }
+    }
     return aPageTable::$peersInfo[$id];
   }
 

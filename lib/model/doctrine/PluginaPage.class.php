@@ -919,7 +919,8 @@ abstract class PluginaPage extends BaseaPage
       }
     }
     // Current page peers level
-    $result[] = $this->getPeerInfo($livingOnly);
+    $peers = $this->getPeerInfo($livingOnly);
+    $result[] = $peers;
     $lineage[] = $this->id;
     // Current page children level
     $result[] = $this->getChildrenInfo($livingOnly);
