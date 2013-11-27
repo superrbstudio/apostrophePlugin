@@ -55,7 +55,6 @@ class aCacheFilter extends sfFilter
   {
     $enabled = sfConfig::get('app_a_page_cache_enabled', false);
     $editingHost = ($this->context->getRequest()->getHost() === sfConfig::get('app_a_page_cache_editing_host', 'none'));
-
     if ((!$enabled) || $editingHost)
     {
       $filterChain->execute();
