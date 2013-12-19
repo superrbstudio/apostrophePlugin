@@ -75,11 +75,7 @@ aPage:
   indexes:
     slugindex:
       fields:
-        # ACHTUNG: this must match the length of the field! Note that
-        # 767 is the maximum in MySQL. Some databases might ignore this,
-        # that's fine if they also have no limit on unique key lengths
         slug:
-          length: 255
           unique: true
     engineindex:
       fields: [engine]
