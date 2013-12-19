@@ -16,11 +16,11 @@ aPage:
       primary: true
       autoincrement: true
     slug:
-      # Even though we are not big fans of 1000 character URLs, they are legal in all
+      # Even though we are not big fans of 767 character URLs, they are legal in all
       # browsers and sharp limits on slug length make it very difficult to import
-      # from other CMSes. 1000 is the limit of unique index key lengths in MySQL
+      # from other CMSes. 767 is the limit of unique index key lengths in MySQL
       # (NOTE: this figure must also appear in the specification of the index, below)
-      type: string(1000)
+      type: string(255)
       # NOTE: we set unique on the index, not the column. If we set it on the column
       # Doctrine will do it as part of the create of the column, which creates an
       # implicit index before we ever get to the index section below, and fails because
@@ -29,14 +29,14 @@ aPage:
       type: string(100)
     # Must log in to see. (Beginning in 1.5 only admins can see when this is true, unless you add other permissions)
     # Starting in 1.5 this has a proper default but it can be null in older dbs, treat that as false.
-    view_is_secure: 
+    view_is_secure:
       type: boolean
       default: false
     # If view_is_secure is true and this is true, "guests and editors" (everone with view_locked permission)
     # can view the secured page. Otherwise only those specifically granted access can see it (and admins of course)
     # Defaults to true for easier migration from 1.4 and because this is still the common case (note that this is
     # only consulted at all when view_is_secure is true)
-    view_guest: 
+    view_guest:
       type: boolean
       default: true
     # Must be admin to see. Overrides view_is_secure and individual view permissions,
@@ -49,13 +49,13 @@ aPage:
     view_admin_lock:
       type: boolean
       default: false
-      
-    # Pages will not be returned by searches or the navigation get*Info methods if they have not reached their 
-    # published_at date. No UI for setting this yet in Apostrophe proper (we just set it to the current time), 
-    # but the blog plugin needs it now 
+
+    # Pages will not be returned by searches or the navigation get*Info methods if they have not reached their
+    # published_at date. No UI for setting this yet in Apostrophe proper (we just set it to the current time),
+    # but the blog plugin needs it now
     published_at:
       type: timestamp
-      
+
     # For historical reasons this means "unpublished" (visible only to those with editing privs for it)
     archived: boolean
     # 'admin' pages are hidden from all normal navigation and from search. They are linked to directly from
@@ -63,7 +63,7 @@ aPage:
     # is sometimes user-accessible (sites in which the media area is directly browsable as a tab)
     # and sometimes not (sites in which the media area is exclusively for site editors).
     # These pages are never returned by getChildren() or the getXYZInfo() methods.
-    admin: 
+    admin:
       type: boolean
       default: false
     author_id:
@@ -76,10 +76,10 @@ aPage:
     slugindex:
       fields:
         # ACHTUNG: this must match the length of the field! Note that
-        # 1000 is the maximum in MySQL. Some databases might ignore this,
+        # 767 is the maximum in MySQL. Some databases might ignore this,
         # that's fine if they also have no limit on unique key lengths
         slug:
-          length: 1000
+          length: 255
           unique: true
     engineindex:
       fields: [engine]
@@ -118,7 +118,7 @@ aArea:
       type: integer
   indexes:
     page_index:
-      fields: [page_id] 
+      fields: [page_id]
   relations:
     Page:
       type: one
@@ -141,7 +141,7 @@ aAreaVersion:
       type: integer
       primary: true
       autoincrement: true
-    area_id: 
+    area_id:
       type: integer
     version:
       type: integer
@@ -151,7 +151,7 @@ aAreaVersion:
       type: string(200)
   indexes:
     area_index:
-      fields: [area_id] 
+      fields: [area_id]
   relations:
     Area:
       type: one
@@ -176,9 +176,9 @@ aAreaVersionSlot:
       filter: false
   tableName: a_area_version_slot
   columns:
-    slot_id:  
+    slot_id:
       type: integer
-    area_version_id:  
+    area_version_id:
       type: integer
     # Permanently unique id of this subslot within this area
     permid:
@@ -209,7 +209,7 @@ aAreaVersionSlot:
       foreignAlias: AreaVersionSlots
 
 # Slots are always stored and rendered as HTML.
-# However, templates can specify specific editor options 
+# However, templates can specify specific editor options
 # when rendering them (e.g. the use of a particular FCK toolbar).
 
 aSlot:
@@ -223,22 +223,22 @@ aSlot:
       type: integer
       primary: true
       autoincrement: true
-      
+
     # If type is aRichText, then there
-    # MUST BE an aRichTextSlot module and an aRichTextSlot 
+    # MUST BE an aRichTextSlot module and an aRichTextSlot
     # class with Doctrine column aggregation inheritance from aSlot
     # (although it doesn't actually have to define new columns if it's
     # happy storing its data entirely in the value string, typically via serialize()).
     type:
       type: string(100)
-      
+
     # When not null, and present in app_a_slot_variants['type']['variants'], this is set
     # as a CSS class on the outermost wrapper of the slot. Also, any options specified
     # in app_a_slot_variants['type']['variants'][$variant]['options'] are passed
     # to the slot, allowing behavior to be influenced in other slot-dependent ways
     variant:
       type: string(100)
-      
+
     # Most slots just use this to store their data, often via PHP's serialize() function
     value:
       # Allows much larger data than string
@@ -342,7 +342,7 @@ aGroupAccess:
   indexes:
     pageindex:
       fields: [page_id]
-            
+
 aLuceneUpdate:
   options:
     symfony:
@@ -465,9 +465,9 @@ aMediaItem:
     # The aMediaBackend/image action then sees these extra
     # parameters in the route and behaves accordingly
     # and we can look directly at that file to finish the job
-    
+
     # Otherwise we let the behavior do its job
-    
+
     # Also, we need a wrapper method to avoid confusing aTools::slugify with
     # additional parameters passed by the behavior that don't match its own
 
@@ -488,21 +488,21 @@ aMediaItem:
     type:
       type: enum
       notnull: true
-      values: [image, video, audio, pdf, office]  
+      values: [image, video, audio, pdf, office]
     # URL on YouTube
     service_url:
       type: string(200)
     # Original image format. For video this is the format of the thumbnail
-    # (JPEG). Null if no thumbnail exists. You can ask for any size and any 
-    # format and you'll get it, as a conversion of the original (which is 
-    # then cached). If you ask for the "original" in a different format that 
+    # (JPEG). Null if no thumbnail exists. You can ask for any size and any
+    # format and you'll get it, as a conversion of the original (which is
+    # then cached). If you ask for the "original" in a different format that
     # will result in a conversion as well.
 
-    # We don't use an enum here because this is briefly null when a 
+    # We don't use an enum here because this is briefly null when a
     # new image is first saved.
     format:
       type: string(10)
-      
+
     # Preferred still image or video dimensions. For a still image
     # these are the dimensions of the original. For video they are
     # the dimensions of the video stream. For PDF they are undefined.
@@ -510,17 +510,17 @@ aMediaItem:
       type: integer
     height:
       type: integer
-      
+
     # If this field is non-null, it contains HTML embed/object code to
     # be used without alteration (except for replacing _WIDTH_ and _HEIGHT_)
-    # when embedding the video. This is used to allow embedding of 
+    # when embedding the video. This is used to allow embedding of
     # video hosted on services whose APIs are not directly supported
     # by apostrophePlugin (i.e. anything except YouTube, as of this writing).
-    # Note that this can actually be used to embed any scalable 
+    # Note that this can actually be used to embed any scalable
     # applet (Flash, Java, etc) supported by embed/object/applet/param tags
     # although our intention is simply to support black-box Flash players.
-    # 
-    # The user is required to manually supply a thumbnail when 
+    #
+    # The user is required to manually supply a thumbnail when
     # embedding a video in this way.
     embed:
       type: string(1000)
@@ -561,9 +561,9 @@ aMediaItem:
       local: media_item_id
       foreign: slot_id
       refClass: aSlotMediaItem
-              
+
 # A simple relationship between slots and media. Since media are so universal
-# to all of our sites it makes sense to define this relationship in the database 
+# to all of our sites it makes sense to define this relationship in the database
 # and join with it routinely. The details of the relationship, including
 # rank within a slideshow, are still serialized data in the media slots.
 # Here we just keep what we must have to achieve data integrity and good query performance.
@@ -588,7 +588,7 @@ aSlotMediaItem:
     aSlot:
       local: slot_id
       onDelete: CASCADE
-     
+
 aCategory:
   tableName: a_category
   actAs:
@@ -602,7 +602,7 @@ aCategory:
     name:
       type: string(255)
       unique: true
-      
+
     description:
       type: string
   relations:
@@ -632,8 +632,8 @@ aCategory:
       class: sfGuardGroup
       refClass: aCategoryGroup
       local: category_id
-      foreign: group_id      
-      
+      foreign: group_id
+
 aCategoryUser:
   columns:
     category_id:
@@ -715,7 +715,7 @@ aPageToCategory:
     aPage:
       local: page_id
       onDelete: CASCADE
-      
+
 aFeedSlot:
   # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
   # and slots often use serialization into the value column... the Doctrine forms are not
@@ -728,10 +728,10 @@ aFeedSlot:
   # columns:
   #
   # You can add columns here. However, if you do not need foreign key relationships it is
-  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
-  # their names must be unique across all slots in your project, so use a unique prefix 
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns,
+  # their names must be unique across all slots in your project, so use a unique prefix
   # for your company.
-    
+
   # This is how we are able to retrieve slots of various types with a single query from
   # a single table
   inheritance:
@@ -765,7 +765,7 @@ aRedirect:
       local: page_id
       type: one
       onDelete: cascade
-      
+
 
 aNewRichTextSlot:
   # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
@@ -779,10 +779,10 @@ aNewRichTextSlot:
   # columns:
   #
   # You can add columns here. However, if you do not need foreign key relationships it is
-  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
-  # their names must be unique across all slots in your project, so use a unique prefix 
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns,
+  # their names must be unique across all slots in your project, so use a unique prefix
   # for your company.
-    
+
   # This is how we are able to retrieve slots of various types with a single query from
   # a single table
   inheritance:
@@ -803,10 +803,10 @@ aAudioSlot:
   # columns:
   #
   # You can add columns here. However, if you do not need foreign key relationships it is
-  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
-  # their names must be unique across all slots in your project, so use a unique prefix 
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns,
+  # their names must be unique across all slots in your project, so use a unique prefix
   # for your company.
-    
+
   # This is how we are able to retrieve slots of various types with a single query from
   # a single table
   inheritance:
@@ -836,7 +836,7 @@ aEmbedMediaAccount:
 aCacheItem:
   columns:
     # MySQL gets mad if I call this column key
-    k: 
+    k:
       type: varchar(255)
       primary: true
     # Illegal to call it data in Doctrine
@@ -851,4 +851,3 @@ aCacheItem:
     last_mod:
       # Same thing, Unix timestamp
       type: integer
-    
