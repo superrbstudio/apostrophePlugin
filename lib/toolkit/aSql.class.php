@@ -171,7 +171,8 @@ class aSql extends aMysql
       }
     }
 
-    $this->query('INSERT INTO a_area_version (area_id, version) VALUES(:area_id, 1)', array('area_id' => $areaId));
+    $now = aDate::mysql();
+    $this->query('INSERT INTO a_area_version (area_id, version, created_at, updated_at) VALUES(:area_id, 1, :created_at, :updated_at)', array('area_id' => $areaId, 'created_at' => $now, 'updated_at' => $now));
     $areaVersionId = $this->lastInsertId();
     $this->query('UPDATE a_area SET latest_version = :latest_version WHERE id = :id', array('id' => $areaId, 'latest_version' => 1));
 

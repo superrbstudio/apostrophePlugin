@@ -131,7 +131,11 @@ class aMysql
 
     foreach ($nparams as $key => $value)
     {
-      if (is_int($value) || preg_match('/^-?\d+$/', $value))
+      if (is_bool($value))
+      {
+        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+      }
+      else if (is_int($value) || preg_match('/^-?\d+$/', $value))
       {
         $statement->bindValue($key, $value, PDO::PARAM_INT);
       }
