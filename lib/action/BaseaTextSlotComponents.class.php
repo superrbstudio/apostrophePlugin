@@ -14,10 +14,16 @@ class BaseaTextSlotComponents extends aSlotComponents
   {
 		$this->setup();
 		$this->setupOptions();
+    if (isset($this->options['initialText']))
+    {
+      $initial = $this->options['initialText'];
+    } else {
+      $initial = '';
+    }
 		// Careful, sometimes we get an existing form from a previous validation pass
 		if (!isset($this->form))
 		{
-			$this->form = new aTextForm($this->id, $this->slot->value, $this->options);
+			$this->form = new aTextForm($this->id, strlen($this->slot->value) ? $this->slot->value : $initial, $this->options);
 		}
   }
 
@@ -42,5 +48,10 @@ class BaseaTextSlotComponents extends aSlotComponents
   {
 		$this->options['multiline'] = $this->getOption('multiline', true);
 		$this->options['defaultText'] = $this->getOption('defaultText', a_('Click edit to add text.'));
+    // If provided this is a true starting point for what would
+    // actually get saved in the slot, which is different from
+    // defaultText, a poorly named option that supplies instructions
+    // to the editor. -Tom
+    $this->options['initialText'] = $this->getOption('initialText', null);
 	}
 }

@@ -34,7 +34,7 @@ function a_slot($name, $type, $options = false)
   $options['type'] = $type;
 	$options['singleton'] = true;
 
-  a_area_cache_wrapper($name, $options);
+  return a_area_cache_wrapper($name, $options);
 
 }
 

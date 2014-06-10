@@ -14,7 +14,12 @@
 <?php endif ?>
 
 <?php if (!strlen($value)): ?>
-  <?php if ($editable): ?>
+  <?php if (isset($options['initialText'])): ?>
+    <?php // No really, I want this to be the actual ?>
+    <?php // default for this slot, it's not the instructions to the editor ?>
+    <?php echo $options['initialText'] ?>
+  <?php elseif ($editable && isset($options['defaultText'])): ?>
+    <?php // bc, meant as instructions, only the editor sees ?>
 		<?php echo $options['defaultText'] ?>
   <?php endif ?>
 <?php else: ?>
