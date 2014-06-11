@@ -40,7 +40,8 @@ class BaseaImageSlotComponents extends aSlotComponents
     // $this->title = $this->getOption('title');
     // $this->description = $this->getOption('description');
     // Behave well if it's not set yet!
-    if (!count($this->slot->MediaItems))
+    // Also behave well if the data is junk
+    if ((!count($this->slot->MediaItems)) || (!$this->slot->MediaItems[0]->width))
     {
       $this->item = false;
       $this->itemId = false;

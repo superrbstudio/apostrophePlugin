@@ -65,6 +65,10 @@ class aDimensions
     }
     if ($height === false)
     {
+      if (!$originalWidth)
+      {
+        error_log(aTrace::traceText());
+      }
       $height = ceil(($eWidth * $originalHeight) / $originalWidth);
     }
 

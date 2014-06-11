@@ -16,30 +16,32 @@
   
 	<ul id="a-slideshow-<?php echo $id ?>" class="a-slideshow clearfix <?php echo (count($items === 1) ? 'single-image' : 'multi-image') ?> transition-<?php echo $options['transition'] ?>"<?php echo ($options['transition'] == 'crossfade')? ' style="height:'.($options['height'] ? $options['height'] : ($options['maxHeight'] ? $options['maxHeight'] : 0)) . 'px; width:'.$options['width'].'px;"':'' ?>>
 	<?php $first = true; $n=0; foreach ($items as $item): ?>
-	  <?php $dimensions = aDimensions::constrain(
-	    $item->width, 
-	    $item->height,
-	    $item->format, 
-	    array("width" => $options['width'],
-	      "height" => $options['flexHeight'] ? false : $options['height'],
-	      "resizeType" => $options['resizeType'])) ?>
-		<?php // Implement maximum height ?>
-		<?php if ($options['maxHeight']): ?>
-			<?php if ($dimensions['height'] > $options['maxHeight']): ?>
-			  <?php $dimensions = aDimensions::constrain(
-			    $item->width,
-			    $item->height,
-			    $item->format,
-			    array("width" => false,
-			      "height" => $options['maxHeight'],
-			      "resizeType" => $options['resizeType'])) ?>
-			<?php endif ?>
-		<?php endif ?>
-		
-	  <?php $embed = $item->getEmbedCode($dimensions['width'], $dimensions['height'], $dimensions['resizeType'], $dimensions['format']) ?>
-	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>">
-			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('items' => $items, 'item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
-		</li>
+    <?php if ($item->width): ?>
+  	  <?php $dimensions = aDimensions::constrain(
+  	    $item->width, 
+  	    $item->height,
+  	    $item->format, 
+  	    array("width" => $options['width'],
+  	      "height" => $options['flexHeight'] ? false : $options['height'],
+  	      "resizeType" => $options['resizeType'])) ?>
+  		<?php // Implement maximum height ?>
+  		<?php if ($options['maxHeight']): ?>
+  			<?php if ($dimensions['height'] > $options['maxHeight']): ?>
+  			  <?php $dimensions = aDimensions::constrain(
+  			    $item->width,
+  			    $item->height,
+  			    $item->format,
+  			    array("width" => false,
+  			      "height" => $options['maxHeight'],
+  			      "resizeType" => $options['resizeType'])) ?>
+  			<?php endif ?>
+  		<?php endif ?>
+  		
+  	  <?php $embed = $item->getEmbedCode($dimensions['width'], $dimensions['height'], $dimensions['resizeType'], $dimensions['format']) ?>
+  	  <li class="a-slideshow-item" id="a-slideshow-item-<?php echo $id ?>-<?php echo $n ?>">
+  			<?php include_partial('aSlideshowSlot/'.$options['itemTemplate'], array('items' => $items, 'item' => $item, 'id' => $id, 'embed' => $embed, 'n' => $n,  'options' => $options)) ?>
+  		</li>
+    <?php endif ?>
 	<?php $first = false; $n++; endforeach ?>
 	</ul>
 <?php endif ?>
