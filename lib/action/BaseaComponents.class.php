@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * a components.
  * @package    apostrophe
  * @subpackage a
@@ -28,7 +28,7 @@ class BaseaComponents extends aSlotComponents
 
     // As part of the Great Renaming, slot modules got a Slot suffix,
     // which allows them to be distinguished readily from non-slot modules.
-    
+
     $this->normalModule = $this->type . 'Slot';
     $this->editModule = $this->type . 'Slot';
   }
@@ -45,8 +45,8 @@ class BaseaComponents extends aSlotComponents
 		$aOptions['arrows'] = $this->getOption('arrows', true); // Option for disabling slot reorder arrows
 		$aOptions['history'] = $this->getOption('history', true); // Option for disabling History on specific areas
 		$aOptions['delete'] = $this->getOption('delete', false); // Option for enabling Delete on singleton slots
-		$aOptions['areaClass'] = $this->getOption('areaClass', false); // Option for enabling Delete on singleton slots		
-		$aOptions['areaHideWhenEmpty'] = $this->getOption('areaHideWhenEmpty', false); // Option for enabling Delete on singleton slots		
+		$aOptions['areaClass'] = $this->getOption('areaClass', false); // Option for enabling Delete on singleton slots
+		$aOptions['areaHideWhenEmpty'] = $this->getOption('areaHideWhenEmpty', false); // Option for enabling Delete on singleton slots
 		$this->options = $aOptions;
     $this->newSlotsTop = $this->getOption('newSlotsTop', sfConfig::get('app_a_new_slots_top', true));
     $this->slots = $this->page->getArea($this->name, $this->addSlot, $this->newSlotsTop);
@@ -63,7 +63,7 @@ class BaseaComponents extends aSlotComponents
       $this->editable = $this->page->userHasPrivilege('edit');
     }
 
-    // A simple filter event for overriding $this->editable, usually to shut it off in 
+    // A simple filter event for overriding $this->editable, usually to shut it off in
     // 'applied' mode in the workflow plugin. 'editOption' lets you distinguish an explicit 'edit'
     // flag from the natural edit privilege of the user, if you care (if it is not null then the
     // privilege was assigned on the basis of an explicit edit option passed to the slot)
@@ -103,42 +103,28 @@ class BaseaComponents extends aSlotComponents
     $this->infinite = $this->getOption('infinite');
     if (!$this->infinite)
     {
-      // Watch out for existing slots of the wrong type, which might contain data
-      // that is incompatible with the singleton slot's type. That can happen if you
-      // switch slot types in the template, or change from an area to a singleton slot.
-      // Also ignore anything after the first slot (again, that can happen if you
-      // switch from an area to a singleton slot)
-      if (count($this->slots) > 1)
+      foreach ($this->slots as $key => $slot)
       {
-        // Get the first one without being tripped up by the fact that it's a hash
-        foreach ($this->slots as $key => $slot)
+        if ($slot->type === $this->options['type'])
         {
+          $result = array($key => $slot);
           break;
         }
-        $this->slots = array($key => $slot);
       }
-      if (count($this->slots))
-      {
-        // Get the first one without being tripped up by the fact that it's a hash
-        foreach ($this->slots as $key => $slot)
-        {
-          break;
-        }
-        if ($slot->type !== $this->options['type'])
-        {
-          $this->slots = array();
-        }
-      }
-      if (!count($this->slots))
+      if (!isset($result))
       {
         if (!isset($this->options['type']))
         {
           throw new sfException('Must specify type when embedding a singleton slot');
         }
-				$info = $this->page->getNextPermidAndRank($name);
-				$permid = $info['permid'];
+        $info = $this->page->getNextPermidAndRank($name);
+        $permid = $info['permid'];
         $this->slots[$permid] = $this->page->createSlot($this->options['type']);
         $this->slots[$permid]->setEditDefault(false);
+      }
+      else
+      {
+        $this->slots = $result;
       }
     }
   }
@@ -170,18 +156,18 @@ class BaseaComponents extends aSlotComponents
     {
       $this->type = 'tree';
     }
-    
+
     $class = 'aNavigation'.ucfirst($this->type);
-    
+
     if (!class_exists($class))
     {
       throw new sfException(sprintf('Navigation type "%s" does not exist.', $class));
     }
 
     $this->navigation = new $class($this->rootPage, $this->activePage, $this->options);
-        
+
     $this->draggable = $this->page->userHasPrivilege('edit');
-    
+
     // Users can pass class names to the navigation <ul>
     $this->classes = '';
     if (isset($this->options['classes']))
@@ -196,33 +182,33 @@ class BaseaComponents extends aSlotComponents
     {
       return sfView::NONE;
     }
-    
+
   }
 
   /**
-   * 
+   *
    * Executes signinForm action
    * @param sfRequest $request A request object
    */
   public function executeSigninForm(sfWebRequest $request)
   {
-    $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin'); 
+    $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin');
     $this->form = new $class();
   }
-  
+
   /**
    * Outputs an area with a reasonable default list of slots. You can override
-   * various aspects: the slots allowed, the width of media slots, etc. 
+   * various aspects: the slots allowed, the width of media slots, etc.
    *
    * You must pass 'name' to name the area. You may pass slots' => array(the exact slot names you want),
    * 'plusSlots' => array(additional slot names to add), or 'minusSlots' => array(slot names to exclude).
-   * You may also pass 'width', 'height' and 'flexHeight' to specify the behavior of media slots and 
+   * You may also pass 'width', 'height' and 'flexHeight' to specify the behavior of media slots and
    * 'toolbar' to specify the rich text toolbar. If you want more control than that you should write a complete
    * a_area call with the exact options you want.
    *
    * We use this component to ensure consistency between templates used for different page
    * templates and the blog and events templates (where the minusSlots option is very useful to
-   * prevent recursion). 
+   * prevent recursion).
    *
    * You can override the default list of slots globally by overriding aTools::getStandardSlots.
    */
