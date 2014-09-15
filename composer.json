@@ -1,0 +1,19 @@
+{
+    "name": "punkave/apostrophePlugin",
+    "type": "symfony1-plugin",
+    "description": "Apostrophe is a content management system designed for maximum flexibility with a minimal learning curve.",
+    "keywords": [ "symfony", "cms" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "P'unk Avenue",
+            "homepage": "http://www.punkave.com",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "composer/installers": "dev-master",
+        "symfony/symfony1": "1.4.*"
+    }
+}
